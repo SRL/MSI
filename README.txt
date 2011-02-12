@@ -1,1 +1,0 @@
-This will be the most stable branch for our users.
