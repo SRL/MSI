@@ -1,0 +1,367 @@
+(*
+Manipulation
+============
+
+The Manipulation file is for any procedures and/or functions that change
+something or converts it to something else. Something like converting a string
+array to an integer array.
+
+*)
+
+(*
+MSI_ClearFile
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ClearFile(FilePath: string);
+
+Deletes all text in file 'FilePath', but leaves the file itself. Used usually
+for clearing a file to avoid confusion before rewriting to it.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 11 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ClearFile(PATH_PLAYER); // Clears the Player.txt file used to save form input
+*)
+procedure MSI_ClearFile(FilePath: string);
+var
+  f: Integer;
+begin
+  try
+    f := RewriteFile(FilePath, False);
+    CloseFile(f);
+    MSI_Debug('Cleared file: ' + FilePath);
+  except
+    MSI_Debug('Error clearing file: ' + FilePath + ' - ' + ExceptionToString(ExceptionType, ExceptionParam));
+  end;
+end;
+
+(*
+MSI_WriteRemote
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_WriteRemote;
+
+Writes each player's activity and location to a file so it can be read by the
+Player Remote extension (msi_player_remote.sex).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  procedure MSI_WriteRemote;
+*)
+procedure MSI_WriteRemote;
+var
+  i: Integer;
+begin
+  try
+    MSI_ClearFile(PATH_REMOTE);
+
+    WriteINI('Changed', 'Changed', 'False', PATH_REMOTE);
+    WriteINI('HowMany', 'HowMany', IntToStr(Length(MSI_Players)), PATH_REMOTE);
+
+    for i := 0 to High(MSI_Players) do
+    begin
+      WriteINI(IntToStr(i), 'Active', BoolToStr(MSI_Players[i].Active), PATH_REMOTE);
+      WriteINI(IntToStr(i), 'Location', IntToStr(MSI_Players[i].Location), PATH_REMOTE);
+    end;
+  except
+    MSI_Debug('MSI_WriteINI: Error! Retrying...');
+  end;
+end;
+
+(*
+MSI_ResetRemote
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ResetRemote;
+
+Checks to see if the Player Remote file was updated. If it was, it sets the new
+player information and resets the file.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  procedure MSI_ResetRemote;
+*)
+procedure MSI_ResetRemote;
+var
+  i: Integer;
+begin
+  try
+    if (StrToBool(ReadINI('Changed', 'Changed', PATH_REMOTE))) then // If updated
+      for i := 0 to High(MSI_Players) do
+      begin
+        MSI_Players[i].Active:= StrToBool(ReadINI(IntToStr(i), 'Active', PATH_REMOTE));
+        MSI_Players[i].Location:= StrToInt(ReadINI(IntToStr(i), 'Location', PATH_REMOTE));
+        Players[i].Active := MSI_Players[i].Active;
+      end;
+
+    MSI_WriteRemote; // Resets INI
+  except
+    MSI_Debug('MSI_ResetINI: Error!');
+  end;
+end;
+
+(*
+MSI_MirrorTPA
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MirrorTPA(TPA: TPointArray): TPointArray;
+
+Mirrors the TPA (reverses the order). Used primarily for reverting the
+reflection walking paths so one path can be used to walk to and from locations.
+
+.. note::
+
+  | Author: Sir. R. Magician
+  | Last Updated: 28 July 2010 by Sir. R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  reversePath := MSI_MirrorTPA(path);
+*)
+function MSI_MirrorTPA(TPA: TPointArray): TPointArray;
+var
+  i, h: integer;
+begin
+  h := 0;
+  SetLength(Result, Length(TPA));
+  for i:= High(TPA) DownTo 0 do
+  begin
+    Result[h] := TPA[i];
+    Inc(h);
+  end;
+end;
+
+(*
+MSI_MirrorATPA
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MirrorATPA(ATPA: T2DPointArray): T2DPointArray;
+
+Mirrors the ATPA (including the points in the TPAs. Used for reversing MSI's
+walking paths as they are 2 dimentional arrays.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 29 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  reversePath := MSI_MirrorATPA(path);
+*)
+function MSI_MirrorATPA(ATPA: T2DPointArray): T2DPointArray;
+var
+  i, t: Integer;
+begin
+  for i := High(ATPA) downto 0 do
+  begin
+    SetLength(Result, t + 1);
+    Result[t] := MSI_MirrorTPA(ATPA[i]);
+    Inc(t);
+  end;
+
+  MSI_SubDebug('MSI_MirrorATPA: New ATPA '+ToStr(Result));
+end;
+
+(*
+MSI_StrToIntArr
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_StrToIntArr(Str: string): TIntegerArray;
+
+Converts a string to an integer array; for example, MSI_StrToIntArr('1, 2, 3, 4')
+will result [1, 2, 3, 4]. This is used for interaction with the files MSI uses
+to save records (i.e. player, walk points, scripts, etc).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 24 January 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  // Sets the player's script priority array based on what it reads from the file
+  with MSI_Players[i].Scripts[j] do
+    Priority := MSI_StrToIntArr(ReadINI(IntToStr(i), 'Scripts'+IntToStr(j)+'.Priority', PATH_PLAYER));
+*)
+function MSI_StrToIntArr(Str: string): TIntegerArray;
+var
+  i: Integer;
+  s: TStringArray;
+begin
+  if (Str = '') then
+    Exit;
+
+  s := Explode(', ', Str);
+
+  for i := 0 to High(s) do
+    try
+      SetLength(Result, Length(Result) + 1);
+      Result[High(Result)] := StrToInt(s[i]);
+    except
+    end;
+end;
+
+(*
+MSI_IntArrToStr
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_IntArrToStr(Int: TIntegerArray): string;
+
+Converts an integer array to a string; for example, MSI_IntArrToStr([1, 2, 3, 4])
+will result '1, 2, 3, 4'. See MSI_StrToIntArr.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 24 January 2010 by Coh3n
+*)
+function MSI_IntArrToStr(Int: TIntegerArray): string;
+var
+  i: Integer;
+begin
+  if (Length(Int) <= 0) then
+  begin
+    Result := '';
+    Exit;
+  end;
+
+  for i := 0 to High(Int) do
+    if (i = High(Int)) then
+      Result := Result + IntToStr(Int[i])
+    else
+      Result := Result + IntToStr(Int[i]) + ', ';
+end;
+
+(*
+MSI_RemovePointsInBox
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_RemovePointsInBox(Points: TPointArray; Box: TBox): TPointArray;
+
+Removes all points in tpa 'Points' in a box specified by 'Box'.
+
+.. note::
+
+  | Author: Markus
+  | Last Updated: 05 November 2010 by Coh3n
+*)
+function MSI_RemovePointsInBox(Points: TPointArray; Box: TBox): TPointArray;
+var
+  i, L, rescnt: Integer;
+begin
+  L := GetArrayLength(points)-1
+  for i := 0 to L do
+  begin
+    if not PointInBox(points[i], box) then
+    begin
+      rescnt := rescnt + 1;
+      SetArrayLength(Result, rescnt);
+      Result[rescnt - 1] := points[i];
+    end;
+  end;
+end;
+
+(*
+MSI_DeletePointInTPA
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DeletePointInTPA(var Arr: TPointArray; Index: Integer);
+
+Deletes the point in (Index) from a TPointArray (Arr). Used for temporarily
+removing a point in a reflection path in order to properly generate a new color
+path.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 29 January 2010 by Coh3n
+*)
+procedure MSI_DeletePointInTPA(var Arr: TPointArray; Index: Integer);
+var
+  arrLen, i: Integer;
+begin
+  arrLen := High(Arr);
+
+  for i := Index to (arrLen - 1) do
+    Swap(Arr[i], Arr[i + 1]);
+
+  SetLength(Arr, arrLen);
+end;
+
+(*
+MSI_MakeBox
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MakeBox(Center: TPoint; W, H: integer): TBox;
+
+Creates a box with center point 'Center' and width and height 'W' and 'H'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 17 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  MiddleTPA(TPA, x, y);
+  with MSI_Objects[TREE_NORMAL] do
+    MSI_MakeBox(Point(x, y), W, H); // W/H are TMSObject attributes
+*)
+function MSI_MakeBox(Center: TPoint; W, H: integer): TBox;
+begin
+  Result := IntToBox( Center.x - W,
+                      Center.y - H,
+                      Center.x + W,
+                      Center.Y + H);
+end;
+
+

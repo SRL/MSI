@@ -1,0 +1,306 @@
+(*
+Obstacles
+=========
+
+The Obstacles file includes all routines that are used to solve obstacles such
+as climbing a ladder or climbing over a wall.
+
+*)
+
+(*
+MSI_WaitForMirror
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WaitForMirror(Obs: Integer): Boolean;
+
+Returns true when an obstacles 'mirror obstacle' has appeared. For example, if
+we're climbing a ladder, the mirror obstacle would be the ladder climbing down.
+If reflection is enabled, it will check to see if the player is on the end tile,
+and return true if they are.
+
+.. note::
+
+  | Author: Sir R. Magician & Coh3n
+  | Last Updated: 01 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (ClickObstacle(LADDER_DOWN_MINE_GUILD)) then // ClickObstacle isn't a real function, just an example
+    MSI_WaitForMirror(LADDER_DOWN_MINE_GUILD);
+*)
+function MSI_WaitForMirror(Obs: Integer): Boolean;
+var
+  i, t, h: Integer;
+  mPos: TPoint;
+  searchBox: TBox;
+  colorFail: Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  t := GetSystemTime + (60000 * 3);
+
+  // The box to search for the mirror obstacle
+  searchBox := IntToBox(MSCX - 75, MSCY - 75, MSCX + 75, MSCY + 75)
+
+  repeat
+    with MSI_Obstacles[Obs] do
+    begin
+      SMART_DrawBoxEx(False, searchBox, clBlue);
+
+      if (MSI_FindObjectIn(ObjMir, searchBox, Move)) then
+      begin
+        MSI_Debug('Found mirror object: '+MSI_Objects[ObjMir].Name);
+
+        {$IFDEF REFLECTION}
+        mPos := GetMyPos;
+        h := High(EndTiles);
+
+        // Loop through end tiles comparing to players tile
+        for i := 0 to h do
+          if ((mPos.x = EndTiles[i].x) and (mPos.y = EndTiles[i].y)) then
+          begin
+            MSI_SubDebug('Player is on end tile');
+            Result := True;
+            Break;
+          end else begin
+            if (i = h) then
+              colorFail := True;
+            // Color information gathering will eventually be added here
+          end;
+
+        if (colorFail) then
+          Continue; // Continue if reflection determines that color failed
+        {$ENDIF}
+
+        Result := True;
+      end;
+
+      Wait(RandomRange(100, 300));
+    end;
+  until(Result or (GetSystemTime > t));
+end;
+
+(*
+MSI_SolveObstacle
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SolveObstacle(Obs: Integer): Boolean;
+
+Returns true if the obstacle is solved. Uses MSI_FindObject (Objects.simba) to
+find and click the obstacle, then calls MSI_WaitForMirror.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  Result := MSI_SolveObstacle(LADDER_DOWN_MINE_GUILD);
+*)
+function MSI_SolveObstacle(Obs: Integer): Boolean;
+var
+  t: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  t := GetSystemTime + 60000; // 1 minute to solve obstacle
+
+  repeat
+    if (MSI_FindObject(MSI_Obstacles[Obs].ObjConst, ClickLeft)) then
+    begin
+      Wait(RandomRange(1000, 2000));
+      Result := MSI_WaitForMirror(Obs);
+    end;
+  until(Result or (GetSystemTime > t));
+end;
+
+(*
+MSI_DoObstacle
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_DoObstacle(Obs: Integer): Boolean;
+
+For some reason I was getting Type mismatch errors now matter where I put
+MSI_CloseHeader in MSI_SolveObstacle, so I wrote this so we can have proper
+debugging. So, it's just used as a wrapper function for MSI_SolveObstacle.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 02 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  Result := MSI_DoObstacle(LADDER_DOWN_MINE_GUILD);
+*)
+function MSI_DoObstacle(Obs: Integer): Boolean;
+begin
+  MSI_AddHeader('MSI_SolveObstacle');
+  Result := MSI_SolveObstacle(Obs);
+  MSI_CloseHeader('MSI_SolveObstacle: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_LoadObstacle
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadObstacle(Obs: Integer): Boolean;
+
+Loads the obstacle's (Obs) attributes; should only be called in
+MSI_LoadAllObstacles.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 30 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadObstacle(i); // From MSI_LoadAllObstacles
+*)
+function MSI_LoadObstacle(Obs: Integer): Boolean;
+begin
+  case Obs of
+    OBS_LADDER_DOWN_MINE_GUILD:
+      with MSI_Obstacles[Obs] do
+      begin
+        Name     := 'Mining Guild: Ladder Down';
+
+        // Obstacle constants
+        Constant := OBS_LADDER_DOWN_MINE_GUILD;
+        MirConst := OBS_LADDER_UP_MINE_GUILD;
+
+        // Object constants
+        ObjConst := LADDER_DOWN_MINE_GUILD;
+        ObjMir   := LADDER_UP_MINE_GUILD;
+
+        StartTiles := [Point(3017, 3339), Point(3019, 3337),  // West, South, East, North
+                       Point(3021, 3339), Point(3019, 3341)];
+
+        EndTiles   := [Point(3017, 9739), Point(3019, 9737),
+                       Point(3021, 9739), Point(3019, 9741)];
+
+        Solve      := @MSI_DoObstacle;
+      end;
+
+    OBS_LADDER_UP_MINE_GUILD:
+      with MSI_Obstacles[Obs] do
+      begin
+        Name     := 'Mining Guild: Ladder Up';
+
+        Constant := OBS_LADDER_UP_MINE_GUILD;
+        MirConst := OBS_LADDER_DOWN_MINE_GUILD;
+
+        ObjConst := LADDER_UP_MINE_GUILD;
+        ObjMir   := LADDER_DOWN_MINE_GUILD;
+
+        StartTiles := [Point(3017, 9739), Point(3019, 9737),
+                       Point(3021, 9739), Point(3019, 9741)];
+
+        EndTiles   := [Point(3017, 3339), Point(3019, 3337),  // West, South, East, North
+                       Point(3021, 3339), Point(3019, 3341)];
+
+        Solve      := @MSI_DoObstacle;
+      end;
+  end;
+
+  Result := (MSI_Obstacles[Obs].Name <> '');
+end;
+
+(*
+MSI_LoadAllObstacles
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllObstacles;
+
+Loads all the obstacles into MSI_Obstacles array; should only be called once in
+SetupMSI.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 30 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadAllObstacles();
+*)
+procedure MSI_LoadAllObstacles;
+var
+  i: Integer;
+begin
+  for i := 0 to High(MSI_Obstacles) do
+    MSI_LoadObstacle(i);
+end;
+
+(*
+MSI_HandleObstacle
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_HandleObstacle(Script: TScript; StartLoc, ObsIndex: Integer): Boolean;
+
+Called in MSI_ColorWalk and MSI_ReflectionWalk and is used to handle the
+obstacles that appear in some paths. See MSI_ReflectionWalk or MSI_ColorWalk to
+see exactly how this function is used.
+    - Script: The script that has the path with the obstacle.
+    - StartLoc: The starting location of the path with the obstacle.
+    - ObsIndex: The constant representing the obstacle in the path (i.e. LADDER_UP_MINE_GUILD).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+*)
+function MSI_HandleObstacle(Script: TScript; StartLoc, ObsIndex: Integer): Boolean;
+var
+  obs: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+	if (Length(Script.PathInfo.Obstacles) > 0) then
+	begin
+    // Gets the right obstacle
+		if (StartLoc = Script.PathInfo.StartLoc) then
+		  obs := Script.PathInfo.Obstacles[ObsIndex]
+		else
+		  if (StartLoc = Script.PathInfo.EndLoc) then
+		    obs := MSI_Obstacles[Script.PathInfo.Obstacles[ObsIndex]].MirConst;
+
+		if (MSI_Obstacles[obs].Solve(obs)) then
+      Result := True
+    else
+      with MSI_Players[CurrentPlayer] do
+      begin
+		    ReportInfo.FalseReason := 'Failed to solve obstacle: '+MSI_Obstacles[obs].Name;
+		    Location := LOC_LOST;
+      end;
+	end;
+end;
+

@@ -1,0 +1,300 @@
+(*
+Debug
+=====
+
+The Debug file includes all MSI's debugging procedures.
+
+*)
+
+(*
+MSI_Debug
+~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_Debug(debug: string);
+
+Writes the 'debug' string to the debug box depending on the current debugging
+level. It will save 'debug' string to a file regardless of the current debugging
+level.
+
+.. note::
+
+  | Author: Sir. R. Magician
+  | Last Updated: 16 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_BankMaterials) then
+    MSI_Debug('Successfully banked materials!');
+*)
+procedure MSI_Debug(debug: string);
+var
+  DebugMSG, str: string;
+  theFile: Integer;
+begin
+  //player name
+  try
+    DebugMSG := DebugMSG + '[ ' + Capitalize(Players[CurrentPlayer].Nick)+' ] ';
+  except end;
+
+  //structure
+  DebugMSG := DebugMSG + Replicate('-', CurrDebugLevel * 2) + ' ';
+
+  //debug message
+  DebugMSG := DebugMSG + debug;
+
+  //save to file
+  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+    try
+      if FileExists(PATH_DEBUG + scriptStart + '.txt') then
+      begin
+        theFile := OpenFile(PATH_DEBUG + scriptStart + '.txt', False);
+        ReadFileString(theFile, str, FileSize(theFile));
+        CloseFile(theFile);
+      end;
+
+      theFile := RewriteFile(PATH_DEBUG + scriptStart + '.txt', False);
+
+      WriteFileString(theFile, str + #13 + #10 + DebugMSG);
+      CloseFile(theFile);
+    except
+      //Writeln('Debug saving - error occurred');
+    end;
+
+  if CurrDebugLevel <= MSI_SetupVars[SETUP_DEBUG_LEVEL] then
+    writeln(DebugMSG)
+  else
+    Debugln(DebugMSG);
+end;
+
+(*
+MSI_AddHeader
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_AddHeader(header: string);
+
+Creates a new header in the debug box. Means that all following debugs will be
+indented 2 spaces compared to the header.
+
+.. note::
+
+  | Author: Sir. R. Magician
+  | Last Updated: 08 August 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  function MSI_Example(): Boolean;
+  begin
+    MSI_AddHeader('MSI_Example');
+    .
+    .
+*)
+procedure MSI_AddHeader(header: string);
+begin
+  MSI_Debug(header);
+  inc(CurrDebugLevel);
+end;
+
+(*
+MSI_CloseHeader
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_CloseHeader(closer: string);
+
+Closes the header by decreasing the current debug level by 1.
+
+.. note::
+
+  | Author: Sir. R. Magician
+  | Last Updated: 08 August 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  .
+  .
+    MSI_CloseHeader('MSI_Example: ' + BoolToSTr(Result));
+  end;
+*)
+procedure MSI_CloseHeader(closer: string);
+begin
+  Dec(CurrDebugLevel);
+  MSI_Debug(closer);
+end;
+
+(*
+MSI_SubDebug
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SubDebug(debug: string);
+
+Allows for a one-time-only sub-debug. Used in smaller functions/procedures
+that don't call MSI_AddHeader/MSI_CloseHeader.
+
+.. note::
+
+  | Author: Sir. R. Magician
+  | Last Updated: 08 August 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  procedure MSI_Example();
+  begin
+    if (MSI_FindHatchet) then // Just an example function; doesn't actually exist
+      MSI_SubDebug('Found hatchet!');
+  end;
+*)
+procedure MSI_SubDebug(debug: string);
+begin
+  Inc(CurrDebugLevel);
+  MSI_Debug(debug);
+  Dec(CurrDebugLevel);
+end;
+
+(*
+MSI_SetRev
+~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetRev;
+
+Retrieves the user's MSI Revision number. Used to show the version when printing
+progress reports.
+
+.. note::
+
+  | Author: Sir. R. Magician & Shuttleu
+  | Last Updated: 27 July 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetRev;
+*)
+procedure MSI_SetRev;
+var
+  i: Integer;
+  s: string;
+begin
+  try
+    i:= OpenFile(IncludePath + 'MSI/.svn/entries', True)
+    ReadFileString(i, s, 20);
+    CloseFile(i);
+    MSIRev:= Trim(Between('dir', 'http', s));
+  except
+    MSI_SubDebug('Error setting revision number');
+  end;
+end;
+
+(*
+MSI_PrintSave
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_PrintSave(theFile: integer; s: string);
+
+Writes the string 's' in the debug box and saves it to the text file 'theFile'.
+
+.. note::
+
+  | Author: Naum
+  | Last Updated: 30 August 2010 by Naum
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_PrintSave(FileNumberHere, 'Hello!');
+*)
+Procedure MSI_PrintSave(theFile: Integer; s: string);
+Begin
+  Writeln(s);
+  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+    WriteFileString(theFile, s + #13 + #10);
+End;
+
+(*
+MSI_AddToProggy
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_AddToProggy(WhatToAdd, Obj, Item, Quant: Integer);
+
+Adds variables specified by 'WhatToAdd' to the progress report. If one of the
+parameters is unused (i.e. you're adding Loads, set it to -1). See
+MSI_CountItems in Banking.simba for a good example of this being used.
+    - WhatToAdd: There are different 'PROG_' constants found in Globals.simba.
+    - Obj: Represents the index of the object in the player's Script array.
+    - Item: Represents the index of the item in the player's Script.Items array.
+    - Quant: The quantity you want to add.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 25 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_AddToProggy(PROG_ADD_EXP, -1, -1, 1000); // To add experience
+  MSI_AddToProggy(PROG_ADD_ITEMS, 0, 2, 28);   // To add items
+*)
+procedure MSI_AddToProggy(WhatToAdd, Obj, Item, Quant: Integer);
+var
+  scriptConst: Integer;
+begin
+  if (Quant = 0) then
+    Exit;
+
+  scriptConst := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name;
+
+  with MSI_Players[CurrentPlayer].ReportInfo do
+    case (WhatToAdd) of
+      PROG_ADD_EXP:
+        begin
+          IncEx(GainedExps[CurrentScript], Quant);
+          stats_IncVariable('Total EXP Gained', Quant);
+        end;
+
+      PROG_ADD_ITEMS:
+        begin
+          IncEx(ItemAmounts[CurrentScript][Obj][Item], Quant);
+          stats_IncVariable(MSI_Items[Items[CurrentScript][Obj][Item]].StatsName, Quant);
+          MSI_Debug('stats_IncVariable('''+MSI_Items[Items[CurrentScript][Obj][Item]].StatsName+''', '+IntToStr(Quant)+');');
+        end;
+
+      PROG_ADD_LOADS:
+        begin
+          Inc(LoadsDone);
+          Inc(ScriptCounts[CurrentScript]);
+          stats_IncVariable('Loads Done', 1);
+        end;
+
+      PROG_ADD_CASTS:
+        begin
+          Inc(ScriptCounts[CurrentScript]);
+        end;
+
+      else
+        MSI_Debug('MSI_AddToProggy: Invalid addition choice to progress report!');
+    end;
+end;

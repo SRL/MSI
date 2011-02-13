@@ -1,0 +1,153 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                              Mining.scar                                     |
+|==============================================================================|
+| For all mining routines.                                                     |
+|                                                                              |
+| * function MSI_SetupMining: Boolean;              * by Coh3n                 |
+| * procedure MSI_WaitWhileMining();                * by NCDS                  |
+| * function MSI_MineRock();                        * by NCDS                  |
+| * function MSI_MineInvFull();                     * by Coh3n                 |
+\ _____________________________________________________________________________}
+
+const
+  SIZE_MULTIPLIER = 1.25;
+  ROCK_MAX_TIME   = 60000;
+
+{******************************************************************************}
+{ function MSI_SetupMining(): Boolean;                                         }
+{ By: Coh3n                                                                    }
+{ Date: 06 October 2010                                                        }
+{ Description: Sets up the player for mining                                   }
+{******************************************************************************}
+function MSI_SetupMining(): Boolean;
+begin
+  Result := MSI_SetupWoodcutting(); // To avoid unnecessary repeated code
+end;
+
+{******************************************************************************}
+{ Procedure MSI_WaitWhileMining(RockInfo: TMSObject);                          }
+{ By: NCDS                                                                     }
+{ Date: 11 July 2010                                                           }
+{ Description: Wait's until an Ore has been mined.                             }
+{******************************************************************************}
+Procedure MSI_WaitWhileMining(RockID: integer);
+var
+  cts, OldInvCount, t, RockColorCount: Integer;
+  Arr: array of TPoint;
+  SearchBox: TBox;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  Flag;
+  Wait(RandomRange(285, 450));
+
+  if InvFull then
+    Exit;
+
+  MSI_AddHeader('MSI_WaitWhileMining');
+  cts := GetColorToleranceSpeed;
+  SetToleranceSpeed2Modifiers(MSI_Objects[RockID].Hue, MSI_Objects[RockID].Sat);
+
+  t := (GetSystemTime + ROCK_MAX_TIME);
+
+  SearchBox := IntToBox(
+                       MSI_Objects[RockID].X - Round(MSI_Objects[RockID].W * SIZE_MULTIPLIER),
+                       MSI_Objects[RockID].Y - Round(MSI_Objects[RockID].H * SIZE_MULTIPLIER),
+                       MSI_Objects[RockID].X + Round(MSI_Objects[RockID].W * SIZE_MULTIPLIER),
+                       MSI_Objects[RockID].Y + Round(MSI_Objects[RockID].H * SIZE_MULTIPLIER));
+
+  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+    SMART_DrawBoxEx(False, SearchBox, clRed);
+
+  OldInvCount := InvCount;
+  MSI_Debug('InvCount: ' + IntToStr(OldInvCount));
+  MSI_AddHeader('Entering loop');
+
+  {preparing variables to detect when rock is gone through color}
+  FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
+                        SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
+
+  RockColorCount := Length(Arr);
+  {done}
+
+  repeat
+    MSI_FindRandoms(False);
+
+    FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
+                           SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
+
+    if (Length(Arr) < MSI_Objects[RockID].Accuracy) then
+    begin
+      MSI_Debug('Colours found < Accuracy');
+      Break;
+    end;
+
+    if (Length(Arr) < Round(RockColorCount * 0.50)) then
+    begin
+      MSI_Debug('Rock Gone, not enough points');
+      Break;
+    end;
+
+    MSI_AntiBan(RandomRange(0, 3000), ANTI_BAN_CHANCE);
+
+    if (OldInvCount < InvCount) then
+    begin
+      MSI_Debug('OldInvCount < InvCount');
+      Break;
+    end;
+
+    if FindChatBoxText('manage to mine', 8, clMessage) then
+    begin
+      MSI_Debug('Found Text');
+      Break;
+    end;
+
+    Wait(RandomRange(100, 300));
+
+    if (t < GetSystemTime) then
+    begin
+      MSI_Debug('Took too long');
+      break;
+    end;
+
+  until(False)
+  MSI_CloseHeader('Out of loop');
+  MSI_CloseHeader('MSI_WaitWhileMining: Finished');
+  SetColorToleranceSpeed(cts);
+end;
+
+{******************************************************************************}
+{ function MSI_MineRock(Which: TIntegerArray): Boolean;                        }
+{ By: NCDS & marpis                                                            }
+{ Date: 11 July 2010                                                           }
+{ Description: Mines Rock                                                      }
+{******************************************************************************}
+function MSI_MineRock(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+var
+  Index: integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if MSI_FindObjectsIn(Which, Index, MSBox, ClickLeft) then
+  begin
+    Result := True;
+    MSI_WaitWhileMining(Which[Index]);
+  end else
+    MSI_FindRandoms(True);
+end;
+
+{******************************************************************************}
+{ function MSI_MineInvFull(Which: TIntegerArray): Boolean;                     }
+{ By: Coh3n                                                                    }
+{ Date: 20 Sept 2010                                                           }
+{ Description: Mines rocks until inventory is full                             }
+{******************************************************************************}
+function MSI_MineInvFull: Boolean;
+begin
+  Result := MSI_AutoInvFull(@MSI_MineRock); // MSI_AutoInvFull in Skills.simba
+end;
+
+

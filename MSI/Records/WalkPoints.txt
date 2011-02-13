@@ -1,0 +1,642 @@
+[POINT_COUNT]
+PointCount=80
+
+[0]
+Name=VE Bank to Trees 1
+Color=8096399
+Tolerance=20
+SortFrom.x=670
+SortFrom.y=53
+RWalkParams=8096399, 43, 63, 64, -2, -2, 10
+
+[1]
+Name=VE Bank to Trees 2
+Color=1179390
+Tolerance=20
+SortFrom.x=670
+SortFrom.y=81
+RWalkParams=1179390, 74, 94, 53, 0, -1, 10
+
+[2]
+Name=VE Bank to Trees 3
+Color=3695962
+Tolerance=20
+SortFrom.x=650
+SortFrom.y=49
+RWalkParams=3695962, 23, 43, 53, 0, 0, 10
+
+[3]
+Name=VE Bank to Trees 4
+Color=1794370
+Tolerance=20
+SortFrom.x=614
+SortFrom.y=41
+RWalkParams=1794370, 334, 354, 56, -1, -2, 10
+
+[4]
+Name=VE Trees to Bank 1
+Color=3695962
+Tolerance=20
+SortFrom.x=642
+SortFrom.y=129
+RWalkParams=3695962, 170, 190, 56, 0, -1, 10
+
+[5]
+Name=VE Trees to Bank 2
+Color=8686219
+Tolerance=20
+SortFrom.x=610
+SortFrom.y=133
+RWalkParams=8686219, 189, 209, 61, 0, -2, 10
+
+[6]
+Name=VE Trees to Bank 3
+Color=8686219
+Tolerance=20
+SortFrom.x=582
+SortFrom.y=85
+RWalkParams=8686219, 260, 280, 55, -1, -2, 10
+
+[7]
+Name=VE Trees to Bank 4
+Color=8686219
+Tolerance=20
+SortFrom.x=582
+SortFrom.y=113
+RWalkParams=8686219, 229, 249, 63, -1, 1, 10
+
+[8]
+Name=Varrock East Bank to Varrock East Oaks 1
+Color=8949129
+Tolerance=20
+SortFrom.x=682
+SortFrom.y=48
+RWalkParams=8949129, 46, 66, 76, 1, 1, 10
+
+[9]
+Name=Varrock East Bank to Varrock East Oaks 2
+Color=8882316
+Tolerance=20
+SortFrom.x=674
+SortFrom.y=93
+RWalkParams=8882316, 88, 108, 58, 0, -1, 10
+
+[10]
+Name=Varrock East Oaks to Varrock East Bank 1
+Color=8685454
+Tolerance=20
+SortFrom.x=570
+SortFrom.y=85
+RWalkParams=8685454, 261, 281, 67, 1, 1, 10
+
+[11]
+Name=Varrock East Oaks to Varrock East Bank 2
+Color=16711422
+Tolerance=20
+SortFrom.x=578
+SortFrom.y=120
+RWalkParams=16711422, 225, 245, 70, 0, -1, 10
+
+[12]
+Name=Varrock East Bank to Varrock East Mine 1
+Color=8685454
+Tolerance=20
+SortFrom.x=670
+SortFrom.y=49
+RWalkParams=8685454, 39, 59, 66, -1, 0, 10
+
+[13]
+Name=Varrock East Bank to Varrock East Mine 2
+Color=8685454
+Tolerance=20
+SortFrom.x=698
+SortFrom.y=81
+RWalkParams=8685454, 78, 98, 81, 1, 1, 10
+
+[14]
+Name=Varrock East Bank to Varrock East Mine 3
+Color=4684652
+Tolerance=20
+SortFrom.x=666
+SortFrom.y=129
+RWalkParams=4684652, 129, 149, 69, -2, 0, 10
+
+[15]
+Name=Varrock East Bank to Varrock East Mine 4
+Color=4222826
+Tolerance=20
+SortFrom.x=642
+SortFrom.y=137
+RWalkParams=4222826, 152, 172, 64, 0, 0, 10
+
+[16]
+Name=Varrock East Bank to Varrock East Mine 5
+Color=8685454
+Tolerance=20
+SortFrom.x=630
+SortFrom.y=145
+RWalkParams=8685454, 170, 190, 70, -2, 0, 10
+
+[17]
+Name=Varrock East Bank to Varrock East Mine 6
+Color=8948876
+Tolerance=20
+SortFrom.x=634
+SortFrom.y=137
+RWalkParams=8948876, 170, 190, 62, 0, 0, 10
+
+[18]
+Name=Varrock East Bank to Varrock East Mine 7
+Color=1916500
+Tolerance=20
+SortFrom.x=610
+SortFrom.y=153
+RWalkParams=1916500, 188, 208, 80, 1, -1, 10
+
+[19]
+Name=Varrock East Mine to Varrock East Bank 1
+Color=8621711
+Tolerance=20
+SortFrom.x=658
+SortFrom.y=21
+RWalkParams=8621711, 16, 36, 81, -1, -1, 10
+
+[20]
+Name=Varrock East Mine to Varrock East Bank 2
+Color=8621711
+Tolerance=20
+SortFrom.x=618
+SortFrom.y=33
+RWalkParams=8621711, 340, 360, 63, -1, -2, 10
+
+[21]
+Name=Varrock East Mine to Varrock East Bank 3
+Color=8621711
+Tolerance=20
+SortFrom.x=622
+SortFrom.y=25
+RWalkParams=8621711, 350, 10, 70, -1, -1, 10
+
+[22]
+Name=Varrock East Mine to Varrock East Bank 4
+Color=8621711
+Tolerance=20
+SortFrom.x=610
+SortFrom.y=25
+RWalkParams=8621711, 335, 355, 72, -1, 1, 10
+
+[23]
+Name=Varrock East Mine to Varrock East Bank 5
+Color=7766402
+Tolerance=20
+SortFrom.x=594
+SortFrom.y=45
+RWalkParams=7766402, 312, 332, 62, 1, -1, 10
+
+[24]
+Name=Varrock East Mine to Varrock East Bank 6
+Color=8948876
+Tolerance=20
+SortFrom.x=558
+SortFrom.y=77
+RWalkParams=8948876, 267, 287, 79, 0, 1, 10
+
+[25]
+Name=Varrock East Mine to Varrock East Bank 7
+Color=6516073
+Tolerance=20
+SortFrom.x=574
+SortFrom.y=113
+RWalkParams=6516073, 231, 251, 70, 0, 0, 10
+
+[26]
+Name=Draynor Village Bank to Draynor Village Fishing Spots 1
+Color=15527148
+Tolerance=20
+SortFrom.x=607
+SortFrom.y=129
+RWalkParams=15527148, 189, 209, 58, 1, -2, 10
+
+[27]
+Name=Draynor Village Bank to Draynor Village Fishing Spots 2
+Color=15527148
+Tolerance=20
+SortFrom.x=626
+SortFrom.y=109
+RWalkParams=15527148, 170, 190, 34, 1, -1, 10
+
+[28]
+Name=Draynor Village Fishing Spots to Draynor Village Bank 1
+Color=16711422
+Tolerance=20
+SortFrom.x=630
+SortFrom.y=69
+RWalkParams=16711422, 350, 10, 26, -1, -2, 10
+
+[29]
+Name=Draynor Village Fishing Spots to Draynor Village Bank 2
+Color=5197905
+Tolerance=20
+SortFrom.x=645
+SortFrom.y=37
+RWalkParams=5197905, 10, 30, 61, 1, -1, 10
+
+[30]
+Name=Draynor Village Bank to Draynor Village Willows 1
+Color=2451302
+Tolerance=20
+SortFrom.x=607
+SortFrom.y=130
+RWalkParams=2451302, 189, 209, 59, -2, 0, 10
+
+[31]
+Name=Draynor Village Willows to Draynor Village Bank 1
+Color=4605254
+Tolerance=20
+SortFrom.x=653
+SortFrom.y=48
+RWalkParams=4605254, 26, 46, 55, -1, -1, 10
+
+[32]
+Name=Karamja Fishing Spot (SRL Members+) to Stiles On Karamja (SRL Members+) 1
+Color=3829835
+Tolerance=20
+SortFrom.x=608
+SortFrom.y=122
+RWalkParams=3829835, 197, 217, 52, -1, 1, 10
+
+[33]
+Name=Karamja Fishing Spot (SRL Members+) to Stiles On Karamja (SRL Members+) 2
+Color=3829835
+Tolerance=20
+SortFrom.x=559
+SortFrom.y=109
+RWalkParams=3829835, 240, 260, 82, 1, 0, 10
+
+[34]
+Name=Karamja Fishing Spot (SRL Members+) to Stiles On Karamja (SRL Members+) 3
+Color=3829835
+Tolerance=20
+SortFrom.x=572
+SortFrom.y=129
+RWalkParams=3829835, 221, 241, 80, 1, 0, 10
+
+[35]
+Name=Karamja Fishing Spot (SRL Members+) to Stiles On Karamja (SRL Members+) 4
+Color=3180674
+Tolerance=20
+SortFrom.x=564
+SortFrom.y=121
+RWalkParams=3180674, 232, 252, 83, -1, -1, 10
+
+[36]
+Name=Karamja Fishing Spot (SRL Members+) to Stiles On Karamja (SRL Members+) 5
+Color=3116666
+Tolerance=20
+SortFrom.x=580
+SortFrom.y=128
+RWalkParams=3116666, 218, 238, 74, 0, 1, 10
+
+[37]
+Name=Karamja Fishing Spot (SRL Members+) to Stiles On Karamja (SRL Members+) 6
+Color=7917780
+Tolerance=20
+SortFrom.x=564
+SortFrom.y=117
+RWalkParams=7917780, 235, 255, 81, -2, -1, 10
+
+[38]
+Name=Karamja Fishing Spot (SRL Members+) to Stiles On Karamja (SRL Members+) 7
+Color=6279370
+Tolerance=20
+SortFrom.x=564
+SortFrom.y=117
+RWalkParams=6279370, 235, 255, 81, -2, -1, 10
+
+[39]
+Name=Stiles On Karamja (SRL Members+) to Karamja Fishing Spot (SRL Members+) 1
+Color=7917780
+Tolerance=20
+SortFrom.x=669
+SortFrom.y=70
+RWalkParams=7917780, 61, 81, 55, -2, 1, 10
+
+[40]
+Name=Stiles On Karamja (SRL Members+) to Karamja Fishing Spot (SRL Members+) 2
+Color=3117180
+Tolerance=20
+SortFrom.x=693
+SortFrom.y=61
+RWalkParams=3117180, 60, 80, 80, 0, 1, 10
+
+[41]
+Name=Stiles On Karamja (SRL Members+) to Karamja Fishing Spot (SRL Members+) 3
+Color=4097673
+Tolerance=20
+SortFrom.x=688
+SortFrom.y=45
+RWalkParams=4097673, 47, 67, 83, -2, 1, 10
+
+[42]
+Name=Stiles On Karamja (SRL Members+) to Karamja Fishing Spot (SRL Members+) 4
+Color=2652026
+Tolerance=20
+SortFrom.x=688
+SortFrom.y=49
+RWalkParams=2652026, 49, 69, 81, 1, -1, 10
+
+[43]
+Name=Stiles On Karamja (SRL Members+) to Karamja Fishing Spot (SRL Members+) 5
+Color=2652270
+Tolerance=20
+SortFrom.x=692
+SortFrom.y=57
+RWalkParams=2652270, 56, 76, 81, -1, 0, 10
+
+[44]
+Name=Stiles On Karamja (SRL Members+) to Karamja Fishing Spot (SRL Members+) 6
+Color=674180
+Tolerance=20
+SortFrom.x=698
+SortFrom.y=81
+RWalkParams=674180, 78, 98, 81, -2, 0, 10
+
+[45]
+Name=Stiles On Karamja (SRL Members+) to Karamja Fishing Spot (SRL Members+) 7
+Color=1064554
+Tolerance=20
+SortFrom.x=697
+SortFrom.y=65
+RWalkParams=1064554, 64, 84, 83, 1, -2, 10
+
+[46]
+Name=Grand Exchange Yews to Grand Exchange Bank 1
+Color=3959393
+Tolerance=20
+SortFrom.x=582
+SortFrom.y=102
+RWalkParams=3959393, 239, 259, 58, -2, -2, 10
+
+[47]
+Name=Grand Exchange Yews to Grand Exchange Bank 2
+Color=6786196
+Tolerance=20
+SortFrom.x=580
+SortFrom.y=139
+RWalkParams=6786196, 214, 234, 82, -2, 1, 10
+
+[48]
+Name=Grand Exchange Yews to Grand Exchange Bank 3
+Color=188
+Tolerance=20
+SortFrom.x=571
+SortFrom.y=127
+RWalkParams=188, 224, 244, 80, -1, -2, 10
+
+[49]
+Name=Grand Exchange Yews to Grand Exchange Bank 4
+Color=7304560
+Tolerance=20
+SortFrom.x=558
+SortFrom.y=83
+RWalkParams=7304560, 263, 283, 79, -1, 0, 10
+
+[50]
+Name=Grand Exchange Bank to Grand Exchange Yews 1
+Color=6588563
+Tolerance=20
+SortFrom.x=686
+SortFrom.y=91
+RWalkParams=6588563, 86, 106, 69, -1, -2, 10
+
+[51]
+Name=Grand Exchange Bank to Grand Exchange Yews 2
+Color=6588563
+Tolerance=20
+SortFrom.x=698
+SortFrom.y=91
+RWalkParams=6588563, 86, 106, 81, 1, 0, 10
+
+[52]
+Name=Grand Exchange Bank to Grand Exchange Yews 3
+Color=3239527
+Tolerance=20
+SortFrom.x=689
+SortFrom.y=51
+RWalkParams=3239527, 51, 71, 81, -1, 0, 10
+
+[53]
+Name=Grand Exchange Bank to Grand Exchange Yews 4
+Color=3695713
+Tolerance=20
+SortFrom.x=689
+SortFrom.y=47
+RWalkParams=3695713, 49, 69, 83, 1, -1, 10
+
+[54]
+Name=Port Sarim Willows to Port Sarim Deposit Box 1
+Color=62965
+Tolerance=20
+SortFrom.x=590
+SortFrom.y=106
+RWalkParams=62965, 232, 252, 53, -1, -1, 10
+
+[55]
+Name=Port Sarim Willows to Port Sarim Deposit Box 2
+Color=65536
+Tolerance=20
+SortFrom.x=598
+SortFrom.y=133
+RWalkParams=65536, 202, 222, 66, -1, 0, 10
+
+[56]
+Name=Port Sarim Deposit Box to Port Sarim Willows 1
+Color=12632256
+Tolerance=20
+SortFrom.x=649
+SortFrom.y=41
+RWalkParams=12632256, 17, 37, 59, 1, -2, 10
+
+[57]
+Name=Port Sarim Deposit Box to Port Sarim Willows 2
+Color=2717302
+Tolerance=20
+SortFrom.x=658
+SortFrom.y=61
+RWalkParams=2717302, 43, 63, 49, 1, -1, 10
+
+[58]
+Name=Draynor Village Bank to Draynor Village Oaks 1
+Color=1924706
+Tolerance=20
+SortFrom.x=662
+SortFrom.y=89
+RWalkParams=1924706, 88, 108, 45, -1, -2, 10
+
+[59]
+Name=Draynor Village Oaks to Draynor Village Bank 1
+Color=5001041
+Tolerance=20
+SortFrom.x=590
+SortFrom.y=73
+RWalkParams=5001041, 278, 298, 49, 0, -1, 10
+
+[60]
+Color=10129035
+Tolerance=20
+SortFrom.x=582
+SortFrom.y=97
+Name=Port Sarim Deposit Box to Rimmington Yews 1
+RWalkParams=10129035, 245, 265, 57, -1, -1, 10
+
+[61]
+Name=Port Sarim Deposit Box to Rimmington Yews 2
+Color=16580038
+Tolerance=20
+SortFrom.x=543
+SortFrom.y=127
+RWalkParams=16580038, 107, 127, 104, -2, -1, 10
+
+[62]
+Color=2047829
+Tolerance=20
+SortFrom.x=604
+SortFrom.y=154
+Name=Port Sarim Deposit Box to Rimmington Yews 3
+RWalkParams=2047829, 188, 208, 83, 0, -2, 10
+
+[63]
+Color=3114114
+Tolerance=20
+SortFrom.x=554
+SortFrom.y=93
+Name=Port Sarim Deposit Box to Rimmington Yews 4
+RWalkParams=3114114, 254, 274, 83, -2, -2, 10
+
+[64]
+Color=531500
+Tolerance=20
+SortFrom.x=558
+SortFrom.y=82
+Name=Port Sarim Deposit Box to Rimmington Yews 5
+RWalkParams=531500, 263, 283, 79, -2, -1, 10
+
+[65]
+Color=2786417
+Tolerance=20
+SortFrom.x=586
+SortFrom.y=81
+Name=Port Sarim Deposit Box to Rimmington Yews 6
+RWalkParams=2786417, 264, 284, 51, -2, -1, 10
+
+[66]
+Color=1192262
+Tolerance=20
+SortFrom.x=558
+SortFrom.y=74
+Name=Port Sarim Deposit Box to Rimmington Yews 7
+RWalkParams=1192262, 268, 288, 80, 0, -2, 10
+
+[67]
+Color=6186088
+Tolerance=20
+SortFrom.x=558
+SortFrom.y=78
+Name=Port Sarim Deposit Box to Rimmington Yews 8
+RWalkParams=6186088, 265, 285, 79, 1, -1, 10
+
+[68]
+Color=2387793
+Tolerance=20
+SortFrom.x=566
+SortFrom.y=75
+Name=Port Sarim Deposit Box to Rimmington Yews 9
+RWalkParams=2387793, 270, 290, 72, -1, -2, 10
+
+[69]
+Color=2255974
+Tolerance=20
+SortFrom.x=566
+SortFrom.y=81
+Name=Port Sarim Deposit Box to Rimmington Yews 10
+RWalkParams=2255974, 264, 284, 71, 1, 0, 10
+
+[70]
+Color=1786201
+Tolerance=20
+SortFrom.x=675
+SortFrom.y=108
+Name=Rimmington Yews to Port Sarim Deposit Box 1
+RWalkParams=1786201, 108, 128, 63, -1, 0, 10
+
+[71]
+Name=Rimmington Yews to Port Sarim Deposit Box 2
+Color=6580075
+Tolerance=20
+SortFrom.x=662
+SortFrom.y=89
+RWalkParams=6580075, 88, 108, 45, 1, 1, 10
+
+[72]
+Name=Rimmington Yews to Port Sarim Deposit Box 3
+Color=2321000
+Tolerance=20
+SortFrom.x=674
+SortFrom.y=88
+RWalkParams=2321000, 83, 103, 57, 1, -2, 10
+
+[73]
+Name=Rimmington Yews to Port Sarim Deposit Box 4
+Color=1589827
+Tolerance=20
+SortFrom.x=698
+SortFrom.y=99
+RWalkParams=1589827, 93, 113, 82, -2, 1, 10
+
+[74]
+Name=Rimmington Yews to Port Sarim Deposit Box 5
+Color=1583941
+Tolerance=20
+SortFrom.x=698
+SortFrom.y=95
+RWalkParams=1583941, 86, 106, 82, 1, 0, 10
+
+[75]
+Name=Rimmington Yews to Port Sarim Deposit Box 6
+Color=3051132
+Tolerance=20
+SortFrom.x=698
+SortFrom.y=98
+RWalkParams=3051132, 91, 111, 82, 0, 0, 10
+
+[76]
+Name=Rimmington Yews to Port Sarim Deposit Box 7
+Color=2047066
+Tolerance=20
+SortFrom.x=686
+SortFrom.y=75
+RWalkParams=2047066, 70, 90, 70, -2, -2, 10
+
+[77]
+Name=Rimmington Yews to Port Sarim Deposit Box 8
+Color=1063241
+Tolerance=20
+SortFrom.x=686
+SortFrom.y=45
+RWalkParams=1063241, 47, 67, 81, -2, -1, 10
+
+[78]
+Name=Rimmington Yews to Port Sarim Deposit Box 9
+Color=10326407
+Tolerance=20
+SortFrom.x=654
+SortFrom.y=57
+RWalkParams=10326407, 34, 54, 49, 0, 0, 10
+
+[79]
+Name=Rimmington Yews to Port Sarim Deposit Box 10
+Color=1588310
+Tolerance=20
+SortFrom.x=682
+SortFrom.y=85
+RWalkParams=1588310, 81, 101, 65, -1, -1, 10

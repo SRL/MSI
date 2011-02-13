@@ -1,0 +1,285 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                                  Skills.scar                                 |
+|==============================================================================|
+| For all general skill support                                                |
+|                                                                              |
+| * procedure MSI_SetSkillLevels;                     * by Coh3n               |
+| * function MSI_BestTool: Integer;                   * by Coh3n               |
+| * function MSI_WorstTool: Integer;                  * by Coh3n               |
+| * function MSI_RandomizeArray(): TIntegerArray;     * by Coh3n & NCDS        |
+| * function MSI_SumTIA(): Integer;                   * by Sir R. Magician     |
+| * function MSI_ChooseObjects(): Integer;            * by RM, Coh3n, NCDS     |
+| * function MSI_RearrangeArray(): TIntegerArray;     * by Coh3n & NCDS        |
+| * function MSI_AutoInvFull(): Boolean;              * by Coh3n               |
+ \_____________________________________________________________________________}
+
+{******************************************************************************}
+{ procedure MSI_SetSkillLevels();                                              }
+{ By: Coh3n                                                                    }
+{ Date: 24 October 2010                                                        }
+{ Description: Gets the player's skill levels for each script                  }
+{******************************************************************************}
+procedure MSI_SetSkillLevels();
+var
+  i, curLev: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_SetSkillLevels');
+
+  with MSI_Players[CurrentPlayer] do
+    for i := 0 to High(Scripts) do
+    begin
+      curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+
+      // Only sets if the level has increased
+      if (curLev <= ReportInfo.SkillLevels[i]) then
+      begin
+        MSI_Debug(Capitalize(MSI_Scripts[Scripts[i].Name].SkillName) + ' level hasn''t changed');
+        Continue;
+      end;
+
+      // Set the ReportInfo attribute
+      ReportInfo.SkillLevels[i] := curLev;
+
+      with MSI_Scripts[Scripts[i].Name] do
+        MSI_Debug(SkillName + ' Level: ' + IntToStr(ReportInfo.SkillLevels[i]));
+    end;
+
+  MSI_CloseHeader('MSI_SetSkillLevels: Finished');
+end;
+
+{******************************************************************************}
+{ function MSI_BestTool: Integer;                                              }
+{ By: Coh3n                                                                    }
+{ Date: 05 October 2010                                                        }
+{ Description: Determines the best tool for the chosen skill. Keep in mind     }
+{              this may not be used for every skill                            }
+{******************************************************************************}
+function MSI_BestTool: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do
+  begin
+    case (SkillConst) of
+      SKILL_WOODCUTTING:
+        case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
+          REQ_DRAGON..REQ_MAX_LEVEL: Result := HATCHET_DRAGON;
+          REQ_RUNE..REQ_DRAGON     : Result := HATCHET_RUNE;
+          REQ_ADAMANT..REQ_RUNE    : Result := HATCHET_ADAMANT;
+          REQ_MITHRIL..REQ_ADAMANT : Result := HATCHET_MITHRIL;
+          REQ_STEEL..REQ_MITHRIL   : Result := HATCHET_STEEL;
+
+          else
+            Result := HATCHET_IRON;
+        end;
+
+      SKILL_MINING:
+        case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
+          REQ_DRAGON..REQ_MAX_LEVEL: Result := PICKAXE_DRAGON;
+          REQ_RUNE..REQ_DRAGON     : Result := PICKAXE_RUNE;
+          REQ_ADAMANT..REQ_RUNE    : Result := PICKAXE_ADAMANT;
+          REQ_MITHRIL..REQ_ADAMANT : Result := PICKAXE_MITHRIL;
+          REQ_STEEL..REQ_MITHRIL   : Result := PICKAXE_STEEL;
+
+          else
+            Result := PICKAXE_IRON;
+        end;
+
+      else
+        MSI_SubDebug('MSI_BestTool: Invalid skill!');
+    end;
+
+    MSI_Debug('Best tool for ' + SkillName + ' is '+ MSI_Items[Result].Name);
+  end;
+end;
+
+{******************************************************************************}
+{ function MSI_WorstTool: Integer;                                             }
+{ By: Coh3n                                                                    }
+{ Date: 05 October 2010                                                        }
+{ Description: Determines the worst tool for the job at hand.                  }
+{******************************************************************************}
+function MSI_WorstTool: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do
+    case (SkillConst) of
+      SKILL_WOODCUTTING:
+        Result := HATCHET_BRONZE;
+
+      SKILL_MINING:
+        Result := PICKAXE_BRONZE;
+
+      else
+        MSI_SubDebug('MSI_WorstTool: Invalid skill!');
+    end;
+end;
+
+{******************************************************************************}
+{ function MSI_RandomizeArray(Objs: TIntegerArray): TIntegerArray;             }
+{ By: NCDS & Coh3n                                                             }
+{ Date: 20 Sept 2010                                                           }
+{ Description: Returns the Objects array in a random order                     }
+{******************************************************************************}
+function MSI_RandomizeArray(Objs: TIntegerArray): TIntegerArray;
+var
+  i, o: Integer;
+begin
+  SetLength(Result, Length(Objs));
+
+  while (Length(Objs) <> 0) do
+    for i := 0 to High(Result) do
+    begin
+      o := Random(Length(Objs));
+      //Writeln(IntToStr(Objs[o]));
+      Result[i] := Objs[o];
+      DeleteValueInIntArray(Objs, o);
+    end;
+end;
+
+{******************************************************************************}
+{ function SumTIA(TIA: TIntegerArray);                                         }
+{ By: RM                                                                       }
+{ Date: 20 Sept 2010                                                           }
+{ Description: Returns the Sum of 'TIA'                                        }
+{******************************************************************************}
+function MSI_SumTIA(TIA: TIntegerArray): Integer;
+var
+  i: Integer;
+begin
+  for i := High(TIA) downto 0 do
+    Result := Result + TIA[i];
+end;
+
+{******************************************************************************}
+{ function MSI_ChooseObject(Priorities: TIntegerArray): Integer;               }
+{ By: RM, Coh3n, NCDS                                                          }
+{ Date: 20 Sept 2010                                                           }
+{ Description: Chooses an Object based on 'Priorities'                         }
+{******************************************************************************}
+function MSI_ChooseObject(Priorities: TIntegerArray): Integer;
+var
+  TIA: TIntegerArray;
+  i , Sum, CurrSum: Integer;
+begin
+  SetLength(TIA, Length(Priorities));
+  Sum := MSI_SumTIA(Priorities);
+
+  for i := 0 to High(Priorities) do
+  begin
+    CurrSum := CurrSum + Priorities[i];
+    TIA[i] := CurrSum;
+  end;
+
+  Sum := Random(Sum) + 1;
+
+  for Result := 0 to High(TIA) do
+    if Sum <= TIA[Result] then
+      break;
+end;
+
+{******************************************************************************}
+{ function MSI_RearrangeArray(Objs, Priorities: TIntegerArray): TIntegerArray; }
+{ By: NCDS & Coh3n                                                             }
+{ Date: 20 Sept 2010                                                           }
+{ Description: Returns the Objs array in a rearranged order                    }
+{******************************************************************************}
+function MSI_RearrangeArray(Objs, Priorities: TIntegerArray): TIntegerArray;
+var
+  i, o: Integer;
+begin
+  SetLength(Result, Length(Objs));
+
+  if (Length(Objs) <> Length(Priorities)) or (Length(Priorities) = 0) then
+  begin
+    Result := MSI_RandomizeArray(Objs);
+    Exit;
+  end;
+
+  while (Length(Objs) > 0) do
+    for i := 0 to High(Result) do
+    begin
+      o := MSI_ChooseObject(Priorities);
+      Result[i] := Objs[o];
+      DeleteValueInIntArray(Objs, o);
+      DeleteValueInIntArray(Priorities, o);
+    end;
+end;
+
+{******************************************************************************}
+{ function MSI_AutoInvFull(...): Boolean;                                      }
+{ By: Coh3n                                                                    }
+{ Date: 20 Sept 2010                                                           }
+{ Description: Used to avoid a lot of repeated code; currently used for        }
+{              Woodcutting, Mining and Fishing                                 }
+{******************************************************************************}
+function MSI_AutoInvFull(Func: function(a: TIntegerArray; var b: Boolean): Boolean): Boolean;
+var
+  t, waitTime, tTime: Integer;
+  tObjects, newObjects: TIntegerArray;
+  forceFail: Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  t := (GetSystemTime + (8 * 60000)); // Maximum 8 minutes
+
+  repeat
+    while (not InvFull) and (LoggedIn) do
+      with MSI_Players[CurrentPlayer] do
+      begin
+        with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+          case (MSI_Scripts[Name].SkillConst) of
+            SKILL_WOODCUTTING: tObjects := Trees;
+            SKILL_MINING: tObjects := Rocks;
+            SKILL_FISHING: tObjects := FishSpots;
+          end;
+
+        if (not MSI_Scripts[Scripts[CurrentScript].Name].ClickClosest) then
+          newObjects := MSI_RearrangeArray(tObjects, Scripts[CurrentScript].Priority)
+        else
+          newObjects := tObjects;
+
+        if (TimeFromMark(waitTime) >= tTime) then
+          waitTime := 0;
+
+        Gametab(tab_Inv);
+        if (Func(newObjects, forceFail)) then
+        begin
+          t := (GetSystemTime + (8 * 60000));
+          waitTime := 0;
+        end else begin
+          MSI_FindRandoms(True);
+
+          if (forceFail) then
+            Exit;
+
+          if (waitTime > 0) then
+            Continue;
+
+          if (MSI_Relocate(MSI_Players[CurrentPlayer].Location)) then
+          begin
+            tTime := RandomRange(60000, 120000); // Random 1-2 minutes
+            MSI_SubDebug('Waiting ' + IntToStr(tTime) + ' ms before relocating again');
+            MarkTime(waitTime);
+            NotBoxes := [];
+            Break;
+          end else
+            Exit;
+        end;
+
+        Wait(RandomRange(300, 800));
+      end;
+
+    Result := (InvFull) or (Pos('enough inventor', GetBlackChatMessage) <> 0);
+  until(Result or (GetSystemTime > t) or (not LoggedIn));
+end;
+
+

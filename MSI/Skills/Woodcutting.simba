@@ -1,0 +1,257 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                              WoodCutting.scar                                |
+|==============================================================================|
+| For all woodcutting routines.                                                |
+|                                                                              |
+| * function MSI_SetupWoodcutting: Boolean;       * by Coh3n                   |
+| * function MSI_FindBirdNest: Boolean;           * by NCDS                    |
+| * procedure MSI_WaitWhileChopping();            * by marpis                  |
+| * function MSI_ChopTree(): Boolean;             * by marpis                  |
+| * function MSI_ChopInvFull(): Boolean;          * Coh3n                      |
+\ _____________________________________________________________________________}
+
+const
+  TREE_MAX_DIST = 75; // Maximum pixel distance from tracking box to player
+
+{******************************************************************************}
+{ function MSI_SetupWoodcutting(): Boolean;                                    }
+{ By: Coh3n                                                                    }
+{ Date: 06 October 2010                                                        }
+{ Description: Sets up the player for woodcutting                              }
+{******************************************************************************}
+function MSI_SetupWoodcutting(): Boolean;
+var
+  i, j, x, y: Integer;
+  tabs: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_SetupWoodcutting');
+
+  // If it's already on the inventory, it will search there first
+  if (GetCurrentTab = TAB_INV) then
+    tabs := [TAB_INV, TAB_EQUIP]
+  else
+    tabs := [TAB_EQUIP, TAB_INV];
+
+  for i := 0 to 1 do
+  begin
+    for j := MSI_BestTool downto MSI_WorstTool do // First search for the best tool
+      if (MSI_FindTool(j, tabs[i], x, y)) then
+      begin
+        if (tabs[i] = TAB_INV) then
+          MSI_Items[j].InvSlot := CoordsToItem(x, y); // Set tool's inventory slot
+
+        Result := True;
+        Break;
+      end;
+
+    if (Result) then
+      Break;
+  end;
+
+  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do // CurrentScript
+    if (not Result) then
+      if (not (BankType = NoBank)) then // If CurrentScript is a banking one
+        if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // If player is at a bank
+          Result := MSI_WithdrawBestTool();
+
+  MSI_CloseHeader('MSI_SetupWoodcutting: ' + BoolToStr(Result));
+end;
+
+{******************************************************************************}
+{ function MSI_FindBirdNest: Boolean;                                          }
+{ By: NCDS                                                                     }
+{ Date: 21 July 2010                                                           }
+{ Description: Find and pick up bird nest                                      }
+{******************************************************************************}
+function MSI_FindBirdNest: Boolean;
+var
+  SearchBox: TBox;
+begin
+  if (not (MSI_Players[CurrentPlayer].Member)) or (not LoggedIn) then
+    Exit;
+
+  MSI_Debug('Looking for bird''s nests');
+
+  if (not MSI_Players[CurrentPlayer].Member) or
+   (not(IsChatBoxTextBetween(BIRD_NEST_CBMESSAGE, 0, 8, 6))) then
+     Exit;
+
+  SearchBox := IntToBox(MSCx - 100, MSCy - 100, MSCx + 100, MSCy + 100);
+
+  if MSI_FindObjectIn(OBJ_BIRD_NEST, SearchBox, ClickLeft) then
+  begin
+    Result := True;
+    Flag;
+    Wait(RandomRange(100, 300));
+  end;
+end;
+
+{******************************************************************************}
+{ Procedure WaitWhileChopping(TreeX, TreeY: Integer; TreeInfo: TMSObject);     }
+{ By: marpis & NCDS                                                            }
+{ Date: 07 September 2010                                                      }
+{ Description: Wait while tree's been cut                                      }
+{******************************************************************************}
+Procedure MSI_WaitWhileChopping(TreeID: integer);
+Var
+  CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist: Integer;
+  TotalChopTime, R, CT: Integer;
+  ATPA: T2DPointArray;
+  TPA: TPointArray;
+  Objs: TIntegerArray;
+  B: TBox;
+  TreeExists, Debug: Boolean;
+Begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_WaitWhileChopping');
+
+  Objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Trees;
+
+  CTS := GetColorToleranceSpeed;
+  SetColorSpeed2Modifiers(MSI_Objects[TreeID].Hue, MSI_Objects[TreeID].Sat);
+
+  HalfWidth := Round(MSI_Objects[TreeID].W * 0.7);
+  HalfHeight := Round(MSI_Objects[TreeID].H * 0.7);
+  B := IntToBox(MSI_Objects[TreeID].X - HalfWidth, MSI_Objects[TreeID].Y - HalfHeight,
+                MSI_Objects[TreeID].X + HalfWidth, MSI_Objects[TreeID].Y + HalfHeight);
+
+  L := Length(MSI_Objects[TreeID].Colors);
+  SetLength(ATPA, L);
+  Dec(L);
+
+  OldInvCount := InvCount;
+  T := (GetSystemTime + MSI_Objects[TreeID].MaxTime + Random(5000));
+  TotalChopTime := (GetSystemTime + (4 * 60000));
+
+  Repeat
+    Debug := (Random(10) < 3);
+
+    If InvFull Then
+      Break;
+
+    MSI_FindRandoms(False);
+    MSI_AntiBan(RandomRange(0, 5000), ANTI_BAN_CHANCE);
+
+    { Check if the tree Exists }
+    if (Debug) then
+      MSI_Debug('Looking for tree');
+
+    For I := 0 To L Do
+      FindColorsTolerance(ATPA[I], MSI_Objects[TreeID].Colors[I],
+                          B.X1, B.Y1, B.X2, B.Y2, MSI_Objects[TreeID].Tol);
+    TPA := MergeATPA(ATPA);
+    SortTPAFrom(TPA, Point(MSCX, MSCY));
+
+    if (Length(TPA) > 0) then
+    begin
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawDotsEx(True, TPA, clYellow);
+
+      // Gets distance from closest point to player
+      tDist := Distance(TPA[0].x, TPA[0].y, MSCX, MSCY);
+
+      // Resets the tracking box to a box the size of the tree located around the closest point
+      B := MSI_MakeBox(Point(TPA[0].x, TPA[0].y), MSI_Objects[TreeID].W, MSI_Objects[TreeID].H);
+
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxEx(False, B, clBlue);
+    end;
+
+    if (Debug) then
+      MSI_Debug('Track box distance: '+IntToStr(tDist));
+
+    if (tDist > TREE_MAX_DIST) then
+    begin
+      if (Debug) then
+        MSI_Debug('Tracking box is over the maximum distance');
+      Break;
+    end;
+
+    TreeExists := Length(TPA) >= MSI_Objects[TreeID].Accuracy;
+    If (TreeExists) Then
+      If (Random(4) <> 0) Then
+        Wait(200 + Random(50))
+      Else
+        SleepAndMoveMouse(200 + Random(50));
+
+    if MSI_FindBirdNest then
+      Break;
+
+    { InvCount check }
+    if (Debug) then
+      MSI_Debug('Checking inventory count');
+
+    NewInvCount := InvCount;
+    If (NewInvCount > OldInvCount) Then
+    Begin
+      if (Debug) then
+        MSI_SubDebug('New count > old count');
+
+      OldInvCount := NewInvCount;
+      T := (GetSystemTime + MSI_Objects[TreeID].MaxTime + Random(5000));
+    End;
+
+    { Prevent logout }
+    If ((TotalChopTime - GetSystemTime) < 60000) Then
+    Begin
+      if (Debug) then
+        MSI_Debug('Preventing logout');
+
+      CT := GetCurrentTab;
+      Repeat
+        R := RandomRange(Tab_Combat, Tab_Notes);
+      Until(R <> CT);
+      GameTab(R);
+
+      if (Debug) then
+        MSI_SubDebug('Clicking game tab: ' + IntToStr(R));
+      Wait(RandomRange(500, 1000));
+    End;
+
+    if (GetCurrentTab <> tab_Inv) then
+      MouseBox(646, 177, 662, 195, 1);
+
+  Until(Not TreeExists) Or (GetSystemTime > T) Or (Not LoggedIn);
+
+  MSI_CloseHeader('MSI_WaitWhileChopping: Finished');
+End;
+
+{******************************************************************************}
+{ Function MSI_ChopTree(Which: TIntegerArray): Boolean;                        }
+{ By: marpis                                                                   }
+{ Date: 25 June 2010                                                           }
+{ Description: Chops tree                                                      }
+{******************************************************************************}
+Function MSI_ChopTree(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+Var
+  TreeIndex: Integer;
+Begin
+  if (not LoggedIn) then
+    Exit;
+
+  If MSI_FindObjects(Which, TreeIndex, ClickLeft) Then
+  begin
+    Result := True;
+    MSI_WaitWhileChopping(Which[TreeIndex]);
+  end else
+    MSI_FindRandoms(True);
+End;
+
+{******************************************************************************}
+{ Function MSI_ChopInvFull(Which: TIntegerArray): Boolean;                     }
+{ By: Coh3n                                                                    }
+{ Date: 20 September 2010                                                      }
+{ Description: Chops trees until inventory is full                             }
+{******************************************************************************}
+function MSI_ChopInvFull: Boolean;
+begin
+  Result := MSI_AutoInvFull(@MSI_ChopTree); // MSI_AutoInvFull in Skills.simba
+end;
+
+

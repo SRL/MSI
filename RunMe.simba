@@ -1,0 +1,311 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                                 RunMe.scar                                   |
+|==============================================================================|
+| For the script user to just simply press play                                |
+|                                                                              |
+|==============================================================================|
+|                         ** Setup Instructions **                             |
+|==============================================================================|
+|                                                                              |
+| -> For a very detailed guide on how to properly setup MSI, please visit:     |
+|                                                                              |
+|        http://villavu.com/forum/showthread.php?p=745942#post745942           |
+ \_____________________________________________________________________________}
+
+program MSI_Script;
+{$i MSI/MSI/Core/Setup.simba}
+
+const
+  USE_FORM = True;
+
+procedure DeclareSettings();
+begin
+  MSI_SetupVars[SETUP_DEBUG_SMART]   := True;         // Debugs things onto SMART (may cause lag)
+  MSI_SetupVars[SETUP_SAVE_DEBUG]    := True;         // Save's the debug box text to a file
+  MSI_SetupVars[SETUP_HUMAN_BREAK]   := True;         // Take more human like breaks
+  MSI_SetupVars[SETUP_SWITCH_WORLDS] := True;         // Switch worlds when switching players or after breaks
+  MSI_SetupVars[SETUP_BREAK_TIME]    := 15;           // Single player only - how long to break for (in minutes)
+  MSI_SetupVars[SETUP_DEBUG_LEVEL]   := 10;           // The lower the number, the less the script will debug
+  MSI_SetupVars[SETUP_ANTIBAN_WAIT]  := 15000;        // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
+  MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
+  MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
+  MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
+  MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection', 'Color', or 'Hybrid'
+end;
+
+procedure DeclarePlayers;
+var
+  i: Integer;
+begin
+  HowManyPlayers := 1;
+  NumberOfPlayers(HowManyPlayers);
+  SetLength(MSI_Players, HowManyPlayers);
+
+  for i := 0 to High(MSI_Players) do
+    SetLength(MSI_Players[i].Scripts, 100);
+
+  CurrentPlayer := 0;
+  CurrentScript := 0;
+
+  with MSI_Players[0] do
+  begin
+    Name       := '';      // Username
+    Pass       := '';      // Password
+    Nick       := '';      // Nickname (3-4 lowercase letters from username)
+    Pin        := '';      // Bank pin; leave as '' if player doesn't have one
+    Active     := True;    // Use this player?
+    Member     := False;   // Is this player a member?
+    Location   := 0;       // See instructions at the top
+    BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
+    BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
+    TotalLoads := 0;       // Total loads for the player to do; leave 0 if using TotalTime or to go forever
+    TotalTime  := 0;       // How long for the player to run? (in minutes); leave 0 if using TotalLoads or go forever
+
+    with Scripts[0] do
+    begin
+      // Copy/paste the script attributes from the setup thread
+    end;
+  end;
+{
+  with MSI_Players[1] do
+  begin
+    Name       := '';
+    Pass       := '';
+    Nick       := '';
+    Pin        := '';
+    Active     := True;
+    Member     := False;
+    Location   := ;
+    BreakLoads := 0;
+    BreakTime  := 0;
+    TotalLoads := 0;
+    TotalTime  := 0;
+
+    with Scripts[0] do
+    begin
+    end;
+  end;
+
+  with MSI_Players[2] do
+  begin
+    Name       := '';
+    Pass       := '';
+    Nick       := '';
+    Pin        := '';
+    Active     := True;
+    Member     := False;
+    Location   := ;
+    BreakLoads := ;
+    BreakTime  := ;
+    TotalLoads := ;
+    TotalTime  := ;
+
+    with Scripts[0] do
+    begin
+    end;
+  end;
+
+  with MSI_Players[3] do
+  begin
+    Name       := '';
+    Pass       := '';
+    Nick       := '';
+    Pin        := '';
+    Active     := True;
+    Member     := False;
+    Location   := ;
+    BreakLoads := ;
+    BreakTime  := ;
+    TotalLoads := ;
+    TotalTime  := ;
+
+    with Scripts[0] do
+    begin
+    end;
+  end;
+
+  with MSI_Players[4] do
+  begin
+    Name       := '';
+    Pass       := '';
+    Nick       := '';
+    Pin        := '';
+    Active     := True;
+    Member     := False;
+    Location   := ;
+    BreakLoads := ;
+    BreakTime  := ;
+    TotalLoads := ;
+    TotalTime  := ;
+
+    with Scripts[0] do
+    begin
+    end;
+  end;
+
+  with MSI_Players[5] do
+  begin
+    Name       := '';
+    Pass       := '';
+    Nick       := '';
+    Pin        := '';
+    Active     := True;
+    Member     := False;
+    Location   := ;
+    BreakLoads := ;
+    BreakTime  := ;
+    TotalLoads := ;
+    TotalTime  := ;
+
+    with Scripts[0] do
+    begin
+    end;
+  end;
+
+  with MSI_Players[6] do
+  begin
+    Name       := '';
+    Pass       := '';
+    Nick       := '';
+    Pin        := '';
+    Active     := True;
+    Member     := False;
+    Location   := ;
+    BreakLoads := ;
+    BreakTime  := ;
+    TotalLoads := ;
+    TotalTime  := ;
+
+    with Scripts[0] do
+    begin
+    end;
+  end;
+
+  with MSI_Players[7] do
+  begin
+    Name       := '';
+    Pass       := '';
+    Nick       := '';
+    Pin        := '';
+    Active     := True;
+    Member     := False;
+    Location   := ;
+    BreakLoads := ;
+    BreakTime  := ;
+    TotalLoads := ;
+    TotalTime  := ;
+
+    with Scripts[0] do
+    begin
+    end;
+  end;
+}
+end;
+
+var
+  i: Integer;
+  drawing: TBitmap;
+begin
+  ScriptStart := TheDate(DATE_DAY) + ' at ' + TheTime;
+  ScriptStart := Replace(scriptStart, ':', ' ');
+
+  ClearDebug;
+  SetupMSI;
+
+  if (USE_FORM) then
+  begin
+    try
+      SafeInitForm;
+      SafeShowFormModal;
+    finally
+      AnimTimer.Enabled := False;
+      AnimTimer.Free;
+      MainForm.Free;
+    except
+      Writeln(ExceptionToString(ExceptionType, ExceptionParam));
+    end;
+
+    HowManyPlayers := Length(MSI_Players);
+    NumberOfPlayers(HowManyPlayers);
+
+    for i := 0 to High(MSI_Players) do
+      SetLength(MSI_Players[i].Scripts, 100);
+
+    if (not ScriptReady) then
+      TerminateScript;
+  end else begin
+    DeclareSettings;
+    DeclarePlayers;
+  end;
+
+  Smart_Server := 152;
+  Smart_Members := False;
+  Smart_Signed := True;
+  Smart_SuperDetail := False;
+  ActivateClient;
+
+  SetupSRL;
+
+  {$IFDEF REFLECTION}
+    // So if the hooks are outdated, the script will attempt colour walking if the points exist
+    if (not MSI_SetupReflection(False)) then
+      ReflectionBroken := True;
+  {$ELSE}
+    ReflectionBroken := True; // Set to true because it's not even being used
+  {$ENDIF}
+
+  {$IFDEF REFLECTION}
+    if (ReflectionBroken) then
+      ShowMessage('WARNING: Reflection hooks are outdated!');
+  {$ENDIF}
+
+  if (USE_FORM) then
+  begin
+    HowManyPlayers := Length(MSI_Players);
+    NumberOfPlayers(HowManyPlayers);
+
+    for i := 0 to High(MSI_Players) do
+      SetLength(MSI_Players[i].Scripts, 100);
+  end else begin
+    DeclareSettings;
+    DeclarePlayers;
+  end;
+
+  // Clears the SMART canvas if there is any debug info. left from a previous run
+  {$IFDEF SRL_SMART}
+    drawing := TBitmap.Create;
+    drawing.canvas.handle := SmartGetDebugDC;
+    ClearRSCanvas(drawing.canvas);
+  {$ENDIF}
+
+  ClearDebug;
+  SetScriptProp(SP_WriteTimeStamp, [True]);
+  AddOnTerminate('MSI_ScriptTerminate');
+
+  SetupSRLStats(21, MSI_SetupVars[SETUP_STATS_ID], MSI_SetupVars[SETUP_STATS_PASS]);
+  CurrDebugLevel := 1;
+
+(**
+ * No need to touch anything below here, this is to assign the necessary
+ * information so that SRL's Players array works with MSI's
+ *)
+  for i := 0 to High(Players) do
+  begin
+    Players[i].Name   := MSI_Players[i].Name;
+    Players[i].Pass   := MSI_Players[i].Pass;
+    Players[i].Nick   := MSI_Players[i].Nick;
+    Players[i].Pin    := MSI_Players[i].Pin;
+    Players[i].Active := MSI_Players[i].Active;
+    Players[i].Member := MSI_Players[i].Member;
+
+    if (MSI_SetupVars[SETUP_SWITCH_WORLDS]) then
+      Players[i].WorldInfo := [Players[i].Member, -1, False];
+
+    if (not MSI_Players[i].Active) then
+      MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
+  end;
+
+  MSI_Mainloop;
+end.
+

@@ -1,0 +1,819 @@
+(*
+Walking_Color
+=============
+
+The Color Walking file includes everything we use for our development of color
+walking.  It includes the procedures that actually do the walking and procedures
+that automatically generate the different points and paths.
+
+*)
+
+(*
+MSI_Flag
+~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_Flag(FlagDist: Integer);
+
+MSI's custom flag function. It waits until the flag is within 'FlagDist' from
+the player. It also works if, for some reason, the flag has gone off the minimap,
+but the player is still moving.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_WalkToPoint(MSI_GetWalkCoords(0))) then
+    MSI_Flag(MIN_FLAG_DISTANCE); // MIN_FLAG_DISTANCE is found in Globals.simba
+*)
+procedure MSI_Flag(FlagDist: Integer);
+var
+  t: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  repeat
+    if (LeaveDangerZone) then
+      MSI_Debug('Left danger zone');
+
+    Wait(RandomRange(200, 500));
+    t := (GetSystemTime + 12000);
+
+    // If the player is going around an obstacle and the flag goes off the minimap
+    if ((not FlagPresent) and (IsMoving)) then
+    begin
+      MSI_Antiban(RandomRange(300, 1000), ANTI_BAN_CHANCE);
+      Continue;
+    end;
+
+    if (FlagDistance <= FlagDist) or (not IsMoving) then
+      Exit;
+
+    MSI_FindRandoms(False);
+    MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
+
+    MSI_SubDebug('Flag distance: '+IntToStr(FlagDistance));
+
+  until((not (FlagPresent)) and (not (IsMoving))) or (t < GetSystemTime);
+end;
+
+function MSI_WaitTile(Tile: TPoint): Boolean; forward;
+
+(*
+MSI_LoadAllWalkPoints
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllWalkPoints();
+
+Loads all the walk points from the WalkPoints.txt file (MSI/MSI/Records/). This
+should only be called in SetupMSI.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+*)
+procedure MSI_LoadAllWalkPoints();
+var
+  i: Integer;
+begin
+  if (not FileExists(PATH_RECORD_WALKPOINTS)) then
+    Exit;
+
+  SetLength(MSI_WalkPoints, StrToInt(ReadINI('POINT_COUNT', 'PointCount', PATH_RECORD_WALKPOINTS)));
+
+  for i := 0 to High(MSI_WalkPoints) do
+    with MSI_WalkPoints[i] do
+    begin
+      Name := ReadINI(IntToStr(i), 'Name', PATH_RECORD_WALKPOINTS);
+      Color := StrToInt(ReadINI(IntToStr(i), 'Color', PATH_RECORD_WALKPOINTS));
+      Tolerance := StrToInt(ReadINI(IntToStr(i), 'Tolerance', PATH_RECORD_WALKPOINTS));
+      SortFrom.x := StrToInt(ReadINI(IntToStr(i), 'SortFrom.x', PATH_RECORD_WALKPOINTS));
+      SortFrom.y := StrToInt(ReadINI(IntToStr(i), 'SortFrom.y', PATH_RECORD_WALKPOINTS));
+      RWalkParams := MSI_StrToIntArr(ReadINI(IntToStr(i), 'RWalkParams', PATH_RECORD_WALKPOINTS));
+    end;
+end;
+
+(*
+MSI_SaveWalkPoint
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SaveWalkPoint(i: Integer);
+
+Saves the walk point 'i' to the WalkPoints.txt file. 'i' represents the index of
+the walk point in the MSI_WalkPoints array.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+*)
+procedure MSI_SaveWalkPoint(i: Integer);
+begin
+  WriteINI('POINT_COUNT', 'PointCount', IntToStr(Length(MSI_WalkPoints)), PATH_RECORD_WALKPOINTS);
+
+  with MSI_WalkPoints[i] do
+  begin
+    WriteINI(IntToStr(i), 'Name', Name, PATH_RECORD_WALKPOINTS);
+    WriteINI(IntToStr(i), 'Color', IntToStr(Color), PATH_RECORD_WALKPOINTS);
+    WriteINI(IntToStr(i), 'Tolerance', IntToStr(Tolerance), PATH_RECORD_WALKPOINTS);
+    WriteINI(IntToStr(i), 'SortFrom.x', IntToStr(SortFrom.x), PATH_RECORD_WALKPOINTS);
+    WriteINI(IntToStr(i), 'SortFrom.y', IntToStr(SortFrom.y), PATH_RECORD_WALKPOINTS);
+    WriteINI(IntToStr(i), 'RWalkParams', MSI_IntArrToStr(RWalkParams), PATH_RECORD_WALKPOINTS);
+  end;
+
+  MSI_SubDebug('Saved walk point: '+IntToStr(i));
+end;
+
+(*
+MSI_SaveWalkPointRange
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SaveWalkPointRange(StartIndex, EndIndex: Integer);
+
+Saves the WalkPoints from StartIndex to EndIndex.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 30 January 2011 by Coh3n
+
+*)
+procedure MSI_SaveWalkPointRange(StartIndex, EndIndex: Integer);
+var
+  i: Integer;
+begin
+  WriteINI('POINT_COUNT', 'PointCount', IntToStr(Length(MSI_WalkPoints)), PATH_RECORD_WALKPOINTS);
+
+  for i := StartIndex to EndIndex do
+    MSI_SaveWalkPoint(i);
+end;
+
+(*
+MSI_DeleteWalkPoint
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DeleteWalkPoint(var Arr: TWalkPointArray; Index: Integer);
+
+Simply deletes the 'Index' of the array 'Arr'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_DeleteWalkPoint(MSI_WalkPoints, 15);
+*)
+procedure MSI_DeleteWalkPoint(var Arr: TWalkPointArray; Index: Integer);
+var
+  arrLen, i: Integer;
+begin
+  arrLen := High(Arr);
+
+  for i := Index to (arrLen - 1) do
+    Swap(Arr[i], Arr[i + 1]);
+
+  SetLength(Arr, arrLen);
+end;
+
+(*
+MSI_GetQuadrant
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetQuadrant(p: TPoint): Integer;
+
+Returns the quadrant the point 'p' is in on the minimap. Used to get radials
+when generating the radial walk parameters for a TWalkPoint. Called in MSI_GetRadial.
+    - Quadrant 1: Top Right
+    - Quadrant 2: Top Left
+    - Quadrant 3: Bottom Left
+    - Quadrant 4: Bottom Right
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_GetQuadrant(MSI_GetWalkCoords(15));
+*)
+function MSI_GetQuadrant(p: TPoint): Integer;
+var
+  i : Integer;
+  quadrants: array[1..4] of TBox;
+begin
+  // Initiate the 4 differen quadrants
+  quadrants[1] := IntToBox(MMCX, MMY1, MMX2, MMCY); // Top Right
+  quadrants[2] := IntToBox(MMX1, MMY1, MMCX, MMCY); // Top Left
+  quadrants[3] := IntToBox(MMX1, MMCY, MMCX, MMY2); // Bottom Left
+  quadrants[4] := IntToBox(MMCX, MMCY, MMX2, MMY2); // Bottom Right
+
+  // Get the quadrant the point 'p' is in; set it as 'quad'
+  for i := 1 to 4 do
+    if (PointInBox(p, quadrants[i])) then
+    begin
+      Result := i;
+      Break;
+    end;
+end;
+
+(*
+MSI_GetRadial
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetRadial(p: TPoint): Integer;
+
+Uses Cosine Law to determine the angle from the player to any point on the
+minimap. Angle 0 is from the centre of the minimap to the top (perpendicular).
+It is the line from MMCX to MMX1 if you're familiar with SRL's constants.
+Called in MSI_GenerateWalkPoint.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_GetRadial(MSI_GetWalkCoords(15));
+*)
+function MSI_GetRadial(p: TPoint): Integer;
+var
+  sides: array[1..3] of Integer;
+  radCos: Extended;
+begin
+  sides[1] := 30;
+  sides[2] := Distance(MMCX, MMCY, p.x, p.y);
+  sides[3] := Distance(MMCX, MMCY - sides[1], p.x, p.y);
+
+  radCos := (Sqr(sides[1]) + Sqr(sides[2]) - Sqr(sides[3])) / (2 * sides[1] * sides[2]);
+
+  Result := Round(Degrees(ArcCos(radCos)));
+
+  case MSI_GetQuadrant(p) of
+    2, 3: Result := 360 - Result;
+    1, 4: Result := Result;
+  end;
+
+  MSI_SubDebug('Radial: ' + IntToStr(Result) + ' degrees');
+end;
+
+(*
+MSI_GenerateWalkPoint
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GenerateWalkPoint(Tile: TPoint): TWalkPoint;
+
+Creates a TWalkPoint record based on the loaction of the tile 'Tile' relative to
+the player (MMCX, MMCY). See MSI_GenerateColorPath (Walking_Color.simba) and
+MSI_HybridWalk (Walking_Reflection.simba) for in-depth examples of how this
+function is used.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_GenerateWalkPoint(Point(1234, 4321));
+*)
+function MSI_GenerateWalkPoint(Tile: TPoint): TWalkPoint;
+{$IFDEF REFLECTION}
+var
+  mm_Point: TPoint;
+  mm_Radial: Integer;
+{$ENDIF}
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  {$IFDEF REFLECTION}
+  mm_Point := TileToMM(Tile);
+
+  if (not rs_OnMinimap(mm_Point.x, mm_Point.y)) then
+  begin
+    MSI_SubDebug('MSI_GenerateWalkPoint: Point not on minimap');
+    MSI_SubDebug('Waiting for tile...');
+
+    if (not MSI_WaitTile(Tile)) then
+      Exit;
+  end;
+
+  mm_Radial := MSI_GetRadial(Point(mm_Point.x, mm_Point.y));
+
+  with Result do
+  begin
+    Color := GetColor(mm_Point.x, mm_Point.y);
+    Tolerance := 20;
+    SortFrom := Point(mm_Point.x, mm_Point.y);
+
+    RWalkParams := [
+        Color,                                             // Color
+        mm_Radial - 10,                                    // Start Radial
+        mm_Radial + 10,                                    // End Radial
+        Distance(MMCX, MMCY, mm_Point.x, mm_Point.y) + 10, // Radius
+        RandomRange(-2, 2),                                // Mod X
+        RandomRange(-2, 2),                                // Mod Y
+        10                                                 // Tolerance
+    ];
+
+    // If the start radial is less than 0
+    if (RWalkParams[1] < 0) then
+      RWalkParams[1] := 360 + RWalkParams[1];
+
+    // If the end radial is greater than 360
+    if (RWalkParams[2] > 360) then
+      RWalkParams[2] := RWalkParams[2] - 360;
+  end;
+
+  MSI_SubDebug('Point generated from tile: '+ToStr(Tile));
+  {$ENDIF}
+end;
+
+(*
+MSI_GenerateColorPath
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GenerateColorPath(Tiles: TPointArray; PathName: string; var Failed: Boolean): TWalkPointArray;
+
+Generates an entire color walking path. Calls MSI_GenerateWalkPoint. Also gives
+each point the name 'PathName', plus it's index in the result array. 'Failed'
+will return true if for some reason the path could not be generated.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 11 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_GenerateWalkPoint([Point(1234, 4321), Point(5678, 8765)], 'VE Bank to Oaks');
+*)
+function MSI_GenerateColorPath(Tiles: TPointArray; PathName: string; var Failed: Boolean): TWalkPointArray;
+{$IFDEF REFLECTION}
+var
+  h, i: Integer;
+  mm_Point: TPoint;
+{$ENDIF}
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  {$IFDEF REFLECTION}
+  SetLength(Result, Length(Tiles));
+
+  h := High(Tiles);
+  for i := 1 to h do
+  begin
+    Result[i] := MSI_GenerateWalkPoint(Tiles[i]);
+    Result[i].Name := PathName + ' ' + IntToStr(i);
+
+    if (Result[i].Tolerance <= 0) then
+    begin
+      MSI_Debug('Failed to generate walk path - too far from path');
+      MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Too far from path';
+      Failed := True;
+      SetLength(Result, 0);
+      Exit;
+    end;
+
+    mm_Point := TileToMM(Tiles[i]);
+    Mouse(mm_Point.x, mm_Point.y, 1, 1, True);
+
+    if (i = h) then
+      MSI_Flag(0)
+    else
+      MSI_WaitTile(Tiles[i + 1]);
+  end;
+
+  MSI_DeleteWalkPoint(Result, 0); // First one isn't set (tile is player's current position)
+  {$ENDIF}
+end;
+
+(*
+MSI_GetWalkCoords
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetWalkCoords(WalkPoint: TWalkPoint): TPoint;
+
+Uses a TWalkPoint record and simple TPA routines to get a walkable point on the
+minimap.
+
+.. note::
+
+  | Author: Camaro'
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  mm_Point := MSI_GetWalkCoords(WalkPoint);
+  Mouse(mm_Point.x, mm_Point.y, 5, 5, True);
+  MSI_Flag(MIN_FLAG_DISTANCE);
+*)
+function MSI_GetWalkCoords(WalkPoint: TWalkPoint): TPoint;
+var
+  i, x, y: Integer;
+  TPA: TPointArray;
+begin
+  Result := Point(-1, -1);
+
+  if (not LoggedIn) then
+    Exit;
+
+  with WalkPoint do
+  begin
+    FindColorsSpiralTolerance(MMCX, MMCY, TPA, Color, MMX1, MMY1, MMX2, MMY2, Tolerance);
+    SortTPAFrom(TPA, SortFrom);
+
+    for i := 0 to High(TPA) do
+    begin
+      x := TPA[i].x;
+      y := TPA[i].y;
+
+      if (not rs_OnMinimap(x, y)) then
+        Continue;
+
+      Result := Point(x, y);
+      Break;
+    end;
+  end;
+end;
+
+(*
+MSI_LoadColorPath
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadColorPath(sLoc, eLoc: Integer): T2DIntegerArray;
+
+Loads the color path from the starting location (sLoc) to the ending location
+(eLoc). Loads the path based on the current player's current script, and the
+player's location.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadColorPath(LOC_VE_BANK, LOC_VE_MINE);
+*)
+function MSI_LoadColorPath(sLoc, eLoc: Integer): T2DIntegerArray;
+var
+  Script: TScript;
+begin
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+
+  if (sLoc = Script.PathInfo.StartLoc) then
+    Result := Script.PathInfo.ColorTo
+  else
+    if (sLoc = Script.PathInfo.EndLoc) then
+      Result := Script.PathInfo.ColorFrom;
+
+  MSI_SubDebug('Loaded color path: '+ToStr(Result));
+end;
+
+(*
+MSI_FillColorPath
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FillColorPath(cPath: T2DIntegerArray): T2DIntegerArray;
+
+Since color paths are declared using only the endpoint of the path, this
+fills the "in-between" points. For example, a parameter value of [[0, 5], [6, 10]]
+would return [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10]].
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_FillColorPath(MSI_LoadColorPath(LOC_VE_BANK, LOC_VE_MINE));
+*)
+function MSI_FillColorPath(cPath: T2DIntegerArray): T2DIntegerArray;
+var
+  i, j: Integer;
+begin
+  SetLength(Result, Length(cPath));
+
+  for i := 0 to High(cPath) do
+  begin
+    if (Length(cPath[i]) <> 2) then
+    begin
+      MSI_SubDebug('Invalid color path: '+ToStr(cPath)+' (must be a start and end index)');
+      Exit;
+    end;
+
+    for j := cPath[i][0] to cPath[i][1] do
+    begin
+      SetLength(Result[i], Length(Result[i]) + 1);
+      Result[i][High(Result[i])] := j;
+    end;
+  end;
+
+  MSI_SubDebug('Filled color path: '+ToStr(Result));
+end;
+
+(*
+MSI_AddWalkPoints
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_AddWalkPoints(rPath: T2DPointArray; PathName: string): T2DIntegerArray;
+
+Generates and adds new walk points to the global walk points array (MSI_WalkPoints).
+Returns the newly generated color path's endpoints (i.e. [[0, 5]]).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_AddWalkPoints(MSI_LoadTilPath(LOC_VE_BANK, LOC_VE_MINE), 'VE Bank to Mine');
+*)
+function MSI_AddWalkPoints(rPath: T2DPointArray; PathName: string): T2DIntegerArray;
+var
+  i, j: Integer;
+  failed: Boolean;
+  newPath: TWalkPointArray;
+  tmpResult: T2DIntegerArray;
+begin
+  MSI_AddHeader('MSI_AddWalkPoints');
+
+  SetLength(Result, Length(rPath));
+  SetLength(tmpResult, Length(rPath));
+
+  for i := 0 to High(rPath) do
+  begin
+    newPath := MSI_GenerateColorPath(rPath[i], PathName, failed);
+
+    if (failed) then
+      Exit;
+
+    for j := 0 to High(newPath) do
+    begin
+      // Add to the global WalkPoint array
+      SetLength(MSI_WalkPoints, Length(MSI_WalkPoints) + 1);
+      MSI_WalkPoints[High(MSI_WalkPoints)] := newPath[j];
+
+      // Set the temp result
+      SetLength(tmpResult[i], Length(tmpResult[i]) + 1);
+      tmpResult[i][High(tmpResult[i])] := High(MSI_WalkPoints);
+    end;
+
+    MSI_Debug('Added WalkPoints ' + ToStr(tmpResult[i]));
+
+    // Set the result (length only two because it's only the endpoints)
+    SetLength(Result[i], 2);
+    Result[i][0] := tmpResult[i][Low(tmpResult[i])];
+    Result[i][1] := tmpResult[i][High(tmpResult[i])];
+
+    MSI_SaveWalkPointRange(Result[i][0], Result[i][1]);
+  end;
+
+  MSI_CloseHeader('MSI_AddWalkPoints: ' + ToStr(Result));
+end;
+
+(*
+MSI_WalkToPoint
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WalkToPoint(mm_Point: TPoint; WalkPoint: Integer): Boolean;
+
+Simply walks to the point (mm_Point) on the minimap. 'WalkPoint' represents the
+index of the walk point being walked to.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_WalkToPoint(MSI_GetWalkCoords(15), 15);
+*)
+function MSI_WalkToPoint(mm_Point: TPoint; WalkPoint: Integer): Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if ((mm_Point.x <> -1) and (mm_Point.y <> -1)) then
+  begin
+    Mouse(mm_Point.x, mm_Point.y, 3, 3, True);
+    Result := WaitFunc(@FlagPresent, 50, 2000);
+    MSI_Flag(MIN_FLAG_DISTANCE);
+  end;
+
+  if (not Result) then
+  begin
+    MSI_SubDebug('Failed to walk to ' + MSI_WalkPoints[WalkPoint].Name + ', attempting radial walking');
+
+    Result := RadialWalkTolerance(MSI_WalkPoints[WalkPoint].RWalkParams[0],
+                                  MSI_WalkPoints[WalkPoint].RWalkParams[1],
+                                  MSI_WalkPoints[WalkPoint].RWalkParams[2],
+                                  MSI_WalkPoints[WalkPoint].RWalkParams[3],
+                                  MSI_WalkPoints[WalkPoint].RWalkParams[4],
+                                  MSI_WalkPoints[WalkPoint].RWalkParams[5],
+                                  MSI_WalkPoints[WalkPoint].RWalkParams[6]);
+  end;
+end;
+
+(*
+MSI_WalkColorPath
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WalkColorPath(StartIndex, EndIndex: Integer): Boolean;
+
+Walks an entire color path from 'StartIndex' to 'EndIndex'. Returns true if all
+points have been walked to.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  cPath := MSI_LoadColorPath(LOC_VW_BANK, LOC_VW_MINE);
+  MSI_WalkColorPath(cPath[0], cPath[1]);
+*)
+function MSI_WalkColorPath(StartIndex, EndIndex: Integer): Boolean;
+var
+  i: Integer;
+  mm_Point: TPoint;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  for i := StartIndex to EndIndex do
+  begin
+    mm_Point := MSI_GetWalkCoords(MSI_WalkPoints[i]);
+
+    if (MSI_WalkToPoint(mm_Point, i)) then
+    begin
+      MSI_Debug('Walked to point '+IntToStr(mm_Point.x)+', '+IntToStr(mm_Point.y));
+      Result := (i = EndIndex);
+    end else
+      with MSI_Players[CurrentPlayer] do
+      begin
+        MSI_SubDebug('Radial walking failed');
+        ReportInfo.FalseReason := 'Failed to walk to ' + MSI_WalkPoints[i].Name;
+        Location := LOC_LOST;
+        Break;
+      end;
+  end;
+end;
+
+(*
+MSI_ColorWalk
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ColorWalk(sLoc, eLoc: Integer): Boolean;
+
+The master color walking function! This is what's called in MSI's main walking
+procedure. It's used if reflection is broken or if the user decides to use only
+color.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  function MSI_WalkToVEMine: Boolean;
+  begin
+    Result := MSI_ColorWalk(LOC_VE_BANK, LOC_VE_MINE);
+  end;
+*)
+function MSI_HandleObstacle(Script: TScript; StartLoc, ObsIndex: Integer): Boolean; forward;
+function MSI_ColorWalk(sLoc, eLoc: Integer): Boolean;
+var
+  cPath: T2DIntegerArray;
+  i, h, obsLen, pathLen: Integer;
+  script: TScript;
+  obsSolved: TBooleanArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+  SetLength(obsSolved, Length(Script.PathInfo.Obstacles));
+
+  try
+    MSI_AddHeader('MSI_ColorWalk');
+
+    cPath := MSI_LoadColorPath(sLoc, eLoc);
+    obsLen := High(Script.PathInfo.Obstacles);
+    pathLen := High(cPath);
+
+    if (Length(cPath) <= 0) then
+    begin
+      MSI_SubDebug('Invalid color path in script '+script.Name);
+      ShowMessage('There is no color path developed for '+Script.Name+', or '+#10#13+
+                  'the path in invalid. Please wait for a reflection update. '+#10#13+
+                  'Also, choose to use our hybrid walking system so this '+#10#13+
+                  'problem is avoided in the future.'+#10#13#10#13+
+                  'Thanks,'+#10#13+'The MSI Team');
+    end;
+
+		for i := 0 to pathLen do
+    begin
+      // Length is 2 because it is just the range of MSI_WalkPoints indexes
+      if (Length(cPath[i]) <> 2) then
+        Exit;
+
+      // Walk the color path
+      if (MSI_WalkColorPath(cPath[i][0], cPath[i][1])) then
+        if (i = pathLen) then
+        begin
+          MSI_Players[CurrentPlayer].Location := eLoc;
+          Wait(RandomRange(750, 1500));
+          Result := True;
+          Break;
+        end;
+
+      // Handle the obstacle
+		  if (MSI_HandleObstacle(script, sLoc, h)) then
+      begin
+        obsSolved[h] := True;
+		    if (h <> obsLen) then
+		      Inc(h);
+      end;
+		end;
+
+  finally
+	  MSI_CloseHeader('MSI_ColorWalk: ' + BoolToStr(Result));
+  end;
+end;
+

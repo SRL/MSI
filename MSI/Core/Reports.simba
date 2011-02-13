@@ -1,0 +1,232 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                               Reports.simba                                  |
+|==============================================================================|
+| For all the different progress reports.                                      |
+|                                                                              |
+| * procedure MSI_MagicReport();                        * by Coh3n             |
+| * procedure MSI_StandardReport();                     * by Coh3n             |
+| * procedure MSI_ProgressReport();                     * by Coh3n             |
+\ _____________________________________________________________________________}
+
+{******************************************************************************}
+{ procedure MSI_MagicReport(FileName, PlayerIndex, ScriptIndex: Integer);      }
+{ By: Coh3n                                                                    }
+{ Date: 25 November 2010                                                       }
+{ Description: Prints the script report for magic scripts                      }
+{******************************************************************************}
+procedure MSI_MagicReport(FileName, PlayerIndex, ScriptIndex: Integer);
+var
+  i: Integer;
+begin
+  with MSI_Players[PlayerIndex].ReportInfo do
+  begin
+    MSI_PrintSave(FileName, '{       ' + PadR('Casts: ' + IntToStr(ScriptCounts[ScriptIndex]), 57) + '}');
+
+    for i := 0 to High(Casts[ScriptIndex]) do
+    begin
+      MSI_PrintSave(FileName, '{         ' + PadR('Spell: ' + MSI_Spells[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Spells[i]].Name, 55) + '}');
+      MSI_PrintSave(FileName, '{         ' + PadR('Casts: ' + IntToStr(Casts[ScriptIndex][i]), 55) + '}');
+    end;
+  end;
+end;
+
+{******************************************************************************}
+{ procedure MSI_StandardReport(FileName, PlayerIndex, ScriptIndex: Integer);   }
+{ By: Coh3n                                                                    }
+{ Date: 25 November 2010                                                       }
+{ Description: Progress report currently for Mining, Woodcutting and Fishing   }
+{******************************************************************************}
+procedure MSI_StandardReport(FileName, PlayerIndex, ScriptIndex: Integer);
+var
+  i, j: Integer;
+begin
+  with MSI_Players[PlayerIndex].ReportInfo do
+    begin
+      MSI_PrintSave(FileName, '{       ' + PadR('Loads: ' + IntToStr(ScriptCounts[ScriptIndex]), 57) + '}');
+
+      for i := 0 to High(Items[ScriptIndex]) do
+        for j := 0 to High(Items[ScriptIndex][i]) do
+        begin
+          MSI_PrintSave(FileName, '{         ' + PadR('Item:   ' + MSI_Items[Items[ScriptIndex][i][j]].Name, 55) + '}');
+          MSI_PrintSave(FileName, '{         ' + PadR('Amount: ' + GroupDigits(ItemAmounts[ScriptIndex][i][j], ','), 55) + '}');
+        end;
+    end;
+end;
+
+{******************************************************************************}
+{ procedure MSI_ShortReport(FileName: Integer);                                }
+{ By: Coh3n                                                                    }
+{ Date: 02 December 2010                                                       }
+{ Description: A report for those who have a very large army                   }
+{******************************************************************************}
+const
+  TOTAL_TIME  = 0;
+  TOTAL_LOADS = 1;
+  TOTAL_EXP   = 2;
+  TOTAL_TREES = 3;
+  TOTAL_ROCKS = 4;
+  TOTAL_FISH  = 5;
+  TOTAL_CASTS = 6;
+
+procedure MSI_ShortReport(FileName: Integer);
+var
+  i, j, k, l: Integer;
+  totals: array[0..6] of Integer;
+  labels: TStringArray;
+begin
+  MSI_PrintSave(FileName, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
+  MSI_PrintSave(FileName, '{                    MSI Phoenix Short Report                    }');
+  MSI_PrintSave(FileName, '{------------------------- Revision ' + MSIRev + ' -------------------------}');
+  MSI_PrintSave(FileName, '{     ' + PadR('Time Running: ' + TimeRunning, 59) + '}');
+  MSI_PrintSave(FileName, '{----------------------------------------------------------------}');
+  MSI_PrintSave(FileName, '{                                                                }');
+  MSI_PrintSave(FileName, '{        '+PadR('Totals:', 56)+'}');
+  MSI_PrintSave(FileName, '{         - '+PadR('Players:         '+IntToStr(HowManyPlayers), 53)+'}');
+
+  for i := 0 to High(MSI_Players) do
+  with MSI_Players[i] do
+  begin
+    IncEx(totals[TOTAL_TIME], ReportInfo.PlayerTime);
+    IncEx(totals[TOTAL_LOADS], ReportInfo.LoadsDone);
+
+    for j := 0 to High(Scripts) do
+    begin
+      IncEx(totals[TOTAL_EXP], ReportInfo.GainedExps[j]);
+
+      for k := 0 to High(Scripts[j].Spells) do
+        IncEx(totals[TOTAL_CASTS], ReportInfo.Casts[j][k]);
+
+      for k := 0 to High(ReportInfo.ItemAmounts[j]) do
+        for l := 0 to High(ReportInfo.ItemAmounts[j][k]) do
+          case MSI_Scripts[Scripts[j].Name].SkillConst of
+            SKILL_WOODCUTTING:
+              IncEx(totals[TOTAL_TREES], ReportInfo.ItemAmounts[j][k][l]);
+
+            SKILL_MINING:
+              IncEx(totals[TOTAL_ROCKS], ReportInfo.ItemAmounts[j][k][l]);
+
+            SKILL_FISHING:
+              IncEx(totals[TOTAL_FISH], ReportInfo.ItemAmounts[j][k][l]);
+          end;
+    end;
+  end;
+
+  MSI_PrintSave(FileName, '{         - '+PadR('Player Time:     '+MsToTime(totals[TOTAL_TIME], TIME_SHORT), 53)+'}');
+
+  {$IFDEF REFLECTION}
+    MSI_PrintSave(FileName, '{         - '+PadR('Randoms Solved:  '+IntToStr(Length(RandomsResult(Result_Randoms_Solved))), 53)+'}');
+    MSI_PrintSave(FileName, '{         - '+PadR('Randoms Failed:  '+IntToStr(Length(RandomsResult(Result_Randoms_Failed))), 53)+'}');
+  {$ENDIF}
+
+  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:'];
+  for i := 0 to High(totals) do
+  begin
+    if ((totals[i] <= 0) or (labels[i] = '')) then
+      Continue;
+
+    MSI_PrintSave(FileName, '{         - '+PadR(PadR(labels[i], 17)+GroupDigits(totals[i], ','), 53)+'}');
+  end;
+
+  MSI_PrintSave(FileName, '{                                                                }');
+  MSI_PrintSave(FileName, '{----------------------------------------------------------------}');
+  MSI_PrintSave(FileName, '{----------------------------------------------------------------}');
+  MSI_PrintSave(FileName, '');
+end;
+
+{******************************************************************************}
+{ procedure MSI_ProgressReport;                                                }
+{ By: Coh3n                                                                    }
+{ Date: 25 November 2010                                                       }
+{ Description: Prints the progress report of each player                       }
+{******************************************************************************}
+procedure MSI_ProgressReport;
+var
+  i, j, f: Integer;
+begin
+  try
+    if (StrToInt(MSIRev) < 100) then
+      MSIRev := '000';
+
+    if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+    begin
+      f := ReWriteFile(PATH_REPORT + scriptStart + '.txt', False);
+      WriteFileString(f, 'Progress Report Saved:' + #13 + #10);
+      WriteFileString(f, #13 + #10 + 'This progress report was written ' +
+                      TheDate(Date_Formal )+ ' at ' + TheTime + #13 + #10);
+    end;
+
+    ClearDebug;
+    SetScriptProp(SP_WriteTimeStamp, [False]);
+
+    MSI_SetSkillLevels();
+    MSI_ShortReport(f);
+
+    MSI_PrintSave(f, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
+    MSI_PrintSave(f, '{                    MSI Phoenix Player Report                   }');
+    MSI_PrintSave(f, '{------------------------- Revision ' + MSIRev + ' -------------------------}');
+    MSI_PrintSave(f, '{     ' + PadR('Time Running: ' + TimeRunning, 59) + '}');
+    MSI_PrintSave(f, '{----------------------------------------------------------------}');
+
+    for i := 0 to (HowManyPlayers - 1) do
+    begin
+      MSI_Players[i].Active := Players[i].Active;
+
+      with MSI_Players[i] do
+      begin
+        if (ReportInfo.FalseReason = 'User set to false') then // Don't print inactive players
+          Continue;
+
+        MSI_PrintSave(f, '{                                                                }');
+        MSI_PrintSave(f, '{     ' + PadR('Player ' + IntToStr(i) + ': ' + Capitalize(Name), 59) + '}');
+        MSI_PrintSave(f, '{     ' + PadR('Location: ' + MSI_Locations[Location].Name, 59) + '}');
+        MSI_PrintSave(f, '{     ' + PadR('Time:     ' + MsToTime(ReportInfo.PlayerTime, TIME_SHORT), 59) + '}');
+
+        //MSI_PrintSave(f, '{     ' + PadR('Total Loads: ' + IntToStr(LoadsDone), 59) + '}');
+
+        MSI_PrintSave(f, '{     ' + PadR('Active:   ' + Capitalize(BoolToStr(Active)), 59) + '}');
+
+        if (not Active) then
+          MSI_PrintSave(f, '{       ' + PadR('Reason: ' + ReportInfo.FalseReason, 57) + '}');
+
+        MSI_PrintSave(f, '{                                                                }');
+
+        for j := 0 to High(Scripts) do
+        begin
+          MSI_PrintSave(f, '{     ' + PadR('Script: ' + MSI_Scripts[Scripts[j].Name].Name, 59) + '}');
+          MSI_PrintSave(f, '{       ' + PadR('Time:  ' + MsToTime(ReportInfo.ScriptTimes[j], Time_Short), 57) + '}');
+          MSI_PrintSave(f, '{       ' + PadR('Skill: ' + MSI_Scripts[Scripts[j].Name].SkillName, 57) + '}');
+          MSI_PrintSave(f, '{       ' + PadR('Exp:   ' + GroupDigits(ReportInfo.GainedExps[j], ','), 57) + '}');
+
+          if (ReportInfo.SkillLevels[j] < 1) then
+            MSI_PrintSave(f, '{       ' + PadR('Level: Not yet defined', 57) + '}')
+          else
+            MSI_PrintSave(f, '{       ' + PadR('Level: ' + IntToStr(ReportInfo.SkillLevels[j]), 57) + '}');
+
+          case MSI_Scripts[Scripts[j].Name].SkillConst of
+            SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING:
+              MSI_StandardReport(f, i, j);
+
+            SKILL_MAGIC:
+              MSI_MagicReport(f, i, j);
+          end;
+
+          MSI_PrintSave(f, '{                                                                }');
+        end;
+      end;
+
+      MSI_PrintSave(f, '{----------------------------------------------------------------}');
+    end;
+
+    MSI_PrintSave(f, '{----------------------------------------------------------------}');
+
+    if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+      CloseFile(f);
+  except
+    MSI_SubDebug('Error in printing report!');
+  end;
+
+  SetScriptProp(SP_WriteTimeStamp, [True]);
+end;
+
+

@@ -1,0 +1,546 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                              Fishing.scar                                    |
+|==============================================================================|
+| For all fishing routines.                                                    |
+|                                                                              |
+| * function MSI_FishingTools()                  * by 3Garrett3                |
+| * function MSI_SetupFishing: Boolean;          * by Coh3n                    |
+| * function MSI_DetectWaterDirections();        * by 3Garrett3                |
+| * function MSI_DetectSide();                   * by 3Garrett3                |
+| * function MSI_FishPixels();                   * by 3Garrett3                |
+| * function MSI_FishGear();                     * by 3Garrett3                |
+| * procedure MSI_WaitWhileFishing();            * by 3Garrett3                |
+| * function MSI_Fish();                         * by 3Garrett3                |
+| * function MSI_FishInvFull();                  * by Coh3n                    |
+\ _____________________________________________________________________________}
+
+{******************************************************************************}
+{ function MSI_FishingTools(Obj: Integer): TIntegerArray;                      }
+{ By: 3Garrett3                                                                }
+{ Date: 07 Octovber 2010                                                       }
+{ Description: Figures out which tool the script needs to use                  }
+{******************************************************************************}
+function MSI_FishingTools(Obj: Integer): TIntegerArray;
+begin
+  case (Obj) of
+    FISHSPOT_NET:
+      Result := [FISH_SMALLNET];
+
+    FISHSPOT_BAIT:
+      Result := [FISH_ROD_BAIT, FISH_BAIT];
+
+    FISHSPOT_LURE:
+      Result := [FISH_ROD_FLY, MISC_FEATHER];
+
+    FISHSPOT_CAGE:
+      Result := [FISH_POT_LOBSTER];
+
+    FISHSPOT_HARPOON:
+      Result := [FISH_HARPOON];
+
+    else
+      MSI_Debug('Invalid Fishing Spot Argument');
+  end;
+
+  MSI_SubDebug('Tools: ' + ToStr(Result));
+end;
+
+{******************************************************************************}
+{ function MSI_SetupFishing(): Boolean;                                        }
+{ By: Coh3n                                                                    }
+{ Date: 06 October 2010                                                        }
+{ Description: Sets up the player for fishing                                  }
+{******************************************************************************}
+function MSI_SetupFishing(): Boolean;
+var
+  i, j, t, x, y: Integer;
+  tools, intObjs, newObjs: TIntegerArray;
+  toWithdraw: array of TIntegerArray;
+  objReady: TBooleanArray;
+  curScript: TScript;
+  b: Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_SetupFishing');
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    SetLength(objReady, Length(Scripts[CurrentScript].FishSpots));
+    SetLength(toWithdraw, Length(Scripts[CurrentScript].FishSpots));
+    curScript := MSI_Scripts[Scripts[CurrentScript].Name];
+    intObjs := Scripts[CurrentScript].FishSpots;
+
+    MSI_Debug('FishSpots: ' + ToStr(Scripts[CurrentScript].FishSpots));
+
+    // Loops through the player objects checking for the required tools for each
+    for i := 0 to High(intObjs) do
+    begin
+      tools := MSI_FishingTools(intObjs[i]); // Gets the required fishing tools for the fishing spot
+      t := 0;
+
+      for j := 0 to High(tools) do
+        if (not MSI_FindTool(tools[j], TAB_INV, x, y)) then
+        begin
+          SetLength(toWithdraw[i], t + 1);
+          toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
+          Inc(t);
+        end;
+    end;
+
+    // In a separate loop so it only opens the bank once
+    for i := 0 to High(intObjs) do
+      if (Length(toWithdraw[i]) <= 0) then // If all tools are found
+        objReady[i] := True
+      else // If 1+ tools aren't found
+        if (MSI_Locations[Location].AtBank) then
+          if (MSI_OpenBank(curScript.WhichBank, Pin)) then
+            if (MSI_Withdraw(toWithdraw[i], [])) then
+              for j := 0 to High(toWithdraw[i]) do
+              begin
+                t := GetSystemTime + 2000;
+                while (GetSystemTime < t) do
+                begin
+                  Wait(300 + Random(200));
+                  if (MSI_FindTool(toWithdraw[i][j], TAB_INV, x, y)) then
+                    Break;
+                end;
+
+                if (j = High(toWithdraw[i])) then
+                  objReady[i] := True;
+              end;
+
+    t := 0;
+    for i := 0 to High(objReady) do
+      if (objReady[i]) then
+      begin
+        SetLength(newObjs, t + 1);
+        newObjs[t] := intObjs[i];
+        Inc(t);
+      end else begin
+        MSI_Debug(MSI_Objects[intObjs[i]].Name + ': Required tools not found');
+        MSI_Deposit(MSI_FishingTools(intObjs[i]), [], b);
+      end;
+
+    // Resets the objects so if the tools aren't found it will still fish in the spots for which the tools were found
+    Scripts[CurrentScript].FishSpots := newObjs;
+    Result := (Length(Scripts[CurrentScript].FishSpots) > 0);
+
+    for i := 0 to High(Scripts[CurrentScript].FishSpots) do
+    begin
+      t := Scripts[CurrentScript].FishSpots[i];
+      MSI_Debug('Fishing spot ' + IntToStr(i) + ': ' + MSI_Objects[t].Name);
+    end;
+  end;
+
+  MSI_CloseHeader('MSI_SetupFishing: ' + BoolToStr(Result));
+end;
+
+{******************************************************************************}
+{ Function MSI_DetectWaterDirections() : TBoolArray                            }
+{ By: 3Garrett3                                                                }
+{ Date: 24 August 2010                                                         }
+{ Description: Finds the directions of water, helping find the fishing spot    }
+{******************************************************************************}
+Function MSI_DetectWaterDirections(var Counts : TIntegerArray) : TBoolArray; // Array - 0 = right  1 = left 2 = below 3 = above
+var
+  ATPA : T2DPointArray;
+  cts, i : Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  SetLength(ATPA, 4);
+  SetLength(Result, 4);
+
+  cts := GetColorToleranceSpeed;
+  ColorToleranceSpeed(2);
+  SetColorSpeed2Modifiers(0.24, 0.97);
+
+  FindColorsTolerance(ATPA[0], 11505789, MSCx + 20 , MSCy - 10, MSCx + 40, MSCy + 10, 5);  // To the right
+  FindColorsTolerance(ATPA[1], 11505789, MSCx - 40 , MSCy - 10, MSCx - 20, MSCy + 10, 5);  // To the left
+  FindColorsTolerance(ATPA[2], 11505789, MSCx - 10 , MSCy + 30, MSCx + 10, MSCy + 50, 5);  // below
+  FindColorsTolerance(ATPA[3], 11505789, MSCx - 10 , MSCy - 50, MSCx + 10, MSCy - 30, 5);  // above
+
+  for i := 0 to 3 do
+  begin
+    Result[i] := (Length(ATPA[i]) > 200);
+    Counts[i] := Length(ATPA[i]);
+    MSI_Debug('DetectWaterDirections, direction: ' + ToStr(i) + '. Result: ' + ToStr(Result[i]) + '. WaterCount: ' + ToStr(Counts[i]));
+  end;
+
+  ColorToleranceSpeed(cts);
+end;
+
+{******************************************************************************}
+{ Function MSI_DetectSide : String                                             }
+{ By: 3Garrett3                                                                }
+{ Date: 24 August 2010                                                         }
+{ Description: Finds the direction of a fishing spot and returns compass angle }
+{******************************************************************************}
+Function MSI_DetectSide : String;
+var
+  Water : TBoolArray;
+  Right, Left, Above, Below : Boolean;
+  i, TrueCount, cts : Integer;
+  WaterCount : TIntegerArray;
+  TPA : TpointArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  SetLength(Water, 4);
+  SetLength(WaterCount, 4);
+  Water := MSI_DetectWaterDirections(WaterCount);
+
+  for i := 0 to 3 do
+    if Water[i] then Inc(TrueCount);
+  MSI_Debug('TrueCount: ' + ToStr(TrueCount));
+
+  if TrueCount = 1 then
+  begin
+    for i := 0 to 3 do
+    case i of
+    0:                   //right
+      if Water[i] then
+      begin
+        Result := 'n';
+        Exit;
+      end;
+    1:                   // left
+      if Water[i] then
+      begin
+        Result := 's';
+        Exit;
+      end;
+    2:                   // below
+      if Water[i] then
+      begin
+        Result := 'e';
+        Exit;
+      end;
+    3:                   // above
+      if Water[i] then
+      begin
+        Result := 'w';
+        Exit;
+      end;
+    end;          // This means if there is only water on one side, there can only be fish on one side
+                  // The camera angle is set as the result, it will allow for only one search box (the right side of char)
+  end;
+
+  Right := Water[0];                   // For me to not get confused, if someone else does work they can make this prettier and stuff
+  Left  := Water[1];
+  Below := Water[2];
+  Above := Water[3];
+
+  cts := GetColorToleranceSpeed;
+  ColorToleranceSpeed(2);
+  SetColorSpeed2Modifiers(0.25, 0.25);
+
+  if Right then
+  begin
+    MakeCompass('n');
+    FindColorsTolerance(TPA, 9602689, MSCx + 20 , MSCy - 10, MSCx + 40, MSCy + 10, 14);
+    if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
+    begin
+      Result := 'n';
+      Exit;
+    end;
+  end;
+
+  if Left then
+  begin
+    MakeCompass('s');
+    FindColorsTolerance(TPA, 9602689, MSCx + 20 , MSCy - 10, MSCx + 40, MSCy + 10, 14);
+    if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
+    begin
+      Result := 's';
+      Exit;
+    end;
+  end;
+
+  if Above then
+  begin
+    MakeCompass('w');
+    FindColorsTolerance(TPA, 9602689, MSCx + 20 , MSCy - 10, MSCx + 40, MSCy + 10, 14);
+    if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
+    begin
+      Result := 'w';
+      Exit;
+    end;
+  end;
+
+  if Below then
+  begin
+    MakeCompass('e');
+    FindColorsTolerance(TPA, 9602689, MSCx + 20 , MSCy - 10, MSCx + 40, MSCy + 10, 14);
+    if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
+    begin
+      Result := 'e';
+      Exit;
+    end;;
+  end;
+end;
+
+{******************************************************************************}
+{ Procedure MSI_FishPixels                                                     }
+{ By: 3Garrett3                                                                }
+{ Date: 25 July 2010                                                           }
+{ Description: Detects the pixelshift to decide if fishing                     }
+{******************************************************************************}
+Function MSI_FishPixels(TWait, TCount : Integer; TTBox : TBox) : Boolean;
+var
+  Shifts, FinalCount, Waiting : Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MarkTime(Waiting);
+  While TimeFromMark(Waiting) <= TWait do
+  begin
+    Shifts := PixelShift(TTBox, 500);
+    //CombineIntArray(ShiftsArray, [Shifts]);
+    IncEx(FinalCount, Shifts);
+    Wait(RandomRange(50,75));
+  end;
+
+  //FinalCount := AverageTIA(ShiftsArray);
+  Result := (FinalCount >= TCount);
+end;
+
+{******************************************************************************}
+{ Procedure MSI_FishGear                                                       }
+{ By: 3Garrett3                                                                }
+{ Date: 25 July 2010                                                           }
+{ Description: Detects fishing gear on the screen                              }
+{******************************************************************************}
+Function MSI_FishGear(TColour, TTol, TCount, TWait : Integer; THue, TSat : Extended; TTBox : TBox) : Boolean;
+var
+  FinalCount, Waiting, cts : Integer;
+  Tools : TPointArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  cts := GetColorToleranceSpeed;
+  ColorToleranceSpeed(2);
+  SetToleranceSpeed2Modifiers(THue, TSat);
+
+  MarkTime(Waiting);
+  While TimeFromMark(Waiting) <= TWait do
+  begin
+    FindColorsSpiralTolerance(MMCX, MMCY, Tools, TColour, TTBox.X1, TTBox.Y1, TTBox.X2, TTBox.Y2, TTol);
+    //CombineIntArray(ToolAmount, [Length(Tools)]);
+    IncEx(FinalCount, Length(Tools));
+    Wait(RandomRange(50,75));
+  end;
+
+  //FinalCount := AverageTIA(ToolAmount);
+  Result := (FinalCount >= TCount);
+  ColorToleranceSpeed(cts);
+end;
+
+{******************************************************************************}
+{ Procedure MSI_WaitWhileFishing                                               }
+{ By: 3Garrett3                                                                }
+{ Date: 25 July 2010                                                           }
+{ Description: Waits while fishing                                             }
+{******************************************************************************}
+procedure MSI_WaitWhileFishing(var Failed: Boolean);
+var
+  OldInvCount, WaitTime, InvTimer, i, x, y : Integer;
+  SearchBox : TBox;
+  script: TScript;
+  TColour, TTol, TCount, TWait : Integer;
+  THue, TSat : Extended;
+  TPixel, Fishing : Boolean;
+  CompassDir : String;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  Flag;
+  Wait(RandomRange(300, 450));
+  if InvFull then
+    Exit;
+
+  MSI_AddHeader('MSI_WaitWhileFishing');
+
+  SearchBox := IntToBox(265, 156, 312, 200);
+  CompassDir:= MSI_DetectSide;
+  MSI_Debug('Setting compass to: ' + CompassDir);
+  MakeCompass(CompassDir);
+
+
+  script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+  TPixel := False;
+
+  case (MSI_Players[CurrentPlayer].Scripts[CurrentScript].FishSpots[i]) of
+      FISHSPOT_NET:
+      begin
+        MSI_Debug('Netting');
+        TPixel := True;
+        TCount := 150;
+        TWait  := 3300;
+      end;
+
+      FISHSPOT_BAIT:
+      begin
+        MSI_Debug('Bait');
+        TColour:= MSI_Objects[FISHSPOT_BAIT].Colors[0];
+        TTol   := MSI_Objects[FISHSPOT_BAIT].Tol;
+        THue   := MSI_Objects[FISHSPOT_BAIT].Hue;
+        TSat   := MSI_Objects[FISHSPOT_BAIT].Sat;
+        TCount := MSI_Objects[FISHSPOT_BAIT].Accuracy;
+        TWait  := 4000;
+      end;
+
+      FISHSPOT_LURE:
+      begin
+        MSI_Debug('Luring');
+        TColour:= MSI_Objects[FISHSPOT_BAIT].Colors[0];
+        TTol   := MSI_Objects[FISHSPOT_BAIT].Tol;
+        THue   := MSI_Objects[FISHSPOT_BAIT].Hue;
+        TSat   := MSI_Objects[FISHSPOT_BAIT].Sat;
+        TCount := MSI_Objects[FISHSPOT_BAIT].Accuracy;
+        TWait  := 4000;
+      end;
+
+      FISHSPOT_CAGE:
+      begin
+        MSI_Debug('Caging');
+        TPixel := True;
+        TCount := 150;
+        TWait  := 3600;
+      end;
+
+      FISHSPOT_HARPOON:
+      begin
+        MSI_Debug('Harpooning');
+        TPixel := True;
+        TCount := 160;
+        TWait  := 3000;
+      end;
+    end;
+
+  WaitTime := GetSystemTime + 60000;
+  OldInvCount := InvCount;
+  MarkTime(InvTimer);
+
+  repeat
+    MSI_FindRandoms(False);
+
+    if (FindText(x, y, 'left', NPCChars, 327, 377, 362, 414)) then
+    begin
+      MSI_SubDebug('We have run out of fishing bait!');
+      Failed := True;
+      MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
+      Exit;
+    end;
+
+    MSI_AntiBan(RandomRange(0, 3000), ANTI_BAN_CHANCE);
+
+    if InvFull then break;
+
+    MSI_Debug('Timefrommark Check for fish');
+    if (TimeFromMark(InvTimer) > 30000) then          // If no new fish in inv after 30 seconds, spot probably moved
+      if (OldInvCount = InvCount) then break
+      else begin
+        MSI_Debug('Got more fish, setting new count');
+        OldInvCount := InvCount;
+        MarkTime(InvTimer);
+      end;
+
+    MSI_Debug('PixelShift Segment');
+    if TPixel then
+      for i := 0 to 1 do
+      begin
+        Fishing := MSI_FishPixels(TWait, TCount, SearchBox);
+        if Fishing then
+          Break;
+        Wait(50);
+      end
+    else
+    begin
+      MSI_Debug('Findgear Segment');
+      for i := 0 to 1 do
+      begin
+        Fishing := MSI_FishGear(TColour, TTol, TCount, TWait, THue, TSat, SearchBox);
+        if Fishing then
+          Break;
+        Wait(50);
+      end;
+    end;
+    if not Fishing then break;
+    MSI_Debug('Fishing returned True');
+
+  until(WaitTime < GetSystemTime);
+
+  MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
+end;
+
+{******************************************************************************}
+{ Function MSI_Fish : Boolean                                                  }
+{ By: 3Garrett3                                                                }
+{ Date: 25 July 2010                                                           }
+{ Description: Finds the fishing spot                                          }
+{******************************************************************************}
+function MSI_Fish(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+var
+  Index, t, i: Integer;
+  failed: Boolean;
+  tools: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if MSI_FindObjectsIn(Which, Index, MSBox, ClickLeft) then
+  begin
+    Result := True;
+    MSI_WaitWhileFishing(failed);
+
+    if (failed) then
+      with MSI_Players[CurrentPlayer] do
+        if (Length(Scripts[CurrentScript].FishSpots) > 1) then
+        begin
+          if (InIntArrayEx(Scripts[CurrentScript].FishSpots, t, Which[Index])) then
+          begin
+            MSI_SubDebug('Removing '+MSI_Objects[Which[Index]].Name+' from FishSpot array');
+            DeleteValueInIntArray(Scripts[CurrentScript].FishSpots, t);
+            DeleteValueInIntArray(Scripts[CurrentScript].Priority, t);
+
+            // Remove tools from exceptions array
+            tools := MSI_FishingTools(Which[Index]);
+            for i := 0 to High(tools) do
+              if (InIntArrayEx(Scripts[CurrentScript].Exceptions, t, MSI_Items[tools[i]].InvSlot)) then
+              begin
+                DeleteValueInIntArray(Scripts[CurrentScript].Exceptions, t);
+                MSI_Items[tools[i]].InvSlot := 0;
+              end;
+          end;
+        end else begin
+          ReportInfo.FalseReason := 'Ran out of fishing bait';
+          Result := False;
+          ForceFail := True;
+          Exit;
+        end;
+  end else
+    MSI_FindRandoms(True);
+end;
+
+{******************************************************************************}
+{ Function MSI_FishInvFull(Which: TIntegerArray): Boolean;                     }
+{ By: Coh3n                                                                    }
+{ Date: 20 Sept 2010                                                           }
+{ Description: Fishes until full inventory                                     }
+{******************************************************************************}
+function MSI_FishInvFull: Boolean;
+begin
+  Result := MSI_AutoInvFull(@MSI_Fish); // MSI_AutoInvFull in Skills.simba
+end;
+
+
+

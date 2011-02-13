@@ -1,0 +1,83 @@
+//Extras.simba
+
+procedure MSI_LoadAllExtras;
+var
+  Extras : TStringArray;
+  H, I : Integer;
+  V : TVariantArray;
+  NotUsing : Boolean;
+begin
+  Extras := GetFiles(PATH_EXTRAS, 'simba');
+
+  SetArrayLength(MSI_Extras, Length(Extras));
+  if Length(Extras) = 0 then Exit;
+  H := High(Extras);
+  for I := 0 to H do
+    Delete(Extras[I], Pos('.', Extras[I]), Length(Extras[I]));
+
+  H := High(MSI_Extras);
+  for I := 0 to H do
+  begin
+    CurrentExtra := I;
+
+    NotUsing := False;
+    try
+      CallProc(Extras[CurrentExtra] + '_Attach', V);
+      WriteLn('Using Extra ''' + MSI_Extras[CurrentExtra].Name + ''' by ' + MSI_Extras[CurrentExtra].Author + ', v ' + MSI_Extras[CurrentExtra].Version + '.');
+    except
+      NotUsing := True;
+    end;
+    if NotUsing then
+    begin
+      WriteLn('Not using Extra ''' + Extras[CurrentExtra] + '''. Attach function not found.');
+      Continue;
+    end;
+
+    if MSI_Extras[CurrentExtra].Setup <> nil then
+    begin
+      if MSI_Extras[CurrentExtra].Setup() then
+      begin
+        MSI_Extras[CurrentExtra].Constant := CurrentExtra;
+        MSI_Extras[CurrentExtra].Enabled := True;
+      end;
+    end else
+    begin
+      WriteLn('Not using Extra ''' + Extras[CurrentExtra] + '''. Setup function not found.');
+      Continue;
+    end;
+
+    if MSI_Extras[CurrentExtra].PointerCount > 0 then
+    begin
+      H := High(MSI_Extras[CurrentExtra].Pointers);
+      if H <> 0 then
+        for I := 0 to H do
+        begin
+
+          WriteLn([CurrentExtra, I, H]);
+
+          if MSI_Pointers[MSI_Extras[CurrentExtra].Pointers[I].Constant].FunctionCall <> nil then
+          begin
+            WriteLn('Pointer already used! Turning off ' + MSI_Extras[CurrentExtra].Name + '...');
+            MSI_Extras[CurrentExtra].Enabled := False;  // There's a bug here. Will fix later!
+            Break;
+          end else
+          begin
+            MSI_Pointers[MSI_Extras[CurrentExtra].Pointers[I].Constant].FunctionCall := MSI_Extras[CurrentExtra].Pointers[I].FunctionCall;
+            WriteLn('Pointer used: ' + IntToStr(MSI_Extras[CurrentExtra].Pointers[I].Constant) + '.');
+          end;
+
+        end;
+    end;
+
+  end;
+end;
+
+{
+
+if MSI_Pointers[MSI_on_FunctionHere_Cal].FunctionCall <> nil then
+    case MSI_Pointers[MSI_on_FunctionHere_Call].FunctionCall() of
+      EXTRA_CONTINUE: ;
+      EXTRA_EXIT: Exit;
+    end;
+
+}

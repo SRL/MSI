@@ -1,0 +1,899 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                               Globals.scar                                   |
+|==============================================================================|
+| Used to store all necessary global types, consts and vars                    |
+|                                                                              |
+ \_____________________________________________________________________________}
+
+(**
+ * Abbreviations:
+ *  - FS: Fishing Spot
+ *  - GS: General Store
+ *  - GE: Grand Exchange
+ *  - VE: Varrock East
+ *  - VW: Varrock West
+ *  - FW: Falador West
+ *  - FE: Falador East
+ *  - CG: Castle Guards
+ *  - DW: Dark Wizards
+ *  - SO: Stronghold Of *
+ *  - AK: Al Kharid
+ *  - SW: Spinning Wheel
+ *  - LB: Lumby
+ *  - EV: EdgeVille
+ *  - BBV: Barbarian Village
+ *  - DB: Draynor Bank
+ *  - RM: Rimmington
+ *  - PS: Port Sarim
+ *  - SV: Seers Village
+ *  - PS: Port Sarim
+ *  - LSW: Lumbridge Swamp West
+ *  - KJ: Karamja
+ *)
+
+{==============================================================================\
+|                                Constants                                     |
+\==============================================================================}
+
+(**
+ * The miscellaneous constants
+ *)
+const
+  ANTI_BAN_CHANCE      = 10;    // The chance (in %) of performing antiban
+  BANK_SYMBOL_ACCURACY = 0.60;  // The symbol accuracy of the bank
+  MIN_FLAG_DISTANCE    = 15;    // The amount of pixels from the flag to player
+  MAX_POINT_DIST       = 15;    // The maximum distance between a color and reflection minimap point
+  RANDOM_TIME_PERCENT  = 0.20;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
+  MM_RADIUS            = 68;    // Runescape's minimap radius
+  DTM_TOLERANCE        = 15;    // Tolerance on the DTMs
+  TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
+
+  ENERGY_MIN = 0;
+  ENERGY_MAX = 50;
+
+(**
+ * All of MSI's suppoted script constants; used in player setup
+ *)
+const
+  // Woodcutting
+  SCRIPT_POWER_CHOP = 10;
+  SCRIPT_VE_TREES   = 11;
+  SCRIPT_VE_OAKS    = 12;
+  SCRIPT_GE_YEWS    = 13;
+  SCRIPT_DB_WILLOWS = 14;
+  SCRIPT_DB_TREES   = 15;
+  SCRIPT_DB_OAKS    = 16;
+  SCRIPT_RM_YEWS    = 17;
+  SCRIPT_PS_WILLOWS = 18;
+  SCRIPT_PS_YEWS    = 19;
+  SCRIPT_SV_MAGICS  = 20;
+  SCRIPT_SV_MAPLES  = 21;
+  SCRIPT_SV_YEWS    = 22;
+  SCRIPT_EV_YEWS    = 23;
+
+  // Mining
+  SCRIPT_POWER_MINER = 30;
+  SCRIPT_VE_MINER    = 31;
+  SCRIPT_VW_MINER    = 32;
+  SCRIPT_LSW_MINER   = 33;
+  SCRIPT_BBV_MINER   = 34;
+  SCRIPT_RM_CLAY     = 35;
+  SCRIPT_RM_TIN      = 36;
+  SCRIPT_RM_COPPER   = 37;
+  SCRIPT_RM_IRON_1   = 38;
+  SCRIPT_RM_IRON_2   = 39;
+  SCRIPT_RM_GOLD     = 40;
+  SCRIPT_GUILD_MINER = 41; // SRL Members+ only
+
+  // Fishing
+  SCRIPT_POWER_FISHER  = 50;
+  SCRIPT_DB_FISHER     = 51;
+  SCRIPT_BBV_FISHER    = 52;
+  SCRIPT_KJ_NOTER      = 53; // SRL Members+ only
+
+  // Cooking
+  SCRIPT_AK_COOKER = 70;
+
+  // Magic
+  SCRIPT_ALCHER = 80;
+
+  // Fighting
+  SCRIPT_FIGHTER = 90;
+
+  SCRIPT_ARRAY_LENGTH = 90; // Change to the highest script constant
+
+(**
+ * All of MSI's suppoted extras constants; used in extras
+ *)
+const
+  EXTRA_BETA       = 'BETA';
+  EXTRA_ALPHA      = 'ALPHA';
+  EXTRA_PRERELEASE = 'PRE-RELEASE';
+
+  EXTRA_CONTINUE   = 1;
+  EXTRA_EXIT       = -1;
+
+(**
+ * Constants representing every pointer there is inside MSI.
+ *)
+const
+  MSI_OnWriteRemoteCall = 0;
+  MSI_OnResetRemoteCall = 1;
+  MSI_OnDebugCall       = 2;
+  MSI_OnExampleCall     = 3;
+
+  POINTER_ARRAY_LENGTH = 3;
+
+(**
+ * Constants representing different paths for files used for MSI
+ *)
+const
+  PATH_PLAYER            = IncludePath + 'MSI\Player.txt';                 // Path for all the player information
+  PATH_REMOTE            = IncludePath + 'MSI\Remote.txt';                 // Path for the player remote information
+  PATH_REPORT            = IncludePath + 'MSI\Progress Reports\';          // Path for progress report
+  PATH_DEBUG             = IncludePath + 'MSI\Debug Logs\';                // Path for debug
+  PATH_SETTINGS          = IncludePath + 'MSI\Settings.txt';               // Path for script settings
+  PATH_FORM_BITMAPS      = IncludePath + 'MSI\MSI\Form\Bitmaps\';          // Path to all the form images
+  PATH_EXTRAS            = IncludePath + 'MSI\MSI\Extras\';                // Path to all the extras
+  PATH_RECORD_WALKPOINTS = IncludePath + 'MSI\MSI\Records\WalkPoints.txt'; // Path to the WalkPoint records
+
+(**
+ * Represents all the possible player locations; used for the indexes in
+ * the MSI_Location global array
+ *)
+const
+  // Undefined
+  LOC_POWER_SKILL = 0;
+  LOC_LOST        = 1;
+
+  // Varrock
+    // East
+    LOC_VE_TREES  = 10;
+    LOC_VE_OAKS   = 11;
+    LOC_VE_BANK   = 12;
+    LOC_VE_MINE   = 13;
+
+    // West
+    LOC_VW_BANK  = 14;
+    LOC_VW_MINE  = 15;
+
+    // Grand Exchange
+    LOC_GE_BANK  = 20;
+    LOC_GE_YEWS  = 21;
+
+  // Draynor
+  LOC_DB_BANK    = 30;
+  LOC_DB_WILLOWS = 31;
+  LOC_DB_TREES   = 32;
+  LOC_DB_OAKS    = 33;
+  LOC_DB_FISH    = 34;
+
+  // Rimmington
+  LOC_RM_YEWS    = 40;
+  LOC_RM_CLAY    = 41;
+  LOC_RM_TIN     = 42;
+  LOC_RM_COPPER  = 43;
+  LOC_RM_IRON_1  = 44;
+  LOC_RM_IRON_2  = 45;
+  LOC_RM_GOLD    = 46;
+
+  // Falador
+  LOC_FE_BANK    = 50;
+
+  // Port Sarim
+  LOC_PS_WILLOWS = 60;
+  LOC_PS_YEWS    = 61;
+  LOC_PS_DBOX    = 62;
+
+  // Lumbridge
+  LOC_LSW_MINE   = 70;
+  LOC_LSE_MINE   = 71;
+
+  // Edgeville
+  LOC_EV_BANK    = 80;
+  LOC_EV_YEWS    = 81;
+
+  // Barbarian Village
+  LOC_BBV_MINE   = 90;
+  LOC_BBV_FISH   = 91;
+
+  // Seers Village
+  LOC_SV_MAGICS  = 100;
+  LOC_SV_BANK    = 101;
+  LOC_SV_MAPLES  = 102;
+  LOC_SV_YEWS    = 103;
+
+  // Guilds
+  LOC_GUILD_MINE = 110;
+
+  // Al-Kharid
+  LOC_AK_BANK   = 120;
+  LOC_AK_RANGE  = 121;
+
+  // Karamja
+  LOC_KJ_STILES = 122;
+  LOC_KJ_FISH   = 123;
+
+  LOC_ARRAY_LENGTH = 123; // Change to the highest location constant
+
+(**
+ * All the different color minimap areas used for relocating
+ *)
+const
+  AREA_GE_YEWS_1 = 10;
+  AREA_GE_YEWS_2 = 11;
+
+  AREA_RM_YEWS_1 = 20;
+  AREA_RM_YEWS_2 = 21;
+
+  AREA_EV_YEWS_1 = 30;
+  AREA_EV_YEWS_2 = 31;
+
+  AREA_ARRAY_LENGTH = 31; // Change to the highest area constant
+
+(**
+ * Represents the required level to use the different tools
+ *)
+const
+  // Hatchets and pickaxes
+  REQ_BRONZE  = 1;
+  REQ_IRON    = 1;
+  REQ_STEEL   = 6;
+  REQ_MITHRIL = 21;
+  REQ_ADAMANT = 31;
+  REQ_RUNE    = 41;
+  REQ_DRAGON  = 61;
+
+  REQ_MAX_LEVEL = 99;
+
+(**
+ * All the different items used throughout the MSI scripts
+ *)
+const
+  PICKAXE_BRONZE  = 10;
+  PICKAXE_IRON    = 11;
+  PICKAXE_STEEL   = 12;
+  PICKAXE_MITHRIL = 13;
+  PICKAXE_ADAMANT = 14;
+  PICKAXE_RUNE    = 15;
+  PICKAXE_DRAGON  = 16;
+
+  HATCHET_BRONZE  = 20;
+  HATCHET_IRON    = 21;
+  HATCHET_STEEL   = 22;
+  HATCHET_MITHRIL = 23;
+  HATCHET_ADAMANT = 24;
+  HATCHET_RUNE    = 25;
+  HATCHET_DRAGON  = 26;
+
+  LOGS_NORMAL     = 30;
+  LOGS_OAK        = 31;
+  LOGS_WILLOW     = 32;
+  LOGS_MAPLE      = 33;
+  LOGS_YEW        = 34;
+  LOGS_MAGIC      = 35;
+
+  ORE_CLAY        = 40;
+  ORE_COPPER      = 41;
+  ORE_TIN         = 42;
+  ORE_IRON        = 43;
+  ORE_SILVER      = 44;
+  ORE_COAL        = 45;
+  ORE_GOLD        = 46;
+  ORE_MITHRIL     = 47;
+  ORE_ADAMANTITE  = 48;
+  ORE_RUNITE      = 49;
+
+  FISH_SMALLNET       = 60;
+  FISH_CAGE_CRAYFISH  = 61;
+  FISH_ROD_BAIT       = 62;
+  FISH_BAIT           = 63;
+  FISH_ROD_FLY        = 64;
+  FISH_HARPOON        = 65;
+  FISH_POT_LOBSTER    = 66;
+
+  FISH_RAW_SHRIMP     = 70;
+  FISH_RAW_CRAYFISH   = 71;
+  FISH_RAW_SARDINE    = 72;
+  FISH_RAW_HERRING    = 73;
+  FISH_RAW_ANCHOVIE   = 74;
+  FISH_RAW_TROUT      = 75;
+  FISH_RAW_PIKE       = 76;
+  FISH_RAW_SALMON     = 77;
+  FISH_RAW_TUNA       = 78;
+  FISH_RAW_LOBSTER    = 79;
+  FISH_RAW_SWORDFISH  = 80;
+
+  FISH_COOKED_SHRIMP    = 100;
+  FISH_COOKED_CRAYFISH  = 101;
+  FISH_COOKED_SARDINE   = 102;
+  FISH_COOKED_HERRING   = 103;
+  FISH_COOKED_ANCHOVIE  = 104;
+  FISH_COOKED_TROUT     = 105;
+  FISH_COOKED_PIKE      = 106;
+  FISH_COOKED_SALMON    = 107;
+  FISH_COOKED_TUNA      = 108;
+  FISH_COOKED_LOBSTER   = 109;
+  FISH_COOKED_SWORDFISH = 110;
+
+  GEM_UNCUT_SAPPHIRE = 120;
+  GEM_UNCUT_EMERALD  = 121;
+  GEM_UNCUT_RUBY     = 122;
+  GEM_UNCUT_DIAMOND  = 123;
+
+  MISC_BIRD_NEST = 130;
+  MISC_FEATHER   = 131;
+
+  STAFF_AIR   = 150;
+  STAFF_WATER = 151;
+  STAFF_EARTH = 152;
+  STAFF_FIRE  = 153;
+
+  // These constants have to match the rune constants in SRL's magic.simba
+  MSI_RUNE_AIR    = 160; // Has 'MSI_' because there are other rune constants in SRL
+  MSI_RUNE_BODY   = 161;
+  MSI_RUNE_MIND   = 162;
+  MSI_RUNE_EARTH  = 163;
+  MSI_RUNE_FIRE   = 164;
+  MSI_RUNE_WATER  = 165;
+  MSI_RUNE_CHAOS  = 166;
+  MSI_RUNE_LAW    = 167;
+  MSI_RUNE_COSMIC = 168;
+  MSI_RUNE_DEATH  = 169;
+  MSI_RUNE_NATURE = 170;
+  MSI_RUNE_BLOOD  = 171;
+  MSI_RUNE_SOUL   = 172;
+  MSI_RUNE_ASTRAL = 173;
+
+  ITEM_ARRAY_LENGTH = 173; // Change to the highest item constant
+
+(**
+ * All the different objects used throughout the MSI scripts
+ *)
+const
+  // Trees
+  TREE_NORMAL = 10;
+  TREE_OAK    = 11;
+  TREE_WILLOW = 12;
+  TREE_MAPLE  = 13;
+  TREE_YEW    = 14;
+  TREE_MAGIC  = 15;
+
+  // Rocks
+  ROCK_CLAY       = 20;
+  ROCK_TIN        = 21;
+  ROCK_COPPER     = 22;
+  ROCK_IRON       = 23;
+  ROCK_SILVER     = 24;
+  ROCK_COAL       = 25;
+  ROCK_GOLD       = 26;
+  ROCK_MITHRIL    = 27;
+  ROCK_ADAMANTITE = 28;
+  ROCK_RUNITE     = 29;
+
+  // Banks; includes the 'MSI_' because there are bank constants in SRL's Bank.scar
+  MSI_BANK_VE = 30;
+  MSI_BANK_VW = 31;
+  MSI_BANK_DB = 32;
+  MSI_BANK_GE = 33;
+  MSI_BANK_FE = 34;
+  MSI_BANK_EV = 35;
+  MSI_BANK_SV = 36;
+  MSI_BANK_AK = 37;
+
+  DBOX_PS = 40;
+
+  // Fishing spots
+  FISHSPOT_NET     = 50;
+  FISHSPOT_BAIT    = 51;
+  FISHSPOT_LURE    = 52;
+  FISHSPOT_CAGE    = 53;
+  FISHSPOT_HARPOON = 54;
+
+  // Cooking spots
+  COOKSPOT_FIRE   = 60;
+  COOKSPOT_RANGE  = 61;
+  COOKSPOT_EITHER = 62;
+
+  // Obstacles
+  LADDER_DOWN_MINE_GUILD = 70;
+  LADDER_UP_MINE_GUILD   = 80;
+
+  // NPCs
+  NPC_CHICKEN_WHITE = 90;
+  NPC_CHICKEN_BROWN = 91;
+  NPC_RAT_GIANT     = 92;
+  NPC_STILES        = 93;
+
+  // Misc Objects
+  OBJ_BIRD_NEST       = 100;
+  BIRD_NEST_CBMESSAGE = 'nest falls out of';
+
+  LOOT_FEATHERS = 101;
+
+  OBJ_ARRAY_LENGTH = 101; // Change to the highest object constant
+
+(**
+ * Constants representing all the different MSI obstacles
+ *)
+const
+  OBS_LADDER_DOWN_MINE_GUILD = 10;
+
+  OBS_LADDER_UP_MINE_GUILD   = 20;
+
+  OBS_ARRAY_LENGTH = 20; // Change to the highest obstacle constant
+
+(**
+ * Constants representing all the different spells
+ *)
+const
+  ALCH_COIN_MESSAGE    = 'oins are';
+
+  SPELL_WIND_STRIKE    = 0;
+  SPELL_WIND_BOLT      = 1;
+  SPELL_WIND_BLAST     = 2;
+  SPELL_WIND_WAVE      = 3;
+
+  SPELL_WATER_STRIKE   = 4;
+  SPELL_WATER_BOLT     = 5;
+  SPELL_WATER_BLAST    = 6;
+  SPELL_WATER_WAVE     = 7;
+
+  SPELL_EARTH_STRIKE   = 8;
+  SPELL_EARTH_BOLT     = 9;
+  SPELL_EARTH_BLAST    = 10;
+  SPELL_EARTH_WAVE     = 11;
+
+  SPELL_FIRE_STRIKE    = 12;
+  SPELL_FIRE_BOLT      = 13;
+  SPELL_FIRE_BLAST     = 14;
+  SPELL_FIRE_WAVE      = 15;
+
+  SPELL_CONFUSE        = 16;
+  SPELL_WEAKEN         = 17;
+  SPELL_CURSE          = 18;
+  SPELL_BIND           = 19;
+
+  SPELL_TELE_HOME      = 20;
+  SPELL_TELE_VARROCK   = 21;
+  SPELL_TELE_LUMBRIDGE = 22;
+  SPELL_TELE_FALADOR   = 23;
+
+  SPELL_ALCH_LOW       = 24;
+  SPELL_ALCH_HIGH      = 25;
+
+  SPELL_TELEGRAB       = 26;
+  SPELL_SUPERHEAT      = 27;
+
+  SPELL_ARRAY_LENGTH   = 27;
+
+(**
+ * Constants representing the different animations used in MSI
+ *)
+const
+  ANIM_ALCH_LOW  = 10;
+  ANIM_ALCH_HIGH = 11;
+
+  ANIM_ARRAY_LENGTH = 11;
+
+(**
+ * Constants representing every recipes there is
+ *)
+const
+  RECIPE_SHRIMP    = 0;
+  RECIPE_CRAYFISH  = 1;
+  RECIPE_SARDINE   = 2;
+  RECIPE_HERRING   = 3;
+  RECIPE_ANCHOVIE  = 4;
+  RECIPE_TROUT     = 5;
+  RECIPE_PIKE      = 6;
+  RECIPE_SALMON    = 7;
+  RECIPE_TUNA      = 8;
+  RECIPE_LOBSTER   = 9;
+  RECIPE_SWORDFISH = 10;
+
+  RECIPES_ARRAY_LENGTH = 11;
+
+(**
+ * Used in MSI_AddToProggy in Debug.scar to determine what to add to the
+ * progress report
+ *)
+const
+  PROG_ADD_EXP   = 0;
+  PROG_ADD_ITEMS = 1;
+  PROG_ADD_LOADS = 2;
+  PROG_ADD_CASTS = 3;
+
+(**
+ * Stores the indexes of the script setup array
+ *)
+const
+  // Booleans
+  SETUP_DEBUG_SMART   = 10;
+  SETUP_SAVE_DEBUG    = 11;
+  SETUP_HUMAN_BREAK   = 12;
+  SETUP_SWITCH_WORLDS = 13;
+
+  // Integers
+  SETUP_BREAK_TIME    = 20;
+  SETUP_DEBUG_LEVEL   = 21;
+  SETUP_ANTIBAN_WAIT  = 22;
+  SETUP_RANDOMS_WAIT  = 23;
+
+  // Strings
+  SETUP_STATS_ID      = 30;
+  SETUP_STATS_PASS    = 31;
+  SETUP_WALKING       = 32;
+
+  SETUP_ARRAY_LENGTH = 32;
+
+{==============================================================================\
+|                                  Types                                       |
+\==============================================================================}
+
+(**
+ * The type that holds all the attributes of any main screen objects used
+ * throughout MSI scripts
+ *)
+type
+  TMSObject = record
+    X, Y             : Integer;
+    Name             : string;
+    UpText           : string; // Set to '' if RightClickOnly := True
+    Option           : string;
+    Exp              : Extended;
+    Colors           : TIntegerArray;
+    FindAllColors    : Boolean; // Set to true if each TPA needs to include every color in 'Colors'
+    Tol              : Integer;
+    Hue              : Extended;
+    Sat              : Extended;
+    W, H             : Integer;
+    Accuracy         : Integer; // Min pixels to be found in each TPA
+    ExcludeSelf      : Boolean; // Exclude pixels in a box around the player
+    RightClickOnly   : Boolean;
+    Tries            : Integer;
+    Anim             : Boolean; // Set to true if object is animating
+    WaitToMove       : Boolean; // When ClickLeft, wait till we have stopped moving?
+    MaxTime          : Integer; // Max time (in ms) to wait for the object to disappear
+    BadColors        : TIntegerArray;
+    BadColorTolerance: Integer;
+    AssociatedItems  : TIntegerArray;
+  end;
+
+  TMSObjectArray = array of TMSObject;
+
+(**
+ * Stores all the attributes of each item used in MSI scripts
+ *)
+type
+  TItem = record
+    Name     : string;
+    StatsName: string;
+    UpText   : TStringArray;
+    InvSlot  : Integer;
+    Stackable: Boolean;
+    DTM      : Integer;
+  end;
+
+  TItemArray = array of TItem;
+
+(**
+ * Stores all the attributes of each recipe.
+ *)
+type
+  TRecipe = record
+    Name        : string;
+    Ingredients : TIntegerArray;
+    Produces    : TIntegerArray;
+    MemberOnly  : Boolean;
+    Level       : Integer;
+    CookingSpot : Integer;
+  end;
+
+  TRecipeArray = array of TRecipe;
+
+(**
+ * Used in the banking functions to determine the type of bank
+ *)
+type
+  TBank = (Bank, DBox, NoBank, Drop, NPC);
+
+(**
+ * Used when setting up magic scripts to determine which staff to use
+ *)
+type
+  TStaffType = (LeastCasts, MostCasts, Cheapest);
+
+(**
+ * Stores all the different path information. Used in the TScript type
+ *)
+type
+  TPath = record
+    StartLoc      : Integer;
+    EndLoc        : Integer;
+    Reflection    : T2DPointArray;
+    ColorTo       : T2DIntegerArray;
+    ColorFrom     : T2DIntegerArray;
+    Obstacles     : TIntegerArray;
+  end;
+
+(**
+ * Used to make it easier for users to setup and for scripters to follow the
+ * code around the include
+ *)
+type
+  TScriptSetup = record
+    Name      : Integer;
+    MaxLevel  : Integer; // The level you want to stop autoing at (not working yet)
+
+    // Woodcutting, Mining, and Fishing
+    Rocks       : TIntegerArray;
+    Trees       : TIntegerArray;
+    FishSpots   : TIntegerArray;
+    CookingSpot : TIntegerArray;
+    Recipe      : Integer;
+    Priority    : TIntegerArray;
+    DontDrop    : TIntegerArray; // The items the user doesn't want dropped/banked
+    Exceptions  : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
+    Loads       : Integer; // Not used yet because we don't support multiple scripts
+    Time        : Integer; // Also not used yet until we have multiple script support
+
+    // Magic
+    Spells    : TIntegerArray;
+    Staffs    : TIntegerArray;
+    StaffType : TStaffType;
+    AlchSlots : TIntegerArray;
+
+    // Fighting
+    Monsters     : TIntegerArray;
+    Loot         : TIntegerArray;
+    RunDirection : String;
+
+    // Not setup by the user
+    Items     : array of TIntegerArray;
+    MaxCasts  : TIntegerArray; // Maximum casts for each spell (calculated in MSI_SetupMagic)
+    LeftTree  : Boolean;       // Used for GE Yews color relocating
+  end;
+
+  TScriptSetupArray = array of TScriptSetup;
+
+(**
+ * Stores all the necessary script information for ease of adding new scripts
+ *)
+type
+  TScript = record
+    Name        : string;
+    Constant    : Integer;
+    SkillName   : string;
+    SkillConst  : Integer;
+    BankType    : TBank;
+    WhichBank   : Integer;
+    ClickClosest: Boolean;
+    AutoObjects : function: Boolean;
+    BankObjects : function: Boolean;
+    PlayerSetup : function: Boolean;
+    Defaults    : TScriptSetup;
+    PathInfo    : TPath;
+  end;
+
+  TScriptArray = array of TScript;
+
+(**
+ * Stores all the necessary extra information for ease of adding new extras
+ *)
+type
+  TPointer = record
+    Constant : Integer;
+    FunctionCall : function: Integer;
+  end;
+
+  TPointerArray = array of TPointer;
+
+(**
+ * A type used for all of MSI's extras.
+ *)
+type
+  TExtra = record
+    Name, Author, Version : String;
+    Setup : function: Boolean;
+    Enabled : Boolean;
+    PointerCount, Constant : Integer;
+    Pointers : TPointerArray;
+  end;
+
+  TExtraArray = array of TExtra;
+
+(**
+ * Stores the necessary information for a player's progress report; used in
+ * the TPlayerInfo type only
+ *)
+type
+  TProggy = record
+    LoadsDone    : Integer;
+    PlayerTime   : Integer;
+
+    ScriptTimes  : TIntegerArray; // Time for each script
+    SkillLevels  : TIntegerArray; // Skill level for each script
+    GainedExps   : TIntegerArray; // Exp gained for each script
+    ScriptCounts : TIntegerArray; // Counts for each script (i.e. loads, casts, kills)
+
+    FalseReason  : string;
+
+               // Script | Object | Multiple per object
+    Items       : array of array of TIntegerArray;  // Logs, drop items, ores, fish, etc.
+    ItemAmounts : array of array of TIntegerArray;
+    Experiences : array of array of TExtendedArray; // Item, object (depending on skill)
+    Casts       : array of TIntegerArray; // Number of casts per spell
+  end;
+
+  TProggyArray = array of TProggy;
+
+(**
+ * MSI's custom player record; used to setup each player. TUser can be found in
+ * SRL (Players.scar)
+ *)
+type
+  TPlayerInfo = record
+    Name       : string;
+    Pass       : string;
+    Nick       : string;
+    Pin        : string;
+    Active     : Boolean;
+    Member     : Boolean;
+    Location   : Integer;
+    TotalLoads : Integer;
+    BreakLoads : Integer;
+    TotalTime  : Integer;
+    BreakTime  : Integer;
+    Scripts    : TScriptSetupArray;
+
+    // Not setup by the user
+    ReportInfo : TProggy;
+  end;
+
+  TPlayerInfoArray = array of TPlayerInfo;
+
+(**
+ * A record that stores all the properties of the different MSI player
+ * locations. Used in the MSI relocater
+ *)
+type
+  TLocation = record
+    Name          : string;
+    Constant      : Integer;
+    AtBank        : Boolean;
+    RelocatePoints: TPointArray;   // Reflection tiles
+    RelocateAreas : TIntegerArray; // Area constants
+    RelocateDist  : Integer;       // Min distance (in pixels) for the player to be from the relocation point
+  end;
+
+(**
+ * A record that stores all the color properties for relocating to certain
+ * locations. Used in the MSI relocater
+ *)
+type
+  TMMColorArea = record
+    Name       : string;
+    Symbol     : string;
+    DTM        : Integer;
+    W, H       : Integer;
+    Colors     : TIntegerArray;
+    Tolerances : TIntegerArray;
+    Counts     : TIntegerArray;
+    Bounds     : TBox;
+  end;
+
+  TMMColorAreaArray = array of TMMColorArea;
+
+(**
+ * A record that stores all the color properties for individual points for
+ * walking paths
+ *)
+type
+  TWalkPoint = record
+    Name        : string;
+    Color       : Integer;
+    Tolerance   : Integer;
+    SortFrom    : TPoint;
+    RWalkParams : TIntegerArray;
+  end;
+
+  TWalkPointArray = array of TWalkPoint;
+
+(**
+ * A record that stores all the necessary information for the many obstacles
+ * around Runescape
+ *)
+type
+  TObstacle = record
+    Name       : string;
+    Constant   : Integer;     // Obstacle constant
+    MirConst   : Integer;     // Obstacle's mirror constant
+    ObjConst   : Integer;     // Object constant
+    ObjMir     : Integer;     // Object's mirror constant
+    StartTiles : TPointArray; // The tiles the obstacle is on
+    EndTiles   : TPointArray; // Possible tiles the player will end up on
+    Solve      : function(i: Integer): Boolean;
+  end;
+
+  TObstacleArray = array of TObstacle;
+
+(**
+ * A record that stores all the necessary information for the different
+ * animations used for MSI
+ *)
+type
+  TAnimation = record
+    Name          : string;
+    MinPixelShift : Integer; // Minimum pixel shift for animation
+    PixelBox      : TBox;    // Box to check for pixel shift
+    Interval      : Integer; // How long to check for pixel shift
+    MaxWait       : Integer; // Maximum wait time for animation
+  end;
+
+  TAnimationArray = array of TAnimation;
+
+(**
+ * A type that stores the information for spells used in MSI's magic scripts
+ *)
+type
+  TMagicSpell = record
+    Name         : string;
+    StatsName    : string;
+    Constant     : Integer;
+    Level        : Integer;
+    Experience   : Integer;
+    Staffs       : TIntegerArray;
+    FreeBox      : TBox;
+    MemberBox    : TBox;
+    AutoCast     : Boolean;
+    AnimConst    : Integer;
+    Runes        : TIntegerArray;
+    RuneAmounts  : TIntegerArray;
+  end;
+
+  TMagicSpellArray = array of TMagicSpell;
+
+{==============================================================================\
+|                                 Variables                                    |
+\==============================================================================}
+
+(**
+ * Miscellaneous variables used throughout the include
+ *)
+var
+  CurrentScript    : Integer;
+  CurrentExtra     : Integer;
+  CurrentSpell     : Integer;
+  CurrDebugLevel   : Integer;
+  ReflectionBroken : Boolean;
+  MSIRev           : string;
+  ScriptStart      : string;
+  NextAntiban      : Integer;
+  NextRandCheck    : Integer;
+  MSI_SetupVars    : array[0..SETUP_ARRAY_LENGTH] of Variant;
+
+  // Temporary array to hopefully increase the amount of random detection (called only in MSI_Relocate)
+  RelocateAttempts   : TIntegerArray;
+
+(**
+ * Arrays that store all the necessary "go-to" information for MSI
+ *)
+var
+  MSI_Players   : TPlayerInfoArray;
+  MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
+  MSI_Objects   : array[0..OBJ_ARRAY_LENGTH] of TMSObject;
+  MSI_Locations : array[0..LOC_ARRAY_LENGTH] of TLocation;
+  MSI_Scripts   : array[0..SCRIPT_ARRAY_LENGTH] of TScript;
+  MSI_Extras    : TExtraArray;
+  MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
+  MSI_Obstacles : array[0..OBS_ARRAY_LENGTH] of TObstacle;
+  MSI_ColorAreas: array[0..AREA_ARRAY_LENGTH] of TMMColorArea;
+  MSI_Recipes   : array[0..RECIPES_ARRAY_LENGTH - 1] of TRecipe;
+  MSI_WalkPoints: array of TWalkPoint;
+  MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
+  MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
+
+
+

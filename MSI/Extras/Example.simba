@@ -1,0 +1,30 @@
+function Example_FunctionCall: Integer;
+begin
+  Result := EXTRA_CONTINUE; // Look in Globals.simba for a list over valid Results.
+end;
+
+function Example_Init: Boolean;
+begin
+  MSI_Extras[CurrentExtra].Enabled := True;
+  MSI_Extras[CurrentExtra].Constant := CurrentExtra;
+  Result := True;
+end;
+
+procedure Example_Attach;
+begin
+  with MSI_Extras[CurrentExtra] do
+  begin
+    Name := 'Example';
+    Author := 'The MSI Team';
+    Version := EXTRA_BETA;
+    Setup := @Example_Init;
+
+    PointerCount := 1;
+    SetArrayLength(Pointers, PointerCount);
+    with Pointers[0] do
+    begin
+      Constant := MSI_OnExampleCall;
+      FunctionCall := @Example_FunctionCall;
+    end;
+  end;
+end;

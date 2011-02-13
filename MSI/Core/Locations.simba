@@ -1,0 +1,448 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                                Scripts.scar                                  |
+|==============================================================================|
+| For all the routines related to specific scripts                             |
+|                                                                              |
+| * function MSI_LoadLocation(): Boolean;               * by The MSI Team      |
+| * procedure MSI_LoadAllLocations;                     * by Coh3n             |
+ \_____________________________________________________________________________}
+
+{******************************************************************************}
+{ procedure MSI_LoadAllLocations;                                              }
+{ By: The MSI Team                                                             }
+{ Date: 01 November 2010                                                       }
+{ Description: Loads Which location information.  This should only be called   }
+{              in MSI_LoadAllScripts                                           }
+{******************************************************************************}
+ function MSI_LoadLocation(Which: Integer): Boolean;
+ begin
+   case Which of
+     LOC_POWER_SKILL:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Powerskilling';
+         Constant := LOC_POWER_SKILL;
+         AtBank := False;
+         RelocateDist := 30;
+       end;
+
+     LOC_LOST:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Lost';
+         Constant := LOC_LOST;
+         AtBank := False;
+       end;
+
+     LOC_VE_TREES:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock east trees';
+         Constant := LOC_VE_TREES;
+         AtBank := False;
+         RelocatePoints := [Point(3276, 3450)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_VE_OAKS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock east oaks';
+         Constant := LOC_VE_OAKS;
+         AtBank := False;
+         RelocatePoints := [Point(3279, 3428)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_VE_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock east bank';
+         Constant := LOC_VE_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(3253, 3421)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_VE_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock east mine';
+         Constant := LOC_VE_MINE;
+         AtBank := False;
+         RelocatePoints := [Point(3288, 3368)];
+         RelocateDist   := 30;
+       end;
+
+     LOC_VW_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock west mine';
+         Constant := LOC_VW_MINE;
+         AtBank := False;
+         RelocatePoints := [Point(3181, 3367)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_VW_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock west bank';
+         Constant := LOC_VW_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(3187, 3437)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_GE_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Grand Exchange bank';
+         Constant := LOC_GE_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(3169, 3490)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_GE_YEWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Grand Exchange yews';
+         Constant := LOC_GE_YEWS;
+         AtBank := False;
+         RelocatePoints := [Point(3209, 3503), Point(3220, 3502)];
+         RelocateAreas  := [AREA_GE_YEWS_1, AREA_GE_YEWS_2];
+         RelocateDist   := 20;
+       end;
+
+     LOC_DB_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Draynor Village bank';
+         Constant := LOC_DB_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(3092, 3240)];
+         RelocateDist   := 25;
+       end;
+
+     LOC_DB_WILLOWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Draynor Village willows';
+         Constant := LOC_DB_WILLOWS;
+         AtBank := False;
+         RelocatePoints := [Point(3087, 3234)];
+         RelocateDist   := 25;
+       end;
+
+     LOC_DB_TREES:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Draynor Village trees';
+         Constant := LOC_DB_TREES;
+         AtBank := False;
+         RelocatePoints := [Point(3081, 3268)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_DB_OAKS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Draynor Village oaks';
+         Constant := LOC_DB_OAKS;
+         AtBank := False;
+         RelocatePoints := [Point(3101, 3244)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_DB_FISH:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Draynor Village fishing spots';
+         Constant := LOC_DB_FISH;
+         AtBank := False;
+         RelocatePoints := [Point(3087, 3228)];
+         RelocateDist   := 25;
+       end;
+
+     LOC_RM_YEWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington yews';
+         Constant := LOC_RM_YEWS;
+         AtBank := False;
+         RelocatePoints := [Point(2937, 3231), Point(2935, 3228)];
+         RelocateAreas  := [AREA_RM_YEWS_1, AREA_RM_YEWS_2];
+         RelocateDist   := 10;
+       end;
+
+     LOC_RM_CLAY:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington clay rocks';
+         Constant := LOC_RM_CLAY;
+         AtBank := False;
+         RelocatePoints := [Point(2986, 3236)];
+         RelocateDist   := 15;
+       end;
+
+     LOC_RM_TIN:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington tin rocks';
+         Constant := LOC_RM_TIN;
+         AtBank := False;
+         RelocatePoints := [Point(2986, 3236)];
+         RelocateDist   := 15;
+       end;
+
+     LOC_RM_COPPER:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington copper rocks';
+         Constant := LOC_RM_COPPER;
+         AtBank := False;
+         RelocatePoints := [Point(2979, 3245)];
+         RelocateDist   := 15;
+       end;
+
+     LOC_RM_IRON_1:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington iron rocks 1';
+         Constant := LOC_RM_IRON_1;
+         AtBank := False;
+         RelocatePoints := [Point(2983, 3233)];
+         RelocateDist   := 15;
+       end;
+
+     LOC_RM_IRON_2:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington iron rocks 2';
+         Constant := LOC_RM_IRON_2;
+         AtBank := False;
+         RelocatePoints := [Point(2971, 3239)];
+         RelocateDist   := 15;
+       end;
+
+     LOC_RM_GOLD:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington gold rocks';
+         Constant := LOC_RM_GOLD;
+         AtBank := False;
+         RelocatePoints := [Point(2977, 3233)];
+         RelocateDist   := 15;
+       end;
+
+     LOC_FE_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Falador east bank';
+         Constant := LOC_FE_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(3012, 3354)];
+         RelocateDist   := 25;
+       end;
+
+     LOC_PS_WILLOWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Port Sarim willows';
+         Constant := LOC_PS_WILLOWS;
+         AtBank := False;
+         RelocatePoints := [Point(3060, 3253)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_PS_YEWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Port Sarim yews';
+         Constant := LOC_PS_YEWS;
+         AtBank := False;
+         RelocatePoints := [Point(3053, 3270)];
+         RelocateDist   := 15;
+       end;
+
+     LOC_PS_DBOX:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Port Sarim deposit box';
+         Constant := LOC_PS_DBOX;
+         AtBank := True;
+         RelocatePoints := [Point(3046, 3235)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_LSW_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Lumbridge swamp west mine';
+         Constant := LOC_LSW_MINE;
+         AtBank := False;
+         RelocatePoints := [Point(3148, 3147)];
+         RelocateDist   := 30;
+       end;
+
+     LOC_LSE_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Lumbridge swamp east mine';
+         Constant := LOC_LSE_MINE;
+         AtBank := False;
+         RelocatePoints := [Point(3227, 3148)];
+         RelocateDist   := 30;
+       end;
+
+     LOC_EV_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Edgeville bank';
+         Constant := LOC_EV_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(3093, 3493)];
+         RelocateDist   := 30;
+       end;
+
+     LOC_EV_YEWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Edgeville yews';
+         Constant := LOC_EV_YEWS;
+         AtBank := False;
+         RelocatePoints := [Point(3087, 3472), Point(3087, 3480)];
+         RelocateAreas  := [AREA_EV_YEWS_1, AREA_EV_YEWS_2];
+         RelocateDist   := 20;
+       end;
+
+     LOC_BBV_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Barbarian Village mine';
+         Constant := LOC_BBV_MINE;
+         AtBank := False;
+         RelocatePoints := [Point(3079, 3423)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_BBV_FISH:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Barbarian Village fishing spot';
+         Constant := LOC_BBV_FISH;
+         AtBank := False;
+         RelocatePoints := [Point(3108, 3434), Point(3103, 3426)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_SV_MAGICS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Seers Village Magic trees';
+         Constant := LOC_SV_MAGICS;
+         AtBank := False;
+         RelocatePoints := [Point(2702, 3398)];
+         RelocateDist   := 20;
+       end;
+
+     LOC_SV_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Seers Village Bank';
+         Constant := LOC_SV_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(2726, 3492)];
+         RelocateDist   := 25;
+       end;
+
+     LOC_SV_MAPLES:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Seers Village Maples';
+         Constant := LOC_SV_MAPLES;
+         AtBank := False;
+         RelocatePoints := [Point(2724, 3502)];
+         RelocateDist   := 25;
+       end;
+
+     LOC_SV_YEWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Seers Village Yews';
+         Constant := LOC_SV_YEWS;
+         AtBank := False;
+         RelocatePoints := [Point(2712, 3462), Point(2706,3463)];
+         RelocateDist   := 5;
+       end;
+
+     LOC_GUILD_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Mining Guild (SRL Members+)';
+         Constant := LOC_GUILD_MINE;
+         AtBank := False;
+         RelocatePoints := [Point(3035, 9737), Point(3048, 9737)];
+         RelocateDist   := 25;
+       end;
+
+     LOC_AK_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Al Kharid Bank';
+         Constant := LOC_AK_BANK;
+         AtBank := True;
+         RelocatePoints := [Point(3270, 3165)];
+         RelocateDist := 25;
+       end;
+
+     LOC_AK_RANGE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Al Kharid Cooking Range';
+         Constant := LOC_AK_RANGE;
+         AtBank := False;
+         RelocatePoints := [Point(3273, 3179)];
+         RelocateDist := 25;
+       end;
+
+     LOC_KJ_STILES:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Stiles on Karamja (SRL Members+)';
+         Constant := LOC_KJ_STILES;
+         AtBank := False;
+         RelocatePoints := [Point(2851, 3141)];
+         RelocateDist := 25;
+       end;
+
+     LOC_KJ_FISH:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Karamja Fishing Spot (SRL Members+)';
+         Constant := LOC_KJ_FISH;
+         AtBank := False;
+         RelocatePoints := [Point(2924, 3175)];
+         RelocateDist := 25;
+       end;
+   end;
+
+   Result := (MSI_Locations[Which].Name <> '');
+ end;
+
+{******************************************************************************}
+{ procedure MSI_LoadAllLocations;                                              }
+{ By: Coh3n                                                                    }
+{ Date: 02 August 2010                                                         }
+{ Description: Loads all the locations into MSI_Locations array; should only   }
+{              be called once in SetupMSI                                      }
+{******************************************************************************}
+procedure MSI_LoadAllLocations;
+var
+  i: Integer;
+begin
+  for i := 0 to High(MSI_Locations) do
+    MSI_LoadLocation(i);
+end;

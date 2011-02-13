@@ -1,0 +1,106 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                                Track.simba                                   |
+|==============================================================================|
+| For all the routines related to tracking function stats                      |
+|                                                                              |
+| * Procedure Track_LoadNames;             * By Sir R. Magician                |
+| * Procedure Track_Search();              * By Sir R. Magician                |
+| * Procedure Track_Success();             * By Sir R. Magician                |
+| * Procedure Track_Print();               * By Sir R. Magician                |
+| * Procedure Track_PrintAll;              * By Sir R. Magician                |
+ \_____________________________________________________________________________}
+
+(**
+ * The type which holds the information of a tracked object
+ *)
+type
+  TTrack = record
+  Name: string;
+  Searches: integer;
+  Successes: integer;
+end;
+
+const
+  T_TrackObject = 0;
+	T_WorldWalker = 1;	
+
+  TRACK_ITEMS = 1;
+
+var
+  Tracking: array[0..TRACK_ITEMS] of TTrack;
+
+{******************************************************************************}
+{ Procedure Track_LoadNames;                                                   }
+{ By: Sir R. Magician                                                          }
+{ Date: 19 Sep 2010                                                            }
+{ Description: Loads the names of trackable functions                          }
+{******************************************************************************}
+Procedure Track_LoadNames;
+begin
+  Tracking[T_TrackObject].Name := 'TrackObject';
+  Tracking[T_WorldWalker].Name := 'WorldWalk_cstrike';
+end;
+
+{******************************************************************************}
+{ Procedure Procedure Track_Search(which: integer);                            }
+{ By: Sir R. Magician                                                          }
+{ Date: 19 Sep 2010                                                            }
+{ Description: See code                                                        }
+{******************************************************************************}
+Procedure Track_Search(which: integer);
+begin
+  Inc(Tracking[which].Searches)
+end;
+
+{******************************************************************************}
+{ Procedure Track_Success(which: integer);                                     }
+{ By: Sir R. Magician                                                          }
+{ Date: 19 Sep 2010                                                            }
+{ Description: See code                                                        }
+{******************************************************************************}
+Procedure Track_Success(which: integer);
+begin
+	Inc(Tracking[which].Successes);	  
+end;
+
+Procedure Track_Result(which: integer; success: boolean);
+begin
+
+	Inc(Tracking[which].Searches);
+
+	if success then 
+		Inc(Tracking[which].Successes);
+
+	//yes I know this is a hack, but Track_Result actually makes more sense
+end;
+
+{******************************************************************************}
+{ Procedure Track_Print(which: integer);                                       }
+{ By: Sir R. Magician                                                          }
+{ Date: 19 Sep 2010                                                            }
+{ Description: Prints the track record of which                                }
+{******************************************************************************}
+Procedure Track_Print(which: integer);
+begin
+  MSI_Debug('~ Track Record');
+  MSI_Debug('~ ~ ' + Tracking[which].Name);
+  MSI_Debug('~ ~ Searches: ' + IntToStr(Tracking[which].Searches));
+  MSI_Debug('~ ~ Successes: ' + IntToStr(Tracking[which].Successes));
+  MSI_Debug('~ ~ Success %: ' + FloatToStr(Tracking[which].Successes * 100 / Tracking[which].Searches));
+end;
+
+{******************************************************************************}
+{ Procedure Track_PrintAll;                                                    }
+{ By: Sir R. Magician                                                          }
+{ Date: 19 Sep 2010                                                            }
+{ Description: Prints all track records                                        }
+{******************************************************************************}
+Procedure Track_PrintAll;
+var
+  i: integer;
+begin
+  for i := TRACK_ITEMS DownTo 0 do
+    Track_Print(i);
+end;
+

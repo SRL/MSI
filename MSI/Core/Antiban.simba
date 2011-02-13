@@ -1,0 +1,366 @@
+(*
+Antiban
+=======
+
+The Antiban file includes functions & procedures that perform certain
+actions in order to avoid being banned from Runescape.
+
+*)
+
+(*
+MSI_ClickInvTab
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ClickInvTab();
+
+Clicks the inventory tab if not already on it. Yes, we know SRL has the GameTab
+procedure, but for whatever reason, it doesn't like to work when we call it in
+certain parts of MSI. This works, and it gets rid of the annoying bugs.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 January 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ClickInvTab();
+*)
+procedure MSI_ClickInvTab();
+var
+  currTab: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  currTab := GetCurrentTab;
+
+  if (currTab <> tab_Inv) then
+  begin
+    MSI_SubDebug('Current GameTab: '+IntToStr(currTab));
+    MouseBox(646, 175, 665, 196, 1); // Click the inventory tab
+  end;
+end;
+
+(*
+MSI_Antiban
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_Antiban(HowLong, ChancePerc: Integer);
+
+Has a specified percentage chance (ChancePerc) of performing antiban
+procedures for a specified length of time in milliseconds (HowLong)
+
+.. note::
+
+  | Author: Naum
+  | Last Updated: 9 Febuary 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  while (IsChopping) do
+  begin
+    MSI_Antiban(2000 + RandomRange(-1000, 1000), ANTI_BAN_CHANCE); // ANTI_BAN_CHANCE is a constant that can be found in Globals.simba
+    Wait(RandomRange(500, 750));
+  end;
+*)
+Procedure MSI_AntiBan(HowLong, ChancePerc: Integer);
+Var
+  RanTab, I, Time, _avg : Integer;
+Begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (Random(100) > ChancePerc) or (NextAntiban > GetSystemTime) then
+    Exit;
+
+  MSI_ClickInvTab;
+
+  if (LeaveDangerZone) then
+    MSI_Debug('Left danger zone');
+
+  MSI_SubDebug('MSI_AntiBan');
+  Case HowLong Of
+    0..2000:
+     Case Random(3) Of
+        0 : SleepAndMoveMouse(HowLong + Random(HowLong/10));
+        1 : Begin
+              RanTab := RandomRange(TAB_Combat, TAB_LogOut);
+              GameTab(RanTab);
+              Wait(HowLong + Random(HowLong/10));
+              GameTab(tab_Inv);
+            End;
+        2 : RandomRClick;
+      End;
+
+    2001..5000:
+      Case Random(4) Of
+         0 : HoverSkill('Random', False);
+         1 : PickUpMouse;
+         2 : SleepAndMoveMouse(HowLong + Random(HowLong/10));
+         3 : If Random(4) = 2 Then
+             For I := 0 To Round(HowLong/800) Do
+               If I Mod 2 = 0 Then ExamineInv;
+       End;
+
+    5001..10000:
+      If Random(2) = 1 Then
+        RandomMovement
+      Else
+        MSI_AntiBan(Round(HowLong/2) + Random(1000), 100);
+
+    10001..20000:
+      Case Random(3) Of
+        0 : MSI_AntiBan(Round(HowLong/2) + Random(1000), 100);
+        1 : BoredHuman;
+        2 : RandomAngle(1);
+      End;
+
+    20001..999999:
+      begin
+        Time := GetSystemTime + HowLong;
+        while (Time > GetSystemTime) do
+        begin
+          MSI_AntiBan(7000 + Random(200), 100);
+          wait(random(5000));
+        end;
+      end;
+  End;
+
+  _avg := Round(MSI_SetupVars[SETUP_ANTIBAN_WAIT] * (RANDOM_TIME_PERCENT + (RANDOM_TIME_PERCENT * 0.50)));
+
+  NextAntiban := GetSystemTime + (MSI_SetupVars[SETUP_ANTIBAN_WAIT] + RandomRange(-Round(_avg / 2), _avg));
+End;
+
+(*
+MSI_FindRandoms
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_FindRandoms(Force: Boolean);
+
+Checks to see if the player has encountered a random event. Set 'Force' to true
+to scan for randoms no matter what. By default, MSI waits a minimum of 15 seconds
+in between randoms scans (changable by user in the script setup).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not FindObjects) then // Note that FindObjects is used only as an example
+    MSI_FindRandoms(True);
+*)
+procedure MSI_FindRandoms(Force: Boolean);
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (LeaveDangerZone) then
+    MSI_Debug('Left danger zone');
+
+  MSI_ClickInvTab();
+
+  if (not Force) then
+    if (NextRandCheck > GetSystemTime) then
+      Exit;
+
+  MSI_SubDebug('Scanning for randoms...');
+
+  {$IFDEF REFLECTION}
+  if (R_FindRandoms) then
+  {$ELSE}
+  if (FindNormalRandoms) then
+  {$ENDIF}
+  begin
+    MSI_SubDebug('MSI_FindRandoms: Solved Random Event!');
+  end;
+
+  if (LevelUp) then
+  begin
+    MSI_SubDebug('MSI_FindRandoms: Player has leveled up!');
+    stats_IncVariable('Total Levels Gained', 1);
+  end;
+
+  NextRandCheck := GetSystemTime + MSI_SetupVars[SETUP_RANDOMS_WAIT];
+end;
+
+(*
+MSI_WaitWhileResting
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WaitWhileResting: Boolean;
+
+Simulates a "human-like" rest; returns true if the player's energy is
+within the range of ENERGY_MIN and ENERGY_MAX (both constants are found
+in Globals.simba)
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 04 October 2010 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_WaitWhileResting) then
+    StartWalking;
+*)
+function MSI_WaitWhileResting: Boolean;
+var
+  x, y, E: Integer;
+  t: string;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_SubDebug('MSI_WaitWhileResting');
+  E := RandomRange(ENERGY_MIN, ENERGY_MAX);
+
+  if (GetMMLevels('run', t) < E) then
+    if SetRest then
+    case Random(75) of
+      0..50:
+        begin
+          GetMousePos(x, y);
+          if InRange(x, MSx1, MIx2) then
+            if Random(2) = 1 then
+              while (not (x > MIx2)) do
+                x := x + 20
+            else
+              while (not (x < MSx1)) do
+                x := x - 20;
+
+          if InRange(y, MSy1, MIy2) then
+            if Random(2) = 1 then
+              while (not (y > MIy2)) do
+                y := y + 20
+            else
+              while (not (y < MSy1)) do
+                y := y - 20;
+
+          MMouse(x, y, 0, 0);
+        end;
+
+      51..55:
+        SleepAndMoveMouse(5000);
+
+      56:
+        ExamineInv;
+    end;
+
+  Result := RunEnergy(E);
+end;
+
+(*
+MSI_HandleBreaking
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_HandleBreaking;
+
+Simulates a "human-like" breaking.  If MSI_SetupVars[SETUP_HUMAN_BREAK] (script setup
+variable found in RunMe.simba) is set to true it will randomly logout,
+time-out, or exit to the lobby, otherwise it will just exit to the lobby.
+If using multiple players, it will switch to the next player.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Febuary 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (TimeToBreak) then
+    MSI_HandleBreaking;
+*)
+procedure MSI_HandleBreaking;
+var
+  t, _avg: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if not MSI_SetupVars[SETUP_HUMAN_BREAK] then
+    if MSI_Players[CurrentPlayer].BreakTime = 0 then
+      if MSI_SetupVars[SETUP_BREAK_TIME] = 0 then
+        Exit;
+
+  if (BankScreen) then
+    CloseBank;
+
+  MSI_AddHeader('MSI_HandleBreaking');
+
+  if (HowManyPlayers = 1) or (PlayersActive = 1) then
+  begin
+    MSI_Debug('Taking a short break');
+
+    if MSI_SetupVars[SETUP_HUMAN_BREAK] then
+      case Random(10) of
+
+        0, 2: Logout;
+
+        1: while LoggedIn do
+             MSI_FindRandoms(False);
+
+        3..6: begin
+                t := (GetSystemTime + RandomRange(60000, 60000 * 3));
+                while (t > GetSystemTime) and LoggedIn do
+                  MSI_FindRandoms(False);
+                if LoggedIn then
+                  if InRange(Random(10), 1, 5) then
+                    Logout
+                  else
+                    ExitToLobby;
+              end;
+
+        7..9: ExitToLobby;
+      end
+    else
+      if InRange(Random(10), 2, 9) then
+        ExitToLobby;
+
+    _avg := Round(SETUP_BREAK_TIME * RANDOM_TIME_PERCENT);
+    t := (GetSystemTime + ((MSI_SetupVars[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
+    while GetSystemTime < t do
+    begin
+      Status('MSI_SetupVars[SETUP_BREAK_TIME] remaining: '+MsToTime(t - GetSystemTime, Time_Formal)+';');
+      Wait(RandomRange(2000, 25000));
+      if LoggedIn then
+        MSI_FindRandoms(True);
+    end;
+
+    MSI_Debug('Break over, continuing to play');
+
+    if (LobbyScreen) then
+      MouseBox(80, 450, 560, 470, 1);
+  end else
+  begin
+    MSI_Debug('Switching players');
+    NextPlayer(True);
+  end;
+
+  WaitFunc(@LoggedIn, 100, 15000);
+
+  stats_IncVariable('Total Logins', 1);
+  MSI_CloseHeader('MSI_HandleBreaking: ' + BoolToStr(LoggedIn));
+end;

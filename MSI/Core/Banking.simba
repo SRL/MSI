@@ -1,0 +1,603 @@
+(*
+Banking
+=======
+
+The Antiban file includes MSI's custom banking procedures. It uses MSI's
+object finding methods to interact with banks NPCs.
+
+*)
+
+(*
+MSI_OpenBank
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_OpenBank(Which: Integer; tPin: String): Boolean;
+
+Opens the bank 'Which' (bank constants found in Globals.simba). Will attempt 15
+times before looking for a bank minimap symbol. Will enter player's PIN (tPin)
+if the PIN screen appears.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Febuary 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_OpenBank(MSI_BANK_VE, MSI_Players[CurrentPlayer].Pin)) then
+    MSI_Debug('Successfully opened ' + MSI_Objects[MSI_BANK_VE].Name);
+*)
+function MSI_OpenBank(which: Integer; tPin: String): Boolean;
+var
+  t, x, y: Integer;
+  bankType: TBank;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (BankScreen) then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
+  if (bankType = NoBank) then
+    Exit;
+
+  try
+    MSI_AddHeader('MSI_OpenBank');
+
+    t := 0;
+    repeat
+      Inc(t);
+      MSI_FindRandoms(True);
+      if (bankType = Bank) then
+      begin
+        if (MSI_FindObject(which, ClickRight)) then
+        begin
+          if MSI_Players[CurrentPlayer].Pin <> nil then
+            if WaitFunc(@PinScreen, 100, 1000) then
+              if (Length(tPin) = 4) then
+                InPin(tPin)
+              else
+              begin
+                MSI_Debug(MSI_Players[CurrentPlayer].Nick+': PIN is incorrect.');
+                Exit;
+              end;
+
+          Result := WaitFunc(@BankScreen, 200, 10000);
+        end;
+      end else
+        if (bankType = DBox) then
+          if (MSI_FindObject(which, ClickLeft)) then
+            Result := WaitFunc(@DepositScreen, 200, 10000);
+
+      if (t = Round(MSI_Objects[which].Tries div 2)) then
+      begin
+        NotBoxes := [];
+        SymbolAccuracy := BANK_SYMBOL_ACCURACY;
+
+        if (not MSI_Relocate(MSI_Players[CurrentPlayer].Location)) then
+          if (FindSymbol(x, y, 'bank')) then
+          begin
+            MSI_Debug('Walking to bank symbol');
+            Mouse(x, y, 5, 5, True);
+            MSI_Flag(0);
+            Wait(RandomRange(250, 750));
+          end;
+
+        SymbolAccuracy := 0.8;
+      end;
+    until(Result or (t >= MSI_Objects[which].Tries));
+
+  finally
+    MSI_CloseHeader('MSI_OpenBank: ' + BoolToStr(Result) + '(' + MSI_Objects[which].Name + ')');
+  end;
+end;
+
+(*
+MSI_ExchangeNPC
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ExchangeNPC(Which: Integer): Boolean;
+
+Exchanges with NPC 'Which' (object constants found in Globals.simba). Will
+right-click and choose the object's (Which) Option attribute. Will attempt 30
+times before returning false.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 10 Febuary 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ExchangeNPC(NPC_STILES)) then
+    MSI_Debug('Successfully opened ' + MSI_Objects[NPC_STILES].Name);
+*)
+function MSI_ExchangeNPC(which: Integer) : Boolean;
+var
+  t : Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  try
+    MSI_AddHeader('MSI_ExchangeNPC');
+
+    t := 0;
+    repeat
+      Inc(t);
+      Result := MSI_FindObject(which, ClickRight);
+    until(Result or (t >= MSI_Objects[which].Tries));
+
+  finally
+    MSI_CloseHeader('MSI_ExchangeNPC:' + BoolToStr(Result) + ' (' + MSI_Objects[which].Name + ')');
+  end;
+end;
+
+(*
+MSI_Deposit
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Deposit(Items, Amounts: TIntegerArray; var DepAll: Boolean): Boolean;
+
+Deposits all the 'Items' and their respective amounts 'Amounts'. DepAll will
+be set to True if the 'Deposit-All' button was used. Set 'Amounts' to '[]' if
+all occurances of each item is to be deposited.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 25 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  var
+    depositedAll: Boolean;
+
+  if (MSI_OpenBank(MSI_BANK_VE)) then
+    if (MSI_Deposit([LOGS_NORMAL, LOGS_OAK], [], depositedAll)) then
+      MSI_Debug('Items successfully deposited');
+*)
+function MSI_Deposit(Items, Amounts: TIntegerArray; var DepAll: Boolean): Boolean;
+var
+  i, t, x, y: Integer;
+  b: TBox;
+  itemsDeposited: TBooleanArray;
+  slots: TIntegerArray;
+  s: TStringArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (not BankScreen) then
+    if (not DepositScreen) then
+      Exit;
+
+  MSI_AddHeader('MSI_Deposit');
+
+  SetLength(itemsDeposited, Length(Items));
+
+  if (Length(Amounts) <= 0) then
+  begin
+    SetLength(Amounts, Length(Items));
+    for i := 0 to High(Amounts) do
+      Amounts[i] := 28;
+  end;
+
+  if (Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions) <= 0) then
+  begin
+    Result := DepositAll; // Deposits all if there are no exceptions
+    DepAll := Result;
+    if (Result) then
+      MSI_Debug('Deposited all items in the inventory');
+  end else begin
+    MSI_Debug('Exceptions: '+ToStr(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions));
+
+    for i := 0 to High(Items) do
+    begin
+      slots := MSI_FindItemSlots(Items[i]);
+
+      // If items aren't found, sets the deposit array to true and continues
+      if (Length(slots) <= 0) then
+      begin
+        itemsDeposited[i] := True;
+        Continue;
+      end;
+
+      if (Length(slots) = 1) then
+        s := ['osit']
+      else
+        s := ['-All'];
+
+      if (Amounts[i] >= 28) or (Amounts[i] = 1) then
+        itemsDeposited[i] := MSI_ClickItemSlot(slots[0], s)
+      else
+        if (InIntArray([5, 10], Amounts[i])) then
+          itemsDeposited[i] := MSI_ClickItemSlot(slots[0], ['-'+IntToStr(Amounts[i])])
+        else
+          if (MSI_ClickItemSlot(slots[0], ['-X'])) then
+            if (WaitColor(254, 401, ClBlack, 0, 1200)) then
+            begin
+              TypeSend(IntToStr(Amounts[i]));
+              itemsDeposited[i] := True;
+            end;
+
+      case MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType of
+        Bank: b := IntToBox(MIX1, MIY1, MIX2, MIY2);
+        DBox: b := IntToBox(DBX1, DBY1, DBX2, DBY2);
+      end;
+
+      if (itemsDeposited[i]) then
+      begin
+        t := (GetSystemTime + 5000);
+
+        // For a lag failsafe; sometimes it takes a while for the items to disappear from the inventory
+        while (GetSystemTime < t) do
+        begin
+          Wait(RandomRange(300, 500));
+          if (not FindDTM(MSI_Items[Items[i]].DTM, x, y, b.x1, b.y1, b.x2, b.y2)) then
+            Break;
+        end;
+      end;
+    end;
+  end;
+
+  if (Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions) > 0) then
+  begin
+    for i := 0 to High(itemsDeposited) do
+      if (not itemsDeposited[i]) then // Returns false if it fails to deposit one item
+      begin
+        MSI_CloseHeader('MSI_Deposit: ' + BoolToStr(Result) + ' (' + MSI_Items[Items[i]].Name + ')');
+        Exit;
+      end else
+        MSI_Debug('Deposited '+Capitalize(MSI_Items[Items[i]].Name));
+
+    Result := True;
+  end;
+
+  MSI_CloseHeader('MSI_Deposit: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_Withdraw
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Withdraw(Items, Amounts: TIntegerArray): Boolean;
+
+Works like MSI_Deposit - Withdraws the 'Amounts' of each item in 'Items'. Item
+constants can be found in Globals.simba.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_OpenBank(MSI_BANK_FE)) then
+    if (MSI_Withdraw([ORE_COPPER, ORE_TIN], [14, 14])) then
+      MSI_Debug('Items successfully withdrawn');
+*)
+function MSI_Withdraw(Items, Amounts: TIntegerArray): Boolean;
+var
+  i, x, y: Integer;
+  itemsWithdrew: TBooleanArray;
+begin
+  if (not LoggedIn) or (not WaitFunc(@BankScreen, 70, 1300)) then
+    Exit;
+
+  MSI_AddHeader('MSI_Withdraw');
+
+  if (Length(Amounts) = 0) then
+  begin
+    SetLength(Amounts, Length(Items));
+    for i := 0 to High(Amounts) do
+      if (MSI_Items[Items[i]].Stackable) then
+        Amounts[i] := -1
+      else
+        Amounts[i] := 1;
+  end;
+
+  SetLength(itemsWithdrew, Length(Items));
+
+  for i := 0 to High(Items) do
+  begin
+    if (FindItem(x, y, 'dtm', MSI_Items[Items[i]].DTM, MBX1, MBY1, MBX2, MBY2, [])) then
+    begin
+      MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
+
+      if (Amounts[i] = 1) then
+      begin
+        Mouse(x, y, 4, 4, True);
+        itemsWithdrew[i] := True;
+        Continue;
+      end else
+        Mouse(x, y, 4, 4, False);
+
+      if (Amounts[i] = -1) then
+        itemsWithdrew[i] := WaitOption('-All', 500)
+      else
+        if (InIntArray([5, 10], Amounts[i])) then
+          itemsWithdrew[i] := WaitOption('-'+IntToStr(Amounts[i]), 500)
+        else
+          if (WaitOption('-X', 500)) then
+            if (WaitColor(254, 401, ClBlack, 0, 1200)) then
+            begin
+              TypeSend(IntToStr(Amounts[i]));
+              itemsWithdrew[i] := True;
+            end;
+    end;
+  end;
+
+  for i := 0 to High(itemsWithdrew) do
+    if (not itemsWithdrew[i]) then // Returns false if it fails to withdraw one item
+    begin
+      MSI_CloseHeader('MSI_Withdraw: ' + BoolToStr(Result) + ' (' + MSI_Items[Items[i]].Name + ')');
+      Exit;
+    end else
+      MSI_Debug('Withdrew '+Capitalize(MSI_Items[Items[i]].Name));
+
+  Result := True;
+  MSI_CloseHeader('MSI_Withdraw: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_WithdrawBestTool
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WithdrawBestTool(): Boolean;
+
+Will open the bank at which the player is currently located and attempt to
+withdraw the best tool for the current script. This is and should only be called
+during player/script setup. See MSI_SetupWoodcutting in Woodcutting.simba to
+see the more advanced usage of this function.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not RequiredToolNotFound) then
+    MSI_WithdrawBestTool();
+*)
+function MSI_WithdrawBestTool(): Boolean;
+var
+  i: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do
+    if (MSI_OpenBank(WhichBank, MSI_Players[CurrentPlayer].Pin)) then
+    begin
+      for i := MSI_BestTool downto MSI_WorstTool do
+        if (MSI_Withdraw([i], [1])) then
+        begin
+          Result := True;
+          Break;
+        end;
+
+      // Equip tool if possible
+
+      if (not Result) then
+      begin
+        CloseBank;
+        MSI_Debug('Couldn''t withdraw best tool');
+      end;
+
+    end else
+      MSI_Debug('Unable to open ' + MSI_Objects[WhichBank].Name);
+end;
+
+(*
+MSI_CountItems
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_CountItems;
+
+This procedure is called before the player banks/drops after finishing a load.
+It will count the script items in the player's inventory and add them to the
+progress report.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (WalkedToBank) then
+    MSI_CountItems;
+*)
+procedure MSI_CountItems;
+var
+  itemCount, expCount, j, k: Integer;
+  objs: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  GameTab(TAB_INV);
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    case (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst) of
+      SKILL_WOODCUTTING:
+        objs := Scripts[CurrentScript].Trees;
+
+      SKILL_MINING:
+        objs := Scripts[CurrentScript].Rocks;
+
+      SKILL_FISHING:
+        objs := Scripts[CurrentScript].FishSpots;
+
+      SKILL_COOKING:
+        objs := Scripts[CurrentScript].CookingSpot;
+    end;
+
+    for j := 0 to High(objs) do
+      for k := 0 to High(ReportInfo.Items[CurrentScript][j]) do
+      begin
+        itemCount := CountItems('dtm', MSI_Items[ReportInfo.Items[CurrentScript][j][k]].DTM, []);
+        expCount  := Round(ReportInfo.Experiences[CurrentScript][j][k] * itemCount);
+
+        MSI_AddToProggy(PROG_ADD_EXP, -1, -1, expCount);  // Adds experience
+        MSI_AddToProggy(PROG_ADD_ITEMS, j, k, itemCount); // Adds items
+
+        MSI_Debug('MSI_CountItems: Found '+IntToStr(itemCount)+' of '+
+                  MSI_Items[ReportInfo.Items[CurrentScript][j][k]].Name+' ('+
+                  IntToStr(expCount) + ' XP)');
+      end;
+  end;
+end;
+
+(*
+MSI_BankMaterials
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_BankMaterials: Boolean;
+
+This is MSI's master banking function. It's what is called in the mainloop and
+actually does the banking. It handles all types of banking (see the TBank type
+in Globals.simba for the possible banking types). This function also banks
+miscellaneous items that may have been obtained during the past load.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 04 January 2011 by 3Garrett3
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_BankMaterials) then // See MSI_Mainloop in Mainloop.simba for a more in-depth example
+    MSI_Debug('Failed to bank');
+*)
+function MSI_BankMaterials: Boolean;
+var
+  intItems: TIntegerArray;
+  itemsDeposited: TBooleanArray;
+  i, x, y: Integer;
+  depAll: Boolean;
+  Script: TScript;
+  b: TBox;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_BankMaterials');
+
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+  MSI_CountItems;
+
+  // NPC Exchanging
+  if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NPC) then
+  begin
+    if (MSI_Players[CurrentPlayer].Location = Script.PathInfo.StartLoc) then
+      if (MSI_ExchangeNPC(Script.WhichBank)) then
+        MSI_Debug('Exchanged with NPC: '+MSI_Objects[Script.WhichBank].Name)
+      else begin
+        MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to exchange with NPC: '+MSI_Objects[Script.WhichBank].Name;
+        Exit;
+      end;
+
+  end else begin // End NPC Exchanging
+    // Normal Banking
+    if (MSI_Players[CurrentPlayer].Location = Script.PathInfo.StartLoc) then
+      if (not MSI_OpenBank(Script.WhichBank, MSI_Players[CurrentPlayer].Pin)) then
+      begin
+        MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to open bank: '+MSI_Objects[Script.WhichBank].Name;
+        Exit;
+      end;
+
+    with MSI_Players[CurrentPlayer] do
+    begin
+      SetLength(itemsDeposited, Length(ReportInfo.Items[CurrentScript]));
+
+      for i := 0 to High(ReportInfo.Items[CurrentScript]) do
+      begin
+        intItems := ReportInfo.Items[CurrentScript][i];
+        itemsDeposited[i] := MSI_Deposit(intItems, [], depAll);
+        if (depAll) then
+          Break;
+      end;
+    end;
+
+    // Deposits other items such as gems, or random rewards
+    for i := 1 to 28 do
+    begin
+      if (InIntArray(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions, i)) then
+        Continue;
+
+      case MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType of
+        Bank: b := InvBox(i);
+        DBox: b := DepositItemBox(i);
+      end;
+
+      if (FindColor(x, y, SRL_OUTLINE_BLACK, b.x1, b.y1, b.x2, b.y2)) then
+      begin
+        MMouse(x, y, 5, 5);
+
+        if (WaitUptext('osit', 500)) then
+          if (GetAmount(x, y) > 1) then
+          begin
+            Mouse(x, y, 0, 0, False);
+            WaitOption('osit-All', 500);
+          end else
+            Mouse(x, y, 0, 0, True);
+
+        Wait(RandomRange(200, 500));
+      end;
+    end;
+
+    if (not depAll) then
+      for i := 0 to High(itemsDeposited) do
+        if (not itemsDeposited[i]) then
+        begin
+          Result := False;
+          MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to deposit items';
+          MSI_CloseHeader('MSI_BankMaterials: ' + BoolToStr(Result));
+          Exit;
+        end;
+
+    CloseBank;
+  end; // End Normal Banking
+
+  MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+  stats_IncVariable('Times Banked', 1);
+  Result := True;
+
+  MSI_CloseHeader('MSI_BankMaterials: ' + BoolToStr(Result));
+end;

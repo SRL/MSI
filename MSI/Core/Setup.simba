@@ -1,0 +1,100 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                               Setup.scar                                     |
+|==============================================================================|
+| For All MSI Setuping up needs that are not skill-related                     |
+|                                                                              |
+| * procedure SetupMSI;               * by The MSI Team                        |
+ \_____________________________________________________________________________}
+
+///SRL Includes
+{$include_once srl/srl/misc/smart.scar}
+{$include_once srl/srl.scar}
+{$include_once reflection/reflection.simba}
+
+{$include_once srl/srl/misc/Reports.scar}
+{$include_once srl/srl/misc/PaintSmart.scar}
+{$include_once srl/srl/misc/Stats.simba}
+
+{$include_once srl/srl/skill/magic.scar}
+
+//MSI Script
+{$include_once MSI/MSI/Core/Globals.simba}
+{$include_once MSI/MSI/Core/Debug.simba}
+{$include_once MSI/MSI/Core/Manipulation.simba}
+{$include_once MSI/MSI/Core/Track.simba}
+{$include_once MSI/MSI/Core/Antiban.simba}
+{$include_once MSI/MSI/Core/Animating.simba}
+{$include_once MSI/MSI/Core/Items.simba}
+{$include_once MSI/MSI/Core/Locations.simba}
+{$include_once MSI/MSI/Core/Walking_Color.simba}
+{$include_once MSI/MSI/Core/Walking_Reflection.simba}
+{$include_once MSI/MSI/Core/Objects.simba}
+{$include_once MSI/MSI/Core/Obstacles.simba}
+{$include_once MSI/MSI/Core/Relocate.simba}
+{$include_once MSI/MSI/Core/Skills.simba}
+{$include_once MSI/MSI/Core/Banking.simba}
+
+//MSI Skill Files
+{$include_once MSI/MSI/Skills/Woodcutting.simba}
+{$include_once MSI/MSI/Skills/Mining.simba}
+{$include_once MSI/MSI/Skills/Fishing.simba}
+{$include_once MSI/MSI/Skills/Cooking.simba}
+{$include_once MSI/MSI/Skills/Magic.simba}
+
+{$include_once MSI/MSI/Core/Reports.simba}
+{$include_once MSI/MSI/Core/Scripts.simba}
+
+//Extras
+{$include_once MSI/MSI/Extras/Example.simba}
+{include_once MSI/MSI/Extras/WorldWalker_cstrike.simba} // It wont work without changes because of the new extras system.
+
+{$include_once MSI/MSI/Core/Extras.simba}
+
+//MSI Skill Loops, AI and Mainloop
+{$include_once MSI/MSI/Core/MainLoop.simba}
+
+{$include_once MSI/MSI/Form/MSI_Form.simba}
+ 
+procedure SetupMSI;
+var
+  Timer: integer;
+begin
+  MarkTime(Timer);
+
+  MSI_LoadAllLocations;
+  MSI_LoadAllScripts;
+  MSI_LoadAllObjects;
+  MSI_LoadAllItems;
+  MSI_LoadAllObstacles;
+  MSI_LoadAllColorAreas;
+  MSI_LoadAllWalkPoints;
+  MSI_LoadAllAnimations;
+  MSI_LoadAllSpells;
+  //MSI_LoadAllExtras;
+  Track_LoadNames;
+
+  Writeln('Setting up MSI took '+IntToStr(TimeFromMark(Timer))+' ms.');
+end;
+
+
+function MSI_SetupReflection(Terminate: Boolean): boolean;
+begin
+  Result := False;
+
+  {$IFDEF REFLECTION}
+    SetupConstants;
+    Result := true;
+    if(SmartGetFieldInt(0, hook_static_LoginIndex) = -1) then
+    begin
+      Result := False;
+      if (Terminate) then
+      begin
+        Writeln('***** Hooks are outdated; terminating *****');
+        TerminateScript;
+      end else
+        Writeln('******** HOOKS ARE OUTDATED ********');
+    end;
+  {$ENDIF}
+end;
+

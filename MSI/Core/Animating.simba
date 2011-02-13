@@ -1,0 +1,161 @@
+(*
+Animating
+=========
+
+The Animating file includes any procedures/functions MSI uses for animating. It
+includes the loading of the different animations.
+
+*)
+
+(*
+MSI_LoadAnimation
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAnimation(Anim: Integer);
+
+Loads the animation 'Anim' (sets 'Anim' in the MSI_Animations global array).
+This procedure should only be called in MSI_LoadAllAnimations. 'Anim' represents
+the animation constants MSI uses, which can be found in Globals.simba.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 February 2011 by Coh3n
+
+*)
+procedure MSI_LoadAnimation(Anim: Integer);
+begin
+  case Anim of
+    ANIM_ALCH_LOW:
+      with MSI_Animations[Anim] do
+      begin
+        Name := 'Low Alching';
+        MinPixelShift := 500;
+        PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
+        Interval := 200;
+        MaxWait := 2000;
+      end;
+
+    ANIM_ALCH_HIGH:
+      with MSI_Animations[Anim] do
+      begin
+        Name := 'High Alching';
+        MinPixelShift := 500;
+        PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
+        Interval := 200;
+        MaxWait := 3000;
+      end;
+  end;
+end;
+
+(*
+MSI_LoadAllAnimations
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllAnimations();
+
+Loads all the animations into the MSI_Animations array.  This procedure should
+only be called in SetupMSI.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 February 2011 by Coh3n
+
+*)
+procedure MSI_LoadAllAnimations();
+var
+  i: Integer;
+begin
+  for i := 0 to High(MSI_Animations) do
+    MSI_LoadAnimation(i);
+end;
+
+(*
+MSI_IsAnimating
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_IsAnimating(Anim: Integer): Boolean;
+
+Returns true if the player is animation. 'Anim' represents the animation
+constants found in Globals.simba.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  while MSI_IsAnimating(ANIM_CHOPPING) do
+  begin
+    MSI_Antiban(RandomRange(200, 500), ANTI_BAN_CHANCE);
+    MSI_FindRandoms(False);
+    Wait(RandomRange(200, 800));
+  end;
+*)
+function MSI_IsAnimating(Anim: Integer): Boolean;
+var
+  t: Integer;
+begin
+  with MSI_Animations[Anim] do
+    if (PixelShift(PixelBox, Interval) > MinPixelShift) then
+      begin
+        MSI_SubDebug('We are animating: ' + Name);
+        Result := True;
+      end;
+end;
+
+(*
+MSI_WaitWhileAnimating
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_WaitWhileAnimating(Anim: Integer);
+
+Simply waits while the player is animating. Doesn't perform antiban or check for
+randoms; just waits.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_CastInvItem(SPELL_ALCH_HIGH, 16)) then
+    MSI_WaitWhileAnimating(ANIM_ALCH_HIGH);
+*)
+procedure MSI_WaitWhileAnimating(Anim: Integer);
+var
+  t: Integer;
+begin
+  with MSI_Animations[Anim] do
+  begin
+    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      SMART_DrawBoxEx(True, PixelBox, clRed);
+
+    t := (GetSystemTime + MaxWait);
+
+    while (GetSystemTime < t) do
+    begin
+      if (not MSI_IsAnimating(Anim)) then
+        Break;
+
+      Wait(RandomRange(10, 30));
+    end;
+  end;
+end;
+
+
