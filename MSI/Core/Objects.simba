@@ -1296,6 +1296,11 @@ Begin
   End;
 
   For II := 0 To Hi Do
+  Begin
+    MSI_FindRandoms(False);
+    If Not LoggedIn Then
+      Exit;
+
     With MSI_Objects[Objs[II]] Do
       If MSI_FindObjectsTPA(TmpTPA, Objs[II], SearchBox) Then
       Begin
@@ -1399,17 +1404,15 @@ Begin
             NotBoxes := [];
             Exit;
           End Else Begin
-            if (MSI_FindRandoms(False)) then
-              if (not LoggedIn) then
-                Exit;
-
+            MSI_FindRandoms(False);
             MSI_Debug('Uptext didn''t match!');
           End;
         End;
       End;
+  End;
 
   MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
-  MSI_FindRandoms(False);
+  MSI_FindRandoms(True);
 End;
 
 {******************************************************************************}

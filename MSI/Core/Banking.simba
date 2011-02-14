@@ -55,10 +55,7 @@ begin
     t := 0;
     repeat
       Inc(t);
-
-      if (MSI_FindRandoms(False)) then
-        if (not LoggedIn) then
-          Break;
+      MSI_FindRandoms(False);
 
       if (bankType = Bank) then
       begin
@@ -97,7 +94,7 @@ begin
 
         SymbolAccuracy := 0.8;
       end;
-    until(Result or (t >= MSI_Objects[which].Tries));
+    until(Result or (t >= MSI_Objects[which].Tries) or (not LoggedIn));
 
   finally
     MSI_CloseHeader('MSI_OpenBank: ' + BoolToStr(Result) + '(' + MSI_Objects[which].Name + ')');

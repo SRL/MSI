@@ -256,9 +256,7 @@ begin
           t := (GetSystemTime + (8 * 60000));
           waitTime := 0;
         end else begin
-          if (MSI_FindRandoms(False)) then
-            if (not LoggedIn) then
-              Exit;
+          MSI_FindRandoms(False);
 
           if (forceFail) then
             Exit;

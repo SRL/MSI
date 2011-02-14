@@ -190,15 +190,13 @@ begin
   {$ENDIF}
   begin
     Result := True;
-
+    MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
+  end else
     if (not LoggedIn) then
     begin
       MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
       Exit;
     end;
-
-    MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
-  end;
 
   if (LevelUp) then
   begin
@@ -364,9 +362,7 @@ begin
       Status('MSI_SetupVars[SETUP_BREAK_TIME] remaining: '+MsToTime(t - GetSystemTime, Time_Formal)+';');
       Wait(RandomRange(2000, 25000));
       if LoggedIn then
-        if (MSI_FindRandoms(False)) then
-          if (not LoggedIn) then
-            Exit;
+        MSI_FindRandoms(False);
     end;
 
     MSI_Debug('Break over, continuing to play');

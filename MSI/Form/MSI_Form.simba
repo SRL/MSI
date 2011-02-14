@@ -1589,8 +1589,13 @@ begin
         SavePlayers();
 
         CurrentPlayer := StrToInt(edit_CurPlayer.Text);
-        if (CurrentPlayer = -1) then
-          CurrentPlayer := 0;
+        if (CurrentPlayer = 0) then
+          for i := 0 to High(MSI_Players) do
+            if (MSI_Players[i].Active) then
+            begin
+              CurrentPlayer := i;
+              Break;
+            end;
 
         MainForm.ModalResult := mrOk;
       end;

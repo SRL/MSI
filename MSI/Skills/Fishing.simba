@@ -431,9 +431,7 @@ begin
   MarkTime(InvTimer);
 
   repeat
-    if (MSI_FindRandoms(False)) then
-      if (not LoggedIn) then
-        Break;
+    MSI_FindRandoms(False);
 
     if (FindText(x, y, 'left', NPCChars, 327, 377, 362, 414)) then
     begin
@@ -479,7 +477,7 @@ begin
     if not Fishing then break;
     MSI_Debug('Fishing returned True');
 
-  until(WaitTime < GetSystemTime);
+  until((WaitTime < GetSystemTime) or (not LoggedIn));
 
   MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
 end;
@@ -530,9 +528,7 @@ begin
           Exit;
         end;
   end else
-    if (MSI_FindRandoms(False)) then
-      if (not LoggedIn) then
-        Exit;
+    MSI_FindRandoms(False);
 end;
 
 {******************************************************************************}

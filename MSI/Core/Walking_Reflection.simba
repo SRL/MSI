@@ -50,13 +50,10 @@ begin
 
     Result := TileOnMM(Tile);
 
-    if (MSI_FindRandoms(False)) then
-      if (not LoggedIn) then
-        Exit;
-
+    MSI_FindRandoms(False);
     MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
     Wait(RandomRange(200, 500));
-  until(Result or (GetSystemTime > t));
+  until(Result or (GetSystemTime > t) or (not LoggedIn));
   {$ENDIF}
 end;
 
@@ -544,9 +541,7 @@ begin
 
   MakeCompass('n');
   RunEnergy(20);
-  if (MSI_FindRandoms(False)) then
-    if (not LoggedIn) then
-      Exit;
+  MSI_FindRandoms(False);
 
   // If reflection is broken, then use color walking
   if (ReflectionBroken) then

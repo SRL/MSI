@@ -73,9 +73,7 @@ begin
   {done}
 
   repeat
-    if (MSI_FindRandoms(False)) then
-      if (not LoggedIn) then
-        Break;
+    MSI_FindRandoms(False);
 
     FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
                            SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
@@ -114,7 +112,7 @@ begin
       break;
     end;
 
-  until(False)
+  until(False or (not LoggedIn));
   MSI_CloseHeader('Out of loop');
   MSI_CloseHeader('MSI_WaitWhileMining: Finished');
   SetColorToleranceSpeed(cts);
@@ -138,9 +136,7 @@ begin
     Result := True;
     MSI_WaitWhileMining(Which[Index]);
   end else
-    if (MSI_FindRandoms(False)) then
-      if (not LoggedIn) then
-        Exit;
+    MSI_FindRandoms(False);
 end;
 
 {******************************************************************************}
