@@ -11,6 +11,9 @@ const
   CASTS_BEFORE_REPORT = 50; // Will perform this many casts before printing the report
   MAX_RUNES = 1000000000; // A billion
 
+var
+  CurrentSpell: Integer;
+
 (*
 MSI_LoadSpell
 ~~~~~~~~~~~~~

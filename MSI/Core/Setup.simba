@@ -34,6 +34,7 @@
 {$include_once MSI/MSI/Core/Relocate.simba}
 {$include_once MSI/MSI/Core/Skills.simba}
 {$include_once MSI/MSI/Core/Banking.simba}
+{$include_once MSI/MSI/Core/Extras.simba}
 
 //MSI Skill Files
 {$include_once MSI/MSI/Skills/Woodcutting.simba}
@@ -48,8 +49,6 @@
 //Extras
 {$include_once MSI/MSI/Extras/Example.simba}
 {include_once MSI/MSI/Extras/WorldWalker_cstrike.simba} // It wont work without changes because of the new extras system.
-
-{$include_once MSI/MSI/Core/Extras.simba}
 
 //MSI Skill Loops, AI and Mainloop
 {$include_once MSI/MSI/Core/MainLoop.simba}

@@ -1,5 +1,8 @@
 //Extras.simba
 
+var
+  CurrentExtra: Integer;
+
 procedure MSI_LoadAllExtras;
 var
   Extras : TStringArray;

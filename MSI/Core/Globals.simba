@@ -864,11 +864,8 @@ type
  *)
 var
   CurrentScript    : Integer;
-  CurrentExtra     : Integer;
-  CurrentSpell     : Integer;
   CurrDebugLevel   : Integer;
   ReflectionBroken : Boolean;
-  MSIRev           : string;
   ScriptStart      : string;
   NextAntiban      : Integer;
   NextRandCheck    : Integer;

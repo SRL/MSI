@@ -166,43 +166,6 @@ begin
 end;
 
 (*
-MSI_SetRev
-~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_SetRev;
-
-Retrieves the user's MSI Revision number. Used to show the version when printing
-progress reports.
-
-.. note::
-
-  | Author: Sir. R. Magician & Shuttleu
-  | Last Updated: 27 July 2010 by Sir R. Magician
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_SetRev;
-*)
-procedure MSI_SetRev;
-var
-  i: Integer;
-  s: string;
-begin
-  try
-    i:= OpenFile(IncludePath + 'MSI/.svn/entries', True)
-    ReadFileString(i, s, 20);
-    CloseFile(i);
-    MSIRev:= Trim(Between('dir', 'http', s));
-  except
-    MSI_SubDebug('Error setting revision number');
-  end;
-end;
-
-(*
 MSI_PrintSave
 ~~~~~~~~~~~~~
 
