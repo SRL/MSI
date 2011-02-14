@@ -431,7 +431,9 @@ begin
   MarkTime(InvTimer);
 
   repeat
-    MSI_FindRandoms(False);
+    if (MSI_FindRandoms(False)) then
+      if (not LoggedIn) then
+        Break;
 
     if (FindText(x, y, 'left', NPCChars, 327, 377, 362, 414)) then
     begin
@@ -528,7 +530,9 @@ begin
           Exit;
         end;
   end else
-    MSI_FindRandoms(True);
+    if (MSI_FindRandoms(False)) then
+      if (not LoggedIn) then
+        Exit;
 end;
 
 {******************************************************************************}

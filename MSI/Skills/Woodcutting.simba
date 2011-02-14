@@ -135,7 +135,10 @@ Begin
     If InvFull Then
       Break;
 
-    MSI_FindRandoms(False);
+    if (MSI_FindRandoms(False)) then
+      if (not LoggedIn) then
+        Break;
+
     MSI_AntiBan(RandomRange(0, 5000), ANTI_BAN_CHANCE);
 
     { Check if the tree Exists }

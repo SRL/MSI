@@ -73,7 +73,9 @@ begin
   {done}
 
   repeat
-    MSI_FindRandoms(False);
+    if (MSI_FindRandoms(False)) then
+      if (not LoggedIn) then
+        Break;
 
     FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
                            SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
@@ -136,7 +138,9 @@ begin
     Result := True;
     MSI_WaitWhileMining(Which[Index]);
   end else
-    MSI_FindRandoms(True);
+    if (MSI_FindRandoms(False)) then
+      if (not LoggedIn) then
+        Exit;
 end;
 
 {******************************************************************************}

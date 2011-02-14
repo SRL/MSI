@@ -1399,14 +1399,17 @@ Begin
             NotBoxes := [];
             Exit;
           End Else Begin
-            MSI_FindRandoms(True);
+            if (MSI_FindRandoms(False)) then
+              if (not LoggedIn) then
+                Exit;
+
             MSI_Debug('Uptext didn''t match!');
           End;
         End;
       End;
 
   MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
-  MSI_FindRandoms(True);
+  MSI_FindRandoms(False);
 End;
 
 {******************************************************************************}

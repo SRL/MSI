@@ -150,21 +150,24 @@ MSI_FindRandoms
 
 Checks to see if the player has encountered a random event. Set 'Force' to true
 to scan for randoms no matter what. By default, MSI waits a minimum of 15 seconds
-in between randoms scans (changable by user in the script setup).
+in between randoms scans (changable by user in the script setup). This procedure
+should ALWAYS be called exactly like in this example.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 February 2011 by Coh3n
+  | Last Updated: 13 February 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
   if (not FindObjects) then // Note that FindObjects is used only as an example
-    MSI_FindRandoms(True);
+    if (MSI_FindRandoms(False)) then
+      if (not LoggedIn) then
+        Exit;
 *)
-procedure MSI_FindRandoms(Force: Boolean);
+function MSI_FindRandoms(Force: Boolean): Boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -186,7 +189,15 @@ begin
   if (FindNormalRandoms) then
   {$ENDIF}
   begin
-    MSI_SubDebug('MSI_FindRandoms: Solved Random Event!');
+    Result := True;
+
+    if (not LoggedIn) then
+    begin
+      MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
+      Exit;
+    end;
+
+    MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
   end;
 
   if (LevelUp) then
@@ -320,12 +331,19 @@ begin
         0, 2: Logout;
 
         1: while LoggedIn do
+           begin
+             Wait(RandomRange(200, 500));
              MSI_FindRandoms(False);
+           end;
 
         3..6: begin
                 t := (GetSystemTime + RandomRange(60000, 60000 * 3));
                 while (t > GetSystemTime) and LoggedIn do
+                begin
+                  Wait(RandomRange(200, 500));
                   MSI_FindRandoms(False);
+                end;
+
                 if LoggedIn then
                   if InRange(Random(10), 1, 5) then
                     Logout
@@ -346,7 +364,9 @@ begin
       Status('MSI_SetupVars[SETUP_BREAK_TIME] remaining: '+MsToTime(t - GetSystemTime, Time_Formal)+';');
       Wait(RandomRange(2000, 25000));
       if LoggedIn then
-        MSI_FindRandoms(True);
+        if (MSI_FindRandoms(False)) then
+          if (not LoggedIn) then
+            Exit;
     end;
 
     MSI_Debug('Break over, continuing to play');

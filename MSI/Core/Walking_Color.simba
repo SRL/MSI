@@ -56,7 +56,10 @@ begin
     if (FlagDistance <= FlagDist) or (not IsMoving) then
       Exit;
 
-    MSI_FindRandoms(False);
+    if (MSI_FindRandoms(False)) then
+      if (not LoggedIn) then
+        Exit;
+
     MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
 
     MSI_SubDebug('Flag distance: '+IntToStr(FlagDistance));

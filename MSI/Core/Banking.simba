@@ -55,7 +55,11 @@ begin
     t := 0;
     repeat
       Inc(t);
-      MSI_FindRandoms(True);
+
+      if (MSI_FindRandoms(False)) then
+        if (not LoggedIn) then
+          Break;
+
       if (bankType = Bank) then
       begin
         if (MSI_FindObject(which, ClickRight)) then

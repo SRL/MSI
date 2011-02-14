@@ -58,7 +58,10 @@ begin
   stats_IncVariable('Total Logins', 1);
 
   // Standard setup procedures
-  MSI_FindRandoms(True);
+  if (MSI_FindRandoms(False)) then
+    if (not LoggedIn) then
+      Exit;
+
   SetAngle(True);
   RunEnergy(20);
 
@@ -627,7 +630,14 @@ begin
         if (takeBreak) then
         begin
           MSI_HandleBreaking;
-          MSI_FindRandoms(True);
+
+          if (MSI_FindRandoms(False)) then
+            if (not LoggedIn) then
+            begin
+              MSI_UnsetPlayer('Failed random', False);
+              Break;
+            end;
+
           takeBreak := False;
         end else
           MSI_UnsetPlayer(reason, True);

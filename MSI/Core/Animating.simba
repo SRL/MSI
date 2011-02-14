@@ -98,7 +98,6 @@ Example:
   while MSI_IsAnimating(ANIM_CHOPPING) do
   begin
     MSI_Antiban(RandomRange(200, 500), ANTI_BAN_CHANCE);
-    MSI_FindRandoms(False);
     Wait(RandomRange(200, 800));
   end;
 *)
