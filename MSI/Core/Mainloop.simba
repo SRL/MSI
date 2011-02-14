@@ -166,6 +166,19 @@ var
   t: Integer;
 begin
   Result := False;
+
+  // Check if SRL set player to false
+  if (not Players[CurrentPlayer].Active) then
+  begin
+    MSI_Debug('Went inactive somewhere in SRL');
+    MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Went inactive somewhere in SRL';
+    MSI_Players[CurrentPlayer].Active := False;
+
+    if (Players[CurrentPlayer].Rand <> '') then
+      MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'In random: '+Players[CurrentPlayer].Rand;
+
+    Exit;
+  end;
   
   t := GetSystemTime + 10000;
   while (GetSystemTime < t) do
