@@ -880,9 +880,6 @@ var
   NextRandCheck    : Integer;
   MSI_SetupVars    : array[0..SETUP_ARRAY_LENGTH] of Variant;
 
-  // Temporary array to hopefully increase the amount of random detection (called only in MSI_Relocate)
-  RelocateAttempts   : TIntegerArray;
-
 (**
  * Arrays that store all the necessary "go-to" information for MSI
  *)

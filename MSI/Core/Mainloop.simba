@@ -561,24 +561,13 @@ begin
       // Perform the skill
       if (not MSI_AutoObjects) then
       begin
-        if (RelocateAttempts[CurrentPlayer] > 0) then
-          if (RelocateAttempts[CurrentPlayer] >= 3) then
-            MSI_UnsetPlayer('Possibly in random ' + Players[CurrentPlayer].Rand, True)
-          else begin
-            MSI_HandleBreaking;
-            Break;
-          end;
-
         if (MSI_TimedOut) then
           Break;
 
         MSI_UnsetPlayer('Failed to use script: ' +
                         MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].Name, False);
         Break;
-      end else
-        // If successfully corrects itself, sets attempts back to 0
-        if (RelocateAttempts[CurrentPlayer] > 0) then
-          RelocateAttempts[CurrentPlayer] := 0;
+      end;
 
       WalkToBank:
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then

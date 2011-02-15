@@ -296,13 +296,6 @@ begin
       end;
   end;
 
-  // If relocating is unsuccessful, increase number of attempts
-  if (not Result) then
-  begin
-    Inc(RelocateAttempts[CurrentPlayer]);
-    MSI_Debug('Relocate attempts: ' + IntToStr(RelocateAttempts[CurrentPlayer]));
-  end;
-
   MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
 end;
 
