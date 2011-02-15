@@ -1087,6 +1087,4 @@ var
 begin
   for i := 0 to High(MSI_Scripts) do
     MSI_LoadScript(i);
-
-  MSI_SubDebug('Loaded all scripts');
 end;

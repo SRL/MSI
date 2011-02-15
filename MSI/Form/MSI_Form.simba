@@ -1597,6 +1597,9 @@ begin
               Break;
             end;
 
+        for i := 0 to BITMAP_COUNT - 1 do
+          FreeBitmap(frmBitmaps[i]);
+
         MainForm.ModalResult := mrOk;
       end;
 
@@ -1660,7 +1663,7 @@ begin
   begin
     Name   := edit_User.Text;
     Pass   := edit_Pass.Text;
-    Nick   := GenerateNick(Name);
+    //Nick   := GenerateNick(Name);
     Pin    := edit_Pin.Text;
     Active := checkList_Players.Checked[checkList_Players.ItemIndex];
     Member := StrToBool(comboBox_Member.Text);

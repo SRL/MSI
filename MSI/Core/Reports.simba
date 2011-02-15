@@ -137,91 +137,90 @@ end;
 {******************************************************************************}
 { procedure MSI_ProgressReport;                                                }
 { By: Coh3n                                                                    }
-{ Date: 25 November 2010                                                       }
+{ Date: 14 February 2011                                                       }
 { Description: Prints the progress report of each player                       }
 {******************************************************************************}
 procedure MSI_ProgressReport;
 var
-  i, j, f: Integer;
+  i, j: Integer;
 begin
-  try
-    if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+  if (MSI_Files[FILE_REPORT] <> -1) then
+  begin
+    CloseFile(MSI_Files[FILE_REPORT]);
+    MSI_Files[FILE_REPORT] := RewriteFile(PATH_REPORT + ScriptStart + '.txt', False);
+    WriteFileString(MSI_Files[FILE_REPORT], 'This progress report was written ' +
+                    TheDate(Date_Formal)+ ' at ' + TheTime + #13 + #10);
+  end;
+
+  MSI_SetSkillLevels();
+
+  ClearDebug;
+  SetScriptProp(SP_WriteTimeStamp, [False]);
+  MSI_ShortReport(MSI_Files[FILE_REPORT]);
+
+  MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');                             //64 from '{' to '}'
+  MSI_PrintSave(MSI_Files[FILE_REPORT], '{                    MSI Phoenix Player Report                   }');
+  MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');
+  MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Time Running: ' + TimeRunning, 59) + '}');
+  MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');
+
+  for i := 0 to (HowManyPlayers - 1) do
+  begin
+    MSI_Players[i].Active := Players[i].Active;
+
+    with MSI_Players[i] do
     begin
-      f := ReWriteFile(PATH_REPORT + scriptStart + '.txt', False);
-      WriteFileString(f, 'Progress Report Saved:' + #13 + #10);
-      WriteFileString(f, #13 + #10 + 'This progress report was written ' +
-                      TheDate(Date_Formal )+ ' at ' + TheTime + #13 + #10);
-    end;
+      MSI_PrintSave(MSI_Files[FILE_REPORT], '{                                                                }');
+      MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Player ' + IntToStr(i) + ': ' + Capitalize(Name), 59) + '}');
 
-    ClearDebug;
-    SetScriptProp(SP_WriteTimeStamp, [False]);
-
-    MSI_SetSkillLevels();
-    MSI_ShortReport(f);
-
-    MSI_PrintSave(f, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
-    MSI_PrintSave(f, '{                    MSI Phoenix Player Report                   }');
-    MSI_PrintSave(f, '{----------------------------------------------------------------}');
-    MSI_PrintSave(f, '{     ' + PadR('Time Running: ' + TimeRunning, 59) + '}');
-    MSI_PrintSave(f, '{----------------------------------------------------------------}');
-
-    for i := 0 to (HowManyPlayers - 1) do
-    begin
-      MSI_Players[i].Active := Players[i].Active;
-
-      with MSI_Players[i] do
+      if (ReportInfo.FalseReason = 'User set to false') then // Don't print inactive players
       begin
-        if (ReportInfo.FalseReason = 'User set to false') then // Don't print inactive players
-          Continue;
-
-        MSI_PrintSave(f, '{                                                                }');
-        MSI_PrintSave(f, '{     ' + PadR('Player ' + IntToStr(i) + ': ' + Capitalize(Name), 59) + '}');
-        MSI_PrintSave(f, '{     ' + PadR('Location: ' + MSI_Locations[Location].Name, 59) + '}');
-        MSI_PrintSave(f, '{     ' + PadR('Time:     ' + MsToTime(ReportInfo.PlayerTime, TIME_SHORT), 59) + '}');
-
-        //MSI_PrintSave(f, '{     ' + PadR('Total Loads: ' + IntToStr(LoadsDone), 59) + '}');
-
-        MSI_PrintSave(f, '{     ' + PadR('Active:   ' + Capitalize(BoolToStr(Active)), 59) + '}');
-
-        if (not Active) then
-          MSI_PrintSave(f, '{       ' + PadR('Reason: ' + ReportInfo.FalseReason, 57) + '}');
-
-        MSI_PrintSave(f, '{                                                                }');
-
-        for j := 0 to High(Scripts) do
-        begin
-          MSI_PrintSave(f, '{     ' + PadR('Script: ' + MSI_Scripts[Scripts[j].Name].Name, 59) + '}');
-          MSI_PrintSave(f, '{       ' + PadR('Time:  ' + MsToTime(ReportInfo.ScriptTimes[j], Time_Short), 57) + '}');
-          MSI_PrintSave(f, '{       ' + PadR('Skill: ' + MSI_Scripts[Scripts[j].Name].SkillName, 57) + '}');
-          MSI_PrintSave(f, '{       ' + PadR('Exp:   ' + GroupDigits(ReportInfo.GainedExps[j], ','), 57) + '}');
-
-          if (ReportInfo.SkillLevels[j] < 1) then
-            MSI_PrintSave(f, '{       ' + PadR('Level: Not yet defined', 57) + '}')
-          else
-            MSI_PrintSave(f, '{       ' + PadR('Level: ' + IntToStr(ReportInfo.SkillLevels[j]), 57) + '}');
-
-          case MSI_Scripts[Scripts[j].Name].SkillConst of
-            SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING:
-              MSI_StandardReport(f, i, j);
-
-            SKILL_MAGIC:
-              MSI_MagicReport(f, i, j);
-          end;
-
-          MSI_PrintSave(f, '{                                                                }');
-        end;
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Active: False', 59) + '}');
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Reason: User set to false', 57) + '}');
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{                                                                }');
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');
+        Continue;
       end;
 
-      MSI_PrintSave(f, '{----------------------------------------------------------------}');
+      MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Location: ' + MSI_Locations[Location].Name, 59) + '}');
+      MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Time:     ' + MsToTime(ReportInfo.PlayerTime, TIME_SHORT), 59) + '}');
+
+      //MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Total Loads: ' + IntToStr(LoadsDone), 59) + '}');
+
+      MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Active:   ' + Capitalize(BoolToStr(Active)), 59) + '}');
+
+      if (not Active) then
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Reason: ' + ReportInfo.FalseReason, 57) + '}');
+
+      MSI_PrintSave(MSI_Files[FILE_REPORT], '{                                                                }');
+
+      for j := 0 to High(Scripts) do
+      begin
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Script: ' + MSI_Scripts[Scripts[j].Name].Name, 59) + '}');
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Time:  ' + MsToTime(ReportInfo.ScriptTimes[j], Time_Short), 57) + '}');
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Skill: ' + MSI_Scripts[Scripts[j].Name].SkillName, 57) + '}');
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Exp:   ' + GroupDigits(ReportInfo.GainedExps[j], ','), 57) + '}');
+
+        if (ReportInfo.SkillLevels[j] < 1) then
+          MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Level: Not yet defined', 57) + '}')
+        else
+          MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Level: ' + IntToStr(ReportInfo.SkillLevels[j]), 57) + '}');
+
+        case MSI_Scripts[Scripts[j].Name].SkillConst of
+          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING:
+            MSI_StandardReport(MSI_Files[FILE_REPORT], i, j);
+
+          SKILL_MAGIC:
+            MSI_MagicReport(MSI_Files[FILE_REPORT], i, j);
+        end;
+
+        MSI_PrintSave(MSI_Files[FILE_REPORT], '{                                                                }');
+      end;
     end;
 
-    MSI_PrintSave(f, '{----------------------------------------------------------------}');
-
-    if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
-      CloseFile(f);
-  except
-    MSI_SubDebug('Error in printing report!');
+    MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');
   end;
+  MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');
 
   SetScriptProp(SP_WriteTimeStamp, [True]);
 end;

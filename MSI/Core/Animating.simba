@@ -153,6 +153,7 @@ begin
         Break;
 
       Wait(RandomRange(10, 30));
+      MSI_FindRandoms(False);
     end;
   end;
 end;

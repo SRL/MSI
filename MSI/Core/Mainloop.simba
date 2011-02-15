@@ -58,7 +58,7 @@ begin
   stats_IncVariable('Total Logins', 1);
 
   // Standard setup procedures
-  MSI_FindRandoms(False);
+  MSI_FindRandoms(True);
   SetAngle(True);
   RunEnergy(20);
 
@@ -370,9 +370,10 @@ begin
         SetLength(ItemAmounts[Script][i], Length(Items[Script][i]));
         SetLength(Experiences[Script][i], Length(Items[Script][i]));
         Experiences[Script][i] := MSI_GetItemExperiences(tmpScript.SkillConst, Items[Script][i]);
-
+      {
         for j := 0 to High(Experiences[Script][i]) do
           Writeln('Player['+IntToStr(Player)+'].Scripts['+IntToStr(Script)+'].Objs['+IntToStr(i)+'] Experience = '+FloatToStr(Experiences[Script][i][j]));
+      }
       end;
   end;
 end;
@@ -487,24 +488,13 @@ var
 label
   AtBank, WalkToBank;
 begin
-  // Again, temporary
-  SetLength(RelocateAttempts, HowManyPlayers);
-
   MSI_SetScriptLength;
   MSI_SetPlayerInfo;
   MSI_WriteRemote;
 
-  // To gain access
-  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
-  begin
-    MSI_Debug('Created Debug file');
-    MSI_Debug('Gathering report info, please wait...');
-    MSI_ProgressReport;
-  end;
-
   {$IFDEF SRL_SMART}
-    if MSI_SetupVars[SETUP_DEBUG_SMART] then
-      SmartSetDebug(True);
+  if MSI_SetupVars[SETUP_DEBUG_SMART] then
+    SmartSetDebug(True);
   {$ENDIF}
 
   repeat
@@ -663,10 +653,12 @@ end;
 {******************************************************************************}
 { procedure MSI_ScriptTerminate;                                               }
 { By: Coh3n & Shuttleu                                                         }
-{ Date: 11 January 2011                                                        }
+{ Date: 14 Feburary 2011                                                       }
 { Description: Called upon termination of the script                           }
 {******************************************************************************}
 procedure MSI_ScriptTerminate;
+var
+  i: Integer;
 begin
   MSI_ProgressReport;
 
@@ -677,6 +669,9 @@ begin
   MSI_ClearFile(PATH_REMOTE);
   MSI_FreeAllItems;
   FreeSRL;
+
+  for i := 0 to High(MSI_Files) do
+    CloseFile(MSI_Files[i]);
 
   Writeln('Thank-you for using MSI Phoenix scripts!');
 end;

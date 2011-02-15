@@ -528,6 +528,15 @@ const
 
   SETUP_ARRAY_LENGTH = 32;
 
+(**
+ * Represent the indexes of each file used in MSI
+ *)
+const
+  FILE_DEBUG  = 0;
+  FILE_REPORT = 1;
+
+  FILE_ARRAY_LENGTH = 2;
+
 {==============================================================================\
 |                                  Types                                       |
 \==============================================================================}
@@ -878,6 +887,7 @@ var
  * Arrays that store all the necessary "go-to" information for MSI
  *)
 var
+  MSI_Files     : array[0..(FILE_ARRAY_LENGTH - 1)] of Integer;
   MSI_Players   : TPlayerInfoArray;
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
   MSI_Objects   : array[0..OBJ_ARRAY_LENGTH] of TMSObject;
@@ -891,6 +901,4 @@ var
   MSI_WalkPoints: array of TWalkPoint;
   MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
-
-
 

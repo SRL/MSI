@@ -8,7 +8,7 @@
  \_____________________________________________________________________________}
 
 ///SRL Includes
-{$include_once srl/srl/misc/smart.scar}
+{$DEFINE SMART}
 {$include_once srl/srl.scar}
 {$include_once reflection/reflection.simba}
 
@@ -75,7 +75,6 @@ begin
 
   Writeln('Setting up MSI took '+IntToStr(TimeFromMark(Timer))+' ms.');
 end;
-
 
 function MSI_SetupReflection(Terminate: Boolean): boolean;
 begin

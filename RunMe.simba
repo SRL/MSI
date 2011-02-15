@@ -248,16 +248,16 @@ begin
   SetupSRL;
 
   {$IFDEF REFLECTION}
-    // So if the hooks are outdated, the script will attempt colour walking if the points exist
-    if (not MSI_SetupReflection(False)) then
-      ReflectionBroken := True;
+  // So if the hooks are outdated, the script will attempt colour walking if the points exist
+  if (not MSI_SetupReflection(False)) then
+    ReflectionBroken := True;
   {$ELSE}
-    ReflectionBroken := True; // Set to true because it's not even being used
+  ReflectionBroken := True; // Set to true because it's not even being used
   {$ENDIF}
 
   {$IFDEF REFLECTION}
-    if (ReflectionBroken) then
-      ShowMessage('WARNING: Reflection hooks are outdated!');
+  if (ReflectionBroken) then
+    ShowMessage('WARNING: Reflection hooks are outdated!');
   {$ENDIF}
 
   if (USE_FORM) then
@@ -272,14 +272,19 @@ begin
     DeclarePlayers;
   end;
 
+  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+  begin
+    MSI_Files[FILE_DEBUG] := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
+    MSI_Files[FILE_REPORT] := CreateFile(PATH_REPORT + ScriptStart + '.txt');
+  end;
+
   // Clears the SMART canvas if there is any debug info. left from a previous run
   {$IFDEF SRL_SMART}
-    drawing := TBitmap.Create;
-    drawing.canvas.handle := SmartGetDebugDC;
-    ClearRSCanvas(drawing.canvas);
+  drawing := TBitmap.Create;
+  drawing.canvas.handle := SmartGetDebugDC;
+  ClearRSCanvas(drawing.canvas);
   {$ENDIF}
 
-  ClearDebug;
   SetScriptProp(SP_WriteTimeStamp, [True]);
   AddOnTerminate('MSI_ScriptTerminate');
 
@@ -302,7 +307,7 @@ begin
     if (MSI_SetupVars[SETUP_SWITCH_WORLDS]) then
       Players[i].WorldInfo := [Players[i].Member, -1, False];
 
-    if (not MSI_Players[i].Active) then
+    if (not Players[i].Active) then
       MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
   end;
 

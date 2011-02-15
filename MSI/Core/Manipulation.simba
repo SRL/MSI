@@ -37,7 +37,6 @@ begin
   try
     f := RewriteFile(FilePath, False);
     CloseFile(f);
-    MSI_Debug('Cleared file: ' + FilePath);
   except
     MSI_Debug('Error clearing file: ' + FilePath + ' - ' + ExceptionToString(ExceptionType, ExceptionParam));
   end;
@@ -81,7 +80,7 @@ begin
       WriteINI(IntToStr(i), 'Location', IntToStr(MSI_Players[i].Location), PATH_REMOTE);
     end;
   except
-    MSI_Debug('MSI_WriteINI: Error! Retrying...');
+    MSI_Debug('MSI_WriteINI: Error!');
   end;
 end;
 
