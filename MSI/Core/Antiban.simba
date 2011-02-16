@@ -175,6 +175,12 @@ begin
   if (LeaveDangerZone) then
     MSI_Debug('Left danger zone');
 
+  if (LevelUp) then
+  begin
+    MSI_SubDebug('MSI_FindRandoms: Player has leveled up!');
+    stats_IncVariable('Total Levels Gained', 1);
+  end;
+
   MSI_ClickInvTab();
 
   if (not Force) then
@@ -197,12 +203,6 @@ begin
       MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
       Exit;
     end;
-
-  if (LevelUp) then
-  begin
-    MSI_SubDebug('MSI_FindRandoms: Player has leveled up!');
-    stats_IncVariable('Total Levels Gained', 1);
-  end;
 
   NextRandCheck := GetSystemTime + MSI_SetupVars[SETUP_RANDOMS_WAIT];
 end;
