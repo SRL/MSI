@@ -208,8 +208,7 @@ begin
             if (i = SETUP_WALKING) then
             begin
               Clear();
-              Text := 'Hybrid';
-              Items.Add('Hybrid');
+              Text := 'Color';
               Items.Add('Color');
               Items.Add('Reflection');
             end;

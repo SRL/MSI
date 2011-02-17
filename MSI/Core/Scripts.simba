@@ -76,8 +76,8 @@ begin
                                        Point(3276, 3450)])
                         ];
 
-          ColorTo    := [TIntegerArray([0, 3])];
-          ColorFrom  := [TIntegerArray([4, 7])];
+          SPSAreas := ['11_3'];
+          Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -110,8 +110,8 @@ begin
                                        Point(3279, 3428)])
                         ];
 
-          ColorTo    := [TIntegerArray([8, 9])];
-          ColorFrom  := [TIntegerArray([10, 11])];
+          SPSAreas := ['11_3'];
+          Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -145,8 +145,8 @@ begin
                                        Point(3208, 3503)])
                         ];
 
-          ColorTo    := [TIntegerArray([50, 53])];
-          ColorFrom  := [TIntegerArray([46, 49])];
+          SPSAreas   := ['10_2', '11_2'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -179,8 +179,8 @@ begin
                                        Point(3080, 3263), Point(3081, 3268)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['9_4', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -212,8 +212,8 @@ begin
                           TPointArray([Point(3091, 3244), Point(3101, 3244)])
                         ];
 
-          ColorTo    := [TIntegerArray([58, 58])];
-          ColorFrom  := [TIntegerArray([59, 59])];
+          SPSAreas   := ['9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -245,8 +245,8 @@ begin
                           TPointArray([Point(3091, 3245), Point(3087, 3234)])
                         ];
 
-          ColorTo    := [TIntegerArray([30, 30])];
-          ColorFrom  := [TIntegerArray([31, 31])];
+          SPSAreas   := ['9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -283,8 +283,8 @@ begin
                                        Point(2937, 3228)])
                         ];
 
-          ColorTo    := [TIntegerArray([60, 69])];
-          ColorFrom  := [TIntegerArray([70, 79])];
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -317,8 +317,8 @@ begin
                                        Point(3060, 3253)])
                         ];
 
-          ColorTo    := [TIntegerArray([56, 57])];
-          ColorFrom  := [TIntegerArray([54, 55])];
+          SPSAreas   := ['9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -352,8 +352,8 @@ begin
                                        Point(3044, 3269), Point(3053, 3270)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -390,8 +390,8 @@ begin
                                        Point(2704, 3392), Point(2701, 3399)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['6_2', '6_3'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -423,8 +423,8 @@ begin
                           TPointArray([Point(2726, 3492), Point(2724, 3502)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['6_2'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -459,8 +459,8 @@ begin
                                        Point(2719, 3463), Point(2714, 3464)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['6_2'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -493,8 +493,8 @@ begin
                                        Point(3087, 3472)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['9_2'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -563,8 +563,8 @@ begin
                                        Point(3293, 3377), Point(3287, 3368)])
                         ];
 
-          ColorTo    := [TIntegerArray([12, 18])];
-          ColorFrom  := [TIntegerArray([19, 25])];
+          SPSAreas   := ['11_3'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -605,8 +605,8 @@ begin
                                        Point(3148, 3155), Point(3148, 3147)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['9_5', '10_5', '10_6'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -647,8 +647,8 @@ begin
                                        Point(3181, 3367)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['10_3'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -684,8 +684,8 @@ begin
                                        Point(3079, 3423)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['9_2', '9_3'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -720,8 +720,8 @@ begin
                                        Point(2986, 3236)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -756,8 +756,8 @@ begin
                                        Point(2986, 3236)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -792,8 +792,8 @@ begin
                                        Point(2981, 3241), Point(2979, 3245)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -827,8 +827,8 @@ begin
                                        Point(2996, 3231), Point(2983, 3233)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -863,8 +863,8 @@ begin
                                        Point(2974, 3235), Point(2971, 3239)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -899,8 +899,8 @@ begin
                                        Point(2977, 3233)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -967,8 +967,8 @@ begin
                                        Point(3087, 3228)])
                         ];
 
-          ColorTo    := [TIntegerArray([26, 27])];
-          ColorFrom  := [TIntegerArray([28, 29])];
+          SPSAreas   := ['9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -1007,8 +1007,8 @@ begin
                                        Point(3107, 3433)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['9_2', '9_3'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -1045,8 +1045,8 @@ begin
                           TPointArray([Point(3270, 3165), Point(3271, 3170), Point(3273, 3179)])
                         ];
 
-          //ColorTo    := [TIntegerArray([ , ])];
-          //ColorFrom  := [TIntegerArray([ , ])];
+          SPSAreas   := ['11_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 

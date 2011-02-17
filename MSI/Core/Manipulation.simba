@@ -196,6 +196,26 @@ begin
   MSI_SubDebug('MSI_MirrorATPA: New ATPA '+ToStr(Result));
 end;
 
+function MSI_ConvertTilePath(Tiles: TPointArray): TPointArray;
+var
+  i: Integer;
+begin
+  SetLength(Result, Length(Tiles));
+
+  for i := 0 to High(Result) do
+    Result[i] := SPS_PointToPixel(Tiles[i]);
+end;
+
+function MSI_Convert2DTilePath(Tiles: T2DPointArray): T2DPointArray;
+var
+  i: Integer;
+begin
+  SetLength(Result, Length(Tiles));
+
+  for i := 0 to High(Result) do
+    Result[i] := MSI_ConvertTilePath(Tiles[i]);
+end;
+
 (*
 MSI_StrToIntArr
 ~~~~~~~~~~~~~~~

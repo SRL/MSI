@@ -144,13 +144,18 @@ procedure MSI_ProgressReport;
 var
   i, j: Integer;
 begin
-  if (MSI_Files[FILE_REPORT] <> -1) then
-  begin
-    CloseFile(MSI_Files[FILE_REPORT]);
-    MSI_Files[FILE_REPORT] := RewriteFile(PATH_REPORT + ScriptStart + '.txt', False);
-    WriteFileString(MSI_Files[FILE_REPORT], 'This progress report was written ' +
-                    TheDate(Date_Formal)+ ' at ' + TheTime + #13 + #10);
-  end;
+  {$IFDEF DEBUG_REFLECTION}
+  list_allocated_objects();
+  {$ENDIF}
+
+  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+    if (MSI_Files[FILE_REPORT] <> -1) then
+    begin
+      CloseFile(MSI_Files[FILE_REPORT]);
+      MSI_Files[FILE_REPORT] := RewriteFile(PATH_REPORT + ScriptStart + '.txt', False);
+      WriteFileString(MSI_Files[FILE_REPORT], 'This progress report was written ' +
+                      TheDate(Date_Formal)+ ' at ' + TheTime + #13 + #10);
+    end;
 
   MSI_SetSkillLevels();
 

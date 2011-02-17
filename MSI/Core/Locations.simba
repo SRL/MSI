@@ -24,7 +24,7 @@
          Name := 'Powerskilling';
          Constant := LOC_POWER_SKILL;
          AtBank := False;
-         RelocateDist := 30;
+         MinDistance := 30;
        end;
 
      LOC_LOST:
@@ -41,8 +41,9 @@
          Name := 'Varrock east trees';
          Constant := LOC_VE_TREES;
          AtBank := False;
-         RelocatePoints := [Point(3276, 3450)];
-         RelocateDist   := 20;
+         Tiles := [Point(3276, 3450)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_VE_OAKS:
@@ -51,8 +52,9 @@
          Name := 'Varrock east oaks';
          Constant := LOC_VE_OAKS;
          AtBank := False;
-         RelocatePoints := [Point(3279, 3428)];
-         RelocateDist   := 20;
+         Tiles := [Point(3279, 3428)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_VE_BANK:
@@ -61,8 +63,9 @@
          Name := 'Varrock east bank';
          Constant := LOC_VE_BANK;
          AtBank := True;
-         RelocatePoints := [Point(3253, 3421)];
-         RelocateDist   := 20;
+         Tiles := [Point(3253, 3421)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_VE_MINE:
@@ -71,8 +74,9 @@
          Name := 'Varrock east mine';
          Constant := LOC_VE_MINE;
          AtBank := False;
-         RelocatePoints := [Point(3288, 3368)];
-         RelocateDist   := 30;
+         Tiles := [Point(3288, 3368)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 30;
        end;
 
      LOC_VW_MINE:
@@ -81,8 +85,9 @@
          Name := 'Varrock west mine';
          Constant := LOC_VW_MINE;
          AtBank := False;
-         RelocatePoints := [Point(3181, 3367)];
-         RelocateDist   := 20;
+         Tiles := [Point(3181, 3367)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_VW_BANK:
@@ -91,8 +96,9 @@
          Name := 'Varrock west bank';
          Constant := LOC_VW_BANK;
          AtBank := True;
-         RelocatePoints := [Point(3187, 3437)];
-         RelocateDist   := 20;
+         Tiles := [Point(3187, 3437)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_GE_BANK:
@@ -101,8 +107,9 @@
          Name := 'Grand Exchange bank';
          Constant := LOC_GE_BANK;
          AtBank := True;
-         RelocatePoints := [Point(3169, 3490)];
-         RelocateDist   := 20;
+         Tiles := [Point(3169, 3490)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_GE_YEWS:
@@ -111,9 +118,9 @@
          Name := 'Grand Exchange yews';
          Constant := LOC_GE_YEWS;
          AtBank := False;
-         RelocatePoints := [Point(3209, 3503), Point(3220, 3502)];
-         RelocateAreas  := [AREA_GE_YEWS_1, AREA_GE_YEWS_2];
-         RelocateDist   := 20;
+         Tiles := [Point(3209, 3503), Point(3220, 3502)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_DB_BANK:
@@ -122,8 +129,9 @@
          Name := 'Draynor Village bank';
          Constant := LOC_DB_BANK;
          AtBank := True;
-         RelocatePoints := [Point(3092, 3240)];
-         RelocateDist   := 25;
+         Tiles := [Point(3092, 3240)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
        end;
 
      LOC_DB_WILLOWS:
@@ -132,8 +140,9 @@
          Name := 'Draynor Village willows';
          Constant := LOC_DB_WILLOWS;
          AtBank := False;
-         RelocatePoints := [Point(3087, 3234)];
-         RelocateDist   := 25;
+         Tiles := [Point(3087, 3234)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
        end;
 
      LOC_DB_TREES:
@@ -142,8 +151,9 @@
          Name := 'Draynor Village trees';
          Constant := LOC_DB_TREES;
          AtBank := False;
-         RelocatePoints := [Point(3081, 3268)];
-         RelocateDist   := 20;
+         Tiles := [Point(3081, 3268)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_DB_OAKS:
@@ -152,8 +162,9 @@
          Name := 'Draynor Village oaks';
          Constant := LOC_DB_OAKS;
          AtBank := False;
-         RelocatePoints := [Point(3101, 3244)];
-         RelocateDist   := 20;
+         Tiles := [Point(3101, 3244)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_DB_FISH:
@@ -162,19 +173,20 @@
          Name := 'Draynor Village fishing spots';
          Constant := LOC_DB_FISH;
          AtBank := False;
-         RelocatePoints := [Point(3087, 3228)];
-         RelocateDist   := 25;
+         Tiles := [Point(3087, 3228)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
        end;
 
      LOC_RM_YEWS:
        with MSI_Locations[Which] do
        begin
-         Name := 'Rimmington yews';
+         Name := 'Rimmington Yews';
          Constant := LOC_RM_YEWS;
          AtBank := False;
-         RelocatePoints := [Point(2937, 3231), Point(2935, 3228)];
-         RelocateAreas  := [AREA_RM_YEWS_1, AREA_RM_YEWS_2];
-         RelocateDist   := 10;
+         Tiles := [Point(2937, 3231), Point(2935, 3228)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 10;
        end;
 
      LOC_RM_CLAY:
@@ -183,8 +195,9 @@
          Name := 'Rimmington clay rocks';
          Constant := LOC_RM_CLAY;
          AtBank := False;
-         RelocatePoints := [Point(2986, 3236)];
-         RelocateDist   := 15;
+         Tiles := [Point(2986, 3236)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 15;
        end;
 
      LOC_RM_TIN:
@@ -193,8 +206,9 @@
          Name := 'Rimmington tin rocks';
          Constant := LOC_RM_TIN;
          AtBank := False;
-         RelocatePoints := [Point(2986, 3236)];
-         RelocateDist   := 15;
+         Tiles := [Point(2986, 3236)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 15;
        end;
 
      LOC_RM_COPPER:
@@ -203,8 +217,9 @@
          Name := 'Rimmington copper rocks';
          Constant := LOC_RM_COPPER;
          AtBank := False;
-         RelocatePoints := [Point(2979, 3245)];
-         RelocateDist   := 15;
+         Tiles := [Point(2979, 3245)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 15;
        end;
 
      LOC_RM_IRON_1:
@@ -213,8 +228,9 @@
          Name := 'Rimmington iron rocks 1';
          Constant := LOC_RM_IRON_1;
          AtBank := False;
-         RelocatePoints := [Point(2983, 3233)];
-         RelocateDist   := 15;
+         Tiles := [Point(2983, 3233)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 15;
        end;
 
      LOC_RM_IRON_2:
@@ -223,8 +239,9 @@
          Name := 'Rimmington iron rocks 2';
          Constant := LOC_RM_IRON_2;
          AtBank := False;
-         RelocatePoints := [Point(2971, 3239)];
-         RelocateDist   := 15;
+         Tiles := [Point(2971, 3239)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 15;
        end;
 
      LOC_RM_GOLD:
@@ -233,8 +250,9 @@
          Name := 'Rimmington gold rocks';
          Constant := LOC_RM_GOLD;
          AtBank := False;
-         RelocatePoints := [Point(2977, 3233)];
-         RelocateDist   := 15;
+         Tiles := [Point(2977, 3233)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 15;
        end;
 
      LOC_FE_BANK:
@@ -243,8 +261,9 @@
          Name := 'Falador east bank';
          Constant := LOC_FE_BANK;
          AtBank := True;
-         RelocatePoints := [Point(3012, 3354)];
-         RelocateDist   := 25;
+         Tiles := [Point(3012, 3354)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
        end;
 
      LOC_PS_WILLOWS:
@@ -253,8 +272,9 @@
          Name := 'Port Sarim willows';
          Constant := LOC_PS_WILLOWS;
          AtBank := False;
-         RelocatePoints := [Point(3060, 3253)];
-         RelocateDist   := 20;
+         Tiles := [Point(3060, 3253)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_PS_YEWS:
@@ -263,18 +283,20 @@
          Name := 'Port Sarim yews';
          Constant := LOC_PS_YEWS;
          AtBank := False;
-         RelocatePoints := [Point(3053, 3270)];
-         RelocateDist   := 15;
+         Tiles := [Point(3053, 3270)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 15;
        end;
 
      LOC_PS_DBOX:
        with MSI_Locations[Which] do
        begin
-         Name := 'Port Sarim deposit box';
+         Name := 'Port Sarim Deposit Box';
          Constant := LOC_PS_DBOX;
          AtBank := True;
-         RelocatePoints := [Point(3046, 3235)];
-         RelocateDist   := 20;
+         Tiles := [Point(3046, 3235)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_LSW_MINE:
@@ -283,8 +305,9 @@
          Name := 'Lumbridge swamp west mine';
          Constant := LOC_LSW_MINE;
          AtBank := False;
-         RelocatePoints := [Point(3148, 3147)];
-         RelocateDist   := 30;
+         Tiles := [Point(3148, 3147)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 30;
        end;
 
      LOC_LSE_MINE:
@@ -293,8 +316,9 @@
          Name := 'Lumbridge swamp east mine';
          Constant := LOC_LSE_MINE;
          AtBank := False;
-         RelocatePoints := [Point(3227, 3148)];
-         RelocateDist   := 30;
+         Tiles := [Point(3227, 3148)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 30;
        end;
 
      LOC_EV_BANK:
@@ -303,8 +327,9 @@
          Name := 'Edgeville bank';
          Constant := LOC_EV_BANK;
          AtBank := True;
-         RelocatePoints := [Point(3093, 3493)];
-         RelocateDist   := 30;
+         Tiles := [Point(3093, 3493)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 30;
        end;
 
      LOC_EV_YEWS:
@@ -313,9 +338,9 @@
          Name := 'Edgeville yews';
          Constant := LOC_EV_YEWS;
          AtBank := False;
-         RelocatePoints := [Point(3087, 3472), Point(3087, 3480)];
-         RelocateAreas  := [AREA_EV_YEWS_1, AREA_EV_YEWS_2];
-         RelocateDist   := 20;
+         Tiles := [Point(3087, 3472), Point(3087, 3480)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_BBV_MINE:
@@ -324,8 +349,9 @@
          Name := 'Barbarian Village mine';
          Constant := LOC_BBV_MINE;
          AtBank := False;
-         RelocatePoints := [Point(3079, 3423)];
-         RelocateDist   := 20;
+         Tiles := [Point(3079, 3423)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_BBV_FISH:
@@ -334,8 +360,9 @@
          Name := 'Barbarian Village fishing spot';
          Constant := LOC_BBV_FISH;
          AtBank := False;
-         RelocatePoints := [Point(3108, 3434), Point(3103, 3426)];
-         RelocateDist   := 20;
+         Tiles := [Point(3108, 3434), Point(3103, 3426)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_SV_MAGICS:
@@ -344,8 +371,9 @@
          Name := 'Seers Village Magic trees';
          Constant := LOC_SV_MAGICS;
          AtBank := False;
-         RelocatePoints := [Point(2702, 3398)];
-         RelocateDist   := 20;
+         Tiles := [Point(2702, 3398)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 20;
        end;
 
      LOC_SV_BANK:
@@ -354,8 +382,9 @@
          Name := 'Seers Village Bank';
          Constant := LOC_SV_BANK;
          AtBank := True;
-         RelocatePoints := [Point(2726, 3492)];
-         RelocateDist   := 25;
+         Tiles := [Point(2726, 3492)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
        end;
 
      LOC_SV_MAPLES:
@@ -364,8 +393,9 @@
          Name := 'Seers Village Maples';
          Constant := LOC_SV_MAPLES;
          AtBank := False;
-         RelocatePoints := [Point(2724, 3502)];
-         RelocateDist   := 25;
+         Tiles := [Point(2724, 3502)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
        end;
 
      LOC_SV_YEWS:
@@ -374,8 +404,9 @@
          Name := 'Seers Village Yews';
          Constant := LOC_SV_YEWS;
          AtBank := False;
-         RelocatePoints := [Point(2712, 3462), Point(2706,3463)];
-         RelocateDist   := 5;
+         Tiles := [Point(2712, 3462), Point(2706,3463)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 5;
        end;
 
      LOC_GUILD_MINE:
@@ -384,8 +415,9 @@
          Name := 'Mining Guild (SRL Members+)';
          Constant := LOC_GUILD_MINE;
          AtBank := False;
-         RelocatePoints := [Point(3035, 9737), Point(3048, 9737)];
-         RelocateDist   := 25;
+         Tiles := [Point(3035, 9737), Point(3048, 9737)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
        end;
 
      LOC_AK_BANK:
@@ -394,8 +426,9 @@
          Name := 'Al Kharid Bank';
          Constant := LOC_AK_BANK;
          AtBank := True;
-         RelocatePoints := [Point(3270, 3165)];
-         RelocateDist := 25;
+         Tiles := [Point(3270, 3165)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
        end;
 
      LOC_AK_RANGE:
@@ -404,8 +437,9 @@
          Name := 'Al Kharid Cooking Range';
          Constant := LOC_AK_RANGE;
          AtBank := False;
-         RelocatePoints := [Point(3273, 3179)];
-         RelocateDist := 25;
+         Tiles := [Point(3273, 3179)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
        end;
 
      LOC_KJ_STILES:
@@ -414,8 +448,9 @@
          Name := 'Stiles on Karamja (SRL Members+)';
          Constant := LOC_KJ_STILES;
          AtBank := False;
-         RelocatePoints := [Point(2851, 3141)];
-         RelocateDist := 25;
+         Tiles := [Point(2851, 3141)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
        end;
 
      LOC_KJ_FISH:
@@ -424,8 +459,9 @@
          Name := 'Karamja Fishing Spot (SRL Members+)';
          Constant := LOC_KJ_FISH;
          AtBank := False;
-         RelocatePoints := [Point(2924, 3175)];
-         RelocateDist := 25;
+         Tiles := [Point(2924, 3175)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
        end;
    end;
 
@@ -446,3 +482,4 @@ begin
   for i := 0 to High(MSI_Locations) do
     MSI_LoadLocation(i);
 end;
+

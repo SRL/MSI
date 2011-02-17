@@ -619,12 +619,12 @@ type
  *)
 type
   TPath = record
-    StartLoc      : Integer;
-    EndLoc        : Integer;
-    Reflection    : T2DPointArray;
-    ColorTo       : T2DIntegerArray;
-    ColorFrom     : T2DIntegerArray;
-    Obstacles     : TIntegerArray;
+    StartLoc   : Integer;
+    EndLoc     : Integer;
+    Reflection : T2DPointArray;
+    Color      : T2DPointArray;
+    SPSAreas   : TStringArray;
+    Obstacles  : TIntegerArray;
   end;
 
 (**
@@ -769,46 +769,13 @@ type
  *)
 type
   TLocation = record
-    Name          : string;
-    Constant      : Integer;
-    AtBank        : Boolean;
-    RelocatePoints: TPointArray;   // Reflection tiles
-    RelocateAreas : TIntegerArray; // Area constants
-    RelocateDist  : Integer;       // Min distance (in pixels) for the player to be from the relocation point
-  end;
-
-(**
- * A record that stores all the color properties for relocating to certain
- * locations. Used in the MSI relocater
- *)
-type
-  TMMColorArea = record
-    Name       : string;
-    Symbol     : string;
-    DTM        : Integer;
-    W, H       : Integer;
-    Colors     : TIntegerArray;
-    Tolerances : TIntegerArray;
-    Counts     : TIntegerArray;
-    Bounds     : TBox;
-  end;
-
-  TMMColorAreaArray = array of TMMColorArea;
-
-(**
- * A record that stores all the color properties for individual points for
- * walking paths
- *)
-type
-  TWalkPoint = record
     Name        : string;
-    Color       : Integer;
-    Tolerance   : Integer;
-    SortFrom    : TPoint;
-    RWalkParams : TIntegerArray;
+    Constant    : Integer;
+    AtBank      : Boolean;
+    Tiles       : TPointArray; // Reflection tiles
+    Points      : TPointArray; // Color tiles (SPS)
+    MinDistance : Integer;     // Min distance (in pixels) for the player to be from the relocation point
   end;
-
-  TWalkPointArray = array of TWalkPoint;
 
 (**
  * A record that stores all the necessary information for the many obstacles
@@ -893,9 +860,7 @@ var
   MSI_Extras    : TExtraArray;
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Obstacles : array[0..OBS_ARRAY_LENGTH] of TObstacle;
-  MSI_ColorAreas: array[0..AREA_ARRAY_LENGTH] of TMMColorArea;
   MSI_Recipes   : array[0..RECIPES_ARRAY_LENGTH - 1] of TRecipe;
-  MSI_WalkPoints: array of TWalkPoint;
   MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
 

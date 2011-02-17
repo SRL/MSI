@@ -31,7 +31,7 @@ begin
   MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
   MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
   MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
-  MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection', 'Color', or 'Hybrid'
+  MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection' or 'Color'
 end;
 
 procedure DeclarePlayers;
@@ -211,7 +211,7 @@ begin
   ScriptStart := Replace(scriptStart, ':', ' ');
 
   ClearDebug;
-  SetupMSI;
+  MSI_Setup;
 
   if (USE_FORM) then
   begin
@@ -247,30 +247,11 @@ begin
 
   SetupSRL;
 
-  {$IFDEF REFLECTION}
-  // So if the hooks are outdated, the script will attempt colour walking if the points exist
-  if (not MSI_SetupReflection(False)) then
+  if (Lowercase(MSI_SetupVars[SETUP_WALKING]) = 'color') then
     ReflectionBroken := True;
-  {$ELSE}
-  ReflectionBroken := True; // Set to true because it's not even being used
-  {$ENDIF}
 
-  {$IFDEF REFLECTION}
-  if (ReflectionBroken) then
-    ShowMessage('WARNING: Reflection hooks are outdated!');
-  {$ENDIF}
-
-  if (USE_FORM) then
-  begin
-    HowManyPlayers := Length(MSI_Players);
-    NumberOfPlayers(HowManyPlayers);
-
-    for i := 0 to High(MSI_Players) do
-      SetLength(MSI_Players[i].Scripts, 100);
-  end else begin
-    DeclareSettings;
-    DeclarePlayers;
-  end;
+  if (not ReflectionBroken) then
+    MSI_SetupReflection();
 
   if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
   begin

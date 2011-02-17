@@ -9,8 +9,15 @@
 
 ///SRL Includes
 {$DEFINE SMART}
+
+{$IFDEF DEBUG_REFLECTION}
+  {$DEFINE REFLECTION_MEMORY_DEBUG}
+  {$i reflection_management.simba}
+{$ENDIF}
+
 {$include_once srl/srl.scar}
 {$include_once reflection/reflection.simba}
+{$include_once SRL/SRL/Core/SPS/SPS.simba}
 
 {$include_once srl/srl/misc/Reports.scar}
 {$include_once srl/srl/misc/PaintSmart.scar}
@@ -26,12 +33,11 @@
 {$include_once MSI/MSI/Core/Antiban.simba}
 {$include_once MSI/MSI/Core/Animating.simba}
 {$include_once MSI/MSI/Core/Items.simba}
-{$include_once MSI/MSI/Core/Locations.simba}
-{$include_once MSI/MSI/Core/Walking_Color.simba}
-{$include_once MSI/MSI/Core/Walking_Reflection.simba}
 {$include_once MSI/MSI/Core/Objects.simba}
 {$include_once MSI/MSI/Core/Obstacles.simba}
-{$include_once MSI/MSI/Core/Relocate.simba}
+{$include_once MSI/MSI/Core/Walking.simba}
+{$include_once MSI/MSI/Core/Locations.simba}
+
 {$include_once MSI/MSI/Core/Skills.simba}
 {$include_once MSI/MSI/Core/Banking.simba}
 {$include_once MSI/MSI/Core/Extras.simba}
@@ -48,14 +54,14 @@
 
 //Extras
 {$include_once MSI/MSI/Extras/Example.simba}
-{include_once MSI/MSI/Extras/WorldWalker_cstrike.simba} // It wont work without changes because of the new extras system.
+//{$include_once MSI/MSI/Extras/WorldWalker_cstrike.simba} // It wont work without changes because of the new extras system.
 
 //MSI Skill Loops, AI and Mainloop
 {$include_once MSI/MSI/Core/MainLoop.simba}
 
 {$include_once MSI/MSI/Form/MSI_Form.simba}
  
-procedure SetupMSI;
+procedure MSI_Setup;
 var
   Timer: integer;
 begin
@@ -66,8 +72,6 @@ begin
   MSI_LoadAllObjects;
   MSI_LoadAllItems;
   MSI_LoadAllObstacles;
-  MSI_LoadAllColorAreas;
-  MSI_LoadAllWalkPoints;
   MSI_LoadAllAnimations;
   MSI_LoadAllSpells;
   //MSI_LoadAllExtras;
@@ -76,23 +80,21 @@ begin
   Writeln('Setting up MSI took '+IntToStr(TimeFromMark(Timer))+' ms.');
 end;
 
-function MSI_SetupReflection(Terminate: Boolean): boolean;
+procedure MSI_SetupReflection();
 begin
-  Result := False;
-
   {$IFDEF REFLECTION}
-    SetupConstants;
-    Result := true;
-    if(SmartGetFieldInt(0, hook_static_LoginIndex) = -1) then
-    begin
-      Result := False;
-      if (Terminate) then
-      begin
-        Writeln('***** Hooks are outdated; terminating *****');
-        TerminateScript;
-      end else
-        Writeln('******** HOOKS ARE OUTDATED ********');
-    end;
+  SetupConstants;
+  if (SmartGetFieldInt(0, hook_static_LoginIndex) = -1) then
+  begin
+    ReflectionBroken := True;
+    ShowMessage('HOOKS ARE OUTDATED: '+#13+#10+
+                '  This means you will be using 100% color.  Please '+#13+#10+
+                '  terminate the script if you would rather wait for '+#13+#10+
+                '  reflection to be updated.'
+    );
+  end;
+  {$ELSE}
+  ReflectionBroken := True; // If it's not being used, it's broken (for script's sake)
   {$ENDIF}
 end;
 

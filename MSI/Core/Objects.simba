@@ -54,7 +54,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 10000;
+        MaxTime            := 8000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_NORMAL];
@@ -79,7 +79,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 20000;
+        MaxTime            := 12000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_OAK];
@@ -104,7 +104,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 30000;
+        MaxTime            := 15000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_WILLOW];
@@ -129,7 +129,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 35000;
+        MaxTime            := 25000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_MAPLE];

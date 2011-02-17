@@ -1,0 +1,597 @@
+(*
+Walking_Reflection
+==================
+
+The Reflection Walking file includes functions & procedures that have anything
+to do with reflection walking. You'll notice the defines ({$IFDEF REFLECTION})
+used throughout these methods; these are used so MSI will still compile if the
+user decides to exclude reflection or if reflection is broken.
+
+*)
+
+(*
+MSI_Flag
+~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_Flag(FlagDist: Integer);
+
+MSI's custom flag function. It waits until the flag is within 'FlagDist' from
+the player. It also works if, for some reason, the flag has gone off the minimap,
+but the player is still moving.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_WalkToPoint(MSI_GetWalkCoords(0))) then
+    MSI_Flag(MIN_FLAG_DISTANCE); // MIN_FLAG_DISTANCE is found in Globals.simba
+*)
+procedure MSI_Flag(FlagDist: Integer);
+var
+  t: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  repeat
+    if (LeaveDangerZone) then
+      MSI_Debug('Left danger zone');
+
+    Wait(RandomRange(200, 500));
+    t := (GetSystemTime + 12000);
+
+    // If the player is going around an obstacle and the flag goes off the minimap
+    if ((not FlagPresent) and (IsMoving)) then
+    begin
+      MSI_Antiban(RandomRange(300, 1000), ANTI_BAN_CHANCE);
+      Continue;
+    end;
+
+    if (FlagDistance <= FlagDist) or (not IsMoving) then
+      Exit;
+
+    MSI_FindRandoms(False);
+    MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
+
+    MSI_SubDebug('Flag distance: '+IntToStr(FlagDistance));
+
+  until((not (FlagPresent)) and (not (IsMoving))) or (t < GetSystemTime);
+end;
+
+(*
+MSI_WaitTile
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WaitTile(Tile: TPoint): Boolean;
+
+Simple, yet effective function used as a substitute for Flag functions.
+MSI_WaitTile returns true with 'Tile' is on the minimap. See MSI_WalkTile to
+see exactly how it's used.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ClickTile(i)) then
+    MSI_WaitTile(i + 1); // Waits for the next tile in the path
+*)
+function MSI_WaitTile(Tile: TPoint): Boolean;
+{$IFDEF REFLECTION}
+var
+  t: Integer;
+{$ENDIF}
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  {$IFDEF REFLECTION}
+  t := GetSystemTime + 15000; // Maximum wait time is 15 seconds
+  repeat
+    if (LeaveDangerZone) then
+      MSI_Debug('Left danger zone');
+
+    Result := TileOnMM(Tile);
+
+    MSI_FindRandoms(False);
+    MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
+    Wait(RandomRange(200, 500));
+  until(Result or (GetSystemTime > t) or (not LoggedIn));
+  {$ENDIF}
+end;
+
+(*
+MSI_ClickTile
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ClickTile(Tile: TPoint): Boolean;
+
+Checks to see if the player is near 'Tile', if so, returns true, otherwise it
+will verify the tile is on the minimap and return true when clicked.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ClickTile(Point(1234, 4321))) then
+    MSI_Debug('Clicked tile');
+*)
+function MSI_ClickTile(Tile: TPoint): Boolean;
+{$IFDEF REFLECTION}
+var
+  MP: TPoint;
+{$ENDIF}
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  {$IFDEF REFLECTION}
+  MP := TileToMM(Tile);
+
+  if (Distance(MP.X, MP.Y, MMCX, MMCY) <= 5) then
+  begin
+    MSI_Debug('Already near tile');
+    Result := True;
+    Exit;
+  end;
+
+  if (TileOnMM(Tile)) then
+  begin
+    MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is on the minimap');
+    Mouse(MP.X, MP.Y, 5, 5, True);
+    Result := True;
+  end else
+    MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is not on the minimap');
+  {$ENDIF}
+end;
+
+{******************************************************************************}
+{ function MSI_RelocateRef(var p: TPoint; Location, Index: Integer): Boolean;  }
+{ By: Coh3n                                                                    }
+{ Date: 07 November 2010                                                       }
+{ Description: Returns true if point is found, stores it in 'p'                }
+{******************************************************************************}
+function MSI_PointOnMM(p: TPoint; var Coord: TPoint): Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (ReflectionBroken) then
+    Coord := PosToMM(p)
+  else
+    {$IFDEF REFLECTION}
+    Coord := TileToMM(p);
+    {$ELSE}
+    Wait(50);
+    {$ENDIF}
+
+  Result := rs_OnMinimap(Coord.x, Coord.y);
+  MSI_SubDebug('MSI_PointOnMM'+ToStr(p)+': ' + BoolToStr(Result));
+end;
+
+{******************************************************************************}
+{ function MSI_Relocate(Loc: Integer): Boolean;                                }
+{ By: Coh3n & Sir R. Magician                                                  }
+{ Date: 03 November 2010                                                       }
+{ Description: Returns true if player successfully relocates. If not, will     }
+{              switch players/break                                            }
+{******************************************************************************}
+function MSI_Relocate(Loc: Integer): Boolean;
+var
+  i: Integer;
+  p: TPoint;
+  TPA: TPointArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_Relocate');
+
+  if (ReflectionBroken) then
+  begin
+    TPA := MSI_Locations[Loc].Points
+  end else
+    TPA := MSI_Locations[Loc].Tiles;
+
+  if (Length(TPA) = 0) then
+  begin
+    MSI_SubDebug('No relocation points for ' + MSI_Locations[Loc].Name);
+    Exit;
+  end;
+
+  for i := 0 to High(TPA) do
+  begin
+    if (not MSI_PointOnMM(TPA[i], p)) then
+    begin
+      if (i = High(TPA)) then
+        Break;
+
+      Continue;
+    end;
+
+    if (Distance(p.x, p.y, MMCX, MMCY) > MSI_Locations[Loc].MinDistance) then
+    begin
+      Mouse(p.x, p.y, 4, 4, True);
+      MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
+      MSI_Flag(0);
+      Result := True;
+      Break;
+    end else
+      if (i = High(TPA)) then
+      begin
+        MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
+        Result := True;
+      end;
+  end;
+
+  MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_AtLocation
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_AtLocation(Loc: Integer): Boolean;
+
+Returns true if the player is at the location 'Loc'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 01 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_AtLocation(LOC_VE_BANK)) then
+    MSI_Debug('We are at Varrock East Bank');
+*)
+function MSI_AtLocation(Loc: Integer): Boolean;
+var
+  i, d: Integer;
+  p: TPoint;
+  TPA: TPointArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_AtLocation');
+
+  if (Loc = LOC_POWER_SKILL) then
+  begin
+    MSI_Debug('We are powerskilling, we have no specific location');
+    Result := True;
+  end;
+
+  if (not Result) then
+  begin
+    if (ReflectionBroken) then
+    begin
+      TPA := MSI_Locations[Loc].Points
+    end else
+      TPA := MSI_Locations[Loc].Tiles;
+
+    for i := 0 to High(TPA) do
+    begin
+      MSI_Debug('Checking Point: ' + ToStr(TPA[i]));
+
+      if (MSI_PointOnMM(TPA[i], p)) then
+      begin
+        d := Distance(p.x, p.y, MMCX, MMCY);
+        MSI_Debug('Distance from player to ' + MSI_Locations[Loc].Name + ': ' + IntToStr(d));
+
+        Result := (d <= 30);
+        if (not Result) then
+          Result := MSI_Relocate(Loc);
+
+        if (Result) then
+        begin
+          MSI_Debug('Player is at ' + MSI_Locations[Loc].Name);
+          MSI_Players[CurrentPlayer].Location := MSI_Locations[Loc].Constant;
+          Break;
+        end;
+      end;
+    end;
+  end;
+
+  if (not Result) then
+    MSI_Debug('Player not at ' + MSI_Locations[Loc].Name);
+
+  MSI_CloseHeader('MSI_AtLocation: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_LoadColorPath
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadColorPath(sLoc, eLoc: Integer): T2DIntegerArray;
+
+Loads the color path from the starting location (sLoc) to the ending location
+(eLoc). Loads the path based on the current player's current script, and the
+player's location.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadColorPath(LOC_VE_BANK, LOC_VE_MINE);
+*)
+function MSI_LoadPath(sLoc, eLoc: Integer; Color: Boolean): T2DPointArray;
+var
+  Script: TScript;
+  s: string;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+
+  if (sLoc = Script.PathInfo.StartLoc) then
+    if (Color) then
+      Result := Script.PathInfo.Color
+    else
+      Result := Script.PathInfo.Reflection
+  else
+    if (sLoc = Script.PathInfo.EndLoc) then
+      if (Color) then
+        Result := MSI_MirrorATPA(Script.PathInfo.Color)
+      else
+        Result := MSI_MirrorATPA(Script.PathInfo.Reflection);
+
+  if (Color) then
+    s := 'Color'
+  else
+    s := 'Reflection';
+
+  MSI_SubDebug('Loaded Path (' + s + '): '+ToStr(Result));
+end;
+
+(*
+MSI_WalkColorPath
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WalkColorPath(StartIndex, EndIndex: Integer): Boolean;
+
+Walks an entire color path from 'StartIndex' to 'EndIndex'. Returns true if all
+points have been walked to.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  cPath := MSI_LoadColorPath(LOC_VW_BANK, LOC_VW_MINE);
+  MSI_WalkColorPath(cPath[0], cPath[1]);
+*)
+function MSI_WalkColorPath(Points: TPointArray): Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  Result := SPS_WalkPath(Points);
+end;
+
+(*
+MSI_WalkTilePath
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WalkTilePath(tPath: TPointArray): Boolean;
+
+Walks the entire tile path (tPath). Uses MSI_WaitTile for every tile except the
+last one (uses MSI_Flag(0) instead) to ensure the player has stopped moving
+before searching for objects on the mainscreen.
+
+.. note::
+
+  | Author: marpis & Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_WalkTilePath(TilePathHere)) then
+    MSI_Debug('Walked path');
+*)
+function MSI_WalkTilePath(tPath: TPointArray): Boolean;
+{$IFDEF REFLECTION}
+var
+  h, i, t: Integer;
+  mPos: TPoint;
+  stopMoving: Boolean;
+{$ENDIF}
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  {$IFDEF REFLECTION}
+  with MSI_Players[CurrentPlayer] do
+  begin
+    t := GetSystemTime + (Length(tPath) * 60 + 180) * 1000; // A minute for each tile + 3 minutes
+    h := High(tPath);
+
+    repeat
+      for i := h downto 0 do
+      begin
+        stopMoving := (i = h);
+
+        if (not MSI_ClickTile(tPath[i])) then
+        begin
+          if (i = 0) then
+            Exit;
+
+          Continue;
+        end else
+          if (stopMoving) then
+            MSI_Flag(0)
+          else
+            MSI_WaitTile(tPath[i + 1]);
+
+        mPos := GetMyPos;
+        Result := (Distance(mPos.x, mPos.y, tPath[h].x, tPath[h].y) <= 10);
+        Break;
+      end;
+    until(Result or (GetSystemTime > t));
+  end;
+  {$ENDIF}
+end;
+
+(*
+MSI_ReflectionWalk
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ReflectionWalk(sLoc, eLoc: Integer): Boolean;
+
+Walks the entire path from start (sLoc) to finish (eLoc), including obstacles.
+Returns true if the player is at the ending location.
+
+.. note::
+
+  | Author: marpis & Coh3n
+  | Last Updated: 26 January 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  // Walks to VE mine only if your player is set to use SCRIPT_VE_MINER
+  MSI_ReflectionWalk(LOC_VE_BANK, LOC_VE_MINE);
+*)
+function MSI_WalkPath(sLoc, eLoc: Integer): Boolean;
+var
+  ATPA: T2DPointArray;
+  Walked: function(TPA: TPointArray): Boolean;
+  i, t, h, obsLen: Integer;
+  Script: TScript;
+  obsSolved: TBooleanArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_WalkPath');
+
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+  SetLength(obsSolved, Length(Script.PathInfo.Obstacles));
+
+  if (ReflectionBroken) then
+  begin
+    ATPA := MSI_LoadPath(sLoc, eLoc, True);
+    Walked := @MSI_WalkColorPath;
+  end else begin
+    ATPA := MSI_LoadPath(sLoc, eLoc, False);
+    Walked := @MSI_WalkTilePath;
+  end;
+
+  t := (GetSystemTime + (Length(ATPA) * 60 + 180) * 1000);
+  obsLen := High(Script.PathInfo.Obstacles);
+
+	repeat
+		for i := 0 to High(ATPA) do
+      with MSI_Players[CurrentPlayer] do
+		  begin
+        // Walk the leg of the path
+				if (not (Walked(ATPA[i]))) then
+				begin
+          MSI_Debug('Failed to walk leg '+IntToStr(i)+' of script: '+Capitalize(Script.Name));
+				  ReportInfo.FalseReason := 'Failed to walk to ' + MSI_Locations[eLoc].Name;
+          MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
+				  Location := LOC_LOST;
+          Exit;
+				end;
+
+        // Handle the obstacle
+		    if (MSI_HandleObstacle(Script, sLoc, h)) then
+        begin
+          obsSolved[h] := True;
+		      if (h <> obsLen) then
+		        Inc(h);
+        end;
+
+        // Return true if the player is at the ending location
+		    if (MSI_AtLocation(eLoc)) then
+		    begin
+		      Result := True;
+		      Break;
+		    end;
+		  end;
+	until(Result or (GetSystemTime > t));
+
+	MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_PerformWalk
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_PerformWalk(startLoc, endLoc: Integer): Boolean;
+
+This is the function that is called in MSI_Walk (Mainloop.simba). It takes into
+consideration both color and reflection paths depending on the user's preference
+as well as the current state of reflection.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 04 August 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  // Walks to VE mine only if your player is set to use SCRIPT_VE_MINER
+  MSI_PerformWalk(LOC_VE_BANK, LOC_VE_MINE);
+*)
+function MSI_PerformWalk(startLoc, endLoc: Integer): Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MakeCompass('n');
+  RunEnergy(20);
+  MSI_FindRandoms(True);
+
+  Result := MSI_WalkPath(startLoc, endLoc);
+end;
+

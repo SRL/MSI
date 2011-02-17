@@ -46,12 +46,12 @@ begin
 
   // To handle relocating for power scripts
   {$IFDEF REFLECTION}
-    with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
-      if (Length(RelocatePoints) <= 0) then // If there are no relocation points
-      begin
-        SetLength(RelocatePoints, Length(RelocatePoints) + 1);
-        RelocatePoints[High(RelocatePoints)] := GetMyPos; // Add the point the player is on
-      end;
+  with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
+    if (Length(Tiles) <= 0) then // If there are no relocation points
+    begin
+      SetLength(Tiles, Length(Tiles) + 1);
+      Tiles[High(Tiles)] := GetMyPos; // Add the point the player is on
+    end;
   {$ENDIF}
 
   // Add logins to stats
@@ -93,17 +93,10 @@ begin
     MSI_Debug('Player''s Location = '+MSI_Locations[Location].Name);
     Script := MSI_Scripts[Scripts[CurrentScript].Name];
 
-    {$IFDEF REFLECTION}
     if (ToLoc) then
       Result := MSI_AtLocation(Script.PathInfo.EndLoc)
     else
       Result := MSI_AtLocation(Script.PathInfo.StartLoc);
-    {$ELSE}
-    if (ToLoc) then
-      Result := Location = Script.PathInfo.EndLoc
-    else
-      Result := Location = Script.PathInfo.StartLoc;
-    {$ENDIF}
 
     if (not Result) then
       if (ToLoc) then
@@ -334,7 +327,7 @@ end;
 {******************************************************************************}
 procedure MSI_SetReportInfo(Player, Script: Integer; PlayerObjs, DefaultObjs: TIntegerArray; var newObjs: TIntegerArray);
 var
-  i, j: Integer;
+  i: Integer;
   useDefaults: Boolean;
   tmpScript: TScript;
 begin
@@ -472,6 +465,26 @@ begin
       end;
 end;
 
+function MSI_GetSPSAreas(): TStringArray;
+var
+  i, j: Integer;
+  Script: TScript;
+begin
+  with MSI_Players[CurrentPlayer] do
+    for i := 0 to High(Scripts) do
+    begin
+      Script := MSI_Scripts[Scripts[i].Name];
+
+      for j := 0 to High(Script.PathInfo.SPSAreas) do
+      begin
+        SetLength(Result, Length(Result) + 1);
+        Result[High(Result)] := Script.PathInfo.SPSAreas[j];
+      end;
+    end;
+
+  MSI_SubDebug('Player''s SPS_Areas: ' + ToStr(Result));
+end;
+
 {******************************************************************************}
 { procedure MSI_MainLoop;                                                      }
 { By: Coh3n                                                                    }
@@ -481,8 +494,8 @@ end;
 procedure MSI_MainLoop;
 var
   tmpLoads, tmpTime, time: Integer;
-  script: TScript;
-  takeBreak: Boolean;
+  Script: TScript;
+  takeBreak, skipToBank: Boolean;
   reason: string;
   nPlayer: Boolean;
 label
@@ -514,37 +527,41 @@ begin
       Continue;
     end;
 
+    // Reset for each player as they could be using different scripts
+    SPS_Loaded := False;
+    SPS_Areas := [];
+    SPS_Areas := MSI_GetSPSAreas();
+
+    // Check player's location; works if player is in the middle of the path
+    Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+    if (not MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then // Set location
+      if (not MSI_AtLocation(Script.PathInfo.StartLoc)) then // Start location
+        if (not MSI_AtLocation(Script.PathInfo.EndLoc)) then // End location
+          if (InvCount > 15) then // Assuming it's in the middle of the path somewhere
+          begin
+            MSI_Players[CurrentPlayer].Location := Script.PathInfo.EndLoc;
+            skipToBank := True;
+          end else
+            MSI_Players[CurrentPlayer].Location := script.PathInfo.StartLoc;
+
     repeat
       MarkTime(time);
       if (stats_Commit) then
         MSI_Debug('Committed to SRL stats');
 
-      // Used to correct location errors in DeclarePlayers
-      script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-
-      {$IFDEF REFLECTION}
-      if (not MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
+      // If player's in middle of path with > 15 items, will walk to bank and deposit
+      if (skipToBank) then
       begin
-        MSI_SubDebug('Player NOT at ' + MSI_Locations[MSI_Players[CurrentPlayer].Location].Name);
-
-        // If in the middle of the path with inventory items, will walk to bank and deposit
-        if (not MSI_AtLocation(script.PathInfo.EndLoc)) then
-          if (InvCount > 15) then
-          begin
-            MSI_Players[CurrentPlayer].Location := script.PathInfo.EndLoc;
-            goto WalkToBank;
-          end;
-            MSI_Players[CurrentPlayer].Location := script.PathInfo.StartLoc;
+        skipToBank := False;
+        goto WalkToBank;
       end;
-      {$ENDIF}
 
       // Walk to location if using a bankable script
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
+        // Deposits excess items if already at a bank
         if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
-          {$IFDEF REFLECTION}
           if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
-          {$ENDIF}
             if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
               goto AtBank;
 
@@ -564,11 +581,11 @@ begin
         if (MSI_TimedOut) then
           Break;
 
-        MSI_UnsetPlayer('Failed to use script: ' +
-                        MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].Name, False);
+        MSI_UnsetPlayer('Failed to use script: ' + MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].Name, False);
         Break;
       end;
 
+      // Walks to the bank if using a bankable script
       WalkToBank:
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
@@ -581,6 +598,7 @@ begin
           Break;
         end;
 
+        // Banks the proper materials
         AtBank:
         if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects <> nil) then
         begin
