@@ -177,7 +177,7 @@ begin
     Exit;
 
   if (ReflectionBroken) then
-    Coord := PosToMM(p)
+    Coord := SPS_PosToMM(p)
   else
     {$IFDEF REFLECTION}
     Coord := TileToMM(p);

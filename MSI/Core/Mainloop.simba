@@ -528,9 +528,12 @@ begin
     end;
 
     // Reset for each player as they could be using different scripts
-    SPS_Loaded := False;
-    SPS_Areas := [];
-    SPS_Areas := MSI_GetSPSAreas();
+    if (ReflectionBroken) then
+    begin
+      SPS_Loaded := False;
+      SPS_Areas := [];
+      SPS_Areas := MSI_GetSPSAreas();
+    end;
 
     // Check player's location; works if player is in the middle of the path
     Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];

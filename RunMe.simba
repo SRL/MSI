@@ -222,6 +222,7 @@ begin
       AnimTimer.Enabled := False;
       AnimTimer.Free;
       MainForm.Free;
+      Script_Form.Free;
     except
       Writeln(ExceptionToString(ExceptionType, ExceptionParam));
     end;
