@@ -741,20 +741,20 @@ begin
 
     { Obstacles ================================== ]
     [============================================= }
-     LADDER_DOWN_MINE_GUILD:
+      LADDER_DOWN_MINE_GUILD:
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Mining Guild Ladder: Down';
          UpText             := 'own Ladder';
          Option             := 'own Ladder';
-         Colors             := [4155776];
-         Tol                := 18;
-         Hue                := 0.06;
-         Sat                := 1.00;
+         Colors             := [2709359];
+         Tol                := 8;
+         Hue                := 0.05;
+         Sat                := 0.96;
          FindAllColors      := False;
          W                  := 18;
          H                  := 30;
-         Accuracy           := 3;
+         Accuracy           := 5;
          ExcludeSelf        := True;
          RightClickOnly     := False;
          Tries              := 6;
@@ -763,7 +763,7 @@ begin
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
-       end;
+       end;                             
 
      LADDER_UP_MINE_GUILD:
        with MSI_Objects[whichObject] do
