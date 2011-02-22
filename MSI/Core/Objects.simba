@@ -193,17 +193,17 @@ begin
         Name               := 'Varrock east bank';
         UpText             := 'ooth';
         Option             := 'uick';
-        Colors             := [2379871];
-        Tol                := 5;
-        Hue                := 0.06;
-        Sat                := 1.61;
+        Colors             := [6715005];//2379871
+        Tol                := 4;
+        Hue                := 0.19;
+        Sat                := 0.31;
         FindAllColors      := False;
-        W                  := 40;
-        H                  := 40;
-        Accuracy           := 50;
+        W                  := 33;
+        H                  := 30;
+        Accuracy           := 15;
         ExcludeSelf        := True;
         RightClickOnly     := True;
-        Tries              := 5;
+        Tries              := 7;
         Anim               := False;
         WaitToMove         := False;
         BadColors          := [];
@@ -262,17 +262,17 @@ begin
          Name               := 'Falador east bank';
          UpText             := 'ooth';
          Option             := 'uick';
-         Colors             := [3890806];
-         Tol                := 7;
-         Hue                := 0.15;
-         Sat                := 0.94;
+         Colors             := [7044234];
+         Tol                := 5;
+         Hue                := 0.24;
+         Sat                := 0.47;
          FindAllColors      := False;
          W                  := 35;
          H                  := 40;
-         Accuracy           := 50;
+         Accuracy           := 20;
          ExcludeSelf        := True;
          RightClickOnly     := True;
-         Tries              := 5;
+         Tries              := 8;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];
@@ -747,17 +747,17 @@ begin
          Name               := 'Mining Guild Ladder: Down';
          UpText             := 'own Ladder';
          Option             := 'own Ladder';
-         Colors             := [4287105];
-         Tol                := 8;
-         Hue                := 0.04;
-         Sat                := 0.89;
+         Colors             := [4155776];
+         Tol                := 18;
+         Hue                := 0.06;
+         Sat                := 1.00;
          FindAllColors      := False;
-         W                  := 15;
-         H                  := 25;
-         Accuracy           := 30;
-         ExcludeSelf        := False;
+         W                  := 18;
+         H                  := 30;
+         Accuracy           := 3;
+         ExcludeSelf        := True;
          RightClickOnly     := False;
-         Tries              := 5;
+         Tries              := 6;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];
@@ -772,13 +772,13 @@ begin
          UpText             := 'up Ladder';
          Option             := 'up Ladder';
          Colors             := [4410190];
-         Tol                := 6;
+         Tol                := 8;
          Hue                := 0.26;
          Sat                := 0.14;
          FindAllColors      := False;
          W                  := 35;
          H                  := 30;
-         Accuracy           := 30;
+         Accuracy           := 20;
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
@@ -1386,10 +1386,10 @@ Begin
               If (Action = ClickRight) or (Action = ClickLeft) Then
                 Result := WaitOptionMulti(TheOptions, 750 + Random(100))
               Else
-                Result := True;
+                Result := DidClick(True, 1200);
             End Else Begin
               Mouse(X, Y, 0, 0, True);
-              Result := True;
+              Result := DidClick(True, 1200); ;
             End;
 
             If MSI_Objects[Objs[II]].WaitToMove Then
@@ -1448,4 +1448,4 @@ End;
 
 
 
-
+                                                                       
