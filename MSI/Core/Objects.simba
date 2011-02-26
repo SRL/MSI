@@ -741,7 +741,7 @@ begin
 
     { Obstacles ================================== ]
     [============================================= }
-      LADDER_DOWN_MINE_GUILD:
+     LADDER_DOWN_MINE_GUILD:
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Mining Guild Ladder: Down';
@@ -763,7 +763,7 @@ begin
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
-       end;                             
+       end;
 
      LADDER_UP_MINE_GUILD:
        with MSI_Objects[whichObject] do
@@ -1448,4 +1448,4 @@ End;
 
 
 
-                                                                       
+
