@@ -711,6 +711,7 @@ begin
 
   if (MSI_ClickSpell(Spell)) then
   begin
+    MSI_FindRandoms(False);
     GetMousePos(x, y);
     if (PointInBox(Point(x, y), b)) then
       Mouse(x, y, 0, 0, True)
