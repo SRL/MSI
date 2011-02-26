@@ -7,4 +7,4 @@ Break Time=15
 Level to Debug=10
 Antiban Wait=15000
 Randoms Wait=15000
-Walking Method=Reflection
+Walking Method=Hybrid

@@ -1573,8 +1573,7 @@ begin
       begin
         DrawBitmap(frmBitmaps[LOAD_TAB_NORM],tImages[IMG_LOAD_TAB_NORM].Canvas, 0, 0);
         LoadPlayers;
-        if (FileExists(PATH_PLAYER)) then
-          ShowMessage('Loaded Players');
+        ShowMessage('Loaded Players');
       end;
 
     tImages[IMG_RUN_NORM]:

@@ -44,7 +44,7 @@ const
   BANK_SYMBOL_ACCURACY = 0.60;  // The symbol accuracy of the bank
   MIN_FLAG_DISTANCE    = 15;    // The amount of pixels from the flag to player
   MAX_POINT_DIST       = 15;    // The maximum distance between a color and reflection minimap point
-  RANDOM_TIME_PERCENT  = 0.20;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
+  RANDOM_TIME_PERCENT  = 0.30;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
   MM_RADIUS            = 68;    // Runescape's minimap radius
   DTM_TOLERANCE        = 15;    // Tolerance on the DTMs
   TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
