@@ -228,20 +228,22 @@ End;
 { Date: 25 June 2010                                                           }
 { Description: Chops tree                                                      }
 {******************************************************************************}
-Function MSI_ChopTree(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
-Var
+function MSI_ChopTree(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+var
   TreeIndex: Integer;
-Begin
+begin
   if (not LoggedIn) then
     Exit;
 
-  If MSI_FindObjects(Which, TreeIndex, ClickLeft) Then
+  if MSI_FindObjects(Which, TreeIndex, ClickLeft) then
   begin
     Result := True;
     MSI_WaitWhileChopping(Which[TreeIndex]);
-  end else
+  end else begin
+    Wait(RandomRange(250, 750));
     MSI_FindRandoms(True);
-End;
+  end;
+end;
 
 {******************************************************************************}
 { Function MSI_ChopInvFull(Which: TIntegerArray): Boolean;                     }
