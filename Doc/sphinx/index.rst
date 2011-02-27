@@ -23,14 +23,12 @@ Contents:
     Manipulation.rst
     Objects.rst
     Obstacles.rst
-    Relocate.rst
     Reports.rst
     Scripts.rst
     Setup.rst
     Skills.rst
     Track.rst
-    Walking_Color.rst
-    Walking_Reflection.rst
+    Walking.rst
     Woodcutting.rst
     Mining.rst
     Magic.rst

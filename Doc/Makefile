@@ -2,8 +2,8 @@
 
 
 core = Animating Antiban Banking Debug Extras Globals Items Locations \
-        Mainloop Manipulation Objects Obstacles Relocate Reports \
-        Scripts Setup Skills Track Walking_Color Walking_Reflection
+        Mainloop Manipulation Objects Obstacles Reports Scripts \
+        Setup Skills Track Walking
 
 skills = Cooking Fishing Magic Mining Woodcutting
 
