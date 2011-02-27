@@ -585,8 +585,8 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 10;
-        ExcludeSelf        := True;
         MaxTime            := 55000;
+        ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
         Anim               := False;
@@ -610,8 +610,8 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 5;
-        ExcludeSelf        := True;
         MaxTime            := 65000;
+        ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 15;
         Anim               := False;
@@ -756,14 +756,14 @@ begin
          Name               := 'Mining Guild Ladder: Down';
          UpText             := 'own Ladder';
          Option             := 'own Ladder';
-         Colors             := [4155776];
-         Tol                := 18;
-         Hue                := 0.06;
-         Sat                := 1.00;
+         Colors             := [2709359];
+         Tol                := 8;
+         Hue                := 0.05;
+         Sat                := 0.96;
          FindAllColors      := False;
          W                  := 18;
          H                  := 30;
-         Accuracy           := 3;
+         Accuracy           := 5;
          ExcludeSelf        := True;
          RightClickOnly     := False;
          Tries              := 6;
@@ -1454,3 +1454,5 @@ Var
 Begin
   Result := MSI_FindObjectsIn([Obj], TMP, MSBox, Action);
 End;
+
+

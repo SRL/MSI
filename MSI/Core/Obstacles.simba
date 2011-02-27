@@ -45,7 +45,7 @@ begin
   t := GetSystemTime + (60000 * 3);
 
   // The box to search for the mirror obstacle
-  searchBox := IntToBox(MSCX - 75, MSCY - 75, MSCX + 75, MSCY + 75)
+  searchBox := IntToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85)
 
   repeat
     with MSI_Obstacles[Obs] do
