@@ -904,6 +904,46 @@ begin
         end;
       end;
 
+    SCRIPT_DB_CLAY:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Draynor Clay';
+        Constant      := SCRIPT_DB_CLAY;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankMaterials;
+        PlayerSetup   := @MSI_SetupMining;
+
+        with Defaults do
+        begin
+          Rocks := [ROCK_CLAY];
+
+          Items := [
+                     TIntegerArray([ORE_CLAY])
+                   ];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_DB_CLAY;
+
+          Reflection := [
+                          TPointArray([Point(3094, 3242), Point(3100, 3249),
+                                       Point(3104, 3262), Point(3105, 3275),
+                                       Point(3109, 3288), Point(3119, 3296),
+                                       Point(3127, 3305), Point(3135, 3312),
+                                       Point(3141, 3316)])
+                        ];
+
+          SPSAreas   := ['9_5', '10_4'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
     { FISHERS ==================================== ]
     [============================================= }
     SCRIPT_POWER_FISHER:

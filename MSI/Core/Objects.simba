@@ -54,7 +54,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 8000;
+        MaxTime            := 10000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_NORMAL];
@@ -79,7 +79,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 12000;
+        MaxTime            := 20000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_OAK];
@@ -104,7 +104,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 15000;
+        MaxTime            := 30000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_WILLOW];
@@ -129,7 +129,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 25000;
+        MaxTime            := 35000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_MAPLE];
@@ -193,17 +193,17 @@ begin
         Name               := 'Varrock east bank';
         UpText             := 'ooth';
         Option             := 'uick';
-        Colors             := [2379871];
-        Tol                := 5;
-        Hue                := 0.06;
-        Sat                := 1.61;
+        Colors             := [6715005];//2379871
+        Tol                := 4;
+        Hue                := 0.19;
+        Sat                := 0.31;
         FindAllColors      := False;
-        W                  := 40;
-        H                  := 40;
-        Accuracy           := 50;
+        W                  := 33;
+        H                  := 30;
+        Accuracy           := 15;
         ExcludeSelf        := True;
         RightClickOnly     := True;
-        Tries              := 5;
+        Tries              := 7;
         Anim               := False;
         WaitToMove         := False;
         BadColors          := [];
@@ -262,17 +262,17 @@ begin
          Name               := 'Falador east bank';
          UpText             := 'ooth';
          Option             := 'uick';
-         Colors             := [3890806];
-         Tol                := 7;
-         Hue                := 0.15;
-         Sat                := 0.94;
+         Colors             := [7044234];
+         Tol                := 5;
+         Hue                := 0.24;
+         Sat                := 0.47;
          FindAllColors      := False;
          W                  := 35;
          H                  := 40;
-         Accuracy           := 50;
+         Accuracy           := 20;
          ExcludeSelf        := True;
          RightClickOnly     := True;
-         Tries              := 5;
+         Tries              := 8;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];
@@ -393,7 +393,7 @@ begin
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
-      
+
     { ROCKS ====================================== ]
     [============================================= }
     ROCK_CLAY:
@@ -410,6 +410,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 5;
+        MaxTime            := 5000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -434,6 +435,7 @@ begin
         W                  := 29;
         H                  := 23;
         Accuracy           := 10;
+        MaxTime            := 7000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -458,6 +460,7 @@ begin
         W                  := 25;
         H                  := 28;
         Accuracy           := 10;
+        MaxTime            := 7000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -482,6 +485,7 @@ begin
         W                  := 30;
         H                  := 23;
         Accuracy           := 2;
+        MaxTime            := 10000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -506,6 +510,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 10;
+        MaxTime            := 20000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -530,6 +535,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 5;
+        MaxTime            := 35000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -554,6 +560,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 10;
+        MaxTime            := 45000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 15;
@@ -579,6 +586,7 @@ begin
         H                  := 20;
         Accuracy           := 10;
         ExcludeSelf        := True;
+        MaxTime            := 55000;
         RightClickOnly     := False;
         Tries              := 5;
         Anim               := False;
@@ -603,6 +611,7 @@ begin
         H                  := 20;
         Accuracy           := 5;
         ExcludeSelf        := True;
+        MaxTime            := 65000;
         RightClickOnly     := False;
         Tries              := 15;
         Anim               := False;
@@ -747,17 +756,17 @@ begin
          Name               := 'Mining Guild Ladder: Down';
          UpText             := 'own Ladder';
          Option             := 'own Ladder';
-         Colors             := [4287105];
-         Tol                := 8;
-         Hue                := 0.04;
-         Sat                := 0.89;
+         Colors             := [4155776];
+         Tol                := 18;
+         Hue                := 0.06;
+         Sat                := 1.00;
          FindAllColors      := False;
-         W                  := 15;
-         H                  := 25;
-         Accuracy           := 30;
-         ExcludeSelf        := False;
+         W                  := 18;
+         H                  := 30;
+         Accuracy           := 3;
+         ExcludeSelf        := True;
          RightClickOnly     := False;
-         Tries              := 5;
+         Tries              := 6;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];
@@ -772,13 +781,13 @@ begin
          UpText             := 'up Ladder';
          Option             := 'up Ladder';
          Colors             := [4410190];
-         Tol                := 6;
+         Tol                := 8;
          Hue                := 0.26;
          Sat                := 0.14;
          FindAllColors      := False;
          W                  := 35;
          H                  := 30;
-         Accuracy           := 30;
+         Accuracy           := 20;
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
@@ -1296,11 +1305,6 @@ Begin
   End;
 
   For II := 0 To Hi Do
-  Begin
-    MSI_FindRandoms(False);
-    If Not LoggedIn Then
-      Exit;
-
     With MSI_Objects[Objs[II]] Do
       If MSI_FindObjectsTPA(TmpTPA, Objs[II], SearchBox) Then
       Begin
@@ -1391,10 +1395,10 @@ Begin
               If (Action = ClickRight) or (Action = ClickLeft) Then
                 Result := WaitOptionMulti(TheOptions, 750 + Random(100))
               Else
-                Result := True;
+                Result := DidClick(True, 1200);
             End Else Begin
               Mouse(X, Y, 0, 0, True);
-              Result := True;
+              Result := DidClick(True, 1200); ;
             End;
 
             If MSI_Objects[Objs[II]].WaitToMove Then
@@ -1404,12 +1408,11 @@ Begin
             NotBoxes := [];
             Exit;
           End Else Begin
-            MSI_FindRandoms(False);
+            MSI_FindRandoms(True);
             MSI_Debug('Uptext didn''t match!');
           End;
         End;
       End;
-  End;
 
   MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
   MSI_FindRandoms(True);
@@ -1451,7 +1454,3 @@ Var
 Begin
   Result := MSI_FindObjectsIn([Obj], TMP, MSBox, Action);
 End;
-
-
-
-

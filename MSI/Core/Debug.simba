@@ -42,13 +42,14 @@ begin
   debugMSG := debugMSG + debug;
 
   // Add debug message to the debug file
-  try
-    if (MSI_Files[FILE_DEBUG] <> -1) then
-      if (not WriteFileString(MSI_Files[FILE_DEBUG], debugMSG + #13+#10)) then
-        Writeln('MSI_Debug: Failed to write to file');
-  except
-    Writeln(ExceptionToString(ExceptionType, ExceptionParam));
-  end;
+  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+    try
+      if (MSI_Files[FILE_DEBUG] <> -1) then
+        if (not WriteFileString(MSI_Files[FILE_DEBUG], debugMSG + #13+#10)) then
+          Writeln('MSI_Debug: Failed to write to file');
+    except
+      Writeln(ExceptionToString(ExceptionType, ExceptionParam));
+    end;
 
   if (CurrDebugLevel <= MSI_SetupVars[SETUP_DEBUG_LEVEL]) then
     Writeln(DebugMSG)

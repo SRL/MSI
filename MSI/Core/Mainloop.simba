@@ -70,7 +70,6 @@ begin
   MSI_CloseHeader('MSI_SetupPlayer: ' + BoolToStr(Result));
 end;
 
-
 {******************************************************************************}
 { function MSI_Walk(ToLoc: Boolean): Boolean;                                  }
 { By: Coh3n                                                                    }
@@ -528,9 +527,13 @@ begin
     end;
 
     // Reset for each player as they could be using different scripts
-    SPS_Loaded := False;
-    SPS_Areas := [];
-    SPS_Areas := MSI_GetSPSAreas();
+    {$IFDEF SPS}
+    if (ReflectionBroken) then
+    begin
+      SPS_Areas := MSI_GetSPSAreas();
+      SPS_Loaded := False;
+    end;
+    {$ENDIF}
 
     // Check player's location; works if player is in the middle of the path
     Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
@@ -560,9 +563,9 @@ begin
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
         // Deposits excess items if already at a bank
-        if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
-          if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
-            if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+        if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+          if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
+            if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
               goto AtBank;
 
         if (not MSI_Walk(True)) then
@@ -667,8 +670,6 @@ procedure MSI_ScriptTerminate;
 var
   i: Integer;
 begin
-  MSI_ProgressReport;
-
   // Commit to stats
   stats_Commit;
 

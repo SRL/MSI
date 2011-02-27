@@ -17,7 +17,10 @@
 
 {$include_once srl/srl.scar}
 {$include_once reflection/reflection.simba}
-{$include_once SRL/SRL/Core/SPS/SPS.simba}
+
+{$IFDEF SPS}
+  {$include_once srl/srl/core/SPS/SPS.simba}
+{$ENDIF}
 
 {$include_once srl/srl/misc/Reports.scar}
 {$include_once srl/srl/misc/PaintSmart.scar}

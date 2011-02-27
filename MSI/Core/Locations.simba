@@ -178,6 +178,17 @@
          MinDistance   := 25;
        end;
 
+     LOC_DB_CLAY:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Draynor Village Clay Mine';
+         Constant := LOC_DB_CLAY;
+         AtBank := False;
+         Tiles := [Point(3141, 3316)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance   := 25;
+       end;
+
      LOC_RM_YEWS:
        with MSI_Locations[Which] do
        begin

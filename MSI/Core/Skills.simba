@@ -229,7 +229,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  t := (GetSystemTime + (8 * 60000)); // Maximum 8 minutes
+  t := (GetSystemTime + (30 * 60000)); // Maximum 30 minutes
 
   repeat
     while (not InvFull) and (LoggedIn) do

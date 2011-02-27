@@ -85,6 +85,7 @@ const
   SCRIPT_RM_IRON_2   = 39;
   SCRIPT_RM_GOLD     = 40;
   SCRIPT_GUILD_MINER = 41; // SRL Members+ only
+  SCRIPT_DB_CLAY     = 42;
 
   // Fishing
   SCRIPT_POWER_FISHER  = 50;
@@ -168,6 +169,7 @@ const
   LOC_DB_TREES   = 32;
   LOC_DB_OAKS    = 33;
   LOC_DB_FISH    = 34;
+  LOC_DB_CLAY    = 35;
 
   // Rimmington
   LOC_RM_YEWS    = 40;

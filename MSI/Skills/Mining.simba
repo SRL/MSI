@@ -112,7 +112,7 @@ begin
       break;
     end;
 
-  until(False or (not LoggedIn));
+  until((not LoggedIn));
   MSI_CloseHeader('Out of loop');
   MSI_CloseHeader('MSI_WaitWhileMining: Finished');
   SetColorToleranceSpeed(cts);

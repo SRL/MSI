@@ -177,7 +177,11 @@ begin
     Exit;
 
   if (ReflectionBroken) then
-    Coord := PosToMM(p)
+    {$IFDEF SPS}
+    Coord := SPS_PosToMM(p)
+    {$ELSE}
+    Wait(50)
+    {$ENDIF}
   else
     {$IFDEF REFLECTION}
     Coord := TileToMM(p);
@@ -404,7 +408,9 @@ begin
   if (not LoggedIn) then
     Exit;
 
+  {$IFDEF SPS}
   Result := SPS_WalkPath(Points);
+  {$ENDIF}
 end;
 
 (*

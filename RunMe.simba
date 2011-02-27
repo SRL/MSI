@@ -14,6 +14,7 @@
  \_____________________________________________________________________________}
 
 program MSI_Script;
+//{$DEFINE SPS} // Uncomment + select color walking to use SPS
 {$i MSI/MSI/Core/Setup.simba}
 
 const
@@ -31,7 +32,7 @@ begin
   MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
   MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
   MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
-  MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection' or 'Color'
+  MSI_SetupVars[SETUP_WALKING]       := 'Color';      // 'Reflection' or 'Color'
 end;
 
 procedure DeclarePlayers;
@@ -246,12 +247,8 @@ begin
   ActivateClient;
 
   SetupSRL;
-
-  if (Lowercase(MSI_SetupVars[SETUP_WALKING]) = 'color') then
-    ReflectionBroken := True;
-
-  if (not ReflectionBroken) then
-    MSI_SetupReflection();
+  SetScriptProp(SP_WriteTimeStamp, [True]);
+  AddOnTerminate('MSI_ScriptTerminate');
 
   if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
   begin
@@ -266,11 +263,21 @@ begin
   ClearRSCanvas(drawing.canvas);
   {$ENDIF}
 
-  SetScriptProp(SP_WriteTimeStamp, [True]);
-  AddOnTerminate('MSI_ScriptTerminate');
-
   SetupSRLStats(21, MSI_SetupVars[SETUP_STATS_ID], MSI_SetupVars[SETUP_STATS_PASS]);
   CurrDebugLevel := 1;
+
+  if (Lowercase(MSI_SetupVars[SETUP_WALKING]) = 'color') then
+  begin
+    ReflectionBroken := True;
+    {$IFNDEF SPS}
+    Writeln('Reflection is broken/not selected, and SPS isn''t defined. Please '+
+            'select reflection walking, or download SPS from SRL-Forums.');
+    TerminateScript;
+    {$ENDIF}
+  end;
+
+  if (not ReflectionBroken) then
+    MSI_SetupReflection();
 
 (**
  * No need to touch anything below here, this is to assign the necessary

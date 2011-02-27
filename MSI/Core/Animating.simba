@@ -102,8 +102,6 @@ Example:
   end;
 *)
 function MSI_IsAnimating(Anim: Integer): Boolean;
-var
-  t: Integer;
 begin
   with MSI_Animations[Anim] do
     if (PixelShift(PixelBox, Interval) > MinPixelShift) then
