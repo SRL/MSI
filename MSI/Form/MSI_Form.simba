@@ -222,7 +222,7 @@ begin
               SETUP_HUMAN_BREAK: Hint := 'Will randomly logout, time-out, or exit to the lobby if set to True, '+#10+
                                          'otherwise will just exit to the lobby.';
               SETUP_SWITCH_WORLDS: Hint := 'Will switch worlds after breaking and when switching players';
-              SETUP_WALKING: Hint := 'Which walking method do you want to use? Hybrid is recommended.';
+              SETUP_WALKING: Hint := 'Which walking method do you want to use?';
             end;
 
             ShowHint := True;
@@ -314,7 +314,7 @@ begin
                 if (intro_Combos[j].Text = '') then
                 begin
                   if (s = 'Walking Method') then
-                    WriteINI('SETTINGS', s, 'Hybrid', PATH_SETTINGS)
+                    WriteINI('SETTINGS', s, 'Color', PATH_SETTINGS)
                   else
                     WriteINI('SETTINGS', s, 'True', PATH_SETTINGS);
 
