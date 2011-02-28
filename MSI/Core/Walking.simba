@@ -1,11 +1,12 @@
 (*
-Walking_Reflection
-==================
+Walking
+=======
 
-The Reflection Walking file includes functions & procedures that have anything
-to do with reflection walking. You'll notice the defines ({$IFDEF REFLECTION})
-used throughout these methods; these are used so MSI will still compile if the
-user decides to exclude reflection or if reflection is broken.
+The Walking file includes functions & procedures that have anything to do with
+walking. You'll notice the defines ({$IFDEF REFLECTION}) used throughout these
+methods; these are used so MSI will still compile if the user decides to exclude
+reflection or if reflection is broken. This file handles walking for both SPS
+and reflection.
 
 *)
 
@@ -165,12 +166,29 @@ begin
   {$ENDIF}
 end;
 
-{******************************************************************************}
-{ function MSI_RelocateRef(var p: TPoint; Location, Index: Integer): Boolean;  }
-{ By: Coh3n                                                                    }
-{ Date: 07 November 2010                                                       }
-{ Description: Returns true if point is found, stores it in 'p'                }
-{******************************************************************************}
+(*
+MSI_PointOnMM
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_PointOnMM(p: TPoint; var Coord: TPoint): Boolean;
+
+Returns try if the point, p, is on the minimap. P can be a tile or an SPS point.
+The coordinates on the minimap are set to 'Coord'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_PointOnMM(Path[i], p)) then
+    Mouse(p.x, p.y, 3, 3, True);
+*)
 function MSI_PointOnMM(p: TPoint; var Coord: TPoint): Boolean;
 begin
   if (not LoggedIn) then
@@ -193,13 +211,29 @@ begin
   MSI_SubDebug('MSI_PointOnMM'+ToStr(p)+': ' + BoolToStr(Result));
 end;
 
-{******************************************************************************}
-{ function MSI_Relocate(Loc: Integer): Boolean;                                }
-{ By: Coh3n & Sir R. Magician                                                  }
-{ Date: 03 November 2010                                                       }
-{ Description: Returns true if player successfully relocates. If not, will     }
-{              switch players/break                                            }
-{******************************************************************************}
+(*
+MSI_Relocate
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Relocate(Loc: Integer): Boolean;
+
+Relocates the player to the location 'Loc'.  Only relocates if the player is
+near the location.  Returns true if relocation was successful.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 27 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_Relocate(LOC_VE_MINE)) then
+    MSI_Debug('Successfully relocated');
+*)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
   i: Integer;
@@ -259,12 +293,13 @@ MSI_AtLocation
 
   function MSI_AtLocation(Loc: Integer): Boolean;
 
-Returns true if the player is at the location 'Loc'.
+Returns true if the player is at the location 'Loc'.  Works with both reflection
+and SPS.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 01 November 2010 by Coh3n
+  | Last Updated: 27 February 2010 by Coh3n
 
 Example:
 
@@ -328,27 +363,26 @@ begin
 end;
 
 (*
-MSI_LoadColorPath
-~~~~~~~~~~~~~~~~~
+MSI_LoadPath
+~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_LoadColorPath(sLoc, eLoc: Integer): T2DIntegerArray;
+  function MSI_LoadPath(sLoc, eLoc: Integer; Color: Boolean): T2DPointArray;
 
-Loads the color path from the starting location (sLoc) to the ending location
-(eLoc). Loads the path based on the current player's current script, and the
-player's location.
+Loads either a reflection or color path depending on 'Color' boolean. Loads the
+path from the starting location (sLoc) to the ending location (eLoc).
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 26 January 2011 by Coh3n
+  | Last Updated: 27 February 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  MSI_LoadColorPath(LOC_VE_BANK, LOC_VE_MINE);
+  MSI_LoadPath(LOC_VE_BANK, LOC_VE_MINE, True); // Loads color path from VE Bank to VE Mine
 *)
 function MSI_LoadPath(sLoc, eLoc: Integer; Color: Boolean): T2DPointArray;
 var
@@ -386,22 +420,22 @@ MSI_WalkColorPath
 
 .. code-block:: pascal
 
-  function MSI_WalkColorPath(StartIndex, EndIndex: Integer): Boolean;
+  function MSI_WalkColorPath(Points: TPointArray): Boolean;
 
-Walks an entire color path from 'StartIndex' to 'EndIndex'. Returns true if all
-points have been walked to.
+Uses SPS's path walking to walk the path specified by 'Points'.  Each script's
+path is defined with the script's record in Scripts.simba.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 26 January 2011 by Coh3n
+  | Last Updated: 27 February 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  cPath := MSI_LoadColorPath(LOC_VW_BANK, LOC_VW_MINE);
-  MSI_WalkColorPath(cPath[0], cPath[1]);
+  with MSI_Players[CurrentPlayer] do
+    MSI_WalkColorPath(Scripts[CurrentScript].PathInfo.Color);
 *)
 function MSI_WalkColorPath(Points: TPointArray): Boolean;
 begin
@@ -481,12 +515,12 @@ begin
 end;
 
 (*
-MSI_ReflectionWalk
-~~~~~~~~~~~~~~~~~~
+MSI_WalkPath
+~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_ReflectionWalk(sLoc, eLoc: Integer): Boolean;
+  function MSI_WalkPath(sLoc, eLoc: Integer): Boolean;
 
 Walks the entire path from start (sLoc) to finish (eLoc), including obstacles.
 Returns true if the player is at the ending location.
@@ -494,14 +528,14 @@ Returns true if the player is at the ending location.
 .. note::
 
   | Author: marpis & Coh3n
-  | Last Updated: 26 January 2011 by Coh3n
+  | Last Updated: 27 February 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
   // Walks to VE mine only if your player is set to use SCRIPT_VE_MINER
-  MSI_ReflectionWalk(LOC_VE_BANK, LOC_VE_MINE);
+  MSI_WalkPath(LOC_VE_BANK, LOC_VE_MINE);
 *)
 function MSI_WalkPath(sLoc, eLoc: Integer): Boolean;
 var
@@ -580,7 +614,7 @@ as well as the current state of reflection.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 04 August 2010 by Coh3n
+  | Last Updated: 27 February 2010 by Coh3n
 
 Example:
 

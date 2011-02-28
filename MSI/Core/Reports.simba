@@ -1,20 +1,36 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                               Reports.simba                                  |
-|==============================================================================|
-| For all the different progress reports.                                      |
-|                                                                              |
-| * procedure MSI_MagicReport();                        * by Coh3n             |
-| * procedure MSI_StandardReport();                     * by Coh3n             |
-| * procedure MSI_ProgressReport();                     * by Coh3n             |
-\ _____________________________________________________________________________}
+(*
+Reports
+=======
 
-{******************************************************************************}
-{ procedure MSI_MagicReport(FileName, PlayerIndex, ScriptIndex: Integer);      }
-{ By: Coh3n                                                                    }
-{ Date: 25 November 2010                                                       }
-{ Description: Prints the script report for magic scripts                      }
-{******************************************************************************}
+The Reports file includes all the different elements of MSI's progress report.
+
+*)
+
+(*
+MSI_MagicReport
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_MagicReport(FileName, PlayerIndex, ScriptIndex: Integer);
+
+Simply prints the report for a magic script. 'FileName' refers to the file to
+save the report to.  'PlayerIndex' and 'ScriptIndex' refer to the index in the
+player array and their respective script that we want to print.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 25 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := 0 to High(MSI_Players) do
+    for j := 0 to High(MSI_Players[i].Scripts) do
+      MSI_MagicReport(FileName, i, j);
+*)
 procedure MSI_MagicReport(FileName, PlayerIndex, ScriptIndex: Integer);
 var
   i: Integer;
@@ -31,12 +47,30 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ procedure MSI_StandardReport(FileName, PlayerIndex, ScriptIndex: Integer);   }
-{ By: Coh3n                                                                    }
-{ Date: 25 November 2010                                                       }
-{ Description: Progress report currently for Mining, Woodcutting and Fishing   }
-{******************************************************************************}
+(*
+MSI_StandardReport
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_StandardReport(FileName, PlayerIndex, ScriptIndex: Integer);
+
+Simply prints the report for the gathering skills: mining, fishing, and
+woodcutting.  The paramters are the same as MSI_MagicReport.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 25 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := 0 to High(MSI_Players) do
+    for j := 0 to High(MSI_Players[i].Scripts) do
+      MSI_StandardReport(FileName, i, j);
+*)
 procedure MSI_StandardReport(FileName, PlayerIndex, ScriptIndex: Integer);
 var
   i, j: Integer;
@@ -54,12 +88,46 @@ begin
     end;
 end;
 
-{******************************************************************************}
-{ procedure MSI_ShortReport(FileName: Integer);                                }
-{ By: Coh3n                                                                    }
-{ Date: 02 December 2010                                                       }
-{ Description: A report for those who have a very large army                   }
-{******************************************************************************}
+(*
+MSI_ShortReport
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ShortReport(FileName: Integer);
+
+This is basically just a "totals" report for those who like to auto using an
+army.  MSI will print both this version and the long version.  It also saves
+both versions to a file in the MSI/ProgressReports folder.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 25 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ShortReport(FileName);
+
+  // An example output
+  {----------------------------------------------------------------}
+  {                    MSI Phoenix Short Report                    }
+  {----------------------------------------------------------------}
+  {     Time Running: 6 Hours, 24 Minutes and 56 Seconds           }
+  {----------------------------------------------------------------}
+  {                                                                }
+  {        Totals:                                                 }
+  {         - Players:         4                                   }
+  {         - Player Time:     06h 10m 43s                         }
+  {         - Loads:           57                                  }
+  {         - Experience:      7,965                               }
+  {         - Rocks Mined:     1,593                               }
+  {                                                                }
+  {----------------------------------------------------------------}
+  {----------------------------------------------------------------}
+*)
 const
   TOTAL_TIME  = 0;
   TOTAL_LOADS = 1;
@@ -134,12 +202,71 @@ begin
   MSI_PrintSave(FileName, '');
 end;
 
-{******************************************************************************}
-{ procedure MSI_ProgressReport;                                                }
-{ By: Coh3n                                                                    }
-{ Date: 14 February 2011                                                       }
-{ Description: Prints the progress report of each player                       }
-{******************************************************************************}
+(*
+MSI_ProgressReport
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ProgressReport;
+
+Here's the main progress report.  It combines all the other smaller reports into
+one that prints the total information plus individual character information.  It
+also saves the progress report in MSI/Progress Reports.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 14 February 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ShortReport(FileName);
+
+  // An example output
+  {----------------------------------------------------------------}
+  {                    MSI Phoenix Player Report                   }
+  {------------------------- Revision 534 -------------------------}
+  {     Time Running: 22 Hours, 18 Minutes and 39 Seconds          }
+  {----------------------------------------------------------------}
+  {                                                                }
+  {     Player 0: ************                                     }
+  {     Location: Draynor Village bank                             }
+  {     Time:     06h 08m 54s                                      }
+  {     Active:   False                                            }
+  {       Reason: Finished total time!                             }
+  {                                                                }
+  {     Script: Lumby Swamp West Miner                             }
+  {       Time:  06h 08m 54s                                       }
+  {       Skill: Mining                                            }
+  {       Exp:   37,400                                            }
+  {       Level: 65                                                }
+  {       Loads: 28                                                }
+  {         Item:   Coal ore                                       }
+  {         Amount: 748                                            }
+  {                                                                }
+  {----------------------------------------------------------------}
+  {                                                                }
+  {     Player 2: ***********                                      }
+  {     Location: Stiles on Karamja (SRL Members+)                 }
+  {     Time:     03h 43m 45s                                      }
+  {     Active:   False                                            }
+  {       Reason: Failed to exchange with NPC: Stiles              }
+  {                                                                }
+  {     Script: Karamja Stiles Noter                               }
+  {       Time:  03h 43m 45s                                       }
+  {       Skill: Fishing                                           }
+  {       Exp:   67,320                                            }
+  {       Level: 74                                                }
+  {       Loads: 28                                                }
+  {         Item:   Raw lobster                                    }
+  {         Amount: 748                                            }
+  {                                                                }
+  {----------------------------------------------------------------}
+  {----------------------------------------------------------------}
+*)
 procedure MSI_ProgressReport;
 var
   i, j: Integer;

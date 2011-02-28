@@ -1,11 +1,11 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                               Setup.scar                                     |
-|==============================================================================|
-| For All MSI Setuping up needs that are not skill-related                     |
-|                                                                              |
-| * procedure SetupMSI;               * by The MSI Team                        |
- \_____________________________________________________________________________}
+(*
+Setup
+=====
+
+The Setup file includes all the files that MSI uses throughout the include, plus
+the necessary setup procedures called when the script starts.
+
+*)
 
 ///SRL Includes
 {$DEFINE SMART}
@@ -63,8 +63,29 @@
 {$include_once MSI/MSI/Core/MainLoop.simba}
 
 {$include_once MSI/MSI/Form/MSI_Form.simba}
- 
-procedure MSI_Setup;
+
+(*
+MSI_Setup
+~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_Setup();
+
+Sets up MSI by loading all the global arrays used throughout the include.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 February 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Setup();
+*)
+procedure MSI_Setup();
 var
   Timer: integer;
 begin
@@ -83,6 +104,29 @@ begin
   Writeln('Setting up MSI took '+IntToStr(TimeFromMark(Timer))+' ms.');
 end;
 
+(*
+MSI_SetupReflection
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetupReflection;
+
+MSI's custom reflection setup procedure.  This is used so that MSI will continue
+if it finds that the reflection hooks are outdated.  Will warn the user before
+continuing with color-only.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 February 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetupReflection();
+*)
 procedure MSI_SetupReflection();
 begin
   {$IFDEF REFLECTION}
