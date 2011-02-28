@@ -12,7 +12,6 @@
 
 const
   SIZE_MULTIPLIER = 1.25;
-  ROCK_MAX_TIME   = 60000;
 
 {******************************************************************************}
 { function MSI_SetupMining(): Boolean;                                         }
@@ -50,7 +49,7 @@ begin
   cts := GetColorToleranceSpeed;
   SetToleranceSpeed2Modifiers(MSI_Objects[RockID].Hue, MSI_Objects[RockID].Sat);
 
-  t := (GetSystemTime + ROCK_MAX_TIME);
+  t := (GetSystemTime + MSI_Objects[RockID].MaxTime + Random(5000));
 
   SearchBox := IntToBox(
                        MSI_Objects[RockID].X - Round(MSI_Objects[RockID].W * SIZE_MULTIPLIER),
