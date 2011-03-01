@@ -221,8 +221,8 @@ begin
          Hue                := 0.05;
          Sat                := 0.29;
          FindAllColors      := False;
-         W                  := 40;
-         H                  := 40;
+         W                  := 50;
+         H                  := 50;
          Accuracy           := 20;
          ExcludeSelf        := True;
          RightClickOnly     := True;
