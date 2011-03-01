@@ -214,19 +214,19 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Draynor bank';
-         UpText             := 'ooth';
+         UpText             := 'boo';
          Option             := 'uick';
          Colors             := [869212];
-         Tol                := 3;
+         Tol                := 5;
          Hue                := 0.05;
          Sat                := 0.29;
          FindAllColors      := False;
          W                  := 40;
          H                  := 40;
-         Accuracy           := 40;
+         Accuracy           := 20;
          ExcludeSelf        := True;
          RightClickOnly     := True;
-         Tries              := 10;
+         Tries              := 20;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];

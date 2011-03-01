@@ -39,66 +39,47 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  if (BankScreen) then
+  MSI_AddHeader('MSI_OpenBank');
+  Result := BankScreen;
+
+  if (not Result) then
   begin
-    Result := True;
-    Exit;
-  end;
+    bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
+    if (bankType = NoBank) then
+      Exit;
 
-  bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
-  if (bankType = NoBank) then
-    Exit;
-
-  try
-    MSI_AddHeader('MSI_OpenBank');
-
-    t := 0;
+    t := (GetSystemTime + 60000);
     repeat
-      Inc(t);
       MSI_FindRandoms(False);
 
-      if (bankType = Bank) then
+      if (MSI_FindObject(which, ClickRight)) then
       begin
-        if (MSI_FindObject(which, ClickRight)) then
-        begin
-          if MSI_Players[CurrentPlayer].Pin <> nil then
-            if WaitFunc(@PinScreen, 100, 1000) then
-              if (Length(tPin) = 4) then
-                InPin(tPin)
-              else
-              begin
-                MSI_Debug(MSI_Players[CurrentPlayer].Nick+': PIN is incorrect.');
-                Exit;
-              end;
+        if (MSI_Players[CurrentPlayer].Pin <> '') then
+          if WaitFunc(@PinScreen, 100, 10000) then
+            if (Length(tPin) = 4) then
+              InPin(tPin)
+            else begin
+              MSI_Debug(MSI_Players[CurrentPlayer].Name+'''s PIN is invalid');
+              Break;
+            end;
 
-          Result := WaitFunc(@BankScreen, 200, 10000);
+        case bankType of
+          Bank: Result := WaitFunc(@BankScreen, 100, 15000);
+          DBox: Result := WaitFunc(@DepositScreen, 100, 15000);
         end;
-      end else
-        if (bankType = DBox) then
-          if (MSI_FindObject(which, ClickLeft)) then
-            Result := WaitFunc(@DepositScreen, 200, 10000);
-
-      if (t = Round(MSI_Objects[which].Tries div 2)) then
-      begin
-        NotBoxes := [];
-        SymbolAccuracy := BANK_SYMBOL_ACCURACY;
-
-        if (not MSI_Relocate(MSI_Players[CurrentPlayer].Location)) then
-          if (FindSymbol(x, y, 'bank')) then
-          begin
-            MSI_Debug('Walking to bank symbol');
-            Mouse(x, y, 5, 5, True);
-            MSI_Flag(0);
-            Wait(RandomRange(250, 750));
-          end;
-
-        SymbolAccuracy := 0.8;
       end;
-    until(Result or (t >= MSI_Objects[which].Tries) or (not LoggedIn));
 
-  finally
-    MSI_CloseHeader('MSI_OpenBank: ' + BoolToStr(Result) + '(' + MSI_Objects[which].Name + ')');
+      if (not Result) then
+        if ((t - GetSystemTime) > 30000) then
+        begin
+          NotBoxes := [];
+          Wait(RandomRange(2000, 3000));
+          MSI_Relocate(MSI_Players[CurrentPlayer].Location);
+        end;
+    until(Result or (not LoggedIn) or (GetSystemTime > t));
   end;
+
+  MSI_CloseHeader('MSI_OpenBank: '+BoolToStr(Result)+'('+MSI_Objects[which].Name+')');
 end;
 
 (*

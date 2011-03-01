@@ -302,23 +302,14 @@ begin
 
     with MSI_Players[i] do
     begin
+      // Don't print players that were set inactive by user
+      if (ReportInfo.FalseReason = 'User set to false') then
+        Continue;
+
       MSI_PrintSave(MSI_Files[FILE_REPORT], '{                                                                }');
       MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Player ' + IntToStr(i) + ': ' + Capitalize(Name), 59) + '}');
-
-      if (ReportInfo.FalseReason = 'User set to false') then // Don't print inactive players
-      begin
-        MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Active: False', 59) + '}');
-        MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Reason: User set to false', 57) + '}');
-        MSI_PrintSave(MSI_Files[FILE_REPORT], '{                                                                }');
-        MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');
-        Continue;
-      end;
-
       MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Location: ' + MSI_Locations[Location].Name, 59) + '}');
       MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Time:     ' + MsToTime(ReportInfo.PlayerTime, TIME_SHORT), 59) + '}');
-
-      //MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Total Loads: ' + IntToStr(LoadsDone), 59) + '}');
-
       MSI_PrintSave(MSI_Files[FILE_REPORT], '{     ' + PadR('Active:   ' + Capitalize(BoolToStr(Active)), 59) + '}');
 
       if (not Active) then
