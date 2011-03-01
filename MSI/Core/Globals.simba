@@ -561,6 +561,7 @@ type
     Sat              : Extended;
     W, H             : Integer;
     Accuracy         : Integer; // Min pixels to be found in each TPA
+    SearchBox        : TBox;
     ExcludeSelf      : Boolean; // Exclude pixels in a box around the player
     RightClickOnly   : Boolean;
     Tries            : Integer;
