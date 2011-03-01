@@ -33,7 +33,7 @@ Example:
 *)
 function MSI_OpenBank(which: Integer; tPin: String): Boolean;
 var
-  t, x, y: Integer;
+  t: Integer;
   bankType: TBank;
 begin
   if (not LoggedIn) then
