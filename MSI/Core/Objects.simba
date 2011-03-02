@@ -221,20 +221,20 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Draynor bank';
-         UpText             := 'boo';
+         UpText             := 'ooth';
          Option             := 'uick';
          Colors             := [869212];
-         Tol                := 5;
+         Tol                := 3;
          Hue                := 0.05;
          Sat                := 0.29;
          FindAllColors      := False;
-         W                  := 50;
-         H                  := 50;
-         Accuracy           := 20;
+         W                  := 40;
+         H                  := 40;
+         Accuracy           := 40;
          SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := True;
-         Tries              := 20;
+         Tries              := 10;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];
@@ -985,7 +985,7 @@ begin
   end;
 
   Result := (MSI_Objects[whichObject].Name <> '');
-end;
+end;                         
 
 {******************************************************************************}
 { procedure MSI_LoadAllObjects;                                                }
@@ -1489,5 +1489,3 @@ Var
 Begin
   Result := MSI_FindObjectsIn([Obj], TMP, MSBox, Action);
 End;
-
-

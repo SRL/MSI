@@ -561,7 +561,7 @@ type
     Sat              : Extended;
     W, H             : Integer;
     Accuracy         : Integer; // Min pixels to be found in each TPA
-    SearchBox        : TBox;
+    SearchBox        : TBox;  // Box to search for object. Carries the Values of MSBox by default.
     ExcludeSelf      : Boolean; // Exclude pixels in a box around the player
     RightClickOnly   : Boolean;
     Tries            : Integer;
@@ -866,4 +866,3 @@ var
   MSI_Recipes   : array[0..RECIPES_ARRAY_LENGTH - 1] of TRecipe;
   MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
-
