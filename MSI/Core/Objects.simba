@@ -49,6 +49,7 @@ begin
         W                  := 35;
         H                  := 35;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -74,6 +75,7 @@ begin
         W                  := 50;
         H                  := 50;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -99,6 +101,7 @@ begin
         W                  := 30;
         H                  := 30;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -124,6 +127,7 @@ begin
         W                  := 25;
         H                  := 25;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -149,6 +153,7 @@ begin
         W                  := 50;
         H                  := 50;
         Accuracy           := 15;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -174,6 +179,7 @@ begin
         W                  := 60;
         H                  := 70;
         Accuracy           := 20;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 20;
@@ -201,6 +207,7 @@ begin
         W                  := 33;
         H                  := 30;
         Accuracy           := 15;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := True;
         Tries              := 7;
@@ -224,6 +231,7 @@ begin
          W                  := 40;
          H                  := 40;
          Accuracy           := 40;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 10;
@@ -247,6 +255,7 @@ begin
          W                  := 10;
          H                  := 10;
          Accuracy           := 15;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 10;
@@ -270,6 +279,7 @@ begin
          W                  := 35;
          H                  := 40;
          Accuracy           := 20;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 8;
@@ -293,6 +303,7 @@ begin
          W                  := 15;
          H                  := 30;
          Accuracy           := 20;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 5;
@@ -316,6 +327,7 @@ begin
          W                  := 20;
          H                  := 35;
          Accuracy           := 50;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 5;
@@ -339,6 +351,7 @@ begin
          W                  := 30;
          H                  := 60;
          Accuracy           := 50;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := False;
          Tries              := 15;
@@ -362,6 +375,7 @@ begin
         W                  := 30;
         H                  := 20;
         Accuracy           := 7;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := True;
         Tries              := 5;
@@ -385,6 +399,7 @@ begin
         W                  := 20;
         H                  := 15;
         Accuracy           := 25;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := True;
         Tries              := 5;
@@ -410,6 +425,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 5;
+        SearchBox          := MSBox;
         MaxTime            := 5000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -435,6 +451,7 @@ begin
         W                  := 29;
         H                  := 23;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         MaxTime            := 7000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -460,6 +477,7 @@ begin
         W                  := 25;
         H                  := 28;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         MaxTime            := 7000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -485,6 +503,7 @@ begin
         W                  := 30;
         H                  := 23;
         Accuracy           := 2;
+        SearchBox          := MSBox;
         MaxTime            := 10000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -510,6 +529,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         MaxTime            := 20000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -535,6 +555,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 5;
+        SearchBox          := MSBox;
         MaxTime            := 35000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -560,6 +581,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         MaxTime            := 45000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -585,6 +607,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         MaxTime            := 55000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -610,6 +633,7 @@ begin
         W                  := 25;
         H                  := 20;
         Accuracy           := 5;
+        SearchBox          := MSBox;
         MaxTime            := 65000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -636,6 +660,7 @@ begin
         W                  := 20;
         H                  := 20;
         Accuracy           := 10;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         Tries              := 5;
         Anim               := False;
@@ -713,6 +738,7 @@ begin
         W                  := 2;
         H                  := 5;
         Accuracy           := 50;
+        SearchBox          := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
@@ -738,6 +764,7 @@ begin
         W                  := 0;
         H                  := 0;
         Accuracy           := 0;
+        SearchBox          := MSBox;
         ExcludeSelf        := False;
         RightClickOnly     := False;
         Tries              := 0;
@@ -764,6 +791,7 @@ begin
          W                  := 18;
          H                  := 30;
          Accuracy           := 5;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := False;
          Tries              := 6;
@@ -788,6 +816,7 @@ begin
          W                  := 35;
          H                  := 30;
          Accuracy           := 20;
+         SearchBox          := MSBox;
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
@@ -814,6 +843,7 @@ begin
          W                  := 25;
          H                  := 18;
          Accuracy           := 3;
+         SearchBox          := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := False;
          Tries              := 5;
@@ -840,6 +870,7 @@ begin
          W                  := 8;
          H                  := 8;
          Accuracy           := 7;
+         SearchBox          := MSBox;
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
@@ -864,6 +895,7 @@ begin
          W                  := 8;
          H                  := 8;
          Accuracy           := 7;
+         SearchBox          := MSBox;
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
@@ -888,6 +920,7 @@ begin
          W                  := 13;
          H                  := 13;
          Accuracy           := 7;
+         SearchBox          := MSBox;
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
@@ -912,6 +945,7 @@ begin
          W                  := 25;
          H                  := 40;
          Accuracy           := 10;
+         SearchBox          := MSBox;
          ExcludeSelf        := False;
          RightClickOnly     := True;
          Tries              := 5;
@@ -938,6 +972,7 @@ begin
          W                  := 6;
          H                  := 6;
          Accuracy           := 3;
+         SearchBox          := MSBox;
          ExcludeSelf        := False;
          RightClickOnly     := True;
          Tries              := 5;
@@ -950,7 +985,7 @@ begin
   end;
 
   Result := (MSI_Objects[whichObject].Name <> '');
-end;
+end;                         
 
 {******************************************************************************}
 { procedure MSI_LoadAllObjects;                                                }
