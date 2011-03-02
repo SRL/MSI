@@ -1205,6 +1205,15 @@ Begin
       SetLength(Objs, Length(Objs) + 1);
       Objs[High(Objs)] := TPA[I];
 
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxEx(False,
+                        MSI_MakeBox(Point(TPA[I].X, TPA[I].Y),
+                                   (MSI_Objects[objID].W / 2),
+                                   (MSI_Objects[objID].H / 2)
+                        ),
+                        clGreen
+        );
+
     { Set NotBox so point can be avoided next time }
     End Else Begin
       SetLength(NotBoxes, Length(NotBoxes) + 1);

@@ -79,6 +79,9 @@ begin
     until(Result or (not LoggedIn) or (GetSystemTime > t));
   end;
 
+  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+    SMART_DrawBoxEx(True, IntToBox(0, 0, 0, 0), clWhite);
+
   MSI_CloseHeader('MSI_OpenBank: '+BoolToStr(Result)+'('+MSI_Objects[which].Name+')');
 end;
 
