@@ -657,8 +657,8 @@ begin
         Hue                := 0.26;
         Sat                := 0.62;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 20;
+        W                  := 40;
+        H                  := 40;
         Accuracy           := 10;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
