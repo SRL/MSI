@@ -386,8 +386,6 @@ begin
   for i := 0 to High(MSI_Players) do
     with MSI_Players[i] do
     begin
-      Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
-
       SetLength(ReportInfo.Items, Length(Scripts));
       SetLength(ReportInfo.ItemAmounts, Length(ReportInfo.Items));
       SetLength(ReportInfo.Experiences, Length(ReportInfo.Items));

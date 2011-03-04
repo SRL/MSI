@@ -299,6 +299,8 @@ begin
 
     if (not Players[i].Active) then
       MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
+
+    Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
   end;
 
   MSI_Mainloop;

@@ -288,6 +288,8 @@ begin
 
   ClearDebug;
   SetScriptProp(SP_WriteTimeStamp, [False]);
+
+  SRLRandomsReport;
   MSI_ShortReport(MSI_Files[FILE_REPORT]);
 
   MSI_PrintSave(MSI_Files[FILE_REPORT], '{----------------------------------------------------------------}');                             //64 from '{' to '}'
