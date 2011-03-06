@@ -511,6 +511,41 @@ begin
         end;
       end;
 
+    SCRIPT_LBW_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Lumbridge West Yews';
+        Constant      := SCRIPT_LBW_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankMaterials;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        with Defaults do
+        begin
+          Trees := [TREE_YEW];
+          Items := [TIntegerArray([LOGS_YEW])];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_LBW_YEWS;
+
+          Reflection := [
+                          TPointArray([Point(3092, 3245), Point(3106, 3242),
+                                       Point(3116, 3236), Point(3127, 3231),
+                                       Point(3136, 3227), Point(3151, 3229)])
+                        ];
+
+          SPSAreas   := ['10_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
     { MINERS ===================================== ]
     [============================================= }
     SCRIPT_POWER_MINER:

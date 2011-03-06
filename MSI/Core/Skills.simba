@@ -235,6 +235,8 @@ begin
     while (not InvFull) and (LoggedIn) do
       with MSI_Players[CurrentPlayer] do
       begin
+        RunEnergy(20);
+
         with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
           case (MSI_Scripts[Name].SkillConst) of
             SKILL_WOODCUTTING: tObjects := Trees;

@@ -100,6 +100,7 @@ const
   SCRIPT_SV_MAPLES  = 21;
   SCRIPT_SV_YEWS    = 22;
   SCRIPT_EV_YEWS    = 23;
+  SCRIPT_LBW_YEWS   = 24;
 
   // Mining
   SCRIPT_POWER_MINER = 30;
@@ -253,6 +254,7 @@ const
   // Lumbridge
   LOC_LSW_MINE   = 70;
   LOC_LSE_MINE   = 71;
+  LOC_LBW_YEWS   = 72;
 
   // Edgeville
   LOC_EV_BANK    = 80;
