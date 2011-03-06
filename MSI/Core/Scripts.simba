@@ -511,6 +511,41 @@ begin
         end;
       end;
 
+      SCRIPT_LBW_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Lumbridge West Yews';
+        Constant      := SCRIPT_LBW_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankMaterials;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        with Defaults do
+        begin
+          Trees := [TREE_YEW];
+          Items := [TIntegerArray([LOGS_YEW])];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_LBW_YEWS;
+
+          Reflection := [
+                          TPointArray([Point(3092, 3245), Point(3106, 3242),
+                                       Point(3116, 3236), Point(3127, 3231),
+                                       Point(3136, 3227), Point(3151, 3229)])
+                        ];
+
+          SPSAreas   := ['10_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
     { MINERS ===================================== ]
     [============================================= }
     SCRIPT_POWER_MINER:
@@ -580,6 +615,42 @@ begin
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
+
+      SCRIPT_GUILD_MINER:
+    with MSI_Scripts[whichScript] do
+    begin
+      Name          := 'Mining Guild Miner';
+      Constant      := SCRIPT_GUILD_MINER;
+      SkillName     := 'Mining';
+      SkillConst    := SKILL_MINING;
+      BankType      := Bank;
+      WhichBank     := MSI_BANK_FE;
+      AutoObjects   := @MSI_MineInvFull;
+      BankObjects   := @MSI_BankMaterials;
+      PlayerSetup   := @MSI_SetupMining;
+
+      with Defaults do
+      begin
+        Rocks := [ROCK_COAL, ROCK_MITHRIL];
+        Items := [TIntegerArray([ORE_COAL]), TIntegerArray([ORE_MITHRIL])];
+      end;
+
+      with PathInfo do
+      begin
+        StartLoc := LOC_FE_BANK;
+        EndLoc   := LOC_GUILD_MINE;
+
+        Reflection := [
+                        TPointArray([Point(3012, 3355), Point(3023, 3352), // Bank -> Ladder Down
+                                     Point(3030, 3340), Point(3021, 3339)]),
+
+                        TPointArray([Point(3021, 9739), Point(3033, 9738), // Ladder Up -> In Mine
+                                     Point(3042, 9737)])
+                      ];
+
+        Obstacles  := [ OBS_LADDER_DOWN_MINE_GUILD ];
+      end;
+    end;
 
     SCRIPT_LSW_MINER:
       with MSI_Scripts[whichScript] do
@@ -945,7 +1016,7 @@ begin
           EndLoc   := LOC_DB_CLAY;
 
           Reflection := [
-                          TPointArray([Point(3092, 3244), Point(3100, 3249),
+                          TPointArray([Point(3094, 3242), Point(3100, 3249),
                                        Point(3104, 3262), Point(3105, 3275),
                                        Point(3109, 3288), Point(3119, 3296),
                                        Point(3127, 3305), Point(3135, 3312),
