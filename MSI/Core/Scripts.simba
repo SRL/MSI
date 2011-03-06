@@ -511,11 +511,11 @@ begin
         end;
       end;
 
-    SCRIPT_LBW_YEWS:
+    SCRIPT_DB_YEWS:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Lumbridge West Yews';
-        Constant      := SCRIPT_LBW_YEWS;
+        Name          := 'Draynor Village Yews';
+        Constant      := SCRIPT_DB_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
@@ -533,7 +533,7 @@ begin
         with PathInfo do
         begin
           StartLoc := LOC_DB_BANK;
-          EndLoc   := LOC_LBW_YEWS;
+          EndLoc   := LOC_DB_YEWS;
 
           Reflection := [
                           TPointArray([Point(3092, 3245), Point(3106, 3242),

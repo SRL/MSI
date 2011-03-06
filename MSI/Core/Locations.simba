@@ -332,11 +332,11 @@
          MinDistance   := 30;
        end;
 
-     LOC_LBW_YEWS:
+     LOC_DB_YEWS:
        with MSI_Locations[Which] do
        begin
-         Name := 'Lumbridge West Yews';
-         Constant := LOC_LBW_YEWS;
+         Name := 'Draynor Village Yews';
+         Constant := LOC_DB_YEWS;
          AtBank := False;
          Tiles := [Point(3151, 3229), Point(3166, 3222), Point(3181, 3227)];
          Points := MSI_ConvertTilePath(Tiles);
