@@ -1040,9 +1040,7 @@ type
 |                                 Variables                                    |
 \==============================================================================}
 
-(**
- * Miscellaneous variables used throughout the include
- *)
+// Miscellaneous variables used throughout the include
 var
   CurrentScript    : Integer;
   CurrDebugLevel   : Integer;
@@ -1052,9 +1050,8 @@ var
   NextRandCheck    : Integer;
   MSI_SetupVars    : array[0..SETUP_ARRAY_LENGTH] of Variant;
 
-(**
- * Arrays that store all the necessary "go-to" information for MSI
- *)
+
+// Arrays that store all the necessary "go-to" information for MSI
 var
   MSI_Files     : array[0..(FILE_ARRAY_LENGTH - 1)] of Integer;
   MSI_Players   : TPlayerInfoArray;
