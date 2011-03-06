@@ -1,44 +1,59 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                               Globals.scar                                   |
-|==============================================================================|
-| Used to store all necessary global types, consts and vars                    |
-|                                                                              |
- \_____________________________________________________________________________}
+(*
+Globals
+=======
 
-(**
- * Abbreviations:
- *  - FS: Fishing Spot
- *  - GS: General Store
- *  - GE: Grand Exchange
- *  - VE: Varrock East
- *  - VW: Varrock West
- *  - FW: Falador West
- *  - FE: Falador East
- *  - CG: Castle Guards
- *  - DW: Dark Wizards
- *  - SO: Stronghold Of *
- *  - AK: Al Kharid
- *  - SW: Spinning Wheel
- *  - LB: Lumby
- *  - EV: EdgeVille
- *  - BBV: Barbarian Village
- *  - DB: Draynor Bank
- *  - RM: Rimmington
- *  - PS: Port Sarim
- *  - SV: Seers Village
- *  - PS: Port Sarim
- *  - LSW: Lumbridge Swamp West
- *  - KJ: Karamja
- *)
+The Globals file is where all MSI's global variables, constants, and types are
+declared.  There are some exceptions, however, which are used in the different
+skill files.  Keep in mind that any of MSI's global arrays are only accessable
+after MSI_Setup has been called.
+
+*)
+
+(*
+Abbreviations
+~~~~~~~~~~~~~
+
+These are all the abbreviations we use in MSI to distinguish between the
+different locations around Runescape.
+
+.. note::
+
+  | FS: Fishing Spot
+  | GS: General Store
+  | GE: Grand Exchange
+  | VE: Varrock East
+  | VW: Varrock West
+  | FW: Falador West
+  | FE: Falador East
+  | CG: Castle Guards
+  | DW: Dark Wizards
+  | SO: Stronghold Of *
+  | AK: Al Kharid
+  | SW: Spinning Wheel
+  | LB: Lumby
+  | EV: EdgeVille
+  | BBV: Barbarian Village
+  | DB: Draynor Bank
+  | RM: Rimmington
+  | PS: Port Sarim
+  | SV: Seers Village
+  | LSW: Lumbridge Swamp West
+  | KJ: Karamja
+*)
 
 {==============================================================================\
 |                                Constants                                     |
 \==============================================================================}
 
-(**
- * The miscellaneous constants
- *)
+(*
+Miscellaneous Constants
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The miscellaneous constants are used throughout MSI multiple times.  Having them
+as constants makes it much easier for them to be updated.  They are also
+advanced settings the user can alter to their liking.  These constants include
+anything from randomness percentage to bank symbol accuracy.
+*)
 const
   ANTI_BAN_CHANCE      = 10;    // The chance (in %) of performing antiban
   BANK_SYMBOL_ACCURACY = 0.60;  // The symbol accuracy of the bank
@@ -52,9 +67,23 @@ const
   ENERGY_MIN = 0;
   ENERGY_MAX = 50;
 
-(**
- * All of MSI's suppoted script constants; used in player setup
- *)
+(*
+Script Constants
+~~~~~~~~~~~~~~~~
+
+The Script constants represent the index of the MSI_Scripts array that stores
+all the script information for that particular script.  To access all the script
+information for Varrock East Miner, for example, you would do something like:
+
+Example:
+
+.. code-block:: pascal
+
+  function GetVEMiner(): TScript;
+  begin
+    Result := MSI_Scripts[SCRIPT_VE_MINER];
+  end;
+*)
 const
   // Woodcutting
   SCRIPT_POWER_CHOP = 10;
@@ -104,9 +133,14 @@ const
 
   SCRIPT_ARRAY_LENGTH = 90; // Change to the highest script constant
 
-(**
- * All of MSI's suppoted extras constants; used in extras
- *)
+(*
+Extras Constants
+~~~~~~~~~~~~~~~~
+
+Constants used in MSI Extras.  These do not represent an index of a global
+array, but specify certain settings when a scripter is declaring and extra for
+MSI.
+*)
 const
   EXTRA_BETA       = 'BETA';
   EXTRA_ALPHA      = 'ALPHA';
@@ -115,9 +149,20 @@ const
   EXTRA_CONTINUE   = 1;
   EXTRA_EXIT       = -1;
 
-(**
- * Constants representing every pointer there is inside MSI.
- *)
+(*
+Pointer Constants
+~~~~~~~~~~~~~~~~~
+
+The Pointer constants are used primarily with Extras where the scripter can set
+which procedures to call the extra in place of or in addition to.  These are
+also used for declaring an extra.
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Pointers[MSI_OnDebugCall] := @Coh3n_Debug; // Where Coh3n_Debug would be in an extra I wrote
+*)
 const
   MSI_OnWriteRemoteCall = 0;
   MSI_OnResetRemoteCall = 1;
@@ -126,9 +171,13 @@ const
 
   POINTER_ARRAY_LENGTH = 3;
 
-(**
- * Constants representing different paths for files used for MSI
- *)
+(*
+Path Constants
+~~~~~~~~~~~~~~
+
+These constants represent the different paths to files accessed by MSI, such as
+the saved player's information, the debug/report files, and the settings file.
+*)
 const
   PATH_PLAYER            = IncludePath + 'MSI\Player.txt';                 // Path for all the player information
   PATH_REMOTE            = IncludePath + 'MSI\Remote.txt';                 // Path for the player remote information
@@ -137,12 +186,25 @@ const
   PATH_SETTINGS          = IncludePath + 'MSI\Settings.txt';               // Path for script settings
   PATH_FORM_BITMAPS      = IncludePath + 'MSI\MSI\Form\Bitmaps\';          // Path to all the form images
   PATH_EXTRAS            = IncludePath + 'MSI\MSI\Extras\';                // Path to all the extras
-  PATH_RECORD_WALKPOINTS = IncludePath + 'MSI\MSI\Records\WalkPoints.txt'; // Path to the WalkPoint records
 
-(**
- * Represents all the possible player locations; used for the indexes in
- * the MSI_Location global array
- *)
+(*
+Location Constants
+~~~~~~~~~~~~~~~~~~
+
+The Location constants represent the index of the MSI_Locations array that
+stores all the location information for that particular location.  To access all
+the location information for Varrock East Bank, for example, you would do
+something like:
+
+Example:
+
+.. code-block:: pascal
+
+  function GetVEBankInfo(): TScript;
+  begin
+    Result := MSI_Locations[LOC_VE_BANK];
+  end;
+*)
 const
   // Undefined
   LOC_POWER_SKILL = 0;
@@ -219,24 +281,14 @@ const
 
   LOC_ARRAY_LENGTH = 123; // Change to the highest location constant
 
-(**
- * All the different color minimap areas used for relocating
- *)
-const
-  AREA_GE_YEWS_1 = 10;
-  AREA_GE_YEWS_2 = 11;
+(*
+Requirement Constants
+~~~~~~~~~~~~~~~~~~~~~
 
-  AREA_RM_YEWS_1 = 20;
-  AREA_RM_YEWS_2 = 21;
-
-  AREA_EV_YEWS_1 = 30;
-  AREA_EV_YEWS_2 = 31;
-
-  AREA_ARRAY_LENGTH = 31; // Change to the highest area constant
-
-(**
- * Represents the required level to use the different tools
- *)
+These constants represent the skill level required to use a particular tool.
+For example, to use a Steel Hatchet or Pickaxe, the player needs a level of 6 in
+Mining or Woodcutting.
+*)
 const
   // Hatchets and pickaxes
   REQ_BRONZE  = 1;
@@ -249,9 +301,23 @@ const
 
   REQ_MAX_LEVEL = 99;
 
-(**
- * All the different items used throughout the MSI scripts
- *)
+(*
+Item Constants
+~~~~~~~~~~~~~~
+
+The Item constants represent the index of the MSI_Items array that stores all
+the item information for that particular item.  To access all the item
+information for Willow Logs, for example, you would do something like:
+
+Example:
+
+.. code-block:: pascal
+
+  function GetWillowLogsInfo(): TItem;
+  begin
+    Result := MSI_Items[LOGS_WILLOW];
+  end;
+*)
 const
   PICKAXE_BRONZE  = 10;
   PICKAXE_IRON    = 11;
@@ -350,9 +416,25 @@ const
 
   ITEM_ARRAY_LENGTH = 173; // Change to the highest item constant
 
-(**
- * All the different objects used throughout the MSI scripts
- *)
+(*
+Object Constants
+~~~~~~~~~~~~~~~~
+
+The Object constants represent the index of the MSI_Objects array that stores
+all the object information for that particular object.  Objects refer to
+anything that is to be found on the main screen of the Runescape window.  To
+access all the item information for a Willow Tree, for example, you would do
+something like:
+
+Example:
+
+.. code-block:: pascal
+
+  function GetWillowTreeInfo(): TMSObject;
+  begin
+    Result := MSI_Objects[TREE_WILLOW];
+  end;
+*)
 const
   // Trees
   TREE_NORMAL = 10;
@@ -416,9 +498,23 @@ const
 
   OBJ_ARRAY_LENGTH = 101; // Change to the highest object constant
 
-(**
- * Constants representing all the different MSI obstacles
- *)
+(*
+Obstacle Constants
+~~~~~~~~~~~~~~~~~~
+
+The Obstacle constants represent the index of the MSI_Obstacles array that
+stores all the object information for that particular obstacle. It stores
+information for obstacles like doors and ladders.
+
+Example:
+
+.. code-block:: pascal
+
+  function GetGuildLadder(): TObstacle;
+  begin
+    Result := MSI_Obstacles[OBS_LADDER_DOWN_MINE_GUILD];
+  end;
+*)
 const
   OBS_LADDER_DOWN_MINE_GUILD = 10;
 
@@ -426,9 +522,22 @@ const
 
   OBS_ARRAY_LENGTH = 20; // Change to the highest obstacle constant
 
-(**
- * Constants representing all the different spells
- *)
+(*
+Spells Constants
+~~~~~~~~~~~~~~~~
+
+The Spell constants work the same as the items/objects/obstacles/etc - they
+represent the index of a global array.
+
+Example:
+
+.. code-block:: pascal
+
+  function GetWindStrike(): TSpell;
+  begin
+    Result := MSI_Spells[SPELL_WIND_STRIKE];
+  end;
+*)
 const
   ALCH_COIN_MESSAGE    = 'oins are';
 
@@ -470,18 +579,44 @@ const
 
   SPELL_ARRAY_LENGTH   = 27;
 
-(**
- * Constants representing the different animations used in MSI
- *)
+(*
+Animations Constants
+~~~~~~~~~~~~~~~~~~~~
+
+The Animation constants work the same as the items/objects/obstacles/etc - they
+represent the index of a global array.
+
+Example:
+
+.. code-block:: pascal
+
+  function GetHighAlchAnimation(): TAnimation;
+  begin
+    Result := MSI_Animations[ANIM_ALCH_HIGH];
+  end;
+*)
 const
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
 
   ANIM_ARRAY_LENGTH = 11;
 
-(**
- * Constants representing every recipes there is
- *)
+(*
+Recipe Constants
+~~~~~~~~~~~~~~~~
+
+The Animation constants work the same as the items/objects/obstacles/etc - they
+represent the index of a global array.
+
+Example:
+
+.. code-block:: pascal
+
+  function GetShrimpRecipe(): TRecipe;
+  begin
+    Result := MSI_Recipes[RECIPE_SHRIMP];
+  end;
+*)
 const
   RECIPE_SHRIMP    = 0;
   RECIPE_CRAYFISH  = 1;
@@ -497,19 +632,26 @@ const
 
   RECIPES_ARRAY_LENGTH = 11;
 
-(**
- * Used in MSI_AddToProggy in Debug.scar to determine what to add to the
- * progress report
- *)
+(*
+Proggy Constants
+~~~~~~~~~~~~~~~~
+
+Used in MSI_AddToProggy in Debug.simba to determine what to add to the
+progress report.
+*)
 const
   PROG_ADD_EXP   = 0;
   PROG_ADD_ITEMS = 1;
   PROG_ADD_LOADS = 2;
   PROG_ADD_CASTS = 3;
 
-(**
- * Stores the indexes of the script setup array
- *)
+(*
+Setup Constants
+~~~~~~~~~~~~~~~
+
+Represents the indexes of MSI_SetupVars which are set by the user. Used just
+like the other MSI global arrays.
+*)
 const
   // Booleans
   SETUP_DEBUG_SMART   = 10;
@@ -530,9 +672,13 @@ const
 
   SETUP_ARRAY_LENGTH = 32;
 
-(**
- * Represent the indexes of each file used in MSI
- *)
+(*
+File Constants
+~~~~~~~~~~~~~~
+
+Represent the indexes of each file used in MSI.  Used just like the other MSI
+global arrays.
+*)
 const
   FILE_DEBUG  = 0;
   FILE_REPORT = 1;
@@ -543,10 +689,13 @@ const
 |                                  Types                                       |
 \==============================================================================}
 
-(**
- * The type that holds all the attributes of any main screen objects used
- * throughout MSI scripts
- *)
+(*
+TMSObject
+~~~~~~~~~
+
+The type that holds all the attributes of any main screen objects used
+throughout MSI scripts.
+*)
 type
   TMSObject = record
     X, Y             : Integer;
@@ -575,9 +724,13 @@ type
 
   TMSObjectArray = array of TMSObject;
 
-(**
- * Stores all the attributes of each item used in MSI scripts
- *)
+(*
+TItem
+~~~~~
+
+The type that holds all the attributes of any item used in the inventory
+or bank throughout MSI scripts.
+*)
 type
   TItem = record
     Name     : string;
@@ -590,9 +743,12 @@ type
 
   TItemArray = array of TItem;
 
-(**
- * Stores all the attributes of each recipe.
- *)
+(*
+TRecipe
+~~~~~~~
+
+The type that holds all the attributes of any recipes used for cooking.
+*)
 type
   TRecipe = record
     Name        : string;
@@ -605,21 +761,31 @@ type
 
   TRecipeArray = array of TRecipe;
 
-(**
- * Used in the banking functions to determine the type of bank
- *)
+(*
+TBank
+~~~~~
+
+Used in the banking functions to determine the type of bank.  Also used when
+declaring a TScript record.
+*)
 type
   TBank = (Bank, DBox, NoBank, Drop, NPC);
 
-(**
- * Used when setting up magic scripts to determine which staff to use
- *)
+(*
+TStaffType
+~~~~~~~~~~
+
+Used when setting up magic scripts to determine which staff to use.
+*)
 type
   TStaffType = (LeastCasts, MostCasts, Cheapest);
 
-(**
- * Stores all the different path information. Used in the TScript type
- *)
+(*
+TPath
+~~~~~
+
+Stores all the different path information. Used when declaring a TScript record.
+*)
 type
   TPath = record
     StartLoc   : Integer;
@@ -630,10 +796,13 @@ type
     Obstacles  : TIntegerArray;
   end;
 
-(**
- * Used to make it easier for users to setup and for scripters to follow the
- * code around the include
- *)
+(*
+TScriptSetup
+~~~~~~~~~~~~
+
+Used to make it easier for users to setup and for scripters to follow the code
+around the include.
+*)
 type
   TScriptSetup = record
     Name      : Integer;
@@ -670,9 +839,13 @@ type
 
   TScriptSetupArray = array of TScriptSetup;
 
-(**
- * Stores all the necessary script information for ease of adding new scripts
- *)
+(*
+TScript
+~~~~~~~
+
+Stores all the necessary script information for ease of adding new scripts.
+Script declarations can be found in Scripts.simba.
+*)
 type
   TScript = record
     Name        : string;
@@ -691,9 +864,13 @@ type
 
   TScriptArray = array of TScript;
 
-(**
- * Stores all the necessary extra information for ease of adding new extras
- *)
+(*
+TPointer
+~~~~~~~~
+
+Used to call different functions in place or at the same time as MSI functions.
+Mainly used in MSI extras.
+*)
 type
   TPointer = record
     Constant : Integer;
@@ -702,9 +879,13 @@ type
 
   TPointerArray = array of TPointer;
 
-(**
- * A type used for all of MSI's extras.
- *)
+(*
+TExtra
+~~~~~~
+
+Used for declaring new extras. Stores all the necessary information needed to
+properly implement an extra.
+*)
 type
   TExtra = record
     Name, Author, Version : String;
@@ -716,10 +897,13 @@ type
 
   TExtraArray = array of TExtra;
 
-(**
- * Stores the necessary information for a player's progress report; used in
- * the TPlayerInfo type only
- *)
+(*
+TProggy
+~~~~~~~
+
+Stores the necessary information for a player's progress report; used in
+the TPlayerInfo type only.
+*)
 type
   TProggy = record
     LoadsDone    : Integer;
@@ -741,10 +925,13 @@ type
 
   TProggyArray = array of TProggy;
 
-(**
- * MSI's custom player record; used to setup each player. TUser can be found in
- * SRL (Players.scar)
- *)
+(*
+TPlayerInfo
+~~~~~~~~~~~
+
+MSI's custom player record; used to setup each player. TUser can be found in
+SRL (Players.scar).
+*)
 type
   TPlayerInfo = record
     Name       : string;
@@ -766,10 +953,14 @@ type
 
   TPlayerInfoArray = array of TPlayerInfo;
 
-(**
- * A record that stores all the properties of the different MSI player
- * locations. Used in the MSI relocater
- *)
+(*
+TLocation
+~~~~~~~~~
+
+A record that stores all the properties of the different MSI player locations.
+Used in several areas throughout the include such as reloacting, player setup,
+and confirming player locations.
+*)
 type
   TLocation = record
     Name        : string;
@@ -780,10 +971,13 @@ type
     MinDistance : Integer;     // Min distance (in pixels) for the player to be from the relocation point
   end;
 
-(**
- * A record that stores all the necessary information for the many obstacles
- * around Runescape
- *)
+(*
+TObstacle
+~~~~~~~~~
+
+A record that stores all the necessary information for the many obstacles
+around Runescape.
+*)
 type
   TObstacle = record
     Name       : string;
@@ -798,10 +992,13 @@ type
 
   TObstacleArray = array of TObstacle;
 
-(**
- * A record that stores all the necessary information for the different
- * animations used for MSI
- *)
+(*
+TAnimation
+~~~~~~~~~~
+
+A record that stores all the necessary information for the different
+animations used for MSI.
+*)
 type
   TAnimation = record
     Name          : string;
@@ -813,9 +1010,12 @@ type
 
   TAnimationArray = array of TAnimation;
 
-(**
- * A type that stores the information for spells used in MSI's magic scripts
- *)
+(*
+TMagicSpell
+~~~~~~~~~~~
+
+A type that stores the information for spells used in MSI's magic scripts.
+*)
 type
   TMagicSpell = record
     Name         : string;

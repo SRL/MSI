@@ -426,7 +426,7 @@ begin
       end;
     end;
 
-  WaitTime := GetSystemTime + 60000;
+  WaitTime := GetSystemTime + 30000;
   OldInvCount := InvCount;
   MarkTime(InvTimer);
 
