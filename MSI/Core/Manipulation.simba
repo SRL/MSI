@@ -387,4 +387,33 @@ begin
                       Center.Y + H);
 end;
 
+(*
+MSI_SumTIA
+~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SumTIA(TIA: TIntegerArray): Integer;
+
+Returns the sum of the integer array 'TIA'.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 17 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  sum := MSI_SumTIA([10, 30, 66, 85]);
+*)
+function MSI_SumTIA(TIA: TIntegerArray): Integer;
+var
+  i: Integer;
+begin
+  for i := High(TIA) downto 0 do
+    Result := Result + TIA[i];
+end;
+
 

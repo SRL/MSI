@@ -361,7 +361,7 @@ begin
 
         SetLength(ItemAmounts[Script][i], Length(Items[Script][i]));
         SetLength(Experiences[Script][i], Length(Items[Script][i]));
-        Experiences[Script][i] := MSI_GetItemExperiences(tmpScript.SkillConst, Items[Script][i]);
+        Experiences[Script][i] := MSI_GetItemExp(tmpScript.SkillConst, Items[Script][i]);
       {
         for j := 0 to High(Experiences[Script][i]) do
           Writeln('Player['+IntToStr(Player)+'].Scripts['+IntToStr(Script)+'].Objs['+IntToStr(i)+'] Experience = '+FloatToStr(Experiences[Script][i][j]));

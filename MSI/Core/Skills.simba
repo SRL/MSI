@@ -145,20 +145,6 @@ begin
 end;
 
 {******************************************************************************}
-{ function SumTIA(TIA: TIntegerArray);                                         }
-{ By: RM                                                                       }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Returns the Sum of 'TIA'                                        }
-{******************************************************************************}
-function MSI_SumTIA(TIA: TIntegerArray): Integer;
-var
-  i: Integer;
-begin
-  for i := High(TIA) downto 0 do
-    Result := Result + TIA[i];
-end;
-
-{******************************************************************************}
 { function MSI_ChooseObject(Priorities: TIntegerArray): Integer;               }
 { By: RM, Coh3n, NCDS                                                          }
 { Date: 20 Sept 2010                                                           }
@@ -236,6 +222,7 @@ begin
       with MSI_Players[CurrentPlayer] do
       begin
         RunEnergy(20);
+        MSI_ClickInvTab();
 
         with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
           case (MSI_Scripts[Name].SkillConst) of
@@ -252,7 +239,6 @@ begin
         if (TimeFromMark(waitTime) >= tTime) then
           waitTime := 0;
 
-        Gametab(tab_Inv);
         if (Func(newObjects, forceFail)) then
         begin
           t := (GetSystemTime + (8 * 60000));

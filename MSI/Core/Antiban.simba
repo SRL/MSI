@@ -37,6 +37,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
+  CloseWindow(); // In case a deposit screen or something is open
   currTab := GetCurrentTab;
 
   if (currTab <> tab_Inv) then
