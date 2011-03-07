@@ -8,5 +8,4 @@ Level to Debug=10
 Antiban Wait=15000
 Randoms Wait=15000
 Walking Method=Reflection
-Stats User=Coh3n
-Stats Pass=304002
+
