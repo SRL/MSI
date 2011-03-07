@@ -11,9 +11,6 @@
 | * function MSI_Relocate(): Boolean;           * by Coh3n & Sir R. Magician   |
  \_____________________________________________________________________________}
 
- var
-   CurrentPoint: Integer;
-
 {******************************************************************************}
 { function MSI_LoadColorArea(Area: Integer): Boolean;                          }
 { By: The MSI Team                                                             }
@@ -265,26 +262,53 @@ end;
 {******************************************************************************}
 function MSI_Relocate(Loc: Integer): Boolean;
 var
+  i: Integer;
   p: TPoint;
 begin
   if (not LoggedIn) then
     Exit;
 
   MSI_AddHeader('MSI_Relocate');
+  i := MSI_Players[CurrentPlayer].CurrentPoint; //just to keep the script small
 
+  if (i = High(MSI_Locations[Loc].RelocatePoints)) then
+    for High(MSI_Locations[Loc].RelocatePoints) to 0 do
+    begin
+      i := i - 1;
+      if (not MSI_RelocateRef(p, Loc, i)) then
+        if (not MSI_RelocateColor(p, Loc, i)) then
+        begin
+          if (i = High(MSI_Locations[Loc].RelocatePoints)) then
+            Break;
 
-  if (CurrentPoint = High(MSI_Locations[Loc].RelocatePoints)) then
-    CurrentPoint := 0;
+          Inc(i);
+          Continue;
+        end;
 
-  for CurrentPoint to High(MSI_Locations[Loc].RelocatePoints) do
-  begin
-    if (not MSI_RelocateRef(p, Loc, CurrentPoint)) then
-      if (not MSI_RelocateColor(p, Loc, CurrentPoint)) then
+      if (Distance(p.x, p.y, MMCX, MMCY) > MSI_Locations[Loc].RelocateDist) then
       begin
-        if (CurrentPoint = High(MSI_Locations[Loc].RelocatePoints)) then
+        Mouse(p.x, p.y, 4, 4, True);
+        MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
+        MSI_Flag(0);
+        Result := True;
+        Break;
+      end else
+        if (i = High(MSI_Locations[Loc].RelocatePoints)) then
+        begin
+          MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point['+IntToStr(i)+']');
+          Result := True;
+        end;
+    end;
+
+  for i to High(MSI_Locations[Loc].RelocatePoints) do
+  begin
+    if (not MSI_RelocateRef(p, Loc, i)) then
+      if (not MSI_RelocateColor(p, Loc, i)) then
+      begin
+        if (i = High(MSI_Locations[Loc].RelocatePoints)) then
           Break;
 
-        Inc(CurrentPoint);
+        Inc(i);
         Continue;
       end;
 
@@ -296,13 +320,14 @@ begin
       Result := True;
       Break;
     end else
-      if (CurrentPoint = High(MSI_Locations[Loc].RelocatePoints)) then
+      if (i = High(MSI_Locations[Loc].RelocatePoints)) then
       begin
-        MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point['+IntToStr(CurrentPoint)+']');
+        MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point['+IntToStr(i)+']');
         Result := True;
       end;
   end;
 
+  MSI_Players[CurrentPlayer].CurrentPoint := i;
   MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
 end;
 

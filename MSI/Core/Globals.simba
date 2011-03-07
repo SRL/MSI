@@ -944,18 +944,19 @@ SRL (Players.scar).
 *)
 type
   TPlayerInfo = record
-    Name       : string;
-    Pass       : string;
-    Nick       : string;
-    Pin        : string;
-    Active     : Boolean;
-    Member     : Boolean;
-    Location   : Integer;
-    TotalLoads : Integer;
-    BreakLoads : Integer;
-    TotalTime  : Integer;
-    BreakTime  : Integer;
-    Scripts    : TScriptSetupArray;
+    Name         : string;
+    Pass         : string;
+    Nick         : string;
+    Pin          : string;
+    Active       : Boolean;
+    Member       : Boolean;
+    Location     : Integer;
+    TotalLoads   : Integer;
+    BreakLoads   : Integer;
+    TotalTime    : Integer;
+    BreakTime    : Integer;
+    CurrentPoint : Integer;
+    Scripts      : TScriptSetupArray;
 
     // Not setup by the user
     ReportInfo : TProggy;
