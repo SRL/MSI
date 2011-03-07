@@ -490,7 +490,7 @@ end;
 {******************************************************************************}
 procedure MSI_MainLoop;
 var
-  tmpLoads, tmpTime, time: Integer;
+  tmpLoads, tmpTime, time, CurrentPoint: Integer;
   Script: TScript;
   takeBreak, skipToBank: Boolean;
   reason: string;
@@ -513,6 +513,8 @@ begin
     // Reset temporary variables used for breaking
     tmpLoads := 0;
     MarkTime(tmpTime);
+
+    CurrentPoint := 0; //used in MSI_Relocate
 
     // Setup player
     if (not MSI_SetupPlayer) then
