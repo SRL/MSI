@@ -236,7 +236,7 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  i: Integer;
+  i, cp: Integer;
   p: TPoint;
   TPA: TPointArray;
 begin
@@ -257,11 +257,17 @@ begin
     Exit;
   end;
 
-  for i := 0 to High(TPA) do
+  cp := MSI_Players[CurrentPlayer].CurrentPoint;
+
+  for i := cp to High(TPA) do
   begin
-    if (not MSI_PointOnMM(TPA[i], p)) then
+    if (i = High(TPA)) then
+      j := i - 1
+    else
+      j := i;
+    if (not MSI_PointOnMM(TPA[j], p)) then
     begin
-      if (i = High(TPA)) then
+      if (j = High(TPA)) then
         Break;
 
       Continue;
@@ -275,9 +281,9 @@ begin
       Result := True;
       Break;
     end else
-      if (i = High(TPA)) then
+      if (j = High(TPA)) then
       begin
-        MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
+        MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(j)+')');
         Result := True;
       end;
   end;
