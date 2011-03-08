@@ -1,20 +1,29 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                                Scripts.scar                                  |
-|==============================================================================|
-| For all the routines related to specific scripts                             |
-|                                                                              |
-| * function MSI_LoadLocation(): Boolean;               * by The MSI Team      |
-| * procedure MSI_LoadAllLocations;                     * by Coh3n             |
- \_____________________________________________________________________________}
+(*
+Locations
+=========
 
-{******************************************************************************}
-{ procedure MSI_LoadAllLocations;                                              }
-{ By: The MSI Team                                                             }
-{ Date: 01 November 2010                                                       }
-{ Description: Loads Which location information.  This should only be called   }
-{              in MSI_LoadAllScripts                                           }
-{******************************************************************************}
+The Locations file stores all the TLocation records used in MSI.
+
+*)
+
+(*
+MSI_LoadLocation
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadLocation(Which: Integer): Boolean;
+
+Loads the location 'Which' (sets 'Which' in the MSI_Locations global array).
+This procedure should only be called in MSI_LoadAllLocations. 'Which' represents
+the location constants MSI uses, which can be found in Globals.simba.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 01 November 2010 by Coh3n
+
+*)
  function MSI_LoadLocation(Which: Integer): Boolean;
  begin
    case Which of
@@ -490,13 +499,23 @@
    Result := (MSI_Locations[Which].Name <> '');
  end;
 
-{******************************************************************************}
-{ procedure MSI_LoadAllLocations;                                              }
-{ By: Coh3n                                                                    }
-{ Date: 02 August 2010                                                         }
-{ Description: Loads all the locations into MSI_Locations array; should only   }
-{              be called once in SetupMSI                                      }
-{******************************************************************************}
+(*
+MSI_LoadAllLocations
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllLocations;
+
+Loads all the locations into the MSI_Locations array.  This procedure should
+only be called in MSI_Setup.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 02 August 2010 by Coh3n
+
+*)
 procedure MSI_LoadAllLocations;
 var
   i: Integer;
