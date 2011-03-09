@@ -808,20 +808,20 @@ around the include.
 *)
 type
   TScriptSetup = record
-    Name      : Integer;
-    MaxLevel  : Integer; // The level you want to stop autoing at (not working yet)
+    Name : Integer;
+
+    // Not working until multiple script support
+    Loads    : Integer; // Total loads to do for a specific script
+    Time     : Integer; // Total time for a specific script
+    MaxLevel : Integer; // The maximus skill level for that script
 
     // Woodcutting, Mining, and Fishing
-    Rocks       : TIntegerArray;
-    Trees       : TIntegerArray;
-    FishSpots   : TIntegerArray;
-    CookingSpot : TIntegerArray;
-    Recipe      : Integer;
-    Priority    : TIntegerArray;
-    DontDrop    : TIntegerArray; // The items the user doesn't want dropped/banked
-    Exceptions  : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
-    Loads       : Integer; // Not used yet because we don't support multiple scripts
-    Time        : Integer; // Also not used yet until we have multiple script support
+    Rocks      : TIntegerArray;
+    Trees      : TIntegerArray;
+    FishSpots  : TIntegerArray;
+    Priority   : TIntegerArray;
+    DontDrop   : TIntegerArray; // The items the user doesn't want dropped/banked
+    Exceptions : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
 
     // Magic
     Spells    : TIntegerArray;
@@ -831,13 +831,16 @@ type
 
     // Fighting
     Monsters     : TIntegerArray;
-    Loot         : TIntegerArray;
-    RunDirection : String;
+    Loot         : TIntegerArray; // Monster drops the user wants to collect
+    RunDirection : String;        // Run direction if low in health
+
+    // Cooking
+    CookingSpot : TIntegerArray;
+    Recipe      : Integer;
 
     // Not setup by the user
-    Items     : array of TIntegerArray;
-    MaxCasts  : TIntegerArray; // Maximum casts for each spell (calculated in MSI_SetupMagic)
-    LeftTree  : Boolean;       // Used for GE Yews color relocating
+    Items    : array of TIntegerArray;
+    MaxCasts : TIntegerArray; // Maximum casts for each spell (calculated in MSI_SetupMagic)
   end;
 
   TScriptSetupArray = array of TScriptSetup;
