@@ -236,7 +236,7 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  i, j, cp: Integer;
+  i, j, t, cp: Integer;
   p: TPoint;
   TPA: TPointArray;
 begin
@@ -265,29 +265,36 @@ begin
   end;
   MSI_Players[CurrentPlayer].CurrentPoint := cp;
 
-  for i := cp to High(TPA) do
+  t := (GetSystemTime + 10000);
+  while (not Result) and (LoggedIn) and (GetSystemTime < t) do
   begin
-    if (not MSI_PointOnMM(TPA[i], p)) then
+    for i := cp to High(TPA) do
     begin
-      if (i = High(TPA)) then
-        Break;
+      if (not MSI_PointOnMM(TPA[i], p)) then
+      begin
+        if (i = High(TPA)) then
+          Break;
 
-      Continue;
+        Continue;
+      end;
+
+      if (Distance(p.x, p.y, MMCX, MMCY) > MSI_Locations[Loc].MinDistance) then
+      begin
+        Mouse(p.x, p.y, 4, 4, True);
+        MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
+        MSI_Flag(0);
+        Result := True;
+        Break;
+      end else
+        if (i = High(TPA)) then
+        begin
+          MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
+          Result := True;
+        end;
     end;
 
-    if (Distance(p.x, p.y, MMCX, MMCY) > MSI_Locations[Loc].MinDistance) then
-    begin
-      Mouse(p.x, p.y, 4, 4, True);
-      MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
-      MSI_Flag(0);
-      Result := True;
-      Break;
-    end else
-      if (i = High(TPA)) then
-      begin
-        MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
-        Result := True;
-      end;
+    if (not Result) then
+      cp := 0;
   end;
 
   MSI_Players[CurrentPlayer].CurrentPoint := i;

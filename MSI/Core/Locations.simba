@@ -347,7 +347,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          Name := 'Draynor Village Yews';
          Constant := LOC_DB_YEWS;
          AtBank := False;
-         Tiles := [Point(3151, 3229), Point(3166, 3222), Point(3181, 3227)];
+         Tiles := [Point(3153, 3229), Point(3166, 3222), Point(3181, 3227)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance   := 30;
        end;

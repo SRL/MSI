@@ -44,6 +44,8 @@ begin
     end;
   end;
 
+  MSI_FindRandoms(True); // To set random's vars
+
   // To handle relocating for power scripts
   {$IFDEF REFLECTION}
   with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
