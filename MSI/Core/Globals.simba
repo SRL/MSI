@@ -609,7 +609,9 @@ const
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
 
-  ANIM_ARRAY_LENGTH = 11;
+  ANIM_FISHING = 20;
+
+  ANIM_ARRAY_LENGTH = 20;
 
 (*
 Recipe Constants
