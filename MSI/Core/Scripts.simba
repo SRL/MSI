@@ -1100,6 +1100,49 @@ begin
         end;
       end;
 
+    SCRIPT_CB_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Catherby Fisher';
+        Constant      := SCRIPT_CB_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_CB;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankMaterials;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        with Defaults do
+        begin
+          FishSpots := [
+                         FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE,
+                         FISHSPOT_HARPOON
+                       ];
+
+          Items     := [
+                         TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
+                         TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
+                         TIntegerArray([FISH_RAW_LOBSTER]),
+                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH])
+                       ];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_CB_BANK;
+          EndLoc   := LOC_CB_FISH;
+
+          Reflection := [
+                          TPointArray([Point(2814, 3438), Point(2827, 3439),
+                                       Point(2835, 3434)])
+                        ];
+
+          SPSAreas   := ['7_3'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
     { COOKERS ==================================== ]
     [============================================= }
     SCRIPT_AK_COOKER:

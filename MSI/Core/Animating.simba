@@ -22,7 +22,7 @@ the animation constants MSI uses, which can be found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 February 2011 by Coh3n
+  | Last Updated: 09 March 2011 by IPwnz
 
 *)
 procedure MSI_LoadAnimation(Anim: Integer);
@@ -42,6 +42,16 @@ begin
       with MSI_Animations[Anim] do
       begin
         Name := 'High Alching';
+        MinPixelShift := 500;
+        PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
+        Interval := 200;
+        MaxWait := 3000;
+      end;
+
+    ANIM_FISHING: //not complete
+      with MSI_Animations[Anim] do
+      begin
+        Name := 'Fishing';
         MinPixelShift := 500;
         PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
         Interval := 200;

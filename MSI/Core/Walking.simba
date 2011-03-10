@@ -225,7 +225,7 @@ near the location.  Returns true if relocation was successful.
 .. note::
 
   | Author: Sir R. Magician
-  | Last Updated: 27 February 2011 by Coh3n
+  | Last Updated: 9 March 2011 by IPwnz
 
 Example:
 
@@ -236,7 +236,7 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  i: Integer;
+  i, j, cp: Integer;
   p: TPoint;
   TPA: TPointArray;
 begin
@@ -257,7 +257,15 @@ begin
     Exit;
   end;
 
-  for i := 0 to High(TPA) do
+  cp := MSI_Players[CurrentPlayer].CurrentPoint;
+  if (cp = High(TPA)) then
+  begin
+    InvertTPA(TPA);
+    cp := High(TPA) - cp;
+  end;
+  MSI_Players[CurrentPlayer].CurrentPoint := cp;
+
+  for i := cp to High(TPA) do
   begin
     if (not MSI_PointOnMM(TPA[i], p)) then
     begin
@@ -282,6 +290,7 @@ begin
       end;
   end;
 
+  MSI_Players[CurrentPlayer].CurrentPoint := i;
   MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
 end;
 

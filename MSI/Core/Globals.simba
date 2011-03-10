@@ -39,6 +39,7 @@ different locations around Runescape.
   | SV: Seers Village
   | LSW: Lumbridge Swamp West
   | KJ: Karamja
+  | CB: Catherby
 *)
 
 {==============================================================================\
@@ -123,6 +124,7 @@ const
   SCRIPT_DB_FISHER     = 51;
   SCRIPT_BBV_FISHER    = 52;
   SCRIPT_KJ_NOTER      = 53; // SRL Members+ only
+  SCRIPT_CB_FISHER    = 54;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
@@ -282,7 +284,11 @@ const
   LOC_KJ_STILES = 122;
   LOC_KJ_FISH   = 123;
 
-  LOC_ARRAY_LENGTH = 123; // Change to the highest location constant
+  // Catherby
+  LOC_CB_BANK = 130;
+  LOC_CB_FISH   = 131;
+
+  LOC_ARRAY_LENGTH = 131; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -468,6 +474,7 @@ const
   MSI_BANK_EV = 35;
   MSI_BANK_SV = 36;
   MSI_BANK_AK = 37;
+  MSI_BANK_CB = 38;
 
   DBOX_PS = 40;
 
@@ -602,7 +609,9 @@ const
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
 
-  ANIM_ARRAY_LENGTH = 11;
+  ANIM_FISHING = 20;
+
+  ANIM_ARRAY_LENGTH = 20;
 
 (*
 Recipe Constants
@@ -940,18 +949,19 @@ SRL (Players.scar).
 *)
 type
   TPlayerInfo = record
-    Name       : string;
-    Pass       : string;
-    Nick       : string;
-    Pin        : string;
-    Active     : Boolean;
-    Member     : Boolean;
-    Location   : Integer;
-    TotalLoads : Integer;
-    BreakLoads : Integer;
-    TotalTime  : Integer;
-    BreakTime  : Integer;
-    Scripts    : TScriptSetupArray;
+    Name         : string;
+    Pass         : string;
+    Nick         : string;
+    Pin          : string;
+    Active       : Boolean;
+    Member       : Boolean;
+    Location     : Integer;
+    TotalLoads   : Integer;
+    BreakLoads   : Integer;
+    TotalTime    : Integer;
+    BreakTime    : Integer;
+    CurrentPoint : Integer;
+    Scripts      : TScriptSetupArray;
 
     // Not setup by the user
     ReportInfo : TProggy;

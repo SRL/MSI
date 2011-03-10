@@ -473,6 +473,29 @@ the location constants MSI uses, which can be found in Globals.simba.
          MinDistance := 25;
        end;
 
+     LOC_CB_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Catherby Bank';
+         Constant := LOC_CB_BANK;
+         AtBank := True;
+         Tiles := [Point(2809, 3442)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
+     LOC_CB_FISH:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Catherby Fishing Spots';
+         Constant := LOC_CB_FISH;
+         AtBank := False;
+         Tiles := [Point(2837, 3432), Point(2845, 3430),
+                   Point(2853, 3424), Point(2859, 3427)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
      LOC_KJ_STILES:
        with MSI_Locations[Which] do
        begin

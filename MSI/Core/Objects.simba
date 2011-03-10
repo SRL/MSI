@@ -409,6 +409,30 @@ begin
         BadColorTolerance  := 10;
       end;
 
+    MSI_BANK_CB:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Catherby bank';
+         UpText             := 'ooth';
+         Option             := 'uick';
+         Colors             := [4414845, 6185843];
+         Tol                := 4;
+         Hue                := 0.91;
+         Sat                := 5.74;
+         FindAllColors      := False;
+         W                  := 30;
+         H                  := 20;
+         Accuracy           := 7;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := True;
+         Tries              := 5;
+         Anim               := False;
+         WaitToMove         := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+       end;
+
     { ROCKS ====================================== ]
     [============================================= }
     ROCK_CLAY:
