@@ -1,36 +1,47 @@
-function MSI_SetupRecipe(which : Integer): TRecipe;
+function MSI_SetupRecipe(which : Integer): TMaterial;
 begin
   case which of
-    RECIPE_SHRIMP:
+    MATERIAL_SHRIMP:
       with Result do
       begin
         Name        := 'Shrimps';
-        Ingredients := [FISH_RAW_SHRIMP];
+        Supplies    := [TIntegerArray([FISH_RAW_SHRIMP, -1])];
         Produces    := [FISH_COOKED_SHRIMP];
         MemberOnly  := False;
         Level       := 1;
         CookingSpot := COOKSPOT_EITHER;
       end;
 
-    RECIPE_TROUT:
+    MATERIAL_TROUT:
       with Result do
       begin
         Name        := 'Trout';
-        Ingredients := [FISH_RAW_TROUT];
+        Supplies    := [TIntegerArray([FISH_RAW_TROUT, -1])];
         Produces    := [FISH_COOKED_TROUT];
         MemberOnly  := False;
         Level       := 15;
         CookingSpot := COOKSPOT_EITHER;
       end;
 
-    RECIPE_SALMON:
+    MATERIAL_SALMON:
       with Result do
       begin
         Name        := 'Salmon';
-        Ingredients := [FISH_RAW_SALMON];
+        Supplies    := [TIntegerArray([FISH_RAW_SALMON, -1])];
         Produces    := [FISH_COOKED_SALMON];
         MemberOnly  := False;
         Level       := 30;
+        CookingSpot := COOKSPOT_EITHER;
+      end;
+
+    MATERIAL_LOBSTER:
+      with Result do
+      begin
+        Name        := 'Lobster';
+        Supplies    := [TIntegerArray([FISH_RAW_LOBSTER, -1])];
+        Produces    := [FISH_COOKED_LOBSTER];
+        MemberOnly  := False;
+        Level       := 40;
         CookingSpot := COOKSPOT_EITHER;
       end;
   end;
@@ -41,10 +52,10 @@ var
   I : Integer;
 begin
   for I := Start to Finish do
-    MSI_Recipes[I] := MSI_SetupRecipe(I);
+    MSI_Materials[I] := MSI_SetupRecipe(I);
   Result := True;
 end;
-
+{
 function MSI_BankCooking : Boolean;
 var
   Timeout, Recipe : Integer;
@@ -93,14 +104,16 @@ begin
       CloseBank;
   end;
 end;
-
+}
 function MSI_SetupCooking : Boolean;
 begin
   MSI_AddHeader('MSI_SetupCooking');
 
-  Result := MSI_SetupRecipes(RECIPE_SHRIMP, RECIPE_SWORDFISH);
-  MSI_BankCooking;
-
+  if MSI_SetupRecipes(MATERIAL_SHRIMP, MATERIAL_SWORDFISH) then
+    if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >= MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]].Level) then
+      Result := True
+    else
+      MSI_Debug('Not high enough level(' + IntToStr(MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[SKILL_COOKING]) + ') to cook this recipe(' +MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]].Name+ ')!');
   MSI_CloseHeader('MSI_SetupCooking: ' + BoolToStr(Result));
 end;
 
@@ -111,14 +124,14 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  Timeout := GetSystemTime + 25000;
+  Timeout := GetSystemTime + 60000;
   while (GetSystemTime < Timeout) do
   begin
-
+    {
     case WhichRecipe of
-      RECIPE_SHRIMP..RECIPE_SWORDFISH:
-        Result := (Length(MSI_FindItemSlots(MSI_Recipes[WhichRecipe].Ingredients[0])) <= 0);
-    end;
+      MATERIAL_SHRIMP..MATERIAL_SWORDFISH:}
+        Result := (Length(MSI_FindItemSlots(MSI_Materials[WhichRecipe].Supplies[0][0])) <= 0);
+    //end;
 
     if Result then Break;
 
@@ -131,7 +144,7 @@ end;
 
 function MSI_CookFood(WhichRecipe : Integer) : Boolean;
 var
-  TimeOut: Integer;
+  TimeOut, cSpot: Integer;
 begin
   if (not LoggedIn) then
     Exit;
@@ -142,37 +155,26 @@ begin
 
   repeat
     case WhichRecipe of
-      RECIPE_SHRIMP..RECIPE_SWORDFISH:
-        if not MSI_ClickItem(MSI_Recipes[WhichRecipe].Ingredients[0], ['Use', 'se']) then
+      MATERIAL_SHRIMP..MATERIAL_SWORDFISH:
+        if not MSI_ClickItem(MSI_Materials[WhichRecipe].Supplies[0][0], ['Use', 'se']) then
         begin
-          MSI_Debug('Somehow, we failed to click the ingredient!');
+          MSI_Debug('Somehow, we failed to click the '+MSI_Materials[WhichRecipe].Name+'!');
           Break;
         end;
     end;
 
-    case MSI_Recipes[WhichRecipe].CookingSpot of
-      COOKSPOT_EITHER:
-        begin
-          if MSI_FindObject(COOKSPOT_RANGE, clickLeft) then
-            Result := MSI_WaitWhileCooking(WhichRecipe)
-          else
-          begin
-            if MSI_FindObject(COOKSPOT_FIRE, clickLeft) then
-              Result := MSI_WaitWhileCooking(WhichRecipe);
-          end;
-        end;
-      COOKSPOT_FIRE:
-        if MSI_FindObject(COOKSPOT_FIRE, clickLeft) then
-          Result := MSI_WaitWhileCooking(WhichRecipe);
-      COOKSPOT_RANGE:
-        if MSI_FindObject(COOKSPOT_RANGE, clickLeft) then
-          Result := MSI_WaitWhileCooking(WhichRecipe);
+    if MSI_Materials[WhichRecipe].CookingSpot = COOKSPOT_EITHER then
+      cSpot := RandomRange(COOKSPOT_FIRE, COOKSPOT_RANGE)
+    else
+      cSpot := MSI_Materials[WhichRecipe].CookingSpot;
+
+    if MSI_FindObject(cSpot, clickLeft) then
+    begin
+      //Click 'cook all'
+      Result := MSI_WaitWhileCooking(WhichRecipe);
     end;
 
-    if GetSystemTime > TimeOut then
-      Break;
-
-  until(FALSE)
+  until(Result or (GetSystemTime > TimeOut) or (not (LoggedIn)));
 
   MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
 end;
@@ -183,5 +185,5 @@ begin
     Exit;
 
   MSI_Relocate(MSI_Players[CurrentPlayer].Location)
-  Result := MSI_CookFood(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Recipe);
+  Result := MSI_CookFood(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]);
 end;

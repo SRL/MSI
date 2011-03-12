@@ -149,6 +149,7 @@ begin
     begin
       if (not MSI_IsAnimating(Anim)) then
         Break;
+      MSI_NoMouseFindRandoms;
 
       Wait(RandomRange(10, 30));
     end;

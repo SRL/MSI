@@ -6,7 +6,20 @@ The Antiban file includes MSI's custom banking procedures. It uses MSI's
 object finding methods to interact with banks NPCs.
 
 *)
-
+function MSI_HandlePin(Pin: string): Boolean;
+var
+  t: Integer;
+begin
+  if (MSI_Players[CurrentPlayer].Pin = '') then
+    Exit;
+  MSI_AddHeader('MSI_HandlePin');
+  t := (GetSystemTime + 10000);
+  repeat
+    Result := InPin(Pin) or BankScreen;
+    Wait(50);
+  until(Result or (GetSystemTime >= t));
+  MSI_CloseHeader('MSI_HandlePin: '+ToStr(Result));
+end;
 (*
 MSI_OpenBank
 ~~~~~~~~~~~~
@@ -39,34 +52,33 @@ begin
   if (not LoggedIn) then
     Exit;
 
+  bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
+  if bankType = NoBank then
+    Exit;
+
   MSI_AddHeader('MSI_OpenBank');
-  Result := BankScreen;
+  Result := BankScreen or DepositScreen;
 
   if (not Result) then
   begin
-    bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
-    if (bankType = NoBank) then
-      Exit;
-
     t := (GetSystemTime + 60000);
-    repeat
+    if bankType = Bank then
+      Result := MSI_HandlePin(tPin);
+
+    while (not Result) and (GetSystemTime < t) and LoggedIn do
+    begin
       MSI_FindRandoms(False);
 
       if (MSI_FindObject(which, ClickRight)) then
       begin
-        if (MSI_Players[CurrentPlayer].Pin <> '') then
-          if WaitFunc(@PinScreen, 100, 10000) then
-            if (Length(tPin) = 4) then
-              InPin(tPin)
-            else begin
-              MSI_Debug(MSI_Players[CurrentPlayer].Name+'''s PIN is invalid');
-              Break;
-            end;
+        if bankType = Bank then
+          Result := MSI_HandlePin(tPin);
 
-        case bankType of
-          Bank: Result := WaitFunc(@BankScreen, 100, 15000);
-          DBox: Result := WaitFunc(@DepositScreen, 100, 15000);
-        end;
+        if (not Result) then
+          case bankType of
+            Bank: Result := WaitFunc(@BankScreen, 100, 15000);
+            DBox: Result := WaitFunc(@DepositScreen, 100, 15000);
+          end;
       end;
 
       if (not Result) then
@@ -76,7 +88,7 @@ begin
           Wait(RandomRange(2000, 3000));
           MSI_Relocate(MSI_Players[CurrentPlayer].Location);
         end;
-    until(Result or (not LoggedIn) or (GetSystemTime > t));
+    end;
   end;
 
   if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
@@ -494,7 +506,7 @@ function MSI_BankMaterials: Boolean;
 var
   intItems: TIntegerArray;
   itemsDeposited: TBooleanArray;
-  i, x, y: Integer;
+  i, x, y, Material: Integer;
   depAll: Boolean;
   Script: TScript;
   b: TBox;
@@ -576,13 +588,22 @@ begin
           MSI_CloseHeader('MSI_BankMaterials: ' + BoolToStr(Result));
           Exit;
         end;
+    Result := (InvCount = Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions));
 
-    CloseBank;
+    if MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials then
+      for i := 0 to High(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials) do
+      begin
+        Material := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[i];
+        //Result := MSI_Withdraw([MSI_Materials[Material].Ingredients[i][0]], [MSI_Materials[Material].Ingredients[i][1]]);
+      end;
+
+    if Random(3) = 1 then
+      CloseBank;
   end; // End Normal Banking
 
   MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
   stats_IncVariable('Times Banked', 1);
-  Result := True;
+  //Result := True;
 
   MSI_CloseHeader('MSI_BankMaterials: ' + BoolToStr(Result));
 end;

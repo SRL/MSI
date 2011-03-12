@@ -82,12 +82,21 @@ Begin
   if (Random(100) > ChancePerc) or (NextAntiban > GetSystemTime) then
     Exit;
 
+  _avg := Round(MSI_SetupVars[SETUP_ANTIBAN_WAIT] * (RANDOM_TIME_PERCENT + (RANDOM_TIME_PERCENT * 0.50)));
+  NextAntiban := GetSystemTime + (MSI_SetupVars[SETUP_ANTIBAN_WAIT] + RandomRange(-Round(_avg / 2), _avg));
+
+  MSI_SubDebug('MSI_AntiBan');
+  if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name = SCRIPT_ALCHER) and (Random(100) > ChancePerc) then
+  begin
+    MakeCompass('random');
+    Exit;
+  end;
+
   MSI_ClickInvTab;
 
   if (LeaveDangerZone) then
     MSI_Debug('Left danger zone');
 
-  MSI_SubDebug('MSI_AntiBan');
   Case HowLong Of
     0..2000:
      Case Random(3) Of
@@ -134,10 +143,6 @@ Begin
         end;
       end;
   End;
-
-  _avg := Round(MSI_SetupVars[SETUP_ANTIBAN_WAIT] * (RANDOM_TIME_PERCENT + (RANDOM_TIME_PERCENT * 0.50)));
-
-  NextAntiban := GetSystemTime + (MSI_SetupVars[SETUP_ANTIBAN_WAIT] + RandomRange(-Round(_avg / 2), _avg));
 End;
 
 (*
@@ -203,6 +208,89 @@ begin
       MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
       Exit;
     end;
+
+  NextRandCheck := GetSystemTime + MSI_SetupVars[SETUP_RANDOMS_WAIT];
+end;
+
+(*
+MSI_NoMouseFindRandoms
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_NoMouseFindRandoms: Boolean;
+
+Checks to see if the player has encountered a random event. By default, MSI waits a minimum of 15 seconds
+in between randoms scans (changable by user in the script setup).
+
+.. note::
+
+  | Author: Coh3n & FindNormalRandoms & NCDS
+  | Last Updated: 12 March 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (not FindObjects) then // Note that FindObjects is used only as an example
+    if MSI_NoMouseFindRandoms then
+      if (not LoggedIn) then
+        Exit;
+*)
+function MSI_NoMouseFindRandoms: Boolean;
+var
+  I: Byte;
+  Cont : boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (LevelUp) then
+  begin
+    MSI_SubDebug('MSI_FindRandoms: Player has leveled up!');
+    stats_IncVariable('Total Levels Gained', 1);
+  end;
+
+  if (NextRandCheck > GetSystemTime) then
+    Exit;
+
+  MSI_SubDebug('Scanning for randoms...');
+  {$IFDEF REFLECTION}
+    Result := R_SolveNonTalkingRandoms;
+  {$ELSE}
+    begin
+      if (SRL_OnFindRandomCall <> nil) then
+      begin;
+        Result := SRL_OnFindRandomCall(cont);
+        if not Cont then
+          exit;
+      end;
+      for I := 1 to 6 do
+      begin
+        case I of
+          1: Result := SolveTeleportRandoms;
+          2: Respond;
+          3: Result := FindDead;
+          4: Result :=  RC;
+          5: Result := FindMod;
+          6: if (SRL_Procs[srl_OnRandomCall] <> nil) then
+               SRL_Procs[srl_OnRandomCall]();
+
+        end;
+        if (Result) then
+        begin
+          if (SRL_Procs[srl_OnFindRandom] <> nil) then
+            SRL_Procs[srl_OnFindRandom]();
+          Break;
+        end;
+      end;
+    end;
+  {$ENDIF}
+  if Result then
+    MSI_SubDebug('MSI_FindRandoms: Finished Random Event!')
+  else
+    if (not LoggedIn) then
+      MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
 
   NextRandCheck := GetSystemTime + MSI_SetupVars[SETUP_RANDOMS_WAIT];
 end;

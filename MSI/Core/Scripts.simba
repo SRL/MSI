@@ -1110,9 +1110,10 @@ begin
         SkillName     := 'Cooking';
         SkillConst    := SKILL_COOKING;
         BankType      := Bank;
+        GetMaterials  := True;
         WhichBank     := MSI_BANK_AK;
         AutoObjects   := @MSI_CookFullInv;
-        BankObjects   := @MSI_BankCooking;
+        BankObjects   := @MSI_BankMaterials;
         PlayerSetup   := @MSI_SetupCooking;
 
         with Defaults do

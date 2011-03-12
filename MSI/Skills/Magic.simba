@@ -793,6 +793,8 @@ begin
         if (not ExistsItem(idealSlot)) then
         begin
           MSI_Debug('Item doesn''t exist in AlchSlot['+IntToStr(i)+'] or idealSlot');
+          if i = High(AlchSlots) then
+            MSI_FindRandoms(False);
           Continue;
         end;
 
@@ -805,6 +807,7 @@ begin
           Inc(MSI_Players[CurrentPlayer].ReportInfo.Casts[CurrentScript][CurrentSpell]);
           stats_IncVariable(MSI_Spells[Spell].StatsName, 1);
 
+          MSI_NoMouseFindRandoms;
           MSI_AntiBan(3500 + RandomRange(-2000, 1500), ANTI_BAN_CHANCE);
           t := GetSystemTime + (60000 * 5);
         end else
@@ -837,7 +840,7 @@ begin
           Exit;
         end;
 
-        if ((MSI_Players[CurrentPlayer].ReportInfo.Casts[CurrentScript][CurrentSpell] mod CASTS_BEFORE_REPORT) = 0) then
+        if ((MSI_Players[CurrentPlayer].ReportInfo.Casts[CurrentScript][CurrentSpell] mod ((CASTS_BEFORE_REPORT + RandomRange(-Round(CASTS_BEFORE_REPORT*0.15), Round(CASTS_BEFORE_REPORT*0.15)))) = 0)) then
         begin
           Result := True;
           MSI_CloseHeader('MSI_Alch: ' + BoolToStr(Result));

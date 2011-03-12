@@ -605,35 +605,35 @@ const
   ANIM_ARRAY_LENGTH = 11;
 
 (*
-Recipe Constants
+Material Constants
 ~~~~~~~~~~~~~~~~
 
-The Animation constants work the same as the items/objects/obstacles/etc - they
+The Material constants work the same as the items/objects/obstacles/etc - they
 represent the index of a global array.
 
 Example:
 
 .. code-block:: pascal
 
-  function GetShrimpRecipe(): TRecipe;
+  function GetShrimpMaterials(): TMaterial;
   begin
-    Result := MSI_Recipes[RECIPE_SHRIMP];
+    Result := MSI_Materials[MATERIAL_SHRIMP];
   end;
 *)
 const
-  RECIPE_SHRIMP    = 0;
-  RECIPE_CRAYFISH  = 1;
-  RECIPE_SARDINE   = 2;
-  RECIPE_HERRING   = 3;
-  RECIPE_ANCHOVIE  = 4;
-  RECIPE_TROUT     = 5;
-  RECIPE_PIKE      = 6;
-  RECIPE_SALMON    = 7;
-  RECIPE_TUNA      = 8;
-  RECIPE_LOBSTER   = 9;
-  RECIPE_SWORDFISH = 10;
+  MATERIAL_SHRIMP    = 0;
+  MATERIAL_CRAYFISH  = 1;
+  MATERIAL_SARDINE   = 2;
+  MATERIAL_HERRING   = 3;
+  MATERIAL_ANCHOVIE  = 4;
+  MATERIAL_TROUT     = 5;
+  MATERIAL_PIKE      = 6;
+  MATERIAL_SALMON    = 7;
+  MATERIAL_TUNA      = 8;
+  MATERIAL_LOBSTER   = 9;
+  MATERIAL_SWORDFISH = 10;
 
-  RECIPES_ARRAY_LENGTH = 11;
+  MATERIALS_ARRAY_LENGTH = 11;
 
 (*
 Proggy Constants
@@ -747,22 +747,24 @@ type
   TItemArray = array of TItem;
 
 (*
-TRecipe
+TMaterial
 ~~~~~~~
 
-The type that holds all the attributes of any recipes used for cooking.
+The type that holds all the attributes of any materials used for a skill.
 *)
 type
-  TRecipe = record
+  TMaterial = record
     Name        : string;
-    Ingredients : TIntegerArray;
+    Supplies    : T2DIntegerArray;
     Produces    : TIntegerArray;
     MemberOnly  : Boolean;
     Level       : Integer;
+
+    //Cooking
     CookingSpot : Integer;
   end;
 
-  TRecipeArray = array of TRecipe;
+  TMaterialArray = array of TMaterial;
 
 (*
 TBank
@@ -816,7 +818,7 @@ type
     Trees       : TIntegerArray;
     FishSpots   : TIntegerArray;
     CookingSpot : TIntegerArray;
-    Recipe      : Integer;
+    Materials   : TIntegerArray;
     Priority    : TIntegerArray;
     DontDrop    : TIntegerArray; // The items the user doesn't want dropped/banked
     Exceptions  : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
@@ -856,6 +858,7 @@ type
     SkillName   : string;
     SkillConst  : Integer;
     BankType    : TBank;
+    GetMaterials: Boolean;
     WhichBank   : Integer;
     ClickClosest: Boolean;
     AutoObjects : function: Boolean;
@@ -1063,6 +1066,6 @@ var
   MSI_Extras    : TExtraArray;
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Obstacles : array[0..OBS_ARRAY_LENGTH] of TObstacle;
-  MSI_Recipes   : array[0..RECIPES_ARRAY_LENGTH - 1] of TRecipe;
+  MSI_Materials : array[0..MATERIALS_ARRAY_LENGTH - 1] of TMaterial;
   MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
