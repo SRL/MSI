@@ -446,7 +446,7 @@ begin
     if InvFull then break;
 
     MSI_Debug('Timefrommark Check for fish');
-    if (TimeFromMark(InvTimer) > 30000) then          // If no new fish in inv after 30 seconds, spot probably moved
+    if (TimeFromMark(InvTimer) > 45000) then          // If no new fish in inv after 30 seconds, spot probably moved
       if (OldInvCount = InvCount) then break
       else begin
         MSI_Debug('Got more fish, setting new count');

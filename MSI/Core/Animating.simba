@@ -47,16 +47,6 @@ begin
         Interval := 200;
         MaxWait := 3000;
       end;
-
-    ANIM_FISHING: //not complete
-      with MSI_Animations[Anim] do
-      begin
-        Name := 'Fishing';
-        MinPixelShift := 500;
-        PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
-        Interval := 200;
-        MaxWait := 3000;
-      end;
   end;
 end;
 
