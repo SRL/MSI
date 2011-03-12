@@ -433,6 +433,11 @@ begin
   repeat
     MSI_FindRandoms(False);
 
+    {$IFDEF REFLECTION}
+    if (GetAnimation = -1) then
+      Break;
+    {$ENDIF}
+
     if (FindText(x, y, 'left', NPCChars, 327, 377, 362, 414)) then
     begin
       MSI_SubDebug('We have run out of fishing bait!');
