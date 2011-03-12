@@ -175,12 +175,12 @@ begin
 end;
 
 {******************************************************************************}
-{ Function MSI_DetectSide : String                                             }
+{ Function MSI_DetectSide: String                                             }
 { By: 3Garrett3                                                                }
 { Date: 24 August 2010                                                         }
 { Description: Finds the direction of a fishing spot and returns compass angle }
 {******************************************************************************}
-Function MSI_DetectSide : String;
+Function MSI_DetectSide: String;
 var
   Water : TBoolArray;
   Right, Left, Above, Below : Boolean;
@@ -370,7 +370,7 @@ begin
   MSI_AddHeader('MSI_WaitWhileFishing');
 
   SearchBox := IntToBox(265, 156, 312, 200);
-  CompassDir:= MSI_DetectSide;
+  CompassDir := MSI_DetectSide;
   MSI_Debug('Setting compass to: ' + CompassDir);
   MakeCompass(CompassDir);
 
@@ -446,7 +446,7 @@ begin
     if InvFull then break;
 
     MSI_Debug('Timefrommark Check for fish');
-    if (TimeFromMark(InvTimer) > 45000) then          // If no new fish in inv after 30 seconds, spot probably moved
+    if (TimeFromMark(InvTimer) > 30000) then          // If no new fish in inv after 30 seconds, spot probably moved
       if (OldInvCount = InvCount) then break
       else begin
         MSI_Debug('Got more fish, setting new count');
@@ -474,7 +474,10 @@ begin
         Wait(50);
       end;
     end;
-    if not Fishing then break;
+    if Fishing then
+      WaitTime := GetSystemTime + 30000
+    else
+      break;
     MSI_Debug('Fishing returned True');
 
   until((WaitTime < GetSystemTime) or (not LoggedIn));
