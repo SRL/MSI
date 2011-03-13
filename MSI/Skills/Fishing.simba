@@ -433,14 +433,12 @@ begin
   repeat
     MSI_FindRandoms(False);
 
-    {$IFDEF REFLECTION}
-    if (GetAnimation = -1) then
+    if not MSI_IsAnimating(ANIM_FISHING) then
     begin
-      Wait(RandomRange(200,500));
-      if (GetAnimation = -1) then
+      Wait(RandomRange(750,1500));
+      if MSI_IsAnimating(ANIM_FISHING) then
         Break;
     end;
-    {$ENDIF}
 
     if (FindText(x, y, 'left', NPCChars, 327, 377, 362, 414)) then
     begin
