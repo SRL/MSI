@@ -281,7 +281,7 @@ begin
     begin
       Result := 'e';
       Exit;
-    end;;
+    end;
   end;
 end;
 
@@ -371,7 +371,8 @@ begin
 
   SearchBox := IntToBox(265, 156, 312, 200);
   CompassDir := MSI_DetectSide;
-  MSI_Debug('Setting compass to: ' + CompassDir);
+  if not (CompassDir = '') then
+    MSI_Debug('Setting compass to: ' + CompassDir);
   MakeCompass(CompassDir);
 
 
@@ -436,8 +437,11 @@ begin
     if not MSI_IsAnimating(ANIM_FISHING) then
     begin
       Wait(RandomRange(750,1500));
-      if MSI_IsAnimating(ANIM_FISHING) then
+      if not MSI_IsAnimating(ANIM_FISHING) then
+      begin
         Break;
+        MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
+      end;
     end;
 
     if (FindText(x, y, 'left', NPCChars, 327, 377, 362, 414)) then
@@ -453,7 +457,7 @@ begin
     if InvFull then break;
 
     MSI_Debug('Timefrommark Check for fish');
-    if (TimeFromMark(InvTimer) > 30000) then          // If no new fish in inv after 30 seconds, spot probably moved
+    if (TimeFromMark(InvTimer) > 30000) then // If no new fish in inv after 30 seconds, spot probably moved
       if (OldInvCount = InvCount) then break
       else begin
         MSI_Debug('Got more fish, setting new count');
