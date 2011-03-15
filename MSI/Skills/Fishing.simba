@@ -357,7 +357,6 @@ var
   TColour, TTol, TCount, TWait : Integer;
   THue, TSat : Extended;
   TPixel, Fishing : Boolean;
-  CompassDir : String;
 begin
   if (not LoggedIn) then
     Exit;
@@ -370,10 +369,7 @@ begin
   MSI_AddHeader('MSI_WaitWhileFishing');
 
   SearchBox := IntToBox(265, 156, 312, 200);
-  CompassDir := MSI_DetectSide;
-  if not (CompassDir = '') then
-    MSI_Debug('Setting compass to: ' + CompassDir);
-  MakeCompass(CompassDir);
+
 
 
   script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
@@ -434,15 +430,15 @@ begin
   repeat
     MSI_FindRandoms(False);
 
-    if not MSI_IsAnimating(ANIM_FISHING) then
+    {if not MSI_IsAnimating(ANIM_FISHING) then
     begin
       Wait(RandomRange(750,1500));
       if not MSI_IsAnimating(ANIM_FISHING) then
       begin
+        MSI_CloseHeader('MSI_WaitWhileFishing: Finished (animation)');
         Break;
-        MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
       end;
-    end;
+    end;}
 
     if (FindText(x, y, 'left', NPCChars, 327, 377, 362, 414)) then
     begin
@@ -456,7 +452,7 @@ begin
 
     if InvFull then break;
 
-    MSI_Debug('Timefrommark Check for fish');
+    MSI_Debug('TimeFromMark Check for fish');
     if (TimeFromMark(InvTimer) > 30000) then // If no new fish in inv after 30 seconds, spot probably moved
       if (OldInvCount = InvCount) then break
       else begin
@@ -488,7 +484,7 @@ begin
     if Fishing then
       WaitTime := GetSystemTime + 30000
     else
-      break;
+      Break;
     MSI_Debug('Fishing returned True');
 
   until((WaitTime < GetSystemTime) or (not LoggedIn));
@@ -507,10 +503,15 @@ var
   Index, t, i: Integer;
   failed: Boolean;
   tools: TIntegerArray;
+  CompassDir : String;
 begin
   if (not LoggedIn) then
     Exit;
 
+  CompassDir := MSI_DetectSide;
+  if not (CompassDir = '') then
+    MSI_Debug('Setting compass to: ' + CompassDir);
+  MakeCompass(CompassDir);
   if MSI_FindObjectsIn(Which, Index, MSBox, ClickLeft) then
   begin
     Result := True;
