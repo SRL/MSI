@@ -422,10 +422,10 @@ begin
          Name               := 'Catherby bank';
          UpText             := 'ooth';
          Option             := 'uick';
-         Colors             := [4414845, 6185843];
-         Tol                := 4;
-         Hue                := 0.91;
-         Sat                := 5.74;
+         Colors             := [6714503];
+         Tol                := 11;
+         Hue                := 0.34;
+         Sat                := 0.92;
          FindAllColors      := False;
          W                  := 30;
          H                  := 20;

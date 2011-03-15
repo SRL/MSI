@@ -1134,8 +1134,8 @@ begin
           EndLoc   := LOC_CB_FISH;
 
           Reflection := [
-                          TPointArray([Point(2814, 3438), Point(2827, 3439),
-                                       Point(2835, 3434)])
+                          TPointArray([Point(2808, 3442), Point(2814, 3438),
+                           Point(2827, 3439), Point(2835, 3434)])
                         ];
 
           SPSAreas   := ['7_3'];
