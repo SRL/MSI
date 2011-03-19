@@ -291,9 +291,16 @@ begin
     MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'In random: '+Players[CurrentPlayer].Rand;
     
   MSI_ProgressReport;
-  NextPlayer(False);
-  stats_IncVariable('Total Logins', 1);
 
+  if ((HowManyPlayers <= 1) or (PlayersActive <= 0)) then
+  begin
+    Logout();
+    MSI_SubDebug('All players inactive');
+    TerminateScript();
+  end else
+    NextPlayer(false);
+
+  stats_IncVariable('Total Logins', 1);
   MSI_CloseHeader('MSI_UnsetPlayer: Finished');
 end;
 

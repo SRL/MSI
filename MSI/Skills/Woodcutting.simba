@@ -98,7 +98,7 @@ end;
 {******************************************************************************}
 Procedure MSI_WaitWhileChopping(TreeID: integer);
 Var
-  CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist: Integer;
+  CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist, prevLen: Integer;
   TotalChopTime, R, CT: Integer;
   ATPA: T2DPointArray;
   TPA: TPointArray;
@@ -150,6 +150,12 @@ Begin
 
     if (Length(TPA) > 0) then
     begin
+      if (length(TPA) <= (prevLen / 2)) then
+      begin
+        MSI_Debug('Length(TPA) < half the previous, tree is gone');
+        break;
+      end;
+
       if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
         SMART_DrawDotsEx(True, TPA, clYellow);
 
@@ -161,6 +167,8 @@ Begin
 
       if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
         SMART_DrawBoxEx(False, B, clBlue);
+
+      prevLen := length(TPA);
     end;
 
     if (Debug) then
@@ -180,8 +188,9 @@ Begin
       Else
         SleepAndMoveMouse(200 + Random(50));
 
-    if MSI_FindBirdNest then
-      Break;
+    if (random(20) < 5) then
+      if MSI_FindBirdNest then
+        Break;
 
     { InvCount check }
     if (Debug) then
