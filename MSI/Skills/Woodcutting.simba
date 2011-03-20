@@ -114,6 +114,8 @@ Begin
   Objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Trees;
 
   CTS := GetColorToleranceSpeed;
+
+  SetColorToleranceSpeed(2);
   SetColorSpeed2Modifiers(MSI_Objects[TreeID].Hue, MSI_Objects[TreeID].Sat);
 
   HalfWidth := Round(MSI_Objects[TreeID].W * 0.7);
@@ -229,6 +231,9 @@ Begin
   Until(Not TreeExists) Or (GetSystemTime > T) Or (Not LoggedIn);
 
   MSI_CloseHeader('MSI_WaitWhileChopping: Finished');
+
+  SetColorToleranceSpeed(CTS);
+  SetColorSpeed2Modifiers(0.2, 0.2);
 End;
 
 {******************************************************************************}

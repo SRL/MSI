@@ -12,6 +12,7 @@
 
 const
   SIZE_MULTIPLIER = 1.25;
+  ROCK_MAX_DIST   = 40;
 
 {******************************************************************************}
 { function MSI_SetupMining(): Boolean;                                         }
@@ -32,8 +33,8 @@ end;
 {******************************************************************************}
 Procedure MSI_WaitWhileMining(RockID: integer);
 var
-  cts, OldInvCount, t, RockColorCount: Integer;
-  Arr: array of TPoint;
+  cts, OldInvCount, t, d, RockColorCount: Integer;
+  Arr, TPA: TPointArray;
   SearchBox: TBox;
 begin
   if (not LoggedIn) then
@@ -47,6 +48,8 @@ begin
 
   MSI_AddHeader('MSI_WaitWhileMining');
   cts := GetColorToleranceSpeed;
+
+  SetColorToleranceSpeed(2);
   SetToleranceSpeed2Modifiers(MSI_Objects[RockID].Hue, MSI_Objects[RockID].Sat);
 
   t := (GetSystemTime + MSI_Objects[RockID].MaxTime + Random(5000));
@@ -58,11 +61,26 @@ begin
                        MSI_Objects[RockID].Y + Round(MSI_Objects[RockID].H * SIZE_MULTIPLIER));
 
   if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(False, SearchBox, clRed);
+    SMART_DrawBoxEx(True, SearchBox, clBlue);
+
+  TPA := TPAFromBox(SearchBox);
+  sortTPAFrom(TPA, point(MSCX, MSCY));
+
+  if (length(TPA) > 0) then
+  begin
+    d := distance(TPA[0].x, TPA[0].y, MSCX, MSCY);
+    MSI_Debug('Distance from tracking box to player = '+intToStr(d));
+
+    if (d > ROCK_MAX_DIST) then
+    begin
+      MSI_Debug('Track box too far from player');
+      MSI_CloseHeader('MSI_WaitWhileMining: Finished');
+      exit;
+    end;
+  end;
 
   OldInvCount := InvCount;
   MSI_Debug('InvCount: ' + IntToStr(OldInvCount));
-  MSI_AddHeader('Entering loop');
 
   {preparing variables to detect when rock is gone through color}
   FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
@@ -75,7 +93,10 @@ begin
     MSI_FindRandoms(False);
 
     FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
-                           SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
+                        SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
+
+    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      SMART_DrawDotsEx(False, Arr, clYellow);
 
     if (Length(Arr) < MSI_Objects[RockID].Accuracy) then
     begin
@@ -112,9 +133,11 @@ begin
     end;
 
   until((not LoggedIn));
-  MSI_CloseHeader('Out of loop');
+
   MSI_CloseHeader('MSI_WaitWhileMining: Finished');
+
   SetColorToleranceSpeed(cts);
+  SetColorSpeed2Modifiers(0.2, 0.2);
 end;
 
 {******************************************************************************}

@@ -249,6 +249,7 @@ begin
           waitTime := 0;
         end else begin
           MSI_FindRandoms(False);
+          MSI_Antiban(randomRange(1000, 4000), 50);
 
           if (forceFail) then
             Exit;
