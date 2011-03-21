@@ -1,4 +1,4 @@
-(*
+Could you pre    Could you pretty please g     (*
 Walking
 =======
 
@@ -225,7 +225,7 @@ near the location.  Returns true if relocation was successful.
 .. note::
 
   | Author: Sir R. Magician
-  | Last Updated: 9 March 2011 by IPwnz
+  | Last Updated: 21 March 2011 by IPwnz
 
 Example:
 
@@ -238,18 +238,23 @@ function MSI_Relocate(Loc: Integer): Boolean;
 var
   i, j, t, cp: Integer;
   p: TPoint;
-  TPA: TPointArray;
+  TPA, eTPA, eLoc: TPointArray;
 begin
   if (not LoggedIn) then
     Exit;
 
   MSI_AddHeader('MSI_Relocate');
 
+  eLoc := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].PathInfo.Endloc;
   if (ReflectionBroken) then
   begin
-    TPA := MSI_Locations[Loc].Points
+    TPA := MSI_Locations[Loc].Points;
+    eTPA := MSI_Locations[eLoc].Points
   end else
+  begin
     TPA := MSI_Locations[Loc].Tiles;
+    eTPA := MSI_Locations[eLoc].Tiles;
+  end;
 
   if (Length(TPA) = 0) then
   begin
@@ -264,6 +269,9 @@ begin
     cp := High(TPA) - cp;
   end;
   MSI_Players[CurrentPlayer].CurrentPoint := cp;
+
+  if (not MSI_PointOnMM(TPA[0], p)) or (not MSI_PointOnMM(TPA[High(TPA)], p)) then
+    TPA := CombineTPA(InvertTPA(eTPA), TPA);
 
   t := (GetSystemTime + 10000);
   while (not Result) and (LoggedIn) and (GetSystemTime < t) do
@@ -650,4 +658,3 @@ begin
 
   Result := MSI_WalkPath(startLoc, endLoc);
 end;
-
