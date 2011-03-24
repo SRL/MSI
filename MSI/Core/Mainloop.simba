@@ -74,6 +74,72 @@ begin
 end;
 
 (*
+MSI_CountItems
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_CountItems;
+
+This procedure is called before the player banks/drops after finishing a load.
+It will count the script items in the player's inventory and add them to the
+progress report.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (WalkedToBank) then
+    MSI_CountItems;
+*)
+procedure MSI_CountItems;
+var
+  itemCount, expCount, j, k: Integer;
+  objs: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  GameTab(TAB_INV);
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    case (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst) of
+      SKILL_WOODCUTTING:
+        objs := Scripts[CurrentScript].Trees;
+
+      SKILL_MINING:
+        objs := Scripts[CurrentScript].Rocks;
+
+      SKILL_FISHING:
+        objs := Scripts[CurrentScript].FishSpots;
+
+      SKILL_COOKING:
+        objs := Scripts[CurrentScript].CookingSpot;
+    end;
+
+    for j := 0 to High(objs) do
+      for k := 0 to High(ReportInfo.Items[CurrentScript][j]) do
+      begin
+        itemCount := CountItems('dtm', MSI_Items[ReportInfo.Items[CurrentScript][j][k]].DTM, []);
+        expCount  := Round(ReportInfo.Experiences[CurrentScript][j][k] * itemCount);
+
+        MSI_AddToProggy(PROG_ADD_EXP, -1, -1, expCount);  // Adds experience
+        MSI_AddToProggy(PROG_ADD_ITEMS, j, k, itemCount); // Adds items
+
+        MSI_Debug('MSI_CountItems: Found '+IntToStr(itemCount)+' of '+
+                  MSI_Items[ReportInfo.Items[CurrentScript][j][k]].Name+' ('+
+                  IntToStr(expCount) + ' XP)');
+      end;
+  end;
+end;
+
+(*
 MSI_Walk
 ~~~~~~~~
 
@@ -179,6 +245,49 @@ begin
   end;
 
   MSI_CloseHeader('MSI_AutoObjects: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_BankMaterials
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_BankMaterials(): Boolean;
+
+Calls the current player's current script's BankObjects procedure.  Returns true
+if banking was successful.  Covers any type of banking from standard to NPC to
+depositing and withdrawing.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 24 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_BankMaterials) then
+    MSI_UnsetPlayer('Failed to bank materials', False);
+*)
+function MSI_BankMaterials(): Boolean;
+var
+  scriptConst: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_BankMaterials');
+  MSI_CountItems;
+
+  scriptConst := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name;
+  Result := MSI_Scripts[scriptConst].BankObjects();
+
+  MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+  stats_IncVariable('Times Banked', 1);
+
+  MSI_CloseHeader('MSI_BankMaterials: '+BoolToStr(Result));
 end;
 
 (*
@@ -302,6 +411,110 @@ begin
 
   stats_IncVariable('Total Logins', 1);
   MSI_CloseHeader('MSI_UnsetPlayer: Finished');
+end;
+
+(*
+MSI_HandleBreaking
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_HandleBreaking;
+
+Simulates a "human-like" breaking.  If MSI_SetupVars[SETUP_HUMAN_BREAK] (script setup
+variable found in RunMe.simba) is set to true it will randomly logout,
+time-out, or exit to the lobby, otherwise it will just exit to the lobby.
+If using multiple players, it will switch to the next player.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Febuary 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (TimeToBreak) then
+    MSI_HandleBreaking;
+*)
+procedure MSI_HandleBreaking;
+var
+  t, _avg: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if not MSI_SetupVars[SETUP_HUMAN_BREAK] then
+    if MSI_Players[CurrentPlayer].BreakTime = 0 then
+      if MSI_SetupVars[SETUP_BREAK_TIME] = 0 then
+        Exit;
+
+  if (BankScreen) then
+    CloseBank;
+
+  MSI_AddHeader('MSI_HandleBreaking');
+
+  if (HowManyPlayers = 1) or (PlayersActive = 1) then
+  begin
+    MSI_Debug('Taking a short break');
+
+    if MSI_SetupVars[SETUP_HUMAN_BREAK] then
+      case Random(10) of
+
+        0, 2: Logout;
+
+        1: while LoggedIn do
+           begin
+             Wait(RandomRange(200, 500));
+             MSI_FindRandoms(False);
+           end;
+
+        3..6: begin
+                t := (GetSystemTime + RandomRange(60000, 60000 * 3));
+                while (t > GetSystemTime) and LoggedIn do
+                begin
+                  Wait(RandomRange(200, 500));
+                  MSI_FindRandoms(False);
+                end;
+
+                if LoggedIn then
+                  if InRange(Random(10), 1, 5) then
+                    Logout
+                  else
+                    ExitToLobby;
+              end;
+
+        7..9: ExitToLobby;
+      end
+    else
+      if InRange(Random(10), 2, 9) then
+        ExitToLobby;
+
+    _avg := Round(SETUP_BREAK_TIME * RANDOM_TIME_PERCENT);
+    t := (GetSystemTime + ((MSI_SetupVars[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
+    while GetSystemTime < t do
+    begin
+      Status('MSI_SetupVars[SETUP_BREAK_TIME] remaining: '+MsToTime(t - GetSystemTime, Time_Formal)+';');
+      Wait(RandomRange(2000, 25000));
+      if LoggedIn then
+        MSI_FindRandoms(False);
+    end;
+
+    MSI_Debug('Break over, continuing to play');
+
+    if (LobbyScreen) then
+      MouseBox(80, 450, 560, 470, 1);
+  end else
+  begin
+    MSI_Debug('Switching players');
+    NextPlayer(True);
+  end;
+
+  WaitFunc(@LoggedIn, 100, 15000);
+
+  stats_IncVariable('Total Logins', 1);
+  MSI_CloseHeader('MSI_HandleBreaking: ' + BoolToStr(LoggedIn));
 end;
 
 (*
@@ -808,16 +1021,13 @@ begin
 
         // Banks the proper materials
         AtBank:
-        if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects <> nil) then
+        if (not MSI_BankMaterials) then
         begin
-          if (not MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects()) then
-          begin
-            if (MSI_TimedOut) then
-              Break;
-
-            MSI_UnsetPlayer('Failed to bank', False);
+          if (MSI_TimedOut) then
             Break;
-          end;
+
+          MSI_UnsetPlayer('Failed to bank', False);
+          Break;
         end;
       end;
 

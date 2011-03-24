@@ -236,7 +236,7 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  i, j, t, cp: Integer;
+  i, t, cp: Integer;
   p: TPoint;
   TPA: TPointArray;
 begin

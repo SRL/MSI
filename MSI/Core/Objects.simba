@@ -1458,7 +1458,7 @@ Function MSI_FindObjectsIn(Objs: TIntegerArray; Var IndexFound: Integer; SearchB
 Var
   TPA, TmpTPA: TPointArray;
   TheOptions, UpTexts: TStringArray;
-  I, II, III, HH, HHH, Hi, J, c, t: Integer;
+  I, II, III, HH, HHH, Hi, J, c: Integer;
   CheckUpText, inBadBox: Boolean;
 Begin
   if (not LoggedIn) then
