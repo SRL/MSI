@@ -45,8 +45,6 @@ begin
     end;
   end;
 
-  MSI_FindRandoms(True); // To set random's vars
-
   // To handle relocating for power scripts
   {$IFDEF REFLECTION}
   with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
@@ -277,6 +275,13 @@ var
 begin
   if (not LoggedIn) then
     Exit;
+
+  if (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+  begin
+    MSI_SubDebug('No items in inventory');
+    Result := True;
+    Exit;
+  end;
 
   MSI_AddHeader('MSI_BankMaterials');
   MSI_CountItems;

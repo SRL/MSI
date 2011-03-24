@@ -136,7 +136,7 @@ begin
       Break;
     end;
 
-    if (Length(Arr) < Round(RockColorCount * 0.50)) then
+    if (Length(Arr) < Round(RockColorCount * 0.25)) then
     begin
       MSI_Debug('Rock Gone, not enough points');
       Break;
