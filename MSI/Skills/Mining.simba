@@ -1,36 +1,68 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                              Mining.scar                                     |
-|==============================================================================|
-| For all mining routines.                                                     |
-|                                                                              |
-| * function MSI_SetupMining: Boolean;              * by Coh3n                 |
-| * procedure MSI_WaitWhileMining();                * by NCDS                  |
-| * function MSI_MineRock();                        * by NCDS                  |
-| * function MSI_MineInvFull();                     * by Coh3n                 |
-\ _____________________________________________________________________________}
+(*
+Mining
+======
+
+The Mining file holds any functions or procedures that are specific to the
+Mining skill.
+
+*)
 
 const
   SIZE_MULTIPLIER = 1.25;
   ROCK_MAX_DIST   = 40;
 
-{******************************************************************************}
-{ function MSI_SetupMining(): Boolean;                                         }
-{ By: Coh3n                                                                    }
-{ Date: 06 October 2010                                                        }
-{ Description: Sets up the player for mining                                   }
-{******************************************************************************}
+(*
+MSI_SetupMining
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetupMining(): Boolean;
+
+Returns true if the player has been properly setup for mining.  Only calls
+MSI_SetupWoodcutting to avoid at lot of repeated code and for easier updating.
+This is the function that is set to the PlayerSetup pointer in the TScript type.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_MINER].PlayerSetup := @MSI_SetupMining();
+*)
 function MSI_SetupMining(): Boolean;
 begin
   Result := MSI_SetupWoodcutting(); // To avoid unnecessary repeated code
 end;
 
-{******************************************************************************}
-{ Procedure MSI_WaitWhileMining(RockInfo: TMSObject);                          }
-{ By: NCDS                                                                     }
-{ Date: 11 July 2010                                                           }
-{ Description: Wait's until an Ore has been mined.                             }
-{******************************************************************************}
+(*
+MSI_WaitWhileMining
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_WaitWhileMining(RockID: Integer);
+
+Waits while the player is mining.  Performs several failsafe checks such as
+tracking the colors found on the rock being mined, inventory count, animations,
+and timing out.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 20 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindObjectsIn([ROCK_IRON, ROCK_TIN], Index, MSBox, ClickLeft)) then
+    MSI_WaitWhileMining();
+*)
 Procedure MSI_WaitWhileMining(RockID: integer);
 var
   cts, OldInvCount, t, d, RockColorCount: Integer;
@@ -140,12 +172,31 @@ begin
   SetColorSpeed2Modifiers(0.2, 0.2);
 end;
 
-{******************************************************************************}
-{ function MSI_MineRock(Which: TIntegerArray): Boolean;                        }
-{ By: NCDS & marpis                                                            }
-{ Date: 11 July 2010                                                           }
-{ Description: Mines Rock                                                      }
-{******************************************************************************}
+(*
+MSI_MineRock
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MineRock(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+
+Mines the rocks in the array 'Which'.  Will look for the first one in the array
+first.  'ForceFail' is used to purposely make the function fail if for some
+reason the pickaxe can't be found or the player is unable to mine the rock.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 11 July 2010 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_MineRock([ROCK_IRON, ROCK_SILVER], fail)) then
+    if (not fail) then
+      MSI_Debug('Mined rock');
+*)
 function MSI_MineRock(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
 var
   Index: integer;
@@ -161,12 +212,28 @@ begin
     MSI_FindRandoms(False);
 end;
 
-{******************************************************************************}
-{ function MSI_MineInvFull(Which: TIntegerArray): Boolean;                     }
-{ By: Coh3n                                                                    }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Mines rocks until inventory is full                             }
-{******************************************************************************}
+(*
+MSI_MineInvFull
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MineInvFull: Boolean;
+
+Mines rocks until the inventory is full.  This is the function that is pointed
+to a scripts 'AutoObjects' attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_MINER].AutoObjects := @MSI_MineInvFull;
+*)
 function MSI_MineInvFull: Boolean;
 begin
   Result := MSI_AutoInvFull(@MSI_MineRock); // MSI_AutoInvFull in Skills.simba
