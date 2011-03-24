@@ -578,14 +578,14 @@ begin
         Name               := 'Coal';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [2107946];
-        Tol                := 5;
-        Hue                := 1.15;
-        Sat                := 0.93;
+        Colors             := [2502961, 2173739, 2634808];
+        Tol                := 2;
+        Hue                := 0.00;
+        Sat                := 0.63;
         FindAllColors      := False;
         W                  := 25;
         H                  := 20;
-        Accuracy           := 5;
+        Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 35000;
         ExcludeSelf        := True;
@@ -1458,7 +1458,7 @@ Function MSI_FindObjectsIn(Objs: TIntegerArray; Var IndexFound: Integer; SearchB
 Var
   TPA, TmpTPA: TPointArray;
   TheOptions, UpTexts: TStringArray;
-  I, II, III, HH, HHH, Hi, J: Integer;
+  I, II, III, HH, HHH, Hi, J, c, t: Integer;
   CheckUpText, inBadBox: Boolean;
 Begin
   if (not LoggedIn) then
@@ -1539,14 +1539,25 @@ Begin
           Wait(20 + Random(50));
 
           If CheckUpText Then
-            if (WaitUpTextMulti(UpTexts, 150 + Random(20))) then
+            if (waitUptext(name, 200)) then
             begin
-              MSI_Debug('Uptext found!');
-              Result := True;
-            end else begin
-              SetLength(notBoxes, Length(notBoxes) + 1);
-              notBoxes[High(notBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
-            end
+              MSI_Debug('Found ground item');
+              c := invCount();
+              getMousePos(x, y);
+              mouse(x, y, 0, 0, true);
+              wait(randomRange(1000, 2000));
+              MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
+              notBoxes := [];
+              exit;
+            end else
+              if (WaitUpTextMulti(UpTexts, 150 + Random(20))) then
+              begin
+                MSI_Debug('Uptext found!');
+                Result := True;
+              end else begin
+                SetLength(notBoxes, Length(notBoxes) + 1);
+                notBoxes[High(notBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
+              end
           Else
             Result := True;
 
@@ -1565,7 +1576,7 @@ Begin
             Begin
               Mouse(X, Y, 0, 0, False);
               If (Action = ClickRight) or (Action = ClickLeft) Then
-                Result := WaitOptionMulti(TheOptions, 750 + Random(100))
+                Result := (WaitOptionMulti(TheOptions, 750 + Random(100)) or waitOption('ake', 200))
               Else
                 Result := DidClick(True, 1200);
             End Else Begin
@@ -1573,8 +1584,9 @@ Begin
               Result := DidClick(True, 1200); ;
             End;
 
-            If MSI_Objects[Objs[II]].WaitToMove Then
-              MSI_TrackObject(Objs[II]);
+            if (result) then
+              If MSI_Objects[Objs[II]].WaitToMove Then
+                MSI_TrackObject(Objs[II]);
 
             MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
             NotBoxes := [];
