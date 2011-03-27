@@ -225,7 +225,7 @@ near the location.  Returns true if relocation was successful.
 .. note::
 
   | Author: Sir R. Magician
-  | Last Updated: 9 March 2011 by IPwnz
+  | Last Updated: 21 March 2011 by IPwnz
 
 Example:
 
@@ -544,7 +544,7 @@ Returns true if the player is at the ending location.
 .. note::
 
   | Author: marpis & Coh3n
-  | Last Updated: 27 February 2011 by Coh3n
+  | Last Updated: 26 March 2011 by IPwnz
 
 Example:
 
