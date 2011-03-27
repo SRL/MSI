@@ -344,13 +344,13 @@ begin
          UpText             := 'eposit';
          Option             := 'it Bank';
          Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
-         Tol                := 7;
+         Tol                := 12;//7
          Hue                := 0.05;
          Sat                := 0.58;
          FindAllColors      := False;
          W                  := 30;
          H                  := 60;
-         Accuracy           := 50;
+         Accuracy           := 30;//50
          SearchArea         := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := False;

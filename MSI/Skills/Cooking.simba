@@ -108,12 +108,12 @@ end;
 function MSI_SetupCooking : Boolean;
 begin
   MSI_AddHeader('MSI_SetupCooking');
-
+  MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Items[0];
   if MSI_SetupRecipes(MATERIAL_SHRIMP, MATERIAL_SWORDFISH) then
-    if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >= MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]].Level) then
+    if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >= MSI_Materials[MATERIAL_LOBSTER].Level) then
       Result := True
     else
-      MSI_Debug('Not high enough level(' + IntToStr(MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[SKILL_COOKING]) + ') to cook this recipe(' +MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]].Name+ ')!');
+      MSI_Debug('Not high enough level(' + IntToStr(MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[SKILL_COOKING]) + ') to cook this recipe(' +MSI_Materials[MATERIAL_LOBSTER].Name+ ')!');
   MSI_CloseHeader('MSI_SetupCooking: ' + BoolToStr(Result));
 end;
 
@@ -140,6 +140,42 @@ begin
 
     Wait(1000);
   end;
+end;
+
+function MSI_CookAll(WhichRecipe: Integer): Boolean;
+var
+  x, y, t: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if WaitFunc(@MSI_CB_DoAllScreen, 50, 5000) then
+  begin
+    t := (GetSystemTime + 10000);
+    while (not Result) and MSI_CB_DoAllScreen and (t > GetSystemTime) do
+      if (FindDTM(MSI_Items[MSI_Materials[WhichRecipe].Supplies[0][0]].DTM, x, y, MCx1, MCy1, MCx2, MCy2)) then
+      begin
+        x := x + RandomRange(-25, 25);
+        y := y + RandomRange(-25, 25);
+        MMouse(x, y, 0, 0);
+        Result := WaitUpTextMulti(['ook A', 'k All', 'ook', 'll'], 2000);
+      end;
+  end;
+
+  if Result then
+  begin
+    GetMousePos(x, y);
+    Mouse(x, y, 0, 0, True);
+  end else begin
+    MSI_SubDebug('MSI_CookAll: Failed to select option.');
+    Exit;
+  end;
+
+  t := (GetSystemTime + 5000);
+  while MSI_CB_DoAllScreen and (t > GetSystemTime) do
+    Wait(50);
+
+  Result := (not MSI_CB_DoAllScreen);
 end;
 
 function MSI_CookFood(WhichRecipe : Integer) : Boolean;
@@ -169,10 +205,8 @@ begin
       cSpot := MSI_Materials[WhichRecipe].CookingSpot;
 
     if MSI_FindObject(cSpot, clickLeft) then
-    begin
-      //Click 'cook all'
-      Result := MSI_WaitWhileCooking(WhichRecipe);
-    end;
+      if MSI_CookAll(WhichRecipe) then
+        Result := MSI_WaitWhileCooking(WhichRecipe);
 
   until(Result or (GetSystemTime > TimeOut) or (not (LoggedIn)));
 

@@ -213,6 +213,11 @@ begin
     end;
 end;
 
+function MSI_CB_DoAllScreen: Boolean;
+begin
+  Result := (GetColor(497, 367) = 5025494);
+end;
+
 {******************************************************************************}
 { function MSI_AutoInvFull(...): Boolean;                                      }
 { By: Coh3n                                                                    }

@@ -621,17 +621,17 @@ Example:
   end;
 *)
 const
-  MATERIAL_SHRIMP    = 0;
-  MATERIAL_CRAYFISH  = 1;
-  MATERIAL_SARDINE   = 2;
-  MATERIAL_HERRING   = 3;
-  MATERIAL_ANCHOVIE  = 4;
-  MATERIAL_TROUT     = 5;
-  MATERIAL_PIKE      = 6;
-  MATERIAL_SALMON    = 7;
-  MATERIAL_TUNA      = 8;
-  MATERIAL_LOBSTER   = 9;
-  MATERIAL_SWORDFISH = 10;
+  MATERIAL_SHRIMP    = 70;
+  MATERIAL_CRAYFISH  = 71;
+  MATERIAL_SARDINE   = 72;
+  MATERIAL_HERRING   = 73;
+  MATERIAL_ANCHOVIE  = 74;
+  MATERIAL_TROUT     = 75;
+  MATERIAL_PIKE      = 76;
+  MATERIAL_SALMON    = 77;
+  MATERIAL_TUNA      = 78;
+  MATERIAL_LOBSTER   = 79;
+  MATERIAL_SWORDFISH = 80;
 
   MATERIALS_ARRAY_LENGTH = 11;
 
@@ -813,7 +813,7 @@ type
     Name      : Integer;
     MaxLevel  : Integer; // The level you want to stop autoing at (not working yet)
 
-    // Woodcutting, Mining, and Fishing
+    // Woodcutting, Mining, Fishing, and Cooking
     Rocks       : TIntegerArray;
     Trees       : TIntegerArray;
     FishSpots   : TIntegerArray;
@@ -1066,6 +1066,6 @@ var
   MSI_Extras    : TExtraArray;
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Obstacles : array[0..OBS_ARRAY_LENGTH] of TObstacle;
-  MSI_Materials : array[0..MATERIALS_ARRAY_LENGTH - 1] of TMaterial;
+  MSI_Materials : array[MATERIAL_SHRIMP..MATERIAL_SHRIMP + MATERIALS_ARRAY_LENGTH - 1] of TMaterial;
   MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;

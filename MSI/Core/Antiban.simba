@@ -89,6 +89,8 @@ Begin
   if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name = SCRIPT_ALCHER) and (Random(100) > ChancePerc) then
   begin
     MakeCompass('random');
+    if Random(10) = 5 then
+      MakeCompass('n');
     Exit;
   end;
 
@@ -258,7 +260,7 @@ begin
   {$IFDEF REFLECTION}
     Result := R_SolveNonTalkingRandoms;
   {$ELSE}
-    begin
+    begin {Taken from SRL's FindNormalRandoms (mouse movements removed)}
       if (SRL_OnFindRandomCall <> nil) then
       begin;
         Result := SRL_OnFindRandomCall(cont);
@@ -284,7 +286,7 @@ begin
           Break;
         end;
       end;
-    end;
+    end; //End SRL's Func.
   {$ENDIF}
   if Result then
     MSI_SubDebug('MSI_FindRandoms: Finished Random Event!')

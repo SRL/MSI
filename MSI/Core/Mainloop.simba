@@ -561,7 +561,7 @@ begin
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
         // Deposits excess items if already at a bank
-        if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+        if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) or MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials then
           if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
             if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
               goto AtBank;
