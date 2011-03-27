@@ -37,6 +37,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
+  CloseWindow(); // In case a deposit screen or something is open
   currTab := GetCurrentTab;
 
   if (currTab <> tab_Inv) then
@@ -367,106 +368,3 @@ begin
   Result := RunEnergy(E);
 end;
 
-(*
-MSI_HandleBreaking
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_HandleBreaking;
-
-Simulates a "human-like" breaking.  If MSI_SetupVars[SETUP_HUMAN_BREAK] (script setup
-variable found in RunMe.simba) is set to true it will randomly logout,
-time-out, or exit to the lobby, otherwise it will just exit to the lobby.
-If using multiple players, it will switch to the next player.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 10 Febuary 2011 by NCDS
-
-Example:
-
-.. code-block:: pascal
-
-  if (TimeToBreak) then
-    MSI_HandleBreaking;
-*)
-procedure MSI_HandleBreaking;
-var
-  t, _avg: Integer;
-begin
-  if (not LoggedIn) then
-    Exit;
-
-  if not MSI_SetupVars[SETUP_HUMAN_BREAK] then
-    if MSI_Players[CurrentPlayer].BreakTime = 0 then
-      if MSI_SetupVars[SETUP_BREAK_TIME] = 0 then
-        Exit;
-
-  if (BankScreen) then
-    CloseBank;
-
-  MSI_AddHeader('MSI_HandleBreaking');
-
-  if (HowManyPlayers = 1) or (PlayersActive = 1) then
-  begin
-    MSI_Debug('Taking a short break');
-
-    if MSI_SetupVars[SETUP_HUMAN_BREAK] then
-      case Random(10) of
-
-        0, 2: Logout;
-
-        1: while LoggedIn do
-           begin
-             Wait(RandomRange(200, 500));
-             MSI_FindRandoms(False);
-           end;
-
-        3..6: begin
-                t := (GetSystemTime + RandomRange(60000, 60000 * 3));
-                while (t > GetSystemTime) and LoggedIn do
-                begin
-                  Wait(RandomRange(200, 500));
-                  MSI_FindRandoms(False);
-                end;
-
-                if LoggedIn then
-                  if InRange(Random(10), 1, 5) then
-                    Logout
-                  else
-                    ExitToLobby;
-              end;
-
-        7..9: ExitToLobby;
-      end
-    else
-      if InRange(Random(10), 2, 9) then
-        ExitToLobby;
-
-    _avg := Round(SETUP_BREAK_TIME * RANDOM_TIME_PERCENT);
-    t := (GetSystemTime + ((MSI_SetupVars[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
-    while GetSystemTime < t do
-    begin
-      Status('MSI_SetupVars[SETUP_BREAK_TIME] remaining: '+MsToTime(t - GetSystemTime, Time_Formal)+';');
-      Wait(RandomRange(2000, 25000));
-      if LoggedIn then
-        MSI_FindRandoms(False);
-    end;
-
-    MSI_Debug('Break over, continuing to play');
-
-    if (LobbyScreen) then
-      MouseBox(80, 450, 560, 470, 1);
-  end else
-  begin
-    MSI_Debug('Switching players');
-    NextPlayer(True);
-  end;
-
-  WaitFunc(@LoggedIn, 100, 15000);
-
-  stats_IncVariable('Total Logins', 1);
-  MSI_CloseHeader('MSI_HandleBreaking: ' + BoolToStr(LoggedIn));
-end;

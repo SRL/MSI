@@ -15,54 +15,54 @@ the necessary setup procedures called when the script starts.
   {$i reflection_management.simba}
 {$ENDIF}
 
-{$include_once srl/srl.scar}
-{$include_once reflection/reflection.simba}
+{$i srl/srl.scar}
+{$i reflection/reflection.simba}
 
 {$IFDEF SPS}
-  {$include_once srl/srl/core/SPS/SPS.simba}
+  {$i srl/srl/core/SPS/SPS.simba}
 {$ENDIF}
 
-{$include_once srl/srl/misc/Reports.scar}
-{$include_once srl/srl/misc/PaintSmart.scar}
-{$include_once srl/srl/misc/Stats.simba}
+{$i srl/srl/misc/Reports.scar}
+{$i srl/srl/misc/PaintSmart.scar}
+{$i srl/srl/misc/Stats.simba}
 
-{$include_once srl/srl/skill/magic.scar}
+{$i srl/srl/skill/magic.scar}
 
 //MSI Script
-{$include_once MSI/MSI/Core/Globals.simba}
-{$include_once MSI/MSI/Core/Debug.simba}
-{$include_once MSI/MSI/Core/Manipulation.simba}
-{$include_once MSI/MSI/Core/Track.simba}
-{$include_once MSI/MSI/Core/Antiban.simba}
-{$include_once MSI/MSI/Core/Animating.simba}
-{$include_once MSI/MSI/Core/Items.simba}
-{$include_once MSI/MSI/Core/Objects.simba}
-{$include_once MSI/MSI/Core/Obstacles.simba}
-{$include_once MSI/MSI/Core/Walking.simba}
-{$include_once MSI/MSI/Core/Locations.simba}
+{$i MSI/MSI/Core/Globals.simba}
+{$i MSI/MSI/Core/Debug.simba}
+{$i MSI/MSI/Core/Manipulation.simba}
+{$i MSI/MSI/Core/Track.simba}
+{$i MSI/MSI/Core/Antiban.simba}
+{$i MSI/MSI/Core/Animating.simba}
+{$i MSI/MSI/Core/Items.simba}
+{$i MSI/MSI/Core/Objects.simba}
+{$i MSI/MSI/Core/Obstacles.simba}
+{$i MSI/MSI/Core/Walking.simba}
+{$i MSI/MSI/Core/Locations.simba}
 
-{$include_once MSI/MSI/Core/Skills.simba}
-{$include_once MSI/MSI/Core/Banking.simba}
-{$include_once MSI/MSI/Core/Extras.simba}
+{$i MSI/MSI/Core/Skills.simba}
+{$i MSI/MSI/Core/Banking.simba}
+{$i MSI/MSI/Core/Extras.simba}
 
 //MSI Skill Files
-{$include_once MSI/MSI/Skills/Woodcutting.simba}
-{$include_once MSI/MSI/Skills/Mining.simba}
-{$include_once MSI/MSI/Skills/Fishing.simba}
-{$include_once MSI/MSI/Skills/Cooking.simba}
-{$include_once MSI/MSI/Skills/Magic.simba}
+{$i MSI/MSI/Skills/Woodcutting.simba}
+{$i MSI/MSI/Skills/Mining.simba}
+{$i MSI/MSI/Skills/Fishing.simba}
+{$i MSI/MSI/Skills/Cooking.simba}
+{$i MSI/MSI/Skills/Magic.simba}
 
-{$include_once MSI/MSI/Core/Reports.simba}
-{$include_once MSI/MSI/Core/Scripts.simba}
+{$i MSI/MSI/Core/Reports.simba}
+{$i MSI/MSI/Core/Scripts.simba}
 
 //Extras
-{$include_once MSI/MSI/Extras/Example.simba}
-//{$include_once MSI/MSI/Extras/WorldWalker_cstrike.simba} // It wont work without changes because of the new extras system.
+{$i MSI/MSI/Extras/Example.simba}
+//{$i MSI/MSI/Extras/WorldWalker_cstrike.simba} // It wont work without changes because of the new extras system.
 
 //MSI Skill Loops, AI and Mainloop
-{$include_once MSI/MSI/Core/MainLoop.simba}
+{$i MSI/MSI/Core/MainLoop.simba}
 
-{$include_once MSI/MSI/Form/MSI_Form.simba}
+{$i MSI/MSI/Form/MSI_Form.simba}
 
 (*
 MSI_Setup

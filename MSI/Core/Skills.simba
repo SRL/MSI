@@ -32,7 +32,11 @@ begin
   with MSI_Players[CurrentPlayer] do
     for i := 0 to High(Scripts) do
     begin
+      {$IFDEF REFLECTION}
+      curLev := R_GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+      {$ELSE}
       curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+      {$ENDIF}
 
       // Only sets if the level has increased
       if (curLev <= ReportInfo.SkillLevels[i]) then
@@ -145,20 +149,6 @@ begin
 end;
 
 {******************************************************************************}
-{ function SumTIA(TIA: TIntegerArray);                                         }
-{ By: RM                                                                       }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Returns the Sum of 'TIA'                                        }
-{******************************************************************************}
-function MSI_SumTIA(TIA: TIntegerArray): Integer;
-var
-  i: Integer;
-begin
-  for i := High(TIA) downto 0 do
-    Result := Result + TIA[i];
-end;
-
-{******************************************************************************}
 { function MSI_ChooseObject(Priorities: TIntegerArray): Integer;               }
 { By: RM, Coh3n, NCDS                                                          }
 { Date: 20 Sept 2010                                                           }
@@ -241,6 +231,7 @@ begin
       with MSI_Players[CurrentPlayer] do
       begin
         RunEnergy(20);
+        MSI_ClickInvTab();
 
         with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
           case (MSI_Scripts[Name].SkillConst) of
@@ -257,13 +248,13 @@ begin
         if (TimeFromMark(waitTime) >= tTime) then
           waitTime := 0;
 
-        Gametab(tab_Inv);
         if (Func(newObjects, forceFail)) then
         begin
           t := (GetSystemTime + (8 * 60000));
           waitTime := 0;
         end else begin
           MSI_FindRandoms(False);
+          MSI_Antiban(randomRange(1000, 4000), 50);
 
           if (forceFail) then
             Exit;

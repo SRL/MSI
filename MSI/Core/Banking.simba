@@ -419,98 +419,135 @@ begin
 end;
 
 (*
-MSI_CountItems
-~~~~~~~~~~~~~~
+MSI_BankStandard
+~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  procedure MSI_CountItems;
+  function MSI_BankStandard: Boolean;
 
-This procedure is called before the player banks/drops after finishing a load.
-It will count the script items in the player's inventory and add them to the
-progress report.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 07 November 2010 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  if (WalkedToBank) then
-    MSI_CountItems;
-*)
-procedure MSI_CountItems;
-var
-  itemCount, expCount, j, k: Integer;
-  objs: TIntegerArray;
-begin
-  if (not LoggedIn) then
-    Exit;
-
-  GameTab(TAB_INV);
-
-  with MSI_Players[CurrentPlayer] do
-  begin
-    case (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst) of
-      SKILL_WOODCUTTING:
-        objs := Scripts[CurrentScript].Trees;
-
-      SKILL_MINING:
-        objs := Scripts[CurrentScript].Rocks;
-
-      SKILL_FISHING:
-        objs := Scripts[CurrentScript].FishSpots;
-
-      SKILL_COOKING:
-        objs := Scripts[CurrentScript].CookingSpot;
-    end;
-
-    for j := 0 to High(objs) do
-      for k := 0 to High(ReportInfo.Items[CurrentScript][j]) do
-      begin
-        itemCount := CountItems('dtm', MSI_Items[ReportInfo.Items[CurrentScript][j][k]].DTM, []);
-        expCount  := Round(ReportInfo.Experiences[CurrentScript][j][k] * itemCount);
-
-        MSI_AddToProggy(PROG_ADD_EXP, -1, -1, expCount);  // Adds experience
-        MSI_AddToProggy(PROG_ADD_ITEMS, j, k, itemCount); // Adds items
-
-        MSI_Debug('MSI_CountItems: Found '+IntToStr(itemCount)+' of '+
-                  MSI_Items[ReportInfo.Items[CurrentScript][j][k]].Name+' ('+
-                  IntToStr(expCount) + ' XP)');
-      end;
-  end;
-end;
-
-(*
-MSI_BankMaterials
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_BankMaterials: Boolean;
-
-This is MSI's master banking function. It's what is called in the mainloop and
-actually does the banking. It handles all types of banking (see the TBank type
-in Globals.simba for the possible banking types). This function also banks
-miscellaneous items that may have been obtained during the past load.
+This is MSI's basic banking function that is used in the majority of scripts.
+It is pointed to the script's 'BankObjects' pointer and is called in
+MSI_Mainloop (Mainloop.simba).  As well as banking the items gathered during
+the trip, this will bank any miscellaneous items obtained as well such as gems
+or random event items.
 
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 04 January 2011 by 3Garrett3
+  | Last Updated: 24 March 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if (not MSI_BankMaterials) then // See MSI_Mainloop in Mainloop.simba for a more in-depth example
-    MSI_Debug('Failed to bank');
+  MSI_Scripts[SCRIPT_VE_TREES].BankObjects := @MSI_BankStandard;
 *)
-function MSI_BankMaterials: Boolean;
+function MSI_BankStandard: Boolean;
 var
+  intItems: TIntegerArray;
+  itemsDeposited: TBooleanArray;
+  i, x, y: Integer;
+  depAll: Boolean;
+  Script: TScript;
+  b: TBox;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_BankStandard');
+
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    if (Location = Script.PathInfo.StartLoc) then
+      if (not MSI_OpenBank(Script.WhichBank, Pin)) then
+      begin
+        ReportInfo.FalseReason := 'Failed to open bank: '+MSI_Objects[Script.WhichBank].Name;
+        Exit;
+      end;
+
+    SetLength(itemsDeposited, Length(ReportInfo.Items[CurrentScript]));
+
+    for i := 0 to High(ReportInfo.Items[CurrentScript]) do
+    begin
+      intItems := ReportInfo.Items[CurrentScript][i];
+      itemsDeposited[i] := MSI_Deposit(intItems, [], depAll);
+      if (depAll) then
+        Break;
+    end;
+  end;
+
+  // Deposits other items such as gems, or random rewards
+  for i := 1 to 28 do
+  begin
+    if (InIntArray(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions, i)) then
+      Continue;
+
+    case MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType of
+      Bank: b := InvBox(i);
+      DBox: b := DepositItemBox(i);
+    end;
+
+    if (FindColor(x, y, SRL_OUTLINE_BLACK, b.x1, b.y1, b.x2, b.y2)) then
+    begin
+      MMouse(x, y, 5, 5);
+
+      if (WaitUptext('osit', 500)) then
+        if (GetAmount(x, y) > 1) then
+        begin
+          Mouse(x, y, 0, 0, False);
+          WaitOption('osit-All', 500);
+        end else
+          Mouse(x, y, 0, 0, True);
+
+      Wait(RandomRange(200, 500));
+    end;
+  end;
+
+  if (not depAll) then
+    for i := 0 to High(itemsDeposited) do
+      if (not itemsDeposited[i]) then
+      begin
+        Result := False;
+        MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to deposit items';
+        MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
+        Exit;
+      end;
+
+  CloseBank;
+  Result := True;
+
+  MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_BankNPC
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_BankNPC: Boolean;
+
+This is another function that is pointed to a scripts 'BankObjects' attribute.
+This function is used to exchange with NPCs such exchanging fish for notes at
+Stiles on Karamja.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 24 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_KJ_NOTER].BankObjects := @MSI_BankNPC;
+*)
+function MSI_BankNPC: Boolean;
+var
+<<<<<<< HEAD
   intItems: TIntegerArray;
   itemsDeposited: TBooleanArray;
   i, x, y, Material: Integer;
@@ -520,20 +557,20 @@ var
 
 label
   WithdrawItems;
+=======
+  Script: TScript;
+>>>>>>> eb02d7e0242d6bebdf3da6bd3c3c233ad2616dc6
 begin
   if (not LoggedIn) then
     Exit;
 
-  MSI_AddHeader('MSI_BankMaterials');
+  MSI_AddHeader('MSI_BankNPC');
 
   Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-  MSI_CountItems;
-
-  // NPC Exchanging
-  if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NPC) then
-  begin
-    if (MSI_Players[CurrentPlayer].Location = Script.PathInfo.StartLoc) then
+  with MSI_Players[CurrentPlayer] do
+    if (Location = Script.PathInfo.StartLoc) then
       if (MSI_ExchangeNPC(Script.WhichBank)) then
+<<<<<<< HEAD
       begin
        Result := True;
         MSI_Debug('Exchanged with NPC: '+MSI_Objects[Script.WhichBank].Name);
@@ -621,6 +658,11 @@ begin
   MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
   stats_IncVariable('Times Banked', 1);
   //Result := True;
+=======
+        MSI_Debug('Exchanged with NPC: '+MSI_Objects[Script.WhichBank].Name)
+      else
+        ReportInfo.FalseReason := 'Failed to exchange with NPC: '+MSI_Objects[Script.WhichBank].Name;
+>>>>>>> eb02d7e0242d6bebdf3da6bd3c3c233ad2616dc6
 
-  MSI_CloseHeader('MSI_BankMaterials: ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_BankNPC ' + BoolToStr(Result));
 end;

@@ -225,7 +225,7 @@ near the location.  Returns true if relocation was successful.
 .. note::
 
   | Author: Sir R. Magician
-  | Last Updated: 27 February 2011 by Coh3n
+  | Last Updated: 9 March 2011 by IPwnz
 
 Example:
 
@@ -236,7 +236,7 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  i: Integer;
+  i, t, cp: Integer;
   p: TPoint;
   TPA: TPointArray;
 begin
@@ -257,31 +257,47 @@ begin
     Exit;
   end;
 
-  for i := 0 to High(TPA) do
+  cp := MSI_Players[CurrentPlayer].CurrentPoint;
+  if (cp = High(TPA)) then
   begin
-    if (not MSI_PointOnMM(TPA[i], p)) then
-    begin
-      if (i = High(TPA)) then
-        Break;
+    InvertTPA(TPA);
+    cp := High(TPA) - cp;
+  end;
+  MSI_Players[CurrentPlayer].CurrentPoint := cp;
 
-      Continue;
+  t := (GetSystemTime + 10000);
+  while (not Result) and (LoggedIn) and (GetSystemTime < t) do
+  begin
+    for i := cp to High(TPA) do
+    begin
+      if (not MSI_PointOnMM(TPA[i], p)) then
+      begin
+        if (i = High(TPA)) then
+          Break;
+
+        Continue;
+      end;
+
+      if (Distance(p.x, p.y, MMCX, MMCY) > MSI_Locations[Loc].MinDistance) then
+      begin
+        Mouse(p.x, p.y, 4, 4, True);
+        MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
+        MSI_Flag(0);
+        Result := True;
+        Break;
+      end else
+        if (i = High(TPA)) then
+        begin
+          MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
+          Result := True;
+        end;
     end;
 
-    if (Distance(p.x, p.y, MMCX, MMCY) > MSI_Locations[Loc].MinDistance) then
-    begin
-      Mouse(p.x, p.y, 4, 4, True);
-      MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
-      MSI_Flag(0);
-      Result := True;
-      Break;
-    end else
-      if (i = High(TPA)) then
-      begin
-        MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
-        Result := True;
-      end;
+    if (not Result) then
+      cp := 0;
   end;
 
+  MSI_Players[CurrentPlayer].CurrentPoint := i;
   MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
 end;
 

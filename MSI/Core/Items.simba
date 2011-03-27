@@ -1224,27 +1224,12 @@ begin
 end;
 
 {******************************************************************************}
-{ Function MSI_GetItems(IDs : TIntegerArray): TItemArray;                      }
-{ By: Naum                                                                     }
-{ Date: 17 August 2010                                                         }
-{ Description: Gets the TItem records for all items in the array               }
-{******************************************************************************}
-Function MSI_GetItems(IDs : TIntegerArray): TItemArray;
-Var I : Integer;
-Begin
-  SetLength(Result, High(IDs) + 1);
-
-  For I := 0 To High(IDs) Do
-    Result[I] := MSI_Items[IDs[I]];
-End;
-
-{******************************************************************************}
 { function MSI_GetItemExperiences(...): TExtendedArray;                        }
 { By: The MSI Team                                                             }
 { Date: 03 July 2010                                                           }
 { Description: Returns an array of experiences depending on the objects array  }
 {******************************************************************************}
-function MSI_GetItemExperiences(Skill: Integer; Items: TIntegerArray): TExtendedArray;
+function MSI_GetItemExp(Skill: Integer; Items: TIntegerArray): TExtendedArray;
 var
   i: integer;
   e: extended;
@@ -1407,8 +1392,8 @@ end;
 {******************************************************************************}
 function MSI_FindTool(Tool, WhichTab: Integer; var x, y: Integer): Boolean;
 var
-  X1, X2, Y1, Y2: Integer;
   s: string;
+  t: Integer;
 begin
   if (not LoggedIn) then
     Exit;
@@ -1416,50 +1401,32 @@ begin
   GameTab(WhichTab);
 
   if (WhichTab = TAB_INV) then
-  begin
-    s := 'Inventory';
-    // Edited inventory coords
-    X1 := 550;  X2 := 735;
-    Y1 := 209;  Y2 := 459;
-  end else begin
+    s := 'Inventory'
+  else
     s := 'Equipment';
-    // Weapon equipment box
-    X1 := 570;  X2 := 602;
-    Y1 := 289;  Y2 := 322;
+
+  // Used because for whatever reason, after switching players, GameTab doesn't like to work
+  if (WhichTab = TAB_EQUIP) and (GetCurrentTab <> TAB_EQUIP) then
+  begin
+    MouseBox(680, 180, 693, 192, 1);
+
+    t := GetSystemTime + 5000;
+    while (GetSystemTime < t) and (GetCurrentTab <> TAB_EQUIP) do
+      Wait(RandomRange(500, 1000));
   end;
 
   MSI_AddHeader('MSI_FindTool');
-  MSI_Debug('Searching ' + s + ' Tab');
+  MSI_Debug('Searching ' + s + ' tab');
 
-  if (FindDTM(MSI_Items[Tool].DTM, x, y, X1, Y1, X2, Y2)) then
+  if (FindDTM(MSI_Items[Tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2)) then
   begin
     Result := True;
     MSI_Debug('Found DTM of ' + MSI_Items[Tool].Name);
 
     if (WhichTab = TAB_INV) then
       MSI_AddException(Tool, CoordsToItem(x, y));
-
-  end else begin
+  end else
 		MSI_Debug('Failed to find DTM of ' + MSI_Items[Tool].Name);
-
-		{$IFDEF Extra_BlackLists_Camaro}
-			//If DTM is NOT found, then it is time to search for the BlackList
-			MSI_Debug('Item Name = '+ToStr(MSI_Items[Tool].Name)+', Items Blacklist = '+ToStr(MSI_Items[Tool].BlackList)+'');
-			ISP := MSI_FindItemSlotBL(MSI_Items[Tool].BlackList, Tool);
-			if (ISP > 0)then
-			begin
-				Result := True;
-
-				MSI_Debug('Found Blacklist: ' + MSI_Items[Tool].Name);
-				TP := ItemCoords(ISP);
-				X := TP.x;
-				Y := TP.y;
-
-				if (WhichTab = TAB_INV) then
-				  MSI_AddException(Tool, ISP);
-			end;
-		{$ENDIF}
-  end;
 
   MSI_CloseHeader('MSI_FindTool: ' + BoolToStr(Result))
 end;

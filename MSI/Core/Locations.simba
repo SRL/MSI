@@ -1,20 +1,29 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                                Scripts.scar                                  |
-|==============================================================================|
-| For all the routines related to specific scripts                             |
-|                                                                              |
-| * function MSI_LoadLocation(): Boolean;               * by The MSI Team      |
-| * procedure MSI_LoadAllLocations;                     * by Coh3n             |
- \_____________________________________________________________________________}
+(*
+Locations
+=========
 
-{******************************************************************************}
-{ procedure MSI_LoadAllLocations;                                              }
-{ By: The MSI Team                                                             }
-{ Date: 01 November 2010                                                       }
-{ Description: Loads Which location information.  This should only be called   }
-{              in MSI_LoadAllScripts                                           }
-{******************************************************************************}
+The Locations file stores all the TLocation records used in MSI.
+
+*)
+
+(*
+MSI_LoadLocation
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadLocation(Which: Integer): Boolean;
+
+Loads the location 'Which' (sets 'Which' in the MSI_Locations global array).
+This procedure should only be called in MSI_LoadAllLocations. 'Which' represents
+the location constants MSI uses, which can be found in Globals.simba.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 01 November 2010 by Coh3n
+
+*)
  function MSI_LoadLocation(Which: Integer): Boolean;
  begin
    case Which of
@@ -338,7 +347,7 @@
          Name := 'Draynor Village Yews';
          Constant := LOC_DB_YEWS;
          AtBank := False;
-         Tiles := [Point(3151, 3229), Point(3166, 3222), Point(3181, 3227)];
+         Tiles := [Point(3153, 3229), Point(3166, 3222), Point(3181, 3227)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance   := 30;
        end;
@@ -464,6 +473,29 @@
          MinDistance := 25;
        end;
 
+     LOC_CB_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Catherby Bank';
+         Constant := LOC_CB_BANK;
+         AtBank := True;
+         Tiles := [Point(2809, 3442)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
+     LOC_CB_FISH:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Catherby Fishing Spots';
+         Constant := LOC_CB_FISH;
+         AtBank := False;
+         Tiles := [Point(2837, 3432), Point(2845, 3430),
+                   Point(2853, 3424), Point(2859, 3427)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
      LOC_KJ_STILES:
        with MSI_Locations[Which] do
        begin
@@ -490,13 +522,23 @@
    Result := (MSI_Locations[Which].Name <> '');
  end;
 
-{******************************************************************************}
-{ procedure MSI_LoadAllLocations;                                              }
-{ By: Coh3n                                                                    }
-{ Date: 02 August 2010                                                         }
-{ Description: Loads all the locations into MSI_Locations array; should only   }
-{              be called once in SetupMSI                                      }
-{******************************************************************************}
+(*
+MSI_LoadAllLocations
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllLocations;
+
+Loads all the locations into the MSI_Locations array.  This procedure should
+only be called in MSI_Setup.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 02 August 2010 by Coh3n
+
+*)
 procedure MSI_LoadAllLocations;
 var
   i: Integer;

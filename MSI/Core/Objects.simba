@@ -1,21 +1,12 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                                Objects.scar                                  |
-|==============================================================================|
-| Object and Item finding routines                                             |
-|                                                                              |
-| * function MSI_LoadObject(): Boolean;                   * by The MSI Team    |
-| * procedure MSI_LoadAllObjects;                         * by Coh3n           |
-| * function MSI_GetObjects(): TMSObjectArray;            * by marpis          |
-| * function MSI_MakeBox(): TBox;                         * by Sir R. Magician |
-| * function MSI_ReturnPointsInBox(): TPointArray;        * by marpis          |
-| * function MSI_FindObjectsTPA(): Boolean;               * by marpis          |
-| * function MSI_TrackObject(): Boolean;                  * by marpis & RM     |
-| * function MSI_FindObjectsIn(): Boolean;                * by marpis          |
-| * function MSI_FindObjects(): Boolean;                  * by marpis          |
-| * function MSI_FindObjectIn(): Boolean;                 * by marpis          |
-| * function MSI_FindObject(): Boolean;                   * by marpis          |
- \_____________________________________________________________________________}
+(*
+Objects
+=======
+
+The Objects file has any function needed to find an object on the main screen,
+or even in any specified box.  These functions access MSI's global objects
+array, MSI_Objects.
+
+*)
 
  const
    DIST_PIXEL_MOVE = 15; // MSI_TrackObject
@@ -23,13 +14,29 @@
  var
    NotBoxes: TBoxArray; // Used to track bad TPA points and avoid hovering wrong objects
 
-{******************************************************************************}
-{ function MSI_LoadObject(whichObject: Integer): Boolean;                      }
-{ By: The MSI Team                                                             }
-{ Date: 17 July 2010                                                           }
-{ Description: Load all the necessary object information; should only be       }
-{              called in MSI_LoadAllObjects                                    }
-{******************************************************************************}
+(*
+MSI_LoadObject
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadObject(whichObject: Integer): Boolean;
+
+Load all the necessary object information; should only be called in
+MSI_LoadAllObjects.  Loads the object 'whichObject' into the MSI_Objects array.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 17 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_LoadObject(TREE_NORMAL)) then
+    MSI_Debug('Loaded normal tree object');
+*)
 function MSI_LoadObject(whichObject: Integer): Boolean;
 begin
   case whichObject of
@@ -409,6 +416,30 @@ begin
         BadColorTolerance  := 10;
       end;
 
+    MSI_BANK_CB:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Catherby bank';
+         UpText             := 'ooth';
+         Option             := 'uick';
+         Colors             := [6714503];
+         Tol                := 11;
+         Hue                := 0.34;
+         Sat                := 0.92;
+         FindAllColors      := False;
+         W                  := 30;
+         H                  := 20;
+         Accuracy           := 7;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := True;
+         Tries              := 5;
+         Anim               := False;
+         WaitToMove         := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+       end;
+
     { ROCKS ====================================== ]
     [============================================= }
     ROCK_CLAY:
@@ -547,14 +578,14 @@ begin
         Name               := 'Coal';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [2107946];
-        Tol                := 5;
-        Hue                := 1.15;
-        Sat                := 0.93;
+        Colors             := [2502961, 2173739, 2634808];
+        Tol                := 2;
+        Hue                := 0.00;
+        Sat                := 0.63;
         FindAllColors      := False;
         W                  := 25;
         H                  := 20;
-        Accuracy           := 5;
+        Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 35000;
         ExcludeSelf        := True;
@@ -987,13 +1018,28 @@ begin
   Result := (MSI_Objects[whichObject].Name <> '');
 end;                         
 
-{******************************************************************************}
-{ procedure MSI_LoadAllObjects;                                                }
-{ By: Coh3n                                                                    }
-{ Date: 28 July 2010                                                           }
-{ Description: Loads all the objects used in MSI scripts; should only be       }
-{              called once in SetupMSI                                         }
-{******************************************************************************}
+(*
+MSI_LoadAllObjects
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllObjects();
+
+Loads all the objects used in MSI scripts; should only be called once in
+MSI_Setup.  Fills the MSI_Objects global array.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadAllObjects;
+*)
 procedure MSI_LoadAllObjects;
 var
   i: Integer;
@@ -1002,12 +1048,28 @@ begin
     MSI_LoadObject(i);
 end;
 
-{******************************************************************************}
-{ Function MSI_GetObjects(Which: TIntegerArray): TMSObjectArray;               }
-{ By: marpis                                                                   }
-{ Date: 03 July 2010                                                           }
-{ Description: Load all object info for object in the array                    }
-{******************************************************************************}
+(*
+MSI_GetObjects
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetObjects(Which: TIntegerArray): TMSObjectArray;
+
+Loads all the objects in 'Which' to the resulting TMSObjectArray.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 03 July 2010 by marpis
+
+Example:
+
+.. code-block:: pascal
+
+  if (Script = SCRIPT_POWER_CHOP) then // Keep in mind that this is made up and won't actually work
+    trees := MSI_GetObjects([TREE_NORMAL, TREE_OAK, TREE_WILLOW]);
+*)
 function MSI_GetObjects(Which: TIntegerArray): TMSObjectArray;
 Var
   I, H: Integer;
@@ -1019,12 +1081,27 @@ Begin
     Result[I] := MSI_Objects[Which[I]];
 End;
 
-{******************************************************************************}
-{ Function ReturnPointsInBox(TPA: TPointArray; B: TBox): TPointArray;          }
-{ By: marpis                                                                   }
-{ Date: 10 June 2010                                                           }
-{ Description: Self explanatory                                                }
-{******************************************************************************}
+(*
+MSI_ReturnPointsInBox
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ReturnPointsInBox(TPA: TPointArray; B: TBox): TPointArray;
+
+Returns all the points in 'TPA' that are within the box 'B'.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 10 June 2010 by marpis
+
+Example:
+
+.. code-block:: pascal
+
+  validPoints := MSI_ReturnPointsInBox(TPA, IntToBox(MSX1, MSY1, MSX2, MSY2));
+*)
 Function MSI_ReturnPointsInBox(TPA: TPointArray; B: TBox): TPointArray;
 Var
   I, H, N: Integer;
@@ -1042,12 +1119,28 @@ Begin
   SetLength(Result, N);
 End;
 
-{******************************************************************************}
-{ Function MSI_FindObjectsTPA( ... ): Boolean;                                 }
-{ By: marpis                                                                   }
-{ Date: Updated 01 February 2011 by Coh3n                                      }
-{ Description: Finds objects in mainscreen, saves co-ords in TPA               }
-{******************************************************************************}
+(*
+MSI_FindObjectsTPA
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindObjectsTPA(Var Objs: TPointArray; ObjID: integer; SearchBox: TBox): Boolean;
+
+Returns a TPA of all the instances of the object 'ObjID' that are found in the
+searching area specified by 'SearchBox'.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 01 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  ms_Points := MSI_FindObjectsTPA(TPA, TREE_NORMAL, IntToBox(MSX1, MSY1, MSX2, MSY2));
+*)
 Function MSI_FindObjectsTPA(Var Objs: TPointArray; ObjID: integer; SearchBox: TBox): Boolean;
 Var
   TPA, TempTPA: TPointArray;
@@ -1224,13 +1317,30 @@ Begin
   Result := (Length(Objs) > 0);
 End;
 
+(*
+MSI_TrackObject
+~~~~~~~~~~~~~~~
 
-{******************************************************************************}
-{ function MSI_TrackObject(var ObjInfo: TMSObject): boolean;                   }
-{ By: marpis & Sir R. Magician                                                 }
-{ Date: Updated Feb. 1st 2011 by Coh3n                                         }
-{ Description: Follows object while moving (ObjInfo.X, ObjInfo.Y)              }
-{******************************************************************************}
+.. code-block:: pascal
+
+  function MSI_TrackObject(ObjID: integer): Boolean;
+
+Tracks the object while the player is moving.  For example, it will keep track
+of an Oak tree that the player has just clicked, but has to walk to.  Keep in
+mind that this can cause a small amount of lag on slower machines.
+
+.. note::
+
+  | Author: marpis & Sir R. Magician
+  | Last Updated: 01 February 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_Objects[ObjID].WaitToMove) then
+    MSI_TrackObject(ObjID);
+*)
 function MSI_TrackObject(ObjID: integer): boolean;
 var
   ATPA: T2DPointArray;
@@ -1320,17 +1430,35 @@ begin
   ColorToleranceSpeed(2);
 end;
 
-{******************************************************************************}
-{ Function MSI_FindObjectsIn( ... ): Boolean;                                  }
-{ By: marpis                                                                   }
-{ Date: 10 June 2010                                                           }
-{ Description: Finds objects in mainscreen                                     }
-{******************************************************************************}
+(*
+MSI_FindObjectsIn
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindObjectsIn(Objs: TIntegerArray; Var IndexFound: Integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
+
+Finds the objects 'Objs' in the specified search box ('SearchBox'), and performs
+the action 'Action' from SRL's fnct_ActionOptions type.  Also returns the index
+in 'Objs' for the object that was found and the action applied to.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 10 June 2010
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindObjectsIn([TREE_NORMAL, TREE_OAK], i, MSBox, 1)) then
+    MSI_Debug('Clicked tree');
+*)
 Function MSI_FindObjectsIn(Objs: TIntegerArray; Var IndexFound: Integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
 Var
   TPA, TmpTPA: TPointArray;
   TheOptions, UpTexts: TStringArray;
-  I, II, III, HH, HHH, Hi, J: Integer;
+  I, II, III, HH, HHH, Hi, J, c: Integer;
   CheckUpText, inBadBox: Boolean;
 Begin
   if (not LoggedIn) then
@@ -1411,14 +1539,25 @@ Begin
           Wait(20 + Random(50));
 
           If CheckUpText Then
-            if (WaitUpTextMulti(UpTexts, 150 + Random(20))) then
+            if (waitUptext(name, 200)) then
             begin
-              MSI_Debug('Uptext found!');
-              Result := True;
-            end else begin
-              SetLength(notBoxes, Length(notBoxes) + 1);
-              notBoxes[High(notBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
-            end
+              MSI_Debug('Found ground item');
+              c := invCount();
+              getMousePos(x, y);
+              mouse(x, y, 0, 0, true);
+              wait(randomRange(1000, 2000));
+              MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
+              notBoxes := [];
+              exit;
+            end else
+              if (WaitUpTextMulti(UpTexts, 150 + Random(20))) then
+              begin
+                MSI_Debug('Uptext found!');
+                Result := True;
+              end else begin
+                SetLength(notBoxes, Length(notBoxes) + 1);
+                notBoxes[High(notBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
+              end
           Else
             Result := True;
 
@@ -1437,7 +1576,7 @@ Begin
             Begin
               Mouse(X, Y, 0, 0, False);
               If (Action = ClickRight) or (Action = ClickLeft) Then
-                Result := WaitOptionMulti(TheOptions, 750 + Random(100))
+                Result := (WaitOptionMulti(TheOptions, 750 + Random(100)) or waitOption('ake', 200))
               Else
                 Result := DidClick(True, 1200);
             End Else Begin
@@ -1445,8 +1584,9 @@ Begin
               Result := DidClick(True, 1200); ;
             End;
 
-            If MSI_Objects[Objs[II]].WaitToMove Then
-              MSI_TrackObject(Objs[II]);
+            if (result) then
+              If MSI_Objects[Objs[II]].WaitToMove Then
+                MSI_TrackObject(Objs[II]);
 
             MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
             NotBoxes := [];
@@ -1462,23 +1602,44 @@ Begin
   MSI_FindRandoms(True);
 End;
 
-{******************************************************************************}
-{ Function MSI_FindObjects( ... ): Boolean;                                    }
-{ By: marpis                                                                   }
-{ Date: 10 June 2010                                                           }
-{ Description: Finds multiple objects on the mainscreen                        }
-{******************************************************************************}
+(*
+MSI_FindObjects
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindObjects(Objs: TIntegerArray; Var IndexFound: Integer; Action: fnct_ActionOptions): Boolean;
+
+The exact same as MSI_FindObjectsIn, except instead of a specified search box,
+it searches the main screen.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 10 June 2010
+
+*)
 Function MSI_FindObjects(Objs: TIntegerArray; Var IndexFound: Integer; Action: fnct_ActionOptions): Boolean;
 Begin
   Result := MSI_FindObjectsIn(Objs, IndexFound, MSBox, Action);
 End;
 
-{******************************************************************************}
-{ Function MSI_FindObjectIn( ... ): Boolean;                                   }
-{ By: marpis                                                                   }
-{ Date: 10 June 2010                                                           }
-{ Description: Finds object in specified location                              }
-{******************************************************************************}
+(*
+MSI_FindObjectIn
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindObjectIn(Obj: integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
+
+The exact same as MSI_FindObjectsIn, for a single object rather than multiple.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 10 June 2010
+
+*)
 Function MSI_FindObjectIn(Obj: integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
 Var
   TMP: Integer;
@@ -1486,12 +1647,23 @@ Begin
   Result := MSI_FindObjectsIn([Obj], TMP, SearchBox, Action);
 End;
 
-{******************************************************************************}
-{ Function MSI_FindObject( ... ): Boolean;                                     }
-{ By: marpis                                                                   }
-{ Date: 10 June 2010                                                           }
-{ Description: Finds object on the mainscreen                                  }
-{******************************************************************************}
+(*
+MSI_FindObject
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindObject(Obj: integer; Action: fnct_ActionOptions): Boolean;
+
+The exact same as MSI_FindObjectIn, except it will automatically look for the
+object in the main screen.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 10 June 2010
+
+*)
 Function MSI_FindObject(Obj: integer; Action: fnct_ActionOptions): Boolean;
 Var
   TMP: Integer;

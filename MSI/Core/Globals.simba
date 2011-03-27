@@ -39,6 +39,7 @@ different locations around Runescape.
   | SV: Seers Village
   | LSW: Lumbridge Swamp West
   | KJ: Karamja
+  | CB: Catherby
 *)
 
 {==============================================================================\
@@ -123,6 +124,7 @@ const
   SCRIPT_DB_FISHER     = 51;
   SCRIPT_BBV_FISHER    = 52;
   SCRIPT_KJ_NOTER      = 53; // SRL Members+ only
+  SCRIPT_CB_FISHER    = 54;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
@@ -282,7 +284,11 @@ const
   LOC_KJ_STILES = 122;
   LOC_KJ_FISH   = 123;
 
-  LOC_ARRAY_LENGTH = 123; // Change to the highest location constant
+  // Catherby
+  LOC_CB_BANK = 130;
+  LOC_CB_FISH   = 131;
+
+  LOC_ARRAY_LENGTH = 131; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -468,6 +474,7 @@ const
   MSI_BANK_EV = 35;
   MSI_BANK_SV = 36;
   MSI_BANK_AK = 37;
+  MSI_BANK_CB = 38;
 
   DBOX_PS = 40;
 
@@ -602,7 +609,9 @@ const
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
 
-  ANIM_ARRAY_LENGTH = 11;
+  ANIM_FISHING = 20;
+
+  ANIM_ARRAY_LENGTH = 20;
 
 (*
 Material Constants
@@ -810,9 +819,14 @@ around the include.
 *)
 type
   TScriptSetup = record
-    Name      : Integer;
-    MaxLevel  : Integer; // The level you want to stop autoing at (not working yet)
+    Name : Integer;
 
+    // Not working until multiple script support
+    Loads    : Integer; // Total loads to do for a specific script
+    Time     : Integer; // Total time for a specific script
+    MaxLevel : Integer; // The maximus skill level for that script
+
+<<<<<<< HEAD
     // Woodcutting, Mining, Fishing, and Cooking
     Rocks       : TIntegerArray;
     Trees       : TIntegerArray;
@@ -824,6 +838,15 @@ type
     Exceptions  : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
     Loads       : Integer; // Not used yet because we don't support multiple scripts
     Time        : Integer; // Also not used yet until we have multiple script support
+=======
+    // Woodcutting, Mining, and Fishing
+    Rocks      : TIntegerArray;
+    Trees      : TIntegerArray;
+    FishSpots  : TIntegerArray;
+    Priority   : TIntegerArray;
+    DontDrop   : TIntegerArray; // The items the user doesn't want dropped/banked
+    Exceptions : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
+>>>>>>> eb02d7e0242d6bebdf3da6bd3c3c233ad2616dc6
 
     // Magic
     Spells    : TIntegerArray;
@@ -833,13 +856,16 @@ type
 
     // Fighting
     Monsters     : TIntegerArray;
-    Loot         : TIntegerArray;
-    RunDirection : String;
+    Loot         : TIntegerArray; // Monster drops the user wants to collect
+    RunDirection : String;        // Run direction if low in health
+
+    // Cooking
+    CookingSpot : TIntegerArray;
+    Recipe      : Integer;
 
     // Not setup by the user
-    Items     : array of TIntegerArray;
-    MaxCasts  : TIntegerArray; // Maximum casts for each spell (calculated in MSI_SetupMagic)
-    LeftTree  : Boolean;       // Used for GE Yews color relocating
+    Items    : array of TIntegerArray;
+    MaxCasts : TIntegerArray; // Maximum casts for each spell (calculated in MSI_SetupMagic)
   end;
 
   TScriptSetupArray = array of TScriptSetup;
@@ -940,18 +966,19 @@ SRL (Players.scar).
 *)
 type
   TPlayerInfo = record
-    Name       : string;
-    Pass       : string;
-    Nick       : string;
-    Pin        : string;
-    Active     : Boolean;
-    Member     : Boolean;
-    Location   : Integer;
-    TotalLoads : Integer;
-    BreakLoads : Integer;
-    TotalTime  : Integer;
-    BreakTime  : Integer;
-    Scripts    : TScriptSetupArray;
+    Name         : string;
+    Pass         : string;
+    Nick         : string;
+    Pin          : string;
+    Active       : Boolean;
+    Member       : Boolean;
+    Location     : Integer;
+    TotalLoads   : Integer;
+    BreakLoads   : Integer;
+    TotalTime    : Integer;
+    BreakTime    : Integer;
+    CurrentPoint : Integer;
+    Scripts      : TScriptSetupArray;
 
     // Not setup by the user
     ReportInfo : TProggy;

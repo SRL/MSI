@@ -1,34 +1,35 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                                Mainloop.scar                                 |
-|==============================================================================|
-| For all the script Artificial Inteligence                                    |
-|                                                                              |
-| * function MSI_SetupPlayer: Boolean;             * by Coh3n                  |
-| * procedure MSI_CountItems: Boolean;             * by Coh3n                  |
-| * function MSI_Walk(): Boolean;                  * by Coh3n                  |
-| * function MSI_AutoObjects: Boolean;             * by The MSI Team           |
-| * function MSI_BankMaterials: Boolean;           * by The MSI Team           |
-| * function MSI_TimedOut: Boolean;                * by Coh3n                  |
-| * procedure MSI_UnsetPlayer();                   * by RM & Coh3n             |
-| * function MSI_CheckLoads(): Boolean;            * by Coh3n                  |
-| * function MSI_CheckTime(): Boolean;             * by Coh3n                  |
-| * procedure MSI_SetPlayerInfo;                   * by Coh3n                  |
-| * procedure MSI_SetScriptLength;                 * by Coh3n                  |
-| * procedure MSI_SetReportInfo;                   * by Coh3n                  |
-| * procedure MSI_DeleteINI;                       * by Coh3n                  |
-| * procedure MSI_WriteINI;                        * by Coh3n                  |
-| * procedure MSI_ResetINI;                        * by Coh3n                  |
-| * function MSI_MainLoop: Boolean;                * by Coh3n                  |
-| * procedure MSI_ScriptTerminate;                 * by Coh3n & Shuttleu       |
- \_____________________________________________________________________________}
+(*
+Mainloop
+========
 
-{******************************************************************************}
-{ function MSI_SetupPlayer: Boolean;                                           }
-{ By: Coh3n                                                                    }
-{ Date: 11 February 2010                                                       }
-{ Description: Sets up the player for autoing                                  }
-{******************************************************************************}
+The Mainloop file holds all the main MSI functions that are called in
+MSI_MainLoop.
+
+*)
+
+(*
+MSI_SetupPlayer
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetupPlayer: Boolean;
+
+Logs the player in if not already logged in, and calls the current player's
+current script's setup procedure.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 11 February 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_SetupPlayer) then
+    MSI_UnsetPlayer('Failed to setup player', False);
+*)
 function MSI_SetupPlayer: Boolean;
 begin
   MSI_AddHeader('MSI_SetupPlayer');
@@ -70,12 +71,96 @@ begin
   MSI_CloseHeader('MSI_SetupPlayer: ' + BoolToStr(Result));
 end;
 
-{******************************************************************************}
-{ function MSI_Walk(ToLoc: Boolean): Boolean;                                  }
-{ By: Coh3n                                                                    }
-{ Date: 21 August 2010                                                         }
-{ Description: Walks a script path depending on the ToLoc parameter            }
-{******************************************************************************}
+(*
+MSI_CountItems
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_CountItems;
+
+This procedure is called before the player banks/drops after finishing a load.
+It will count the script items in the player's inventory and add them to the
+progress report.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (WalkedToBank) then
+    MSI_CountItems;
+*)
+procedure MSI_CountItems;
+var
+  itemCount, expCount, j, k: Integer;
+  objs: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  GameTab(TAB_INV);
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    case (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst) of
+      SKILL_WOODCUTTING:
+        objs := Scripts[CurrentScript].Trees;
+
+      SKILL_MINING:
+        objs := Scripts[CurrentScript].Rocks;
+
+      SKILL_FISHING:
+        objs := Scripts[CurrentScript].FishSpots;
+
+      SKILL_COOKING:
+        objs := Scripts[CurrentScript].CookingSpot;
+    end;
+
+    for j := 0 to High(objs) do
+      for k := 0 to High(ReportInfo.Items[CurrentScript][j]) do
+      begin
+        itemCount := CountItems('dtm', MSI_Items[ReportInfo.Items[CurrentScript][j][k]].DTM, []);
+        expCount  := Round(ReportInfo.Experiences[CurrentScript][j][k] * itemCount);
+
+        MSI_AddToProggy(PROG_ADD_EXP, -1, -1, expCount);  // Adds experience
+        MSI_AddToProggy(PROG_ADD_ITEMS, j, k, itemCount); // Adds items
+
+        MSI_Debug('MSI_CountItems: Found '+IntToStr(itemCount)+' of '+
+                  MSI_Items[ReportInfo.Items[CurrentScript][j][k]].Name+' ('+
+                  IntToStr(expCount) + ' XP)');
+      end;
+  end;
+end;
+
+(*
+MSI_Walk
+~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Walk(ToLoc: Boolean): Boolean;
+
+Walks either to the autoing location or from the autoing location to the bank.
+Depends on the boolean parameter 'ToLoc'.  Setting 'ToLoc' to true will walk to
+the location, setting it the false will walk from the location to the bank.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 21 August 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_Walk(True)) then
+    MSI_UnsetPlayer('Failed to walk to location', False);
+*)
 function MSI_Walk(ToLoc: Boolean): Boolean;
 var
   Script: TScript;
@@ -113,12 +198,29 @@ begin
   MSI_CloseHeader('MSI_Walk: ' + BoolToStr(Result));
 end;
 
-{******************************************************************************}
-{ function MSI_AutoObjects: Boolean;                                           }
-{ By: The MSI Team                                                             }
-{ Date: 04 August 2010                                                         }
-{ Description: Performs the specified skill                                    }
-{******************************************************************************}
+(*
+MSI_AutoObjects
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_AutoObjects: Boolean;
+
+Calls the current player's current script's AutoObjects procedure.  If the
+script requires dropping, it will drop the player's inventory.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 04 August 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_AutoObjects) then
+    MSI_UnsetPlayer('Failed to auto objects', False);
+*)
 function MSI_AutoObjects: Boolean;
 var
   scriptConst: Integer;
@@ -143,13 +245,81 @@ begin
   MSI_CloseHeader('MSI_AutoObjects: ' + BoolToStr(Result));
 end;
 
+(*
+MSI_BankMaterials
+~~~~~~~~~~~~~~~~~
 
-{******************************************************************************}
-{ function MSI_TimedOut: Boolean;                                              }
-{ By: Coh3n                                                                    }
-{ Date: 10 June 2010                                                           }
-{ Description: Handles connection losses                                       }
-{******************************************************************************}
+.. code-block:: pascal
+
+  function MSI_BankMaterials(): Boolean;
+
+Calls the current player's current script's BankObjects procedure.  Returns true
+if banking was successful.  Covers any type of banking from standard to NPC to
+depositing and withdrawing.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 24 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_BankMaterials) then
+    MSI_UnsetPlayer('Failed to bank materials', False);
+*)
+function MSI_BankMaterials(): Boolean;
+var
+  scriptConst: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+  begin
+    MSI_SubDebug('No items in inventory');
+    Result := True;
+    Exit;
+  end;
+
+  MSI_AddHeader('MSI_BankMaterials');
+  MSI_CountItems;
+
+  scriptConst := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name;
+  Result := MSI_Scripts[scriptConst].BankObjects();
+
+  MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+  stats_IncVariable('Times Banked', 1);
+
+  MSI_CloseHeader('MSI_BankMaterials: '+BoolToStr(Result));
+end;
+
+(*
+MSI_TimedOut
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_TimedOut: Boolean;
+
+Is called before setting the player false.  A player may have been set to false
+somewhere in SRL (i.e. failed a random), or the connection may have timed out.
+This checks for both, and if timed out, will wait and log the player back in.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_AutoObjects) then
+    if (not MSI_TimedOut) then
+      MSI_UnsetPlayer('Failed to auto objects', False);
+*)
 function MSI_TimedOut: Boolean;
 var
   t: Integer;
@@ -189,12 +359,31 @@ begin
     WaitFunc(@LoggedIn, 500, 10000);
 end;
 
-{******************************************************************************}
-{ procedure MSI_UnsetPlayer(func, reason: String; setReason: Boolean);         }
-{ By: RM and Coh3n                                                             }
-{ Date: 03 July 2010                                                           }
-{ Description: Sets the player to false if something fails                     }
-{******************************************************************************}
+(*
+MSI_UnsetPlayer
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_UnsetPlayer(reason: String; setReason: Boolean);
+
+Sets the current player's activity to false.  Will set the reason as 'reason' if
+'setReason' is true, or if a reason hasn't been set elseware.  Switches to the
+next player or terminates the script if all players are inactive.
+
+.. note::
+
+  | Author: Sir R. Magician & Coh3n
+  | Last Updated: 03 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_AutoObjects) then
+    if (not MSI_TimedOut) then
+      MSI_UnsetPlayer('Failed to auto objects', False);
+*)
 procedure MSI_UnsetPlayer(reason: String; setReason: Boolean);
 begin
   MSI_AddHeader('MSI_UnsetPlayer');
@@ -216,18 +405,152 @@ begin
     MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'In random: '+Players[CurrentPlayer].Rand;
     
   MSI_ProgressReport;
-  NextPlayer(False);
-  stats_IncVariable('Total Logins', 1);
 
+  if ((HowManyPlayers <= 1) or (PlayersActive <= 0)) then
+  begin
+    Logout();
+    MSI_SubDebug('All players inactive');
+    TerminateScript();
+  end else
+    NextPlayer(false);
+
+  stats_IncVariable('Total Logins', 1);
   MSI_CloseHeader('MSI_UnsetPlayer: Finished');
 end;
 
-{******************************************************************************}
-{ function MSI_CheckLoads(...): Boolean;                                       }
-{ By: Coh3n                                                                    }
-{ Date: 03 December 2010                                                       }
-{ Description: Returns true if it's time to break or set player inactive       }
-{******************************************************************************}
+(*
+MSI_HandleBreaking
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_HandleBreaking;
+
+Simulates a "human-like" breaking.  If MSI_SetupVars[SETUP_HUMAN_BREAK] (script setup
+variable found in RunMe.simba) is set to true it will randomly logout,
+time-out, or exit to the lobby, otherwise it will just exit to the lobby.
+If using multiple players, it will switch to the next player.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Febuary 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (TimeToBreak) then
+    MSI_HandleBreaking;
+*)
+procedure MSI_HandleBreaking;
+var
+  t, _avg: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if not MSI_SetupVars[SETUP_HUMAN_BREAK] then
+    if MSI_Players[CurrentPlayer].BreakTime = 0 then
+      if MSI_SetupVars[SETUP_BREAK_TIME] = 0 then
+        Exit;
+
+  if (BankScreen) then
+    CloseBank;
+
+  MSI_AddHeader('MSI_HandleBreaking');
+
+  if (HowManyPlayers = 1) or (PlayersActive = 1) then
+  begin
+    MSI_Debug('Taking a short break');
+
+    if MSI_SetupVars[SETUP_HUMAN_BREAK] then
+      case Random(10) of
+
+        0, 2: Logout;
+
+        1: while LoggedIn do
+           begin
+             Wait(RandomRange(200, 500));
+             MSI_FindRandoms(False);
+           end;
+
+        3..6: begin
+                t := (GetSystemTime + RandomRange(60000, 60000 * 3));
+                while (t > GetSystemTime) and LoggedIn do
+                begin
+                  Wait(RandomRange(200, 500));
+                  MSI_FindRandoms(False);
+                end;
+
+                if LoggedIn then
+                  if InRange(Random(10), 1, 5) then
+                    Logout
+                  else
+                    ExitToLobby;
+              end;
+
+        7..9: ExitToLobby;
+      end
+    else
+      if InRange(Random(10), 2, 9) then
+        ExitToLobby;
+
+    _avg := Round(SETUP_BREAK_TIME * RANDOM_TIME_PERCENT);
+    t := (GetSystemTime + ((MSI_SetupVars[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
+    while GetSystemTime < t do
+    begin
+      Status('MSI_SetupVars[SETUP_BREAK_TIME] remaining: '+MsToTime(t - GetSystemTime, Time_Formal)+';');
+      Wait(RandomRange(2000, 25000));
+      if LoggedIn then
+        MSI_FindRandoms(False);
+    end;
+
+    MSI_Debug('Break over, continuing to play');
+
+    if (LobbyScreen) then
+      MouseBox(80, 450, 560, 470, 1);
+  end else
+  begin
+    MSI_Debug('Switching players');
+    NextPlayer(True);
+  end;
+
+  WaitFunc(@LoggedIn, 100, 15000);
+
+  stats_IncVariable('Total Logins', 1);
+  MSI_CloseHeader('MSI_HandleBreaking: ' + BoolToStr(LoggedIn));
+end;
+
+(*
+MSI_CheckLoads
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_CheckLoads(TempLoads: Integer; var Reason: string; var TakeBreak: Boolean): Boolean;
+
+Checks the current player's loads done with the temporary loads done parameter,
+'TempLoads'.  If maximum loads are finished, 'reason' is set so user's know that
+player has finished.  If 'TempLoads' exceeds the player's loads to do before
+breaking, 'reason' is not set, and 'TakeBreak' is set to true so the script will
+take a break or switch to the next player.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 03 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_CheckLoads(tmp, reason, tBreak)) then
+    if (not tBreak) then
+      MSI_UnsetPlayer(reason, false)
+    else
+      MSI_HandleBreaking;
+*)
 function MSI_CheckLoads(TempLoads: Integer; var Reason: string; var TakeBreak: Boolean): Boolean;
 var
   _avg: Integer;
@@ -268,12 +591,32 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ function MSI_CheckLoads(...): Boolean;                                       }
-{ By: Coh3n                                                                    }
-{ Date: 03 December 2010                                                       }
-{ Description: Returns true if it's time to break or set player inactive       }
-{******************************************************************************}
+(*
+MSI_CheckTime
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_CheckTime(TempTime: Integer; var Reason: string; var TakeBreak: Boolean): Boolean;
+
+Works exactly like MSI_CheckLoads, excepts compares 'TempTime' with the current
+player's playing time.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 03 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_CheckTime(tmp, reason, tBreak)) then
+    if (not tBreak) then
+      MSI_UnsetPlayer(reason, false)
+    else
+      MSI_HandleBreaking;
+*)
 function MSI_CheckTime(TempTime: Integer; var Reason: string; var TakeBreak: Boolean): Boolean;
 var
   _avg: Integer;
@@ -315,15 +658,29 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ procedure MSI_SetReportInfo(...);                                            }
-{ By: Coh3n                                                                    }
-{ Date: 12 October 2010                                                        }
-{ Description: Called in MSI_SetPlayerInfo (Mainloop.simba). Sets the Items &  }
-{              their respecive experiences/amounts depending on the objects    }
-{              filled out DeclarePlayers. This procedure is only currently     }
-{              used for Woodcutting, Mining and Fishing                        }
-{******************************************************************************}
+(*
+MSI_SetReportInfo
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetReportInfo(Player, Script: Integer; PlayerObjs, DefaultObjs: TIntegerArray; var newObjs: TIntegerArray);
+
+Called in MSI_SetPlayerInfo. Sets the Items & their respecive
+experiences/amounts depending on the objects filled out during player setup.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  // From MSI_SetPlayerInfo
+  MSI_SetReportInfo(i, j, Scripts[j].Trees, MSI_Scripts[Scripts[j].Name].Defaults.Trees, newObjs);
+*)
 procedure MSI_SetReportInfo(Player, Script: Integer; PlayerObjs, DefaultObjs: TIntegerArray; var newObjs: TIntegerArray);
 var
   i: Integer;
@@ -361,7 +718,7 @@ begin
 
         SetLength(ItemAmounts[Script][i], Length(Items[Script][i]));
         SetLength(Experiences[Script][i], Length(Items[Script][i]));
-        Experiences[Script][i] := MSI_GetItemExperiences(tmpScript.SkillConst, Items[Script][i]);
+        Experiences[Script][i] := MSI_GetItemExp(tmpScript.SkillConst, Items[Script][i]);
       {
         for j := 0 to High(Experiences[Script][i]) do
           Writeln('Player['+IntToStr(Player)+'].Scripts['+IntToStr(Script)+'].Objs['+IntToStr(i)+'] Experience = '+FloatToStr(Experiences[Script][i][j]));
@@ -370,14 +727,29 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ procedure MSI_SetPlayerInfo;                                                 }
-{ By: Coh3n                                                                    }
-{ Date: 03 July 2010                                                           }
-{ Description: Sets the necessary player information (called at the beginning  }
-{              of MSI_MainLoop). Includes handling of default objects in       }
-{              MSI_SetReportInfo                                               }
-{******************************************************************************}
+(*
+MSI_SetPlayerInfo
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetPlayerInfo;
+
+Sets the necessary player information (called at the beginning of MSI_MainLoop).
+Includes handling of default objects if the user decides not to specify for a
+certain player.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 03 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetPlayerInfo;
+*)
 procedure MSI_SetPlayerInfo;
 var
   i, j: Integer;
@@ -436,15 +808,29 @@ begin
     end;
 end;
 
-{******************************************************************************}
-{ procedure MSI_SetScriptLength();                                             }
-{ By: Coh3n                                                                    }
-{ Date: 11 October 2010                                                        }
-{ Description: Called AFTER DeclarePlayers. Initially, each player's Scripts   }
-{              length is 100. This procedure sets the length to how many       }
-{              scripts the user set for each player. Also sets the length of   }
-{              Player report information arrays                                }
-{******************************************************************************}
+(*
+MSI_SetScriptLength
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetScriptLength();
+
+Called AFTER DeclarePlayers. Initially, each player's Scripts length is 100.
+This procedure sets the length to how many scripts the user set for each player.
+Also sets the length of the player's report information arrays.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 11 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetScriptLength;
+*)
 procedure MSI_SetScriptLength(); // SetLength(MSI_Players[i].Scripts, 100);
 var
   i, j: Integer;
@@ -462,6 +848,29 @@ begin
       end;
 end;
 
+(*
+MSI_GetSPSAreas
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetSPSAreas(): TStringArray;
+
+Used to get the current player's script's SPS areas so there aren't severl
+large bitmaps loaded into memory at once.  This ensures SPS will run as fast as
+possible.  This procedure is called after switching players.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 14 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  SPS_Areas := MSI_GetSPSAreas();
+*)
 function MSI_GetSPSAreas(): TStringArray;
 var
   i, j: Integer;
@@ -482,12 +891,28 @@ begin
   MSI_SubDebug('Player''s SPS_Areas: ' + ToStr(Result));
 end;
 
-{******************************************************************************}
-{ procedure MSI_MainLoop;                                                      }
-{ By: Coh3n                                                                    }
-{ Date: 03 November 2010                                                       }
-{ Description: The MainLoop - performs all actions of the script               }
-{******************************************************************************}
+(*
+MSI_MainLoop
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_MainLoop;
+
+MSI's mainloop.  Pretty straight forward.  Does what the user wants depending on
+the global and player settings.  Called only once in RunMe.simba.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 03 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Mainloop;
+*)
 procedure MSI_MainLoop;
 var
   tmpLoads, tmpTime, time: Integer;
@@ -601,16 +1026,13 @@ begin
 
         // Banks the proper materials
         AtBank:
-        if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects <> nil) then
+        if (not MSI_BankMaterials) then
         begin
-          if (not MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects()) then
-          begin
-            if (MSI_TimedOut) then
-              Break;
-
-            MSI_UnsetPlayer('Failed to bank', False);
+          if (MSI_TimedOut) then
             Break;
-          end;
+
+          MSI_UnsetPlayer('Failed to bank', False);
+          Break;
         end;
       end;
 
@@ -658,12 +1080,28 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ procedure MSI_ScriptTerminate;                                               }
-{ By: Coh3n & Shuttleu                                                         }
-{ Date: 14 Feburary 2011                                                       }
-{ Description: Called upon termination of the script                           }
-{******************************************************************************}
+(*
+MSI_MainLoop
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_MainLoop;
+
+Called upon termination of the script.  Ensures all DTMs/file/bitmaps have been
+freed.
+
+.. note::
+
+  | Author: Coh3n & Shuttleu
+  | Last Updated: 14 Feburary 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Mainloop;
+*)
 procedure MSI_ScriptTerminate;
 var
   i: Integer;
