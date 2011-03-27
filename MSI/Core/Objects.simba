@@ -1572,7 +1572,7 @@ Begin
           Begin
             GetMousePos(X, Y);
 
-            If (MSI_Objects[Objs[II]].RightClickOnly) Or InRange(Random(100), 0, 20) Or (Action = ClickRight) Then
+            If (MSI_Objects[Objs[II]].RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) Then
             Begin
               Mouse(X, Y, 0, 0, False);
               If (Action = ClickRight) or (Action = ClickLeft) Then

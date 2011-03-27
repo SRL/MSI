@@ -300,13 +300,13 @@ Mining or Woodcutting.
 *)
 const
   // Hatchets and pickaxes
-  REQ_BRONZE  = 1;
-  REQ_IRON    = 1;
-  REQ_STEEL   = 6;
-  REQ_MITHRIL = 21;
-  REQ_ADAMANT = 31;
-  REQ_RUNE    = 41;
-  REQ_DRAGON  = 61;
+  REQ_TOOL_BRONZE  = 1;
+  REQ_TOOL_IRON    = 1;
+  REQ_TOOL_STEEL   = 6;
+  REQ_TOOL_MITHRIL = 21;
+  REQ_TOOL_ADAMANT = 31;
+  REQ_TOOL_RUNE    = 41;
+  REQ_TOOL_DRAGON  = 61;
 
   REQ_MAX_LEVEL = 99;
 
@@ -745,12 +745,13 @@ or bank throughout MSI scripts.
 *)
 type
   TItem = record
-    Name     : string;
-    StatsName: string;
-    UpText   : TStringArray;
-    InvSlot  : Integer;
-    Stackable: Boolean;
-    DTM      : Integer;
+    Name      : string;
+    StatsName : string;
+    UpText    : TStringArray;
+    InvSlot   : Integer;
+    Stackable : Boolean;
+    EquipLevel: Integer;
+    DTM       : Integer;
   end;
 
   TItemArray = array of TItem;

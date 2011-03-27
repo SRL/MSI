@@ -980,7 +980,7 @@ begin
           EndLoc   := LOC_DB_CLAY;
 
           Reflection := [
-                          TPointArray([Point(3092, 3244), Point(3100, 3249),
+                          TPointArray([Point(3092, 3245), Point(3100, 3249),
                                        Point(3104, 3262), Point(3105, 3275),
                                        Point(3109, 3288), Point(3119, 3296),
                                        Point(3127, 3305), Point(3135, 3312),

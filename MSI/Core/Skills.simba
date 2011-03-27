@@ -72,11 +72,11 @@ begin
     case (SkillConst) of
       SKILL_WOODCUTTING:
         case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
-          REQ_DRAGON..REQ_MAX_LEVEL: Result := HATCHET_DRAGON;
-          REQ_RUNE..REQ_DRAGON     : Result := HATCHET_RUNE;
-          REQ_ADAMANT..REQ_RUNE    : Result := HATCHET_ADAMANT;
-          REQ_MITHRIL..REQ_ADAMANT : Result := HATCHET_MITHRIL;
-          REQ_STEEL..REQ_MITHRIL   : Result := HATCHET_STEEL;
+          REQ_TOOL_DRAGON..REQ_MAX_LEVEL     : Result := HATCHET_DRAGON;
+          REQ_TOOL_RUNE..REQ_TOOL_DRAGON     : Result := HATCHET_RUNE;
+          REQ_TOOL_ADAMANT..REQ_TOOL_RUNE    : Result := HATCHET_ADAMANT;
+          REQ_TOOL_MITHRIL..REQ_TOOL_ADAMANT : Result := HATCHET_MITHRIL;
+          REQ_TOOL_STEEL..REQ_TOOL_MITHRIL   : Result := HATCHET_STEEL;
 
           else
             Result := HATCHET_IRON;
@@ -84,11 +84,11 @@ begin
 
       SKILL_MINING:
         case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
-          REQ_DRAGON..REQ_MAX_LEVEL: Result := PICKAXE_DRAGON;
-          REQ_RUNE..REQ_DRAGON     : Result := PICKAXE_RUNE;
-          REQ_ADAMANT..REQ_RUNE    : Result := PICKAXE_ADAMANT;
-          REQ_MITHRIL..REQ_ADAMANT : Result := PICKAXE_MITHRIL;
-          REQ_STEEL..REQ_MITHRIL   : Result := PICKAXE_STEEL;
+          REQ_TOOL_DRAGON..REQ_MAX_LEVEL     : Result := PICKAXE_DRAGON;
+          REQ_TOOL_RUNE..REQ_TOOL_DRAGON     : Result := PICKAXE_RUNE;
+          REQ_TOOL_ADAMANT..REQ_TOOL_RUNE    : Result := PICKAXE_ADAMANT;
+          REQ_TOOL_MITHRIL..REQ_TOOL_ADAMANT : Result := PICKAXE_MITHRIL;
+          REQ_TOOL_STEEL..REQ_TOOL_MITHRIL   : Result := PICKAXE_STEEL;
 
           else
             Result := PICKAXE_IRON;

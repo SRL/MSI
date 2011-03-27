@@ -276,13 +276,6 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  if (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
-  begin
-    MSI_SubDebug('No items in inventory');
-    Result := True;
-    Exit;
-  end;
-
   MSI_AddHeader('MSI_BankMaterials');
   MSI_CountItems;
 
@@ -978,6 +971,7 @@ begin
       // If player's in middle of path with > 15 items, will walk to bank and deposit
       if (skipToBank) then
       begin
+        MSI_SubDebug('Player has > 15 items, banking..');
         skipToBank := False;
         goto WalkToBank;
       end;

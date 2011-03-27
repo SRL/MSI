@@ -173,6 +173,13 @@ begin
     if (not DepositScreen) then
       Exit;
 
+  if (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+  begin
+    MSI_SubDebug('No items in inventory');
+    Result := True;
+    Exit;
+  end;
+
   MSI_AddHeader('MSI_Deposit');
 
   SetLength(itemsDeposited, Length(Items));
@@ -355,13 +362,14 @@ MSI_WithdrawBestTool
 
 Will open the bank at which the player is currently located and attempt to
 withdraw the best tool for the current script. This is and should only be called
-during player/script setup. See MSI_SetupWoodcutting in Woodcutting.simba to
-see the more advanced usage of this function.
+during player/script setup. It is currently used specifically for mining and
+woodcutting.  It will also wield the tool depending on the player's attack
+level.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 06 October 2010 by Coh3n
+  | Last Updated: 27 March 2011 by Coh3n
 
 Example:
 
@@ -372,7 +380,7 @@ Example:
 *)
 function MSI_WithdrawBestTool(): Boolean;
 var
-  i: Integer;
+  i, emptySlot: Integer;
 begin
   if (not LoggedIn) then
     Exit;
@@ -380,14 +388,30 @@ begin
   with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do
     if (MSI_OpenBank(WhichBank, MSI_Players[CurrentPlayer].Pin)) then
     begin
-      for i := MSI_BestTool downto MSI_WorstTool do
-        if (MSI_Withdraw([i], [1])) then
+      Wait(RandomRange(500, 1000));
+
+      // Get the first empty inventory slot (this will be where the item is withdrawn to)
+      for i := 1 to 28 do
+        if (not ExistsItem(i)) then
         begin
-          Result := True;
+          emptySlot := i;
           Break;
         end;
 
-      // Equip tool if possible
+      for i := MSI_BestTool downto MSI_WorstTool do
+        if (MSI_Withdraw([i], [1])) then
+        begin
+          CloseBank();
+          Wait(RandomRange(250, 500));
+          MSI_Items[i].InvSlot := emptySlot; // Set the item's InvSlot attribute
+
+          // Equip the item; if can't, then add withdrawn item to the exceptions array
+          if (not MSI_EquipItem(SKILL_ATTACK, i)) then
+            MSI_AddException(i, MSI_Items[i].InvSlot);
+
+          Result := True;
+          Break;
+        end;
 
       if (not Result) then
       begin

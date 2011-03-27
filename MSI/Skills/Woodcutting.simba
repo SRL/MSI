@@ -28,7 +28,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  MSI_AddHeader('MSI_SetupWoodcutting');
+  MSI_AddHeader('MSI_SetupWC/Mining');
 
   // If it's already on the inventory, it will search there first
   if (GetCurrentTab = TAB_INV) then
@@ -58,7 +58,7 @@ begin
         if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // If player is at a bank
           Result := MSI_WithdrawBestTool();
 
-  MSI_CloseHeader('MSI_SetupWoodcutting: ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_SetupWC/Mining: ' + BoolToStr(Result));
 end;
 
 {******************************************************************************}

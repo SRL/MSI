@@ -128,7 +128,7 @@ will verify the tile is on the minimap and return true when clicked.
 .. note::
 
   | Author: marpis
-  | Last Updated: 26 January 2011 by Coh3n
+  | Last Updated: 27 March 2011 by Coh3n
 
 Example:
 
@@ -161,6 +161,7 @@ begin
     MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is on the minimap');
     Mouse(MP.X, MP.Y, 5, 5, True);
     Result := True;
+    RunEnergy(20);
   end else
     MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is not on the minimap');
   {$ENDIF}
