@@ -983,7 +983,10 @@ begin
         if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
           if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
             if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
+            begin
+              MSI_Debug('Found items in inventory, depositing..');
               goto AtBank;
+            end;
 
         if (not MSI_Walk(True)) then
         begin
