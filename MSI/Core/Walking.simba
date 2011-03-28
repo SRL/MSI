@@ -545,7 +545,7 @@ Returns true if the player is at the ending location.
 .. note::
 
   | Author: marpis & Coh3n
-  | Last Updated: 26 March 2011 by IPwnz
+  | Last Updated: 27 February 2011 by Coh3n
 
 Example:
 
@@ -560,7 +560,6 @@ var
   Walked: function(TPA: TPointArray): Boolean;
   i, t, h, obsLen: Integer;
   Script: TScript;
-  eTPA: TPointArray;
   obsSolved: TBooleanArray;
 begin
   if (not LoggedIn) then
@@ -570,7 +569,6 @@ begin
 
   Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
   SetLength(obsSolved, Length(Script.PathInfo.Obstacles));
-  eTPA := MSI_MirrorTPA(Script.PathInfo.EndLoc);
 
   if (ReflectionBroken) then
   begin
@@ -590,14 +588,13 @@ begin
 		  begin
         // Walk the leg of the path
 				if (not (Walked(ATPA[i]))) then
-          if (not (Walked(eTPA))) and (not (Walked(ATPA[i]))) then
-				  begin
-            MSI_Debug('Failed to walk leg '+IntToStr(i)+' of script: '+Capitalize(Script.Name));
-				    ReportInfo.FalseReason := 'Failed to walk to ' + MSI_Locations[eLoc].Name;
-            MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
-				    Location := LOC_LOST;
-            Exit;
-				  end;
+				begin
+          MSI_Debug('Failed to walk leg '+IntToStr(i)+' of script: '+Capitalize(Script.Name));
+				  ReportInfo.FalseReason := 'Failed to walk to ' + MSI_Locations[eLoc].Name;
+          MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
+				  Location := LOC_LOST;
+          Exit;
+				end;
 
         // Handle the obstacle
 		    if (MSI_HandleObstacle(Script, sLoc, h)) then
