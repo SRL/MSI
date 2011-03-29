@@ -4,6 +4,9 @@ Locations
 
 The Locations file stores all the TLocation records used in MSI.
 
+The source for Locations.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Locations.simba>`_.
+
 *)
 
 (*
@@ -23,6 +26,12 @@ the location constants MSI uses, which can be found in Globals.simba.
   | Author: Coh3n
   | Last Updated: 01 November 2010 by Coh3n
 
+Example:
+
+.. code-block:: pascal
+
+  for i := 0 to High(MSI_Locations) do
+    MSI_LoadLocation(i);
 *)
  function MSI_LoadLocation(Which: Integer): Boolean;
  begin
@@ -52,7 +61,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3276, 3450)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_VE_OAKS:
@@ -63,7 +72,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3279, 3428)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_VE_BANK:
@@ -74,7 +83,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(3253, 3421)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_VE_MINE:
@@ -85,7 +94,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3288, 3368)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 30;
+         MinDistance := 30;
        end;
 
      LOC_VW_MINE:
@@ -96,7 +105,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3181, 3367)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_VW_BANK:
@@ -107,7 +116,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(3187, 3437)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_GE_BANK:
@@ -118,7 +127,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(3169, 3490)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_GE_YEWS:
@@ -129,7 +138,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3209, 3503), Point(3220, 3502)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_DB_BANK:
@@ -140,7 +149,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(3092, 3240)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_DB_WILLOWS:
@@ -151,7 +160,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3087, 3234)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_DB_TREES:
@@ -162,7 +171,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3081, 3268)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_DB_OAKS:
@@ -173,7 +182,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3101, 3244)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_DB_FISH:
@@ -184,7 +193,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3087, 3228)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_DB_CLAY:
@@ -195,7 +204,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3141, 3316)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_RM_YEWS:
@@ -206,7 +215,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2937, 3231), Point(2935, 3228)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 10;
+         MinDistance := 10;
        end;
 
      LOC_RM_CLAY:
@@ -217,7 +226,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2986, 3236)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 15;
+         MinDistance := 15;
        end;
 
      LOC_RM_TIN:
@@ -228,7 +237,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2986, 3236)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 15;
+         MinDistance := 15;
        end;
 
      LOC_RM_COPPER:
@@ -239,7 +248,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2979, 3245)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 15;
+         MinDistance := 15;
        end;
 
      LOC_RM_IRON_1:
@@ -250,7 +259,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2983, 3233)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 15;
+         MinDistance := 15;
        end;
 
      LOC_RM_IRON_2:
@@ -261,7 +270,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2971, 3239)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 15;
+         MinDistance := 15;
        end;
 
      LOC_RM_GOLD:
@@ -272,7 +281,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2977, 3233)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 15;
+         MinDistance := 15;
        end;
 
      LOC_FE_BANK:
@@ -283,7 +292,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(3012, 3354)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_PS_WILLOWS:
@@ -294,7 +303,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3060, 3253)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_PS_YEWS:
@@ -305,7 +314,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3053, 3270)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 15;
+         MinDistance := 15;
        end;
 
      LOC_PS_DBOX:
@@ -316,7 +325,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(3046, 3235)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_LSW_MINE:
@@ -327,7 +336,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3148, 3147)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 30;
+         MinDistance := 30;
        end;
 
      LOC_LSE_MINE:
@@ -338,7 +347,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3227, 3148)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 30;
+         MinDistance := 30;
        end;
 
      LOC_DB_YEWS:
@@ -349,7 +358,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3153, 3229), Point(3166, 3222), Point(3181, 3227)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 30;
+         MinDistance := 30;
        end;
 
      LOC_EV_BANK:
@@ -360,7 +369,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(3093, 3493)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 30;
+         MinDistance := 30;
        end;
 
      LOC_EV_YEWS:
@@ -371,7 +380,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3087, 3472), Point(3087, 3480)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_BBV_MINE:
@@ -382,7 +391,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3079, 3423)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_BBV_FISH:
@@ -393,7 +402,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(3108, 3434), Point(3103, 3426)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_SV_MAGICS:
@@ -404,7 +413,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2702, 3398)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 20;
+         MinDistance := 20;
        end;
 
      LOC_SV_BANK:
@@ -415,7 +424,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := True;
          Tiles := [Point(2726, 3492)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_SV_MAPLES:
@@ -426,7 +435,7 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2724, 3502)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_SV_YEWS:
@@ -437,18 +446,18 @@ the location constants MSI uses, which can be found in Globals.simba.
          AtBank := False;
          Tiles := [Point(2712, 3462), Point(2706,3463)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 5;
+         MinDistance := 5;
        end;
 
      LOC_GUILD_MINE:
        with MSI_Locations[Which] do
        begin
-         Name := 'Mining Guild (SRL Members+)';
+         Name := 'Mining Guild';
          Constant := LOC_GUILD_MINE;
          AtBank := False;
          Tiles := [Point(3035, 9737), Point(3048, 9737)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance   := 25;
+         MinDistance := 25;
        end;
 
      LOC_AK_BANK:
@@ -499,7 +508,7 @@ the location constants MSI uses, which can be found in Globals.simba.
      LOC_KJ_STILES:
        with MSI_Locations[Which] do
        begin
-         Name := 'Stiles on Karamja (SRL Members+)';
+         Name := 'Stiles on Karamja';
          Constant := LOC_KJ_STILES;
          AtBank := False;
          Tiles := [Point(2851, 3141)];
@@ -510,7 +519,7 @@ the location constants MSI uses, which can be found in Globals.simba.
      LOC_KJ_FISH:
        with MSI_Locations[Which] do
        begin
-         Name := 'Karamja Fishing Spot (SRL Members+)';
+         Name := 'Karamja Fishing Spot';
          Constant := LOC_KJ_FISH;
          AtBank := False;
          Tiles := [Point(2924, 3175)];

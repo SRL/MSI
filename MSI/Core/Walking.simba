@@ -8,6 +8,9 @@ methods; these are used so MSI will still compile if the user decides to exclude
 reflection or if reflection is broken. This file handles walking for both SPS
 and reflection.
 
+The source for Walking.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Walking.simba>`_.
+
 *)
 
 (*
@@ -557,6 +560,7 @@ Example:
 function MSI_WalkPath(sLoc, eLoc: Integer): Boolean;
 var
   ATPA: T2DPointArray;
+  eTPA: TPointArray;
   Walked: function(TPA: TPointArray): Boolean;
   i, t, h, obsLen: Integer;
   Script: TScript;
@@ -573,9 +577,11 @@ begin
   if (ReflectionBroken) then
   begin
     ATPA := MSI_LoadPath(sLoc, eLoc, True);
+    eTPA := MSI_MirrorTPA(MSI_Locations[Script.PathInfo.EndLoc].Points);
     Walked := @MSI_WalkColorPath;
   end else begin
     ATPA := MSI_LoadPath(sLoc, eLoc, False);
+    eTPA := MSI_MirrorTPA(MSI_Locations[Script.PathInfo.EndLoc].Tiles);
     Walked := @MSI_WalkTilePath;
   end;
 
@@ -588,13 +594,14 @@ begin
 		  begin
         // Walk the leg of the path
 				if (not (Walked(ATPA[i]))) then
-				begin
-          MSI_Debug('Failed to walk leg '+IntToStr(i)+' of script: '+Capitalize(Script.Name));
-				  ReportInfo.FalseReason := 'Failed to walk to ' + MSI_Locations[eLoc].Name;
-          MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
-				  Location := LOC_LOST;
-          Exit;
-				end;
+          if (not (Walked(eTPA))) and (not (Walked(ATPA[i]))) then
+				  begin
+            MSI_Debug('Failed to walk leg '+IntToStr(i)+' of script: '+Capitalize(Script.Name));
+				    ReportInfo.FalseReason := 'Failed to walk to ' + MSI_Locations[eLoc].Name;
+            MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
+				    Location := LOC_LOST;
+            Exit;
+				  end;
 
         // Handle the obstacle
 		    if (MSI_HandleObstacle(Script, sLoc, h)) then

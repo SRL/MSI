@@ -5,6 +5,9 @@ Skills
 The Skills file holds any routines that are used for multiple skills and that
 don't fit into any other include file.
 
+The source for Skills.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Skills.simba>`_.
+
 *)
 
 (*

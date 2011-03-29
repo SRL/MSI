@@ -4,6 +4,9 @@ Scripts
 
 The Scripts file is short and sweat. This is where all the scripts are defined.
 
+The source for Scripts.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Scripts.simba>`_.
+
 *)
 
 (*

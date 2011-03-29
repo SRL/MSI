@@ -5,6 +5,9 @@ Mainloop
 The Mainloop file holds all the main MSI functions that are called in
 MSI_MainLoop.
 
+The source for Mainloop.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Mainloop.simba>`_.
+
 *)
 
 (*
@@ -875,10 +878,11 @@ begin
       Script := MSI_Scripts[Scripts[i].Name];
 
       for j := 0 to High(Script.PathInfo.SPSAreas) do
-      begin
-        SetLength(Result, Length(Result) + 1);
-        Result[High(Result)] := Script.PathInfo.SPSAreas[j];
-      end;
+        if (not InStrArr(Script.PathInfo.SPSAreas[j], Result, True)) then
+        begin
+          SetLength(Result, Length(Result) + 1);
+          Result[High(Result)] := Script.PathInfo.SPSAreas[j];
+        end;
     end;
 
   MSI_SubDebug('Player''s SPS_Areas: ' + ToStr(Result));

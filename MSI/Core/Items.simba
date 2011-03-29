@@ -1,36 +1,38 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                               ItemInfo.scar                                  |
-|==============================================================================|
-| Used to store and load all information on items and objects                  |
-|                                                                              |
-| * function MSI_GetDTMPoints(): TIntegerArray;         * by The MSI Team      |
-| * function MSI_GetItemColor(): Integer;               * by The MSI Team      |
-| * function MSI_LoadDTM(): Integer;                    * by Coh3n             |
-| * function MSI_LoadItem(): Boolean;                   * by The MSI Team      |
-| * function MSI_LoadItemRange(): TIntegerArray;        * by Zyt3x & Coh3n     |
-| * procedure MSI_LoadAllItems;                         * by Cohen             |
-| * procedure MSI_GetItems(): TItemArray                * by Naum              |
-| * function MSI_GetItemExperiences(): TExtendedArray;  * by The MSI Team      |
-| * procedure MSI_FreeItem;                             * by Naum              |
-| * procedure MSI_FreeAllItems;                         * by Naum              |
-| * function MSI_AddException;                          * by Coh3n             |
-| * function MSI_FindTool(): Boolean;                   * by Coh3n             |
-| * function MSI_FindItemSlots(): TIntegerArray;        * by Coh3n             |
-| * function MSI_ClickItemSlot(): Boolean;              * by Coh3n             |
-| * function MSI_ClickItem(): Boolean;                  * by Coh3n             |
-| * procedure MSI_ClickItems;                           * by Coh3n             |
-| * function MSI_DragItem(): Boolean;                   * by Zyt3x             |
-| * procedure MSI_DropAll;                              * by Coh3n             |
- \_____________________________________________________________________________}
+(*
+Items
+=====
 
-{******************************************************************************}
-{ function MSI_GetDTMPoints(which: Integer): TPointArray;                      }
-{ By: The MSI Team                                                             }
-{ Date: 25 June 2010                                                           }
-{ Description: Gets the coodinates for the DTM points. The first point is the  }
-{              mainpoint, then point 1, 2, etc.                                }
-{******************************************************************************}
+The Items file stores any routines that have anything to do with interacting
+with items in Runescape.
+
+The source for Items.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Items.simba>`_.
+
+*)
+
+(*
+MSI_GetDTMPoints
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetDTMPoints(which: Integer): TPointArray;
+
+Gets the points for an item's ('which') DTM.  The first point in the array is
+the item's mainpoint.  This function is called in MSI_LoadDTM (where the DTM is
+actually created).
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 25 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  itemPoints := MSI_GetDTMPoints(HATCHET_RUNE);
+*)
 function MSI_GetDTMPoints(which: Integer): TPointArray;
 begin
   case which of
@@ -308,12 +310,28 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ function MSI_GetItemColor(which: Integer): Integer;                          }
-{ By: The MSI Team                                                             }
-{ Date: 10 June 2010                                                           }
-{ Description: Loads the item's (which) color - used for DTMs                  }
-{******************************************************************************}
+(*
+MSI_GetItemColor
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetItemColor(which: Integer): Integer;
+
+Gets the item 'which''s color.  This color is used to create the item's DTM in
+MSI_LoadDTM.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 10 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  itemColor := MSI_GetItemColor(HATCHET_RUNE);
+*)
 function MSI_GetItemColor(which: Integer): Integer;
 begin
   case which of
@@ -416,12 +434,29 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ function MSI_LoadDTM(which: Integer): Integer;                               }
-{ By: Coh3n and Ejjman1                                                        }
-{ Date: 10 June 2010                                                           }
-{ Description: Loads the DTM specified by 'which'                              }
-{******************************************************************************}
+(*
+MSI_LoadDTM
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadDTM(which: Integer): Integer;
+
+This is the function that creates the DTM for the item 'which'.  This function
+is called in MSI_LoadAllItems only.  Uses both MSI_GetDTMPoints and
+MSI_GetItemColor to complete the DTM.
+
+.. note::
+
+  | Author: Ejjman1
+  | Last Updated: 10 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Item[HATCHET_RUNE].DTM := MSI_LoadDTM(HATCHET_RUNE);
+*)
 function MSI_LoadDTM(which: Integer): Integer;
 var
   dtmMainPoint: TDTMPointDef;
@@ -479,13 +514,29 @@ begin
   Result := AddDTM(TempTDTM);
 end;
 
-{******************************************************************************}
-{ function MSI_LoadItem(whichItem: Integer): Boolean;                          }
-{ By: The MSI Team                                                             }
-{ Date: 25 July 2010                                                           }
-{ Description: Loads the item whichItem into the MSI_Items array; should only  }
-{              be called in MSI_LoadAllITems                                   }
-{******************************************************************************}
+(*
+MSI_LoadItem
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadItem(whichItem: Integer): Boolean;
+
+Loads the item 'whichItem' into the MSI_Items array of TItem.  This procedure
+should only be called in MSI_LoadAllItems.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 25 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := 0 to High(MSI_Items) do
+    MSI_LoadItem(i);
+*)
 function MSI_LoadItem(whichItem: Integer): Boolean;
 begin
   case whichItem of
@@ -1260,31 +1311,29 @@ begin
   Result := (MSI_Items[whichItem].Name <> '');
 end;
 
-{******************************************************************************}
-{ function MSI_LoadItemRange(Start, Finish : Integer): TIntegerArray;          }
-{ By: Zyt3x & Coh3n                                                            }
-{ Date: 10 September 2010                                                      }
-{ Description: Loads all items from Start to Finish in one function.           }
-{******************************************************************************}
-function MSI_LoadItemRange(Start, Finish: Integer): TIntegerArray;
-var
-  I, j : Integer;
-begin
-  SetLength(Result, (Finish - Start) + 1);
-  for I := Start to Finish do
-  begin
-    Result[j] := I;
-    Inc(j);
-  end;
-end;
+(*
+MSI_LoadAllItems
+~~~~~~~~~~~~~~~~
 
-{******************************************************************************}
-{ procedure MSI_LoadAllItems;                                                  }
-{ By: Coh3n                                                                    }
-{ Date: 28 July 2010                                                           }
-{ Description: Loads all of MSI's items into the MSI_Items array; should only  }
-{              be called in SetupMSI                                           }
-{******************************************************************************}
+.. code-block:: pascal
+
+  procedure MSI_LoadAllItems;
+
+Loads all of the items used throuhgout MSI into the MSI_Items global array.
+This procedure should only be called in MSI_Setup
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Setup.simba>`_.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 25 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadAllItems;
+*)
 procedure MSI_LoadAllItems;
 var
   i: Integer;
@@ -1303,12 +1352,29 @@ begin
     	end;
 end;
 
-{******************************************************************************}
-{ function MSI_GetItemExperiences(...): TExtendedArray;                        }
-{ By: The MSI Team                                                             }
-{ Date: 03 July 2010                                                           }
-{ Description: Returns an array of experiences depending on the objects array  }
-{******************************************************************************}
+(*
+MSI_GetItemExp
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetItemExp(Skill: Integer; Items: TIntegerArray): TExtendedArray;
+
+Returns an array of the experience for certain items depening on the skill.
+For example, for Woodcutting, getting a Normal Log may be 25 experience where
+burning a Normal Log for Firemaking may be 30 experience.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 03 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  exps := MSI_GetItemExp(SKILL_WOODCUTTING, [LOGS_NORMAL, LOGS_OAK]);
+*)
 function MSI_GetItemExp(Skill: Integer; Items: TIntegerArray): TExtendedArray;
 var
   i: integer;
@@ -1403,12 +1469,28 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ Procedure MSI_FreeItem(Which : Integer);                                     }
-{ By: Naum                                                                     }
-{ Date: 03 July 2010                                                           }
-{ Description: Frees the TItem record for the item 'which'                     }
-{******************************************************************************}
+(*
+MSI_FreeItem
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_FreeItem(Which: Integer);
+
+Frees the MSI item 'Which'.  This procedure is called only in MSI_FreeAllItems.
+
+.. note::
+
+  | Author: Naum
+  | Last Updated: 03 July 2010 by Naum
+
+Example:
+
+.. code-block:: pascal
+
+  for i := 0 to High(MSI_Items) do
+    MSI_FreeItem(i);
+*)
 Procedure MSI_FreeItem(Which: Integer);
 Begin
   Try
@@ -1423,12 +1505,27 @@ Begin
   Except End;
 End;
 
-{******************************************************************************}
-{ Procedure MSI_FreeAllItems;                                                  }
-{ By: Naum                                                                     }
-{ Date: 03 July 2010                                                           }
-{ Description: Frees the TItem records for all items in the array              }
-{******************************************************************************}
+(*
+MSI_FreeAllItems
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_FreeAllItems;
+
+Frees all of MSI's items.  This procedure is only called in MSI_ScriptTerminate.
+
+.. note::
+
+  | Author: Naum
+  | Last Updated: 03 July 2010 by Naum
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_FreeAllItems;
+*)
 Procedure MSI_FreeAllItems;
 var
   I: Integer;
@@ -1437,12 +1534,30 @@ begin
     MSI_FreeItem(I);
 end;
 
-{******************************************************************************}
-{ procedure MSI_AddException(Slot: Integer);                                   }
-{ By: Coh3n                                                                    }
-{ Date: 06 December 2010                                                       }
-{ Description: Adds Slot to the current player's exceptions array              }
-{******************************************************************************}
+(*
+MSI_AddException
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_AddException(Item, Slot: Integer);
+
+Adds the inventory slot 'Slot' to the current player's current script's
+Exceptions array. Set's the item's 'Item' InvSlot attribute.  The Exceptions
+array is used so the user can add inventory slots they don't want to be dropped
+or banked.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_AddException(PICKAXE_RUNE, 28);
+*)
 procedure MSI_AddException(Item, Slot: Integer);
 begin
   with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
@@ -1464,6 +1579,29 @@ begin
   end;
 end;
 
+(*
+MSI_DeleteException
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DeleteException(Item, Slot: Integer);
+
+Basically works the exact opposite of MSI_AddException.  This is used if a tool
+has been equipped, for example.  Set's the item's 'Item' InvSlot attribute back
+to 0 (i.e. not in the inventory).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_RemoveException(PICKAXE_RUNE, 28);
+*)
 procedure MSI_DeleteException(Item, Slot: Integer);
 var
   i: Integer;
@@ -1480,12 +1618,30 @@ begin
       end;
 end;
 
-{******************************************************************************}
-{ function MSI_FindTool(Tool, WhichTab: Integer; var x, y: Integer): Boolean;  }
-{ By: Coh3n                                                                    }
-{ Date: 16 October 2010                                                        }
-{ Description: Finds the specified tool                                        }
-{******************************************************************************}
+(*
+MSI_FindTool
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindTool(Tool, WhichTab: Integer; var x, y: Integer): Boolean;
+
+Returns true if the specified tool (Tool) is found in the game tab (WhichTab).
+Sets the items coordinates to x and y.  Uses DTMs to find the item, and adds the
+tool to the exceptions array if found in the inventory.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindTool(HATCHET_BRONZE, TAB_INV, x, y)) then
+    MSI_Debug('Found ' + MSI_Items[HATCHET_BRONZE].Name);
+*)
 function MSI_FindTool(Tool, WhichTab: Integer; var x, y: Integer): Boolean;
 var
   s: string;
@@ -1527,13 +1683,32 @@ begin
   MSI_CloseHeader('MSI_FindTool: ' + BoolToStr(Result))
 end;
 
-{******************************************************************************}
-{ function MSI_FindItemSlots(Item: Integer): TIntegerArray;                    }
-{ By: Coh3n                                                                    }
-{ Date: 12 November 2010                                                       }
-{ Description: Returns an array of the inventory/bank deposit slots where      }
-{              'Item' is found                                                 }
-{******************************************************************************}
+(*
+MSI_FindItemSlots
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindItemSlots(Item: Integer): TIntegerArray;
+
+Returns the slots where the item 'Item' is found.  The type of slots depends on
+the current script's BankType attribute.  TBankType can be found in
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Globals.simba>`_.  If the
+item found is stackable, and for some reason it's found in more than one slot,
+it will perform a series of uptext checks to get rid of the false positives.
+
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  slots := MSI_FindItemSlots(LOGS_NORMAL);
+*)
 function MSI_FindItemSlots(Item: Integer): TIntegerArray;
 var
   i, j, l, t: Integer;
@@ -1589,13 +1764,30 @@ begin
   MSI_Debug('MSI_FindItemSlots: Found '+IntToStr(Length(result))+' '+MSI_Items[Item].Name+' in inventory slot(s) ' + ToStr(Result));
 end;
 
-{******************************************************************************}
-{ function MSI_ClickItemSlot(Slot: Integer; Options: TStringArray): Boolean;   }
-{ By: Coh3n                                                                    }
-{ Date: 21 July 2010                                                           }
-{ Description: Clicks the inventory/deposit box 'Slot' and chooses the correct }
-{              option                                                          }
-{******************************************************************************}
+(*
+MSI_ClickItemSlot
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ClickItemSlot(Slot: Integer; Options: TStringArray): Boolean;
+
+Clicks the slot 'Slot' and chooses the corrent option from 'Options'.  Will
+right-click if the uptext isn't correct.  Like MSI_FindItemSlots, the slot area
+depends on the script's BankType attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 21 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ClickItemSlot(1, ['Drop', 'rop']) then
+    MSI_Debug('Dropped item');
+*)
 function MSI_ClickItemSlot(Slot: Integer; Options: TStringArray): Boolean;
 var
   x, y: Integer;
@@ -1636,14 +1828,29 @@ begin
     MSI_SubDebug('MSI_ClickItemSlot: Succesfully clicked item slot');
 end;
 
-{******************************************************************************}
-{ function MSI_ClickItem(Item: Integer; Options: TStringArray): Boolean;       }
-{ By: Coh3n                                                                    }
-{ Date: 11 July 2010                                                           }
-{ Description: Will right/left click and choose option 'Options' depending on  }
-{              on the 'Item' parameter.  Clicks the first occurance of the     }
-{              item found                                                      }
-{******************************************************************************}
+(*
+MSI_ClickItem
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ClickItem(Item: Integer; Options: TStringArray): Boolean;
+
+Uses a combination of MSI_FindItemSlots and MSI_ClickItemSlot to find and click
+the first occurance of the item 'Item'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 11 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ClickItem(HATCHET_BRONZE, ['Wield', 'ield'])) then
+    MSI_Debug('Equipped hatchet');
+*)
 function MSI_ClickItem(Item: Integer; Options: TStringArray): Boolean;
 var
   slots: TIntegerArray;
@@ -1666,13 +1873,28 @@ begin
     MSI_SubDebug('MSI_ClickItem: Succesfully clicked ' + MSI_Items[Item].Name);
 end;
 
-{******************************************************************************}
-{ procedure MSI_ClickItems(Items: TIntegerArray; Options: TStringArray);       }
-{ By: Coh3n                                                                    }
-{ Date: 11 July 2010                                                           }
-{ Description: Clicks all items in the 'Items' array.  Will right/left click   }
-{              and choose option depending on the 'Options' array              }
-{******************************************************************************}
+(*
+MSI_ClickItem
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ClickItem(Item: Integer; Options: TStringArray): Boolean;
+
+Works exactly like MSI_ClickItem, except for multiple items.  This function is
+primarily used for banking.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 11 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ClickItems([ROCK_COPPER, ROCK_TIN]. ['Deposit', 'eposit']);
+*)
 procedure MSI_ClickItems(Items: TIntegerArray; Options: TStringArray);
 var
   i, j: Integer;
@@ -1689,12 +1911,28 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ function MSI_DragItem(Item, TargetSlot: Integer): Boolean;                   }
-{ By: Zyt3x                                                                    }
-{ Date: 13 October 2010                                                        }
-{ Description: Drags the first item it finds to the target slot                }
-{******************************************************************************}
+(*
+MSI_DragItem
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_DragItem(Item, TargetSlot: Integer): Boolean;
+
+Drags the first occurance of the item 'Item' to the inventory slot 'TargetSlot'.
+
+.. note::
+
+  | Author: Zyt3x
+  | Last Updated: 13 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_DragItem(PICKAXE_RUNE, 28)) then
+    MSI_Debug('Dragged pickaxe to preferred slot');
+*)
 function MSI_DragItem(Item, TargetSlot: Integer): Boolean;
 var
   slots: TIntegerArray;
@@ -1718,6 +1956,29 @@ begin
     MSI_SubDebug('MSI_DragItem: Succesfully clicked ' + MSI_Items[Item].Name);
 end;
 
+(*
+MSI_EquipItem
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_EquipItem(Skill, Item: Integer): Boolean;
+
+Equips the item 'Item' if the player has the required skill level of 'Skill' to
+do so.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_EquipItem(SKILL_ATTACK, PICKAXE_STEEL)) then
+    MSI_Debug('Equipped pickaxe');
+*)
 function MSI_EquipItem(Skill, Item: Integer): Boolean;
 var
   slot, lev, t, x, y: Integer;
@@ -1774,12 +2035,28 @@ begin
   MSI_CloseHeader('MSI_EquipItem: '+BoolToStr(Result));
 end;
 
-{******************************************************************************}
-{ procedure MSI_DropAll;                                                       }
-{ By: Coh3n                                                                    }
-{ Date: 06 December 2010                                                       }
-{ Description: Drops the entire inventory except the exceptions                }
-{******************************************************************************}
+(*
+MSI_DropAll
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DropAll;
+
+Uses SRL's dropping routines to drop all items in the inventory with the
+exception of the Exceptions array for the current script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_DropAll;
+*)
 procedure MSI_DropAll;
 var
   i: Integer;
