@@ -6,6 +6,9 @@ The Objects file has any function needed to find an object on the main screen,
 or even in any specified box.  These functions access MSI's global objects
 array, MSI_Objects.
 
+The source for Objects.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Objects.simba>`_.
+
 *)
 
  const
