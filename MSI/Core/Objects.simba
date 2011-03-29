@@ -777,8 +777,7 @@ begin
         WaitToMove         := False;
         BadColors          := [3686583, 2764680, 4023751];
         BadColorTolerance  := 35;
-        AssociatedItems    := MSI_LoadItemRange(FISH_RAW_SHRIMP, FISH_RAW_SWORDFISH) +
-                              MSI_LoadItemRange(FISH_COOKED_SHRIMP, FISH_COOKED_SWORDFISH);
+        AssociatedItems    := [];
       end;
 
     COOKSPOT_FIRE:

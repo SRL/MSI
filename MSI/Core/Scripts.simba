@@ -1163,7 +1163,7 @@ begin
           CookingSpot := [COOKSPOT_RANGE];
 
           Items     := [
-                        MSI_LoadItemRange(FISH_RAW_SHRIMP, FISH_RAW_SWORDFISH)
+
                        ];
         end;
 
