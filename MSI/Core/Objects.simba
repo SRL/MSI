@@ -780,9 +780,9 @@ begin
         WaitToMove         := False;
         BadColors          := [];
         BadColorTolerance  := 0;
-        AssociatedItems    := MSI_LoadItemRange(FISH_RAW_SHRIMP, FISH_RAW_SWORDFISH) +
+        AssociatedItems    := [];{MSI_LoadItemRange(FISH_RAW_SHRIMP, FISH_RAW_SWORDFISH) +
                               MSI_LoadItemRange(FISH_COOKED_SHRIMP, FISH_COOKED_SWORDFISH);
-      end;
+    }  end;
 
     COOKSPOT_FIRE:
       with MSI_Objects[whichObject] do

@@ -18,7 +18,7 @@ program MSI_Script;
 {$i MSI/MSI/Core/Setup.simba}
 
 const
-  USE_FORM = True;
+  USE_FORM = False;
 
 procedure DeclareSettings();
 begin
@@ -32,7 +32,7 @@ begin
   MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
   MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
   MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
-  MSI_SetupVars[SETUP_WALKING]       := 'Color';      // 'Reflection' or 'Color'
+  MSI_SetupVars[SETUP_WALKING]       := 'Reflection';      // 'Reflection' or 'Color'
 end;
 
 procedure DeclarePlayers;
@@ -51,13 +51,13 @@ begin
 
   with MSI_Players[0] do
   begin
-    Name       := '';      // Username
-    Pass       := '';      // Password
+    Name       := 'dart6';      // Username
+    Pass       := 'obienag';      // Password
     Nick       := '';      // Nickname (3-4 lowercase letters from username)
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
-    Member     := False;   // Is this player a member?
-    Location   := LOC_PS_DBOX;       // See instructions at the top
+    Member     := True;   // Is this player a member?
+    Location   := LOC_AK_BANK;       // See instructions at the top
     BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
     BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
     TotalLoads := 0;       // Total loads for the player to do; leave 0 if using TotalTime or to go forever
@@ -65,7 +65,8 @@ begin
 
     with Scripts[0] do
     begin
-      Name := SCRIPT_RM_YEWS;
+      Name := SCRIPT_AK_COOKER;
+      Items := [TIntegerArray([FISH_RAW_LOBSTER])];
       // Copy/paste the script attributes from the setup thread
     end;
   end;
