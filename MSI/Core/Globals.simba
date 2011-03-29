@@ -62,7 +62,7 @@ const
   MAX_POINT_DIST       = 15;    // The maximum distance between a color and reflection minimap point
   RANDOM_TIME_PERCENT  = 0.30;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
   MM_RADIUS            = 68;    // Runescape's minimap radius
-  DTM_TOLERANCE        = 15;    // Tolerance on the DTMs
+  DTM_TOLERANCE        = 8;    // Tolerance on the DTMs
   TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
 
   ENERGY_MIN = 0;
@@ -300,13 +300,13 @@ Mining or Woodcutting.
 *)
 const
   // Hatchets and pickaxes
-  REQ_BRONZE  = 1;
-  REQ_IRON    = 1;
-  REQ_STEEL   = 6;
-  REQ_MITHRIL = 21;
-  REQ_ADAMANT = 31;
-  REQ_RUNE    = 41;
-  REQ_DRAGON  = 61;
+  REQ_TOOL_BRONZE  = 1;
+  REQ_TOOL_IRON    = 1;
+  REQ_TOOL_STEEL   = 6;
+  REQ_TOOL_MITHRIL = 21;
+  REQ_TOOL_ADAMANT = 31;
+  REQ_TOOL_RUNE    = 41;
+  REQ_TOOL_DRAGON  = 61;
 
   REQ_MAX_LEVEL = 99;
 
@@ -487,8 +487,7 @@ const
 
   // Cooking spots
   COOKSPOT_FIRE   = 60;
-  COOKSPOT_RANGE  = 61;
-  COOKSPOT_EITHER = 62;
+  COOKSPOT_AK_RANGE  = 61;
 
   // Obstacles
   LADDER_DOWN_MINE_GUILD = 70;
@@ -745,12 +744,13 @@ or bank throughout MSI scripts.
 *)
 type
   TItem = record
-    Name     : string;
-    StatsName: string;
-    UpText   : TStringArray;
-    InvSlot  : Integer;
-    Stackable: Boolean;
-    DTM      : Integer;
+    Name      : string;
+    StatsName : string;
+    UpText    : TStringArray;
+    InvSlot   : Integer;
+    Stackable : Boolean;
+    EquipLevel: Integer;
+    DTM       : Integer;
   end;
 
   TItemArray = array of TItem;
@@ -768,9 +768,6 @@ type
     Produces    : TIntegerArray;
     MemberOnly  : Boolean;
     Level       : Integer;
-
-    //Cooking
-    CookingSpot : Integer;
   end;
 
   TMaterialArray = array of TMaterial;
@@ -826,27 +823,14 @@ type
     Time     : Integer; // Total time for a specific script
     MaxLevel : Integer; // The maximus skill level for that script
 
-<<<<<<< HEAD
-    // Woodcutting, Mining, Fishing, and Cooking
-    Rocks       : TIntegerArray;
-    Trees       : TIntegerArray;
-    FishSpots   : TIntegerArray;
-    CookingSpot : TIntegerArray;
-    Materials   : TIntegerArray;
-    Priority    : TIntegerArray;
-    DontDrop    : TIntegerArray; // The items the user doesn't want dropped/banked
-    Exceptions  : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
-    Loads       : Integer; // Not used yet because we don't support multiple scripts
-    Time        : Integer; // Also not used yet until we have multiple script support
-=======
     // Woodcutting, Mining, and Fishing
     Rocks      : TIntegerArray;
     Trees      : TIntegerArray;
     FishSpots  : TIntegerArray;
     Priority   : TIntegerArray;
+    Materials  : TIntegerArray;
     DontDrop   : TIntegerArray; // The items the user doesn't want dropped/banked
     Exceptions : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
->>>>>>> eb02d7e0242d6bebdf3da6bd3c3c233ad2616dc6
 
     // Magic
     Spells    : TIntegerArray;
@@ -861,7 +845,6 @@ type
 
     // Cooking
     CookingSpot : TIntegerArray;
-    Recipe      : Integer;
 
     // Not setup by the user
     Items    : array of TIntegerArray;

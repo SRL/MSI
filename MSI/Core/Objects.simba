@@ -398,15 +398,15 @@ begin
         Name               := 'Al-Kharid Bank';
         UpText             := 'ooth';
         Option             := 'uick';
-        Colors             := [10341105];
-        Tol                := 5;
-        Hue                := 0.04;
-        Sat                := 4.10;
+        Colors             := [4870229];
+        Tol                := 3;
+        Hue                := 0.76;
+        Sat                := 0.40;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 15;
-        Accuracy           := 25;
-        SearchArea         := MSBox;
+        W                  := 14;
+        H                  := 60;
+        Accuracy           := 20;
+        SearchArea         := IntToBox(MSx1, MSy1, MSCx, MSy2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
         Tries              := 5;
@@ -755,28 +755,28 @@ begin
 
     { COOKING SPOTS ============================== ]
     [============================================= }
-    COOKSPOT_RANGE:
+    COOKSPOT_AK_RANGE:
       with MSI_Objects[whichObject] do
       begin
-        Name               := 'Cooking Range';
+        Name               := 'AK Cooking Range';
         UpText             := 'Range';
         Option             := 'Range';
-        Colors             := [1581997];
-        Tol                := 4;
-        Hue                := 0.02;
-        Sat                := 0.13;
+        Colors             := [1647799];
+        Tol                := 10;
+        Hue                := 0.05;
+        Sat                := 0.18;
         FindAllColors      := False;
-        W                  := 2;
-        H                  := 5;
-        Accuracy           := 50;
-        SearchArea         := MSBox;
+        W                  := 17;
+        H                  := 15;
+        Accuracy           := 10;
+        SearchArea         := IntToBox(MSx1, MSy1, MSCx + 80, MSCy + 30);
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 5;
         Anim               := False;
         WaitToMove         := False;
-        BadColors          := [3686583, 2764680, 4023751];
-        BadColorTolerance  := 35;
+        BadColors          := [];
+        BadColorTolerance  := 0;
         AssociatedItems    := MSI_LoadItemRange(FISH_RAW_SHRIMP, FISH_RAW_SWORDFISH) +
                               MSI_LoadItemRange(FISH_COOKED_SHRIMP, FISH_COOKED_SWORDFISH);
       end;
@@ -1572,7 +1572,7 @@ Begin
           Begin
             GetMousePos(X, Y);
 
-            If (MSI_Objects[Objs[II]].RightClickOnly) Or InRange(Random(100), 0, 20) Or (Action = ClickRight) Then
+            If (MSI_Objects[Objs[II]].RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) Then
             Begin
               Mouse(X, Y, 0, 0, False);
               If (Action = ClickRight) or (Action = ClickLeft) Then
@@ -1668,5 +1668,5 @@ Function MSI_FindObject(Obj: integer; Action: fnct_ActionOptions): Boolean;
 Var
   TMP: Integer;
 Begin
-  Result := MSI_FindObjectsIn([Obj], TMP, MSBox, Action);
+  Result := MSI_FindObjectsIn([Obj], TMP, MSI_Objects[Obj].SearchArea, Action);
 End;

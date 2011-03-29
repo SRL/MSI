@@ -118,7 +118,7 @@ begin
         objs := Scripts[CurrentScript].FishSpots;
 
       SKILL_COOKING:
-        objs := Scripts[CurrentScript].CookingSpot;
+        objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Items[0];
     end;
 
     for j := 0 to High(objs) do
@@ -275,13 +275,6 @@ var
 begin
   if (not LoggedIn) then
     Exit;
-
-  if (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
-  begin
-    MSI_SubDebug('No items in inventory');
-    Result := True;
-    Exit;
-  end;
 
   MSI_AddHeader('MSI_BankMaterials');
   MSI_CountItems;
@@ -905,7 +898,7 @@ the global and player settings.  Called only once in RunMe.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 03 November 2010 by Coh3n
+  | Last Updated: 28 March 2011 by NCDS
 
 Example:
 
@@ -978,6 +971,7 @@ begin
       // If player's in middle of path with > 15 items, will walk to bank and deposit
       if (skipToBank) then
       begin
+        MSI_SubDebug('Player has > 15 items, banking..');
         skipToBank := False;
         goto WalkToBank;
       end;
@@ -986,10 +980,21 @@ begin
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
         // Deposits excess items if already at a bank
-        if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) or MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials then
-          if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
-            if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
-              goto AtBank;
+        if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials) then
+          if (CountItems('dtm', MSI_Items[MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]].Supplies[0][0]].DTM, [DTM_TOLERANCE]) <= 0) then
+          begin
+            MSI_Debug('Withdrawing items..');
+            goto AtBank;
+          end;
+
+        if (not MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials) then
+          if ((InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions))) then
+            if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
+              if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
+              begin
+                MSI_Debug('Found items in inventory, depositing..');
+                goto AtBank;
+              end;
 
         if (not MSI_Walk(True)) then
         begin

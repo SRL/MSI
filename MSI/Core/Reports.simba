@@ -136,11 +136,12 @@ const
   TOTAL_ROCKS = 4;
   TOTAL_FISH  = 5;
   TOTAL_CASTS = 6;
+  TOTAL_COOKS = 7;
 
 procedure MSI_ShortReport(FileName: Integer);
 var
   i, j, k, l: Integer;
-  totals: array[0..6] of Integer;
+  totals: array[0..7] of Integer;
   labels: TStringArray;
 begin
   MSI_PrintSave(FileName, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
@@ -176,6 +177,9 @@ begin
 
             SKILL_FISHING:
               IncEx(totals[TOTAL_FISH], ReportInfo.ItemAmounts[j][k][l]);
+
+            SKILL_COOKING:
+              IncEx(totals[TOTAL_COOKS], ReportInfo.ItemAmounts[j][k][l]);
           end;
     end;
   end;
@@ -187,7 +191,7 @@ begin
     MSI_PrintSave(FileName, '{         - '+PadR('Randoms Failed:  '+IntToStr(Length(RandomsResult(Result_Randoms_Failed))), 53)+'}');
   {$ENDIF}
 
-  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:'];
+  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:'];
   for i := 0 to High(totals) do
   begin
     if ((totals[i] <= 0) or (labels[i] = '')) then
@@ -332,7 +336,7 @@ begin
           MSI_PrintSave(MSI_Files[FILE_REPORT], '{       ' + PadR('Level: ' + IntToStr(ReportInfo.SkillLevels[j]), 57) + '}');
 
         case MSI_Scripts[Scripts[j].Name].SkillConst of
-          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING:
+          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING, SKILL_COOKING:
             MSI_StandardReport(MSI_Files[FILE_REPORT], i, j);
 
           SKILL_MAGIC:

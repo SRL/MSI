@@ -1,25 +1,34 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                                  Skills.scar                                 |
-|==============================================================================|
-| For all general skill support                                                |
-|                                                                              |
-| * procedure MSI_SetSkillLevels;                     * by Coh3n               |
-| * function MSI_BestTool: Integer;                   * by Coh3n               |
-| * function MSI_WorstTool: Integer;                  * by Coh3n               |
-| * function MSI_RandomizeArray(): TIntegerArray;     * by Coh3n & NCDS        |
-| * function MSI_SumTIA(): Integer;                   * by Sir R. Magician     |
-| * function MSI_ChooseObjects(): Integer;            * by RM, Coh3n, NCDS     |
-| * function MSI_RearrangeArray(): TIntegerArray;     * by Coh3n & NCDS        |
-| * function MSI_AutoInvFull(): Boolean;              * by Coh3n               |
- \_____________________________________________________________________________}
+(*
+Skills
+======
 
-{******************************************************************************}
-{ procedure MSI_SetSkillLevels();                                              }
-{ By: Coh3n                                                                    }
-{ Date: 24 October 2010                                                        }
-{ Description: Gets the player's skill levels for each script                  }
-{******************************************************************************}
+The Skills file holds any routines that are used for multiple skills and that
+don't fit into any other include file.
+
+*)
+
+(*
+MSI_SetSkillLevels
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetSkillLevels();
+
+Gets and sets each player's skill levels for each on if their scripts.  This
+procedure is called before the progress report.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 24 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetSkillLevels();
+*)
 procedure MSI_SetSkillLevels();
 var
   i, curLev: Integer;
@@ -55,13 +64,29 @@ begin
   MSI_CloseHeader('MSI_SetSkillLevels: Finished');
 end;
 
-{******************************************************************************}
-{ function MSI_BestTool: Integer;                                              }
-{ By: Coh3n                                                                    }
-{ Date: 05 October 2010                                                        }
-{ Description: Determines the best tool for the chosen skill. Keep in mind     }
-{              this may not be used for every skill                            }
-{******************************************************************************}
+(*
+MSI_BestTool
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_BestTool: Integer;
+
+Determines the best tool for the current player's current script.  This probably
+will not be used for every skill or script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 05 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := MSI_BestTool downto MSI_WorstTool do
+    Result := MSI_FindTool(i, TAB_INV, x, y);
+*)
 function MSI_BestTool: Integer;
 begin
   if (not LoggedIn) then
@@ -72,11 +97,11 @@ begin
     case (SkillConst) of
       SKILL_WOODCUTTING:
         case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
-          REQ_DRAGON..REQ_MAX_LEVEL: Result := HATCHET_DRAGON;
-          REQ_RUNE..REQ_DRAGON     : Result := HATCHET_RUNE;
-          REQ_ADAMANT..REQ_RUNE    : Result := HATCHET_ADAMANT;
-          REQ_MITHRIL..REQ_ADAMANT : Result := HATCHET_MITHRIL;
-          REQ_STEEL..REQ_MITHRIL   : Result := HATCHET_STEEL;
+          REQ_TOOL_DRAGON..REQ_MAX_LEVEL     : Result := HATCHET_DRAGON;
+          REQ_TOOL_RUNE..REQ_TOOL_DRAGON     : Result := HATCHET_RUNE;
+          REQ_TOOL_ADAMANT..REQ_TOOL_RUNE    : Result := HATCHET_ADAMANT;
+          REQ_TOOL_MITHRIL..REQ_TOOL_ADAMANT : Result := HATCHET_MITHRIL;
+          REQ_TOOL_STEEL..REQ_TOOL_MITHRIL   : Result := HATCHET_STEEL;
 
           else
             Result := HATCHET_IRON;
@@ -84,11 +109,11 @@ begin
 
       SKILL_MINING:
         case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
-          REQ_DRAGON..REQ_MAX_LEVEL: Result := PICKAXE_DRAGON;
-          REQ_RUNE..REQ_DRAGON     : Result := PICKAXE_RUNE;
-          REQ_ADAMANT..REQ_RUNE    : Result := PICKAXE_ADAMANT;
-          REQ_MITHRIL..REQ_ADAMANT : Result := PICKAXE_MITHRIL;
-          REQ_STEEL..REQ_MITHRIL   : Result := PICKAXE_STEEL;
+          REQ_TOOL_DRAGON..REQ_MAX_LEVEL     : Result := PICKAXE_DRAGON;
+          REQ_TOOL_RUNE..REQ_TOOL_DRAGON     : Result := PICKAXE_RUNE;
+          REQ_TOOL_ADAMANT..REQ_TOOL_RUNE    : Result := PICKAXE_ADAMANT;
+          REQ_TOOL_MITHRIL..REQ_TOOL_ADAMANT : Result := PICKAXE_MITHRIL;
+          REQ_TOOL_STEEL..REQ_TOOL_MITHRIL   : Result := PICKAXE_STEEL;
 
           else
             Result := PICKAXE_IRON;
@@ -102,12 +127,29 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ function MSI_WorstTool: Integer;                                             }
-{ By: Coh3n                                                                    }
-{ Date: 05 October 2010                                                        }
-{ Description: Determines the worst tool for the job at hand.                  }
-{******************************************************************************}
+(*
+MSI_WorstTool
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WorstTool: Integer;
+
+Determines the worst tool for the current player's current script.
+This probably will not be used for every skill or script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 05 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := MSI_BestTool downto MSI_WorstTool do
+    Result := MSI_FindTool(i, TAB_INV, x, y);
+*)
 function MSI_WorstTool: Integer;
 begin
   if (not LoggedIn) then
@@ -126,12 +168,29 @@ begin
     end;
 end;
 
-{******************************************************************************}
-{ function MSI_RandomizeArray(Objs: TIntegerArray): TIntegerArray;             }
-{ By: NCDS & Coh3n                                                             }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Returns the Objects array in a random order                     }
-{******************************************************************************}
+(*
+MSI_RandomizeArray
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_RandomizeArray(Objs: TIntegerArray): TIntegerArray;
+
+Returns the array of integers, 'Objs', in a random order.  This is used so the
+user can set MSI's Priority Autoing feature so it will look for one object
+(i.e. look for one tree) over another.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_FindObjects(MSI_RandomizeArray([TREE_NORMAL, TREE_OAK, TREE_WILLOW]), i, ClickLeft);
+*)
 function MSI_RandomizeArray(Objs: TIntegerArray): TIntegerArray;
 var
   i, o: Integer;
@@ -148,12 +207,30 @@ begin
     end;
 end;
 
-{******************************************************************************}
-{ function MSI_ChooseObject(Priorities: TIntegerArray): Integer;               }
-{ By: RM, Coh3n, NCDS                                                          }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Chooses an Object based on 'Priorities'                         }
-{******************************************************************************}
+(*
+MSI_ChooseObject
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ChooseObject(Priorities: TIntegerArray): Integer;
+
+Chooses an index from 'Priorities' based on the index's value.  The higher the
+index value, the higher chance it has of being chosen.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 20 September 2010 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  objs := [TREE_NORMAL, TREE_OAK, TREE_WILLOW];
+  obj := MSI_ChooseObject([10, 30, 60]);
+  MSI_FindObject(objs[obj], ClickLeft);
+*)
 function MSI_ChooseObject(Priorities: TIntegerArray): Integer;
 var
   TIA: TIntegerArray;
@@ -175,12 +252,28 @@ begin
       break;
 end;
 
-{******************************************************************************}
-{ function MSI_RearrangeArray(Objs, Priorities: TIntegerArray): TIntegerArray; }
-{ By: NCDS & Coh3n                                                             }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Returns the Objs array in a rearranged order                    }
-{******************************************************************************}
+(*
+MSI_RearrangeArray
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_RearrangeArray(Objs, Priorities: TIntegerArray): TIntegerArray;
+
+Returns the array 'Objs' in a rearranged order based on 'Priorities'.  Uses a
+combination of MSI_RandomizeArray and MSI_ChooseObject.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  objs := MSI_RearrangeArray([TREE_NORMAL, TREE_OAK], [30, 70]);
+*)
 function MSI_RearrangeArray(Objs, Priorities: TIntegerArray): TIntegerArray;
 var
   i, o: Integer;
@@ -203,18 +296,53 @@ begin
     end;
 end;
 
+(*
+MSI_CB_DoAllScreen
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_CB_DoAllScreen: Boolean;
+
+Detects if the chat box option menu is open.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 22 March 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  Result := MSI_CB_DoAllScreen;
+*)
 function MSI_CB_DoAllScreen: Boolean;
 begin
   Result := (GetColor(497, 367) = 5025494);
 end;
 
-{******************************************************************************}
-{ function MSI_AutoInvFull(...): Boolean;                                      }
-{ By: Coh3n                                                                    }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Used to avoid a lot of repeated code; currently used for        }
-{              Woodcutting, Mining and Fishing                                 }
-{******************************************************************************}
+(*
+MSI_AutoInvFull
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_AutoInvFull(Func: function(a: TIntegerArray; var b: Boolean): Boolean): Boolean;
+
+Repeats the function 'Func' until the inventory is full.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  Result := MSI_AutoInvFull(@MSI_ChopTree);
+*)
 function MSI_AutoInvFull(Func: function(a: TIntegerArray; var b: Boolean): Boolean): Boolean;
 var
   t, waitTime, tTime: Integer;
@@ -238,6 +366,7 @@ begin
             SKILL_WOODCUTTING: tObjects := Trees;
             SKILL_MINING: tObjects := Rocks;
             SKILL_FISHING: tObjects := FishSpots;
+            SKILL_COOKING: tObjects := CookingSpot;
           end;
 
         if (not MSI_Scripts[Scripts[CurrentScript].Name].ClickClosest) then

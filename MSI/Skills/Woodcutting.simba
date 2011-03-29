@@ -1,25 +1,44 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                              WoodCutting.scar                                |
-|==============================================================================|
-| For all woodcutting routines.                                                |
-|                                                                              |
-| * function MSI_SetupWoodcutting: Boolean;       * by Coh3n                   |
-| * function MSI_FindBirdNest: Boolean;           * by NCDS                    |
-| * procedure MSI_WaitWhileChopping();            * by marpis                  |
-| * function MSI_ChopTree(): Boolean;             * by marpis                  |
-| * function MSI_ChopInvFull(): Boolean;          * Coh3n                      |
-\ _____________________________________________________________________________}
+(*
+Woodcutting
+===========
+
+The Woodcutting file holds all the functions/procedures that are used
+specifically for the Woodcutting skill.
+
+The source for Woodcutting.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Woodcutting.simba>`_.
+
+*)
 
 const
   TREE_MAX_DIST = 75; // Maximum pixel distance from tracking box to player
 
-{******************************************************************************}
-{ function MSI_SetupWoodcutting(): Boolean;                                    }
-{ By: Coh3n                                                                    }
-{ Date: 06 October 2010                                                        }
-{ Description: Sets up the player for woodcutting                              }
-{******************************************************************************}
+(*
+MSI_SetupWoodcutting
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetupWoodcutting(): Boolean;
+
+Sets the player up for Woodcutting.  Will start by looking for the best hatchet
+depending on the player's skill level.  Will check both the equipment and
+inventory tabs.  If a hatchet can't be found, it will attempt to withdraw one
+from the bank (if player is at a bank), and equip it depending on the player's
+attack level.  This function is pointed to any woodcutting script's
+'PlayerSetup' attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_TREES].PlayerSetup := @MSI_SetupWoodcutting;
+*)
 function MSI_SetupWoodcutting(): Boolean;
 var
   i, j, x, y: Integer;
@@ -28,7 +47,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  MSI_AddHeader('MSI_SetupWoodcutting');
+  MSI_AddHeader('MSI_SetupWC/Mining');
 
   // If it's already on the inventory, it will search there first
   if (GetCurrentTab = TAB_INV) then
@@ -58,15 +77,32 @@ begin
         if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // If player is at a bank
           Result := MSI_WithdrawBestTool();
 
-  MSI_CloseHeader('MSI_SetupWoodcutting: ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_SetupWC/Mining: ' + BoolToStr(Result));
 end;
 
-{******************************************************************************}
-{ function MSI_FindBirdNest: Boolean;                                          }
-{ By: NCDS                                                                     }
-{ Date: 21 July 2010                                                           }
-{ Description: Find and pick up bird nest                                      }
-{******************************************************************************}
+(*
+MSI_FindBirdNest
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindBirdNest(): Boolean;
+
+Finds and picks up birds nest if fallen from a tree.  This function is only
+called in MSI_WaitWhileChopping, and if the current player is a member.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 21 July 2010 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindBirdNest) then
+    MSI_Debug('Found and picked up bird's nest');
+*)
 function MSI_FindBirdNest: Boolean;
 var
   SearchBox: TBox;
@@ -90,12 +126,30 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ Procedure WaitWhileChopping(TreeX, TreeY: Integer; TreeInfo: TMSObject);     }
-{ By: marpis & NCDS                                                            }
-{ Date: 07 September 2010                                                      }
-{ Description: Wait while tree's been cut                                      }
-{******************************************************************************}
+(*
+MSI_WaitWhileChopping
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_WaitWhileChopping(TreeID: Integer);
+
+Waits while the player is chopping a tree.  This procedure has a lot of
+failsafes including looking for the tree in a box close to the player (after
+tracking the object), inventory checks, and animation checks.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 07 September 2010 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if MSI_FindObject(TREE_NORMAL, ClickLeft) then
+    MSI_WaitWhileChopping(TREE_NORMAL);
+*)
 Procedure MSI_WaitWhileChopping(TreeID: integer);
 Var
   CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist, prevLen: Integer;
@@ -236,12 +290,31 @@ Begin
   SetColorSpeed2Modifiers(0.2, 0.2);
 End;
 
-{******************************************************************************}
-{ Function MSI_ChopTree(Which: TIntegerArray): Boolean;                        }
-{ By: marpis                                                                   }
-{ Date: 25 June 2010                                                           }
-{ Description: Chops tree                                                      }
-{******************************************************************************}
+(*
+MSI_ChopTree
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ChopTree(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+
+Finds and chops the first tree found in the array 'Which'.  'ForceFail' is used
+to deliberately make the function fail if for some reason the player's hatchet
+was lost, for example.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 25 June 2010 by marpis
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ChopTree([TREE_NORMAL, TREE_OAK], fail)) then
+    if (not fail) then
+      MSI_Debug('Chopped tree');
+*)
 function MSI_ChopTree(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
 var
   TreeIndex: Integer;
@@ -259,12 +332,28 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ Function MSI_ChopInvFull(Which: TIntegerArray): Boolean;                     }
-{ By: Coh3n                                                                    }
-{ Date: 20 September 2010                                                      }
-{ Description: Chops trees until inventory is full                             }
-{******************************************************************************}
+(*
+MSI_ChopInvFull
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ChopInvFull: Boolean;
+
+Calls MSI_AutoInvFull (Skills.simba).  This is the function that is pointed to
+a Woodcutting script's 'AutoObjects' attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_TREES].AutoObjects := @MSI_ChopInvFull;
+*)
 function MSI_ChopInvFull: Boolean;
 begin
   Result := MSI_AutoInvFull(@MSI_ChopTree); // MSI_AutoInvFull in Skills.simba
