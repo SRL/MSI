@@ -385,65 +385,30 @@ begin
   SetLength(itemsWithdrew, Length(Items));
 
   for i := 0 to High(Items) do
-<<<<<<< HEAD
-  begin
-    for ii := 0 to 4 do
-    begin
-      FindDTMs(MSI_Items[Items[i]].DTM, p, MBX1, MBY1, MBX2, MBY2);
-      if (Length(p) > 0) then
-        Break;
-      Wait(100 + Random(25));
-    end;
-    if (Length(p) < 1) then
-    begin
-      MSI_Debug('Failed to find item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-      Exit;
-    end else
-    for ii := 0 to High(p) do
-    begin
-      MMouse(p[ii].x, p[ii].y, 4, 4);
-      if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 400) then
-        Break;
-      if ii = High(p) - 1 then
-      begin
-        MSI_Debug('Failed to find item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-        Exit;
-      end;
-    end;
-    MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-    GetMousePos(x, y);
-    if (Amounts[i] = 1) then
-    begin
-      Mouse(x, y, 0, 0, True);
-      itemsWithdrew[i] := True;
-      Continue;
-    end else
-      Mouse(x, y, 0, 0, False);
-
-    if (Amounts[i] = -1) then
-      itemsWithdrew[i] := WaitOption('-All', 500)
-    else
-      if (InIntArray([5, 10], Amounts[i])) then
-        itemsWithdrew[i] := WaitOption('-'+IntToStr(Amounts[i]), 500)
-      else
-        if (WaitOption('-X', 500)) then
-          if (WaitColor(254, 401, ClBlack, 0, 1200)) then
-          begin
-            TypeSend(IntToStr(Amounts[i]));
-            itemsWithdrew[i] := True;
-          end;
-  end;
-=======
-    if (WaitCondition(FindDTM(MSI_Items[Items[i]].DTM, x, y, MBX1, MBY1, MBX2, MBY2), 250, 5000)) then
+    if (WaitCondition(FindDTMs(MSI_Items[Items[i]].DTM, p, MBX1, MBY1, MBX2, MBY2), 250, 5000)) then
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
 
-      MMouse(x, y, 4, 4);
-      if (WaitUptextMulti(MSI_Items[Items[i]].Uptext, 500)) then
-        if (Amounts[i] = 1) then
-          Mouse(x, y, 4, 4, True)
-        else
-          Mouse(x, y, 4, 4, False);
+      for ii := 0 to High(p) do
+      begin
+        MMouse(p[ii].x, p[ii].y, 4, 4);
+        if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 400) then
+          Break;
+        if ii = High(p) - 1 then
+        begin
+          MSI_Debug('Failed to find item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
+          Exit;
+        end;
+      end;
+      MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
+      GetMousePos(x, y);
+      if (Amounts[i] = 1) then
+      begin
+        Mouse(x, y, 0, 0, True);
+        itemsWithdrew[i] := True;
+        Continue;
+      end else
+        Mouse(x, y, 0, 0, False);
 
       if (Amounts[i] = -1) then
         WaitOption('-All', 500)
@@ -457,7 +422,6 @@ begin
 
       itemsWithdrew[i] := WaitCondition(FindDTM(MSI_Items[Items[i]].DTM, x, y, MIX1, MIY1, MIX2, MIY2), 250, 5000);
     end;
->>>>>>> 826cae89c7b1f798494852c8b6432583075ef27a
 
   for i := 0 to High(itemsWithdrew) do
     if (not itemsWithdrew[i]) then // Returns false if it fails to withdraw one item
@@ -577,11 +541,7 @@ function MSI_BankStandard: Boolean;
 var
   intItems: TIntegerArray;
   itemsDeposited: TBooleanArray;
-<<<<<<< HEAD
   i, Total, x, y, Material: Integer;
-=======
-  i: Integer;
->>>>>>> 826cae89c7b1f798494852c8b6432583075ef27a
   depAll: Boolean;
   Script: TScript;
 begin
