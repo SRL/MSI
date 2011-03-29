@@ -569,14 +569,15 @@ begin
 
   Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
   SetLength(obsSolved, Length(Script.PathInfo.Obstacles));
-  eTPA := MSI_MirrorTPA(Script.PathInfo.EndLoc);
 
   if (ReflectionBroken) then
   begin
     ATPA := MSI_LoadPath(sLoc, eLoc, True);
+    eTPA := MSI_MirrorTPA(MSI_Locations[Script.PathInfo.EndLoc].Points);
     Walked := @MSI_WalkColorPath;
   end else begin
     ATPA := MSI_LoadPath(sLoc, eLoc, False);
+    eTPA := MSI_MirrorTPA(MSI_Locations[Script.PathInfo.EndLoc].Tiles);
     Walked := @MSI_WalkTilePath;
   end;
 
