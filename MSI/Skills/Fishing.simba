@@ -1,26 +1,37 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                              Fishing.scar                                    |
-|==============================================================================|
-| For all fishing routines.                                                    |
-|                                                                              |
-| * function MSI_FishingTools()                  * by 3Garrett3                |
-| * function MSI_SetupFishing: Boolean;          * by Coh3n                    |
-| * function MSI_DetectWaterDirections();        * by 3Garrett3                |
-| * function MSI_DetectSide();                   * by 3Garrett3                |
-| * function MSI_FishPixels();                   * by 3Garrett3                |
-| * function MSI_FishGear();                     * by 3Garrett3                |
-| * procedure MSI_WaitWhileFishing();            * by 3Garrett3                |
-| * function MSI_Fish();                         * by 3Garrett3                |
-| * function MSI_FishInvFull();                  * by Coh3n                    |
-\ _____________________________________________________________________________}
+(*
+Fishing
+=======
 
-{******************************************************************************}
-{ function MSI_FishingTools(Obj: Integer): TIntegerArray;                      }
-{ By: 3Garrett3                                                                }
-{ Date: 07 Octovber 2010                                                       }
-{ Description: Figures out which tool the script needs to use                  }
-{******************************************************************************}
+The Fishing file stores any functions or procedures that are specific to the
+fishing skill.
+
+The source for Fishing.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Fishing.simba>`_.
+
+*)
+
+(*
+MSI_FishingTools
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FishingTools(Obj: Integer): TIntegerArray;
+
+Returns all the required fishing tools to fish at the fishing spot 'Obj'.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 07 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  // This will return the constant values for a fly fishing tod and feathers
+  tools := MSI_FishingTools(FISHSPOT_LURE);
+*)
 function MSI_FishingTools(Obj: Integer): TIntegerArray;
 begin
   case (Obj) of
@@ -46,12 +57,31 @@ begin
   MSI_SubDebug('Tools: ' + ToStr(Result));
 end;
 
-{******************************************************************************}
-{ function MSI_SetupFishing(): Boolean;                                        }
-{ By: Coh3n                                                                    }
-{ Date: 06 October 2010                                                        }
-{ Description: Sets up the player for fishing                                  }
-{******************************************************************************}
+(*
+MSI_SetupFishing
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetupFishing(): Boolean;
+
+Sets the player up for fishing.  Will look for all the required tools for each
+of the players fishing spots.  If a tool(s) isn't found, will attempt to
+withdraw from the bank.  If the tool can't be withdrawn, the fishing spot is
+removed from the player's fishing spots.  This is the procedure that is
+pointed to a fishing script's 'PlayerSetup' attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_DB_FISHER].PlayerSetup := @MSI_SetupFishing;
+*)
 function MSI_SetupFishing(): Boolean;
 var
   i, j, t, x, y: Integer;
@@ -138,12 +168,29 @@ begin
   MSI_CloseHeader('MSI_SetupFishing: ' + BoolToStr(Result));
 end;
 
-{******************************************************************************}
-{ Function MSI_DetectWaterDirections() : TBoolArray                            }
-{ By: 3Garrett3                                                                }
-{ Date: 24 August 2010                                                         }
-{ Description: Finds the directions of water, helping find the fishing spot    }
-{******************************************************************************}
+(*
+MSI_DetectWaterDirections
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_DetectWaterDirections(var Counts: TIntegerArray): TBoolArray;
+
+Detects where there is water on the main screen.  Used as an aid when finding
+fishing spots.  Returns the length of a TPA for each direction around the
+player.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 24 August 2010 by 3Garrett3
+
+Example:
+
+.. code-block:: pascal
+
+  Water := MSI_DetectWaterDirections(WaterCounts);
+*)
 Function MSI_DetectWaterDirections(var Counts : TIntegerArray) : TBoolArray; // Array - 0 = right  1 = left 2 = below 3 = above
 var
   ATPA : T2DPointArray;
@@ -174,12 +221,28 @@ begin
   ColorToleranceSpeed(cts);
 end;
 
-{******************************************************************************}
-{ Function MSI_DetectSide: String                                             }
-{ By: 3Garrett3                                                                }
-{ Date: 24 August 2010                                                         }
-{ Description: Finds the direction of a fishing spot and returns compass angle }
-{******************************************************************************}
+(*
+MSI_DetectSide
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_DetectSide: String;
+
+Detects the direction of the closest fishing spot and returns the compass angle
+that is ideal to detect and track the fishing spot.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 24 August 2010 by 3Garrett3
+
+Example:
+
+.. code-block:: pascal
+
+  MakeCompass(MSI_DetectSide);
+*)
 Function MSI_DetectSide: String;
 var
   Water : TBoolArray;
@@ -285,12 +348,29 @@ begin
   end;
 end;
 
-{******************************************************************************}
-{ Procedure MSI_FishPixels                                                     }
-{ By: 3Garrett3                                                                }
-{ Date: 25 July 2010                                                           }
-{ Description: Detects the pixelshift to decide if fishing                     }
-{******************************************************************************}
+(*
+MSI_FishPixels
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FishPixels(TWait, TCount: Integer; TTBox: TBox): Boolean;
+
+Examines the pixel shifts around the player to determine whether or not they
+are fishing.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 25 July 2010 by 3Garret3
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FishPixels(3000, 160, IntToBox(MSCX - 20, MSCY - 20, MSCX + 20, MSCY + 20)) then
+    MSI_Debug('We are fishing');
+*)
 Function MSI_FishPixels(TWait, TCount : Integer; TTBox : TBox) : Boolean;
 var
   Shifts, FinalCount, Waiting : Integer;
@@ -311,12 +391,29 @@ begin
   Result := (FinalCount >= TCount);
 end;
 
-{******************************************************************************}
-{ Procedure MSI_FishGear                                                       }
-{ By: 3Garrett3                                                                }
-{ Date: 25 July 2010                                                           }
-{ Description: Detects fishing gear on the screen                              }
-{******************************************************************************}
+(*
+MSI_FishGear
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FishGear(TColour, TTol, TCount, TWait: Integer; THue, TSat: Extended; TTBox: TBox): Boolean;
+
+Looks for the color of the different fishing tools on the main screen.  Returns
+true if found.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 25 July 2010 by 3Garret3
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FishGear(col, tol, count, waitTime, hue, sat, searchBox)) then
+    MSI_Debug('We are fishing');
+*)
 Function MSI_FishGear(TColour, TTol, TCount, TWait : Integer; THue, TSat : Extended; TTBox : TBox) : Boolean;
 var
   FinalCount, Waiting, cts : Integer;
@@ -343,12 +440,31 @@ begin
   ColorToleranceSpeed(cts);
 end;
 
-{******************************************************************************}
-{ Procedure MSI_WaitWhileFishing                                               }
-{ By: 3Garrett3                                                                }
-{ Date: 25 July 2010                                                           }
-{ Description: Waits while fishing                                             }
-{******************************************************************************}
+(*
+MSI_WaitWhileFishing
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_WaitWhileFishing(var Failed: Boolean);
+
+Waits while the player is fishing.  Uses a combination of inventory checks,
+main screen tool finding, and animations to detemerine whether or not the
+player is still fishing.  If the procedure fails for some reason, 'Failed'
+returns false.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 25 July 2010 by 3Garret3
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindObject(FISHSPOT_NET, ClickLeft)) then
+    Result := MSI_WaitWhileFishing(failed);
+*)
 procedure MSI_WaitWhileFishing(var Failed: Boolean);
 var
   OldInvCount, WaitTime, InvTimer, i, x, y : Integer;
@@ -492,12 +608,31 @@ begin
   MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
 end;
 
-{******************************************************************************}
-{ Function MSI_Fish : Boolean                                                  }
-{ By: 3Garrett3                                                                }
-{ Date: 25 July 2010                                                           }
-{ Description: Finds the fishing spot                                          }
-{******************************************************************************}
+(*
+MSI_Fish
+~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Fish(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+
+Fishes at the first fishing spot it finds from the array 'Which'.  Will return
+false if the player runs out of bait or loses a required tool.  If such a thing
+happens, that fishing spot is removed from the player's fishing spots array.
+
+.. note::
+
+  | Author: 3Garrett3
+  | Last Updated: 25 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_Fish([FISHSPOT_NET], fail)) then
+    if (not fail) then
+      MSI_Debug('Fished');
+*)
 function MSI_Fish(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
 var
   Index, t, i: Integer;
@@ -546,12 +681,29 @@ begin
     MSI_FindRandoms(False);
 end;
 
-{******************************************************************************}
-{ Function MSI_FishInvFull(Which: TIntegerArray): Boolean;                     }
-{ By: Coh3n                                                                    }
-{ Date: 20 Sept 2010                                                           }
-{ Description: Fishes until full inventory                                     }
-{******************************************************************************}
+(*
+MSI_Fish
+~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Fish(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+
+Calls MSI_AutoInvFull (
+`Skills.simba <https://github.com/SRL/MSI/raw/master/MSI/Skills/Skills.simba>`_)
+and is pointed to a fishing script's 'AutoObjects' attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_DB_FISHER].AutoObjects := @MSI_FishInvFull;
+*)
 function MSI_FishInvFull: Boolean;
 begin
   Result := MSI_AutoInvFull(@MSI_Fish); // MSI_AutoInvFull in Skills.simba
