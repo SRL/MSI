@@ -5,6 +5,9 @@ Magic
 The Magic file contains all the routines used for the Magic still. It handles
 everything from player setup to mini-mainloops.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Magic.simba>`_.
+
 *)
 
 const

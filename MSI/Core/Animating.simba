@@ -5,6 +5,9 @@ Animating
 The Animating file includes any procedures/functions MSI uses for animating. It
 includes the loading of the different animations.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Animating.simba>`_.
+
 *)
 
 (*

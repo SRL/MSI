@@ -5,6 +5,9 @@ Mining
 The Mining file holds any functions or procedures that are specific to the
 Mining skill.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Mining.simba>`_.
+
 *)
 
 const

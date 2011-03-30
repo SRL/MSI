@@ -5,6 +5,9 @@ Obstacles
 The Obstacles file includes all routines that are used to solve obstacles such
 as climbing a ladder or climbing over a wall.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Obstacles.simba>`_.
+
 *)
 
 (*

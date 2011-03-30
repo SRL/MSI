@@ -5,6 +5,9 @@ Banking
 The Antiban file includes MSI's custom banking procedures. It uses MSI's
 object finding methods to interact with banks NPCs.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Banking.simba>`_.
+
 *)
 
 (*

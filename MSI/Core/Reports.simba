@@ -4,6 +4,9 @@ Reports
 
 The Reports file includes all the different elements of MSI's progress report.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Core.simba>`_.
+
 *)
 
 (*

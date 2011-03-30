@@ -7,6 +7,9 @@ declared.  There are some exceptions, however, which are used in the different
 skill files.  Keep in mind that any of MSI's global arrays are only accessable
 after MSI_Setup has been called.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Globals.simba>`_.
+
 *)
 
 (*

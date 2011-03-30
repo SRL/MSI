@@ -4,6 +4,9 @@ Debug
 
 The Debug file includes all MSI's debugging procedures.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Debug.simba>`_.
+
 *)
 
 (*
