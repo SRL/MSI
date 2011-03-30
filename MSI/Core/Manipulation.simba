@@ -7,7 +7,7 @@ something or converts it to something else. Something like converting a string
 array to an integer array.
 
 The source for can be found
-`here <https://github.com/SRL/MSI/raw/master/MSI/SCore/Manipulation.simba>`_.
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Manipulation.simba>`_.
 
 *)
 
