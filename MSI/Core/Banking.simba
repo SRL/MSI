@@ -173,12 +173,13 @@ begin
     if (not DepositScreen) then
       Exit;
 
-  if (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
-  begin
-    MSI_SubDebug('No items in inventory');
-    Result := True;
-    Exit;
-  end;
+  if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = Bank) then
+    if (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+    begin
+      MSI_SubDebug('No items in inventory');
+      Result := True;
+      Exit;
+    end;
 
   MSI_AddHeader('MSI_Deposit');
 
@@ -266,6 +267,65 @@ begin
 end;
 
 (*
+MSI_DepositExcessItems
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_DepositExcessItems(): Boolean;
+
+Used to deposit miscellaneous items obtained during autoing such as gems or
+random event items.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 29 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_OpenBank(MSI_BANK_FE)) then
+    if (MSI_DepositExcessItems) then
+      MSI_Debug('Deposited unneeded items');
+*)
+function MSI_DepositExcessItems(): Boolean;
+var
+  i, x, y: Integer;
+  b: TBox;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  for i := 1 to 28 do
+  begin
+    if (InIntArray(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions, i)) then
+      Continue;
+
+    case MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType of
+      Bank: b := InvBox(i);
+      DBox: b := DepositItemBox(i);
+    end;
+
+    if (FindColor(x, y, SRL_OUTLINE_BLACK, b.x1, b.y1, b.x2, b.y2)) then
+    begin
+      MMouse(x, y, 5, 5);
+
+      if (WaitUptext('osit', 500)) then
+        if (GetAmount(x, y) > 1) then
+        begin
+          Mouse(x, y, 0, 0, False);
+          WaitOption('osit-All', 500);
+        end else
+          Mouse(x, y, 0, 0, True);
+
+      Wait(RandomRange(200, 500));
+    end;
+  end;
+end;
+
+(*
 MSI_Withdraw
 ~~~~~~~~~~~~
 
@@ -312,33 +372,29 @@ begin
   SetLength(itemsWithdrew, Length(Items));
 
   for i := 0 to High(Items) do
-  begin
-    if (FindItem(x, y, 'dtm', MSI_Items[Items[i]].DTM, MBX1, MBY1, MBX2, MBY2, [])) then
+    if (WaitCondition(FindDTM(MSI_Items[Items[i]].DTM, x, y, MBX1, MBY1, MBX2, MBY2), 250, 5000)) then
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
 
-      if (Amounts[i] = 1) then
-      begin
-        Mouse(x, y, 4, 4, True);
-        itemsWithdrew[i] := True;
-        Continue;
-      end else
-        Mouse(x, y, 4, 4, False);
+      MMouse(x, y, 4, 4);
+      if (WaitUptextMulti(MSI_Items[Items[i]].Uptext, 500)) then
+        if (Amounts[i] = 1) then
+          Mouse(x, y, 4, 4, True)
+        else
+          Mouse(x, y, 4, 4, False);
 
       if (Amounts[i] = -1) then
-        itemsWithdrew[i] := WaitOption('-All', 500)
+        WaitOption('-All', 500)
       else
         if (InIntArray([5, 10], Amounts[i])) then
-          itemsWithdrew[i] := WaitOption('-'+IntToStr(Amounts[i]), 500)
+          WaitOption('-'+IntToStr(Amounts[i]), 500)
         else
           if (WaitOption('-X', 500)) then
             if (WaitColor(254, 401, ClBlack, 0, 1200)) then
-            begin
               TypeSend(IntToStr(Amounts[i]));
-              itemsWithdrew[i] := True;
-            end;
+
+      itemsWithdrew[i] := WaitCondition(FindDTM(MSI_Items[Items[i]].DTM, x, y, MIX1, MIY1, MIX2, MIY2), 250, 5000);
     end;
-  end;
 
   for i := 0 to High(itemsWithdrew) do
     if (not itemsWithdrew[i]) then // Returns false if it fails to withdraw one item
@@ -389,6 +445,12 @@ begin
     if (MSI_OpenBank(WhichBank, MSI_Players[CurrentPlayer].Pin)) then
     begin
       Wait(RandomRange(500, 1000));
+
+      // Deposit any unneeded items
+      if (Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions) <= 0) then
+        DepositAll
+      else
+        MSI_DepositExcessItems();
 
       // Get the first empty inventory slot (this will be where the item is withdrawn to)
       for i := 1 to 28 do
@@ -452,10 +514,9 @@ function MSI_BankStandard: Boolean;
 var
   intItems: TIntegerArray;
   itemsDeposited: TBooleanArray;
-  i, x, y: Integer;
+  i: Integer;
   depAll: Boolean;
   Script: TScript;
-  b: TBox;
 begin
   if (not LoggedIn) then
     Exit;
@@ -484,32 +545,7 @@ begin
     end;
   end;
 
-  // Deposits other items such as gems, or random rewards
-  for i := 1 to 28 do
-  begin
-    if (InIntArray(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions, i)) then
-      Continue;
-
-    case MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType of
-      Bank: b := InvBox(i);
-      DBox: b := DepositItemBox(i);
-    end;
-
-    if (FindColor(x, y, SRL_OUTLINE_BLACK, b.x1, b.y1, b.x2, b.y2)) then
-    begin
-      MMouse(x, y, 5, 5);
-
-      if (WaitUptext('osit', 500)) then
-        if (GetAmount(x, y) > 1) then
-        begin
-          Mouse(x, y, 0, 0, False);
-          WaitOption('osit-All', 500);
-        end else
-          Mouse(x, y, 0, 0, True);
-
-      Wait(RandomRange(200, 500));
-    end;
-  end;
+  MSI_DepositExcessItems();
 
   if (not depAll) then
     for i := 0 to High(itemsDeposited) do

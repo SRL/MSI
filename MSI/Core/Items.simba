@@ -101,11 +101,11 @@ begin
 
     FISH_SMALLNET:
       Result := [
-                  Point(621, 229),
-                  Point(617, 217),
-                  Point(607, 230),
-                  Point(634, 224),
-                  Point(630, 240)
+                  Point(1142, 375),
+                  Point(1144, 384),
+                  Point(1133, 367),
+                  Point(1144, 365),
+                  Point(1149, 379)
                 ];
 
     FISH_CAGE_CRAYFISH:
@@ -859,7 +859,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Fishing Rod';
-        UpText := ['Fishing'];
+        UpText := ['Fishing rod'];
         Stackable := False;
         EquipLevel := -1;
       end;
