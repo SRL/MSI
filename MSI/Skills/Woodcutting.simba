@@ -150,7 +150,7 @@ Example:
   if MSI_FindObject(TREE_NORMAL, ClickLeft) then
     MSI_WaitWhileChopping(TREE_NORMAL);
 *)
-{Procedure MSI_WaitWhileChopping(TreeID: integer);
+Procedure MSI_WaitWhileChopping(TreeID: integer);
 Var
   CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist, prevLen: Integer;
   TotalChopTime, R, CT: Integer;
@@ -289,42 +289,7 @@ Begin
   SetColorToleranceSpeed(CTS);
   SetColorSpeed2Modifiers(0.2, 0.2);
 End;
-}
 
-function averagePixelShift(b: TBox; waitPerLoop, maxTime: integer): integer;
-var
-  t: integer;
-  shifts: TIntegerArray;
-begin
-  t := (getSystemTime + maxTime);
-
-  while (getSystemTime < t) do
-  begin
-    setLength(shifts, length(shifts)+1);
-    shifts[high(shifts)] := pixelShift(b, waitPerLoop);
-  end;
-
-  result := averageTIA(shifts);
-  //writeln('average = '+toStr(result));
-end;
-
-function isChopping(): boolean;
-begin
-  result := inRange(averagePixelShift(intToBox(MSCX-10, MSCY-25, MSCX+15, MSCY+15), 50, 250), 180, 360);
-end;
-
-procedure MSI_WaitWhileChopping(TreeID: integer);
-begin
-  flag;
-  wait(randomRange(1000, 1500));
-  while (true) do
-  begin
-    if (not waitFunc(@isChopping, 10, 1000)) then
-      break;
-    writeln('chopping');
-    wait(1);
-  end;
-end;
 (*
 MSI_ChopTree
 ~~~~~~~~~~~~

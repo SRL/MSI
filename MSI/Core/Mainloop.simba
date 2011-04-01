@@ -912,7 +912,7 @@ Example:
 *)
 procedure MSI_MainLoop;
 var
-  tmpLoads, tmpTime, time: Integer;
+  tmpLoads, tmpTime, time, iCount: Integer;
   Script: TScript;
   takeBreak, skipToBank: Boolean;
   reason: string;
@@ -984,13 +984,20 @@ begin
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
         // Deposits excess items if already at a bank
-        if (InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
-          if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
-            if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
-            begin
-              MSI_Debug('Found items in inventory, depositing..');
-              goto AtBank;
-            end;
+        iCount := InvCount;
+        if (iCount > 0) then
+          if (iCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)) then
+          begin
+            MSI_Debug('Inventory count = '+ToStr(iCount));
+            MSI_Debug('Exceptions Length = '+ToStr(Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)));
+
+            if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
+              if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
+              begin
+                MSI_Debug('Found items in inventory, depositing..');
+                goto AtBank;
+              end;
+          end;
 
         if (not MSI_Walk(True)) then
         begin
