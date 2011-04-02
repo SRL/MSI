@@ -121,6 +121,7 @@ const
   SCRIPT_RM_GOLD     = 40;
   SCRIPT_GUILD_MINER = 41; // SRL Members+ only
   SCRIPT_DB_CLAY     = 42;
+  SCRIPT_FW_MINER    = 43;
 
   // Fishing
   SCRIPT_POWER_FISHER  = 50;
@@ -252,6 +253,8 @@ const
 
   // Falador
   LOC_FE_BANK    = 50;
+  LOC_FW_BANK    = 51;
+  LOC_FW_MINE    = 52;
 
   // Port Sarim
   LOC_PS_WILLOWS = 60;
@@ -478,7 +481,7 @@ const
   MSI_BANK_SV = 36;
   MSI_BANK_AK = 37;
   MSI_BANK_CB = 38;
-
+  MSI_BANK_FW = 39;
   DBOX_PS = 40;
 
   // Fishing spots
@@ -495,6 +498,7 @@ const
 
   // Obstacles
   LADDER_DOWN_MINE_GUILD = 70;
+  FALADOR_WEST_CRUMBLING_WALL = 71;
   LADDER_UP_MINE_GUILD   = 80;
 
   // NPCs
@@ -530,7 +534,7 @@ Example:
 *)
 const
   OBS_LADDER_DOWN_MINE_GUILD = 10;
-
+  OBS_FALADOR_WEST_CRUMBLING_WALL = 11;
   OBS_LADDER_UP_MINE_GUILD   = 20;
 
   OBS_ARRAY_LENGTH = 20; // Change to the highest obstacle constant

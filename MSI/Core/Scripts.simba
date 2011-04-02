@@ -2,7 +2,7 @@
 Scripts
 =======
 
-The Scripts file is short and sweat. This is where all the scripts are defined.
+The Scripts file is short and sweet. This is where all the scripts are defined.
 
 The source for Scripts.simba can be found
 `here <https://github.com/SRL/MSI/raw/master/MSI/Core/Scripts.simba>`_.
@@ -23,7 +23,7 @@ only be called in MSI_LoadAllScripts.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 27 February 2010 by Coh3n
+  | Last Updated: 2 April 2011 by IPwnz
 
 Example:
 
@@ -700,6 +700,46 @@ begin
 
           SPSAreas   := ['10_3'];
           Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_FW_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Miner';
+        Constant      := SCRIPT_FW_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        with Defaults do
+        begin
+          Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON, ROCK_COAL];
+
+          Items := [
+                     TIntegerArray([ORE_TIN]), TIntegerArray([ORE_COPPER]),
+                     TIntegerArray([ORE_IRON]), TIntegerArray([ORE_COAL])
+                   ];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_MINE;
+
+          Reflection := [
+                          TPointArray([Point(2945, 3368), Point(2938, 3355)]),
+                          //^^ inside Falador
+                          TPointArray([Point(2920, 3355), Point(2909, 3357)])
+                        ];
+
+          SPSAreas   := ['8_4'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+          Obstacles := [ FALADOR_WEST_CRUMBLING_WALL ];
         end;
       end;
 

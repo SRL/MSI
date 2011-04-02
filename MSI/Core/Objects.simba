@@ -31,7 +31,7 @@ MSI_LoadAllObjects.  Loads the object 'whichObject' into the MSI_Objects array.
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 17 July 2010 by Coh3n
+  | Last Updated: 2 April 2011 by IPwnz
 
 Example:
 
@@ -309,6 +309,30 @@ begin
          Tol                := 8;
          Hue                := 0.13;
          Sat                := 0.69;
+         FindAllColors      := False;
+         W                  := 15;
+         H                  := 30;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := True;
+         Tries              := 5;
+         Anim               := False;
+         WaitToMove         := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+       end;
+
+     MSI_BANK_FW:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador west bank';
+         UpText             := 'ooth';
+         Option             := 'uick';
+         Colors             := [3627376];
+         Tol                := 6;
+         Hue                := 0.17;
+         Sat                := 0.94;
          FindAllColors      := False;
          W                  := 15;
          H                  := 30;
@@ -853,6 +877,31 @@ begin
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
+         Anim               := False;
+         WaitToMove         := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [];
+       end;
+
+     FALADOR_WEST_CRUMBLING_WALL:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador West Crumbling Wall';
+         UpText             := 'rumbling wall';
+         Option             := 'rumbling wall';
+         Colors             := [9874610];
+         Tol                := 11;
+         Hue                := 0.06;
+         Sat                := 0.63;
+         FindAllColors      := False;
+         W                  := 18;
+         H                  := 30;
+         Accuracy           := 5;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 6;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];

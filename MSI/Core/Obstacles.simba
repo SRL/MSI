@@ -224,6 +224,24 @@ begin
 
         Solve      := @MSI_DoObstacle;
       end;
+
+  OBS_FALADOR_WEST_CRUMBLING_WALL:
+      with MSI_Obstacles[Obs] do
+      begin
+        Name     := 'Falador West Crumbling Wall';
+
+        Constant := OBS_FALADOR_WEST_CRUMBLING_WALL;
+        MirConst := OBS_FALADOR_WEST_CRUMBLING_WALL;
+
+        ObjConst := FALADOR_WEST_CRUMBLING_WALL;
+        ObjMir   := FALADOR_WEST_CRUMBLING_WALL;
+
+        StartTiles := [Point(2940, 3355)];
+
+        EndTiles   := [Point(2940, 3355)];
+
+        Solve      := @MSI_DoObstacle;
+      end;
   end;
 
   Result := (MSI_Obstacles[Obs].Name <> '');
