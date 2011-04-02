@@ -375,7 +375,7 @@ begin
   SetLength(itemsWithdrew, Length(Items));
 
   for i := 0 to High(Items) do
-    if (WaitCondition(FindDTM(MSI_Items[Items[i]].DTM, x, y, MBX1, MBY1, MBX2, MBY2), 250, 5000)) then
+    if (FindDTM(MSI_Items[Items[i]].DTM, x, y, MBX1, MBY1, MBX2, MBY2)) then
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
 
@@ -396,7 +396,7 @@ begin
             if (WaitColor(254, 401, ClBlack, 0, 1200)) then
               TypeSend(IntToStr(Amounts[i]));
 
-      itemsWithdrew[i] := WaitCondition(FindDTM(MSI_Items[Items[i]].DTM, x, y, MIX1, MIY1, MIX2, MIY2), 250, 5000);
+      itemsWithdrew[i] := FindDTM(MSI_Items[Items[i]].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
     end;
 
   for i := 0 to High(itemsWithdrew) do
