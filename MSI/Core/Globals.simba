@@ -426,7 +426,9 @@ const
   MSI_RUNE_SOUL   = 172;
   MSI_RUNE_ASTRAL = 173;
 
-  ITEM_ARRAY_LENGTH = 173; // Change to the highest item constant
+  CLAY_SOFT = 180;
+
+  ITEM_ARRAY_LENGTH = 180; // Change to the highest item constant
 
 (*
 Object Constants
@@ -605,16 +607,17 @@ Example:
 
   function GetHighAlchAnimation(): TAnimation;
   begin
-    Result := MSI_Animations[ANIM_ALCH_HIGH];
+    Result := MSI_GetAnimation(ANIM_ALCH_HIGH);
   end;
 *)
 const
+  ANIM_IDLE      = 0;
+
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
 
-  ANIM_FISHING = 20;
-
-  ANIM_ARRAY_LENGTH = 20;
+  ANIM_FISHING   = 20;
+  ANIM_CHOPPING  = 21;
 
 (*
 Recipe Constants
@@ -715,7 +718,7 @@ type
   TMSObject = record
     X, Y             : Integer;
     Name             : string;
-    UpText           : string; // Set to '' if RightClickOnly := True
+    UpText           : string;  // Set to '' if RightClickOnly := True
     Option           : string;
     Exp              : Extended;
     Colors           : TIntegerArray;
@@ -725,12 +728,13 @@ type
     Sat              : Extended;
     W, H             : Integer;
     Accuracy         : Integer; // Min pixels to be found in each TPA
-    SearchArea       : TBox;  // Box to search for object. Carries the Values of MSBox by default.
+    SearchArea       : TBox;    // Box to search for object. Carries the Values of MSBox by default.
     ExcludeSelf      : Boolean; // Exclude pixels in a box around the player
     RightClickOnly   : Boolean;
     Tries            : Integer;
     Anim             : Boolean; // Set to true if object is animating
-    WaitToMove       : Boolean; // When ClickLeft, wait till we have stopped moving?
+    WaitToMove       : Boolean; // When clicked, wait till we have stopped moving? Calls Flag;
+    Track            : Boolean; // When clicked, track the object while the player moves? Calls MSI_TrackObject;
     MaxTime          : Integer; // Max time (in ms) to wait for the object to disappear
     BadColors        : TIntegerArray;
     BadColorTolerance: Integer;
@@ -1023,9 +1027,11 @@ type
   TAnimation = record
     Name          : string;
     MinPixelShift : Integer; // Minimum pixel shift for animation
+    MaxPixelShift : Integer; // Maximum pixel shift
     PixelBox      : TBox;    // Box to check for pixel shift
     Interval      : Integer; // How long to check for pixel shift
-    MaxWait       : Integer; // Maximum wait time for animation
+    MaxTime       : Integer; // Gets the average pixel shift over MaxTime
+    WaitTime      : Integer; // How long to wait for animation in ms
   end;
 
   TAnimationArray = array of TAnimation;
@@ -1081,5 +1087,7 @@ var
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Obstacles : array[0..OBS_ARRAY_LENGTH] of TObstacle;
   MSI_Recipes   : array[0..RECIPES_ARRAY_LENGTH - 1] of TRecipe;
-  MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
+
+
+

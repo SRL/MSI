@@ -150,6 +150,7 @@ Example:
   if MSI_FindObject(TREE_NORMAL, ClickLeft) then
     MSI_WaitWhileChopping(TREE_NORMAL);
 *)
+{
 Procedure MSI_WaitWhileChopping(TreeID: integer);
 Var
   CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist, prevLen: Integer;
@@ -289,6 +290,34 @@ Begin
   SetColorToleranceSpeed(CTS);
   SetColorSpeed2Modifiers(0.2, 0.2);
 End;
+}
+function MSI_IsChopping(): boolean;
+begin
+  result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
+end;
+
+procedure MSI_WaitWhileChopping(tree: integer);
+var
+  anim: TAnimation;
+begin
+  if (not loggedIn) then
+    exit;
+
+  flag;
+  anim := MSI_GetAnimation(ANIM_CHOPPING);
+  wait(randomRange(1000, 1500));
+
+  while (true) do
+  begin
+    if (not waitFunc(@MSI_IsChopping, 10, 1000)) then
+      break;
+
+    MSI_FindRandoms(false);
+    MSI_AntiBan(randomRange(200, 500), ANTI_BAN_CHANCE);
+
+    wait(1);
+  end;
+end;
 
 (*
 MSI_ChopTree

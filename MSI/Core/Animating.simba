@@ -10,82 +10,103 @@ The source for can be found
 
 *)
 
+const
+  // PLB = Player Box (a tight box around the player)
+  PLBX1 = MSCX - 10;
+  PLBY1 = MSCY - 25;
+  PLBX2 = MSCX + 15;
+  PLBY2 = MSCY + 15;
+
 (*
-MSI_LoadAnimation
-~~~~~~~~~~~~~~~~~
+MSI_GetAnimation
+~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  procedure MSI_LoadAnimation(Anim: Integer);
+  procedure MSI_GetAnimation(Anim: Integer): TAnimation;
 
-Loads the animation 'Anim' (sets 'Anim' in the MSI_Animations global array).
-This procedure should only be called in MSI_LoadAllAnimations. 'Anim' represents
-the animation constants MSI uses, which can be found in Globals.simba.
+Gets the TAnimation record of the animation 'Anim'.  'Anim' represents one of
+the animation constants in
+`Globals.simba <https://github.com/SRL/MSI/raw/master/MSI/Core/Globals.simba>`_.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 12 March 2011 by IPwnz
+  | Last Updated: 31 March 2011 by Coh3n
 
+Example:
+
+.. code-block:: pascal
+
+  var
+    anim: TAnimation;
+  begin
+    anim := MSI_GetAnimation(ANIM_FISHING);
+  end;
 *)
-procedure MSI_LoadAnimation(Anim: Integer);
+function MSI_GetAnimation(Anim: Integer): TAnimation;
 begin
   case Anim of
+    ANIM_IDLE:
+      with Result do
+      begin
+        Name := 'Player Idle';
+        MinPixelShift := 10;
+        MaxPixelShift := 60;
+        PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
+        Interval := 25;
+        MaxTime := 125;
+        WaitTime := 500;
+      end;
+
     ANIM_ALCH_LOW:
-      with MSI_Animations[Anim] do
+      with Result do
       begin
         Name := 'Low Alching';
         MinPixelShift := 500;
+        MaxPixelShift := 10000;
         PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
         Interval := 200;
-        MaxWait := 2000;
+        MaxTime := 2000;
+        WaitTime := 2000;
       end;
 
     ANIM_ALCH_HIGH:
-      with MSI_Animations[Anim] do
+      with Result do
       begin
         Name := 'High Alching';
         MinPixelShift := 500;
+        MaxPixelShift := 10000;
         PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
         Interval := 200;
-        MaxWait := 3000;
+        MaxTime := 3000;
+        WaitTime := 3000;
       end;
 
     ANIM_FISHING:
-      with MSI_Animations[Anim] do
+      with Result do
       begin
         Name := 'Fishing';
         MinPixelShift := 750;
+        MaxPixelShift := 10000;
         PixelBox := IntToBox(MSCX - 25, MSCY - 30, MSCX + 25, MSCY + 25);
         Interval := 1250;
-        MaxWait := 3000;
+        MaxTime := 3000;
+        WaitTime := 3000;
+      end;
+
+    ANIM_CHOPPING:
+      with Result do
+      begin
+        Name := 'Chopping';
+        MinPixelShift := 180;
+        MaxPixelShift := 360;
+        PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
+        Interval := 35;
+        MaxTime := 175;  // (35 * 5) = 175 (Gets the average pixel shift from 5 tries)
+        WaitTime := 700; // (175 * 4) = 700 (Has to fail 4 times to not be animating)
       end;
   end;
-end;
-
-(*
-MSI_LoadAllAnimations
-~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_LoadAllAnimations();
-
-Loads all the animations into the MSI_Animations array.  This procedure should
-only be called in SetupMSI.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 07 February 2011 by Coh3n
-
-*)
-procedure MSI_LoadAllAnimations();
-var
-  i: Integer;
-begin
-  for i := 0 to High(MSI_Animations) do
-    MSI_LoadAnimation(i);
 end;
 
 (*
@@ -102,7 +123,7 @@ constants found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 February 2011 by Coh3n
+  | Last Updated: 31 March 2011 by Coh3n
 
 Example:
 
@@ -114,14 +135,17 @@ Example:
     Wait(RandomRange(200, 800));
   end;
 *)
-function MSI_IsAnimating(Anim: Integer): Boolean;
+function MSI_IsAnimating(Anim: TAnimation): Boolean;
+var
+  avg: integer;
 begin
-  with MSI_Animations[Anim] do
-    if (PixelShift(PixelBox, Interval) > MinPixelShift) then
-      begin
-        MSI_SubDebug('We are animating: ' + Name);
-        Result := True;
-      end;
+  with Anim do
+  begin
+    avg := averagePixelShift(pixelBox, interval, maxTime);
+    result := inRange(avg, minPixelShift, maxPixelShift);
+
+    //MSI_SubDebug('Average pixel shift = ' + intToStr(avg));
+  end;
 end;
 
 (*
@@ -130,7 +154,7 @@ MSI_WaitWhileAnimating
 
 .. code-block:: pascal
 
-  procedure MSI_WaitWhileAnimating(Anim: Integer);
+  procedure MSI_WaitWhileAnimating(Anim: TAnimation);
 
 Simply waits while the player is animating. Doesn't perform antiban or check for
 randoms; just waits.
@@ -138,7 +162,7 @@ randoms; just waits.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 February 2011 by Coh3n
+  | Last Updated: 31 March 2011 by Coh3n
 
 Example:
 
@@ -147,23 +171,33 @@ Example:
   if (MSI_CastInvItem(SPELL_ALCH_HIGH, 16)) then
     MSI_WaitWhileAnimating(ANIM_ALCH_HIGH);
 *)
-procedure MSI_WaitWhileAnimating(Anim: Integer);
+procedure MSI_WaitWhileAnimating(Anim: TAnimation);
 var
-  t: Integer;
+  t: integer;
+  b: boolean;
 begin
-  with MSI_Animations[Anim] do
+  with Anim do
   begin
     if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxEx(True, PixelBox, clRed);
+      SMART_DrawBoxEx(true, pixelBox, clYellow);
 
-    t := (GetSystemTime + MaxWait);
-
-    while (GetSystemTime < t) do
+    while (true) do
     begin
-      if (not MSI_IsAnimating(Anim)) then
-        Break;
+      t := (getSystemTime + waitTime);
+      while (getSystemTime < t) do
+      begin
+        if (MSI_IsAnimating(Anim)) then
+        begin
+          b := true;
+          break;
+        end;
 
-      Wait(RandomRange(10, 30));
+        b := false;
+        wait(10);
+      end;
+
+      if (not b) then
+        break;
     end;
   end;
 end;

@@ -99,7 +99,6 @@ begin
   MSI_LoadAllObjects;
   MSI_LoadAllItems;
   MSI_LoadAllObstacles;
-  MSI_LoadAllAnimations;
   MSI_LoadAllSpells;
   //MSI_LoadAllExtras;
   Track_LoadNames;

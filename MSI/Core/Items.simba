@@ -306,6 +306,15 @@ begin
                   Point(576, 451)
                 ];
 
+    CLAY_SOFT:
+      Result := [
+                  Point(28, 25),
+                  Point(16, 27),
+                  Point(27, 13),
+                  Point(39, 26),
+                  Point(28, 33)
+                ];
+
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
   end;
@@ -429,6 +438,8 @@ begin
     MSI_RUNE_BLOOD : Result := 0;
     MSI_RUNE_SOUL  : Result := 0;
     MSI_RUNE_ASTRAL: Result := 0;
+
+    CLAY_SOFT: Result := 802904;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1306,6 +1317,15 @@ begin
         UpText := ['aw ru'];
         Stackable := True;
         EquipLevel := -1;
+      end;
+
+    CLAY_SOFT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Soft Clay';    // Name of the item
+        UpText := ['oft clay']; // Uptext
+        Stackable := False;     // Is it stackable?
+        EquipLevel := -1;       // Set to -1 if it can't be equipped
       end;
   end;
 

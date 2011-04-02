@@ -65,6 +65,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 10000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -91,6 +92,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 20000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -117,6 +119,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 30000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -143,6 +146,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 35000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -169,6 +173,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 60000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -195,6 +200,7 @@ begin
         Tries              := 20;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 60000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -222,7 +228,8 @@ begin
         RightClickOnly     := True;
         Tries              := 7;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := False;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -246,7 +253,8 @@ begin
          RightClickOnly     := True;
          Tries              := 10;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -270,7 +278,8 @@ begin
          RightClickOnly     := True;
          Tries              := 10;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -294,7 +303,8 @@ begin
          RightClickOnly     := True;
          Tries              := 8;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -318,7 +328,8 @@ begin
          RightClickOnly     := True;
          Tries              := 5;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -342,7 +353,8 @@ begin
          RightClickOnly     := True;
          Tries              := 5;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -366,7 +378,8 @@ begin
          RightClickOnly     := False;
          Tries              := 15;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -390,7 +403,8 @@ begin
         RightClickOnly     := True;
         Tries              := 5;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := False;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -414,7 +428,8 @@ begin
         RightClickOnly     := True;
         Tries              := 5;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := False;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -438,7 +453,8 @@ begin
          RightClickOnly     := True;
          Tries              := 5;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -466,6 +482,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_CLAY];
@@ -492,6 +509,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_COPPER];
@@ -518,6 +536,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_TIN];
@@ -544,6 +563,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_IRON];
@@ -570,6 +590,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_SILVER];
@@ -596,6 +617,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_COAL];
@@ -622,6 +644,7 @@ begin
         Tries              := 15;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_GOLD];
@@ -648,6 +671,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_MITHRIL];
@@ -674,6 +698,7 @@ begin
         Tries              := 15;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_ADAMANTITE];
@@ -699,6 +724,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -777,7 +803,8 @@ begin
         RightClickOnly     := False;
         Tries              := 5;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := False;
         BadColors          := [3686583, 2764680, 4023751];
         BadColorTolerance  := 35;
         AssociatedItems    := [];
@@ -802,7 +829,8 @@ begin
         RightClickOnly     := False;
         Tries              := 0;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 0;
         AssociatedItems    := [];
@@ -829,7 +857,8 @@ begin
          RightClickOnly     := False;
          Tries              := 6;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -854,7 +883,8 @@ begin
          RightClickOnly     := False;
          Tries              := 5;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -882,6 +912,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -909,6 +940,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := True;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -934,6 +966,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := True;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -959,6 +992,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := True;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -984,6 +1018,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -1011,6 +1046,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -1574,7 +1610,7 @@ Begin
           Begin
             GetMousePos(X, Y);
 
-            If (MSI_Objects[Objs[II]].RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) Then
+            If (RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) Then
             Begin
               Mouse(X, Y, 0, 0, False);
               If (Action = ClickRight) or (Action = ClickLeft) Then
@@ -1587,8 +1623,14 @@ Begin
             End;
 
             if (result) then
-              If MSI_Objects[Objs[II]].WaitToMove Then
-                MSI_TrackObject(Objs[II]);
+              if ((waitToMove) and (track)) then
+                MSI_TrackObject(objs[ii])
+              else
+                if (waitToMove) then
+                  flag
+                else
+                  if (track) then
+                    MSI_TrackObject(objs[ii]);
 
             MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
             NotBoxes := [];
