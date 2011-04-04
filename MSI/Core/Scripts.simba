@@ -739,7 +739,7 @@ begin
 
           SPSAreas   := ['8_4'];
           Color      := MSI_Convert2DTilePath(Reflection);
-          Obstacles := [ FALADOR_WEST_CRUMBLING_WALL ];
+          Obstacles := [ OBS_FALADOR_WEST_CRUMBLING_WALL ];
         end;
       end;
 

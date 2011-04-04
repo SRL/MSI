@@ -653,7 +653,11 @@ begin
     Exit;
 
   MakeCompass('n');
-  RunEnergy(20);
+  if not RunEnergy(20) then
+  begin
+    RestUntil(20+Random(10));
+    SetRun(true);
+  end;
   MSI_FindRandoms(True);
 
   Result := MSI_WalkPath(startLoc, endLoc);
