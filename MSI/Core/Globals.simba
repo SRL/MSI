@@ -1005,12 +1005,13 @@ around Runescape.
 type
   TObstacle = record
     Name       : string;
-    Constant   : Integer;     // Obstacle constant
-    MirConst   : Integer;     // Obstacle's mirror constant
-    ObjConst   : Integer;     // Object constant
-    ObjMir     : Integer;     // Object's mirror constant
-    StartTiles : TPointArray; // The tiles the obstacle is on
-    EndTiles   : TPointArray; // Possible tiles the player will end up on
+    Constant   : Integer;       // Obstacle constant
+    MirConst   : Integer;       // Obstacle's mirror constant
+    ObjConst   : Integer;       // Object constant
+    ObjMir     : Integer;       // Object's mirror constant
+    Camera     : TVariantArray; // Changes the camera angle and height
+    StartTiles : TPointArray;   // The tiles the obstacle is on
+    EndTiles   : TPointArray;   // Possible tiles the player will end up on
     Solve      : function(i: Integer): Boolean;
   end;
 

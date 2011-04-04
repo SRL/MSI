@@ -655,7 +655,7 @@ begin
   MakeCompass('n');
   if not RunEnergy(20) then
   begin
-    RestUntil(20+Random(10));
+    RestUntil(40+Random(20));
     SetRun(true);
   end;
   MSI_FindRandoms(True);

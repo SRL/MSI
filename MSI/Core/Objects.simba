@@ -890,10 +890,10 @@ begin
          Name               := 'Falador West Crumbling Wall';
          UpText             := 'rumbling wall';
          Option             := 'rumbling wall';
-         Colors             := [9874610];
-         Tol                := 11;
-         Hue                := 0.06;
-         Sat                := 0.63;
+         Colors             := [9092811];
+         Tol                := 24;
+         Hue                := 0.04;
+         Sat                := 1.35;
          FindAllColors      := False;
          W                  := 18;
          H                  := 30;
@@ -901,7 +901,7 @@ begin
          SearchArea         := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := False;
-         Tries              := 6;
+         Tries              := 10;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];
