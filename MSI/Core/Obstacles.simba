@@ -128,6 +128,8 @@ begin
       Result := MSI_WaitForMirror(Obs);
     end;
   until(Result or (GetSystemTime > t));
+  MakeCompass('n');
+  SetAngle(true);
 end;
 
 (*
