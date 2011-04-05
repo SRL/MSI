@@ -319,7 +319,7 @@ begin
 
         with Defaults do
         begin
-          Trees := [TREE_WILLOW];
+          Trees := [TREE_NEW_WILLOW];
           Items := [TIntegerArray([LOGS_WILLOW])];
         end;
 

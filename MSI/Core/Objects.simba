@@ -123,6 +123,32 @@ begin
         AssociatedItems    := [LOGS_WILLOW];
       End;
 
+    TREE_NEW_WILLOW:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Willow tree';
+        UpText             := 'wn Wil';
+        Option             := 'Chop down Willow';
+        Colors             := [2241586];
+        Tol                := 7;
+        Hue                := 0.69;
+        Sat                := 1.46;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 30;
+        Accuracy           := 10;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        Tries              := 5;
+        Anim               := False;
+        WaitToMove         := True;
+        MaxTime            := 30000;
+        BadColors          := [];
+        BadColorTolerance  := 10;
+        AssociatedItems    := [LOGS_WILLOW];
+      End;
+
     TREE_MAPLE:
       with MSI_Objects[whichObject] do
       begin
