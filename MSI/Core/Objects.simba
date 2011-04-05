@@ -129,10 +129,10 @@ begin
         Name               := 'Willow tree';
         UpText             := 'wn Wil';
         Option             := 'Chop down Willow';
-        Colors             := [2241586];
-        Tol                := 7;
-        Hue                := 0.69;
-        Sat                := 1.46;
+        Colors             := [2843496];
+        Tol                := 2;
+        Hue                := 0.42;
+        Sat                := 2.87;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;

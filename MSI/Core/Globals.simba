@@ -452,12 +452,13 @@ Example:
 *)
 const
   // Trees
-  TREE_NORMAL = 10;
-  TREE_OAK    = 11;
-  TREE_WILLOW = 12;
-  TREE_MAPLE  = 13;
-  TREE_YEW    = 14;
-  TREE_MAGIC  = 15;
+  TREE_NORMAL     = 10;
+  TREE_OAK        = 11;
+  TREE_WILLOW     = 12;
+  TREE_MAPLE      = 13;
+  TREE_YEW        = 14;
+  TREE_MAGIC      = 15;
+  TREE_NEW_WILLOW = 16;
 
   // Rocks
   ROCK_CLAY       = 20;
