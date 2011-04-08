@@ -830,7 +830,7 @@ type
     // Not working until multiple script support
     Loads    : Integer; // Total loads to do for a specific script
     Time     : Integer; // Total time for a specific script
-    MaxLevel : Integer; // The maximus skill level for that script
+    MaxLevel : Integer; // The maximum skill level for that script
 
     // Woodcutting, Mining, and Fishing
     Rocks      : TIntegerArray;

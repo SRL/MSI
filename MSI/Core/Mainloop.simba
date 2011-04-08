@@ -902,7 +902,7 @@ the global and player settings.  Called only once in RunMe.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 03 November 2010 by Coh3n
+  | Last Updated: 02 April 2011 by Coh3n
 
 Example:
 
@@ -1060,6 +1060,15 @@ begin
       nPlayer := MSI_CheckTime(TimeFromMark(tmpTime), reason, takeBreak);
       if (not nPlayer) then
         nPlayer := MSI_CheckLoads(tmpLoads, reason, takeBreak);
+
+      // Check the script's MaxLevel attribute
+      if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel > 0) then
+        if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >=
+            MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel) then
+        begin
+          nPlayer := True;
+          reason := 'Max level reached';
+        end;
 
       if (nPlayer) then
       begin

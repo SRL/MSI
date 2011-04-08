@@ -574,6 +574,9 @@ begin
         with MSI_Players[pIndex].Scripts[sIndex] do
         begin
           //script_Edits[EDIT_LOADS].Text := IntToStr(Loads);
+          script_Edits[EDIT_LOADS].Text := intToStr(Loads);
+          script_Edits[EDIT_TIME].Text := intToStr(Time);
+          script_Edits[EDIT_LEVEL].Text := intToStr(MaxLevel);
           script_Edits[EDIT_PRIORITY].Text := IntArrToStr(Priority);
           script_Edits[EDIT_EXCEPTIONS].Text := IntArrToStr(Exceptions);
         end;
@@ -952,7 +955,6 @@ begin
         EDIT_LEVEL:
           begin
             Text := '0';
-            Enabled := False;
             Hint := 'The maximum skill level you want to get (disabled)';
           end;
 
