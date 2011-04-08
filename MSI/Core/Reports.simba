@@ -349,7 +349,8 @@ begin
   end;
   MSI_PrintSave(f, '{----------------------------------------------------------------}');
 
-  CloseFile(f);
+  if (f <> -1) then
+    CloseFile(f);
   SetScriptProp(SP_WriteTimeStamp, [True]);
 end;
 
