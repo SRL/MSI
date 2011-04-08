@@ -102,7 +102,7 @@ find and click the obstacle, then calls MSI_WaitForMirror.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 26 January 2011 by Coh3n
+  | Last Updated: 4 April 2011 by IPwnz
 
 Example:
 
@@ -119,6 +119,8 @@ begin
 
   t := GetSystemTime + 60000; // 1 minute to solve obstacle
 
+  MakeCompass(MSI_Obstacles[obs].Camera[0]);
+  SetAngle(MSI_Obstacles[obs].Camera[1]);
   repeat
     if (MSI_FindObject(MSI_Obstacles[Obs].ObjConst, ClickLeft)) then
     begin
@@ -126,6 +128,8 @@ begin
       Result := MSI_WaitForMirror(Obs);
     end;
   until(Result or (GetSystemTime > t));
+  MakeCompass('n');
+  SetAngle(true);
 end;
 
 (*
@@ -172,7 +176,7 @@ MSI_LoadAllObstacles.
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 30 November 2010 by Coh3n
+  | Last Updated: 4 April 2011 by IPwnz
 
 Example:
 
@@ -196,6 +200,8 @@ begin
         ObjConst := LADDER_DOWN_MINE_GUILD;
         ObjMir   := LADDER_UP_MINE_GUILD;
 
+        Camera := ['n', true];
+
         StartTiles := [Point(3017, 3339), Point(3019, 3337),  // West, South, East, North
                        Point(3021, 3339), Point(3019, 3341)];
 
@@ -216,11 +222,33 @@ begin
         ObjConst := LADDER_UP_MINE_GUILD;
         ObjMir   := LADDER_DOWN_MINE_GUILD;
 
+        Camera := ['n', true];
+
         StartTiles := [Point(3017, 9739), Point(3019, 9737),
                        Point(3021, 9739), Point(3019, 9741)];
 
         EndTiles   := [Point(3017, 3339), Point(3019, 3337),  // West, South, East, North
                        Point(3021, 3339), Point(3019, 3341)];
+
+        Solve      := @MSI_DoObstacle;
+      end;
+
+  OBS_FALADOR_WEST_CRUMBLING_WALL:
+      with MSI_Obstacles[Obs] do
+      begin
+        Name     := 'Falador West Crumbling Wall';
+
+        Constant := OBS_FALADOR_WEST_CRUMBLING_WALL;
+        MirConst := OBS_FALADOR_WEST_CRUMBLING_WALL;
+
+        ObjConst := FALADOR_WEST_CRUMBLING_WALL;
+        ObjMir   := FALADOR_WEST_CRUMBLING_WALL;
+
+        Camera := ['w', false];
+
+        StartTiles := [Point(2940, 3355)];
+
+        EndTiles   := [Point(2940, 3355)];
 
         Solve      := @MSI_DoObstacle;
       end;

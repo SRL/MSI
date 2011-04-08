@@ -367,6 +367,12 @@ begin
           if (waitTime > 0) then
             Continue;
 
+          // Adjust camera angle to make some objects visible
+          if (random(2) < 1) then
+            makeCompass(randomRange(35, 55))
+          else
+            makeCompass(randomRange(195, 215));
+
           if (MSI_Relocate(MSI_Players[CurrentPlayer].Location)) then
           begin
             tTime := RandomRange(60000, 120000); // Random 1-2 minutes

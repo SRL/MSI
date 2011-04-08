@@ -31,7 +31,7 @@ MSI_LoadAllObjects.  Loads the object 'whichObject' into the MSI_Objects array.
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 17 July 2010 by Coh3n
+  | Last Updated: 2 April 2011 by IPwnz
 
 Example:
 
@@ -120,6 +120,32 @@ begin
         Anim               := False;
         WaitToMove         := True;
         Track              := False;
+        MaxTime            := 30000;
+        BadColors          := [];
+        BadColorTolerance  := 10;
+        AssociatedItems    := [LOGS_WILLOW];
+      End;
+
+    TREE_WILLOW_NEW:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Willow tree';
+        UpText             := 'wn Wil';
+        Option             := 'Chop down Willow';
+        Colors             := [2843496];
+        Tol                := 2;
+        Hue                := 0.42;
+        Sat                := 2.87;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 30;
+        Accuracy           := 10;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        Tries              := 5;
+        Anim               := False;
+        WaitToMove         := True;
         MaxTime            := 30000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -330,6 +356,30 @@ begin
          Anim               := False;
          WaitToMove         := True;
          Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+       end;
+
+     MSI_BANK_FW:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador west bank';
+         UpText             := 'ooth';
+         Option             := 'uick';
+         Colors             := [3627376];
+         Tol                := 6;
+         Hue                := 0.17;
+         Sat                := 0.94;
+         FindAllColors      := False;
+         W                  := 15;
+         H                  := 30;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := True;
+         Tries              := 5;
+         Anim               := False;
+         WaitToMove         := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -885,6 +935,31 @@ begin
          Anim               := False;
          WaitToMove         := True;
          Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [];
+       end;
+
+     FALADOR_WEST_CRUMBLING_WALL:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador West Crumbling Wall';
+         UpText             := 'rumbling wall';
+         Option             := 'rumbling wall';
+         Colors             := [9092811];
+         Tol                := 24;
+         Hue                := 0.04;
+         Sat                := 1.35;
+         FindAllColors      := False;
+         W                  := 18;
+         H                  := 30;
+         Accuracy           := 5;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];

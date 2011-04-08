@@ -588,6 +588,12 @@ begin
   t := (GetSystemTime + (Length(ATPA) * 60 + 180) * 1000);
   obsLen := High(Script.PathInfo.Obstacles);
 
+  if not RunEnergy(20) then
+  begin
+    RestUntil(40+Random(20));
+    SetRun(true);
+  end;
+
 	repeat
 		for i := 0 to High(ATPA) do
       with MSI_Players[CurrentPlayer] do
@@ -653,7 +659,6 @@ begin
     Exit;
 
   MakeCompass('n');
-  RunEnergy(20);
   MSI_FindRandoms(True);
 
   Result := MSI_WalkPath(startLoc, endLoc);

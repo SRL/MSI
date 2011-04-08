@@ -121,6 +121,7 @@ const
   SCRIPT_RM_GOLD     = 40;
   SCRIPT_GUILD_MINER = 41; // SRL Members+ only
   SCRIPT_DB_CLAY     = 42;
+  SCRIPT_FW_MINER    = 43;
 
   // Fishing
   SCRIPT_POWER_FISHER  = 50;
@@ -252,6 +253,8 @@ const
 
   // Falador
   LOC_FE_BANK    = 50;
+  LOC_FW_BANK    = 51;
+  LOC_FW_MINE    = 52;
 
   // Port Sarim
   LOC_PS_WILLOWS = 60;
@@ -451,12 +454,13 @@ Example:
 *)
 const
   // Trees
-  TREE_NORMAL = 10;
-  TREE_OAK    = 11;
-  TREE_WILLOW = 12;
-  TREE_MAPLE  = 13;
-  TREE_YEW    = 14;
-  TREE_MAGIC  = 15;
+  TREE_NORMAL     = 10;
+  TREE_OAK        = 11;
+  TREE_WILLOW     = 12;
+  TREE_MAPLE      = 13;
+  TREE_YEW        = 14;
+  TREE_MAGIC      = 15;
+  TREE_WILLOW_NEW = 16;
 
   // Rocks
   ROCK_CLAY       = 20;
@@ -480,7 +484,7 @@ const
   MSI_BANK_SV = 36;
   MSI_BANK_AK = 37;
   MSI_BANK_CB = 38;
-
+  MSI_BANK_FW = 39;
   DBOX_PS = 40;
 
   // Fishing spots
@@ -497,6 +501,7 @@ const
 
   // Obstacles
   LADDER_DOWN_MINE_GUILD = 70;
+  FALADOR_WEST_CRUMBLING_WALL = 71;
   LADDER_UP_MINE_GUILD   = 80;
 
   // NPCs
@@ -532,7 +537,7 @@ Example:
 *)
 const
   OBS_LADDER_DOWN_MINE_GUILD = 10;
-
+  OBS_FALADOR_WEST_CRUMBLING_WALL = 11;
   OBS_LADDER_UP_MINE_GUILD   = 20;
 
   OBS_ARRAY_LENGTH = 20; // Change to the highest obstacle constant
@@ -674,8 +679,9 @@ const
   // Booleans
   SETUP_DEBUG_SMART   = 10;
   SETUP_SAVE_DEBUG    = 11;
-  SETUP_HUMAN_BREAK   = 12;
-  SETUP_SWITCH_WORLDS = 13;
+  SETUP_SAVE_REPORT   = 12;
+  SETUP_HUMAN_BREAK   = 13;
+  SETUP_SWITCH_WORLDS = 14;
 
   // Integers
   SETUP_BREAK_TIME    = 20;
@@ -689,19 +695,6 @@ const
   SETUP_WALKING       = 32;
 
   SETUP_ARRAY_LENGTH = 32;
-
-(*
-File Constants
-~~~~~~~~~~~~~~
-
-Represent the indexes of each file used in MSI.  Used just like the other MSI
-global arrays.
-*)
-const
-  FILE_DEBUG  = 0;
-  FILE_REPORT = 1;
-
-  FILE_ARRAY_LENGTH = 2;
 
 {==============================================================================\
 |                                  Types                                       |
@@ -1005,12 +998,13 @@ around Runescape.
 type
   TObstacle = record
     Name       : string;
-    Constant   : Integer;     // Obstacle constant
-    MirConst   : Integer;     // Obstacle's mirror constant
-    ObjConst   : Integer;     // Object constant
-    ObjMir     : Integer;     // Object's mirror constant
-    StartTiles : TPointArray; // The tiles the obstacle is on
-    EndTiles   : TPointArray; // Possible tiles the player will end up on
+    Constant   : Integer;       // Obstacle constant
+    MirConst   : Integer;       // Obstacle's mirror constant
+    ObjConst   : Integer;       // Object constant
+    ObjMir     : Integer;       // Object's mirror constant
+    Camera     : TVariantArray; // Changes the camera angle and height
+    StartTiles : TPointArray;   // The tiles the obstacle is on
+    EndTiles   : TPointArray;   // Possible tiles the player will end up on
     Solve      : function(i: Integer): Boolean;
   end;
 
@@ -1072,12 +1066,11 @@ var
   ScriptStart      : string;
   NextAntiban      : Integer;
   NextRandCheck    : Integer;
-  MSI_SetupVars    : array[0..SETUP_ARRAY_LENGTH] of Variant;
-
+  DebugFile        : Integer;
 
 // Arrays that store all the necessary "go-to" information for MSI
 var
-  MSI_Files     : array[0..(FILE_ARRAY_LENGTH - 1)] of Integer;
+  MSI_SetupVars : array[0..SETUP_ARRAY_LENGTH] of Variant;
   MSI_Players   : TPlayerInfoArray;
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
   MSI_Objects   : array[0..OBJ_ARRAY_LENGTH] of TMSObject;
