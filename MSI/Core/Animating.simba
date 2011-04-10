@@ -32,7 +32,7 @@ the animation constants in
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 31 March 2011 by Coh3n
+  | Last Updated: 09 April 2011 by Coh3n
 
 Example:
 
@@ -75,12 +75,12 @@ begin
       with Result do
       begin
         Name := 'High Alching';
-        MinPixelShift := 500;
-        MaxPixelShift := 10000;
+        MinPixelShift := 100;
+        MaxPixelShift := 260;
         PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
-        Interval := 200;
-        MaxTime := 3000;
-        WaitTime := 3000;
+        Interval := 20;
+        MaxTime := 100;
+        WaitTime := 400;
       end;
 
     ANIM_FISHING:
@@ -123,7 +123,7 @@ constants found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 31 March 2011 by Coh3n
+  | Last Updated: 09 April 2011 by Coh3n
 
 Example:
 
@@ -143,8 +143,10 @@ begin
   begin
     avg := averagePixelShift(pixelBox, interval, maxTime);
     result := inRange(avg, minPixelShift, maxPixelShift);
+    //MSI_SubDebug('Average pixel shift: ' + intToStr(avg));
 
-    //MSI_SubDebug('Average pixel shift = ' + intToStr(avg));
+    if (result) then
+      MSI_SubDebug('Player animation: ' + anim.name);
   end;
 end;
 

@@ -333,7 +333,7 @@ begin
               begin
                 Result[i] := theStaffs[a];
                 MSI_Debug('Using '+MSI_Items[Result[i]].Name+' for '+MSI_Spells[Spells[i]].Name);
-                Staffs[i] := Result[i]; // Set script attribute to the staff chosen
+                MSI_Players[CurrentPlayer].Scripts[CurrentScript].Staffs[i] := Result[i]; // Set script attribute to the staff chosen
                 Break;
               end else
                 Continue;
