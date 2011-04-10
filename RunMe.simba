@@ -18,7 +18,7 @@ program MSI_Script;
 {$i MSI/MSI/Core/Setup.simba}
 
 const
-  USE_FORM = False;
+  USE_FORM = True;
 
 procedure DeclareSettings();
 begin
