@@ -304,6 +304,43 @@ begin
         end;
       end;
 
+    SCRIPT_RM_WILLOWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Rimmington Willows';
+        Constant      := SCRIPT_RM_WILLOWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := DBox;
+        WhichBank     := DBOX_PS;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        with Defaults do
+        begin
+          Trees := [TREE_WILLOW];
+          Items := [TIntegerArray([LOGS_WILLOW])];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_PS_DBOX;
+          EndLoc   := LOC_RM_WILLOWS;
+
+          Reflection := [
+                          TPointArray([Point(3047, 3234), Point(3034, 3234),
+                                       Point(3028, 3222), Point(3017, 3215),
+                                       Point(3006, 3207), Point(3005, 3195),
+                                       Point(3004, 3183), Point(3003, 3172),
+                                       Point(2999, 3165)])
+                        ];
+
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
     SCRIPT_PS_WILLOWS:
       with MSI_Scripts[whichScript] do
       begin

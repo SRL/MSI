@@ -240,6 +240,17 @@ Example:
          MinDistance := 10;
        end;
 
+     LOC_RM_WILLOWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington Willows';
+         Constant := LOC_RM_WILLOWS;
+         AtBank := False;
+         Tiles := [Point(2999, 3169)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
      LOC_RM_CLAY:
        with MSI_Locations[Which] do
        begin
