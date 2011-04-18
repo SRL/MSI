@@ -182,20 +182,20 @@ begin
         UpText             := 'gic tre';
         Option             := 'down Mag';
         Colors             := [11069677];
-        Tol                := 13;
+        Tol                := 18;
         Hue                := 0.03;
         Sat                := 2.12;
         FindAllColors      := False;
         W                  := 60;
         H                  := 70;
-        Accuracy           := 20;
+        Accuracy           := 5;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 20;
         Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 60000;
+        MaxTime            := 90000;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_MAGIC];
@@ -217,7 +217,7 @@ begin
         W                  := 33;
         H                  := 30;
         Accuracy           := 15;
-        SearchArea         := MSBox;
+        SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
         Tries              := 7;
@@ -265,7 +265,7 @@ begin
          W                  := 10;
          H                  := 10;
          Accuracy           := 15;
-         SearchArea         := MSBox;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 10;
@@ -289,7 +289,7 @@ begin
          W                  := 35;
          H                  := 40;
          Accuracy           := 20;
-         SearchArea         := MSBox;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 8;
@@ -313,7 +313,7 @@ begin
          W                  := 15;
          H                  := 30;
          Accuracy           := 20;
-         SearchArea         := MSBox;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 5;
@@ -337,7 +337,7 @@ begin
          W                  := 20;
          H                  := 35;
          Accuracy           := 50;
-         SearchArea         := MSBox;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 5;
@@ -350,25 +350,25 @@ begin
      DBOX_PS:
        with MSI_Objects[whichObject] do
        begin
-         Name               := 'Port Sarim deposit box';
-         UpText             := 'eposit';
-         Option             := 'it Bank';
-         Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
-         Tol                := 12;//7
-         Hue                := 0.05;
-         Sat                := 0.58;
-         FindAllColors      := False;
-         W                  := 30;
-         H                  := 60;
-         Accuracy           := 30;//50
-         SearchArea         := MSBox;
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 15;
-         Anim               := False;
-         WaitToMove         := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
+         Name := 'Port Sarim deposit box';
+         UpText := 'eposit';
+         Option := 'it Bank';
+         Colors := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
+         Tol := 7;
+         Hue := 0.05;
+         Sat := 0.58;
+         FindAllColors := False;
+         W := 30;
+         H := 60;
+         Accuracy := 50;
+         SearchArea := IntToBox(MSX1, MSY1, MSx2, MSY2);;
+         ExcludeSelf := True;
+         RightClickOnly := False;
+         Tries := 15;
+         Anim := False;
+         WaitToMove := False;
+         BadColors := [];
+         BadColorTolerance := 10;
        end;
 
     MSI_BANK_SV:
@@ -385,7 +385,7 @@ begin
         W                  := 30;
         H                  := 20;
         Accuracy           := 7;
-        SearchArea         := MSBox;
+        SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
         Tries              := 5;
@@ -433,7 +433,7 @@ begin
          W                  := 30;
          H                  := 20;
          Accuracy           := 7;
-         SearchArea         := MSBox;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 5;
@@ -825,7 +825,7 @@ begin
          W                  := 18;
          H                  := 30;
          Accuracy           := 5;
-         SearchArea         := MSBox;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := True;
          RightClickOnly     := False;
          Tries              := 6;
@@ -850,7 +850,7 @@ begin
          W                  := 35;
          H                  := 30;
          Accuracy           := 20;
-         SearchArea         := MSBox;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
@@ -971,18 +971,18 @@ begin
          Name               := 'Stiles';
          UpText             := 'tiles';
          Option             := 'chan';
-         Colors             := [3092273];
-         Tol                := 7;
-         Hue                := 0.08;
-         Sat                := 0.17;
+         Colors             := [4342343]; //3092273
+         Tol                := 12;
+         Hue                := 0.00;
+         Sat                := 0.18;
          FindAllColors      := False;
          W                  := 25;
          H                  := 40;
-         Accuracy           := 10;
-         SearchArea         := MSBox;
+         Accuracy           := 5;
+         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
          ExcludeSelf        := False;
          RightClickOnly     := True;
-         Tries              := 5;
+         Tries              := 10;
          Anim               := False;
          WaitToMove         := True;
          BadColors          := [];

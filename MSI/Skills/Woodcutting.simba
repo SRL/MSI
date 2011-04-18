@@ -193,6 +193,8 @@ Begin
 
     MSI_FindRandoms(False);
     MSI_AntiBan(RandomRange(0, 5000), ANTI_BAN_CHANCE);
+    if Animating(IntToBox(MSCx - 30, MSCy - 30, MSCx + 30, MSCy + 30), 1000, 20) then
+      Continue;
 
     { Check if the tree Exists }
     if (Debug) then
