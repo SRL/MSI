@@ -205,6 +205,7 @@ begin
 }
 end;
 
+
 var
   i: Integer;
   drawing: TBitmap;
@@ -262,7 +263,10 @@ begin
   ClearRSCanvas(drawing.canvas);
   {$ENDIF}
 
-  SetupSRLStats(21, MSI_SetupVars[SETUP_STATS_ID], MSI_SetupVars[SETUP_STATS_PASS]);
+  if (MSI_SetupVars[SETUP_STATS_ID] = '') then
+    SetupSRLStats(21, 'Anonymous', 'anon1337')
+  else
+    SetupSRLStats(21, MSI_SetupVars[SETUP_STATS_ID], MSI_SetupVars[SETUP_STATS_PASS]);
   CurrDebugLevel := 1;
 
   if (Lowercase(MSI_SetupVars[SETUP_WALKING]) = 'color') then
