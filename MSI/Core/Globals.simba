@@ -835,6 +835,7 @@ type
     Trees      : TIntegerArray;
     FishSpots  : TIntegerArray;
     Priority   : TIntegerArray;
+    Materials  : TIntegerArray;
     DontDrop   : TIntegerArray; // The items the user doesn't want dropped/banked
     Exceptions : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
 

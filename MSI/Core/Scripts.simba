@@ -1241,6 +1241,7 @@ begin
         with Defaults do
         begin
           CookingSpot := [COOKSPOT_RANGE];
+          Materials := [FISH_RAW_TROUT, FISH_RAW_SALMON];
 
           Items     := [
 
