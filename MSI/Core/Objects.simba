@@ -1126,6 +1126,32 @@ begin
          BadColorTolerance  := 10;
          AssociatedItems    := [];
        end;
+
+     FOUNTAIN_VE:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Varrock East Fountain';
+         UpText             := 'ount';
+         Option             := 'se';
+         Colors             := [14520685];
+         Tol                := 12;
+         Hue                := 0.02;
+         Sat                := 2.47;
+         FindAllColors      := False;
+         W                  := 50;
+         H                  := 50;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [];
+       end;
   end;
 
   Result := (MSI_Objects[whichObject].Name <> '');

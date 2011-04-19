@@ -53,6 +53,17 @@ Example:
          AtBank := False;
        end;
 
+     LOC_VE_FOUNTAIN:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock East Fountain';
+         Constant := LOC_VE_FOUNTAIN;
+         AtBank := False;
+         Tiles := [Point(3276, 3450)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 20;
+       end;
+
      LOC_VE_TREES:
        with MSI_Locations[Which] do
        begin

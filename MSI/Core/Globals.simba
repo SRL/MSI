@@ -221,14 +221,15 @@ const
 
   // Varrock
     // East
-    LOC_VE_TREES  = 10;
-    LOC_VE_OAKS   = 11;
-    LOC_VE_BANK   = 12;
-    LOC_VE_MINE   = 13;
+    LOC_VE_TREES    = 10;
+    LOC_VE_OAKS     = 11;
+    LOC_VE_BANK     = 12;
+    LOC_VE_MINE     = 13;
+    LOC_VE_FOUNTAIN = 14;
 
     // West
-    LOC_VW_BANK  = 14;
-    LOC_VW_MINE  = 15;
+    LOC_VW_BANK  = 15;
+    LOC_VW_MINE  = 16;
 
     // Grand Exchange
     LOC_GE_BANK  = 20;
@@ -518,7 +519,10 @@ const
 
   LOOT_FEATHERS = 101;
 
-  OBJ_ARRAY_LENGTH = 101; // Change to the highest object constant
+  // Fountains
+  FOUNTAIN_VE = 110;
+
+  OBJ_ARRAY_LENGTH = 110; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -822,7 +826,6 @@ type
   TScriptSetup = record
     Name : Integer;
 
-    // Not working until multiple script support
     Loads    : Integer; // Total loads to do for a specific script
     Time     : Integer; // Total time for a specific script
     MaxLevel : Integer; // The maximum skill level for that script

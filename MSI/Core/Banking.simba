@@ -200,7 +200,9 @@ begin
     Result := DepositAll; // Deposits all if there are no exceptions
     DepAll := Result;
     if (Result) then
-      MSI_Debug('Deposited all items in the inventory');
+      MSI_Debug('Deposited all items in the inventory')
+    else
+      MSI_Debug('Failed to deposit all items');
   end else begin
     MSI_Debug('Exceptions: '+ToStr(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions));
 
