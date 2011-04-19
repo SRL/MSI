@@ -382,13 +382,15 @@ end;
  * Used to for TScriptSetup for each player
  *)
 const
-  LIST_COUNT = 6;
+  LIST_COUNT = 8;
     LIST_ROCKS     = 0;
     LIST_TREES     = 1;
     LIST_FISHSPOTS = 2;
     LIST_SPELLS    = 3;
     LIST_STAFFS    = 4;
     LIST_DROP      = 5;
+    LIST_MATERIALS = 6;
+    LIST_COOKSPOTS = 7;
 
   EDIT_COUNT = 6;
     EDIT_LOADS      = 0;
@@ -475,6 +477,26 @@ begin
 
             // Lists and edits for Woodcutting, Mining and Woodcutting
             edits := [EDIT_LOADS, EDIT_TIME, EDIT_LEVEL, EDIT_EXCEPTIONS, EDIT_PRIORITY];
+          end;
+
+        SKILL_COOKING:
+          begin
+            script_lists[LIST_MATERIALS].CLEAR;
+            script_lists[LIST_COOKSPOTS].CLEAR;
+            lists := [LIST_COOKSPOTS, LIST_MATERIALS];
+            edits := [EDIT_LOADS, EDIT_TIME, EDIT_LEVEL];
+
+            // add cooking spots
+            for j := 0 to high(msi_scripts[i].defaults.CookingSpot) do
+              for k := 0 to high(msi_objects) do
+                if (msi_scripts[i].defaults.CookingSpot[j] = k) then
+                  script_lists[LIST_COOKSPOTS].ITEMS.Append(msi_objects[k].name);
+
+            // add materials
+            for j := 0 to high(msi_scripts[i].defaults.materials) do
+              for k := 0 to high(msi_items) do
+                if (msi_scripts[i].defaults.materials[j] = k) then
+                  script_lists[LIST_MATERIALS].ITEMS.Append(msi_items[k].name);
           end;
 
         SKILL_MAGIC:
@@ -574,8 +596,27 @@ begin
         with MSI_Players[pIndex].Scripts[sIndex] do
         begin
           //script_Edits[EDIT_LOADS].Text := IntToStr(Loads);
+          script_Edits[EDIT_LOADS].Text := intToStr(Loads);
           script_Edits[EDIT_PRIORITY].Text := IntArrToStr(Priority);
           script_Edits[EDIT_EXCEPTIONS].Text := IntArrToStr(Exceptions);
+        end;
+      end;
+
+    SKILL_COOKING:
+      begin
+        for i := 0 to High(msi_players[pIndex].scripts[sIndex].CookingSpot) do
+          for j := 0 to (script_Lists[LIST_COOKSPOTS].Items.Count - 1) do
+            if (Lowercase(script_Lists[LIST_COOKSPOTS].Items.Strings[j]) = Lowercase(MSI_objects[msi_players[pIndex].scripts[sIndex].CookingSpot[i]].Name)) then
+              script_Lists[LIST_COOKSPOTS].Checked[j] := true;
+
+        for i := 0 to High(msi_players[pIndex].scripts[sIndex].materials) do
+          for j := 0 to (script_Lists[LIST_MATERIALS].Items.Count - 1) do
+            if (Lowercase(script_Lists[LIST_MATERIALS].Items.Strings[j]) = Lowercase(MSI_items[msi_players[pIndex].scripts[sIndex].materials[i]].Name)) then
+              script_Lists[LIST_MATERIALS].Checked[j] := true;
+
+        with MSI_Players[pIndex].Scripts[sIndex] do
+        begin
+          script_Edits[EDIT_LOADS].Text := intToStr(Loads);
         end;
       end;
 
@@ -607,8 +648,8 @@ begin
   // Time is common for every script
   with MSI_Players[pIndex].Scripts[sIndex] do
   begin
-    //script_Edits[EDIT_LEVEL].Text := IntToStr(MaxLevel);
-    //script_Edits[EDIT_TIME].Text := IntToStr(Time);
+    script_Edits[EDIT_LEVEL].Text := IntToStr(MaxLevel);
+    script_Edits[EDIT_TIME].Text := IntToStr(Time);
   end;
 
   //Writeln('Filled Script Setup Components');
@@ -719,11 +760,6 @@ begin
         // Set the other script information
         with MSI_Players[pIndex].Scripts[sIndex] do
         begin
-          if (StrToInt(script_Edits[EDIT_LEVEL].Text) = -1) then
-            ShowMessage('Invalid max level! Please enter a number.')
-          else
-            MaxLevel := StrToInt(script_Edits[EDIT_LEVEL].Text);
-
           if (StrToInt(script_Edits[EDIT_LOADS].Text) = -1) then
             ShowMessage('Invalid loads! Please enter a number.')
           else
@@ -750,6 +786,42 @@ begin
           except
             ShowMessage('Invalid priority input! Please enter in format: 60,20');
           end;
+        end;
+      end;
+
+    SKILL_COOKING:
+      begin
+        SetLength(MSI_Players[pIndex].Scripts[sIndex].materials, 0);
+
+        for i := 0 to (script_Lists[LIST_COOKSPOTS].ITEMS.Count - 1) do
+          if (script_Lists[LIST_COOKSPOTS].Checked[i]) then
+            for j := 0 to High(MSI_Objects) do
+              if (Lowercase(script_Lists[LIST_COOKSPOTS].Items.Strings[i]) = Lowercase(MSI_Objects[j].Name)) then
+                with MSI_Players[pIndex].Scripts[sIndex] do
+                begin
+                  SetLength(CookingSpot, Length(CookingSpot) + 1);
+                  CookingSpot[High(CookingSpot)] := j;
+                  ClearSameIntegers(CookingSpot);
+                end;
+
+        for i := 0 to script_Lists[LIST_MATERIALS].ITEMS.Count - 1 do
+          if (script_Lists[LIST_MATERIALS].Checked[i]) then
+            for j := 0 to High(MSI_items) do
+              if (Lowercase(MSI_items[j].Name) = Lowercase(script_Lists[LIST_MATERIALS].Items.Strings[i])) then
+                with MSI_Players[pIndex].Scripts[sIndex] do
+                begin
+                  SetLength(materials, Length(materials) + 1);
+                  materials[High(materials)] := j;
+                  ClearSameIntegers(materials);
+                  //Writeln('Player '+IntToStr(pIndex)+' materials: '+ToStr(materials));
+                end;
+
+        with MSI_Players[pIndex].Scripts[sIndex] do
+        begin
+          if (StrToInt(script_Edits[EDIT_LOADS].Text) = -1) then
+            ShowMessage('Invalid loads! Please enter a number.')
+          else
+            Loads := StrToInt(script_Edits[EDIT_LOADS].Text);
         end;
       end;
 
@@ -897,6 +969,12 @@ begin
             Top := Top + Height + 30;
             Hint := 'Check off the items you don''t want to drop (Powerskilling) and/or bank';
           end;
+
+        LIST_MATERIALS:
+          begin
+            Top := Top + Height + 30;
+            Hint := 'Check off the materials you want to use';
+          end;
       end;
 
       ShowHint := True;
@@ -904,7 +982,7 @@ begin
   end;
 
   // TLabels
-  script_ListTexts := ['Rocks', 'Trees', 'Fishing Spots', 'Spells', 'Staffs', 'Don''t Drop/Bank'];
+  script_ListTexts := ['Rocks', 'Trees', 'Fishing Spots', 'Spells', 'Staffs', 'Don''t Drop/Bank', 'Materials', 'Cooking Spots'];
   for i := 0 to High(script_ListLabels) do
   begin
     script_ListLabels[i] := TLabel.Create(script_Form);
@@ -952,7 +1030,6 @@ begin
         EDIT_LEVEL:
           begin
             Text := '0';
-            Enabled := False;
             Hint := 'The maximum skill level you want to get (disabled)';
           end;
 
@@ -1240,6 +1317,17 @@ begin
               end;
             end;
 
+          SKILL_COOKING:
+            begin
+              // Level and Loads
+              WriteINI(IntToStr(i), 'Script'+IntToStr(j)+'.MaxLevel', IntToStr(Scripts[j].MaxLevel), PATH_PLAYER);
+              WriteINI(IntToStr(i), 'Script'+IntToStr(j)+'.Loads', IntToStr(Scripts[j].Loads), PATH_PLAYER);
+
+              // Materials
+              WriteINI(IntToStr(i), 'Script'+IntToStr(j)+'.Materials', IntArrToStr(Scripts[j].Materials), PATH_PLAYER);
+              WriteINI(IntToStr(i), 'Script'+IntToStr(j)+'.CookingSpot', IntArrToStr(Scripts[j].CookingSpot), PATH_PLAYER);
+            end;
+
           SKILL_MAGIC:
             begin
               // Staffs
@@ -1316,6 +1404,8 @@ begin
           Scripts[j].Rocks := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.Rocks', PATH_PLAYER));
           Scripts[j].FishSpots := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.FishSpots', PATH_PLAYER));
           Scripts[j].Spells := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.Spells', PATH_PLAYER));
+          Scripts[j].Materials := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.Materials', PATH_PLAYER));
+          Scripts[j].CookingSpot := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.CookingSpot', PATH_PLAYER));
           Scripts[j].DontDrop := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.DontDrop', PATH_PLAYER));
           Scripts[j].Exceptions := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.Exceptions', PATH_PLAYER));
           Scripts[j].Priority := StrToIntArr(ReadINI(IntToStr(i), 'Script'+IntToStr(j)+'.Priority', PATH_PLAYER));

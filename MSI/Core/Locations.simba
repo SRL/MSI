@@ -24,7 +24,7 @@ the location constants MSI uses, which can be found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 01 November 2010 by Coh3n
+  | Last Updated: 2 April 2011 by IPwnz
 
 Example:
 
@@ -51,6 +51,17 @@ Example:
          Name := 'Lost';
          Constant := LOC_LOST;
          AtBank := False;
+       end;
+
+     LOC_VE_FOUNTAIN:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock East Fountain';
+         Constant := LOC_VE_FOUNTAIN;
+         AtBank := False;
+         Tiles := [Point(3276, 3450)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 20;
        end;
 
      LOC_VE_TREES:
@@ -104,6 +115,28 @@ Example:
          Constant := LOC_VW_MINE;
          AtBank := False;
          Tiles := [Point(3181, 3367)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 20;
+       end;
+
+     LOC_FW_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Falador west mine';
+         Constant := LOC_FW_MINE;
+         AtBank := False;
+         Tiles := [Point(2907, 3358)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 20;
+       end;
+
+     LOC_FW_BANK:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Falador west bank';
+         Constant := LOC_FW_BANK;
+         AtBank := True;
+         Tiles := [Point(2945, 3367)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
@@ -216,6 +249,17 @@ Example:
          Tiles := [Point(2937, 3231), Point(2935, 3228)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 10;
+       end;
+
+     LOC_RM_WILLOWS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Rimmington Willows';
+         Constant := LOC_RM_WILLOWS;
+         AtBank := False;
+         Tiles := [Point(2999, 3169)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
        end;
 
      LOC_RM_CLAY:

@@ -4,6 +4,9 @@ Debug
 
 The Debug file includes all MSI's debugging procedures.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Debug.simba>`_.
+
 *)
 
 (*
@@ -21,7 +24,7 @@ level.
 .. note::
 
   | Author: Sir. R. Magician
-  | Last Updated: 14 February 2011 Coh3n
+  | Last Updated: 08 April 2011 Coh3n
 
 Example:
 
@@ -44,8 +47,8 @@ begin
   // Add debug message to the debug file
   if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
     try
-      if (MSI_Files[FILE_DEBUG] <> -1) then
-        if (not WriteFileString(MSI_Files[FILE_DEBUG], debugMSG + #13+#10)) then
+      if (DebugFile <> -1) then
+        if (not WriteFileString(DebugFile, debugMSG + #13+#10)) then
           Writeln('MSI_Debug: Failed to write to file');
     except
       Writeln(ExceptionToString(ExceptionType, ExceptionParam));
@@ -165,7 +168,7 @@ Writes the string 's' in the debug box and saves it to the text file 'theFile'.
 .. note::
 
   | Author: Naum
-  | Last Updated: 14 February 2011 by Coh3n
+  | Last Updated: 08 April 2011 by Coh3n
 
 Example:
 
@@ -176,9 +179,8 @@ Example:
 Procedure MSI_PrintSave(theFile: Integer; s: string);
 Begin
   Writeln(s);
-  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
-    if (theFile <> -1) then
-      WriteFileString(theFile, s + #13 + #10);
+  if (theFile <> -1) then
+    WriteFileString(theFile, s + #13 + #10);
 End;
 
 (*

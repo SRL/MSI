@@ -2,7 +2,7 @@
 Scripts
 =======
 
-The Scripts file is short and sweat. This is where all the scripts are defined.
+The Scripts file is short and sweet. This is where all the scripts are defined.
 
 The source for Scripts.simba can be found
 `here <https://github.com/SRL/MSI/raw/master/MSI/Core/Scripts.simba>`_.
@@ -23,7 +23,7 @@ only be called in MSI_LoadAllScripts.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 27 February 2010 by Coh3n
+  | Last Updated: 2 April 2011 by IPwnz
 
 Example:
 
@@ -304,6 +304,43 @@ begin
         end;
       end;
 
+    SCRIPT_RM_WILLOWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Rimmington Willows';
+        Constant      := SCRIPT_RM_WILLOWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := DBox;
+        WhichBank     := DBOX_PS;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        with Defaults do
+        begin
+          Trees := [TREE_WILLOW];
+          Items := [TIntegerArray([LOGS_WILLOW])];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_PS_DBOX;
+          EndLoc   := LOC_RM_WILLOWS;
+
+          Reflection := [
+                          TPointArray([Point(3047, 3234), Point(3034, 3234),
+                                       Point(3028, 3222), Point(3017, 3215),
+                                       Point(3006, 3207), Point(3005, 3195),
+                                       Point(3004, 3183), Point(3003, 3172),
+                                       Point(2999, 3165)])
+                        ];
+
+          SPSAreas   := ['8_5', '9_5'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
     SCRIPT_PS_WILLOWS:
       with MSI_Scripts[whichScript] do
       begin
@@ -319,7 +356,7 @@ begin
 
         with Defaults do
         begin
-          Trees := [TREE_WILLOW];
+          Trees := [TREE_WILLOW_NEW];
           Items := [TIntegerArray([LOGS_WILLOW])];
         end;
 
@@ -700,6 +737,46 @@ begin
 
           SPSAreas   := ['10_3'];
           Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_FW_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Miner';
+        Constant      := SCRIPT_FW_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        with Defaults do
+        begin
+          Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON, ROCK_COAL];
+
+          Items := [
+                     TIntegerArray([ORE_TIN]), TIntegerArray([ORE_COPPER]),
+                     TIntegerArray([ORE_IRON]), TIntegerArray([ORE_COAL])
+                   ];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_MINE;
+
+          Reflection := [
+                          TPointArray([Point(2945, 3368), Point(2938, 3355)]),
+                          //^^ inside Falador
+                          TPointArray([Point(2920, 3355), Point(2909, 3357)])
+                        ];
+
+          SPSAreas   := ['8_4'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+          Obstacles := [ OBS_FALADOR_WEST_CRUMBLING_WALL ];
         end;
       end;
 
@@ -1208,6 +1285,40 @@ begin
           StaffType := LeastCasts;
         end;
       end;
+
+    { Money Makers =============================== ]
+    [============================================= }
+    {
+    SCRIPT_VE_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Varrock East Clay Softener';
+        Constant      := SCRIPT_VE_SOFTENER;
+        SkillName     := 'No Skill';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_VE_FOUNTAIN;
+
+          // See below
+          Reflection := [
+                          TPointArray([Point(3254, 3421), Point(3254, 3429),
+                                       Point(3247, 3429), Point(3241, 3434)])
+                        ];
+
+          SPSAreas := ['11_3'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+    }
   end;
 
   Result := (MSI_Scripts[whichScript].Name <> '');

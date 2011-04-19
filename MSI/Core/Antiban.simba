@@ -5,6 +5,9 @@ Antiban
 The Antiban file includes functions & procedures that perform certain
 actions in order to avoid being banned from Runescape.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Antiban.simba>`_.
+
 *)
 
 (*

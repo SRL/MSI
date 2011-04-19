@@ -7,6 +7,9 @@ declared.  There are some exceptions, however, which are used in the different
 skill files.  Keep in mind that any of MSI's global arrays are only accessable
 after MSI_Setup has been called.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Globals.simba>`_.
+
 *)
 
 (*
@@ -96,12 +99,13 @@ const
   SCRIPT_DB_OAKS    = 16;
   SCRIPT_DB_YEWS    = 17;
   SCRIPT_RM_YEWS    = 18;
-  SCRIPT_PS_WILLOWS = 19;
-  SCRIPT_PS_YEWS    = 20;
-  SCRIPT_SV_MAGICS  = 21;
-  SCRIPT_SV_MAPLES  = 22;
-  SCRIPT_SV_YEWS    = 23;
-  SCRIPT_EV_YEWS    = 24;
+  SCRIPT_RM_WILLOWS = 19;
+  SCRIPT_PS_WILLOWS = 20;
+  SCRIPT_PS_YEWS    = 21;
+  SCRIPT_SV_MAGICS  = 22;
+  SCRIPT_SV_MAPLES  = 23;
+  SCRIPT_SV_YEWS    = 24;
+  SCRIPT_EV_YEWS    = 25;
 
 
   // Mining
@@ -118,6 +122,7 @@ const
   SCRIPT_RM_GOLD     = 40;
   SCRIPT_GUILD_MINER = 41; // SRL Members+ only
   SCRIPT_DB_CLAY     = 42;
+  SCRIPT_FW_MINER    = 43;
 
   // Fishing
   SCRIPT_POWER_FISHER  = 50;
@@ -216,14 +221,15 @@ const
 
   // Varrock
     // East
-    LOC_VE_TREES  = 10;
-    LOC_VE_OAKS   = 11;
-    LOC_VE_BANK   = 12;
-    LOC_VE_MINE   = 13;
+    LOC_VE_TREES    = 10;
+    LOC_VE_OAKS     = 11;
+    LOC_VE_BANK     = 12;
+    LOC_VE_MINE     = 13;
+    LOC_VE_FOUNTAIN = 14;
 
     // West
-    LOC_VW_BANK  = 14;
-    LOC_VW_MINE  = 15;
+    LOC_VW_BANK  = 15;
+    LOC_VW_MINE  = 16;
 
     // Grand Exchange
     LOC_GE_BANK  = 20;
@@ -246,9 +252,12 @@ const
   LOC_RM_IRON_1  = 44;
   LOC_RM_IRON_2  = 45;
   LOC_RM_GOLD    = 46;
+  LOC_RM_WILLOWS = 47;
 
   // Falador
   LOC_FE_BANK    = 50;
+  LOC_FW_BANK    = 51;
+  LOC_FW_MINE    = 52;
 
   // Port Sarim
   LOC_PS_WILLOWS = 60;
@@ -423,7 +432,9 @@ const
   MSI_RUNE_SOUL   = 172;
   MSI_RUNE_ASTRAL = 173;
 
-  ITEM_ARRAY_LENGTH = 173; // Change to the highest item constant
+  CLAY_SOFT = 180;
+
+  ITEM_ARRAY_LENGTH = 180; // Change to the highest item constant
 
 (*
 Object Constants
@@ -446,12 +457,13 @@ Example:
 *)
 const
   // Trees
-  TREE_NORMAL = 10;
-  TREE_OAK    = 11;
-  TREE_WILLOW = 12;
-  TREE_MAPLE  = 13;
-  TREE_YEW    = 14;
-  TREE_MAGIC  = 15;
+  TREE_NORMAL     = 10;
+  TREE_OAK        = 11;
+  TREE_WILLOW     = 12;
+  TREE_MAPLE      = 13;
+  TREE_YEW        = 14;
+  TREE_MAGIC      = 15;
+  TREE_WILLOW_NEW = 16;
 
   // Rocks
   ROCK_CLAY       = 20;
@@ -475,7 +487,7 @@ const
   MSI_BANK_SV = 36;
   MSI_BANK_AK = 37;
   MSI_BANK_CB = 38;
-
+  MSI_BANK_FW = 39;
   DBOX_PS = 40;
 
   // Fishing spots
@@ -490,8 +502,9 @@ const
   COOKSPOT_AK_RANGE  = 61;
 
   // Obstacles
-  LADDER_DOWN_MINE_GUILD = 70;
-  LADDER_UP_MINE_GUILD   = 80;
+  LADDER_DOWN_MINE_GUILD      = 70;
+  FALADOR_WEST_CRUMBLING_WALL = 71;
+  LADDER_UP_MINE_GUILD        = 80;
 
   // NPCs
   NPC_CHICKEN_WHITE = 90;
@@ -505,7 +518,10 @@ const
 
   LOOT_FEATHERS = 101;
 
-  OBJ_ARRAY_LENGTH = 101; // Change to the highest object constant
+  // Fountains
+  FOUNTAIN_VE = 110;
+
+  OBJ_ARRAY_LENGTH = 110; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -526,7 +542,7 @@ Example:
 *)
 const
   OBS_LADDER_DOWN_MINE_GUILD = 10;
-
+  OBS_FALADOR_WEST_CRUMBLING_WALL = 11;
   OBS_LADDER_UP_MINE_GUILD   = 20;
 
   OBS_ARRAY_LENGTH = 20; // Change to the highest obstacle constant
@@ -601,16 +617,17 @@ Example:
 
   function GetHighAlchAnimation(): TAnimation;
   begin
-    Result := MSI_Animations[ANIM_ALCH_HIGH];
+    Result := MSI_GetAnimation(ANIM_ALCH_HIGH);
   end;
 *)
 const
+  ANIM_IDLE      = 0;
+
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
 
-  ANIM_FISHING = 20;
-
-  ANIM_ARRAY_LENGTH = 20;
+  ANIM_FISHING   = 20;
+  ANIM_CHOPPING  = 21;
 
 (*
 Material Constants
@@ -667,8 +684,9 @@ const
   // Booleans
   SETUP_DEBUG_SMART   = 10;
   SETUP_SAVE_DEBUG    = 11;
-  SETUP_HUMAN_BREAK   = 12;
-  SETUP_SWITCH_WORLDS = 13;
+  SETUP_SAVE_REPORT   = 12;
+  SETUP_HUMAN_BREAK   = 13;
+  SETUP_SWITCH_WORLDS = 14;
 
   // Integers
   SETUP_BREAK_TIME    = 20;
@@ -682,19 +700,6 @@ const
   SETUP_WALKING       = 32;
 
   SETUP_ARRAY_LENGTH = 32;
-
-(*
-File Constants
-~~~~~~~~~~~~~~
-
-Represent the indexes of each file used in MSI.  Used just like the other MSI
-global arrays.
-*)
-const
-  FILE_DEBUG  = 0;
-  FILE_REPORT = 1;
-
-  FILE_ARRAY_LENGTH = 2;
 
 {==============================================================================\
 |                                  Types                                       |
@@ -711,7 +716,7 @@ type
   TMSObject = record
     X, Y             : Integer;
     Name             : string;
-    UpText           : string; // Set to '' if RightClickOnly := True
+    UpText           : string;  // Set to '' if RightClickOnly := True
     Option           : string;
     Exp              : Extended;
     Colors           : TIntegerArray;
@@ -721,12 +726,13 @@ type
     Sat              : Extended;
     W, H             : Integer;
     Accuracy         : Integer; // Min pixels to be found in each TPA
-    SearchArea       : TBox;  // Box to search for object. Carries the Values of MSBox by default.
+    SearchArea       : TBox;    // Box to search for object. Carries the Values of MSBox by default.
     ExcludeSelf      : Boolean; // Exclude pixels in a box around the player
     RightClickOnly   : Boolean;
     Tries            : Integer;
     Anim             : Boolean; // Set to true if object is animating
-    WaitToMove       : Boolean; // When ClickLeft, wait till we have stopped moving?
+    WaitToMove       : Boolean; // When clicked, wait till we have stopped moving? Calls Flag;
+    Track            : Boolean; // When clicked, track the object while the player moves? Calls MSI_TrackObject;
     MaxTime          : Integer; // Max time (in ms) to wait for the object to disappear
     BadColors        : TIntegerArray;
     BadColorTolerance: Integer;
@@ -818,10 +824,9 @@ type
   TScriptSetup = record
     Name : Integer;
 
-    // Not working until multiple script support
     Loads    : Integer; // Total loads to do for a specific script
     Time     : Integer; // Total time for a specific script
-    MaxLevel : Integer; // The maximus skill level for that script
+    MaxLevel : Integer; // The maximum skill level for that script
 
     // Woodcutting, Mining, and Fishing
     Rocks      : TIntegerArray;
@@ -997,12 +1002,13 @@ around Runescape.
 type
   TObstacle = record
     Name       : string;
-    Constant   : Integer;     // Obstacle constant
-    MirConst   : Integer;     // Obstacle's mirror constant
-    ObjConst   : Integer;     // Object constant
-    ObjMir     : Integer;     // Object's mirror constant
-    StartTiles : TPointArray; // The tiles the obstacle is on
-    EndTiles   : TPointArray; // Possible tiles the player will end up on
+    Constant   : Integer;       // Obstacle constant
+    MirConst   : Integer;       // Obstacle's mirror constant
+    ObjConst   : Integer;       // Object constant
+    ObjMir     : Integer;       // Object's mirror constant
+    Camera     : TVariantArray; // Changes the camera angle and height
+    StartTiles : TPointArray;   // The tiles the obstacle is on
+    EndTiles   : TPointArray;   // Possible tiles the player will end up on
     Solve      : function(i: Integer): Boolean;
   end;
 
@@ -1019,9 +1025,11 @@ type
   TAnimation = record
     Name          : string;
     MinPixelShift : Integer; // Minimum pixel shift for animation
+    MaxPixelShift : Integer; // Maximum pixel shift
     PixelBox      : TBox;    // Box to check for pixel shift
     Interval      : Integer; // How long to check for pixel shift
-    MaxWait       : Integer; // Maximum wait time for animation
+    MaxTime       : Integer; // Gets the average pixel shift over MaxTime
+    WaitTime      : Integer; // How long to wait for animation in ms
   end;
 
   TAnimationArray = array of TAnimation;
@@ -1062,12 +1070,11 @@ var
   ScriptStart      : string;
   NextAntiban      : Integer;
   NextRandCheck    : Integer;
-  MSI_SetupVars    : array[0..SETUP_ARRAY_LENGTH] of Variant;
-
+  DebugFile        : Integer;
 
 // Arrays that store all the necessary "go-to" information for MSI
 var
-  MSI_Files     : array[0..(FILE_ARRAY_LENGTH - 1)] of Integer;
+  MSI_SetupVars : array[0..SETUP_ARRAY_LENGTH] of Variant;
   MSI_Players   : TPlayerInfoArray;
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
   MSI_Objects   : array[0..OBJ_ARRAY_LENGTH] of TMSObject;
@@ -1079,3 +1086,6 @@ var
   MSI_Materials : array[MATERIAL_SHRIMP..MATERIAL_SHRIMP + MATERIALS_ARRAY_LENGTH - 1] of TMaterial;
   MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
+
+
+

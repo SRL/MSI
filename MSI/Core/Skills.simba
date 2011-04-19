@@ -45,7 +45,10 @@ begin
     for i := 0 to High(Scripts) do
     begin
       {$IFDEF REFLECTION}
-      curLev := R_GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+      if (not ReflectionBroken) then
+        curLev := R_GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName)
+      else
+        curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
       {$ELSE}
       curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
       {$ENDIF}
@@ -393,6 +396,12 @@ begin
 
           if (waitTime > 0) then
             Continue;
+
+          // Adjust camera angle to make some objects visible
+          if (random(2) < 1) then
+            makeCompass(randomRange(35, 55))
+          else
+            makeCompass(randomRange(195, 215));
 
           if (MSI_Relocate(MSI_Players[CurrentPlayer].Location)) then
           begin

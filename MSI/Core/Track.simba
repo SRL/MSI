@@ -1,15 +1,14 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                                Track.simba                                   |
-|==============================================================================|
-| For all the routines related to tracking function stats                      |
-|                                                                              |
-| * Procedure Track_LoadNames;             * By Sir R. Magician                |
-| * Procedure Track_Search();              * By Sir R. Magician                |
-| * Procedure Track_Success();             * By Sir R. Magician                |
-| * Procedure Track_Print();               * By Sir R. Magician                |
-| * Procedure Track_PrintAll;              * By Sir R. Magician                |
- \_____________________________________________________________________________}
+(*
+Track
+=====
+
+The Track file holds any functions/procedures that have anything to do with
+MSI's tracking system.
+
+The source for Track.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Track.simba>`_.
+
+*)
 
 (**
  * The type which holds the information of a tracked object
@@ -30,40 +29,91 @@ const
 var
   Tracking: array[0..TRACK_ITEMS] of TTrack;
 
-{******************************************************************************}
-{ Procedure Track_LoadNames;                                                   }
-{ By: Sir R. Magician                                                          }
-{ Date: 19 Sep 2010                                                            }
-{ Description: Loads the names of trackable functions                          }
-{******************************************************************************}
+(*
+Track_LoadNames
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure Track_LoadNames;
+
+Loads the name of all trackable functions (i.e. returns teh names of where MSI
+uses function tracking).  This procedure should only be called in MSI_Setup.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 19 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  Track_LoadNames;
+*)
 Procedure Track_LoadNames;
 begin
   Tracking[T_TrackObject].Name := 'TrackObject';
   Tracking[T_WorldWalker].Name := 'WorldWalk_cstrike';
 end;
 
-{******************************************************************************}
-{ Procedure Procedure Track_Search(which: integer);                            }
-{ By: Sir R. Magician                                                          }
-{ Date: 19 Sep 2010                                                            }
-{ Description: See code                                                        }
-{******************************************************************************}
+(*
+Track_Search
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure Track_Search(which: Integer);
+
+Simply increments the number of searches for the tracking function 'which' by 1.
+This procedure is called at the beginning of a function or procedure that we
+want to track.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 19 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  Track_Search(T_TrackObject);
+*)
 Procedure Track_Search(which: integer);
 begin
   Inc(Tracking[which].Searches)
 end;
 
-{******************************************************************************}
-{ Procedure Track_Success(which: integer);                                     }
-{ By: Sir R. Magician                                                          }
-{ Date: 19 Sep 2010                                                            }
-{ Description: See code                                                        }
-{******************************************************************************}
+(*
+Track_Success
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure Track_Success(which: Integer);
+
+Simply increments the number of successes for the tracking function 'which' by
+1.  This function is called when a function/procedure we're tracking is
+successful.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 19 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  Track_Success(T_TrackObject);
+*)
 Procedure Track_Success(which: integer);
 begin
 	Inc(Tracking[which].Successes);	  
 end;
 
+{
 Procedure Track_Result(which: integer; success: boolean);
 begin
 
@@ -74,13 +124,29 @@ begin
 
 	//yes I know this is a hack, but Track_Result actually makes more sense
 end;
+}
 
-{******************************************************************************}
-{ Procedure Track_Print(which: integer);                                       }
-{ By: Sir R. Magician                                                          }
-{ Date: 19 Sep 2010                                                            }
-{ Description: Prints the track record of which                                }
-{******************************************************************************}
+(*
+Track_Print
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure Track_Print(which: Integer);
+
+Prints a tracking report for the tracking function 'which'.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 19 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  Track_Print(T_TrackObject);
+*)
 Procedure Track_Print(which: integer);
 begin
   MSI_Debug('~ Track Record');
@@ -90,12 +156,27 @@ begin
   MSI_Debug('~ ~ Success %: ' + FloatToStr(Tracking[which].Successes * 100 / Tracking[which].Searches));
 end;
 
-{******************************************************************************}
-{ Procedure Track_PrintAll;                                                    }
-{ By: Sir R. Magician                                                          }
-{ Date: 19 Sep 2010                                                            }
-{ Description: Prints all track records                                        }
-{******************************************************************************}
+(*
+Track_Print
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure Track_Print(which: Integer);
+
+Prints a tracking report for all MSI's tracking function.
+
+.. note::
+
+  | Author: Sir R. Magician
+  | Last Updated: 19 September 2010 by Sir R. Magician
+
+Example:
+
+.. code-block:: pascal
+
+  Track_PrintAll;
+*)
 Procedure Track_PrintAll;
 var
   i: integer;

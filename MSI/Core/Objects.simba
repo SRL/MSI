@@ -31,7 +31,7 @@ MSI_LoadAllObjects.  Loads the object 'whichObject' into the MSI_Objects array.
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 17 July 2010 by Coh3n
+  | Last Updated: 2 April 2011 by IPwnz
 
 Example:
 
@@ -65,6 +65,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 10000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -91,6 +92,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 20000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -107,6 +109,33 @@ begin
         Tol                := 14;
         Hue                := 0.18;
         Sat                := 0.28;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 30;
+        Accuracy           := 10;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        Tries              := 5;
+        Anim               := False;
+        WaitToMove         := True;
+        Track              := False;
+        MaxTime            := 30000;
+        BadColors          := [];
+        BadColorTolerance  := 10;
+        AssociatedItems    := [LOGS_WILLOW];
+      End;
+
+    TREE_WILLOW_NEW:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Willow tree';
+        UpText             := 'wn Wil';
+        Option             := 'Chop down Willow';
+        Colors             := [2843496];
+        Tol                := 2;
+        Hue                := 0.42;
+        Sat                := 2.87;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -143,6 +172,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 35000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -169,6 +199,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := False;
         MaxTime            := 60000;
         BadColors          := [];
         BadColorTolerance  := 10;
@@ -196,6 +227,7 @@ begin
         Anim               := False;
         WaitToMove         := True;
         MaxTime            := 90000;
+        Track              := False;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_MAGIC];
@@ -222,7 +254,8 @@ begin
         RightClickOnly     := True;
         Tries              := 7;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := False;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -246,7 +279,8 @@ begin
          RightClickOnly     := True;
          Tries              := 10;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -270,7 +304,8 @@ begin
          RightClickOnly     := True;
          Tries              := 10;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -294,7 +329,8 @@ begin
          RightClickOnly     := True;
          Tries              := 8;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -314,6 +350,31 @@ begin
          H                  := 30;
          Accuracy           := 20;
          SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
+         ExcludeSelf        := True;
+         RightClickOnly     := True;
+         Tries              := 5;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+       end;
+
+     MSI_BANK_FW:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador west bank';
+         UpText             := 'ooth';
+         Option             := 'uick';
+         Colors             := [3627376];
+         Tol                := 6;
+         Hue                := 0.17;
+         Sat                := 0.94;
+         FindAllColors      := False;
+         W                  := 15;
+         H                  := 30;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 5;
@@ -342,7 +403,8 @@ begin
          RightClickOnly     := True;
          Tries              := 5;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -350,25 +412,26 @@ begin
      DBOX_PS:
        with MSI_Objects[whichObject] do
        begin
-         Name := 'Port Sarim deposit box';
-         UpText := 'eposit';
-         Option := 'it Bank';
-         Colors := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
-         Tol := 7;
-         Hue := 0.05;
-         Sat := 0.58;
-         FindAllColors := False;
-         W := 30;
-         H := 60;
-         Accuracy := 50;
-         SearchArea := IntToBox(MSX1, MSY1, MSx2, MSY2);;
-         ExcludeSelf := True;
-         RightClickOnly := False;
-         Tries := 15;
-         Anim := False;
-         WaitToMove := False;
-         BadColors := [];
-         BadColorTolerance := 10;
+         Name               := 'Port Sarim deposit box';
+         UpText             := 'eposit';
+         Option             := 'it Bank';
+         Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
+         Tol                := 7;
+         Hue                := 0.05;
+         Sat                := 0.58;
+         FindAllColors      := False;
+         W                  := 30;
+         H                  := 60;
+         Accuracy           := 50;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 15;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
        end;
 
     MSI_BANK_SV:
@@ -390,7 +453,8 @@ begin
         RightClickOnly     := True;
         Tries              := 5;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := False;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -414,7 +478,8 @@ begin
         RightClickOnly     := True;
         Tries              := 5;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := False;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -438,7 +503,8 @@ begin
          RightClickOnly     := True;
          Tries              := 5;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
        end;
@@ -466,6 +532,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_CLAY];
@@ -492,6 +559,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_COPPER];
@@ -518,6 +586,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_TIN];
@@ -529,10 +598,10 @@ begin
         Name               := 'Iron';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [2568006];
-        Tol                := 5;
-        Hue                := 0.07;
-        Sat                := 0.18;
+        Colors             := [3030375];
+        Tol                := 8;
+        Hue                := 0.08;
+        Sat                := 0.14;
         FindAllColors      := False;
         W                  := 30;
         H                  := 23;
@@ -544,6 +613,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_IRON];
@@ -555,10 +625,10 @@ begin
         Name               := 'Silver';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [10598078];
-        Tol                := 10;
-        Hue                := 0.06;
-        Sat                := 0.84;
+        Colors             := [14408944];
+        Tol                := 8;
+        Hue                := 0.11;
+        Sat                := 4.02;
         FindAllColors      := False;
         W                  := 25;
         H                  := 20;
@@ -570,6 +640,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_SILVER];
@@ -596,6 +667,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_COAL];
@@ -607,10 +679,10 @@ begin
         Name               := 'Gold';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [1092057];
-        Tol                := 11;
-        Hue                := 0.01;
-        Sat                := 1.09;
+        Colors             := [4702956];
+        Tol                := 5;
+        Hue                := 0.02;
+        Sat                := 3.30;
         FindAllColors      := False;
         W                  := 25;
         H                  := 20;
@@ -622,6 +694,7 @@ begin
         Tries              := 15;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_GOLD];
@@ -633,10 +706,10 @@ begin
         Name               := 'Mithril';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [6376267, 8019550];
-        Tol                := 5;
-        Hue                := 1.57;
-        Sat                := 0.31;
+        Colors             := [15110813];
+        Tol                := 10;
+        Hue                := 0.27;
+        Sat                := 3.28;
         FindAllColors      := False;
         W                  := 25;
         H                  := 20;
@@ -648,6 +721,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_MITHRIL];
@@ -674,6 +748,7 @@ begin
         Tries              := 15;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
         AssociatedItems    := [ORE_ADAMANTITE];
@@ -699,6 +774,7 @@ begin
         Tries              := 5;
         Anim               := False;
         WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 10;
       end;
@@ -777,12 +853,12 @@ begin
         RightClickOnly     := False;
         Tries              := 5;
         Anim               := False;
-        WaitToMove         := False;
-        BadColors          := [];
-        BadColorTolerance  := 0;
-        AssociatedItems    := [];{MSI_LoadItemRange(FISH_RAW_SHRIMP, FISH_RAW_SWORDFISH) +
-                              MSI_LoadItemRange(FISH_COOKED_SHRIMP, FISH_COOKED_SWORDFISH);
-    }  end;
+        WaitToMove         := True;
+        Track              := False;
+        BadColors          := [3686583, 2764680, 4023751];
+        BadColorTolerance  := 35;
+        AssociatedItems    := [];
+      end;
 
     COOKSPOT_FIRE:
       with MSI_Objects[whichObject] do
@@ -803,7 +879,8 @@ begin
         RightClickOnly     := False;
         Tries              := 0;
         Anim               := False;
-        WaitToMove         := False;
+        WaitToMove         := True;
+        Track              := True;
         BadColors          := [];
         BadColorTolerance  := 0;
         AssociatedItems    := [];
@@ -830,7 +907,8 @@ begin
          RightClickOnly     := False;
          Tries              := 6;
          Anim               := False;
-         WaitToMove         := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -854,6 +932,32 @@ begin
          ExcludeSelf        := False;
          RightClickOnly     := False;
          Tries              := 5;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [];
+       end;
+
+     FALADOR_WEST_CRUMBLING_WALL:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador West Crumbling Wall';
+         UpText             := 'rumbling wall';
+         Option             := 'rumbling wall';
+         Colors             := [9092811];
+         Tol                := 24;
+         Hue                := 0.04;
+         Sat                := 1.35;
+         FindAllColors      := False;
+         W                  := 18;
+         H                  := 30;
+         Accuracy           := 5;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
          Anim               := False;
          WaitToMove         := False;
          BadColors          := [];
@@ -883,6 +987,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -910,6 +1015,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := True;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -935,6 +1041,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := True;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -960,6 +1067,7 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := True;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -985,6 +1093,7 @@ begin
          Tries              := 10;
          Anim               := False;
          WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -1012,6 +1121,33 @@ begin
          Tries              := 5;
          Anim               := False;
          WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [];
+       end;
+
+     FOUNTAIN_VE:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Varrock East Fountain';
+         UpText             := 'ount';
+         Option             := 'se';
+         Colors             := [14520685];
+         Tol                := 12;
+         Hue                := 0.02;
+         Sat                := 2.47;
+         FindAllColors      := False;
+         W                  := 50;
+         H                  := 50;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
          AssociatedItems    := [];
@@ -1575,7 +1711,7 @@ Begin
           Begin
             GetMousePos(X, Y);
 
-            If (MSI_Objects[Objs[II]].RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) Then
+            If (RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) Then
             Begin
               Mouse(X, Y, 0, 0, False);
               If (Action = ClickRight) or (Action = ClickLeft) Then
@@ -1588,8 +1724,14 @@ Begin
             End;
 
             if (result) then
-              If MSI_Objects[Objs[II]].WaitToMove Then
-                MSI_TrackObject(Objs[II]);
+              if ((waitToMove) and (track)) then
+                MSI_TrackObject(objs[ii])
+              else
+                if (waitToMove) then
+                  flag
+                else
+                  if (track) then
+                    MSI_TrackObject(objs[ii]);
 
             MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
             NotBoxes := [];

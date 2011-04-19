@@ -24,6 +24,7 @@ procedure DeclareSettings();
 begin
   MSI_SetupVars[SETUP_DEBUG_SMART]   := True;         // Debugs things onto SMART (may cause lag)
   MSI_SetupVars[SETUP_SAVE_DEBUG]    := True;         // Save's the debug box text to a file
+  MSI_SetupVars[SETUP_SAVE_REPORT]   := True;         // Save's the progress report to a file
   MSI_SetupVars[SETUP_HUMAN_BREAK]   := True;         // Take more human like breaks
   MSI_SetupVars[SETUP_SWITCH_WORLDS] := True;         // Switch worlds when switching players or after breaks
   MSI_SetupVars[SETUP_BREAK_TIME]    := 15;           // Single player only - how long to break for (in minutes)
@@ -31,8 +32,8 @@ begin
   MSI_SetupVars[SETUP_ANTIBAN_WAIT]  := 15000;        // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
   MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
   MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
-  MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
-  MSI_SetupVars[SETUP_WALKING]       := 'Reflection';      // 'Reflection' or 'Color'
+  MSI_SetupVars[SETUP_STATS_PASS]    := ''            // Stats password
+  MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection' or 'Color'
 end;
 
 procedure DeclarePlayers;
@@ -56,8 +57,8 @@ begin
     Nick       := '';      // Nickname (3-4 lowercase letters from username)
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
-    Member     := True;   // Is this player a member?
-    Location   := LOC_AK_BANK;       // See instructions at the top
+    Member     := False;   // Is this player a member?
+    Location   := 0;       // See instructions at the top
     BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
     BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
     TotalLoads := 0;       // Total loads for the player to do; leave 0 if using TotalTime or to go forever
@@ -206,6 +207,7 @@ begin
 }
 end;
 
+
 var
   i: Integer;
   drawing: TBitmap;
@@ -254,10 +256,7 @@ begin
   AddOnTerminate('MSI_ScriptTerminate');
 
   if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
-  begin
-    MSI_Files[FILE_DEBUG] := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
-    MSI_Files[FILE_REPORT] := CreateFile(PATH_REPORT + ScriptStart + '.txt');
-  end;
+    DebugFile := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
 
   // Clears the SMART canvas if there is any debug info. left from a previous run
   {$IFDEF SRL_SMART}
@@ -266,7 +265,10 @@ begin
   ClearRSCanvas(drawing.canvas);
   {$ENDIF}
 
-  SetupSRLStats(21, MSI_SetupVars[SETUP_STATS_ID], MSI_SetupVars[SETUP_STATS_PASS]);
+  if (MSI_SetupVars[SETUP_STATS_ID] = '') then
+    SetupSRLStats(21, 'Anonymous', 'anon1337')
+  else
+    SetupSRLStats(21, MSI_SetupVars[SETUP_STATS_ID], MSI_SetupVars[SETUP_STATS_PASS]);
   CurrDebugLevel := 1;
 
   if (Lowercase(MSI_SetupVars[SETUP_WALKING]) = 'color') then

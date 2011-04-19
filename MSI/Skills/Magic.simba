@@ -5,6 +5,9 @@ Magic
 The Magic file contains all the routines used for the Magic still. It handles
 everything from player setup to mini-mainloops.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Magic.simba>`_.
+
 *)
 
 const
@@ -330,7 +333,7 @@ begin
               begin
                 Result[i] := theStaffs[a];
                 MSI_Debug('Using '+MSI_Items[Result[i]].Name+' for '+MSI_Spells[Spells[i]].Name);
-                Staffs[i] := Result[i]; // Set script attribute to the staff chosen
+                MSI_Players[CurrentPlayer].Scripts[CurrentScript].Staffs[i] := Result[i]; // Set script attribute to the staff chosen
                 Break;
               end else
                 Continue;
@@ -765,6 +768,7 @@ Example:
 function MSI_Alch(Spell: Integer): Boolean;
 var
   i, t, idealSlot: Integer;
+  anim: TAnimation;
 begin
   if (not LoggedIn) then
     Exit;
@@ -776,6 +780,8 @@ begin
 
   with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
   begin
+    anim := MSI_GetAnimation(MSI_Spells[Spell].AnimConst);
+
     if (Length(AlchSlots) <= 0) then
     begin
       MSI_Debug('No alching slots specified, using default');
@@ -829,7 +835,7 @@ begin
           Exit;
         end;
 
-        MSI_WaitWhileAnimating(MSI_Spells[Spell].AnimConst);
+        MSI_WaitWhileAnimating(anim);
 
         // Result is true if we've cast the maximum
         if (MSI_Players[CurrentPlayer].ReportInfo.Casts[CurrentSpell][CurrentScript] >= MaxCasts[CurrentSpell]) then

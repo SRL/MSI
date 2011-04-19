@@ -5,6 +5,9 @@ Banking
 The Antiban file includes MSI's custom banking procedures. It uses MSI's
 object finding methods to interact with banks NPCs.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Banking.simba>`_.
+
 *)
 function MSI_HandlePin(Pin: string): Boolean;
 var
@@ -209,7 +212,9 @@ begin
     Result := DepositAll; // Deposits all if there are no exceptions
     DepAll := Result;
     if (Result) then
-      MSI_Debug('Deposited all items in the inventory');
+      MSI_Debug('Deposited all items in the inventory')
+    else
+      MSI_Debug('Failed to deposit all items');
   end else begin
     MSI_Debug('Exceptions: '+ToStr(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions));
 

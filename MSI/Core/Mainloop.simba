@@ -912,7 +912,7 @@ Example:
 *)
 procedure MSI_MainLoop;
 var
-  tmpLoads, tmpTime, time: Integer;
+  tmpLoads, tmpTime, time, iCount: Integer;
   Script: TScript;
   takeBreak, skipToBank: Boolean;
   reason: string;
@@ -992,13 +992,20 @@ begin
           end;
 
         if (not MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials) then
+        begin
+          iCount := InvCount;
           if ((InvCount > Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions))) then
+          begin
+            MSI_Debug('Inventory count = '+ToStr(iCount));
+            MSI_Debug('Exceptions Length = '+ToStr(Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)));
             if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
               if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
               begin
                 MSI_Debug('Found items in inventory, depositing..');
                 goto AtBank;
               end;
+          end;
+        end;
 
         if (not MSI_Walk(True)) then
         begin
@@ -1062,6 +1069,15 @@ begin
       if (not nPlayer) then
         nPlayer := MSI_CheckLoads(tmpLoads, reason, takeBreak);
 
+      // Check the script's MaxLevel attribute
+      if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel > 0) then
+        if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >=
+            MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel) then
+        begin
+          nPlayer := True;
+          reason := 'Max level reached';
+        end;
+
       if (nPlayer) then
       begin
         if (takeBreak) then
@@ -1112,8 +1128,6 @@ Example:
   MSI_Mainloop;
 *)
 procedure MSI_ScriptTerminate;
-var
-  i: Integer;
 begin
   // Commit to stats
   stats_Commit;
@@ -1122,9 +1136,8 @@ begin
   MSI_ClearFile(PATH_REMOTE);
   MSI_FreeAllItems;
   FreeSRL;
-
-  for i := 0 to High(MSI_Files) do
-    CloseFile(MSI_Files[i]);
+  SMART_FreeDebug();
+  CloseFile(DebugFile);
 
   Writeln('Thank-you for using MSI Phoenix scripts!');
 end;

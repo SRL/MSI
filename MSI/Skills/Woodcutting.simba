@@ -150,6 +150,7 @@ Example:
   if MSI_FindObject(TREE_NORMAL, ClickLeft) then
     MSI_WaitWhileChopping(TREE_NORMAL);
 *)
+{
 Procedure MSI_WaitWhileChopping(TreeID: integer);
 Var
   CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist, prevLen: Integer;
@@ -196,7 +197,7 @@ Begin
     if Animating(IntToBox(MSCx - 30, MSCy - 30, MSCx + 30, MSCy + 30), 1000, 20) then
       Continue;
 
-    { Check if the tree Exists }
+    // Check if the tree Exists
     if (Debug) then
       MSI_Debug('Looking for tree');
 
@@ -250,7 +251,7 @@ Begin
       if MSI_FindBirdNest then
         Break;
 
-    { InvCount check }
+    // InvCount check
     if (Debug) then
       MSI_Debug('Checking inventory count');
 
@@ -264,7 +265,7 @@ Begin
       T := (GetSystemTime + MSI_Objects[TreeID].MaxTime + Random(5000));
     End;
 
-    { Prevent logout }
+    // Prevent logout
     If ((TotalChopTime - GetSystemTime) < 60000) Then
     Begin
       if (Debug) then
@@ -291,6 +292,34 @@ Begin
   SetColorToleranceSpeed(CTS);
   SetColorSpeed2Modifiers(0.2, 0.2);
 End;
+}
+function MSI_IsChopping(): boolean;
+begin
+  result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
+end;
+
+procedure MSI_WaitWhileChopping(tree: integer);
+var
+  anim: TAnimation;
+begin
+  if (not loggedIn) then
+    exit;
+
+  flag;
+  anim := MSI_GetAnimation(ANIM_CHOPPING);
+  wait(randomRange(1000, 1500));
+
+  while (true) do
+  begin
+    if (not waitFunc(@MSI_IsChopping, 10, 1000)) then
+      break;
+
+    MSI_FindRandoms(false);
+    MSI_AntiBan(randomRange(200, 500), ANTI_BAN_CHANCE);
+
+    wait(1);
+  end;
+end;
 
 (*
 MSI_ChopTree

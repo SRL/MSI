@@ -5,6 +5,9 @@ Setup
 The Setup file includes all the files that MSI uses throughout the include, plus
 the necessary setup procedures called when the script starts.
 
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Setup.simba>`_.
+
 *)
 
 ///SRL Includes
@@ -96,7 +99,6 @@ begin
   MSI_LoadAllObjects;
   MSI_LoadAllItems;
   MSI_LoadAllObstacles;
-  MSI_LoadAllAnimations;
   MSI_LoadAllSpells;
   //MSI_LoadAllExtras;
   Track_LoadNames;
