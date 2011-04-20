@@ -82,7 +82,6 @@ begin
   if (not LoggedIn) then
     Exit;
   MSI_AddHeader('MSI_WaitWhileCooking');
-  Writeln(WhichRecipe);
 
   Timeout := GetSystemTime + 180000;
   while (GetSystemTime < Timeout) do
@@ -145,7 +144,7 @@ end;
 
 function MSI_CookFood(WhichRecipe : Integer) : Boolean;
 var
-  TimeOut: Integer;
+  TimeOut, x, y: Integer;
 begin
   if (not LoggedIn) then
     Exit;
@@ -154,8 +153,9 @@ begin
 
   TimeOut := GetSystemTime + Round(60*1000*2.5);
   repeat
-    if not MSI_ClickItem(MSI_Materials[WhichRecipe].Supplies[0][0], ['Use', 'se']) then
-      MSI_Debug('Somehow, we failed to click the '+MSI_Materials[WhichRecipe].Name+'!');
+    if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
+      if not MSI_ClickItem(MSI_Materials[WhichRecipe].Supplies[0][0], ['Use', 'se']) then
+        MSI_Debug('Somehow, we failed to click the '+MSI_Materials[WhichRecipe].Name+'!');
 
     if MSI_FindObject(MSI_Players[CurrentPlayer].Scripts[CurrentScript].CookingSpot[CurrentScript], clickLeft) then
     begin

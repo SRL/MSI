@@ -9,6 +9,29 @@ The source for can be found
 `here <https://github.com/SRL/MSI/raw/master/MSI/Core/Banking.simba>`_.
 
 *)
+
+(*
+MSI_HandlePin
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_HandlePin(Pin: string): Boolean;
+
+Enters the player's pin if the pin screen appears.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 20 April 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_HandlePin(MSI_Players[CurrentPlayer].Pin)) then
+    MSI_Debug('Successfully entered player''s pin');
+*)
 function MSI_HandlePin(Pin: string): Boolean;
 var
   t: Integer;
@@ -23,6 +46,7 @@ begin
   until(Result or (GetSystemTime >= t));
   MSI_CloseHeader('MSI_HandlePin: '+ToStr(Result));
 end;
+
 (*
 MSI_OpenBank
 ~~~~~~~~~~~~
@@ -368,7 +392,7 @@ Example:
 *)
 function MSI_Withdraw(Items, Amounts: TIntegerArray): Boolean;
 var
-  i, x, y, ii: Integer;
+  i, x, y, ii, t: Integer;
   p: TPointArray;
   itemsWithdrew: TBooleanArray;
 begin
@@ -397,15 +421,18 @@ begin
       for ii := 0 to High(p) do
       begin
         MMouse(p[ii].x, p[ii].y, 4, 4);
-        if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 400) then
+        if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 1000) then
           Break;
+
         if ii = High(p) - 1 then
-        begin
-          MSI_Debug('Failed to find item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-          Exit;
-        end;
+          if (Amounts[i] = 1) then
+          begin
+            MSI_Debug('Failed to find uptext in bank: '+Capitalize(MSI_Items[Items[i]].Name));
+            MSI_CloseHeader('MSI_Withdraw: ' + BoolToStr(Result));
+            Exit;
+          end;
       end;
-      MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
+
       GetMousePos(x, y);
       if (Amounts[i] = 1) then
       begin
@@ -425,7 +452,17 @@ begin
             if (WaitColor(254, 401, ClBlack, 0, 1200)) then
               TypeSend(IntToStr(Amounts[i]));
 
-      itemsWithdrew[i] := FindDTM(MSI_Items[Items[i]].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
+      t := (GetSystemTime + 5000);
+      while (GetSystemTime < t) do
+      begin
+        if (FindDTM(MSI_Items[Items[i]].DTM, x, y, MIX1, MIY1, MIX2, MIY2)) then
+        begin
+          itemsWithdrew[i] := True;
+          Break;
+        end;
+
+        Wait(RandomRange(200, 500));
+      end;
     end;
 
   for i := 0 to High(itemsWithdrew) do
@@ -546,7 +583,7 @@ function MSI_BankStandard: Boolean;
 var
   intItems: TIntegerArray;
   itemsDeposited: TBooleanArray;
-  i, Total, x, y, Material: Integer;
+  i, x, y, Material: Integer;
   depAll: Boolean;
   Script: TScript;
 begin
@@ -594,9 +631,10 @@ begin
   if MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials then
     for i := 0 to High(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials) do
     begin
+      Result := false;
       Material := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[i];
       MSI_Withdraw([MSI_Materials[Material].Supplies[i][0]], [MSI_Materials[Material].Supplies[i][1]]);
-      Total := Total + MSI_Materials[Material].Supplies[i][1];
+
       if i = High(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials) then
         Result := WaitFunc(@InvFull, 50, 800 + Random(300));
     end;

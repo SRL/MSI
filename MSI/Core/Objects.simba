@@ -840,14 +840,14 @@ begin
         Name               := 'AK Cooking Range';
         UpText             := 'Range';
         Option             := 'Range';
-        Colors             := [1647799];
-        Tol                := 10;
-        Hue                := 0.05;
-        Sat                := 0.18;
+        Colors             := [1779380];
+        Tol                := 15;
+        Hue                := 0.06;
+        Sat                := 0.29;
         FindAllColors      := False;
-        W                  := 17;
-        H                  := 15;
-        Accuracy           := 10;
+        W                  := 30;
+        H                  := 30;
+        Accuracy           := 5;
         SearchArea         := IntToBox(MSx1, MSy1, MSCx + 80, MSCy + 30);
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -855,9 +855,13 @@ begin
         Anim               := False;
         WaitToMove         := True;
         Track              := False;
-        BadColors          := [3686583, 2764680, 4023751];
-        BadColorTolerance  := 35;
-        AssociatedItems    := [];
+        BadColors          := [];
+        BadColorTolerance  := 0;
+        AssociatedItems    := [FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
+                               FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
+                               FISH_COOKED_PIKE, FISH_COOKED_TROUT,
+                               FISH_COOKED_SALMON, FISH_COOKED_LOBSTER,
+                               FISH_COOKED_TUNA, FISH_COOKED_SWORDFISH];
       end;
 
     COOKSPOT_FIRE:

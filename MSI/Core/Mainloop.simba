@@ -781,8 +781,9 @@ begin
 
           SKILL_COOKING:
             begin
-              MSI_SetReportInfo(i, j, Scripts[j].CookingSpot, MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot, newObjs);
-              Scripts[j].CookingSpot := newObjs;
+              MSI_SetReportInfo(i, j, Scripts[j].Materials, MSI_Scripts[Scripts[j].Name].Defaults.Materials, newObjs);
+              Scripts[j].Materials := newObjs;
+              Scripts[j].CookingSpot := MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot;
             end;
 
           SKILL_MAGIC:

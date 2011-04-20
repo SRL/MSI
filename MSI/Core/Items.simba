@@ -917,7 +917,7 @@ begin
       begin
         Name := 'Raw shrimps';
         StatsName := 'Shrimp Caught';
-        UpText := ['aw shrimps'];
+        UpText := ['aw shrim', 'w shr', 'rim'];
         Stackable := False;
         EquipLevel := -1;
       end;
