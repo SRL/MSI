@@ -67,7 +67,7 @@ begin
     with Scripts[0] do
     begin
       Name := SCRIPT_AK_COOKER;
-      Materials := [FISH_RAW_SHRIMP];
+      Materials := [MATERIAL_SHRIMP];
       // Copy/paste the script attributes from the setup thread
     end;
   end;

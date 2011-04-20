@@ -668,7 +668,7 @@ experiences/amounts depending on the objects filled out during player setup.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 12 October 2010 by Coh3n
+  | Last Updated: 20 April 2011 by Coh3n
 
 Example:
 
@@ -738,7 +738,7 @@ certain player.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 03 July 2010 by Coh3n
+  | Last Updated: 20 April 2011 by Coh3n
 
 Example:
 
@@ -781,9 +781,8 @@ begin
 
           SKILL_COOKING:
             begin
-              MSI_SetReportInfo(i, j, Scripts[j].Materials, MSI_Scripts[Scripts[j].Name].Defaults.Materials, newObjs);
-              Scripts[j].Materials := newObjs;
-              Scripts[j].CookingSpot := MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot;
+              MSI_SetReportInfo(i, j, Scripts[j].CookingSpot, MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot, newObjs);
+              Scripts[j].CookingSpot := newObjs;
             end;
 
           SKILL_MAGIC:

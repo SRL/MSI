@@ -31,7 +31,7 @@ MSI_LoadAllObjects.  Loads the object 'whichObject' into the MSI_Objects array.
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 2 April 2011 by IPwnz
+  | Last Updated: 20 April 2011 by Coh3n
 
 Example:
 
