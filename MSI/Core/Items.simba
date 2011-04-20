@@ -1026,6 +1026,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked shrimps';
+        StatsName := 'Shrimp Cooked';
         UpText := ['hrimps'];
         Stackable := False;
         EquipLevel := -1;
@@ -1035,6 +1036,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked crayfish';
+        StatsName := 'Crayfish Cooked';
         UpText := ['rayfish'];
         Stackable := False;
         EquipLevel := -1;
@@ -1044,6 +1046,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked anchovies';
+        StatsName := 'Anchovies Cooked';
         UpText := ['nchovies'];
         Stackable := False;
         EquipLevel := -1;
@@ -1053,6 +1056,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked sardines';
+        StatsName := 'Sardines Cooked';
         UpText := ['ardine'];
         Stackable := False;
         EquipLevel := -1;
@@ -1062,6 +1066,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked herring';
+        StatsName := 'Herring Cooked';
         UpText := ['erring'];
         Stackable := False;
         EquipLevel := -1;
@@ -1071,6 +1076,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked trout';
+        StatsName := 'Trout Cooked';
         UpText := ['rout'];
         Stackable := False;
         EquipLevel := -1;
@@ -1080,6 +1086,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked pike';
+        StatsName := 'Pike Cooked';
         UpText := ['ike'];
         Stackable := False;
         EquipLevel := -1;
@@ -1089,6 +1096,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked salmon';
+        StatsName := 'Salmon Cooked';
         UpText := ['almon'];
         Stackable := False;
         EquipLevel := -1;
@@ -1098,6 +1106,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked tuna';
+        StatsName := 'Tuna Cooked';
         UpText := ['una'];
         Stackable := False;
         EquipLevel := -1;
@@ -1107,6 +1116,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked lobster';
+        StatsName := 'Lobster Cooked';
         UpText := ['obster'];
         Stackable := False;
         EquipLevel := -1;
@@ -1116,6 +1126,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked swordfish';
+        StatsName := 'Swordfish Cooked';
         UpText := ['wordfish'];
         Stackable := False;
         EquipLevel := -1;
