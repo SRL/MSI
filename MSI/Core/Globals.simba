@@ -1084,7 +1084,6 @@ var
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Obstacles : array[0..OBS_ARRAY_LENGTH] of TObstacle;
   MSI_Materials : array[MATERIAL_SHRIMP..MATERIAL_SHRIMP + MATERIALS_ARRAY_LENGTH - 1] of TMaterial;
-  MSI_Animations: array[0..ANIM_ARRAY_LENGTH] of TAnimation;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
 
 

@@ -18,7 +18,7 @@ program MSI_Script;
 {$i MSI/MSI/Core/Setup.simba}
 
 const
-  USE_FORM = False;
+  USE_FORM = True;
 
 procedure DeclareSettings();
 begin
@@ -52,8 +52,8 @@ begin
 
   with MSI_Players[0] do
   begin
-    Name       := 'dart6';      // Username
-    Pass       := 'obienag';      // Password
+    Name       := '';      // Username
+    Pass       := '';      // Password
     Nick       := '';      // Nickname (3-4 lowercase letters from username)
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
@@ -66,8 +66,6 @@ begin
 
     with Scripts[0] do
     begin
-      Name := SCRIPT_AK_COOKER;
-      Items := [TIntegerArray([FISH_RAW_LOBSTER])];
       // Copy/paste the script attributes from the setup thread
     end;
   end;
