@@ -1,6 +1,7 @@
 [SETTINGS]
 Debug SMART=True
 Save Debug=True
+Save Report=True
 Human Breaking=True
 Switch Worlds=True
 Break Time=15
@@ -8,4 +9,3 @@ Level to Debug=10
 Antiban Wait=15000
 Randoms Wait=15000
 Walking Method=Reflection
-

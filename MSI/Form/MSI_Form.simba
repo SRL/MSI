@@ -192,7 +192,7 @@ begin
   for i := 0 to High(MSI_SetupVars) do
   begin
     case i of
-      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
+      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
         begin
           SetLength(intro_Combos, Length(intro_Combos) + 1);
 
@@ -218,7 +218,8 @@ begin
 
             case i of
               SETUP_DEBUG_SMART: Hint := 'Shows debugging on the main screen';
-              SETUP_SAVE_DEBUG: Hint := 'Saves debug logs and progress reports to a file';
+              SETUP_SAVE_DEBUG: Hint := 'Saves debug logs to a file';
+              SETUP_SAVE_REPORT: Hint := 'Saves the progress report to a file';
               SETUP_HUMAN_BREAK: Hint := 'Will randomly logout, time-out, or exit to the lobby if set to True, '+#10+
                                          'otherwise will just exit to the lobby.';
               SETUP_SWITCH_WORLDS: Hint := 'Will switch worlds after breaking and when switching players';
@@ -274,7 +275,7 @@ begin
   end;
 
   SetLength(intro_ComboLabels, Length(intro_Combos));
-  s := ['Debug SMART', 'Save Debug', 'Human Breaking', 'Switch Worlds', 'Walking Method'];
+  s := ['Debug SMART', 'Save Debug', 'Save Report', 'Human Breaking', 'Switch Worlds', 'Walking Method'];
   for i := 0 to High(intro_ComboLabels) do
   begin
     intro_ComboLabels[i] := TLabel.Create(panels[IMG_TAB_NORM_0]);
@@ -297,11 +298,12 @@ var
 begin
   for i := 0 to High(MSI_SetupVars) do
     case i of
-      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
+      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
         begin
           case i of
             SETUP_DEBUG_SMART: s := 'Debug SMART';
             SETUP_SAVE_DEBUG: s := 'Save Debug';
+            SETUP_SAVE_REPORT: s := 'Save Report';
             SETUP_HUMAN_BREAK: s := 'Human Breaking';
             SETUP_SWITCH_WORLDS: s := 'Switch Worlds';
             SETUP_WALKING: s := 'Walking Method';
