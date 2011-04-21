@@ -14,7 +14,7 @@
  \_____________________________________________________________________________}
 
 program MSI_Script;
-{$DEFINE SPS} // Uncomment + select color walking to use SPS
+//{$DEFINE SPS} // Uncomment + select color walking to use SPS
 {$i MSI/MSI/Core/Setup.simba}
 
 const
