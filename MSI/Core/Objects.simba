@@ -652,8 +652,8 @@ begin
         Name               := 'Coal';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [3355698];
-        Tol                := 2;
+        Colors             := [2171426];
+        Tol                := 5;
         Hue                := 0.00;
         Sat                := 0.63;
         FindAllColors      := False;
@@ -706,7 +706,7 @@ begin
         Name               := 'Mithril';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [15110813];
+        Colors             := [16624810];
         Tol                := 10;
         Hue                := 0.27;
         Sat                := 3.28;
@@ -733,7 +733,7 @@ begin
         Name               := 'Adamantite';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [14153942];
+        Colors             := [13100486];
         Tol                := 5;
         Hue                := 0.80;
         Sat                := 0.17;
