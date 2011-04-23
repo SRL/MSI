@@ -652,7 +652,7 @@ begin
         Name               := 'Coal';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [2502961, 2173739, 2634808];
+        Colors             := [3355698];
         Tol                := 2;
         Hue                := 0.00;
         Sat                := 0.63;
@@ -733,7 +733,7 @@ begin
         Name               := 'Adamantite';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [6517347];
+        Colors             := [14153942];
         Tol                := 5;
         Hue                := 0.80;
         Sat                := 0.17;
@@ -742,7 +742,7 @@ begin
         H                  := 20;
         Accuracy           := 5;
         SearchArea         := MSBox;
-        MaxTime            := 65000;
+        MaxTime            := 75000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
         Tries              := 15;
