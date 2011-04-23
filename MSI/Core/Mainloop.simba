@@ -984,13 +984,6 @@ begin
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
         // Deposits excess items if already at a bank
-        if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials) then
-          if (CountItems('dtm', MSI_Items[MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]].Supplies[0][0]].DTM, [DTM_TOLERANCE]) <= 0) then
-          begin
-            MSI_Debug('Withdrawing items..');
-            goto AtBank;
-          end;
-
         if (not MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials) then
         begin
           iCount := InvCount;

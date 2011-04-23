@@ -244,9 +244,6 @@ Example:
         Exit;
 *)
 function MSI_NoMouseFindRandoms: Boolean;
-var
-  I: Byte;
-  Cont : boolean;
 begin
   if (not LoggedIn) then
     Exit;
