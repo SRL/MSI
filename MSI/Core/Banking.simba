@@ -336,7 +336,7 @@ var
   i, x, y: Integer;
   b: TBox;
 begin
-  if (not LoggedIn) then
+  if (not LoggedIn) or (Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions) = InvCount) then
     Exit;
 
   for i := 1 to 28 do
