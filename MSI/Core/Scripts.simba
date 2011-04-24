@@ -1236,17 +1236,12 @@ begin
         GetMaterials  := True;
         WhichBank     := MSI_BANK_AK;
         AutoObjects   := @MSI_CookFullInv;
-        BankObjects   := @MSI_BankStandard;
+        BankObjects   := @MSI_BankCooking;
         PlayerSetup   := @MSI_SetupCooking;
 
         with Defaults do
         begin
           CookingSpot := [COOKSPOT_AK_RANGE];
-          Materials := [ FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE,
-                         FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE,
-                         FISH_RAW_TROUT, FISH_RAW_SALMON,
-                         FISH_RAW_LOBSTER,
-                         FISH_RAW_TUNA, FISH_RAW_SWORDFISH ];
 
           Items     := [ TIntegerArray([
                            FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
@@ -1254,6 +1249,9 @@ begin
                            FISH_COOKED_PIKE, FISH_COOKED_TROUT, FISH_COOKED_SALMON,
                            FISH_COOKED_LOBSTER, FISH_COOKED_TUNA,
                            FISH_COOKED_SWORDFISH]) ];
+
+          Materials := [ MATERIAL_SHRIMP, MATERIAL_TROUT, MATERIAL_SALMON,
+                         MATERIAL_LOBSTER ];
         end;
 
         with PathInfo do
@@ -1262,7 +1260,8 @@ begin
           EndLoc   := LOC_AK_RANGE;
 
           Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3271, 3170), Point(3273, 3179)])
+                          TPointArray([Point(3270, 3165), Point(3271, 3170),
+                                       Point(3273, 3179)])
                         ];
 
           SPSAreas   := ['11_5'];

@@ -33,6 +33,7 @@ Contents:
     Mining.rst
     Magic.rst
     Fishing.rst
+    Cooking.rst
 
 
 Indices and tables

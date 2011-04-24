@@ -121,7 +121,7 @@ begin
         objs := Scripts[CurrentScript].FishSpots;
 
       SKILL_COOKING:
-        objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials;
+        objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].CookingSpot;
     end;
 
     for j := 0 to High(objs) do
@@ -668,7 +668,7 @@ experiences/amounts depending on the objects filled out during player setup.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 12 October 2010 by Coh3n
+  | Last Updated: 20 April 2011 by Coh3n
 
 Example:
 
@@ -738,7 +738,7 @@ certain player.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 03 July 2010 by Coh3n
+  | Last Updated: 20 April 2011 by Coh3n
 
 Example:
 
@@ -781,9 +781,8 @@ begin
 
           SKILL_COOKING:
             begin
-              MSI_SetReportInfo(i, j, Scripts[j].Materials, MSI_Scripts[Scripts[j].Name].Defaults.Materials, newObjs);
-              Scripts[j].Materials := newObjs;
-              Scripts[j].CookingSpot := MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot;
+              MSI_SetReportInfo(i, j, Scripts[j].CookingSpot, MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot, newObjs);
+              Scripts[j].CookingSpot := newObjs;
             end;
 
           SKILL_MAGIC:
@@ -985,13 +984,6 @@ begin
       if (not (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType = NoBank)) then
       begin
         // Deposits excess items if already at a bank
-        if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials) then
-          if (CountItems('dtm', MSI_Items[MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0]].Supplies[0][0]].DTM, [DTM_TOLERANCE]) <= 0) then
-          begin
-            MSI_Debug('Withdrawing items..');
-            goto AtBank;
-          end;
-
         if (not MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].GetMaterials) then
         begin
           iCount := InvCount;

@@ -64,7 +64,7 @@ woodcutting.  The paramters are the same as MSI_MagicReport.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 25 November 2010 by Coh3n
+  | Last Updated: 20 April 2011 by Coh3n
 
 Example:
 
@@ -85,6 +85,10 @@ begin
       for i := 0 to High(Items[ScriptIndex]) do
         for j := 0 to High(Items[ScriptIndex][i]) do
         begin
+          // Don't print the ones that are 0
+          if (ItemAmounts[ScriptIndex][i][j] <= 0) then
+            Continue;
+
           MSI_PrintSave(FileName, '{         ' + PadR('Item:   ' + MSI_Items[Items[ScriptIndex][i][j]].Name, 55) + '}');
           MSI_PrintSave(FileName, '{         ' + PadR('Amount: ' + GroupDigits(ItemAmounts[ScriptIndex][i][j], ','), 55) + '}');
         end;
