@@ -405,7 +405,7 @@ begin
     FISH_COOKED_HERRING   : Result := 7303552;
     FISH_COOKED_TROUT     : Result := 6777207;
     FISH_COOKED_PIKE      : Result := 5405277;
-    FISH_COOKED_SALMON    : Result := 2247920;
+    FISH_COOKED_SALMON    : Result := 1851076;
     FISH_COOKED_TUNA      : Result := 5263965;
     FISH_COOKED_LOBSTER   : Result := 1728190;
     FISH_COOKED_SWORDFISH : Result := 9330310;
@@ -1873,7 +1873,7 @@ the first occurance of the item 'Item'.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 11 July 2010 by Coh3n
+  | Last Updated: 24 April 2011 by Coh3n
 
 Example:
 
@@ -1892,11 +1892,8 @@ begin
   slots := MSI_FindItemSlots(Item);
   if (Length(slots) > 0) then
     Result := MSI_ClickItemSlot(slots[0], Options)
-  else begin
+  else
     MSI_SubDebug(MSI_Items[Item].Name + ' not found!');
-    Result := True;
-    Exit;
-  end;
 
   if (not Result) then
     MSI_SubDebug('MSI_ClickItem: Failed to click item: '+MSI_Items[Item].Name)

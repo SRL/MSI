@@ -841,7 +841,7 @@ begin
         UpText             := 'Range';
         Option             := 'Range';
         Colors             := [1779380];
-        Tol                := 15;
+        Tol                := 20;
         Hue                := 0.06;
         Sat                := 0.29;
         FindAllColors      := False;

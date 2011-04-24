@@ -121,7 +121,7 @@ begin
         objs := Scripts[CurrentScript].FishSpots;
 
       SKILL_COOKING:
-        objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials;
+        objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].CookingSpot;
     end;
 
     for j := 0 to High(objs) do
