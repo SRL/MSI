@@ -113,41 +113,47 @@ begin
   end;
 end;
 
-function MSI_SetupRecipes(Start, Finish : Integer) : Boolean;
+function MSI_SetupCooking: Boolean;
 var
-  I: Integer;
-begin
-  for I := Start to Finish do
-    MSI_Materials[I] := MSI_SetupRecipe(I);
-  Result := True;
-end;
-
-function MSI_SetupCooking : Boolean;
-var
-  i, h, L: Integer;
+  i: Integer;
+  recipe: TMaterial;
 begin
   if (not LoggedIn) then
     Exit;
+
   MSI_AddHeader('MSI_SetupCooking');
 
-  h := High(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials);
-  L := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[0];
-  for i := L to MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[h] do
-  begin
-    if (not InIntArray(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials, i)) then
-      Continue; // if on an 'in between' Material then skip it
+  with MSI_Players[CurrentPlayer] do
+    if (MSI_Scripts[Scripts[CurrentScript].Name].GetMaterials) then
+      for i := 0 to High(Scripts[CurrentScript].Materials) do
+      begin
+        recipe := MSI_SetupRecipe(Scripts[CurrentScript].Materials[i]);
 
-    MSI_Materials[i] := MSI_SetupRecipe(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[i-L]);
-    Result := True;
-  end;
+        if (ReportInfo.SkillLevels[CurrentScript] < recipe.Level) then
+        begin
+          MSI_SubDebug('Not high enough level(' + IntToStr(ReportInfo.SkillLevels[CurrentScript]) + ') to cook ' +recipe.Name);
+          Continue;
+        end;
+
+        if (CountItems('dtm', MSI_Items[recipe.Supplies[0][0]].DTM, []) <= 0) then
+        begin
+          MSI_Debug('Withdrawing items..');
+          Result := MSI_Scripts[Scripts[CurrentScript].Name].BankObjects();
+        end else
+          MSI_Debug('Cooking items found in inventory');
+
+        if (Result) then
+          Break;
+      end
+    else
+      MSI_Debug('Script doesn''t require item withdrawing');
 
   MSI_CloseHeader('MSI_SetupCooking: ' + BoolToStr(Result));
 end;
 
-function MSI_WaitWhileCooking(WhichRecipe : Integer) : Boolean;
+function MSI_WaitWhileCooking(recipe: TMaterial) : Boolean;
 var
- Timeout : Integer;
- iArr: TPointArray;
+  Timeout : Integer;
 begin
   if (not LoggedIn) then
     Exit;
@@ -156,7 +162,7 @@ begin
   Timeout := GetSystemTime + 180000;
   while (GetSystemTime < Timeout) do
   begin
-    Result := (CountItems('dtm', MSI_Items[MSI_Materials[WhichRecipe].Supplies[0][0]].DTM, [DTM_TOLERANCE]) = 0);
+    Result := (CountItems('dtm', MSI_Items[recipe.Supplies[0][0]].DTM, [DTM_TOLERANCE]) = 0);
 
     if Result then
       Break;
@@ -166,10 +172,11 @@ begin
 
     Wait(1000);
   end;
+
   MSI_CloseHeader('MSI_WaitWhileCooking: '+BoolToStr(Result)+';');
 end;
 
-function MSI_CookAll(WhichRecipe: Integer): Boolean;
+function MSI_CookAll(recipe: TMaterial): Boolean;
 var
   x, y, t, i: Integer;
 begin
@@ -179,14 +186,14 @@ begin
   if WaitFunc(@MSI_CB_DoAllScreen, 50, 5000) then
   begin
     t := (GetSystemTime + 10000);
-    for i := 0 to High(MSI_Materials[WhichRecipe].Supplies) do
+    for i := 0 to High(recipe.Supplies) do
     begin
       if (t <= GetSystemTime) or ((i > 0) and (not MSI_CB_DoAllScreen)) then
       begin
         MSI_SubDebug('MSI_CookAll: Failed to find DTM in Chat box.');
         Exit;
       end;
-      if (FindDTM(MSI_Items[MSI_Materials[WhichRecipe].Supplies[i][0]].DTM, x, y, MCx1, MCy1, MCx2, MCy2)) then
+      if (FindDTM(MSI_Items[recipe.Supplies[i][0]].DTM, x, y, MCx1, MCy1, MCx2, MCy2)) then
       begin
         MMouse(x, y, -25, 25);
         Result := WaitUpTextMulti(['ook A', 'k All', 'ook', 'll'], 2000);
@@ -212,56 +219,98 @@ begin
   Result := (not MSI_CB_DoAllScreen);
 end;
 
-function MSI_CookFood(WhichRecipe : Integer) : Boolean;
+function MSI_CookFood(recipe: TMaterial) : Boolean;
 var
-  TimeOut, x, y: Integer;
+  x, y, index: Integer;
 begin
   if (not LoggedIn) then
     Exit;
 
   MSI_AddHeader('MSI_CookFood');
 
-  TimeOut := GetSystemTime + Round(60*1000*2.5);
-  repeat
-    if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
-      if not MSI_ClickItem(MSI_Materials[WhichRecipe].Supplies[0][0], ['Use', 'se']) then
-        MSI_Debug('Somehow, we failed to click the '+MSI_Materials[WhichRecipe].Name+'!');
-
-    if MSI_FindObject(MSI_Players[CurrentPlayer].Scripts[CurrentScript].CookingSpot[CurrentScript], clickLeft) then
-    begin
-      MSI_CookAll(WhichRecipe);
-      Result := MSI_WaitWhileCooking(WhichRecipe);
-    end;
-  until(Result or (GetSystemTime > TimeOut) or (not (LoggedIn)));
+  if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
+    if not MSI_ClickItem(recipe.Supplies[0][0], ['Use', 'se']) then
+      MSI_Debug('Somehow, we failed to click the '+recipe.Name+'!')
+    else
+      with MSI_Players[CurrentPlayer] do
+        if (MSI_FindObjects(Scripts[CurrentScript].CookingSpot, index, clickLeft)) then
+        begin
+          MSI_CookAll(recipe);
+          Result := MSI_WaitWhileCooking(recipe);
+        end;
 
   MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
 end;
 
-function MSI_CookFullInv : Boolean;
+function MSI_CookFullInv: Boolean;
 var
   i: Integer;
+  recipe: TMaterial;
 begin
   if (not LoggedIn) then
     Exit;
 
-  MSI_Relocate(MSI_Players[CurrentPlayer].Location);
-  for i := 0 to High(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials) do
+  with MSI_Players[CurrentPlayer] do
   begin
-    if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] < MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[i]].Level) then
-    begin
-      MSI_Debug('Not high enough level(' + IntToStr(MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[SKILL_COOKING]) + ') to cook this recipe(' +MSI_Materials[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[i]].Name+ ')!');
-      Continue;
-    end;
-    Result := MSI_CookFood(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Materials[i]);
-    if Result then
-      Break;
-  end;
+    MSI_Relocate(Location);
 
-  if Result then
-  begin
-    MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
-    stats_IncVariable('Times Banked', 1);
-    stats_Commit;
-    MSI_Players[CurrentPlayer].Location := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.EndLoc;
+    for i := 0 to High(Scripts[CurrentScript].Materials) do
+    begin
+      recipe := MSI_SetupRecipe(Scripts[CurrentScript].Materials[i]);
+
+      if (MSI_CookFood(recipe)) then
+      begin
+        Result := True;
+        MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+        stats_IncVariable('Loads Done', 1);
+        stats_Commit;
+        Location := MSI_Scripts[Scripts[CurrentScript].Name].PathInfo.EndLoc;
+      end;
+    end;
   end;
 end;
+
+function MSI_BankCooking(): Boolean;
+var
+  i, j, t, x, y: Integer;
+  recipe: TMaterial;
+  newMaterials: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_BankStandard(); // Open the bank and deposit cooked items
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    newMaterials := MSI_RearrangeArray(
+                       Scripts[CurrentScript].Materials,
+                       Scripts[CurrentScript].Priority
+                    );
+
+    for i := 0 to High(newMaterials) do
+    begin
+      recipe := MSI_SetupRecipe(newMaterials[i]);
+
+      for j := 0 to High(recipe.Supplies) do
+      begin
+        if (not MSI_Withdraw([recipe.Supplies[j][0]], [recipe.Supplies[j][1]])) then
+          if (j = High(recipe.Supplies)) then
+            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of cooking supplies';
+
+        t := (GetSystemTime + 5000);
+        while (GetSystemTime < t) do
+        begin
+          if (FindItem(x, y, 'dtm', MSI_Items[recipe.Supplies[j][0]].DTM, MIX1, MIY1, MIX2, MIY2, [])) then
+          begin
+            Result := True;
+            Exit;
+          end;
+
+          Wait(RandomRange(200, 300));
+        end;
+      end;
+    end;
+  end;
+end;
+
