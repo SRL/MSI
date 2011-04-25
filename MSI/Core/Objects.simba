@@ -840,7 +840,7 @@ begin
         Name               := 'AK Cooking Range';
         UpText             := 'Range';
         Option             := 'Range';
-        Colors             := [1779380];
+        Colors             := [1779380, 1779646];
         Tol                := 20;
         Hue                := 0.06;
         Sat                := 0.29;

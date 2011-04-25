@@ -115,24 +115,17 @@ begin
     Exit;
 
   if WaitFunc(@MSI_CB_DoAllScreen, 50, 5000) then
-  begin
-    t := (GetSystemTime + 10000);
     for i := 0 to High(recipe.Supplies) do
-    begin
-      if (t <= GetSystemTime) or ((i > 0) and (not MSI_CB_DoAllScreen)) then
-      begin
-        MSI_SubDebug('MSI_CookAll: Failed to find DTM in Chat box.');
-        Exit;
-      end;
       if (FindDTM(MSI_Items[recipe.Supplies[i][0]].DTM, x, y, MCx1, MCy1, MCx2, MCy2)) then
       begin
         MMouse(x, y, -25, 25);
-        Result := WaitUpTextMulti(['ook A', 'k All', 'ook', 'll'], 2000);
+
+        if (WaitUpTextMulti(['ook A', 'k All', 'ook', 'll'], 2000)) then
+        begin
+          Result := True;
+          Break;
+        end;
       end;
-      if Result then
-        Break;
-    end;
-  end;
 
   if Result then
   begin
@@ -165,10 +158,8 @@ begin
     else
       with MSI_Players[CurrentPlayer] do
         if (MSI_FindObjects(Scripts[CurrentScript].CookingSpot, index, clickLeft)) then
-        begin
-          MSI_CookAll(recipe);
-          Result := MSI_WaitWhileCooking(recipe);
-        end;
+          if (MSI_CookAll(recipe)) then
+            Result := MSI_WaitWhileCooking(recipe);
 
   MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
 end;
