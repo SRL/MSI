@@ -166,30 +166,34 @@ end;
 
 function MSI_CookFullInv: Boolean;
 var
-  i: Integer;
+  i, t: Integer;
   recipe: TMaterial;
 begin
   if (not LoggedIn) then
     Exit;
 
-  with MSI_Players[CurrentPlayer] do
-  begin
-    MSI_Relocate(Location);
+  t := (GetSystemTime + (60000 * 10));
 
-    for i := 0 to High(Scripts[CurrentScript].Materials) do
+  repeat
+    with MSI_Players[CurrentPlayer] do
     begin
-      recipe := MSI_SetupRecipe(Scripts[CurrentScript].Materials[i]);
+      MSI_Relocate(Location);
 
-      if (MSI_CookFood(recipe)) then
+      for i := 0 to High(Scripts[CurrentScript].Materials) do
       begin
-        Result := True;
-        MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
-        stats_IncVariable('Loads Done', 1);
-        stats_Commit;
-        Location := MSI_Scripts[Scripts[CurrentScript].Name].PathInfo.EndLoc;
+        recipe := MSI_SetupRecipe(Scripts[CurrentScript].Materials[i]);
+
+        if (MSI_CookFood(recipe)) then
+        begin
+          Result := True;
+          MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+          stats_IncVariable('Loads Done', 1);
+          stats_Commit;
+          Location := MSI_Scripts[Scripts[CurrentScript].Name].PathInfo.EndLoc;
+        end;
       end;
     end;
-  end;
+  until(Result or (GetSystemTime > t));
 end;
 
 function MSI_BankCooking(): Boolean;
