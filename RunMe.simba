@@ -18,7 +18,7 @@ program MSI_Script;
 {$i MSI/MSI/Core/Setup.simba}
 
 const
-  USE_FORM = True;
+  USE_FORM = False;
 
 procedure DeclareSettings();
 begin
@@ -33,7 +33,7 @@ begin
   MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
   MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
   MSI_SetupVars[SETUP_STATS_PASS]    := ''            // Stats password
-  MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection' or 'Color'
+  MSI_SetupVars[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
 end;
 
 procedure DeclarePlayers;
@@ -57,7 +57,7 @@ begin
     Nick       := '';      // Nickname (3-4 lowercase letters from username)
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
-    Member     := True;   // Is this player a member?
+    Member     := False;   // Is this player a member?
     Location   := LOC_AK_BANK;       // See instructions at the top
     BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
     BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
@@ -67,7 +67,7 @@ begin
     with Scripts[0] do
     begin
       Name := SCRIPT_AK_COOKER;
-      Materials := [MATERIAL_LOBSTER];
+      Materials := [MATERIAL_SHRIMP];
       // Copy/paste the script attributes from the setup thread
     end;
   end;

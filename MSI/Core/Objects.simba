@@ -733,8 +733,8 @@ begin
         Name               := 'Adamantite';
         UpText             := 'ocks';
         Option             := 'ine';
-        Colors             := [13100486];
-        Tol                := 5;
+        Colors             := [13100486, 15072730, 13953738];
+        Tol                := 10;
         Hue                := 0.80;
         Sat                := 0.17;
         FindAllColors      := False;
@@ -840,7 +840,7 @@ begin
         Name               := 'AK Cooking Range';
         UpText             := 'Range';
         Option             := 'Range';
-        Colors             := [1779380];
+        Colors             := [1779380, 1779646];
         Tol                := 20;
         Hue                := 0.06;
         Sat                := 0.29;
