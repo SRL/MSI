@@ -18,7 +18,7 @@ program MSI_Script;
 {$i MSI/MSI/Core/Setup.simba}
 
 const
-  USE_FORM = False;
+  USE_FORM = True;
 
 procedure DeclareSettings();
 begin
@@ -58,7 +58,7 @@ begin
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
     Member     := False;   // Is this player a member?
-    Location   := LOC_AK_BANK;       // See instructions at the top
+    Location   := 0;       // See instructions at the top
     BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
     BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
     TotalLoads := 0;       // Total loads for the player to do; leave 0 if using TotalTime or to go forever
@@ -66,8 +66,6 @@ begin
 
     with Scripts[0] do
     begin
-      Name := SCRIPT_AK_COOKER;
-      Materials := [MATERIAL_SHRIMP];
       // Copy/paste the script attributes from the setup thread
     end;
   end;
