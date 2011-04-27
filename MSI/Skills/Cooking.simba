@@ -154,12 +154,16 @@ begin
 
   if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
     if not MSI_ClickItem(recipe.Supplies[0][0], ['Use', 'se']) then
-      MSI_Debug('Somehow, we failed to click the '+recipe.Name+'!')
-    else
-      with MSI_Players[CurrentPlayer] do
-        if (MSI_FindObjects(Scripts[CurrentScript].CookingSpot, index, clickLeft)) then
-          if (MSI_CookAll(recipe)) then
-            Result := MSI_WaitWhileCooking(recipe);
+    begin
+      MSI_Debug('Somehow, we failed to click the '+recipe.Name+'!');
+      MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
+      Exit;
+    end;
+
+  with MSI_Players[CurrentPlayer] do
+    if (MSI_FindObjects(Scripts[CurrentScript].CookingSpot, index, clickLeft)) then
+      if (MSI_CookAll(recipe)) then
+        Result := MSI_WaitWhileCooking(recipe);
 
   MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
 end;
