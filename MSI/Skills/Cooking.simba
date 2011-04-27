@@ -139,8 +139,10 @@ begin
         begin
           MSI_Debug('Withdrawing items..');
           Result := MSI_Scripts[Scripts[CurrentScript].Name].BankObjects();
-        end else
+        end else begin
           MSI_Debug('Cooking items found in inventory');
+          Result := True;
+        end;
 
         if (Result) then
           Break;
