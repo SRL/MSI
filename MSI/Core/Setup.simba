@@ -34,12 +34,13 @@ The source for can be found
 //MSI Script
 {$i MSI/MSI/Core/Globals.simba}
 {$i MSI/MSI/Core/Debug.simba}
+{$i MSI/MSI/Core/Materials.simba}
 {$i MSI/MSI/Core/Manipulation.simba}
 {$i MSI/MSI/Core/Track.simba}
 {$i MSI/MSI/Core/Antiban.simba}
 {$i MSI/MSI/Core/Animating.simba}
-{$i MSI/MSI/Core/Items.simba}
 {$i MSI/MSI/Core/Objects.simba}
+{$i MSI/MSI/Core/Items.simba}
 {$i MSI/MSI/Core/Obstacles.simba}
 {$i MSI/MSI/Core/Walking.simba}
 {$i MSI/MSI/Core/Locations.simba}

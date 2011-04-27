@@ -2110,4 +2110,92 @@ begin
   MSI_CloseHeader('MSI_DropAll: Finished');
 end;
 
+(*
+MSI_WaitItemGone
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WaitItemGone(item: TItem): boolean;
+
+Waits until the item 'item' is no longer found in the inventory.
+
+.. note::
+
+  | Author: NCSD & Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_WaitItemGone(FISH_RAW_TROUT)) then
+    MSI_Debug('We are done cooking');
+*)
+function MSI_WaitItemGone(item: TItem): boolean;
+var
+  t: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_WaitItemGone');
+
+  t := (GetSystemTime + 180000);
+  while (GetSystemTime < t) do
+  begin
+    if (CountItems('dtm', item.DTM, []) = 0) then
+    begin
+      Result := True;
+      Break;
+    end;
+
+    MSI_FindRandoms(False);
+    MSI_AntiBan(RandomRange(0, 7000), ANTI_BAN_CHANCE);
+
+    Wait(1000);
+  end;
+
+  MSI_CloseHeader('MSI_WaitItemGone: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_UseItemOn
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_UseItemOn(item: integer; objs: TIntegerArray): boolean;
+
+Uses an item ('item') on a main screen object ('objs').  Will look for the
+first object in 'objs' first.
+
+.. note::
+
+  | Author: NCDS & Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_UseItemOn(FISH_RAW_TROUT, COOKSPOT_AK_RANGE)) then
+    MSI_Debug('Starting to cook');
+*)
+function MSI_UseItemOn(item: integer; objs: TIntegerArray): boolean;
+var
+  x, y, index: integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
+    if (MSI_ClickItem(item, ['Use', 'se'])) then
+      exit
+  else
+    MSI_SubDebug('MSI_UseItemOn: Item already selected');
+
+  result := MSI_FindObjects(objs, index, clickLeft);
+end;
+
 

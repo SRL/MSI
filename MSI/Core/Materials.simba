@@ -1,0 +1,150 @@
+(*
+Materials
+=========
+
+The Materials file holds the records for all the materials MSI uses.  MSI
+defines materials as items that are used to turn into another item.  For
+example, raw trout is a material that is cooked into cooked trout.
+
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Materials.simba>`_.
+
+*)
+
+(*
+MSI_GetMaterial
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetMaterial(which : Integer): TMaterial;
+
+Loads the material 'which'.  This procedure should be called in any function
+that directly uses a TMaterial.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 27 April 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  material := MSI_GetMaterial(MATERIAL_TROUT);
+*)
+function MSI_GetMaterial(which : Integer): TMaterial;
+begin
+  case which of
+    MATERIAL_CRAYFISH:
+      with Result do
+      begin
+        Name        := 'Crayfish';
+        Supplies    := [TIntegerArray([FISH_RAW_CRAYFISH, -1])];
+        Produces    := [FISH_COOKED_CRAYFISH];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_SHRIMP:
+      with Result do
+      begin
+        Name        := 'Shrimp';
+        Supplies    := [TIntegerArray([FISH_RAW_SHRIMP, -1])];
+        Produces    := [FISH_COOKED_SHRIMP];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_SARDINE:
+      with Result do
+      begin
+        Name        := 'Sardine';
+        Supplies    := [TIntegerArray([FISH_RAW_SARDINE, -1])];
+        Produces    := [FISH_COOKED_SARDINE];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_ANCHOVIE:
+      with Result do
+      begin
+        Name        := 'Anchovies';
+        Supplies    := [TIntegerArray([FISH_RAW_ANCHOVIE, -1])];
+        Produces    := [FISH_COOKED_ANCHOVIE];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_HERRING:
+      with Result do
+      begin
+        Name        := 'Herring';
+        Supplies    := [TIntegerArray([FISH_RAW_HERRING, -1])];
+        Produces    := [FISH_COOKED_HERRING];
+        MemberOnly  := False;
+        Level       := 5;
+      end;
+
+    MATERIAL_TROUT:
+      with Result do
+      begin
+        Name        := 'Trout';
+        Supplies    := [TIntegerArray([FISH_RAW_TROUT, -1])];
+        Produces    := [FISH_COOKED_TROUT];
+        MemberOnly  := False;
+        Level       := 15;
+      end;
+
+    MATERIAL_PIKE:
+      with Result do
+      begin
+        Name        := 'Pike';
+        Supplies    := [TIntegerArray([FISH_RAW_PIKE, -1])];
+        Produces    := [FISH_COOKED_PIKE];
+        MemberOnly  := False;
+        Level       := 20;
+      end;
+
+    MATERIAL_SALMON:
+      with Result do
+      begin
+        Name        := 'Salmon';
+        Supplies    := [TIntegerArray([FISH_RAW_SALMON, -1])];
+        Produces    := [FISH_COOKED_SALMON];
+        MemberOnly  := False;
+        Level       := 25;
+      end;
+
+    MATERIAL_TUNA:
+      with Result do
+      begin
+        Name        := 'Tuna';
+        Supplies    := [TIntegerArray([FISH_RAW_TUNA, -1])];
+        Produces    := [FISH_COOKED_TUNA];
+        MemberOnly  := False;
+        Level       := 30;
+      end;
+
+    MATERIAL_LOBSTER:
+      with Result do
+      begin
+        Name        := 'Lobster';
+        Supplies    := [TIntegerArray([FISH_RAW_LOBSTER, -1])];
+        Produces    := [FISH_COOKED_LOBSTER];
+        MemberOnly  := False;
+        Level       := 40;
+      end;
+
+    MATERIAL_SWORDFISH:
+      with Result do
+      begin
+        Name        := 'Swordfish';
+        Supplies    := [TIntegerArray([FISH_RAW_SWORDFISH, -1])];
+        Produces    := [FISH_COOKED_SWORDFISH];
+        MemberOnly  := False;
+        Level       := 45;
+      end;
+  end;
+end;
+

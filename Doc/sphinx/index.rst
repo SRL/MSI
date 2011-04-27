@@ -21,6 +21,7 @@ Contents:
     Locations.rst
     Mainloop.rst
     Manipulation.rst
+    Materials.rst
     Objects.rst
     Obstacles.rst
     Reports.rst

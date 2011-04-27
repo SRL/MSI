@@ -1,118 +1,3 @@
-function MSI_SetupRecipe(which : Integer): TMaterial;
-begin
-  case which of
-    MATERIAL_CRAYFISH:
-      with Result do
-      begin
-        Name        := 'Crayfish';
-        Supplies    := [TIntegerArray([FISH_RAW_CRAYFISH, -1])];
-        Produces    := [FISH_COOKED_CRAYFISH];
-        MemberOnly  := False;
-        Level       := 1;
-      end;
-
-    MATERIAL_SHRIMP:
-      with Result do
-      begin
-        Name        := 'Shrimp';
-        Supplies    := [TIntegerArray([FISH_RAW_SHRIMP, -1])];
-        Produces    := [FISH_COOKED_SHRIMP];
-        MemberOnly  := False;
-        Level       := 1;
-      end;
-
-    MATERIAL_SARDINE:
-      with Result do
-      begin
-        Name        := 'Sardine';
-        Supplies    := [TIntegerArray([FISH_RAW_SARDINE, -1])];
-        Produces    := [FISH_COOKED_SARDINE];
-        MemberOnly  := False;
-        Level       := 1;
-      end;
-
-    MATERIAL_ANCHOVIE:
-      with Result do
-      begin
-        Name        := 'Anchovies';
-        Supplies    := [TIntegerArray([FISH_RAW_ANCHOVIE, -1])];
-        Produces    := [FISH_COOKED_ANCHOVIE];
-        MemberOnly  := False;
-        Level       := 1;
-      end;
-
-    MATERIAL_HERRING:
-      with Result do
-      begin
-        Name        := 'Herring';
-        Supplies    := [TIntegerArray([FISH_RAW_HERRING, -1])];
-        Produces    := [FISH_COOKED_HERRING];
-        MemberOnly  := False;
-        Level       := 5;
-      end;
-
-    MATERIAL_TROUT:
-      with Result do
-      begin
-        Name        := 'Trout';
-        Supplies    := [TIntegerArray([FISH_RAW_TROUT, -1])];
-        Produces    := [FISH_COOKED_TROUT];
-        MemberOnly  := False;
-        Level       := 15;
-      end;
-
-    MATERIAL_PIKE:
-      with Result do
-      begin
-        Name        := 'Pike';
-        Supplies    := [TIntegerArray([FISH_RAW_PIKE, -1])];
-        Produces    := [FISH_COOKED_PIKE];
-        MemberOnly  := False;
-        Level       := 20;
-      end;
-
-    MATERIAL_SALMON:
-      with Result do
-      begin
-        Name        := 'Salmon';
-        Supplies    := [TIntegerArray([FISH_RAW_SALMON, -1])];
-        Produces    := [FISH_COOKED_SALMON];
-        MemberOnly  := False;
-        Level       := 25;
-      end;
-
-    MATERIAL_TUNA:
-      with Result do
-      begin
-        Name        := 'Tuna';
-        Supplies    := [TIntegerArray([FISH_RAW_TUNA, -1])];
-        Produces    := [FISH_COOKED_TUNA];
-        MemberOnly  := False;
-        Level       := 30;
-      end;
-
-    MATERIAL_LOBSTER:
-      with Result do
-      begin
-        Name        := 'Lobster';
-        Supplies    := [TIntegerArray([FISH_RAW_LOBSTER, -1])];
-        Produces    := [FISH_COOKED_LOBSTER];
-        MemberOnly  := False;
-        Level       := 40;
-      end;
-
-    MATERIAL_SWORDFISH:
-      with Result do
-      begin
-        Name        := 'Swordfish';
-        Supplies    := [TIntegerArray([FISH_RAW_SWORDFISH, -1])];
-        Produces    := [FISH_COOKED_SWORDFISH];
-        MemberOnly  := False;
-        Level       := 45;
-      end;
-  end;
-end;
-
 function MSI_SetupCooking: Boolean;
 var
   i: Integer;
@@ -127,7 +12,7 @@ begin
     if (MSI_Scripts[Scripts[CurrentScript].Name].GetMaterials) then
       for i := 0 to High(Scripts[CurrentScript].Materials) do
       begin
-        recipe := MSI_SetupRecipe(Scripts[CurrentScript].Materials[i]);
+        recipe := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
 
         if (ReportInfo.SkillLevels[CurrentScript] < recipe.Level) then
         begin
@@ -151,31 +36,6 @@ begin
       MSI_Debug('Script doesn''t require item withdrawing');
 
   MSI_CloseHeader('MSI_SetupCooking: ' + BoolToStr(Result));
-end;
-
-function MSI_WaitWhileCooking(recipe: TMaterial) : Boolean;
-var
-  Timeout : Integer;
-begin
-  if (not LoggedIn) then
-    Exit;
-  MSI_AddHeader('MSI_WaitWhileCooking');
-
-  Timeout := GetSystemTime + 180000;
-  while (GetSystemTime < Timeout) do
-  begin
-    Result := (CountItems('dtm', MSI_Items[recipe.Supplies[0][0]].DTM, [DTM_TOLERANCE]) = 0);
-
-    if Result then
-      Break;
-
-    MSI_FindRandoms(False);
-    MSI_AntiBan(RandomRange(0, 7000), ANTI_BAN_CHANCE);
-
-    Wait(1000);
-  end;
-
-  MSI_CloseHeader('MSI_WaitWhileCooking: '+BoolToStr(Result)+';');
 end;
 
 function MSI_CookAll(recipe: TMaterial): Boolean;
@@ -215,26 +75,16 @@ begin
 end;
 
 function MSI_CookFood(recipe: TMaterial) : Boolean;
-var
-  x, y, index: Integer;
 begin
   if (not LoggedIn) then
     Exit;
 
   MSI_AddHeader('MSI_CookFood');
 
-  if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
-    if not MSI_ClickItem(recipe.Supplies[0][0], ['Use', 'se']) then
-    begin
-      MSI_Debug('Somehow, we failed to click the '+recipe.Name+'!');
-      MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
-      Exit;
-    end;
-
   with MSI_Players[CurrentPlayer] do
-    if (MSI_FindObjects(Scripts[CurrentScript].CookingSpot, index, clickLeft)) then
+    if (MSI_UseItemOn(recipe.Supplies[0][0], Scripts[CurrentScript].CookingSpot)) then
       if (MSI_CookAll(recipe)) then
-        Result := MSI_WaitWhileCooking(recipe);
+        Result := MSI_WaitItemGone(MSI_Items[recipe.Supplies[0][0]]);
 
   MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
 end;
@@ -256,7 +106,7 @@ begin
 
       for i := 0 to High(Scripts[CurrentScript].Materials) do
       begin
-        recipe := MSI_SetupRecipe(Scripts[CurrentScript].Materials[i]);
+        recipe := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
 
         if (MSI_CookFood(recipe)) then
         begin
@@ -269,49 +119,5 @@ begin
       end;
     end;
   until(Result or (GetSystemTime > t));
-end;
-
-function MSI_BankCooking(): Boolean;
-var
-  i, j, t, x, y: Integer;
-  recipe: TMaterial;
-  newMaterials: TIntegerArray;
-begin
-  if (not LoggedIn) then
-    Exit;
-
-  MSI_BankStandard(); // Open the bank and deposit cooked items
-
-  with MSI_Players[CurrentPlayer] do
-  begin
-    newMaterials := MSI_RearrangeArray(
-                       Scripts[CurrentScript].Materials,
-                       Scripts[CurrentScript].Priority
-                    );
-
-    for i := 0 to High(newMaterials) do
-    begin
-      recipe := MSI_SetupRecipe(newMaterials[i]);
-
-      for j := 0 to High(recipe.Supplies) do
-      begin
-        if (not MSI_Withdraw([recipe.Supplies[j][0]], [recipe.Supplies[j][1]])) then
-          if (j = High(recipe.Supplies)) then
-            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of cooking supplies';
-
-        t := (GetSystemTime + 5000);
-        while (GetSystemTime < t) do
-        begin
-          if (FindItem(x, y, 'dtm', MSI_Items[recipe.Supplies[j][0]].DTM, MIX1, MIY1, MIX2, MIY2, [])) then
-          begin
-            Result := True;
-            Exit;
-          end;
-
-          Wait(RandomRange(200, 300));
-        end;
-      end;
-    end;
-  end;
 end;
 

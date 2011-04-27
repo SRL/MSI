@@ -674,3 +674,71 @@ begin
 
   MSI_CloseHeader('MSI_BankNPC ' + BoolToStr(Result));
 end;
+
+(*
+MSI_BankWithdraw
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_BankWithdraw(): Boolean;
+
+This is another function that is pointed to a scripts 'BankObjects' attribute.
+This will deposit the player's items like normally, but will also withdraw any
+items that need to be withdrawn.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_KJ_NOTER].BankObjects := @MSI_BankWithdraw;
+*)
+function MSI_BankWithdraw(): Boolean;
+var
+  i, j, t, x, y: Integer;
+  material: TMaterial;
+  newMaterials: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_BankStandard(); // Open the bank and deposit cooked items
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    newMaterials := MSI_RearrangeArray(
+                       Scripts[CurrentScript].Materials,
+                       Scripts[CurrentScript].Priority
+                    );
+
+    for i := 0 to High(newMaterials) do
+    begin
+      material := MSI_GetMaterial(newMaterials[i]);
+
+      for j := 0 to High(material.Supplies) do
+      begin
+        if (not MSI_Withdraw([material.Supplies[j][0]], [material.Supplies[j][1]])) then
+          if (j = High(material.Supplies)) then
+            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of cooking supplies';
+
+        t := (GetSystemTime + 5000);
+        while (GetSystemTime < t) do
+        begin
+          if (FindItem(x, y, 'dtm', MSI_Items[material.Supplies[j][0]].DTM, MIX1, MIY1, MIX2, MIY2, [])) then
+          begin
+            Result := True;
+            Exit;
+          end;
+
+          Wait(RandomRange(200, 300));
+        end;
+      end;
+    end;
+  end;
+end;
+
