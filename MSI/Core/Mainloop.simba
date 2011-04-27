@@ -155,7 +155,7 @@ the location, setting it the false will walk from the location to the bank.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 21 August 2010 by Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
 
 Example:
 
@@ -181,9 +181,9 @@ begin
     Script := MSI_Scripts[Scripts[CurrentScript].Name];
 
     if (ToLoc) then
-      Result := MSI_AtLocation(Script.PathInfo.EndLoc)
+      Result := MSI_AtLocation(Script.PathInfo.EndLoc, False)
     else
-      Result := MSI_AtLocation(Script.PathInfo.StartLoc);
+      Result := MSI_AtLocation(Script.PathInfo.StartLoc, False);
 
     if (not Result) then
       if (ToLoc) then
@@ -957,9 +957,9 @@ begin
 
     // Check player's location; works if player is in the middle of the path
     Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-    if (not MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then // Set location
-      if (not MSI_AtLocation(Script.PathInfo.StartLoc)) then // Start location
-        if (not MSI_AtLocation(Script.PathInfo.EndLoc)) then // End location
+    if (not MSI_AtLocation(MSI_Players[CurrentPlayer].Location, False)) then // Set location
+      if (not MSI_AtLocation(Script.PathInfo.StartLoc, False)) then // Start location
+        if (not MSI_AtLocation(Script.PathInfo.EndLoc, False)) then // End location
           if (InvCount > 15) then // Assuming it's in the middle of the path somewhere
           begin
             MSI_Players[CurrentPlayer].Location := Script.PathInfo.EndLoc;
@@ -992,7 +992,7 @@ begin
             MSI_Debug('Inventory count = '+ToStr(iCount));
             MSI_Debug('Exceptions Length = '+ToStr(Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions)));
             if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then
-              if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location)) then
+              if (MSI_AtLocation(MSI_Players[CurrentPlayer].Location, True)) then
               begin
                 MSI_Debug('Found items in inventory, depositing..');
                 goto AtBank;

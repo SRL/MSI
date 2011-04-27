@@ -326,24 +326,25 @@ MSI_AtLocation
 
 .. code-block:: pascal
 
-  function MSI_AtLocation(Loc: Integer): Boolean;
+  function MSI_AtLocation(Loc: Integer; Relocate: Boolean): Boolean;
 
 Returns true if the player is at the location 'Loc'.  Works with both reflection
-and SPS.
+and SPS. If the player isn't at the location and 'Relocate' is set to true,
+will call MSI_Relocate.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 27 February 2010 by Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if (MSI_AtLocation(LOC_VE_BANK)) then
+  if (MSI_AtLocation(LOC_VE_BANK, True)) then
     MSI_Debug('We are at Varrock East Bank');
 *)
-function MSI_AtLocation(Loc: Integer): Boolean;
+function MSI_AtLocation(Loc: Integer; Relocate: Boolean): Boolean;
 var
   i, d: Integer;
   p: TPoint;
@@ -378,7 +379,7 @@ begin
         MSI_Debug('Distance from player to ' + MSI_Locations[Loc].Name + ': ' + IntToStr(d));
 
         Result := (d <= 30);
-        if (not Result) then
+        if (not Result) and (Relocate) then
           Result := MSI_Relocate(Loc);
 
         if (Result) then
@@ -633,7 +634,7 @@ begin
         end;
 
         // Return true if the player is at the ending location
-		    if (MSI_AtLocation(eLoc)) then
+		    if (MSI_AtLocation(eLoc, True)) then
 		    begin
 		      Result := True;
 		      Break;
