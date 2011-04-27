@@ -75,12 +75,12 @@ begin
       with Result do
       begin
         Name := 'High Alching';
-        MinPixelShift := 100;
+        MinPixelShift := 80;
         MaxPixelShift := 260;
         PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
         Interval := 20;
         MaxTime := 100;
-        WaitTime := 400;
+        WaitTime := 200;
       end;
 
     ANIM_FISHING:
@@ -99,11 +99,11 @@ begin
       with Result do
       begin
         Name := 'Chopping';
-        MinPixelShift := 180;
+        MinPixelShift := 120;
         MaxPixelShift := 360;
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
-        Interval := 35;
-        MaxTime := 175;  // (35 * 5) = 175 (Gets the average pixel shift from 5 tries)
+        Interval := 50;
+        MaxTime := 250;  // (35 * 5) = 175 (Gets the average pixel shift from 5 tries)
         WaitTime := 700; // (175 * 4) = 700 (Has to fail 4 times to not be animating)
       end;
   end;

@@ -770,10 +770,8 @@ begin
           try
             if (script_Edits[EDIT_EXCEPTIONS].Text = '') then
               Exceptions := []
-            else begin
-              Exceptions := [];
+            else
               Exceptions := StrToIntArr(script_Edits[EDIT_EXCEPTIONS].Text);
-            end;
 
             ClearSameIntegers(Exceptions);
           except
@@ -783,10 +781,8 @@ begin
           try
             if (script_Edits[EDIT_PRIORITY].Text = '') then
               Priority := []
-            else begin
-              Priority := [];
+            else
               Priority := StrToIntArr(script_Edits[EDIT_PRIORITY].Text);
-            end;
 
             ClearSameIntegers(Priority);
           except

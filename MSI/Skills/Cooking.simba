@@ -1,15 +1,54 @@
-
 function MSI_SetupRecipe(which : Integer): TMaterial;
 begin
   case which of
+    MATERIAL_CRAYFISH:
+      with Result do
+      begin
+        Name        := 'Crayfish';
+        Supplies    := [TIntegerArray([FISH_RAW_CRAYFISH, -1])];
+        Produces    := [FISH_COOKED_CRAYFISH];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
     MATERIAL_SHRIMP:
       with Result do
       begin
-        Name        := 'Shrimps';
+        Name        := 'Shrimp';
         Supplies    := [TIntegerArray([FISH_RAW_SHRIMP, -1])];
         Produces    := [FISH_COOKED_SHRIMP];
         MemberOnly  := False;
         Level       := 1;
+      end;
+
+    MATERIAL_SARDINE:
+      with Result do
+      begin
+        Name        := 'Sardine';
+        Supplies    := [TIntegerArray([FISH_RAW_SARDINE, -1])];
+        Produces    := [FISH_COOKED_SARDINE];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_ANCHOVIE:
+      with Result do
+      begin
+        Name        := 'Anchovies';
+        Supplies    := [TIntegerArray([FISH_RAW_ANCHOVIE, -1])];
+        Produces    := [FISH_COOKED_ANCHOVIE];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_HERRING:
+      with Result do
+      begin
+        Name        := 'Herring';
+        Supplies    := [TIntegerArray([FISH_RAW_HERRING, -1])];
+        Produces    := [FISH_COOKED_HERRING];
+        MemberOnly  := False;
+        Level       := 5;
       end;
 
     MATERIAL_TROUT:
@@ -22,12 +61,32 @@ begin
         Level       := 15;
       end;
 
+    MATERIAL_PIKE:
+      with Result do
+      begin
+        Name        := 'Pike';
+        Supplies    := [TIntegerArray([FISH_RAW_PIKE, -1])];
+        Produces    := [FISH_COOKED_PIKE];
+        MemberOnly  := False;
+        Level       := 20;
+      end;
+
     MATERIAL_SALMON:
       with Result do
       begin
         Name        := 'Salmon';
         Supplies    := [TIntegerArray([FISH_RAW_SALMON, -1])];
         Produces    := [FISH_COOKED_SALMON];
+        MemberOnly  := False;
+        Level       := 25;
+      end;
+
+    MATERIAL_TUNA:
+      with Result do
+      begin
+        Name        := 'Tuna';
+        Supplies    := [TIntegerArray([FISH_RAW_TUNA, -1])];
+        Produces    := [FISH_COOKED_TUNA];
         MemberOnly  := False;
         Level       := 30;
       end;
@@ -40,6 +99,16 @@ begin
         Produces    := [FISH_COOKED_LOBSTER];
         MemberOnly  := False;
         Level       := 40;
+      end;
+
+    MATERIAL_SWORDFISH:
+      with Result do
+      begin
+        Name        := 'Swordfish';
+        Supplies    := [TIntegerArray([FISH_RAW_SWORDFISH, -1])];
+        Produces    := [FISH_COOKED_SWORDFISH];
+        MemberOnly  := False;
+        Level       := 45;
       end;
   end;
 end;
