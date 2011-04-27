@@ -658,8 +658,6 @@ const
   MATERIAL_LOBSTER   = 79;
   MATERIAL_SWORDFISH = 80;
 
-  MATERIALS_ARRAY_LENGTH = 11;
-
 (*
 Proggy Constants
 ~~~~~~~~~~~~~~~~
