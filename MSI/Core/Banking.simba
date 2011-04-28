@@ -722,6 +722,15 @@ begin
     begin
       material := MSI_GetMaterial(newMaterials[i]);
 
+      if (ReportInfo.SkillLevels[CurrentScript] < material.Level) then
+      begin
+        if (i = High(newMaterials)) then
+          ReportInfo.FalseReason := 'Required level not met';
+
+        MSI_SubDebug('Not high enough level for material: ' + material.Name);
+        Continue;
+      end;
+
       for j := 0 to High(material.Supplies) do
       begin
         if (not MSI_Withdraw([material.Supplies[j][0]], [material.Supplies[j][1]])) then
