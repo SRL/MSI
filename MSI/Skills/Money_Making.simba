@@ -1,0 +1,115 @@
+(*
+Money_Making
+============
+
+The Money_Making file holds any procedures/functions that are specific to
+money making scripts.  This file will generally hold only the functions that
+are pointed to attributes of the TScript record.
+
+The source for Money_Making.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Money_Making.simba>`_.
+
+*)
+
+(*
+MSI_SetupSoftener
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetupSoftener(): Boolean;
+
+Sets the player up to use a Clay Softener script.  This procedure is pointed
+to the script's SetupPlayer attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_SOFTENER].SetupPlayer := @MSI_SetupSoftener;
+*)
+function MSI_SetupSoftener(): Boolean;
+begin
+  // MSI_SetupCooking is exactly what we need to setup the Clay Softener
+  result := MSI_SetupCooking();
+end;
+
+(*
+MSI_SoftenAll
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SoftenAll(material: TMaterial): Boolean;
+
+Returns true if successfully selected the 'material' option from the selection
+screen in the chat box.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  function MSI_SoftenClay(): Boolean;
+  begin
+    with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+      Result := MSI_ConvertMaterial(@MSI_SoftenAll, Objects);
+  end;
+*)
+function MSI_SoftenAll(material: TMaterial): boolean;
+var
+  i, x, y: integer;
+begin
+  if (waitFunc(@MSI_CB_DoAllScreen, 50, 5000)) then // Wait for the selection screen to appear
+    for i := 0 to high(material.produces) do
+      if (findDTM(MSI_Items[material.produces[i]].DTM, x, y, MCX1, MCY1, MCX2, MCY2)) then // Look for the material's DTMs in the chat box
+      begin
+        MMouse(x, y, -25, 25);
+        if (waitUpTextMulti(['Make All', 'ake', 'll'], 500)) then
+        begin
+          Mouse(x, y, 0, 0, true);
+          result := true;
+          break;
+        end;
+      end;
+
+  if (result) then
+    MSI_SubDebug('Started to convert material: '+material.name);
+end;
+
+(*
+MSI_SoftenClay
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SoftenClay(): Boolean;
+
+Returns true if all the clay in the player's inventory have been softened.  This
+is the procedure that is pointed to the script's AutoObjects attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_SOFTENER].AutoObjects := @MSI_SoftenClay;
+*)
+function MSI_SoftenClay(): Boolean;
+begin
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+    Result := MSI_ConvertMaterial(@MSI_SoftenAll, Objects); // ConvertMaterial is in Materials.simba
+end;
