@@ -5,7 +5,7 @@ core = Animating Antiban Banking Debug Extras Globals Items Locations \
         Mainloop Manipulation Materials Objects Obstacles Reports Scripts \
         Setup Skills Track Walking
 
-skills = Cooking Fishing Magic Mining Woodcutting Money_Making
+skills = Cooking Fishing Magic Mining Money_Making Woodcutting
 
 
 all:
