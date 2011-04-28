@@ -40,8 +40,6 @@ const
 
   PLAYER_TXT_PATH = IncludePath + 'MSI\Remote.txt';
 
-{$i MSI/MSI/Core/Globals.simba}
-
 type
   TPlayer = record
     Scripts: TStringArray;
@@ -55,8 +53,9 @@ type
 var
   Players: TPlayerArray;
   HowManyPlayers: Integer;
-  Locations: array[0..LOC_ARRAY_LENGTH] of string;
+  Locations, ScriptNames: TStringArray;
 
+  MSIMenu, PlayerMenuItem: TMenuItem;
   VarPageControl: TPageControl;
   TabPages: array of TTabSheet;
   MainForm: TForm;
@@ -78,48 +77,11 @@ begin
       Result := Players[I].LengthOfScripts;
 end;
 
-procedure LoadLocations;
+// Procedure printed from printLocations() in ExtensionTools.simba (MSI/Extensions/)
+procedure LoadLocations();
 begin
-  Locations[LOC_VE_TREES] := 'Varrock East Trees';
-  Locations[LOC_VE_OAKS] := 'Varrock East Oaks';
-  Locations[LOC_VE_BANK] := 'Varrock East Bank';
-  Locations[LOC_VE_MINE] := 'Varrock East Mine';
-  Locations[LOC_VW_BANK] := 'Varrock West Bank';
-  Locations[LOC_VW_MINE] := 'Varrock West Mine';
-  Locations[LOC_GE_BANK] := 'Grand Exchange Bank';
-  Locations[LOC_GE_YEWS] := 'Grand Exchange Yews';
-  Locations[LOC_DB_BANK] := 'Draynor Bank';
-  Locations[LOC_DB_WILLOWS] := 'Draynor Willows';
-  Locations[LOC_DB_TREES] := 'Draynor Trees';
-  Locations[LOC_DB_OAKS] := 'Draynor Oaks';
-  Locations[LOC_DB_FISH] := 'Draynor Fishing Spots';
-  Locations[LOC_DB_CLAY] := 'Draynor Clay Mine';
-  Locations[LOC_RM_YEWS] := 'Rimmington Yews';
-  Locations[LOC_RM_CLAY] := 'Rimmington Clay';
-  Locations[LOC_RM_TIN] := 'Rimmington Tin';
-  Locations[LOC_RM_COPPER] := 'Rimmington Copper';
-  Locations[LOC_RM_IRON_1] := 'Rimmington Iron 1';
-  Locations[LOC_RM_IRON_2] := 'Rimmington Iron 2';
-  Locations[LOC_RM_GOLD] := 'Rimmington Gold';
-  Locations[LOC_FE_BANK] := 'Falador East Bank';
-  Locations[LOC_PS_WILLOWS] := 'Port Sarim Willows';
-  Locations[LOC_PS_YEWS] := 'Port Sarim Yews';
-  Locations[LOC_PS_DBOX] := 'Port Sarim Deposit Box';
-  Locations[LOC_LSW_MINE] := 'Lumbridge Swamp West Mine';
-  Locations[LOC_LSE_MINE] := 'Lumbridge Swamp East Mine';
-  Locations[LOC_EV_BANK] := 'Edgeville Bank';
-  Locations[LOC_EV_YEWS] := 'Edgeville Yews';
-  Locations[LOC_BBV_MINE] := 'Barbarian Village Mine';
-  Locations[LOC_BBV_FISH] := 'Barbarian Village Fishing Spots';
-  Locations[LOC_SV_MAGICS] := 'Seers Village Magics';
-  Locations[LOC_SV_BANK] := 'Seers Village Bank';
-  Locations[LOC_SV_MAPLES] := 'Seers Village Maples';
-  Locations[LOC_SV_YEWS] := 'Seers Village Yews';
-  Locations[LOC_GUILD_MINE] := 'Mining Guild';
-  Locations[LOC_AK_BANK] := 'Al Kaharid Bank';
-  Locations[LOC_AK_RANGE] := 'Al Kaharid Range';
-  Locations[LOC_KJ_STILES] := 'Stiles on Karamja';
-  Locations[LOC_KJ_FISH] := 'Karamja Docks';
+  Locations   := ['Powerskilling', 'Lost', '', '', '', '', '', '', '', '', 'Varrock East Trees', 'Varrock East Oaks', 'Varrock East Bank', 'Varrock East Mine', 'Varrock East Fountain', 'Varrock West Bank', 'Varrock West Mine', '', '', '', 'Grand Exchange Bank', 'Grand Exchange Yews', '', '', '', '', '', '', '', '', 'Draynor Village Bank', 'Draynor Village Willows', 'Draynor Village Trees', 'Draynor Village Oaks', 'Draynor Village Fishing Spots', 'Draynor Village Clay Mine', 'Draynor Village Yews', '', '', '', 'Rimmington Yews', 'Rimmington Clay Rocks', 'Rimmington Tin Rocks', 'Rimmington Copper Rocks', 'Rimmington Iron Rocks 1', 'Rimmington Iron Rocks 2', 'Rimmington Gold Rocks', 'Rimmington Willows', '', '', 'Falador East Bank', 'Falador West Bank', 'Falador West Mine', '', '', '', '', '', '', '', 'Port Sarim Willows', 'Port Sarim Yews', 'Port Sarim Deposit Box', '', '', '', '', '', '', '', 'Lumbridge Swamp West Mine', 'Lumbridge Swamp East Mine', '', '', '', '', '', '', '', '', 'Edgeville Bank', 'Edgeville Yews', '', '', '', '', '', '', '', '', 'Barbarian Village Mine', 'Barbarian Village Fishing Spot', '', '', '', '', '', '', '', '', 'Seers Village Magic Trees', 'Seers Village Bank', 'Seers Village Maples', 'Seers Village Yews', '', '', '', '', '', '', 'Mining Guild', '', '', '', '', '', '', '', '', '', 'Al Kharid Bank', 'Al Kharid Cooking Range', 'Stiles On Karamja', 'Karamja Fishing Spot', '', '', '', '', '', '', 'Catherby Bank', 'Catherby Fishing Spots'];
+  ScriptNames := ['', '', '', '', '', '', '', '', '', '', 'Powerchopper', 'Varrock East Trees', 'Varrock East Oaks', 'Grand Exchange Yews', 'Draynor Willows', 'Draynor Normals', 'Draynor Oaks', 'Draynor Village Yews', 'Rimmington Yews', 'Rimmington Willows', 'Port Sarim Willows', 'Port Sarim Yews', 'Seers Village Magics', 'Seers Village Maples', 'Seers Village Yews', 'Edgeville Yews', '', '', '', '', 'Powerminer', 'Varrock East Miner', 'Varrock West Miner', 'Lumby Swamp West Miner', 'Barbarian Village Miner', 'Rimmington Clay Miner', 'Rimmington Tin Miner', 'Rimmington Copper Miner', 'Rimmington Iron Miner 1', 'Rimmington Iron Miner 2', 'Rimmington Gold Miner', '', 'Draynor Clay', 'Falador West Miner', '', '', '', '', '', '', 'Powerfisher', 'Draynor Village Fisher', 'Barbarian Village Fisher', '', 'Catherby Fisher', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'Al-Kharid Cooker', '', '', '', '', '', '', '', '', '', 'Alcher', '', '', '', '', '', '', '', '', '', ''];
 end;
 
 procedure SetupPlayers;
@@ -137,7 +99,7 @@ begin
 
       SetLength(Scripts, LengthOfScripts);
       for J := 0 to High(Scripts) do
-        Scripts[J] := MSI_Scripts[StrToInt(ReadINI(IntToStr(I), 'Script' + IntToStr(J), PLAYER_TXT_PATH))].Name;
+        Scripts[J] := ScriptNames[StrToInt(ReadINI(IntToStr(I), 'Script' + IntToStr(J), PLAYER_TXT_PATH))];
     end;
 end;
 
@@ -161,9 +123,6 @@ begin
     SetLength(Script[I], Players[I].LengthOfScripts);
   end;
 end;
-
-var
-  MSIMenu, PlayerMenuItem: TMenuItem;
 
 procedure Click(Sender: TObject);
 var
