@@ -723,6 +723,7 @@ type
     UpText           : string;  // Set to '' if RightClickOnly := True
     Option           : string;
     Exp              : Extended;
+    Level            : Integer; // The skill level required
     Colors           : TIntegerArray;
     FindAllColors    : Boolean; // Set to true if each TPA needs to include every color in 'Colors'
     Tol              : Integer;

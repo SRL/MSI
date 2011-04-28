@@ -51,6 +51,7 @@ begin
         Name               := 'Normal Tree';
         UpText             := 'ree';
         Option             := 'own Tree';
+        Level              := 1;
         Colors             := [2117186];
         Tol                := 6;
         Hue                := 0.09;
@@ -78,6 +79,7 @@ begin
         Name               := 'Oak Tree';
         UpText             := 'Oak';
         Option             := 'own Oak';
+        Level              := 15;
         Colors             := [6330764, 6398099, 6133129, 6527886, 6464148];
         Tol                := 10;
         Hue                := 0.07;
@@ -105,6 +107,7 @@ begin
         Name               := 'Willow tree';
         UpText             := 'wn Wil';
         Option             := 'Chop down Willow';
+        Level              := 30;
         Colors             := [4481105];
         Tol                := 14;
         Hue                := 0.18;
@@ -132,6 +135,7 @@ begin
         Name               := 'Willow tree';
         UpText             := 'wn Wil';
         Option             := 'Chop down Willow';
+        Level              := 30;
         Colors             := [2843496];
         Tol                := 2;
         Hue                := 0.42;
@@ -158,6 +162,7 @@ begin
         Name               := 'Maple tree';
         UpText             := 'wn Map';
         Option             := 'Chop down Maple';
+        Level              := 45;
         Colors             := [1187644];
         Tol                := 4;
         Hue                := 0.10;
@@ -185,6 +190,7 @@ begin
         Name               := 'Yew Tree';
         UpText             := 'own Yew';
         Option             := 'Chop down Yew';
+        Level              := 60;
         Colors             := [2314052];
         Tol                := 9;
         Hue                := 0.06;
@@ -212,6 +218,7 @@ begin
         Name               := 'Magic tree';
         UpText             := 'gic tre';
         Option             := 'down Mag';
+        Level              := 75;
         Colors             := [11069677];
         Tol                := 18;
         Hue                := 0.03;
@@ -517,6 +524,7 @@ begin
         Name               := 'Clay';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 1;
         Colors             := [5938111];
         Tol                := 13;
         Hue                := 0.02;
@@ -544,6 +552,7 @@ begin
         Name               := 'Copper';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 1;
         Colors             := [2650323];
         Tol                := 16;
         Hue                := 0.06;
@@ -571,6 +580,7 @@ begin
         Name               := 'Tin';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 1;
         Colors             := [7500665];
         Tol                := 14;
         Hue                := 0.18;
@@ -598,6 +608,7 @@ begin
         Name               := 'Iron';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 15;
         Colors             := [3030375];
         Tol                := 8;
         Hue                := 0.08;
@@ -625,6 +636,7 @@ begin
         Name               := 'Silver';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 20;
         Colors             := [14408944];
         Tol                := 8;
         Hue                := 0.11;
@@ -652,6 +664,7 @@ begin
         Name               := 'Coal';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 30;
         Colors             := [2171426];
         Tol                := 5;
         Hue                := 0.00;
@@ -679,6 +692,7 @@ begin
         Name               := 'Gold';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 40;
         Colors             := [4702956];
         Tol                := 5;
         Hue                := 0.02;
@@ -706,6 +720,7 @@ begin
         Name               := 'Mithril';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 55;
         Colors             := [16624810];
         Tol                := 10;
         Hue                := 0.27;
@@ -733,6 +748,7 @@ begin
         Name               := 'Adamantite';
         UpText             := 'ocks';
         Option             := 'ine';
+        Level              := 70;
         Colors             := [13100486, 15072730, 13953738];
         Tol                := 10;
         Hue                := 0.80;
@@ -786,6 +802,7 @@ begin
             Name               := 'Net Spot';
             UpText             := 'Net';
             Option             := 'Net';
+            Level              := 1;
             RightClickOnly     := False;
             AssociatedItems    := [FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE];
           end;
@@ -796,6 +813,7 @@ begin
             Name               := 'Bait Spot';
             UpText             := 'Net';
             Option             := 'Bait';
+            Level              := 5;
             RightClickOnly     := True;
             AssociatedItems    := [FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE];
           end;
@@ -806,6 +824,7 @@ begin
             Name               := 'Lure Spot';
             UpText             := 'Lure Fish';
             Option             := 'Lure';
+            Level              := 20;
             RightClickOnly     := False;
             AssociatedItems    := [FISH_RAW_TROUT, FISH_RAW_SALMON];
           end;
@@ -816,6 +835,7 @@ begin
             Name               := 'Cage Spot';
             UpText             := 'Cage';
             Option             := 'Cage';
+            Level              := 40;
             RightClickOnly     := False;
             AssociatedItems    := [FISH_RAW_LOBSTER];
           end;
@@ -826,6 +846,7 @@ begin
             Name               := 'Harpooning Spot';
             UpText             := 'Cage';
             Option             := 'Harpoon';
+            Level              := 35;
             RightClickOnly     := True;
             AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH];
           end;
@@ -1621,6 +1642,21 @@ Begin
 
   For II := 0 To Hi Do
     With MSI_Objects[Objs[II]] Do
+    begin
+      // Check the players level; if not hight enough, skip object
+      with MSI_Players[CurrentPlayer] do
+      begin
+        if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+          if (ReportInfo.SkillLevels[CurrentScript] < MSI_Objects[Objs[II]].Level) then
+          begin
+            if (i = hi) then
+              ReportInfo.FalseReason := 'Skill requirement not met';
+
+            MSI_SubDebug('Not high enough level for object: ' + MSI_Objects[Objs[II]].Name);
+            Continue;
+          end;
+      end;
+
       If MSI_FindObjectsTPA(TmpTPA, Objs[II], SearchBox) Then
       Begin
         // If set to, the script will click the closest object (this negates Priority)
@@ -1746,6 +1782,7 @@ Begin
           End;
         End;
       End;
+    end;
 
   MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
   MSI_FindRandoms(True);
