@@ -121,7 +121,10 @@ begin
         objs := Scripts[CurrentScript].FishSpots;
 
       SKILL_COOKING:
-        objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].CookingSpot;
+        objs := Scripts[CurrentScript].CookingSpot;
+
+      SKILL_NONE:
+        objs := Scripts[CurrentScript].Objects;
     end;
 
     for j := 0 to High(objs) do
@@ -783,6 +786,9 @@ begin
             begin
               MSI_SetReportInfo(i, j, Scripts[j].CookingSpot, MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot, newObjs);
               Scripts[j].CookingSpot := newObjs;
+
+              if (Length(Scripts[i].Materials) <= 0) then
+                Scripts[j].Materials := MSI_Scripts[Scripts[j].Name].Defaults.Materials;
             end;
 
           SKILL_MAGIC:
@@ -796,6 +802,15 @@ begin
 
               SetLength(ReportInfo.Casts[j], Length(Scripts[CurrentScript].Spells));
               Scripts[j].StaffType := MSI_Scripts[Scripts[j].Name].Defaults.StaffType; // Automatically set to default until other options are added
+            end;
+
+          SKILL_NONE:
+            begin
+              MSI_SetReportInfo(i, j, Scripts[j].Objects, MSI_Scripts[Scripts[j].Name].Defaults.Objects, newObjs);
+              Scripts[j].Objects := newObjs;
+
+              if (Length(Scripts[j].Materials) <= 0) then
+                Scripts[j].Materials := MSI_Scripts[Scripts[j].Name].Defaults.Materials;
             end;
 
           else

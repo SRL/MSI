@@ -83,11 +83,11 @@ begin
 
     ORE_CLAY:
       Result := [
-                  Point(278, 414),
-                  Point(275, 408),
-                  Point(289, 406),
-                  Point(283, 413),
-                  Point(281, 402)
+                  Point(24, 29),
+                  Point(22, 32),
+                  Point(18, 27),
+                  Point(31, 27),
+                  Point(29, 31)
                 ];
 
     ORE_COPPER..ORE_RUNITE:
@@ -367,7 +367,7 @@ begin
     PICKAXE_RUNE   : Result := 12495486;
     PICKAXE_DRAGON : Result := 725070;
 
-    ORE_CLAY      : Result := 5340051;
+    ORE_CLAY      : Result := 5076363;
     ORE_COPPER    : Result := 3499183;
     ORE_TIN       : Result := 6118754;
     ORE_IRON      : Result := 1712955;
@@ -748,7 +748,7 @@ begin
     ORE_CLAY:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Clay';
+        Name := 'Clay Ore';
         StatsName := 'Clay (Mined)';
         UpText := ['lay', 'Clay'];
         Stackable := False;
@@ -1332,10 +1332,11 @@ begin
     CLAY_SOFT:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Soft Clay';    // Name of the item
-        UpText := ['oft clay']; // Uptext
-        Stackable := False;     // Is it stackable?
-        EquipLevel := -1;       // Set to -1 if it can't be equipped
+        Name := 'Soft Clay';            // Name of the item
+        StatsName := 'Clay (Softened)'; // Stats name so stats are calculated
+        UpText := ['oft clay'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
       end;
   end;
 

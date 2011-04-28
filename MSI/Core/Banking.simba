@@ -413,6 +413,7 @@ begin
   end;
 
   SetLength(itemsWithdrew, Length(Items));
+  Wait(RandomRange(500, 1000));
 
   for i := 0 to High(Items) do
     if FindDTMs(MSI_Items[Items[i]].DTM, p, MBX1, MBY1, MBX2, MBY2) then
@@ -464,7 +465,8 @@ begin
 
         Wait(RandomRange(200, 500));
       end;
-    end;
+    end else
+      MSI_Debug('Failed to find item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
 
   for i := 0 to High(itemsWithdrew) do
     if (not itemsWithdrew[i]) then // Returns false if it fails to withdraw one item
@@ -724,7 +726,7 @@ begin
       begin
         if (not MSI_Withdraw([material.Supplies[j][0]], [material.Supplies[j][1]])) then
           if (j = High(material.Supplies)) then
-            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of cooking supplies';
+            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
 
         t := (GetSystemTime + 5000);
         while (GetSystemTime < t) do

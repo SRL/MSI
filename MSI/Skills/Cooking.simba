@@ -6,8 +6,6 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  MSI_AddHeader('MSI_SetupCooking');
-
   with MSI_Players[CurrentPlayer] do
     if (MSI_Scripts[Scripts[CurrentScript].Name].GetMaterials) then
       for i := 0 to High(Scripts[CurrentScript].Materials) do
@@ -22,10 +20,10 @@ begin
 
         if (CountItems('dtm', MSI_Items[recipe.Supplies[0][0]].DTM, []) <= 0) then
         begin
-          MSI_Debug('Withdrawing items..');
+          MSI_SubDebug('Withdrawing items..');
           Result := MSI_Scripts[Scripts[CurrentScript].Name].BankObjects();
         end else begin
-          MSI_Debug('Cooking items found in inventory');
+          MSI_SubDebug('Materials found in inventory');
           Result := True;
         end;
 
@@ -33,9 +31,7 @@ begin
           Break;
       end
     else
-      MSI_Debug('Script doesn''t require item withdrawing');
-
-  MSI_CloseHeader('MSI_SetupCooking: ' + BoolToStr(Result));
+      MSI_SubDebug('Script doesn''t require item withdrawing');
 end;
 
 function MSI_CookAll(recipe: TMaterial): Boolean;
@@ -74,50 +70,9 @@ begin
   Result := (not MSI_CB_DoAllScreen);
 end;
 
-function MSI_CookFood(recipe: TMaterial) : Boolean;
-begin
-  if (not LoggedIn) then
-    Exit;
-
-  MSI_AddHeader('MSI_CookFood');
-
-  with MSI_Players[CurrentPlayer] do
-    if (MSI_UseItemOn(recipe.Supplies[0][0], Scripts[CurrentScript].CookingSpot)) then
-      if (MSI_CookAll(recipe)) then
-        Result := MSI_WaitItemGone(MSI_Items[recipe.Supplies[0][0]]);
-
-  MSI_CloseHeader('MSI_CookFood: ' + BoolToStr(Result));
-end;
-
 function MSI_CookFullInv: Boolean;
-var
-  i, t: Integer;
-  recipe: TMaterial;
 begin
-  if (not LoggedIn) then
-    Exit;
-
-  t := (GetSystemTime + (60000 * 10));
-
-  repeat
-    with MSI_Players[CurrentPlayer] do
-    begin
-      MSI_Relocate(Location);
-
-      for i := 0 to High(Scripts[CurrentScript].Materials) do
-      begin
-        recipe := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
-
-        if (MSI_CookFood(recipe)) then
-        begin
-          Result := True;
-          MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
-          stats_IncVariable('Loads Done', 1);
-          stats_Commit;
-          Location := MSI_Scripts[Scripts[CurrentScript].Name].PathInfo.EndLoc;
-        end;
-      end;
-    end;
-  until(Result or (GetSystemTime > t));
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+    Result := MSI_ConvertMaterial(@MSI_CookAll, CookingSpot);
 end;
 

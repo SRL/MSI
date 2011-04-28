@@ -65,7 +65,7 @@ const
   MAX_POINT_DIST       = 15;    // The maximum distance between a color and reflection minimap point
   RANDOM_TIME_PERCENT  = 0.30;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
   MM_RADIUS            = 68;    // Runescape's minimap radius
-  DTM_TOLERANCE        = 8;    // Tolerance on the DTMs
+  DTM_TOLERANCE        = 10;    // Tolerance on the DTMs
   TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
 
   ENERGY_MIN = 0;
@@ -107,7 +107,6 @@ const
   SCRIPT_SV_YEWS    = 24;
   SCRIPT_EV_YEWS    = 25;
 
-
   // Mining
   SCRIPT_POWER_MINER = 30;
   SCRIPT_VE_MINER    = 31;
@@ -140,7 +139,10 @@ const
   // Fighting
   SCRIPT_FIGHTER = 90;
 
-  SCRIPT_ARRAY_LENGTH = 90; // Change to the highest script constant
+  // Money Making
+  SCRIPT_VE_SOFTENER = 100;
+
+  SCRIPT_ARRAY_LENGTH = 100; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -646,6 +648,7 @@ Example:
   end;
 *)
 const
+  // Fish for cooking
   MATERIAL_SHRIMP    = 70;
   MATERIAL_CRAYFISH  = 71;
   MATERIAL_SARDINE   = 72;
@@ -657,6 +660,9 @@ const
   MATERIAL_TUNA      = 78;
   MATERIAL_LOBSTER   = 79;
   MATERIAL_SWORDFISH = 80;
+
+  // Money making
+  MATERIAL_CLAY      = 90; // Clay to Soft Clay
 
 (*
 Proggy Constants
@@ -848,6 +854,9 @@ type
 
     // Cooking
     CookingSpot : TIntegerArray;
+
+    // Miscellaneous
+    Objects : TIntegerArray;
 
     // Not setup by the user
     Items    : array of TIntegerArray;

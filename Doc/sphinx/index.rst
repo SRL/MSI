@@ -35,6 +35,7 @@ Contents:
     Magic.rst
     Fishing.rst
     Cooking.rst
+    Money_Making.rst
 
 
 Indices and tables

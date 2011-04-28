@@ -6,7 +6,7 @@ The Materials file holds the records for all the materials MSI uses.  MSI
 defines materials as items that are used to turn into another item.  For
 example, raw trout is a material that is cooked into cooked trout.
 
-The source for can be found
+The source for Materials.simba can be found
 `here <https://github.com/SRL/MSI/raw/master/MSI/Core/Materials.simba>`_.
 
 *)
@@ -145,6 +145,76 @@ begin
         MemberOnly  := False;
         Level       := 45;
       end;
+
+    MATERIAL_CLAY:
+      with Result do
+      begin
+        Name        := 'Clay';
+        Supplies    := [TIntegerArray([ORE_CLAY, -1])];
+        Produces    := [CLAY_SOFT];
+        MemberOnly  := False;
+        Level       := -1;
+      end;
   end;
+end;
+
+(*
+MSI_ConvertMaterial
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ConvertMaterial(func: function(m: TMaterial): Boolean; obj: TIntegerArray): Boolean;
+
+Used like MSI_AutoInvFull (Skills.simba), except used for scripts that involve
+MSI's materials rather than gathering produce.  Will use the player's
+current script's material on the first object found in the 'objs' array. 'func'
+is set to the function that handles the selection screen that appears when an
+item is used on some main screen objects.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 28 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  function MSI_CookFullInv: Boolean;
+  begin
+    with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+      Result := MSI_ConvertMaterial(@MSI_CookAll, CookingSpot);
+  end;
+*)
+function MSI_ConvertMaterial(func: function(m: TMaterial): Boolean; objs: TIntegerArray): Boolean;
+var
+  i, t: Integer;
+  material: TMaterial;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  t := (GetSystemTime + (60000 * 10));
+
+  repeat
+    with MSI_Players[CurrentPlayer] do
+    begin
+      MSI_Relocate(Location);
+
+      for i := 0 to High(Scripts[CurrentScript].Materials) do
+      begin
+        material := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
+
+        if (MSI_UseItemOn(material.Supplies[0][0], objs)) then
+          if (func(material)) then
+            if (MSI_WaitItemGone(MSI_Items[material.Supplies[0][0]])) then
+            begin
+              Result := True;
+              MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+            end;
+      end;
+    end;
+  until(Result or (GetSystemTime > t));
 end;
 
