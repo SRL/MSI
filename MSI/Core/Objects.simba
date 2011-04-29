@@ -778,13 +778,13 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Colors             := [11050135];
-        Tol                := 7;
+        Tol                := 10;
         Hue                := 0.26;
         Sat                := 0.62;
         FindAllColors      := False;
         W                  := 40;
         H                  := 40;
-        Accuracy           := 10;
+        Accuracy           := 5;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         Tries              := 5;
@@ -1718,7 +1718,7 @@ Begin
           Wait(20 + Random(50));
 
           If CheckUpText Then
-            if (waitUptext(name, 200)) then
+            if (waitUptext(name, 200) and (not RightClickOnly)) then
             begin
               MSI_Debug('Found ground item');
               c := invCount();

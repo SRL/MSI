@@ -124,7 +124,7 @@ begin
 
     MSI_WriteRemote; // Resets INI
   except
-    MSI_Debug('MSI_ResetINI: Error!');
+    MSI_Debug('MSI_ResetRemote: ' + ExceptionToString(ExceptionType, ExceptionParam));
   end;
 end;
 
