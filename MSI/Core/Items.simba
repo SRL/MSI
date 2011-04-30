@@ -83,11 +83,11 @@ begin
 
     ORE_CLAY:
       Result := [
-                  Point(278, 414),
-                  Point(275, 408),
-                  Point(289, 406),
-                  Point(283, 413),
-                  Point(281, 402)
+                  Point(24, 29),
+                  Point(22, 32),
+                  Point(18, 27),
+                  Point(31, 27),
+                  Point(29, 31)
                 ];
 
     ORE_COPPER..ORE_RUNITE:
@@ -367,7 +367,7 @@ begin
     PICKAXE_RUNE   : Result := 12495486;
     PICKAXE_DRAGON : Result := 725070;
 
-    ORE_CLAY      : Result := 5340051;
+    ORE_CLAY      : Result := 5076363;
     ORE_COPPER    : Result := 3499183;
     ORE_TIN       : Result := 6118754;
     ORE_IRON      : Result := 1712955;
@@ -748,7 +748,7 @@ begin
     ORE_CLAY:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Clay';
+        Name := 'Clay Ore';
         StatsName := 'Clay (Mined)';
         UpText := ['lay', 'Clay'];
         Stackable := False;
@@ -1332,10 +1332,11 @@ begin
     CLAY_SOFT:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Soft Clay';    // Name of the item
-        UpText := ['oft clay']; // Uptext
-        Stackable := False;     // Is it stackable?
-        EquipLevel := -1;       // Set to -1 if it can't be equipped
+        Name := 'Soft Clay';            // Name of the item
+        StatsName := 'Clay (Softened)'; // Stats name so stats are calculated
+        UpText := ['oft clay'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
       end;
   end;
 
@@ -2108,6 +2109,94 @@ begin
   end;
 
   MSI_CloseHeader('MSI_DropAll: Finished');
+end;
+
+(*
+MSI_WaitItemGone
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WaitItemGone(item: TItem): boolean;
+
+Waits until the item 'item' is no longer found in the inventory.
+
+.. note::
+
+  | Author: NCSD & Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_WaitItemGone(FISH_RAW_TROUT)) then
+    MSI_Debug('We are done cooking');
+*)
+function MSI_WaitItemGone(item: TItem): boolean;
+var
+  t: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_WaitItemGone');
+
+  t := (GetSystemTime + 180000);
+  while (GetSystemTime < t) do
+  begin
+    if (CountItems('dtm', item.DTM, []) = 0) then
+    begin
+      Result := True;
+      Break;
+    end;
+
+    MSI_FindRandoms(False);
+    MSI_AntiBan(RandomRange(0, 7000), ANTI_BAN_CHANCE);
+
+    Wait(1000);
+  end;
+
+  MSI_CloseHeader('MSI_WaitItemGone: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_UseItemOn
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_UseItemOn(item: integer; objs: TIntegerArray): boolean;
+
+Uses an item ('item') on a main screen object ('objs').  Will look for the
+first object in 'objs' first.
+
+.. note::
+
+  | Author: NCDS & Coh3n
+  | Last Updated: 27 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_UseItemOn(FISH_RAW_TROUT, COOKSPOT_AK_RANGE)) then
+    MSI_Debug('Starting to cook');
+*)
+function MSI_UseItemOn(item: integer; objs: TIntegerArray): boolean;
+var
+  x, y, index: integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
+    if (MSI_ClickItem(item, ['Use', 'se'])) then
+      exit
+  else
+    MSI_SubDebug('MSI_UseItemOn: Item already selected');
+
+  result := MSI_FindObjects(objs, index, clickLeft);
 end;
 
 

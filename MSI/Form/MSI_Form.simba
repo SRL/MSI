@@ -522,6 +522,9 @@ begin
             lists := [LIST_SPELLS, LIST_STAFFS];
             edits := [EDIT_TIME, EDIT_LEVEL, EDIT_ALCH_SLOTS];
           end;
+
+        SKILL_NONE:
+          edits := [EDIT_TIME, EDIT_LOADS];
       end;
 
       // Make lists visible
@@ -825,6 +828,15 @@ begin
           else
             Loads := StrToInt(script_Edits[EDIT_LOADS].Text);
         end;
+      end;
+
+    SKILL_NONE:
+      with MSI_Players[pIndex].Scripts[sIndex] do
+      begin
+        if (StrToInt(script_Edits[EDIT_LOADS].Text) = -1) then
+          ShowMessage('Invalid loads! Please enter a number.')
+        else
+          Loads := StrToInt(script_Edits[EDIT_LOADS].Text);
       end;
 
     SKILL_MAGIC:

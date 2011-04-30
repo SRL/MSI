@@ -21,6 +21,7 @@ Contents:
     Locations.rst
     Mainloop.rst
     Manipulation.rst
+    Materials.rst
     Objects.rst
     Obstacles.rst
     Reports.rst
@@ -34,6 +35,7 @@ Contents:
     Magic.rst
     Fishing.rst
     Cooking.rst
+    Money_Making.rst
 
 
 Indices and tables

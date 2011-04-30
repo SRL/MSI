@@ -1236,7 +1236,7 @@ begin
         GetMaterials  := True;
         WhichBank     := MSI_BANK_AK;
         AutoObjects   := @MSI_CookFullInv;
-        BankObjects   := @MSI_BankCooking;
+        BankObjects   := @MSI_BankWithdraw;
         PlayerSetup   := @MSI_SetupCooking;
 
         with Defaults do
@@ -1291,27 +1291,32 @@ begin
 
     { Money Makers =============================== ]
     [============================================= }
-    {
     SCRIPT_VE_SOFTENER:
       with MSI_Scripts[whichScript] do
       begin
         Name          := 'Varrock East Clay Softener';
         Constant      := SCRIPT_VE_SOFTENER;
-        SkillName     := 'No Skill';
+        SkillName     := 'N/A';
         SkillConst    := SKILL_NONE;
         BankType      := Bank;
         WhichBank     := MSI_BANK_VE;
         GetMaterials  := True;
         AutoObjects   := @MSI_SoftenClay;
-        BankObjects   := @MSI_BankStandard;
+        BankObjects   := @MSI_BankWithdraw;
         PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_VE];
+          Items     := [TIntegerArray([CLAY_SOFT])];
+          Materials := [MATERIAL_CLAY];
+        end;
 
         with PathInfo do
         begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_FOUNTAIN;
 
-          // See below
           Reflection := [
                           TPointArray([Point(3254, 3421), Point(3254, 3429),
                                        Point(3247, 3429), Point(3241, 3434)])
@@ -1321,7 +1326,6 @@ begin
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
-    }
   end;
 
   Result := (MSI_Scripts[whichScript].Name <> '');

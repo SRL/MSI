@@ -144,11 +144,12 @@ const
   TOTAL_FISH  = 5;
   TOTAL_CASTS = 6;
   TOTAL_COOKS = 7;
+  TOTAL_SOFTENS = 8;
 
 procedure MSI_ShortReport(FileName: Integer);
 var
   i, j, k, l: Integer;
-  totals: array[0..7] of Integer;
+  totals: array[0..8] of Integer;
   labels: TStringArray;
 begin
   MSI_PrintSave(FileName, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
@@ -187,6 +188,12 @@ begin
 
             SKILL_COOKING:
               IncEx(totals[TOTAL_COOKS], ReportInfo.ItemAmounts[j][k][l]);
+
+            SKILL_NONE:
+              case Scripts[j].Name of
+                SCRIPT_VE_SOFTENER:
+                  IncEx(totals[TOTAL_SOFTENS], ReportInfo.ItemAmounts[j][k][l]);
+              end;
           end;
     end;
   end;
@@ -198,7 +205,7 @@ begin
     MSI_PrintSave(FileName, '{         - '+PadR('Randoms Failed:  '+IntToStr(Length(RandomsResult(Result_Randoms_Failed))), 53)+'}');
   {$ENDIF}
 
-  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:'];
+  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:', 'Clay Softened'];
   for i := 0 to High(totals) do
   begin
     if ((totals[i] <= 0) or (labels[i] = '')) then
@@ -333,16 +340,20 @@ begin
       begin
         MSI_PrintSave(f, '{     ' + PadR('Script: ' + MSI_Scripts[Scripts[j].Name].Name, 59) + '}');
         MSI_PrintSave(f, '{       ' + PadR('Time:  ' + MsToTime(ReportInfo.ScriptTimes[j], Time_Short), 57) + '}');
-        MSI_PrintSave(f, '{       ' + PadR('Skill: ' + MSI_Scripts[Scripts[j].Name].SkillName, 57) + '}');
-        MSI_PrintSave(f, '{       ' + PadR('Exp:   ' + GroupDigits(ReportInfo.GainedExps[j], ','), 57) + '}');
 
-        if (ReportInfo.SkillLevels[j] < 1) then
-          MSI_PrintSave(f, '{       ' + PadR('Level: Not yet defined', 57) + '}')
-        else
-          MSI_PrintSave(f, '{       ' + PadR('Level: ' + IntToStr(ReportInfo.SkillLevels[j]), 57) + '}');
+        if (MSI_Scripts[Scripts[j].Name].SkillName <> 'N/A') then
+        begin
+          MSI_PrintSave(f, '{       ' + PadR('Skill: ' + MSI_Scripts[Scripts[j].Name].SkillName, 57) + '}');
+          MSI_PrintSave(f, '{       ' + PadR('Exp:   ' + GroupDigits(ReportInfo.GainedExps[j], ','), 57) + '}');
+
+          if (ReportInfo.SkillLevels[j] < 1) then
+            MSI_PrintSave(f, '{       ' + PadR('Level: Not yet defined', 57) + '}')
+          else
+            MSI_PrintSave(f, '{       ' + PadR('Level: ' + IntToStr(ReportInfo.SkillLevels[j]), 57) + '}');
+        end;
 
         case MSI_Scripts[Scripts[j].Name].SkillConst of
-          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING, SKILL_COOKING:
+          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING, SKILL_COOKING, SKILL_NONE:
             MSI_StandardReport(f, i, j);
 
           SKILL_MAGIC:
