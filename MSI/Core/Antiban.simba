@@ -201,7 +201,8 @@ begin
   MSI_SubDebug('Scanning for randoms...');
 
   {$IFDEF REFLECTION}
-  if (R_FindRandoms) then
+  //if (R_FindRandoms) then
+  if (FindNormalRandoms) then
   {$ELSE}
   if (FindNormalRandoms) then
   {$ENDIF}
