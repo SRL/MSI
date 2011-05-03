@@ -67,9 +67,13 @@ begin
   RunEnergy(20);
 
   // Setup the player
-  MSI_SetSkillLevels();
   with MSI_Players[CurrentPlayer] do
+  begin
+    if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+      MSI_SetSkillLevels();
+
     Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
+  end;
 
   MSI_CloseHeader('MSI_SetupPlayer: ' + BoolToStr(Result));
 end;
@@ -951,6 +955,18 @@ begin
     tmpLoads := 0;
     MarkTime(tmpTime);
 
+    // Check player's location; works if player is in the middle of the path
+    Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+    if (not MSI_AtLocation(MSI_Players[CurrentPlayer].Location, False)) then // Set location
+      if (not MSI_AtLocation(Script.PathInfo.StartLoc, False)) then // Start location
+        if (not MSI_AtLocation(Script.PathInfo.EndLoc, False)) then // End location
+          if (InvCount > 15) then // Assuming it's in the middle of the path somewhere
+          begin
+            MSI_Players[CurrentPlayer].Location := Script.PathInfo.EndLoc;
+            skipToBank := True;
+          end else
+            MSI_Players[CurrentPlayer].Location := script.PathInfo.StartLoc;
+
     // Setup player
     if (not MSI_SetupPlayer) then
     begin
@@ -969,18 +985,6 @@ begin
       SPS_Loaded := False;
     end;
     {$ENDIF}
-
-    // Check player's location; works if player is in the middle of the path
-    Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-    if (not MSI_AtLocation(MSI_Players[CurrentPlayer].Location, False)) then // Set location
-      if (not MSI_AtLocation(Script.PathInfo.StartLoc, False)) then // Start location
-        if (not MSI_AtLocation(Script.PathInfo.EndLoc, False)) then // End location
-          if (InvCount > 15) then // Assuming it's in the middle of the path somewhere
-          begin
-            MSI_Players[CurrentPlayer].Location := Script.PathInfo.EndLoc;
-            skipToBank := True;
-          end else
-            MSI_Players[CurrentPlayer].Location := script.PathInfo.StartLoc;
 
     repeat
       MarkTime(time);

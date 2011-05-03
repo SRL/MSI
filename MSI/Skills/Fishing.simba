@@ -163,6 +163,11 @@ begin
       t := Scripts[CurrentScript].FishSpots[i];
       MSI_Debug('Fishing spot ' + IntToStr(i) + ': ' + MSI_Objects[t].Name);
     end;
+
+    if (MSI_Locations[Location].AtBank) or
+       (MSI_Scripts[Scripts[CurrentScript].Name].BankType = NPC) then
+      if (InvFull) then
+        MSI_Scripts[Scripts[CurrentScript].Name].BankObjects();
   end;
 
   MSI_CloseHeader('MSI_SetupFishing: ' + BoolToStr(Result));
@@ -646,7 +651,7 @@ begin
   CompassDir := MSI_DetectSide;
   if not (CompassDir = '') then
     MSI_Debug('Setting compass to: ' + CompassDir);
-  MakeCompass(CompassDir);
+  //MakeCompass(CompassDir);
   if MSI_FindObjectsIn(Which, Index, MSBox, ClickLeft) then
   begin
     Result := True;

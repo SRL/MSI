@@ -12,12 +12,6 @@ begin
       begin
         recipe := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
 
-        if (ReportInfo.SkillLevels[CurrentScript] < recipe.Level) then
-        begin
-          MSI_SubDebug('Not high enough level(' + IntToStr(ReportInfo.SkillLevels[CurrentScript]) + ') to cook ' +recipe.Name);
-          Continue;
-        end;
-
         if (CountItems('dtm', MSI_Items[recipe.Supplies[0][0]].DTM, []) <= 0) then
         begin
           MSI_SubDebug('Withdrawing items..');

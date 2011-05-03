@@ -162,10 +162,13 @@ begin
     repeat
       Inc(t);
       Result := MSI_FindObject(which, ClickRight);
+
+      if (t >= (MSI_Objects[which].Tries div 2)) then
+        NotBoxes := [];
     until(Result or (t >= MSI_Objects[which].Tries));
 
   finally
-    MSI_CloseHeader('MSI_ExchangeNPC:' + BoolToStr(Result) + ' (' + MSI_Objects[which].Name + ')');
+    MSI_CloseHeader('MSI_ExchangeNPC: ' + BoolToStr(Result) + ' (' + MSI_Objects[which].Name + ')');
   end;
 end;
 
@@ -670,11 +673,13 @@ begin
   with MSI_Players[CurrentPlayer] do
     if (Location = Script.PathInfo.StartLoc) then
       if (MSI_ExchangeNPC(Script.WhichBank)) then
-        MSI_Debug('Exchanged with NPC: '+MSI_Objects[Script.WhichBank].Name)
-      else
+      begin
+        MSI_Debug('Exchanged with NPC: '+MSI_Objects[Script.WhichBank].Name);
+        Result := True;
+      end else
         ReportInfo.FalseReason := 'Failed to exchange with NPC: '+MSI_Objects[Script.WhichBank].Name;
 
-  MSI_CloseHeader('MSI_BankNPC ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_BankNPC: ' + BoolToStr(Result));
 end;
 
 (*
@@ -721,6 +726,15 @@ begin
     for i := 0 to High(newMaterials) do
     begin
       material := MSI_GetMaterial(newMaterials[i]);
+
+      if (ReportInfo.SkillLevels[CurrentScript] < material.Level) then
+      begin
+        if (i = High(newMaterials)) then
+          ReportInfo.FalseReason := 'Required level not met';
+
+        MSI_SubDebug('Not high enough level for material: ' + material.Name);
+        Continue;
+      end;
 
       for j := 0 to High(material.Supplies) do
       begin

@@ -195,7 +195,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  t := (GetSystemTime + (60000 * 10));
+  t := (GetSystemTime + (60000 * 5));
 
   repeat
     with MSI_Players[CurrentPlayer] do
@@ -214,6 +214,9 @@ begin
               MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
             end;
       end;
+
+      if (GetSystemTime > (t div 3)) then
+        NotBoxes := [];
     end;
   until(Result or (GetSystemTime > t));
 end;

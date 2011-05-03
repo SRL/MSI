@@ -141,8 +141,9 @@ const
 
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
+  SCRIPT_EV_SOFTENER = 101;
 
-  SCRIPT_ARRAY_LENGTH = 100; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 101; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -273,6 +274,7 @@ const
   // Edgeville
   LOC_EV_BANK    = 80;
   LOC_EV_YEWS    = 81;
+  LOC_EV_WELL    = 82;
 
   // Barbarian Village
   LOC_BBV_MINE   = 90;
@@ -523,7 +525,10 @@ const
   // Fountains
   FOUNTAIN_VE = 110;
 
-  OBJ_ARRAY_LENGTH = 110; // Change to the highest object constant
+  // Wells
+  WELL_EV = 120;
+
+  OBJ_ARRAY_LENGTH = 120; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -723,6 +728,7 @@ type
     UpText           : string;  // Set to '' if RightClickOnly := True
     Option           : string;
     Exp              : Extended;
+    Level            : Integer; // The skill level required
     Colors           : TIntegerArray;
     FindAllColors    : Boolean; // Set to true if each TPA needs to include every color in 'Colors'
     Tol              : Integer;

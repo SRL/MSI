@@ -1326,6 +1326,41 @@ begin
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
+
+    SCRIPT_EV_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Edgeville Clay Softener';
+        Constant      := SCRIPT_EV_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_EV;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [WELL_EV];
+          Items     := [TIntegerArray([CLAY_SOFT])];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_EV_BANK;
+          EndLoc   := LOC_EV_WELL;
+
+          Reflection := [
+                          TPointArray([Point(3093, 3493), Point(3085, 3500)])
+                        ];
+
+          SPSAreas := ['9_2'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
   end;
 
   Result := (MSI_Scripts[whichScript].Name <> '');

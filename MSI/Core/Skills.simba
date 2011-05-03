@@ -412,6 +412,9 @@ begin
             Break;
           end else
             Exit;
+
+          if (GetSystemTime > (t div 5)) then
+            NotBoxes := [];
         end;
 
         Wait(RandomRange(300, 800));

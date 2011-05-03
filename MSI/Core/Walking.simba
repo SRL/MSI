@@ -248,7 +248,6 @@ begin
     Exit;
 
   MSI_AddHeader('MSI_Relocate');
-  MakeCompass('n');
 
   if (ReflectionBroken) then
   begin
