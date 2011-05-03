@@ -67,9 +67,13 @@ begin
   RunEnergy(20);
 
   // Setup the player
-  MSI_SetSkillLevels();
   with MSI_Players[CurrentPlayer] do
+  begin
+    if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+      MSI_SetSkillLevels();
+
     Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
+  end;
 
   MSI_CloseHeader('MSI_SetupPlayer: ' + BoolToStr(Result));
 end;

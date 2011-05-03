@@ -138,11 +138,20 @@ begin
   if (SmartGetFieldInt(0, hook_static_LoginIndex) = -1) then
   begin
     ReflectionBroken := True;
+    {$IFDEF SPS}
     ShowMessage('HOOKS ARE OUTDATED: '+#13+#10+
                 '  This means you will be using 100% color.  Please '+#13+#10+
                 '  terminate the script if you would rather wait for '+#13+#10+
                 '  reflection to be updated.'
     );
+    {$ELSE}
+    ShowMessage('HOOKS ARE OUTDATED & SPS ISN''T DEFINED: '+#13+#10+
+                '  This means that there are no walking methods available '+#13+#10+
+                '  to you.  Either wait for Reflection to be updated or '+#13+#10+
+                '  define SPS at the top of RunMe.simba.'
+    );
+    TerminateScript;
+    {$ENDIF}
   end;
   {$ELSE}
   ReflectionBroken := True; // If it's not being used, it's broken (for script's sake)
