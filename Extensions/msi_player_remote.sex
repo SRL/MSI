@@ -178,7 +178,7 @@ begin
     TabPages[I]:= TTabSheet.Create(MainForm);
     with TabPages[I] do
     begin
-      Caption := 'Player ' + Inttostr(I);
+      Name := 'Player_' + Inttostr(I);
       PageControl := VarPageControl;
     end;
 
