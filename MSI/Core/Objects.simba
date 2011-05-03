@@ -1177,6 +1177,32 @@ begin
          BadColorTolerance  := 10;
          AssociatedItems    := [];
        end;
+
+     WELL_EV:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Edgeville Well'; // Name
+         UpText             := 'ell';                  // Uptext
+         Option             := 'se';                    // Choose option text (se = Use)
+         Colors             := [1848127];              // The 'Best color' from ACA
+         Tol                := 7;                      // Tol from ACA
+         Hue                := 0.07;                    // Hue from ACA
+         Sat                := 0.11;                    // Sat from ACA
+         FindAllColors      := False;                   // MSI_FindObject will only return true if all colors in 'Colors' are found
+         W                  := 50;                      // Width of the object in pixels
+         H                  := 50;                      // Height of the object in pixels
+         Accuracy           := 8;                      // The minimum amount of colors to be found (gets rid of false objects)
+         SearchArea         := MSBox;                   // The box to search for the object (MSBox = main screen box)
+         ExcludeSelf        := True;                    // Exclude the character
+         RightClickOnly     := False;                   // Only right click
+         Tries              := 10;                      // Number of times to look for the object
+         Anim               := False;                   // Set to true if the object animates
+         WaitToMove         := True;                    // Wait for the player to stop moving after the object is clicked
+         Track              := False;                   // True if the object disappears after the player is done with it
+         BadColors          := [];                      // Bad colors, can usually be empty
+         BadColorTolerance  := 10;                      // Can usually be empty
+         AssociatedItems    := [CLAY_SOFT];             // Are any items gained from the object (i.e. logs from trees)?
+       end;
   end;
 
   Result := (MSI_Objects[whichObject].Name <> '');
