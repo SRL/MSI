@@ -2191,9 +2191,10 @@ begin
     exit;
 
   if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
-    if (MSI_ClickItem(item, ['Use', 'se'])) then
-      exit
-  else
+  begin
+    if (not MSI_ClickItem(item, ['Use', 'se'])) then
+      exit;
+  end else
     MSI_SubDebug('MSI_UseItemOn: Item already selected');
 
   result := MSI_FindObjects(objs, index, clickLeft);

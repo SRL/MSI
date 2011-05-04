@@ -224,6 +224,7 @@ begin
   end;
 
   ColorToleranceSpeed(cts);
+  SetColorSpeed2Modifiers(0.2, 0.2);
 end;
 
 (*
@@ -315,6 +316,8 @@ begin
     if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
     begin
       Result := 'n';
+      ColorToleranceSpeed(cts);
+      SetColorSpeed2Modifiers(0.2, 0.2);
       Exit;
     end;
   end;
@@ -326,6 +329,8 @@ begin
     if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
     begin
       Result := 's';
+      ColorToleranceSpeed(cts);
+      SetColorSpeed2Modifiers(0.2, 0.2);
       Exit;
     end;
   end;
@@ -337,6 +342,8 @@ begin
     if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
     begin
       Result := 'w';
+      ColorToleranceSpeed(cts);
+      SetColorSpeed2Modifiers(0.2, 0.2);
       Exit;
     end;
   end;
@@ -348,6 +355,8 @@ begin
     if not InRange(Length(TPA), WaterCount[0] - 20, WaterCount[0] + 20) then
     begin
       Result := 'e';
+      ColorToleranceSpeed(cts);
+      SetColorSpeed2Modifiers(0.2, 0.2);
       Exit;
     end;
   end;
@@ -443,6 +452,7 @@ begin
   //FinalCount := AverageTIA(ToolAmount);
   Result := (FinalCount >= TCount);
   ColorToleranceSpeed(cts);
+  SetColorSpeed2Modifiers(0.2, 0.2);
 end;
 
 (*
