@@ -707,7 +707,7 @@ Example:
 *)
 function MSI_BankWithdraw(): Boolean;
 var
-  i, j, t, x, y: Integer;
+  pIndex, i, j, t, x, y: Integer;
   material: TMaterial;
   newMaterials: TIntegerArray;
 begin
@@ -725,6 +725,9 @@ begin
 
     for i := 0 to High(newMaterials) do
     begin
+      if (not inIntArrayEx(Scripts[CurrentScript].Materials, pIndex, newMaterials[i])) then
+        pIndex := -1;
+
       material := MSI_GetMaterial(newMaterials[i]);
 
       if (ReportInfo.SkillLevels[CurrentScript] < material.Level) then
@@ -740,7 +743,18 @@ begin
       begin
         if (not MSI_Withdraw([material.Supplies[j][0]], [material.Supplies[j][1]])) then
           if (j = High(material.Supplies)) then
+          begin
             MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
+
+            if (pIndex <> -1) then
+            begin
+              MSI_Debug('Removing from player''s array');
+              deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);
+              deleteValueInIntArray(Scripts[CurrentScript].Priority, pIndex);
+            end;
+
+            break;
+          end;
 
         t := (GetSystemTime + 5000);
         while (GetSystemTime < t) do
