@@ -313,6 +313,38 @@ begin
                   Point(39, 26),
                   Point(28, 33)
                 ];
+    VIAL_EMPTY, VIAL_WATER:
+      Result := [
+                  Point(22, 164),
+                  Point(21, 145),
+                  Point(26, 160),
+                  Point(14, 164),
+                  Point(21, 174)
+                ];
+    JUG_EMPTY, JUG_WATER:
+      Result := [
+                  Point(886, 273),
+                  Point(898, 280),
+                  Point(884, 294),
+                  Point(874, 286),
+                  Point(883, 267)
+                ];
+    BOWL_EMPTY, BOWL_WATER:
+      Result := [
+                  Point(970, 278),
+                  Point(968, 269),
+                  Point(984, 278),
+                  Point(969, 290),
+                  Point(953, 280)
+                ];
+    BUCKET_EMPTY, BUCKET_WATER:
+      Result := [
+                  Point(883, 314),
+                  Point(883, 303),
+                  Point(894, 316),
+                  Point(885, 330),
+                  Point(876, 320)
+                ];
 
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
@@ -438,7 +470,15 @@ begin
     MSI_RUNE_SOUL  : Result := 0;
     MSI_RUNE_ASTRAL: Result := 0;
 
-    CLAY_SOFT: Result := 802904;
+    CLAY_SOFT   : Result := 802904;
+    VIAL_EMPTY  : Result := 5920342;
+    VIAL_WATER  : Result := 11040368;
+    JUG_EMPTY   : Result := 7500664;
+    JUG_WATER   : Result := 12216937;
+    BOWL_EMPTY  : Result := 1203069;
+    BOWL_WATER  : Result := 11712313;
+    BUCKET_EMPTY: Result := 1521995;
+    BUCKET_WATER: Result := 9008758;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1335,6 +1375,86 @@ begin
         Name := 'Soft Clay';            // Name of the item
         StatsName := 'Clay (Softened)'; // Stats name so stats are calculated
         UpText := ['oft clay'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    VIAL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial';            // Name of the item
+        StatsName := 'Vial (Empty)'; // Stats name so stats are calculated
+        UpText := ['ial'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    VIAL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial of water';            // Name of the item
+        StatsName := 'Vial (Water)'; // Stats name so stats are calculated
+        UpText := ['ial of water'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    JUG_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug';            // Name of the item
+        StatsName := 'Jug (Empty)'; // Stats name so stats are calculated
+        UpText := ['ug'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    JUG_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug of water';            // Name of the item
+        StatsName := 'Jug (Water)'; // Stats name so stats are calculated
+        UpText := ['ug of water'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    BOWL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl';            // Name of the item
+        StatsName := 'Bowl (Empty)'; // Stats name so stats are calculated
+        UpText := ['owl'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    BOWL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl of water';            // Name of the item
+        StatsName := 'Bowl (Water)'; // Stats name so stats are calculated
+        UpText := ['owl of water'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    BUCKET_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket';            // Name of the item
+        StatsName := 'Bucket (Empty)'; // Stats name so stats are calculated
+        UpText := ['ucket'];         // Uptext
+        Stackable := False;             // Is it stackable?
+        EquipLevel := -1;               // Set to -1 if it can't be equipped
+      end;
+
+    BUCKET_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket of water';            // Name of the item
+        StatsName := 'Bucket (Water)'; // Stats name so stats are calculated
+        UpText := ['ucket of water'];         // Uptext
         Stackable := False;             // Is it stackable?
         EquipLevel := -1;               // Set to -1 if it can't be equipped
       end;

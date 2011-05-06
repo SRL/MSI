@@ -145,6 +145,7 @@ const
   TOTAL_CASTS = 6;
   TOTAL_COOKS = 7;
   TOTAL_SOFTENS = 8;
+  TOTAL_FILLS = 9;
 
 procedure MSI_ShortReport(FileName: Integer);
 var
@@ -191,8 +192,10 @@ begin
 
             SKILL_NONE:
               case Scripts[j].Name of
-                SCRIPT_VE_SOFTENER:
+                SCRIPT_VE_SOFTENER, SCRIPT_EV_SOFTENER:
                   IncEx(totals[TOTAL_SOFTENS], ReportInfo.ItemAmounts[j][k][l]);
+               SCRIPT_VE_FILLER:
+                 IncEx(totals[TOTAL_FILLS], ReportInfo.ItemAmounts[j][k][l]);
               end;
           end;
     end;
@@ -205,7 +208,7 @@ begin
     MSI_PrintSave(FileName, '{         - '+PadR('Randoms Failed:  '+IntToStr(Length(RandomsResult(Result_Randoms_Failed))), 53)+'}');
   {$ENDIF}
 
-  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:', 'Clay Softened'];
+  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:', 'Clay Softened:', 'Containers Filled:'];
   for i := 0 to High(totals) do
   begin
     if ((totals[i] <= 0) or (labels[i] = '')) then

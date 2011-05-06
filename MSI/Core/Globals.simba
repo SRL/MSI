@@ -142,8 +142,9 @@ const
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
   SCRIPT_EV_SOFTENER = 101;
+  SCRIPT_VE_FILLER   = 102;
 
-  SCRIPT_ARRAY_LENGTH = 101; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 102; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -436,9 +437,17 @@ const
   MSI_RUNE_SOUL   = 172;
   MSI_RUNE_ASTRAL = 173;
 
-  CLAY_SOFT = 180;
+  CLAY_SOFT     = 180;
+  VIAL_EMPTY    = 181;
+  VIAL_WATER    = 182;
+  JUG_EMPTY     = 183;
+  JUG_WATER     = 184;
+  BOWL_EMPTY    = 185;
+  BOWL_WATER    = 186;
+  BUCKET_EMPTY  = 187;
+  BUCKET_WATER  = 188;
 
-  ITEM_ARRAY_LENGTH = 180; // Change to the highest item constant
+  ITEM_ARRAY_LENGTH = 188; // Change to the highest item constant
 
 (*
 Object Constants
@@ -668,7 +677,10 @@ const
 
   // Money making
   MATERIAL_CLAY      = 90; // Clay to Soft Clay
-
+  MATERIAL_VIAL      = 91;
+  MATERIAL_JUG       = 92;
+  MATERIAL_BOWL      = 93;
+  MATERIAL_BUCKET    = 94;
 (*
 Proggy Constants
 ~~~~~~~~~~~~~~~~
