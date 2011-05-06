@@ -152,6 +152,17 @@ Example:
          MinDistance := 20;
        end;
 
+     LOC_FW_PUMP:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Falador WaterPump';
+         Constant := LOC_FW_PUMP;
+         AtBank := False;
+         Tiles := [Point(2949, 3382)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 20;
+       end;
+
      LOC_VW_BANK:
        with MSI_Locations[Which] do
        begin

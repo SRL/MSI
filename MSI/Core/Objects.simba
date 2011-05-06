@@ -1182,6 +1182,32 @@ begin
          BadColorTolerance  := 10;                      // Can usually be empty
          AssociatedItems    := [CLAY_SOFT];             // Are any items gained from the object (i.e. logs from trees)?
        end;
+
+     PUMP_FW:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador Waterpump';
+         UpText             := 'pump';
+         Option             := 'se';
+         Colors             := [3949381];
+         Tol                := 0;
+         Hue                := 0.00;
+         Sat                := 0.00;
+         FindAllColors      := False;
+         W                  := 30;
+         H                  := 30;
+         Accuracy           := 1;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [CLAY_SOFT];
+       end;
   end;
 
   Result := (MSI_Objects[whichObject].Name <> '');

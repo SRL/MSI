@@ -1361,6 +1361,41 @@ begin
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
+
+    SCRIPT_FW_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Softener';
+        Constant      := SCRIPT_FW_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [PUMP_FW];
+          Items     := [TIntegerArray([CLAY_SOFT])];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_PUMP;
+
+          Reflection := [
+                          TPointArray([Point(2945, 3367), Point(2949, 3382)])
+                        ];
+
+          SPSAreas := ['8_4'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
   end;
 
   Result := (MSI_Scripts[whichScript].Name <> '');
