@@ -150,7 +150,7 @@ const
 procedure MSI_ShortReport(FileName: Integer);
 var
   i, j, k, l: Integer;
-  totals: array[0..8] of Integer;
+  totals: array[0..9] of Integer;
   labels: TStringArray;
 begin
   MSI_PrintSave(FileName, '{----------------------------------------------------------------}');                             //64 from '{' to '}'

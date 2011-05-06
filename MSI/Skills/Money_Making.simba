@@ -114,25 +114,13 @@ begin
     Result := MSI_ConvertMaterial(@MSI_SoftenAll, Objects); // ConvertMaterial is in Materials.simba
 end;
 
-function MSI_FillAll(Material : TMaterial) : Boolean;
-var
-  T, X, Y, C : Integer;
-
+function MSI_FillAll : Boolean;
 begin
-  C:= InvCount;
-  T:= GetSystemTime;
-  while ((GetSystemTime - T) < 30000) do
-  begin
-    Result:= (CountItems('dtm', MSI_Items[Material.produces[0]].DTM, []) >= C);
-      if Result then
-        Exit;
-    MSI_FindRandoms(True);
-    Wait(500 + Random(700));
-  end;
-  Wait(500 + Random(500));
+  Result:= True;
+  Wait(500);
 end;
 
-function MSI_FillItems(): Boolean;
+function MSI_FillItems: Boolean;
 begin
   with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
     Result := MSI_ConvertMaterial(@MSI_FillAll, Objects);
