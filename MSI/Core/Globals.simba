@@ -142,8 +142,9 @@ const
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
   SCRIPT_EV_SOFTENER = 101;
+  SCRIPT_FW_SOFTENER = 103;
 
-  SCRIPT_ARRAY_LENGTH = 101; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 103; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -261,6 +262,7 @@ const
   LOC_FE_BANK    = 50;
   LOC_FW_BANK    = 51;
   LOC_FW_MINE    = 52;
+  LOC_FW_PUMP    = 53;
 
   // Port Sarim
   LOC_PS_WILLOWS = 60;
@@ -531,13 +533,12 @@ const
 
   LOOT_FEATHERS = 101;
 
-  // Fountains
+  // Water Sources
   FOUNTAIN_VE = 110;
+  WELL_EV = 111;
+  PUMP_FW = 112;
 
-  // Wells
-  WELL_EV = 120;
-
-  OBJ_ARRAY_LENGTH = 120; // Change to the highest object constant
+  OBJ_ARRAY_LENGTH = 112; // Change to the highest object constant
 
 (*
 Obstacle Constants

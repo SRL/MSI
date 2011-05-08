@@ -1203,6 +1203,32 @@ begin
          BadColorTolerance  := 10;
          AssociatedItems    := [CLAY_SOFT];
        end;
+
+     PUMP_FW:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador Waterpump';
+         UpText             := 'pump';
+         Option             := 'se';
+         Colors             := [4870997];
+         Tol                := 6;
+         Hue                := 0.14;
+         Sat                := 0.13;
+         FindAllColors      := False;
+         W                  := 30;
+         H                  := 30;
+         Accuracy           := 3;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [CLAY_SOFT];
+       end;
   end;
 
   Result := (MSI_Objects[whichObject].Name <> '');
