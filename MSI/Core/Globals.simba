@@ -438,7 +438,16 @@ const
 
   CLAY_SOFT = 180;
 
-  ITEM_ARRAY_LENGTH = 180; // Change to the highest item constant
+  BAR_BRONZE  = 190;
+  BAR_IRON    = 191;
+  BAR_SILVER  = 192;
+  BAR_STEEL   = 193;
+  BAR_GOLD    = 194;
+  BAR_MITHRIL = 195;
+  BAR_ADAMANT = 196;
+  BAR_RUNE    = 197;
+
+  ITEM_ARRAY_LENGTH = 197; // Change to the highest item constant
 
 (*
 Object Constants
