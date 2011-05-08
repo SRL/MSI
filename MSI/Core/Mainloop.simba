@@ -436,8 +436,8 @@ If using multiple players, it will switch to the next player.
 
 .. note::
 
-  | Author: Coh3n
-  | Last Updated: 10 Febuary 2011 by NCDS
+  | Author: Coh3n & NCDS
+  | Last Updated: 06 May 2011 by Coh3n
 
 Example:
 
@@ -503,16 +503,14 @@ begin
     t := (GetSystemTime + ((MSI_SetupVars[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
     while GetSystemTime < t do
     begin
-      Status('MSI_SetupVars[SETUP_BREAK_TIME] remaining: '+MsToTime(t - GetSystemTime, Time_Formal)+';');
+      Status('Break time remaining: '+MsToTime(t - GetSystemTime, Time_Formal));
       Wait(RandomRange(2000, 25000));
       if LoggedIn then
         MSI_FindRandoms(False);
     end;
 
     MSI_Debug('Break over, continuing to play');
-
-    if (LobbyScreen) then
-      MouseBox(80, 450, 560, 470, 1);
+    LoginPlayer();
   end else
   begin
     MSI_Debug('Switching players');
@@ -522,7 +520,7 @@ begin
   WaitFunc(@LoggedIn, 100, 15000);
 
   stats_IncVariable('Total Logins', 1);
-  MSI_CloseHeader('MSI_HandleBreaking: ' + BoolToStr(LoggedIn));
+  MSI_CloseHeader('MSI_HandleBreaking: LoggedIn = ' + BoolToStr(LoggedIn));
 end;
 
 (*

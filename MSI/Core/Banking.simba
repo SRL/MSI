@@ -589,7 +589,7 @@ function MSI_BankStandard: Boolean;
 var
   intItems: TIntegerArray;
   itemsDeposited: TBooleanArray;
-  i: Integer;
+  i, iCount: Integer;
   depAll: Boolean;
   Script: TScript;
 begin
@@ -598,10 +598,10 @@ begin
 
   MSI_AddHeader('MSI_BankStandard');
 
-  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-
   with MSI_Players[CurrentPlayer] do
   begin
+    Script := MSI_Scripts[Scripts[CurrentScript].Name];
+
     if (Location = Script.PathInfo.StartLoc) then
       if (not MSI_OpenBank(Script.WhichBank, Pin)) then
       begin
@@ -618,21 +618,28 @@ begin
       if (depAll) then
         Break;
     end;
+
+    MSI_DepositExcessItems();
+
+    if (not depAll) then
+      for i := 0 to High(itemsDeposited) do
+        if (not itemsDeposited[i]) then
+        begin
+          Result := False;
+          ReportInfo.FalseReason := 'Failed to deposit items';
+          MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
+          Exit;
+        end;
+
+    iCount := invCount;
+    result := (iCount <= Length(Scripts[CurrentScript].Exceptions));
+
+    if (not result) then
+    begin
+      MSI_Debug('InvCount: '+toStr(iCount)+'; Exceptions: '+toStr(Scripts[CurrentScript].Exceptions));
+      MSI_Debug('Inventory count > exceptions, banking failed');
+    end;
   end;
-
-  MSI_DepositExcessItems();
-
-  if (not depAll) then
-    for i := 0 to High(itemsDeposited) do
-      if (not itemsDeposited[i]) then
-      begin
-        Result := False;
-        MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to deposit items';
-        MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
-        Exit;
-      end;
-
-  Result := (InvCount <= Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions));
 
   MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
 end;
