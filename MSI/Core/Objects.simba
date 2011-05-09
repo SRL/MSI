@@ -1175,7 +1175,8 @@ begin
          Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
-         AssociatedItems    := [];
+         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                 BUCKET_WATER ];
        end;
 
      WELL_EV:
@@ -1201,7 +1202,8 @@ begin
          Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
-         AssociatedItems    := [CLAY_SOFT];
+         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                 BUCKET_WATER ];
        end;
 
      PUMP_FW:
@@ -1227,7 +1229,8 @@ begin
          Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
-         AssociatedItems    := [CLAY_SOFT];
+         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                 BUCKET_WATER ];
        end;
   end;
 

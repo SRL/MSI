@@ -145,11 +145,12 @@ const
   TOTAL_CASTS = 6;
   TOTAL_COOKS = 7;
   TOTAL_SOFTENS = 8;
+  TOTAL_FILLS = 9;
 
 procedure MSI_ShortReport(FileName: Integer);
 var
   i, j, k, l: Integer;
-  totals: array[0..8] of Integer;
+  totals: array[0..9] of Integer;
   labels: TStringArray;
 begin
   MSI_PrintSave(FileName, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
@@ -159,7 +160,7 @@ begin
   MSI_PrintSave(FileName, '{----------------------------------------------------------------}');
   MSI_PrintSave(FileName, '{                                                                }');
   MSI_PrintSave(FileName, '{        '+PadR('Totals:', 56)+'}');
-  MSI_PrintSave(FileName, '{         - '+PadR('Players:         '+IntToStr(HowManyPlayers), 53)+'}');
+  MSI_PrintSave(FileName, '{         - '+PadR('Players:           '+IntToStr(HowManyPlayers), 53)+'}');
 
   for i := 0 to High(MSI_Players) do
   with MSI_Players[i] do
@@ -191,27 +192,30 @@ begin
 
             SKILL_NONE:
               case Scripts[j].Name of
-                SCRIPT_VE_SOFTENER:
+                SCRIPT_VE_SOFTENER, SCRIPT_EV_SOFTENER, SCRIPT_FW_SOFTENER:
                   IncEx(totals[TOTAL_SOFTENS], ReportInfo.ItemAmounts[j][k][l]);
+
+                SCRIPT_VE_FILLER:
+                  IncEx(totals[TOTAL_FILLS], ReportInfo.ItemAmounts[j][k][l]);
               end;
           end;
     end;
   end;
 
-  MSI_PrintSave(FileName, '{         - '+PadR('Player Time:     '+MsToTime(totals[TOTAL_TIME], TIME_SHORT), 53)+'}');
+  MSI_PrintSave(FileName, '{         - '+PadR('Player Time:       '+MsToTime(totals[TOTAL_TIME], TIME_SHORT), 53)+'}');
 
   {$IFDEF REFLECTION}
-    MSI_PrintSave(FileName, '{         - '+PadR('Randoms Solved:  '+IntToStr(Length(RandomsResult(Result_Randoms_Solved))), 53)+'}');
-    MSI_PrintSave(FileName, '{         - '+PadR('Randoms Failed:  '+IntToStr(Length(RandomsResult(Result_Randoms_Failed))), 53)+'}');
+    MSI_PrintSave(FileName, '{         - '+PadR('Randoms Solved:    '+IntToStr(Length(RandomsResult(Result_Randoms_Solved))), 53)+'}');
+    MSI_PrintSave(FileName, '{         - '+PadR('Randoms Failed:    '+IntToStr(Length(RandomsResult(Result_Randoms_Failed))), 53)+'}');
   {$ENDIF}
 
-  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:', 'Clay Softened'];
+  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:', 'Clay Softened:', 'Containers Filled:'];
   for i := 0 to High(totals) do
   begin
     if ((totals[i] <= 0) or (labels[i] = '')) then
       Continue;
 
-    MSI_PrintSave(FileName, '{         - '+PadR(PadR(labels[i], 17)+GroupDigits(totals[i], ','), 53)+'}');
+    MSI_PrintSave(FileName, '{         - '+PadR(PadR(labels[i], 19)+GroupDigits(totals[i], ','), 53)+'}');
   end;
 
   MSI_PrintSave(FileName, '{                                                                }');
