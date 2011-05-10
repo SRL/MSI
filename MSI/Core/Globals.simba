@@ -537,7 +537,10 @@ const
   // Wells
   WELL_EV = 120;
 
-  OBJ_ARRAY_LENGTH = 120; // Change to the highest object constant
+  // Furnaces
+  FURNACE_AK = 130;
+
+  OBJ_ARRAY_LENGTH = 130; // Change to the highest object constant
 
 (*
 Obstacle Constants
