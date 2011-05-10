@@ -144,8 +144,9 @@ const
   SCRIPT_EV_SOFTENER = 101;
   SCRIPT_FW_SOFTENER = 102;
   SCRIPT_VE_FILLER   = 103;
+  SCRIPT_FW_FILLER   = 104;
 
-  SCRIPT_ARRAY_LENGTH = 103; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 104; // Change to the highest script constant
 
 
 (*

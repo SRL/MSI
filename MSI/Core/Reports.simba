@@ -195,7 +195,7 @@ begin
                 SCRIPT_VE_SOFTENER, SCRIPT_EV_SOFTENER, SCRIPT_FW_SOFTENER:
                   IncEx(totals[TOTAL_SOFTENS], ReportInfo.ItemAmounts[j][k][l]);
 
-                SCRIPT_VE_FILLER:
+                SCRIPT_VE_FILLER, SCRIPT_FW_FILLER:
                   IncEx(totals[TOTAL_FILLS], ReportInfo.ItemAmounts[j][k][l]);
               end;
           end;

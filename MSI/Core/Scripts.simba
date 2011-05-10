@@ -1436,6 +1436,43 @@ begin
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
+
+    SCRIPT_FW_FILLER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Container Filler';
+        Constant      := SCRIPT_FW_FILLER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_FillItems;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [PUMP_FW];
+          Items     := [TIntegerArray([VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                       BUCKET_WATER])];
+          Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
+                        MATERIAL_BUCKET];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_PUMP;
+
+          Reflection := [
+                          TPointArray([Point(2945, 3367), Point(2949, 3382)])
+                        ];
+
+          SPSAreas := ['8_4'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
     end;
 
   Result := (MSI_Scripts[whichScript].Name <> '');
