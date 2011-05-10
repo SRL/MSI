@@ -1232,6 +1232,35 @@ begin
          AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
                                  BUCKET_WATER ];
        end;
+
+    { FURNACES =================================== ]
+    [============================================= }
+     FURNACE_AK:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Al Kharid Furnace';
+         UpText             := 'urnace';
+         Option             := 'melt';
+         Colors             := [2240921];
+         Tol                := 16;
+         Hue                := 0.06;
+         Sat                := 0.73;
+         FindAllColors      := False;
+         W                  := 64;
+         H                  := 13;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
+		               BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE];
+       end;
   end;
 
   Result := (MSI_Objects[whichObject].Name <> '');
