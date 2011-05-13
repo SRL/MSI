@@ -1,0 +1,228 @@
+{==============================================================================\
+|                         MSI Group Scripting Include                          |
+|                             CharacterStats.Simba                             |
+|==============================================================================|
+| For Storing Player Skill levels after Time/Loads are reached                 |
+|                                                                              |
+| * procedure CheckFile;                           * by Bobzilla69             |
+| * procedure WriteFile();                         * by Bobzilla69             |
+| * procedure GetData;                             * by Bobzilla69             |
+| * procedure WriteData;                           * by Bobzilla69             |
+| * procedure StoreCharacterLevels;                * by Bobzilla69             |
+ \_____________________________________________________________________________}
+
+
+var
+Accounts:Integer;
+newInfo:String;
+Skills:TStringArray;
+Skills2:TStringArray;
+
+Const
+Path = IncludePath + 'MSI\MSI\Extras\Accounts\';
+
+{******************************************************************************}
+{ procedure CheckFile;                                                          }
+{ By: Bobzilla69                                                               }
+{ Date: 13 January 2011                                                        }
+{ Description: Check if File exists if it doent creates file.                  }
+{              Also handles if file will be added to or rewritten              }
+{******************************************************************************}
+Procedure Bobzilla_CheckFile;
+begin
+  if FileExists(Path + 'Characters.xml') then
+  begin
+    //Writeln('File all ready created');
+    Accounts:= OpenFile(Path + 'Characters.xml' , False);
+    CloseFile(Accounts);
+  end else
+  begin
+    //WriteLn('File not Found, Creating new file')
+    Accounts := CreateFile(Path + 'Characters.xml');
+    CloseFile(Accounts);
+  end;
+end;
+
+{******************************************************************************}
+{ procedure WriteFile(New, Old:string);                                        }
+{ By: Bobzilla69                                                               }
+{ Date: 13 January 2011                                                        }
+{ Description: Writes Character data to the file.                              }
+{ New is new data to be added to file.                                         }
+{ Old is data that was in file to be re writen                                 }
+{******************************************************************************}
+Procedure Bobzilla_WriteFile(New:String);
+begin
+  Accounts := RewriteFile(Path + 'Characters.xml', False);
+  WriteFileString(Accounts, New);
+  CloseFile(Accounts);
+end;
+
+{******************************************************************************}
+{ procedure GetData;                                                           }
+{ By: Bobzilla69                                                               }
+{ Date: 13 January 2011                                                        }
+{ Description: Using reflection gets all character skill levels                }
+{              and stores it to a Array for that character                     }
+{******************************************************************************}
+Procedure Bobzilla_GetData;
+var
+  I : Integer;
+begin
+  {$IFDEF REFLECTION}
+    for I := SKILL_ATTACK to SKILL_DUNGEONEERING do
+      Players[CurrentPlayer].Arrays[1][I] := R_GetSkillLevel(I);
+  {$ELSE}
+    for I := SKILL_ATTACK to SKILL_DUNGEONEERING do
+      Players[CurrentPlayer].Arrays[1][I] := GetSkillLevel(I);
+  {$ENDIF}
+end;
+
+{******************************************************************************}
+{ procedure WriteData;                                                         }
+{ By: Bobzilla69                                                               }
+{ Date: 13 January 2011                                                        }
+{ Description: Handles extracting data from array and sending to WriteFile;    }
+{******************************************************************************}
+Procedure Bobzilla_WriteData;
+var
+B, I:integer;
+begin
+  Bobzilla_CheckFile;
+  newInfo:= '<Characters>'+#13;  //start of xml file
+  for I:=0 to HowManyPlayers - 1 do
+  begin
+    newInfo:= newInfo + '<Character>' + #13; //start for a palyer
+    newInfo := newInfo + '<Name>'+Players[I].Name+'</Name>'+#13;
+    Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
+    Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+    for B:=0 to high(Players[I].Arrays[1]) do
+    begin
+      newInfo := newInfo + Skills[B] + IntToStr(Players[I].Arrays[1][B]) + Skills2[B] + #13;
+    end;                  //IntToStr(Players[CurrentPlayer].Arrays[1][B]
+    newInfo:= newInfo + '</Character>' + #13; //end of character
+  end;
+  newInfo:= newInfo + '</Characters>'
+  Bobzilla_WriteFile(newInfo);
+end;
+
+procedure Bobzilla_UpdatePlayer;
+var
+Text, After:String;
+SplitText, Skills, Skills2: TStringArray;
+Updated:Boolean;
+I, S, Accounts:integer;
+begin
+  Updated:= False;   //used for checkign if updating or adding
+
+  Bobzilla_CheckFile;   //checks file is created if nto makes file
+
+  Bobzilla_GetData;  //uses reflection to get players skill levels
+
+  Accounts:= OpenFile(Path + 'Characters.xml' , False);   //opens file to get data inside it
+  ReadFileString(Accounts, Text, FileSize(accounts));
+  CloseFile(Accounts);
+
+  SplitText:= srl_Explode(Text, '</Character>');  //splits characters into sections
+
+  for I:=0 to high(Splittext) -1 do    //0 = start <characters> <character>, last number = </characters>
+  begin
+    if PosEx(Players[CurrentPlayer].Name ,SplitText[I], 1) > 0 then  //checks for player name in sections
+    begin
+      Writeln('Player Found in XML, Updating');
+      if I = 0 then  //because of the way they are split the first split needs to readd all this info
+      begin
+        After:= '<Characters>' + #13;
+        After:= After + '<Character>' + #13;
+        After := After + '<Name>' + Players[CurrentPlayer].Name + '</Name>' + #13;
+        Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
+        Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+        for S:=0 to high(Skills) do
+        begin
+          After := After + Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + Skills2[S] + #13;
+        end;                  //IntToStr(Players[CurrentPlayer].Arrays[1][B]
+        After:= After + '</Character>'+#13;
+      end else
+      begin
+        After:= After + '<Character>'+#13;
+        After := After + '<Name>'+Players[CurrentPlayer].Name+'</Name>'+#13;
+        Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
+        Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+        for S:=0 to high(Skills) do
+        begin
+          After := After + Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + Skills2[S] + #13;
+        end;
+        After:= After + '</Character>' + #13;
+      end;
+      Updated:= True;  //we updated plaer so no need to add one
+    end else
+    begin   //if player is not in split section simply store data that is in it
+      After:= After + SplitText[I];
+      After:= After + '</Character>' + #13;
+    end;
+  end;
+  if (not Updated) then   //no player in section so we add onto end of file
+  begin
+    writeln('Player not found, Adding Player');
+    if I = 0 then   //same as previouse if its a new file we need to write starting info
+    begin
+      After:= '<Characters>' + #13;
+      After:= After + '<Character>' + #13;
+      After := After + '<Name>' + Players[CurrentPlayer].Name + '</Name>' + #13;
+      Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
+      Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+      for S:=0 to high(Skills) do
+      begin
+        After := After + Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + Skills2[S] + #13;
+      end;                  //IntToStr(Players[CurrentPlayer].Arrays[1][B]
+      After:= After + '</Character>' + #13;
+    end else
+    begin
+      After:= After + '<Character>'+#13;
+      After := After + '<Name>'+Players[CurrentPlayer].Name+'</Name>'+#13;
+      Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
+      Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+      for S:=0 to high(Skills) do
+      begin
+        After := After + Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + Skills2[S] + #13;
+      end;
+      After:= After + '</Character>' + #13;
+    end;
+  end;
+  After:= After + '</Characters>' + #13; //writes end of file
+
+  Bobzilla_WriteFile(After);  //Writes data back to file
+end;
+
+function CharacterStatsV2_FunctionCall: Integer;
+begin
+  Bobzilla_UpdatePlayer;
+  Result := EXTRA_CONTINUE; // Look in Globals.simba for a list over valid Results.
+end;
+
+function CharacterStatsV2_Init: Boolean;
+begin
+  MSI_Extras[CurrentExtra].Enabled := True;
+  MSI_Extras[CurrentExtra].Constant := CurrentExtra;
+  Bobzilla_CheckFile;
+  Result := True;
+end;
+
+procedure CharacterStatsV2_Attach;
+begin
+with MSI_Extras[CurrentExtra] do
+  begin
+    Name := 'CharacterStats';
+    Author := 'Bobzilla69';
+    Version := EXTRA_BETA;
+    Setup := @CharacterStatsV2_Init;
+
+    PointerCount := 1;
+    SetArrayLength(Pointers, PointerCount);
+    with Pointers[0] do
+    begin
+      Constant := MSI_OnMSINextPlayerCall
+      FunctionCall := @CharacterStatsV2_FunctionCall;
+    end;
+  end;
+end;
