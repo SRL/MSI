@@ -1,0 +1,78 @@
+<html>
+<head>
+
+<script type="text/javascript">
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+
+xmlhttp.open("GET","Characters.xml",false);
+xmlhttp.send();
+xmlDoc=xmlhttp.responseXML; 
+x=xmlDoc.getElementsByTagName("Character");
+
+function displayCDInfo(i)
+{
+Name=(x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue);
+Attack=(x[i].getElementsByTagName("Attack")[0].childNodes[0].nodeValue);
+Defence=(x[i].getElementsByTagName("Defence")[0].childNodes[0].nodeValue);
+Strength=(x[i].getElementsByTagName("Strength")[0].childNodes[0].nodeValue);
+Hitpoints=(x[i].getElementsByTagName("Hitpoints")[0].childNodes[0].nodeValue);
+Range=(x[i].getElementsByTagName("Range")[0].childNodes[0].nodeValue);
+Prayer=(x[i].getElementsByTagName("Prayer")[0].childNodes[0].nodeValue);
+Magic=(x[i].getElementsByTagName("Magic")[0].childNodes[0].nodeValue);
+Cooking=(x[i].getElementsByTagName("Cooking")[0].childNodes[0].nodeValue);
+Woodcutting=(x[i].getElementsByTagName("Woodcutting")[0].childNodes[0].nodeValue);
+Fletching=(x[i].getElementsByTagName("Fletching")[0].childNodes[0].nodeValue);
+Fishing=(x[i].getElementsByTagName("Fishing")[0].childNodes[0].nodeValue);
+Firemaking=(x[i].getElementsByTagName("Firemaking")[0].childNodes[0].nodeValue);
+Crafting=(x[i].getElementsByTagName("Crafting")[0].childNodes[0].nodeValue);
+Smithing=(x[i].getElementsByTagName("Smithing")[0].childNodes[0].nodeValue);
+Mining=(x[i].getElementsByTagName("Mining")[0].childNodes[0].nodeValue);
+Herblore=(x[i].getElementsByTagName("Herblore")[0].childNodes[0].nodeValue);
+Agility=(x[i].getElementsByTagName("Agility")[0].childNodes[0].nodeValue);
+Thieving=(x[i].getElementsByTagName("Thieving")[0].childNodes[0].nodeValue);
+Slayer=(x[i].getElementsByTagName("Slayer")[0].childNodes[0].nodeValue);
+Farming=(x[i].getElementsByTagName("Farming")[0].childNodes[0].nodeValue);
+Runercrafting=(x[i].getElementsByTagName("Runercrafting")[0].childNodes[0].nodeValue);
+Hunter=(x[i].getElementsByTagName("Hunter")[0].childNodes[0].nodeValue);
+Conctruction=(x[i].getElementsByTagName("Conctruction")[0].childNodes[0].nodeValue);
+Summining=(x[i].getElementsByTagName("Summining")[0].childNodes[0].nodeValue);
+Dungeoneering=(x[i].getElementsByTagName("Dungeoneering")[0].childNodes[0].nodeValue);
+txt="Attack: "+Attack +"<br />Defence: "+Defence +"<br />Strength: "+Strength +"<br />Hitpoints: "+Hitpoints +"<br />Range: " +Range+"<br />Prayer: " +Prayer+"<br />Magic: " +Magic+"<br />Cooking: " +Cooking+"<br />Woodcutting: " +Woodcutting+"<br />Fletching: " +Fletching+"<br />Fishing: " +Fishing+"<br />Firemaking: " +Firemaking+"<br />Crafting: " +Crafting+"<br />Smithing: " +Smithing+"<br />Mining: " +Mining+"<br />Herblore: " +Herblore+"<br />Agility: "+Agility+"<br />Thieving: " +Thieving+"<br />Slayer: " +Slayer+"<br />Farming: " +Farming+"<br />Runercrafting: " +Runercrafting+"<br />Hunter: " +Hunter+"<br />Conctruction: " +Conctruction+"<br />Summining: "+Summining +"<br />Dungeoneering: "+Dungeoneering ;
+document.getElementById("ShowInfo").innerHTML=txt;
+}
+</script>
+</head>
+<body>
+<title>RS Character Levels</title>
+<table border='1'>
+<tr><td>Character Name</td><td>SkillLevels</td></tr>
+<tr><td>
+
+<table border='1'>
+<script type="text/javascript">
+for (var i=0;i<x.length;i++)
+  { 
+  document.write("<tr onclick='displayCDInfo(" + i + ")'>");
+  document.write("<td>");
+  document.write(x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue);
+  document.write("</td></tr>");
+  }  
+</script>
+</table>
+
+</td>
+<td><div id='ShowInfo'>Click on character name for skill info.</div></td></tr>
+</table>
+
+
+
+</body>
+</html>
