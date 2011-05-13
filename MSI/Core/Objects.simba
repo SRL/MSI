@@ -281,7 +281,7 @@ begin
          W                  := 50;
          H                  := 50;
          Accuracy           := 20;
-         SearchArea         := IntToBox(MSX1, MSY1, MSCX, MSY2);
+         SearchArea         := IntToBox(MSX1, MSY1, MSCX + 200, MSY2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
          Tries              := 20;
