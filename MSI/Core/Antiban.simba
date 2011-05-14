@@ -11,46 +11,6 @@ The source for can be found
 *)
 
 (*
-MSI_ClickInvTab
-~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_ClickInvTab();
-
-Clicks the inventory tab if not already on it. Yes, we know SRL has the GameTab
-procedure, but for whatever reason, it doesn't like to work when we call it in
-certain parts of MSI. This works, and it gets rid of the annoying bugs.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 12 January 2010 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_ClickInvTab();
-*)
-procedure MSI_ClickInvTab();
-var
-  currTab: Integer;
-begin
-  if (not LoggedIn) then
-    Exit;
-
-  CloseWindow(); // In case a deposit screen or something is open
-  currTab := GetCurrentTab;
-
-  if (currTab <> tab_Inv) then
-  begin
-    MSI_SubDebug('Current GameTab: '+IntToStr(currTab));
-    MouseBox(646, 175, 665, 196, 1); // Click the inventory tab
-  end;
-end;
-
-(*
 MSI_Antiban
 ~~~~~~~~~~~
 
@@ -98,7 +58,7 @@ Begin
     Exit;
   end;
 
-  MSI_ClickInvTab;
+  gameTab(TAB_INV);
 
   if (LeaveDangerZone) then
     MSI_Debug('Left danger zone');
@@ -167,7 +127,7 @@ should ALWAYS be called exactly like in this example.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 13 February 2011 by Coh3n
+  | Last Updated: 04 May 2011 by Coh3n
 
 Example:
 
@@ -179,6 +139,8 @@ Example:
         Exit;
 *)
 function MSI_FindRandoms(Force: Boolean): Boolean;
+var
+  randomDone: boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -192,7 +154,7 @@ begin
     stats_IncVariable('Total Levels Gained', 1);
   end;
 
-  MSI_ClickInvTab();
+  gameTab(TAB_INV);
 
   if (not Force) then
     if (NextRandCheck > GetSystemTime) then
@@ -201,11 +163,15 @@ begin
   MSI_SubDebug('Scanning for randoms...');
 
   {$IFDEF REFLECTION}
-  //if (R_FindRandoms) then
-  if (FindNormalRandoms) then
+  if (not ReflectionBroken) then
+    randomDone := R_FindRandoms
+  else
+    randomDone := FindNormalRandoms;
   {$ELSE}
-  if (FindNormalRandoms) then
+  randomDone := FindNormalRandoms;
   {$ENDIF}
+
+  if (randomDone) then
   begin
     Result := True;
     MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
