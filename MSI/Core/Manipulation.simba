@@ -59,7 +59,7 @@ Player Remote extension (msi_player_remote.sex).
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 September 2011 by Coh3n
+  | Last Updated: 13 May 2011 by Coh3n
 
 Example:
 
@@ -71,6 +71,11 @@ procedure MSI_WriteRemote;
 var
   i: Integer;
 begin
+  case MSI_PointerCall(MSI_OnWriteRemoteCall, []) of
+    EXTRA_CONTINUE: ;
+    EXTRA_EXIT: Exit;
+  end;
+
   try
     MSI_ClearFile(PATH_REMOTE);
 
@@ -113,6 +118,11 @@ procedure MSI_ResetRemote;
 var
   i: Integer;
 begin
+  case MSI_PointerCall(MSI_OnResetRemoteCall, []) of
+    EXTRA_CONTINUE: ;
+    EXTRA_EXIT: Exit;
+  end;
+
   try
     if (StrToBool(ReadINI('Changed', 'Changed', PATH_REMOTE))) then // If updated
       for i := 0 to High(MSI_Players) do

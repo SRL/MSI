@@ -182,10 +182,9 @@ Example:
 const
   MSI_OnWriteRemoteCall = 0;
   MSI_OnResetRemoteCall = 1;
-  MSI_OnDebugCall       = 2;
-  MSI_OnExampleCall     = 3;
+  MSI_OnGetSkillLevels  = 2;
 
-  POINTER_ARRAY_LENGTH = 3;
+  POINTER_ARRAY_LENGTH  = 3;
 
 (*
 Path Constants
@@ -195,13 +194,13 @@ These constants represent the different paths to files accessed by MSI, such as
 the saved player's information, the debug/report files, and the settings file.
 *)
 const
-  PATH_PLAYER            = IncludePath + 'MSI\Player.txt';                 // Path for all the player information
-  PATH_REMOTE            = IncludePath + 'MSI\Remote.txt';                 // Path for the player remote information
-  PATH_REPORT            = IncludePath + 'MSI\Progress Reports\';          // Path for progress report
-  PATH_DEBUG             = IncludePath + 'MSI\Debug Logs\';                // Path for debug
-  PATH_SETTINGS          = IncludePath + 'MSI\Settings.txt';               // Path for script settings
-  PATH_FORM_BITMAPS      = IncludePath + 'MSI\MSI\Form\Bitmaps\';          // Path to all the form images
-  PATH_EXTRAS            = IncludePath + 'MSI\MSI\Extras\';                // Path to all the extras
+  PATH_PLAYER       = IncludePath + 'MSI\Player.txt';                 // Path for all the player information
+  PATH_REMOTE       = IncludePath + 'MSI\Remote.txt';                 // Path for the player remote information
+  PATH_REPORT       = IncludePath + 'MSI\Progress Reports\';          // Path for progress report
+  PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';                // Path for debug
+  PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';               // Path for script settings
+  PATH_FORM_BITMAPS = IncludePath + 'MSI\MSI\Form\Bitmaps\';          // Path to all the form images
+  PATH_EXTRAS       = IncludePath + 'MSI\MSI\Extras\';                // Path to all the extras
 
 (*
 Location Constants
@@ -936,8 +935,9 @@ Mainly used in MSI extras.
 *)
 type
   TPointer = record
-    Constant : Integer;
-    FunctionCall : function: Integer;
+    Constant    : Integer;
+    FunctionCall: string;
+    UsedBy      : Integer;
   end;
 
   TPointerArray = array of TPointer;
@@ -951,11 +951,15 @@ properly implement an extra.
 *)
 type
   TExtra = record
-    Name, Author, Version : String;
-    Setup : function: Boolean;
-    Enabled : Boolean;
-    PointerCount, Constant : Integer;
-    Pointers : TPointerArray;
+    Name        : string;
+    Author      : string;
+    Version     : string;
+    Enabled     : Boolean;
+    Settings    : TVariantArray;
+    Setup       : function: Boolean;
+    PointerCount: Integer;
+    Constant    : Integer;
+    Pointers    : TPointerArray;
   end;
 
   TExtraArray = array of TExtra;
@@ -1109,6 +1113,8 @@ type
 var
   CurrentScript    : Integer;
   CurrDebugLevel   : Integer;
+  CurrentExtra     : Integer;
+  CurrentPointer   : Integer;
   ReflectionBroken : Boolean;
   ScriptStart      : string;
   NextAntiban      : Integer;

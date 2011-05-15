@@ -1,12 +1,16 @@
-function Example_FunctionCall: Integer;
+//{$DEFINE EXTRA_EXAMPLE}
+{$IFDEF EXTRA_EXAMPLE}
+
+function Example_WriteRemote: Integer;
 begin
-  Result := EXTRA_CONTINUE; // Look in Globals.simba for a list over valid Results.
+  Result := EXTRA_CONTINUE; // EXTRA_CONTINUE continues with the original function.
+                            // EXTRA_EXIT exits the original function.
+                            // In this case MSI_WriteRemote is the original function.
 end;
 
 function Example_Init: Boolean;
 begin
-  MSI_Extras[CurrentExtra].Enabled := True;
-  MSI_Extras[CurrentExtra].Constant := CurrentExtra;
+  // All code for setting up the extra goes here.
   Result := True;
 end;
 
@@ -14,7 +18,7 @@ procedure Example_Attach;
 begin
   with MSI_Extras[CurrentExtra] do
   begin
-    Name := 'Example';
+    Name := 'Example Extra';
     Author := 'The MSI Team';
     Version := EXTRA_BETA;
     Setup := @Example_Init;
@@ -23,8 +27,10 @@ begin
     SetArrayLength(Pointers, PointerCount);
     with Pointers[0] do
     begin
-      Constant := MSI_OnExampleCall;
-      FunctionCall := @Example_FunctionCall;
+      Constant := MSI_OnWriteRemoteCall;
+      FunctionCall := 'Example_WriteRemote';
     end;
   end;
 end;
+
+{$ENDIF}

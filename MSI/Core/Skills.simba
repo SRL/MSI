@@ -24,7 +24,7 @@ procedure is called before the progress report.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 24 October 2010 by Coh3n
+  | Last Updated: 15 May 2011 by Coh3n
 
 Example:
 
@@ -40,6 +40,11 @@ begin
     Exit;
 
   MSI_AddHeader('MSI_SetSkillLevels');
+
+  case MSI_PointerCall(MSI_OnGetSkillLevels, []) of
+    EXTRA_CONTINUE: ;
+    EXTRA_EXIT: Exit;
+  end;
 
   with MSI_Players[CurrentPlayer] do
     for i := 0 to High(Scripts) do

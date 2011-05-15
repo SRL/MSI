@@ -1,86 +1,116 @@
-//Extras.simba
-
-var
-  CurrentExtra: Integer;
+// Extras.simba
 
 procedure MSI_LoadAllExtras;
 var
-  Extras : TStringArray;
-  H, I : Integer;
+  AllExtras : TStringArray;
+  H, Hi, I, J, K : Integer;
   V : TVariantArray;
-  NotUsing : Boolean;
 begin
-  Extras := GetFiles(PATH_EXTRAS, 'simba');
+  MSI_AddHeader('MSI_LoadAllExtras');
+  AllExtras := GetFiles(PATH_EXTRAS, 'simba');
+  if Length(AllExtras) = 0 then Exit;
 
-  SetArrayLength(MSI_Extras, Length(Extras));
-  if Length(Extras) = 0 then Exit;
-  H := High(Extras);
+  H := High(AllExtras);
   for I := 0 to H do
-    Delete(Extras[I], Pos('.', Extras[I]), Length(Extras[I]));
+    Delete(AllExtras[I], Pos('.', AllExtras[I]), Length(AllExtras[I]));
+  // Deletes the extension of the file (WorldWalker.simba -> WorldWalker)
 
+  SetLength(MSI_Extras, Length(AllExtras));
   H := High(MSI_Extras);
   for I := 0 to H do
   begin
     CurrentExtra := I;
+    MSI_Extras[CurrentExtra].Enabled := False;
 
-    NotUsing := False;
+    // Call attach function
     try
-      CallProc(Extras[CurrentExtra] + '_Attach', V);
-      WriteLn('Using Extra ''' + MSI_Extras[CurrentExtra].Name + ''' by ' + MSI_Extras[CurrentExtra].Author + ', v ' + MSI_Extras[CurrentExtra].Version + '.');
+      CallProc(AllExtras[CurrentExtra] + '_Attach', V);
     except
-      NotUsing := True;
-    end;
-    if NotUsing then
-    begin
-      WriteLn('Not using Extra ''' + Extras[CurrentExtra] + '''. Attach function not found.');
+      MSI_Debug('Not using Extra ''' + AllExtras[CurrentExtra] + '''. Attach function not found.');
       Continue;
     end;
 
+    // Call setup function
     if MSI_Extras[CurrentExtra].Setup <> nil then
     begin
       if MSI_Extras[CurrentExtra].Setup() then
-      begin
         MSI_Extras[CurrentExtra].Constant := CurrentExtra;
-        MSI_Extras[CurrentExtra].Enabled := True;
-      end;
     end else
     begin
-      WriteLn('Not using Extra ''' + Extras[CurrentExtra] + '''. Setup function not found.');
+      MSI_Debug('Not using Extra ''' + AllExtras[CurrentExtra] + '''. Setup function not found.');
       Continue;
     end;
 
-    if MSI_Extras[CurrentExtra].PointerCount > 0 then
+    //CreateDirectory(PATH_EXTRAS + MSI_Extras[CurrentExtra].Name);
+
+    // Asign the extra's pointers to MSI_Pointers[]
+    if (MSI_Extras[CurrentExtra].PointerCount > 0) or (Length(MSI_Extras[CurrentExtra].Pointers) > 0) then
     begin
-      H := High(MSI_Extras[CurrentExtra].Pointers);
-      if H <> 0 then
-        for I := 0 to H do
+      Hi := High(MSI_Extras[CurrentExtra].Pointers);
+      for J := 0 to Hi do
+      begin
+        if MSI_Pointers[MSI_Extras[CurrentExtra].Pointers[J].Constant].FunctionCall = '' then
         begin
-
-          WriteLn([CurrentExtra, I, H]);
-
-          if MSI_Pointers[MSI_Extras[CurrentExtra].Pointers[I].Constant].FunctionCall <> nil then
+          MSI_Pointers[MSI_Extras[CurrentExtra].Pointers[J].Constant].FunctionCall := MSI_Extras[CurrentExtra].Pointers[J].FunctionCall;
+          MSI_Pointers[MSI_Extras[CurrentExtra].Pointers[J].Constant].UsedBy := MSI_Extras[CurrentExtra].Constant;
+        end else
+        begin
+          MSI_Debug('Pointer ' + IntToStr(MSI_Extras[CurrentExtra].Pointers[I].Constant) + ' already used! Turning off CurrentExtra.');
+          for K := High(MSI_Pointers) downto 0 do // Free all pointers used by the extra CurrentExtra
           begin
-            WriteLn('Pointer already used! Turning off ' + MSI_Extras[CurrentExtra].Name + '...');
-            MSI_Extras[CurrentExtra].Enabled := False;  // There's a bug here. Will fix later!
-            Break;
-          end else
-          begin
-            MSI_Pointers[MSI_Extras[CurrentExtra].Pointers[I].Constant].FunctionCall := MSI_Extras[CurrentExtra].Pointers[I].FunctionCall;
-            WriteLn('Pointer used: ' + IntToStr(MSI_Extras[CurrentExtra].Pointers[I].Constant) + '.');
+            if MSI_Pointers[K].UsedBy = MSI_Extras[CurrentExtra].Constant then
+              with MSI_Pointers[K] do
+              begin
+                Constant := 0;
+                FunctionCall := '';
+                UsedBy := 0;
+              end;
           end;
-
+          Continue;
         end;
+      end;
+    end else
+    begin
+      MSI_Debug('Not using Extra ''' + AllExtras[CurrentExtra] + '''. No pointers used.');
+      Continue;
     end;
 
+    MSI_Extras[CurrentExtra].Enabled := True;
+  end;
+  MSI_CloseHeader('MSI_LoadAllExtras');
+end;
+
+function MSI_CallProc(Proc : String; V : TVariantArray): Integer;
+var
+  vArr : TVariantArray;
+begin
+  vArr := V;
+  try
+    Result := CallProc(Proc, vArr);
+  except
+    MSI_SubDebug('Could not call Proc ' + Proc + ' (' + + ExceptionToString(ExceptionType, ExceptionParam) + ')');
+    Result := EXTRA_CONTINUE;
+  end;
+end;
+
+function MSI_PointerCall(FunctionCallConstant : Integer; V : TVariantArray): Integer;
+begin
+  CurrentPointer := FunctionCallConstant;
+  if MSI_Pointers[CurrentPointer].FunctionCall <> '' then
+  begin
+    CurrentExtra := MSI_Pointers[CurrentPointer].UsedBy;
+    if MSI_Extras[CurrentExtra].Enabled then
+    begin
+      MSI_AddHeader('[HOOKED] ' + MSI_Pointers[CurrentPointer].FunctionCall + ': ' + MSI_Extras[CurrentExtra].Name);
+      Result := MSI_CallProc(MSI_Pointers[CurrentPointer].FunctionCall, V);
+      MSI_CloseHeader('[HOOKED] ' + MSI_Pointers[CurrentPointer].FunctionCall + ': ' + MSI_Extras[CurrentExtra].Name + ': ' + ToStr(Result));
+    end;
   end;
 end;
 
 {
-
-if MSI_Pointers[MSI_on_FunctionHere_Cal].FunctionCall <> nil then
-    case MSI_Pointers[MSI_on_FunctionHere_Call].FunctionCall() of
-      EXTRA_CONTINUE: ;
-      EXTRA_EXIT: Exit;
-    end;
-
+case MSI_PointerCall(MSI_onFunctionCall, []) of
+  EXTRA_CONTINUE: ;
+  EXTRA_EXIT: Exit;
+end;
 }
