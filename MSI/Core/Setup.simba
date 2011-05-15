@@ -66,7 +66,7 @@ The source for can be found
 {$ENDIF}
 
 {$IFDEF EXTRA_CHARACTER_STATS}
-  {$i MSI/MSI/Extras/CharacterStatsV2.simba}
+  {$i MSI/MSI/Extras/CharacterStats.simba}
 {$ENDIF}
 
 //MSI Skill Loops, AI and Mainloop

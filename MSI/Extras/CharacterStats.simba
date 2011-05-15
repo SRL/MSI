@@ -96,8 +96,8 @@ begin
   begin
     CharacterStats_NewInfo := CharacterStats_NewInfo + '<Character>' + #13; //start for a palyer
     CharacterStats_NewInfo := CharacterStats_NewInfo + '<Name>'+Players[I].Name+'</Name>'+#13;
-    CharacterStats_Skills := ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
-    CharacterStats_Skills2 := ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+    CharacterStats_Skills := ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runecrafting>','<Hunter>','<Construction>','<Summoning>','<Dungeoneering>'];
+    CharacterStats_Skills2 := ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runecrafting>','</Hunter>','</Construction>','</Summoning>','</Dungeoneering>'];
     for B := 0 to high(Players[I].Arrays[1]) do
     begin
       CharacterStats_NewInfo := CharacterStats_NewInfo + CharacterStats_Skills[B] + IntToStr(Players[I].Arrays[1][B]) + CharacterStats_Skills2[B] + #13;
@@ -141,8 +141,8 @@ begin
         After:= '<Characters>' + #13;
         After:= After + '<Character>' + #13;
         After := After + '<Name>' + Players[CurrentPlayer].Name + '</Name>' + #13;
-        CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
-        CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+        CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runecrafting>','<Hunter>','<Construction>','<Summoning>','<Dungeoneering>'];
+        CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runecrafting>','</Hunter>','</Construction>','</Summoning>','</Dungeoneering>'];
         for S:=0 to high(CharacterStats_Skills) do
         begin
           After := After + CharacterStats_Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + CharacterStats_Skills2[S] + #13;
@@ -152,8 +152,8 @@ begin
       begin
         After:= After + '<Character>'+#13;
         After := After + '<Name>'+Players[CurrentPlayer].Name+'</Name>'+#13;
-        CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
-        CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+        CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runecrafting>','<Hunter>','<Construction>','<Summoning>','<Dungeoneering>'];
+        CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runecrafting>','</Hunter>','</Construction>','</Summoning>','</Dungeoneering>'];
         for S:=0 to high(CharacterStats_Skills) do
         begin
           After := After + CharacterStats_Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + CharacterStats_Skills2[S] + #13;
@@ -175,8 +175,8 @@ begin
       After:= '<Characters>' + #13;
       After:= After + '<Character>' + #13;
       After := After + '<Name>' + Players[CurrentPlayer].Name + '</Name>' + #13;
-      CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
-      CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+      CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runecrafting>','<Hunter>','<Construction>','<Summoning>','<Dungeoneering>'];
+      CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runecrafting>','</Hunter>','</Construction>','</Summoning>','</Dungeoneering>'];
       for S:=0 to high(CharacterStats_Skills) do
       begin
         After := After + CharacterStats_Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + CharacterStats_Skills2[S] + #13;
@@ -186,8 +186,8 @@ begin
     begin
       After:= After + '<Character>'+#13;
       After := After + '<Name>'+Players[CurrentPlayer].Name+'</Name>'+#13;
-      CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runercrafting>','<Hunter>','<Conctruction>','<Summining>','<Dungeoneering>'];
-      CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runercrafting>','</Hunter>','</Conctruction>','</Summining>','</Dungeoneering>'];
+      CharacterStats_Skills:= ['<Attack>','<Defence>','<Strength>','<Hitpoints>','<Range>','<Prayer>','<Magic>','<Cooking>','<Woodcutting>','<Fletching>','<Fishing>','<Firemaking>','<Crafting>','<Smithing>','<Mining>','<Herblore>','<Agility>','<Thieving>','<Slayer>','<Farming>','<Runecrafting>','<Hunter>','<Construction>','<Summoning>','<Dungeoneering>'];
+      CharacterStats_Skills2:= ['</Attack>','</Defence>','</Strength>','</Hitpoints>','</Range>','</Prayer>','</Magic>','</Cooking>','</Woodcutting>','</Fletching>','</Fishing>','</Firemaking>','</Crafting>','</Smithing>','</Mining>','</Herblore>','</Agility>','</Thieving>','</Slayer>','</Farming>','</Runecrafting>','</Hunter>','</Construction>','</Summoning>','</Dungeoneering>'];
       for S:=0 to high(CharacterStats_Skills) do
       begin
         After := After + CharacterStats_Skills[S] + IntToStr(Players[CurrentPlayer].Arrays[1][S]) + CharacterStats_Skills2[S] + #13;
@@ -227,7 +227,7 @@ begin
     SetArrayLength(Pointers, PointerCount);
     with Pointers[0] do
     begin
-      Constant := MSI_OnPlayerSetup;
+      Constant := MSI_OnGetSkillLevels;
       FunctionCall := 'CharacterStats_FunctionCall';
     end;
   end;

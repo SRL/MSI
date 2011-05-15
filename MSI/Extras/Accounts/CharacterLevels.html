@@ -1,78 +1,152 @@
-<html>
-<head>
-
-<script type="text/javascript">
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-
-
-xmlhttp.open("GET","Characters.xml",false);
-xmlhttp.send();
-xmlDoc=xmlhttp.responseXML; 
-x=xmlDoc.getElementsByTagName("Character");
-
-function displayCDInfo(i)
-{
-Name=(x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue);
-Attack=(x[i].getElementsByTagName("Attack")[0].childNodes[0].nodeValue);
-Defence=(x[i].getElementsByTagName("Defence")[0].childNodes[0].nodeValue);
-Strength=(x[i].getElementsByTagName("Strength")[0].childNodes[0].nodeValue);
-Hitpoints=(x[i].getElementsByTagName("Hitpoints")[0].childNodes[0].nodeValue);
-Range=(x[i].getElementsByTagName("Range")[0].childNodes[0].nodeValue);
-Prayer=(x[i].getElementsByTagName("Prayer")[0].childNodes[0].nodeValue);
-Magic=(x[i].getElementsByTagName("Magic")[0].childNodes[0].nodeValue);
-Cooking=(x[i].getElementsByTagName("Cooking")[0].childNodes[0].nodeValue);
-Woodcutting=(x[i].getElementsByTagName("Woodcutting")[0].childNodes[0].nodeValue);
-Fletching=(x[i].getElementsByTagName("Fletching")[0].childNodes[0].nodeValue);
-Fishing=(x[i].getElementsByTagName("Fishing")[0].childNodes[0].nodeValue);
-Firemaking=(x[i].getElementsByTagName("Firemaking")[0].childNodes[0].nodeValue);
-Crafting=(x[i].getElementsByTagName("Crafting")[0].childNodes[0].nodeValue);
-Smithing=(x[i].getElementsByTagName("Smithing")[0].childNodes[0].nodeValue);
-Mining=(x[i].getElementsByTagName("Mining")[0].childNodes[0].nodeValue);
-Herblore=(x[i].getElementsByTagName("Herblore")[0].childNodes[0].nodeValue);
-Agility=(x[i].getElementsByTagName("Agility")[0].childNodes[0].nodeValue);
-Thieving=(x[i].getElementsByTagName("Thieving")[0].childNodes[0].nodeValue);
-Slayer=(x[i].getElementsByTagName("Slayer")[0].childNodes[0].nodeValue);
-Farming=(x[i].getElementsByTagName("Farming")[0].childNodes[0].nodeValue);
-Runercrafting=(x[i].getElementsByTagName("Runercrafting")[0].childNodes[0].nodeValue);
-Hunter=(x[i].getElementsByTagName("Hunter")[0].childNodes[0].nodeValue);
-Conctruction=(x[i].getElementsByTagName("Conctruction")[0].childNodes[0].nodeValue);
-Summining=(x[i].getElementsByTagName("Summining")[0].childNodes[0].nodeValue);
-Dungeoneering=(x[i].getElementsByTagName("Dungeoneering")[0].childNodes[0].nodeValue);
-txt="Attack: "+Attack +"<br />Defence: "+Defence +"<br />Strength: "+Strength +"<br />Hitpoints: "+Hitpoints +"<br />Range: " +Range+"<br />Prayer: " +Prayer+"<br />Magic: " +Magic+"<br />Cooking: " +Cooking+"<br />Woodcutting: " +Woodcutting+"<br />Fletching: " +Fletching+"<br />Fishing: " +Fishing+"<br />Firemaking: " +Firemaking+"<br />Crafting: " +Crafting+"<br />Smithing: " +Smithing+"<br />Mining: " +Mining+"<br />Herblore: " +Herblore+"<br />Agility: "+Agility+"<br />Thieving: " +Thieving+"<br />Slayer: " +Slayer+"<br />Farming: " +Farming+"<br />Runercrafting: " +Runercrafting+"<br />Hunter: " +Hunter+"<br />Conctruction: " +Conctruction+"<br />Summining: "+Summining +"<br />Dungeoneering: "+Dungeoneering ;
-document.getElementById("ShowInfo").innerHTML=txt;
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>Untitled Document</title>  
+<script type="text/javascript" src="jquery.js"></script>  
+ 
+<script type="text/javascript"> 
+var data=new Array()
+ 
+$(document).ready(function(){ 
+  $("#loading").show();  
+  $.ajax({  
+    type: "GET",  
+    url: "Characters.xml",  
+    dataType: "text xml",  
+    success: function(xml) {
+var select = $('#mySelect');
+$(xml).find('Character').each(function(){
+ 
+var name = $(this).find('Name').text();
+var attack = $(this).find('Attack').text();
+var defence = $(this).find('Defence').text();
+var strength = $(this).find('Strength').text();
+var hitpoints = $(this).find('Hitpoints').text();
+var range = $(this).find('Range').text();
+var prayer = $(this).find('Prayer').text();
+var magic = $(this).find('Magic').text();
+var cooking = $(this).find('Cooking').text();
+var woodcutting = $(this).find('Woodcutting').text();
+var fletching = $(this).find('Fletching').text();
+var fishing = $(this).find('Fishing').text();
+var firemaking = $(this).find('Firemaking').text();
+var crafting = $(this).find('Crafting').text();
+var smithing = $(this).find('Smithing').text();
+var mining = $(this).find('Mining').text();
+var herblore = $(this).find('Herblore').text();
+var agility = $(this).find('Agility').text();
+var thieving = $(this).find('Thieving').text();
+var slayer = $(this).find('Slayer').text();
+var farming = $(this).find('Farming').text();
+var runecrafting = $(this).find('Runecrafting').text();
+var hunter = $(this).find('Hunter').text();
+var construction = $(this).find('Construction').text();
+var summoning = $(this).find('Summoning').text();
+var dungeoneering = $(this).find('Dungeoneering').text();
+ 
+data.push(name,attack,defence,strength,hitpoints,range,prayer,magic,cooking,woodcutting,fletching,fishing,firemaking,crafting,smithing,mining,herblore,agility,thieving,slayer,farming,runecrafting,hunter,construction,summoning,dungeoneering);
+ 
+ 
+select.append("<option >"+name+"</option>");
+ 
+ 
+ 
+});
+ 
+ 
+ 
+select.children(":first").text("please make a selection").attr("selected",true);
 }
-</script>
-</head>
-<body>
-<title>RS Character Levels</title>
-<table border='1'>
-<tr><td>Character Name</td><td>SkillLevels</td></tr>
-<tr><td>
-
-<table border='1'>
-<script type="text/javascript">
-for (var i=0;i<x.length;i++)
-  { 
-  document.write("<tr onclick='displayCDInfo(" + i + ")'>");
-  document.write("<td>");
-  document.write(x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue);
-  document.write("</td></tr>");
-  }  
-</script>
-</table>
-
-</td>
-<td><div id='ShowInfo'>Click on character name for skill info.</div></td></tr>
-</table>
-
-
-
-</body>
+});
+});
+ 
+</script> 
+ 
+</script>  
+</head>  
+<body> 
+<title>RS Character Levels</title> 
+<form> 
+<h3>Select a character to view its skill levels : <select id="mySelect"> 
+<option></option> 
+</select></h3> 
+</form> 
+<table border='1'> 
+<tr><td><h2></h2></td><td><h3>Skill Levels</h3></td></tr> 
+<tr><td>Attack Level</td><td><input type="text" id="1"/><br/></td></tr> 
+<tr><td>Defence Level</td><td><input type="text" id="2"/><br/></td></tr> 
+<tr><td>Strength Level</td><td><input type="text" id="3"/><br/></td></tr> 
+<tr><td>Hitpoints Level</td><td><input type="text" id="4"/><br/></td></tr> 
+<tr><td>Range Level</td><td><input type="text" id="5"/><br/></td></tr> 
+<tr><td>Prayer Level</td><td><input type="text" id="6"/><br/></td></tr> 
+<tr><td>Magic Level</td><td><input type="text" id="7"/><br/></td></tr> 
+<tr><td>Cooking Level</td><td><input type="text" id="8"/><br/></td></tr> 
+<tr><td>Woodcutting Level</td><td><input type="text" id="9"/><br/></td></tr> 
+<tr><td>Fletching Level</td><td><input type="text" id="10"/><br/></td></tr> 
+<tr><td>Fishing Level</td><td><input type="text" id="11"/><br/></td></tr> 
+<tr><td>Firemaking Level</td><td><input type="text" id="12"/><br/></td></tr> 
+<tr><td>Crafting Level</td><td><input type="text" id="13"/><br/></td></tr> 
+<tr><td>Smithing Level</td><td><input type="text" id="14"/><br/></td></tr> 
+<tr><td>Mining Level</td><td><input type="text" id="15"/><br/></td></tr> 
+<tr><td>Herblore Level</td><td><input type="text" id="16"/><br/></td></tr> 
+<tr><td>Agility Level</td><td><input type="text" id="17"/><br/></td></tr> 
+<tr><td>Thieving Level</td><td><input type="text" id="18"/><br/></td></tr> 
+<tr><td>Slayer Level</td><td><input type="text" id="19"/><br/></td></tr> 
+<tr><td>Farming Level</td><td><input type="text" id="20"/><br/></td></tr> 
+<tr><td>RuneCrafting Level</td><td><input type="text" id="21"/><br/></td></tr> 
+<tr><td>Hunter Level</td><td><input type="text" id="22"/><br/></td></tr> 
+<tr><td>Construction Level</td><td><input type="text" id="23"/><br/></td></tr> 
+<tr><td>Summoning Level</td><td><input type="text" id="24"/><br/></td></tr> 
+<tr><td>Dungeoneering Level</td><td><input type="text" id="25"/><br/></td></tr> 
+</table> 
+ 
+ 
+<script> 
+ 
+ 
+ 
+$("select").change(function () {
+          var str = "";
+          var b = 1;
+          var start;
+          var n = 0;
+          $("select option:selected").each(function () {
+                var search = $(this).text()
+                alert("Searching for character : "+search);
+                for (var i = 0; i < data.length; i++) {
+                start = i;
+                if( search == data[i]){
+                alert("Found Character : "+search);
+                $("h2").text(search+"  ");
+                
+                do {
+                        where = start + b;
+  			var posdata = data[where];
+  			if(posdata.length < 4){
+  			if(posdata == ""){
+  			b++;
+  			n++;
+  			}else{  			
+  			$("#"+b).val(posdata);  			
+  			b++;}
+  			}else{
+  			
+  			}
+  			
+		   } while (posdata.length < 5);
+                
+                }else{}
+                
+		}
+ 
+              });
+ 
+        })
+        .change();
+ 
+ 
+ 
+ </script> 
+ 
+</body>  
 </html>
