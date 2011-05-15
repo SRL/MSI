@@ -14,6 +14,8 @@
  \_____________________________________________________________________________}
 
 program MSI_Script;
+{$DEFINE EXTRA_CHARACTER_STATS} // Saves each players stats to a file viewable in HTML format
+
 //{$DEFINE SPS} // Uncomment + select color walking to use SPS
 {$i MSI/MSI/Core/Setup.simba}
 
