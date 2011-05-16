@@ -767,7 +767,7 @@ Example:
 *)
 function MSI_Alch(Spell: Integer): Boolean;
 var
-  i, t, idealSlot: Integer;
+  i, t, idealSlot, wT: Integer;
   anim: TAnimation;
 begin
   if (not LoggedIn) then
@@ -835,7 +835,11 @@ begin
           Exit;
         end;
 
-        MSI_WaitWhileAnimating(anim);
+        //MSI_WaitWhileAnimating(anim);
+        wT := GetSystemTime + anim.WaitTime;
+        while MSI_IsAnimating(anim) do
+          if (GetCurrentTab = tab_Magic) or (wT > GetSystemTime) then
+            Break;
 
         // Result is true if we've cast the maximum
         if (MSI_Players[CurrentPlayer].ReportInfo.Casts[CurrentSpell][CurrentScript] >= MaxCasts[CurrentSpell]) then
