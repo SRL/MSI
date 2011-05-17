@@ -1693,7 +1693,7 @@ in 'Objs' for the object that was found and the action applied to.
 .. note::
 
   | Author: marpis
-  | Last Updated: 10 June 2010
+  | Last Updated: 17 May 2010 by Coh3n
 
 Example:
 
@@ -1724,22 +1724,19 @@ Begin
     TheOptions[I] := MSI_Objects[Objs[I]].Option;
   End;
 
-  For II := 0 To Hi Do
-    With MSI_Objects[Objs[II]] Do
+  With MSI_Objects[Objs[II]] Do
+    For II := 0 To Hi Do
     begin
       // Check the players level; if not high enough, skip object
-      with MSI_Players[CurrentPlayer] do
-      begin
-        if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
-          if (ReportInfo.SkillLevels[CurrentScript] < MSI_Objects[Objs[II]].Level) then
-          begin
-            if (ii = hi) then
-              ReportInfo.FalseReason := 'Skill requirement not met';
+      if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+        if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] < MSI_Objects[Objs[II]].Level) then
+        begin
+          if (ii = hi) then
+            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Skill requirement not met';
 
-            MSI_SubDebug('Not high enough level for object: ' + MSI_Objects[Objs[II]].Name);
-            Continue;
-          end;
-      end;
+          MSI_Debug('Not high enough level for object: ' + MSI_Objects[Objs[II]].Name);
+          Continue;
+        end;
 
       If MSI_FindObjectsTPA(TmpTPA, Objs[II], SearchBox) Then
       Begin
