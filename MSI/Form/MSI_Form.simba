@@ -244,10 +244,30 @@ begin
               SetBounds(257, 27 + (j * 35), 65, 20);
 
             case i of
-              SETUP_BREAK_TIME: Hint := 'Single player only: How long to break for (in minutes)';
-              SETUP_DEBUG_LEVEL: Hint := 'The lower the number, the less MSI will debug';
-              SETUP_ANTIBAN_WAIT: Hint := 'How long to wait between Antiban calls (in milliseconds; 1s = 1000ms)';
-              SETUP_RANDOMS_WAIT: Hint := 'How long to wait between Randoms checks (in milliseconds; 1s = 1000ms)';
+              SETUP_BREAK_TIME:
+                begin
+                  Hint := 'Single player only: How long to break for (in minutes)';
+                  Text := '15';
+                end;
+
+              SETUP_DEBUG_LEVEL:
+                begin
+                  Hint := 'The lower the number, the less MSI will debug';
+                  Text := '10';
+                end;
+
+              SETUP_ANTIBAN_WAIT:
+                begin
+                  Hint := 'How long to wait between Antiban calls (in milliseconds; 1s = 1000ms)';
+                  Text := '15000';
+                end;
+
+              SETUP_RANDOMS_WAIT:
+                begin
+                  Hint := 'How long to wait between Randoms checks (in milliseconds; 1s = 1000ms)';
+                  Text := '15000';
+                end;
+
               SETUP_STATS_ID: Hint := 'Stats Username';
               SETUP_STATS_PASS: Hint := 'Stats Password';
             end;
@@ -332,7 +352,8 @@ begin
 
                 //Writeln('SetupVar['+IntToStr(i)+'] := '+ToStr(MSI_SetupVars[i]));
               end else
-                intro_Combos[j].Text := ReadINI('SETTINGS', s, PATH_SETTINGS);
+                if (FileExists(PATH_SETTINGS)) then
+                  intro_Combos[j].Text := ReadINI('SETTINGS', s, PATH_SETTINGS);
         end;
 
       SETUP_BREAK_TIME, SETUP_DEBUG_LEVEL, SETUP_ANTIBAN_WAIT, SETUP_RANDOMS_WAIT,
@@ -367,7 +388,8 @@ begin
 
                 //Writeln('SetupVar['+IntToStr(i)+'] := '+ToStr(MSI_SetupVars[i]));
               end else
-                intro_Edits[j].Text := ReadINI('SETTINGS', s, PATH_SETTINGS);
+                if (FileExists(PATH_SETTINGS)) then
+                  intro_Edits[j].Text := ReadINI('SETTINGS', s, PATH_SETTINGS);
 
         end;
     end;

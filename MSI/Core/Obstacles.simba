@@ -102,7 +102,7 @@ find and click the obstacle, then calls MSI_WaitForMirror.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 4 April 2011 by IPwnz
+  | Last Updated: 18 May 2011 by Coh3n
 
 Example:
 
@@ -128,8 +128,8 @@ begin
       Result := MSI_WaitForMirror(Obs);
     end;
   until(Result or (GetSystemTime > t));
-  MakeCompass('n');
-  SetAngle(true);
+
+  ClickNorth(True);
 end;
 
 (*

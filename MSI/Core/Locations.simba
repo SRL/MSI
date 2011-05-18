@@ -105,7 +105,7 @@ Example:
          AtBank := True;
          Tiles := [Point(3253, 3421)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
+         MinDistance := 15;
        end;
 
      LOC_VE_MINE:
