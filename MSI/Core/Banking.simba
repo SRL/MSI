@@ -606,6 +606,7 @@ begin
       if (not MSI_OpenBank(Script.WhichBank, Pin)) then
       begin
         ReportInfo.FalseReason := 'Failed to open bank: '+MSI_Objects[Script.WhichBank].Name;
+        MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
         Exit;
       end;
 

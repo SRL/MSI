@@ -671,11 +671,14 @@ Example:
   MSI_PerformWalk(LOC_VE_BANK, LOC_VE_MINE);
 *)
 function MSI_PerformWalk(startLoc, endLoc: Integer): Boolean;
+var
+  ang: Extended;
 begin
   if (not LoggedIn) then
     Exit;
 
-  if (ReflectionBroken) then
+  ang := rs_GetCompassAngleDegrees;
+  if (ang <> 0.0) then
     ClickNorth(True);
   MSI_FindRandoms(True);
 
