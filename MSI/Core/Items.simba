@@ -313,6 +313,48 @@ begin
                   Point(39, 26),
                   Point(28, 33)
                 ];
+    VIAL_EMPTY, VIAL_WATER:
+      Result := [
+                  Point(22, 164),
+                  Point(21, 145),
+                  Point(26, 160),
+                  Point(14, 164),
+                  Point(21, 174)
+                ];
+    JUG_EMPTY, JUG_WATER:
+      Result := [
+                  Point(886, 273),
+                  Point(898, 280),
+                  Point(884, 294),
+                  Point(874, 286),
+                  Point(883, 267)
+                ];
+    BOWL_EMPTY, BOWL_WATER:
+      Result := [
+                  Point(970, 278),
+                  Point(968, 269),
+                  Point(984, 278),
+                  Point(969, 290),
+                  Point(953, 280)
+                ];
+    BUCKET_EMPTY, BUCKET_WATER:
+      Result := [
+                  Point(883, 314),
+                  Point(883, 303),
+                  Point(894, 316),
+                  Point(885, 330),
+                  Point(876, 320)
+                ];
+
+    BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
+    BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE:
+      Result := [
+                  Point(15, 10),
+                  Point(1, 17),
+                  Point(17, 22),
+                  Point(29, 6),
+                  Point(12, 2)
+                ];
 
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
@@ -438,7 +480,24 @@ begin
     MSI_RUNE_SOUL  : Result := 0;
     MSI_RUNE_ASTRAL: Result := 0;
 
-    CLAY_SOFT: Result := 802904;
+    CLAY_SOFT   : Result := 802904;
+    VIAL_EMPTY  : Result := 5920342;
+    VIAL_WATER  : Result := 11040368;
+    JUG_EMPTY   : Result := 7500664;
+    JUG_WATER   : Result := 12216937;
+    BOWL_EMPTY  : Result := 1203069;
+    BOWL_WATER  : Result := 11712313;
+    BUCKET_EMPTY: Result := 1521995;
+    BUCKET_WATER: Result := 9008758;
+
+    BAR_BRONZE  : Result := 2374992;
+    BAR_IRON    : Result := 5329237;
+    BAR_SILVER  : Result := 11183011;
+    BAR_STEEL   : Result := 8158338;
+    BAR_GOLD    : Result := 2074835;
+    BAR_MITHRIL : Result := 6439490;
+    BAR_ADAMANT : Result := 4871497;
+    BAR_RUNE    : Result := 6840656;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1338,6 +1397,168 @@ begin
         Stackable := False;             // Is it stackable?
         EquipLevel := -1;               // Set to -1 if it can't be equipped
       end;
+
+    { BARS ======================================= ]
+    [============================================= }
+    BAR_BRONZE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bronze Bar';
+        StatsName := 'Bronze Bars Melted';
+        UpText := ['ronze bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BAR_IRON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Iron Bar';
+        StatsName := 'Iron Bars Melted';
+        UpText := ['ron bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BAR_SILVER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Silver Bar';
+        StatsName := 'Silver Bars Melted';
+        UpText := ['ilver bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BAR_STEEL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Steel Bar';
+        StatsName := 'Steel Bars Melted';
+        UpText := ['teel bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BAR_GOLD:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Gold Bar';
+        StatsName := 'Gold Bars Melted';
+        UpText := ['old bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BAR_MITHRIL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mithril Bar';
+        StatsName := 'Mithril Bars Melted';
+        UpText := ['ithril bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BAR_ADAMANT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Adamant Bar';
+        StatsName := 'Adamant Bars Melted';
+        UpText := ['damant bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BAR_RUNE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune Bar';
+        StatsName := 'Rune Bars Melted';
+        UpText := ['une bar'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    VIAL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial';
+        StatsName := 'Vial (Empty)';
+        UpText := ['ial'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    VIAL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial of water';
+        StatsName := 'Vials Filled';
+        UpText := ['ial of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    JUG_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug';
+        StatsName := 'Jug (Empty)';
+        UpText := ['ug'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    JUG_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug of water';
+        StatsName := 'Jugs Filled';
+        UpText := ['ug of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BOWL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl';
+        StatsName := 'Bowl (Empty)';
+        UpText := ['owl'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BOWL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl of water';
+        StatsName := 'Bowls Filled';
+        UpText := ['owl of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BUCKET_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket';
+        StatsName := 'Bucket (Empty)';
+        UpText := ['ucket'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BUCKET_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket of water';
+        StatsName := 'Buckets Filled';
+        UpText := ['ucket of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
   end;
 
   Result := (MSI_Items[whichItem].Name <> '');
@@ -2191,9 +2412,10 @@ begin
     exit;
 
   if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
-    if (MSI_ClickItem(item, ['Use', 'se'])) then
-      exit
-  else
+  begin
+    if (not MSI_ClickItem(item, ['Use', 'se'])) then
+      exit;
+  end else
     MSI_SubDebug('MSI_UseItemOn: Item already selected');
 
   result := MSI_FindObjects(objs, index, clickLeft);

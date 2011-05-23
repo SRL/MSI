@@ -123,7 +123,7 @@ continuing with color-only.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 27 February 2010 by Coh3n
+  | Last Updated: 04 May 2011 by Coh3n
 
 Example:
 
@@ -134,7 +134,8 @@ Example:
 procedure MSI_SetupReflection();
 begin
   {$IFDEF REFLECTION}
-  SetupConstants;
+  R_UpdateKill := false;
+  SetupReflection;
   if (SmartGetFieldInt(0, hook_static_LoginIndex) = -1) then
   begin
     ReflectionBroken := True;

@@ -128,7 +128,7 @@ const
   SCRIPT_DB_FISHER     = 51;
   SCRIPT_BBV_FISHER    = 52;
   SCRIPT_KJ_NOTER      = 53; // SRL Members+ only
-  SCRIPT_CB_FISHER    = 54;
+  SCRIPT_CB_FISHER     = 54;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
@@ -142,8 +142,12 @@ const
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
   SCRIPT_EV_SOFTENER = 101;
+  SCRIPT_FW_SOFTENER = 102;
+  SCRIPT_VE_FILLER   = 103;
+  SCRIPT_FW_FILLER   = 104;
 
-  SCRIPT_ARRAY_LENGTH = 101; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 104; // Change to the highest script constant
+
 
 (*
 Extras Constants
@@ -261,6 +265,7 @@ const
   LOC_FE_BANK    = 50;
   LOC_FW_BANK    = 51;
   LOC_FW_MINE    = 52;
+  LOC_FW_PUMP    = 53;
 
   // Port Sarim
   LOC_PS_WILLOWS = 60;
@@ -436,9 +441,26 @@ const
   MSI_RUNE_SOUL   = 172;
   MSI_RUNE_ASTRAL = 173;
 
-  CLAY_SOFT = 180;
+  CLAY_SOFT     = 180;
+  VIAL_EMPTY    = 181;
+  VIAL_WATER    = 182;
+  JUG_EMPTY     = 183;
+  JUG_WATER     = 184;
+  BOWL_EMPTY    = 185;
+  BOWL_WATER    = 186;
+  BUCKET_EMPTY  = 187;
+  BUCKET_WATER  = 188;
 
-  ITEM_ARRAY_LENGTH = 180; // Change to the highest item constant
+  BAR_BRONZE  = 200;
+  BAR_IRON    = 201;
+  BAR_SILVER  = 202;
+  BAR_STEEL   = 203;
+  BAR_GOLD    = 204;
+  BAR_MITHRIL = 205;
+  BAR_ADAMANT = 206;
+  BAR_RUNE    = 207;
+
+  ITEM_ARRAY_LENGTH = 207; // Change to the highest item constant
 
 (*
 Object Constants
@@ -522,11 +544,13 @@ const
 
   LOOT_FEATHERS = 101;
 
-  // Fountains
+  // Water Sources
   FOUNTAIN_VE = 110;
+  WELL_EV = 111;
+  PUMP_FW = 112;
 
-  // Wells
-  WELL_EV = 120;
+  // Furnaces
+  FURNACE_AK = 120;
 
   OBJ_ARRAY_LENGTH = 120; // Change to the highest object constant
 
@@ -638,7 +662,7 @@ const
 
 (*
 Material Constants
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 The Material constants work the same as the items/objects/obstacles/etc - they
 represent the index of a global array.
@@ -654,20 +678,26 @@ Example:
 *)
 const
   // Fish for cooking
-  MATERIAL_SHRIMP    = 70;
-  MATERIAL_CRAYFISH  = 71;
-  MATERIAL_SARDINE   = 72;
-  MATERIAL_HERRING   = 73;
-  MATERIAL_ANCHOVIE  = 74;
-  MATERIAL_TROUT     = 75;
-  MATERIAL_PIKE      = 76;
-  MATERIAL_SALMON    = 77;
-  MATERIAL_TUNA      = 78;
-  MATERIAL_LOBSTER   = 79;
-  MATERIAL_SWORDFISH = 80;
+  MATERIAL_SHRIMP    = 0;
+  MATERIAL_CRAYFISH  = 1;
+  MATERIAL_SARDINE   = 2;
+  MATERIAL_HERRING   = 3;
+  MATERIAL_ANCHOVIE  = 4;
+  MATERIAL_TROUT     = 5;
+  MATERIAL_PIKE      = 6;
+  MATERIAL_SALMON    = 7;
+  MATERIAL_TUNA      = 8;
+  MATERIAL_LOBSTER   = 9;
+  MATERIAL_SWORDFISH = 10;
 
   // Money making
-  MATERIAL_CLAY      = 90; // Clay to Soft Clay
+  MATERIAL_CLAY      = 20;
+  MATERIAL_VIAL      = 21;
+  MATERIAL_JUG       = 22;
+  MATERIAL_BOWL      = 23;
+  MATERIAL_BUCKET    = 24;
+
+  MATERIAL_LENGTH    = 24;
 
 (*
 Proggy Constants

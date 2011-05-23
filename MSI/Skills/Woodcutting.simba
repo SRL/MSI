@@ -127,178 +127,57 @@ begin
 end;
 
 (*
-MSI_WaitWhileChopping
-~~~~~~~~~~~~~~~~~~~~~
+MSI_IsChopping
+~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  procedure MSI_WaitWhileChopping(TreeID: Integer);
+  function MSI_IsChopping(): Boolean;
 
-Waits while the player is chopping a tree.  This procedure has a lot of
-failsafes including looking for the tree in a box close to the player (after
-tracking the object), inventory checks, and animation checks.
+Returns true if the player is chopping a tree.  This procedure uses MSI's color
+animating routines.
 
 .. note::
 
-  | Author: marpis
-  | Last Updated: 07 September 2010 by NCDS
+  | Author: Coh3n
+  | Last Updated: 04 May 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if MSI_FindObject(TREE_NORMAL, ClickLeft) then
-    MSI_WaitWhileChopping(TREE_NORMAL);
+  if (MSI_IsChopping()) then
+    MSI_Debug('Player is chopping');
 *)
-{
-Procedure MSI_WaitWhileChopping(TreeID: integer);
-Var
-  CTS, HalfWidth, HalfHeight, L, I, T, OldInvCount, NewInvCount, tDist, prevLen: Integer;
-  TotalChopTime, R, CT: Integer;
-  ATPA: T2DPointArray;
-  TPA: TPointArray;
-  Objs: TIntegerArray;
-  B: TBox;
-  TreeExists, Debug: Boolean;
-Begin
-  if (not LoggedIn) then
-    Exit;
-
-  MSI_AddHeader('MSI_WaitWhileChopping');
-
-  Objs := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Trees;
-
-  CTS := GetColorToleranceSpeed;
-
-  SetColorToleranceSpeed(2);
-  SetColorSpeed2Modifiers(MSI_Objects[TreeID].Hue, MSI_Objects[TreeID].Sat);
-
-  HalfWidth := Round(MSI_Objects[TreeID].W * 0.7);
-  HalfHeight := Round(MSI_Objects[TreeID].H * 0.7);
-  B := IntToBox(MSI_Objects[TreeID].X - HalfWidth, MSI_Objects[TreeID].Y - HalfHeight,
-                MSI_Objects[TreeID].X + HalfWidth, MSI_Objects[TreeID].Y + HalfHeight);
-
-  L := Length(MSI_Objects[TreeID].Colors);
-  SetLength(ATPA, L);
-  Dec(L);
-
-  OldInvCount := InvCount;
-  T := (GetSystemTime + MSI_Objects[TreeID].MaxTime + Random(5000));
-  TotalChopTime := (GetSystemTime + (4 * 60000));
-
-  Repeat
-    Debug := (Random(10) < 3);
-
-    If InvFull Then
-      Break;
-
-    MSI_FindRandoms(False);
-    MSI_AntiBan(RandomRange(0, 5000), ANTI_BAN_CHANCE);
-    if Animating(IntToBox(MSCx - 30, MSCy - 30, MSCx + 30, MSCy + 30), 1000, 20) then
-      Continue;
-
-    // Check if the tree Exists
-    if (Debug) then
-      MSI_Debug('Looking for tree');
-
-    For I := 0 To L Do
-      FindColorsTolerance(ATPA[I], MSI_Objects[TreeID].Colors[I],
-                          B.X1, B.Y1, B.X2, B.Y2, MSI_Objects[TreeID].Tol);
-    TPA := MergeATPA(ATPA);
-    SortTPAFrom(TPA, Point(MSCX, MSCY));
-
-    if (Length(TPA) > 0) then
-    begin
-      if (length(TPA) <= (prevLen / 2)) then
-      begin
-        MSI_Debug('Length(TPA) < half the previous, tree is gone');
-        break;
-      end;
-
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-        SMART_DrawDotsEx(True, TPA, clYellow);
-
-      // Gets distance from closest point to player
-      tDist := Distance(TPA[0].x, TPA[0].y, MSCX, MSCY);
-
-      // Resets the tracking box to a box the size of the tree located around the closest point
-      B := MSI_MakeBox(Point(TPA[0].x, TPA[0].y), MSI_Objects[TreeID].W, MSI_Objects[TreeID].H);
-
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxEx(False, B, clBlue);
-
-      prevLen := length(TPA);
-    end;
-
-    if (Debug) then
-      MSI_Debug('Track box distance: '+IntToStr(tDist));
-
-    if (tDist > TREE_MAX_DIST) then
-    begin
-      if (Debug) then
-        MSI_Debug('Tracking box is over the maximum distance');
-      Break;
-    end;
-
-    TreeExists := Length(TPA) >= MSI_Objects[TreeID].Accuracy;
-    If (TreeExists) Then
-      If (Random(4) <> 0) Then
-        Wait(200 + Random(50))
-      Else
-        SleepAndMoveMouse(200 + Random(50));
-
-    if (random(20) < 5) then
-      if MSI_FindBirdNest then
-        Break;
-
-    // InvCount check
-    if (Debug) then
-      MSI_Debug('Checking inventory count');
-
-    NewInvCount := InvCount;
-    If (NewInvCount > OldInvCount) Then
-    Begin
-      if (Debug) then
-        MSI_SubDebug('New count > old count');
-
-      OldInvCount := NewInvCount;
-      T := (GetSystemTime + MSI_Objects[TreeID].MaxTime + Random(5000));
-    End;
-
-    // Prevent logout
-    If ((TotalChopTime - GetSystemTime) < 60000) Then
-    Begin
-      if (Debug) then
-        MSI_Debug('Preventing logout');
-
-      CT := GetCurrentTab;
-      Repeat
-        R := RandomRange(Tab_Combat, Tab_Notes);
-      Until(R <> CT);
-      GameTab(R);
-
-      if (Debug) then
-        MSI_SubDebug('Clicking game tab: ' + IntToStr(R));
-      Wait(RandomRange(500, 1000));
-    End;
-
-    if (GetCurrentTab <> tab_Inv) then
-      MouseBox(646, 177, 662, 195, 1);
-
-  Until(Not TreeExists) Or (GetSystemTime > T) Or (Not LoggedIn);
-
-  MSI_CloseHeader('MSI_WaitWhileChopping: Finished');
-
-  SetColorToleranceSpeed(CTS);
-  SetColorSpeed2Modifiers(0.2, 0.2);
-End;
-}
 function MSI_IsChopping(): boolean;
 begin
   result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
 end;
 
-procedure MSI_WaitWhileChopping(tree: integer);
+(*
+MSI_WaitWhileChopping
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_WaitWhileChopping();
+
+Waits while the player is chopping.  Will do random even checks plus MSI's
+antiban.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 04 May 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_IsChopping()) then
+    MSI_Debug('Player is chopping');
+*)
+procedure MSI_WaitWhileChopping();
 var
   anim: TAnimation;
 begin
@@ -356,7 +235,7 @@ begin
   if MSI_FindObjects(Which, TreeIndex, ClickLeft) then
   begin
     Result := True;
-    MSI_WaitWhileChopping(Which[TreeIndex]);
+    MSI_WaitWhileChopping();
   end else begin
     Wait(RandomRange(250, 750));
     MSI_FindRandoms(True);

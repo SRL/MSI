@@ -1175,7 +1175,8 @@ begin
          Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
-         AssociatedItems    := [];
+         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                 BUCKET_WATER ];
        end;
 
      WELL_EV:
@@ -1201,7 +1202,64 @@ begin
          Track              := False;
          BadColors          := [];
          BadColorTolerance  := 10;
-         AssociatedItems    := [CLAY_SOFT];
+         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                 BUCKET_WATER ];
+       end;
+
+     PUMP_FW:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Falador Waterpump';
+         UpText             := 'pump';
+         Option             := 'se';
+         Colors             := [4870997];
+         Tol                := 6;
+         Hue                := 0.14;
+         Sat                := 0.13;
+         FindAllColors      := False;
+         W                  := 30;
+         H                  := 30;
+         Accuracy           := 3;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                 BUCKET_WATER ];
+       end;
+
+    { FURNACES =================================== ]
+    [============================================= }
+     FURNACE_AK:
+       with MSI_Objects[whichObject] do
+       begin
+         Name               := 'Al Kharid Furnace';
+         UpText             := 'urnace';
+         Option             := 'melt';
+         Colors             := [2240921];
+         Tol                := 16;
+         Hue                := 0.06;
+         Sat                := 0.73;
+         FindAllColors      := False;
+         W                  := 64;
+         H                  := 13;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         RightClickOnly     := False;
+         Tries              := 10;
+         Anim               := False;
+         WaitToMove         := True;
+         Track              := False;
+         BadColors          := [];
+         BadColorTolerance  := 10;
+         AssociatedItems    := [BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
+		               BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE];
        end;
   end;
 
@@ -1617,7 +1675,7 @@ begin
   MSI_CloseHeader('MSI_TrackObject: ' + BoolToStr(Result));
 
   SetColorSpeed2Modifiers(0.2, 0.2);
-  ColorToleranceSpeed(2);
+  ColorToleranceSpeed(CTS);
 end;
 
 (*
@@ -1669,13 +1727,13 @@ Begin
   For II := 0 To Hi Do
     With MSI_Objects[Objs[II]] Do
     begin
-      // Check the players level; if not hight enough, skip object
+      // Check the players level; if not high enough, skip object
       with MSI_Players[CurrentPlayer] do
       begin
         if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
           if (ReportInfo.SkillLevels[CurrentScript] < MSI_Objects[Objs[II]].Level) then
           begin
-            if (i = hi) then
+            if (ii = hi) then
               ReportInfo.FalseReason := 'Skill requirement not met';
 
             MSI_SubDebug('Not high enough level for object: ' + MSI_Objects[Objs[II]].Name);
@@ -1810,7 +1868,7 @@ Begin
       End;
     end;
 
-  MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_FindObjectsIn: ' + ToStr(Result));
   MSI_FindRandoms(True);
 End;
 

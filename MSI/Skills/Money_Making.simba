@@ -113,3 +113,66 @@ begin
   with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
     Result := MSI_ConvertMaterial(@MSI_SoftenAll, Objects); // ConvertMaterial is in Materials.simba
 end;
+
+(*
+MSI_FillAll
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FillAll(material: TMaterial): Boolean;
+
+Used as a "parameter filler" for MSI_ConvertMaterial because filling buckets,
+bowls, etc. doesn't require any clicking in the Runescape chat box like
+softening clay or pottery for example.
+
+.. note::
+
+  | Author: Rich
+  | Last Updated: 08 May 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  function MSI_FillItems: Boolean;
+  begin
+    with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+      Result := MSI_ConvertMaterial(@MSI_FillAll, Objects);
+  end;
+*)
+function MSI_FillAll(material: TMaterial): Boolean;
+begin
+  MSI_SubDebug('MSI_FillAll: Material ('+material.name+') doesn''t require further clicking');
+  Result := True;
+  Wait(500);
+end;
+
+(*
+MSI_FillItems
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FillItems: Boolean;
+
+Returns true if all the items in the player's inventory have been filled with
+water.  This is the procedure that is pointed to the script's AutoObjects
+attribute.
+
+.. note::
+
+  | Author: Rich
+  | Last Updated: 08 May 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_FILLER].AutoObjects := @MSI_FillItems;
+*)
+function MSI_FillItems: Boolean;
+begin
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+    Result := MSI_ConvertMaterial(@MSI_FillAll, Objects);
+end;

@@ -155,6 +155,46 @@ begin
         MemberOnly  := False;
         Level       := -1;
       end;
+
+    MATERIAL_VIAL:
+      with Result do
+      begin
+        Name        := 'Vial';
+        Supplies    := [TIntegerArray([VIAL_EMPTY, -1])];
+        Produces    := [VIAL_WATER];
+        MemberOnly  := False;
+        Level       := -1;
+      end;
+
+    MATERIAL_JUG:
+      with Result do
+      begin
+        Name        := 'Jug';
+        Supplies    := [TIntegerArray([JUG_EMPTY, -1])];
+        Produces    := [JUG_WATER];
+        MemberOnly  := False;
+        Level       := -1;
+      end;
+
+    MATERIAL_BOWL:
+      with Result do
+      begin
+        Name        := 'Bowl';
+        Supplies    := [TIntegerArray([BOWL_EMPTY, -1])];
+        Produces    := [BOWL_WATER];
+        MemberOnly  := False;
+        Level       := -1;
+      end;
+
+    MATERIAL_BUCKET:
+      with Result do
+      begin
+        Name        := 'Bucket';
+        Supplies    := [TIntegerArray([BUCKET_EMPTY, -1])];
+        Produces    := [BUCKET_WATER];
+        MemberOnly  := False;
+        Level       := -1;
+      end;
   end;
 end;
 

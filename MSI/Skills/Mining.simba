@@ -84,9 +84,6 @@ begin
   MSI_AddHeader('MSI_WaitWhileMining');
   cts := GetColorToleranceSpeed;
 
-  SetColorToleranceSpeed(2);
-  SetToleranceSpeed2Modifiers(MSI_Objects[RockID].Hue, MSI_Objects[RockID].Sat);
-
   t := (GetSystemTime + MSI_Objects[RockID].MaxTime + Random(5000));
 
   SearchBox := IntToBox(
@@ -116,6 +113,9 @@ begin
 
   OldInvCount := InvCount;
   MSI_Debug('InvCount: ' + IntToStr(OldInvCount));
+
+  SetColorToleranceSpeed(2);
+  SetToleranceSpeed2Modifiers(MSI_Objects[RockID].Hue, MSI_Objects[RockID].Sat);
 
   {preparing variables to detect when rock is gone through color}
   FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,

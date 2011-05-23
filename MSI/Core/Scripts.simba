@@ -1244,14 +1244,16 @@ begin
           CookingSpot := [COOKSPOT_AK_RANGE];
 
           Items     := [ TIntegerArray([
-                           FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
+                           FISH_COOKED_CRAYFISH, FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
                            FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
                            FISH_COOKED_PIKE, FISH_COOKED_TROUT, FISH_COOKED_SALMON,
                            FISH_COOKED_LOBSTER, FISH_COOKED_TUNA,
                            FISH_COOKED_SWORDFISH]) ];
 
-          Materials := [ MATERIAL_SHRIMP, MATERIAL_TROUT, MATERIAL_SALMON,
-                         MATERIAL_LOBSTER ];
+          Materials := [ MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
+                         MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
+                         MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
+                         MATERIAL_LOBSTER, MATERIAL_SWORDFISH ];
         end;
 
         with PathInfo do
@@ -1361,7 +1363,117 @@ begin
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
-  end;
+
+    SCRIPT_FW_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Softener';
+        Constant      := SCRIPT_FW_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [PUMP_FW];
+          Items     := [TIntegerArray([CLAY_SOFT])];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_PUMP;
+
+          Reflection := [
+                          TPointArray([Point(2945, 3367), Point(2949, 3382)])
+                        ];
+
+          SPSAreas := ['8_4'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_VE_FILLER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Varrock East Container Filler';
+        Constant      := SCRIPT_VE_FILLER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_FillItems;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_VE];
+          Items     := [TIntegerArray([VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                       BUCKET_WATER])];
+          Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
+                        MATERIAL_BUCKET];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_VE_FOUNTAIN;
+
+          Reflection := [
+                          TPointArray([Point(3254, 3421), Point(3254, 3429),
+                                       Point(3247, 3429), Point(3241, 3434)])
+                        ];
+
+          SPSAreas := ['11_3'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_FW_FILLER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Container Filler';
+        Constant      := SCRIPT_FW_FILLER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_FillItems;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [PUMP_FW];
+          Items     := [TIntegerArray([VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                       BUCKET_WATER])];
+          Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
+                        MATERIAL_BUCKET];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_PUMP;
+
+          Reflection := [
+                          TPointArray([Point(2945, 3367), Point(2949, 3382)])
+                        ];
+
+          SPSAreas := ['8_4'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+    end;
 
   Result := (MSI_Scripts[whichScript].Name <> '');
 end;
