@@ -75,7 +75,7 @@ begin
       with Result do
       begin
         Name := 'High Alching';
-        MinPixelShift := 87;
+        MinPixelShift := 80;
         MaxPixelShift := 260;
         PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
         Interval := 20;
@@ -183,7 +183,7 @@ begin
     if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
       SMART_DrawBoxEx(true, pixelBox, clYellow);
 
-    while LoggedIn do
+    while (true) do
     begin
       t := (getSystemTime + waitTime);
       while (getSystemTime < t) do

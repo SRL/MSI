@@ -276,9 +276,7 @@ begin
     begin
       if (not MSI_PointOnMM(TPA[i], p)) then
       begin
-        if (MSI_FindRandoms(True)) then
-          Break;
-
+        MSI_FindRandoms(True);
         Wait(RandomRange(200, 300));
 
         if (i = High(TPA)) then

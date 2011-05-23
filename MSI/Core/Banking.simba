@@ -632,12 +632,12 @@ begin
         end;
 
     iCount := invCount;
-    result := (iCount <= Length(Scripts[CurrentScript].Exceptions));
+    result := (iCount <= (Length(Scripts[CurrentScript].Exceptions) + 5));
 
     if (not result) then
     begin
       MSI_Debug('InvCount: '+toStr(iCount)+'; Exceptions: '+toStr(Scripts[CurrentScript].Exceptions));
-      MSI_Debug('Inventory count > exceptions, banking failed');
+      MSI_Debug('Inventory count > exceptions + 5, banking failed');
     end;
   end;
 

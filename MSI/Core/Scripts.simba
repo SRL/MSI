@@ -1060,7 +1060,7 @@ begin
           EndLoc   := LOC_DB_CLAY;
 
           Reflection := [
-                          TPointArray([Point(3092, 3245), Point(3100, 3249),
+                          TPointArray([Point(3092, 3240), Point(3100, 3249),
                                        Point(3104, 3262), Point(3105, 3275),
                                        Point(3109, 3288), Point(3119, 3296),
                                        Point(3127, 3305), Point(3135, 3312),
@@ -1071,6 +1071,44 @@ begin
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
+
+      SCRIPT_GUILD_MINER:
+        with MSI_Scripts[whichScript] do
+        begin
+          Name        := 'Mining Guild Miner';
+          Constant    := SCRIPT_GUILD_MINER;
+          SkillName   := 'Mining';
+          SkillConst  := SKILL_MINING;
+          BankType    := Bank;
+          WhichBank   := MSI_BANK_FE;
+          AutoObjects := @MSI_MineInvFull;
+          BankObjects := @MSI_BankStandard;
+          PlayerSetup := @MSI_SetupMining;
+
+          with Defaults do
+          begin
+            Rocks := [ROCK_COAL, ROCK_MITHRIL];
+            Items := [TIntegerArray([ORE_COAL]), TIntegerArray([ORE_MITHRIL])];
+          end;
+
+          with PathInfo do
+          begin
+            StartLoc := LOC_FE_BANK;
+            EndLoc   := LOC_GUILD_MINE;
+
+            Reflection := [
+                            TPointArray([Point(3012, 3355), Point(3023, 3352), // Bank -> Ladder Down
+                                         Point(3030, 3340), Point(3021, 3339)]),
+
+                            TPointArray([Point(3021, 9739), Point(3033, 9738), // Ladder Up -> In Mine
+                                         Point(3042, 9737)])
+                          ];
+
+            SPSAreas  := [''];
+            Color     := MSI_Convert2DTilePath(Reflection);
+            Obstacles := [ OBS_LADDER_DOWN_MINE_GUILD ];
+          end;
+        end;
 
     { FISHERS ==================================== ]
     [============================================= }
@@ -1220,6 +1258,48 @@ begin
 
           SPSAreas   := ['7_3'];
           Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_KJ_NOTER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Karamja Stiles Noter';
+        Constant      := SCRIPT_KJ_NOTER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := NPC;
+        WhichBank     := NPC_STILES;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankNPC;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        with Defaults do
+        begin
+          FishSpots := [FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON];
+
+          Items     := [
+                         TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
+                         TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
+                         TIntegerArray([FISH_RAW_LOBSTER]),
+                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH])
+                       ];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_KJ_STILES;
+          EndLoc   := LOC_KJ_FISH;
+
+          Reflection := [
+                          TPointArray([Point(2851, 3141), Point(2862, 3145),
+                                       Point(2874, 3149), Point(2884, 3156),
+                                       Point(2896, 3162), Point(2906, 3169),
+                                       Point(2919, 3171), Point(2924, 3175)])
+                        ];
+
+          SPSAreas := ['7_5', '8_5', '8_6', '7_6'];
+          Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 

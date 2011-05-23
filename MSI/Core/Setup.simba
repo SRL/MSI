@@ -34,6 +34,7 @@ The source for can be found
 //MSI Script
 {$i MSI/MSI/Core/Globals.simba}
 {$i MSI/MSI/Core/Debug.simba}
+{$i MSI/MSI/Core/Extras.simba}
 {$i MSI/MSI/Core/Manipulation.simba}
 {$i MSI/MSI/Core/Track.simba}
 {$i MSI/MSI/Core/Antiban.simba}
@@ -47,7 +48,6 @@ The source for can be found
 
 {$i MSI/MSI/Core/Skills.simba}
 {$i MSI/MSI/Core/Banking.simba}
-{$i MSI/MSI/Core/Extras.simba}
 
 //MSI Skill Files
 {$i MSI/MSI/Skills/Woodcutting.simba}
@@ -61,12 +61,16 @@ The source for can be found
 {$i MSI/MSI/Core/Scripts.simba}
 
 //Extras
-{$i MSI/MSI/Extras/Example.simba}
-//{$i MSI/MSI/Extras/WorldWalker_cstrike.simba} // It wont work without changes because of the new extras system.
+{$IFDEF EXTRA_EXAMPLE}
+  {$i MSI/MSI/Extras/Example.simba}
+{$ENDIF}
+
+{$IFDEF EXTRA_CHARACTER_STATS}
+  {$i MSI/MSI/Extras/CharacterStats.simba}
+{$ENDIF}
 
 //MSI Skill Loops, AI and Mainloop
 {$i MSI/MSI/Core/MainLoop.simba}
-
 {$i MSI/MSI/Form/MSI_Form.simba}
 
 (*
@@ -102,7 +106,7 @@ begin
   MSI_LoadAllItems;
   MSI_LoadAllObstacles;
   MSI_LoadAllSpells;
-  //MSI_LoadAllExtras;
+  MSI_LoadAllExtras;
   Track_LoadNames;
 
   Writeln('Setting up MSI took '+IntToStr(TimeFromMark(Timer))+' ms.');
