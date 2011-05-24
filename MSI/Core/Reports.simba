@@ -292,6 +292,7 @@ Example:
 procedure MSI_ProgressReport;
 var
   i, j, f: Integer;
+  b: Boolean;
 begin
   {$IFDEF DEBUG_REFLECTION}
   list_allocated_objects();
@@ -311,7 +312,12 @@ begin
   SetScriptProp(SP_WriteTimeStamp, [False]);
 
   SRLRandomsReport;
+  b := MSI_SetupVars[SETUP_PRINT_REPORT];
+  if (not b) then
+    MSI_SetupVars[SETUP_PRINT_REPORT] := True;
   MSI_ShortReport(f);
+  if (not b) then
+    MSI_SetupVars[SETUP_PRINT_REPORT] := False;
 
   MSI_PrintSave(f, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
   MSI_PrintSave(f, '{                    MSI Phoenix Player Report                   }');

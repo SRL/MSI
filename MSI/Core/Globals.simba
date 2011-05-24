@@ -42,7 +42,7 @@ different locations around Runescape.
   | SV: Seers Village
   | LSW: Lumbridge Swamp West
   | KJ: Karamja
-  | CB: Catherby
+  | CB: Catherby Bank
 *)
 
 {==============================================================================\
@@ -60,11 +60,8 @@ anything from randomness percentage to bank symbol accuracy.
 *)
 const
   ANTI_BAN_CHANCE      = 10;    // The chance (in %) of performing antiban
-  BANK_SYMBOL_ACCURACY = 0.60;  // The symbol accuracy of the bank
   MIN_FLAG_DISTANCE    = 15;    // The amount of pixels from the flag to player
-  MAX_POINT_DIST       = 15;    // The maximum distance between a color and reflection minimap point
   RANDOM_TIME_PERCENT  = 0.30;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
-  MM_RADIUS            = 68;    // Runescape's minimap radius
   DTM_TOLERANCE        = 10;    // Tolerance on the DTMs
   TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
 
@@ -147,7 +144,6 @@ const
   SCRIPT_FW_FILLER   = 104;
 
   SCRIPT_ARRAY_LENGTH = 104; // Change to the highest script constant
-
 
 (*
 Extras Constants
@@ -725,6 +721,7 @@ const
   SETUP_SAVE_REPORT   = 12;
   SETUP_HUMAN_BREAK   = 13;
   SETUP_SWITCH_WORLDS = 14;
+  SETUP_PRINT_REPORT  = 15;
 
   // Integers
   SETUP_BREAK_TIME    = 20;
@@ -737,7 +734,7 @@ const
   SETUP_STATS_PASS    = 31;
   SETUP_WALKING       = 32;
 
-  SETUP_ARRAY_LENGTH = 32;
+  SETUP_ARRAY_LENGTH  = 32;
 
 {==============================================================================\
 |                                  Types                                       |

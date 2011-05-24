@@ -62,7 +62,7 @@ if the PIN screen appears.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 10 Febuary 2011 by NCDS
+  | Last Updated: 23 May 2011 by Coh3n
 
 Example:
 
@@ -73,8 +73,9 @@ Example:
 *)
 function MSI_OpenBank(which: Integer; tPin: String): Boolean;
 var
-  t: Integer;
+  t, x, y: Integer;
   bankType: TBank;
+  relocated: boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -113,7 +114,17 @@ begin
         begin
           NotBoxes := [];
           Wait(RandomRange(2000, 3000));
-          MSI_Relocate(MSI_Players[CurrentPlayer].Location);
+
+          if (relocated) then
+          begin
+            SymbolAccuracy := 50.0;
+            if (FindSymbol(x, y, 'bank')) then
+              Mouse(x, y, 3, 3, True);
+            SymbolAccuracy := 70.0;
+            Continue;
+          end;
+
+          relocated := MSI_Relocate(MSI_Players[CurrentPlayer].Location);
         end;
     end;
   end;

@@ -168,7 +168,7 @@ Writes the string 's' in the debug box and saves it to the text file 'theFile'.
 .. note::
 
   | Author: Naum
-  | Last Updated: 08 April 2011 by Coh3n
+  | Last Updated: 23 May 2011 by Coh3n
 
 Example:
 
@@ -178,7 +178,9 @@ Example:
 *)
 Procedure MSI_PrintSave(theFile: Integer; s: string);
 Begin
-  Writeln(s);
+  if (MSI_SetupVars[SETUP_PRINT_REPORT]) then
+    Writeln(s);
+
   if (theFile <> -1) then
     WriteFileString(theFile, s + #13 + #10);
 End;

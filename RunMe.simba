@@ -29,12 +29,13 @@ begin
   MSI_SetupVars[SETUP_SAVE_REPORT]   := True;         // Save's the progress report to a file
   MSI_SetupVars[SETUP_HUMAN_BREAK]   := True;         // Take more human like breaks
   MSI_SetupVars[SETUP_SWITCH_WORLDS] := True;         // Switch worlds when switching players or after breaks
+  MSI_SetupVars[SETUP_PRINT_REPORT]  := True;         // Will only print the short report in the debug box (will still save long report to file)
   MSI_SetupVars[SETUP_BREAK_TIME]    := 15;           // Single player only - how long to break for (in minutes)
   MSI_SetupVars[SETUP_DEBUG_LEVEL]   := 10;           // The lower the number, the less the script will debug
   MSI_SetupVars[SETUP_ANTIBAN_WAIT]  := 15000;        // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
   MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
   MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
-  MSI_SetupVars[SETUP_STATS_PASS]    := ''            // Stats password
+  MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
   MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection' or 'Color'
 end;
 
@@ -56,7 +57,6 @@ begin
   begin
     Name       := '';      // Username
     Pass       := '';      // Password
-    Nick       := '';      // Nickname (3-4 lowercase letters from username)
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
     Member     := False;   // Is this player a member?
@@ -76,7 +76,6 @@ begin
   begin
     Name       := '';
     Pass       := '';
-    Nick       := '';
     Pin        := '';
     Active     := True;
     Member     := False;
@@ -95,7 +94,6 @@ begin
   begin
     Name       := '';
     Pass       := '';
-    Nick       := '';
     Pin        := '';
     Active     := True;
     Member     := False;
@@ -114,7 +112,6 @@ begin
   begin
     Name       := '';
     Pass       := '';
-    Nick       := '';
     Pin        := '';
     Active     := True;
     Member     := False;
@@ -133,7 +130,6 @@ begin
   begin
     Name       := '';
     Pass       := '';
-    Nick       := '';
     Pin        := '';
     Active     := True;
     Member     := False;
@@ -152,7 +148,6 @@ begin
   begin
     Name       := '';
     Pass       := '';
-    Nick       := '';
     Pin        := '';
     Active     := True;
     Member     := False;
@@ -171,7 +166,6 @@ begin
   begin
     Name       := '';
     Pass       := '';
-    Nick       := '';
     Pin        := '';
     Active     := True;
     Member     := False;
@@ -190,7 +184,6 @@ begin
   begin
     Name       := '';
     Pass       := '';
-    Nick       := '';
     Pin        := '';
     Active     := True;
     Member     := False;
@@ -276,8 +269,8 @@ begin
   begin
     ReflectionBroken := True;
     {$IFNDEF SPS}
-    Writeln('Reflection is broken/not selected, and SPS isn''t defined. Please '+
-            'select reflection walking, or download SPS from SRL-Forums.');
+    ShowMessage('Reflection is broken/not selected, and SPS isn''t defined. Please '+
+                'select reflection walking, or download SPS from SRL-Forums.');
     TerminateScript;
     {$ENDIF}
   end;
@@ -307,6 +300,7 @@ begin
     Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
   end;
 
+  MSI_SetupVars[SETUP_PRINT_REPORT] := True;
   MSI_Mainloop;
 end.
 
