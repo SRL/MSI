@@ -1,5 +1,38 @@
-// Extras.simba
+(*
+Extras
+======
 
+The Extras file holds any functions or procedures that are used in MSI's Extras
+system.
+
+The source for Locations.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Extras.simba>`_.
+
+*)
+
+(*
+MSI_LoadAllExtras
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllExtras;
+
+Loads all of MSI's extras and stores them in the MSI_Extras array.  If the user
+decides not to use a certain extra, it won't be loaded.  This procedure should
+only be called in MSI_Setup;
+
+.. note::
+
+  | Author: Zyt3x
+  | Last Updated: 18 May 2011 by Zyt3x
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadAllExtras;
+*)
 procedure MSI_LoadAllExtras;
 var
   AllExtras : TStringArray;
@@ -80,6 +113,30 @@ begin
   MSI_CloseHeader('MSI_LoadAllExtras');
 end;
 
+(*
+MSI_CallProc
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_CallProc(Proc: String; V: TVariantArray): Integer;
+
+Call's Simba's built in function CallProc.  MSI_CallProc will return an integer
+constant to tell the pointed procedure what to do.  For example, returning
+EXTRA_CONTINUE will call the Extra procedure then continue with the MSI
+procedure.  This procedure should only be called in MSI_PointerCall;
+
+.. note::
+
+  | Author: Zyt3x
+  | Last Updated: 18 May 2011 by Zyt3x
+
+Example:
+
+.. code-block:: pascal
+
+  Result := MSI_CallProc(MSI_Pointers[CurrentPointer].FunctionCall, V);
+*)
 function MSI_CallProc(Proc : String; V : TVariantArray): Integer;
 var
   vArr : TVariantArray;
@@ -93,6 +150,31 @@ begin
   end;
 end;
 
+(*
+MSI_PointerCall
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_PointerCall(FunctionCallConstant: Integer; V: TVariantArray): Integer;
+
+This is the function to call in MSI's pointed procedures.  It will execute the
+procedure that was pointed by one of MSI's extras.
+
+.. note::
+
+  | Author: Zyt3x
+  | Last Updated: 18 May 2011 by Zyt3x
+
+Example:
+
+.. code-block:: pascal
+
+  case MSI_PointerCall(MSI_OnPlayerSetup, []) of
+    EXTRA_CONTINUE: ;
+    EXTRA_EXIT: Exit;
+  end;
+*)
 function MSI_PointerCall(FunctionCallConstant : Integer; V : TVariantArray): Integer;
 begin
   CurrentPointer := FunctionCallConstant;

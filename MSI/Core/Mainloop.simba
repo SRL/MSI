@@ -24,7 +24,7 @@ current script's setup procedure.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 11 February 2010 by Coh3n
+  | Last Updated: 18 May 2011 by Coh3n
 
 Example:
 
@@ -34,6 +34,8 @@ Example:
     MSI_UnsetPlayer('Failed to setup player', False);
 *)
 function MSI_SetupPlayer: Boolean;
+var
+  i: Integer;
 begin
   MSI_AddHeader('MSI_SetupPlayer');
 
@@ -63,14 +65,23 @@ begin
 
   // Standard setup procedures
   MSI_FindRandoms(True);
-  SetAngle(True);
+  ClickNorth(True);
   RunEnergy(20);
 
   // Setup the player
   with MSI_Players[CurrentPlayer] do
   begin
+    // Get the player's skill levels for each script
     if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
       MSI_SetSkillLevels();
+
+    // Check to see if there's items in the set exceptions array
+    for i := 0 to High(Scripts[CurrentScript].Exceptions) do
+      if (not ExistsItem(Scripts[CurrentScript].Exceptions[i])) then
+      begin
+        MSI_Debug('No item found in inventory slot: '+IntToStr(i));
+        DeleteValueInIntArray(Scripts[CurrentScript].Exceptions, i);
+      end;
 
     Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
   end;
@@ -503,7 +514,7 @@ begin
     t := (GetSystemTime + ((MSI_SetupVars[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
     while GetSystemTime < t do
     begin
-      Status('Break time remaining: '+MsToTime(t - GetSystemTime, Time_Formal));
+      MSI_Debug('Break time remaining: '+MsToTime(t - GetSystemTime, Time_Formal));
       Wait(RandomRange(2000, 25000));
       if LoggedIn then
         MSI_FindRandoms(False);

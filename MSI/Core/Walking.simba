@@ -110,6 +110,8 @@ begin
 
     Result := TileOnMM(Tile);
 
+    RunEnergy(ENERGY_MIN);
+    MSI_WaitWhileResting;
     MSI_FindRandoms(False);
     MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
     Wait(RandomRange(200, 500));
@@ -659,7 +661,7 @@ as well as the current state of reflection.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 27 February 2010 by Coh3n
+  | Last Updated: 18 May 2011 by Coh3n
 
 Example:
 
@@ -669,11 +671,15 @@ Example:
   MSI_PerformWalk(LOC_VE_BANK, LOC_VE_MINE);
 *)
 function MSI_PerformWalk(startLoc, endLoc: Integer): Boolean;
+var
+  ang: Extended;
 begin
   if (not LoggedIn) then
     Exit;
 
-  MakeCompass('n');
+  ang := rs_GetCompassAngleDegrees;
+  if (ang <> 0.0) then
+    ClickNorth(True);
   MSI_FindRandoms(True);
 
   Result := MSI_WalkPath(startLoc, endLoc);

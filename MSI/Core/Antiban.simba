@@ -211,6 +211,11 @@ Example:
         Exit;
 *)
 function MSI_NoMouseFindRandoms: Boolean;
+{$IFNDEF REFLECTION}
+var
+  cont: boolean;
+  i: integer;
+{$ENDIF}
 begin
   if (not LoggedIn) then
     Exit;

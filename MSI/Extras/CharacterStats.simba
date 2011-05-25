@@ -66,12 +66,14 @@ Procedure Bobzilla_GetData;
 var
   I : Integer;
 begin
+  MSI_SubDebug('Bobzilla_GetData: Getting skill levels');
   SetLength(Players[CurrentPlayer].Arrays[1], 25);
   {$IFDEF REFLECTION}
   if (not ReflectionBroken) then
+  begin
     for I := SKILL_ATTACK to SKILL_DUNGEONEERING do
-      Players[CurrentPlayer].Arrays[1][I] := R_GetSkillLevel(I)
-  else
+      Players[CurrentPlayer].Arrays[1][I] := R_GetSkillLevel(I);
+  end else
     for I := SKILL_ATTACK to SKILL_DUNGEONEERING do
       Players[CurrentPlayer].Arrays[1][I] := GetSkillLevel(I);
   {$ELSE}
