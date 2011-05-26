@@ -271,16 +271,16 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Draynor bank';
-         UpText             := 'ooth';
+         UpText             := 'ount';
          Option             := 'uick';
-         Colors             := [869212];
+         Colors             := [5136741];
          Tol                := 5;
-         Hue                := 0.05;
-         Sat                := 0.29;
+         Hue                := 0.73;
+         Sat                := 0.49;
          FindAllColors      := False;
-         W                  := 50;
-         H                  := 50;
-         Accuracy           := 20;
+         W                  := 10;
+         H                  := 10;
+         Accuracy           := 15;
          SearchArea         := IntToBox(MSX1, MSY1, MSCX + 200, MSY2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
