@@ -434,7 +434,7 @@ begin
     FISH_RAW_SARDINE   : Result := 9940887;
     FISH_RAW_HERRING   : Result := 10461094;
     FISH_RAW_TROUT     : Result := 9934750;
-    FISH_RAW_PIKE      : Result := 10269852;
+    FISH_RAW_PIKE      : Result := 6319968;
     FISH_RAW_SALMON    : Result := 5924258;
     FISH_RAW_TUNA      : Result := 9408662;
     FISH_RAW_LOBSTER   : Result := 2244720;

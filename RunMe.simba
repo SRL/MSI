@@ -300,7 +300,10 @@ begin
     Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
   end;
 
-  MSI_SetupVars[SETUP_PRINT_REPORT] := True;
+  // This boolean isn't yet in the player form
+  if (USE_FORM) then
+    MSI_SetupVars[SETUP_PRINT_REPORT] := True;
+
   MSI_Mainloop;
 end.
 
