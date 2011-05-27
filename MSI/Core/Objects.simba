@@ -49,8 +49,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Normal Tree';
-        UpText             := 'ree';
-        Option             := 'own Tree';
+        UpText             := ['ree'];
+        Options            := ['own Tree'];
         Level              := 1;
         Colors             := [2117186];
         Tol                := 6;
@@ -77,8 +77,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Oak Tree';
-        UpText             := 'Oak';
-        Option             := 'own Oak';
+        UpText             := ['Oak'];
+        Options            := ['own Oak'];
         Level              := 15;
         Colors             := [6330764, 6398099, 6133129, 6527886, 6464148];
         Tol                := 10;
@@ -105,8 +105,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Willow tree';
-        UpText             := 'wn Wil';
-        Option             := 'Chop down Willow';
+        UpText             := ['wn Wil'];
+        Options            := ['Chop down Willow'];
         Level              := 30;
         Colors             := [4481105];
         Tol                := 14;
@@ -133,8 +133,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Willow tree';
-        UpText             := 'wn Wil';
-        Option             := 'Chop down Willow';
+        UpText             := ['wn Wil'];
+        Options            := ['Chop down Willow'];
         Level              := 30;
         Colors             := [2843496];
         Tol                := 2;
@@ -160,8 +160,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Maple tree';
-        UpText             := 'wn Map';
-        Option             := 'Chop down Maple';
+        UpText             := ['wn Map'];
+        Options            := ['Chop down Maple'];
         Level              := 45;
         Colors             := [1187644];
         Tol                := 4;
@@ -188,8 +188,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Yew Tree';
-        UpText             := 'own Yew';
-        Option             := 'Chop down Yew';
+        UpText             := ['own Yew'];
+        Options            := ['Chop down Yew'];
         Level              := 60;
         Colors             := [2314052];
         Tol                := 9;
@@ -216,8 +216,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Magic tree';
-        UpText             := 'gic tre';
-        Option             := 'down Mag';
+        UpText             := ['gic tre'];
+        Options            := ['down Mag'];
         Level              := 75;
         Colors             := [11069677];
         Tol                := 18;
@@ -246,8 +246,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Varrock east bank';
-        UpText             := 'ooth';
-        Option             := 'uick';
+        UpText             := ['ooth'];
+        Options            := ['uick'];
         Colors             := [6715005];//2379871
         Tol                := 4;
         Hue                := 0.19;
@@ -271,16 +271,16 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Draynor bank';
-         UpText             := 'ooth';
-         Option             := 'uick';
-         Colors             := [869212];
+         UpText             := ['ount'];
+         Options            := ['uick'];
+         Colors             := [5136741];
          Tol                := 5;
-         Hue                := 0.05;
-         Sat                := 0.29;
+         Hue                := 0.73;
+         Sat                := 0.49;
          FindAllColors      := False;
-         W                  := 50;
-         H                  := 50;
-         Accuracy           := 20;
+         W                  := 10;
+         H                  := 10;
+         Accuracy           := 15;
          SearchArea         := IntToBox(MSX1, MSY1, MSCX + 200, MSY2);
          ExcludeSelf        := True;
          RightClickOnly     := True;
@@ -296,8 +296,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Grand Exchange bank';
-         UpText             := 'anker';
-         Option             := 'ank Banker';
+         UpText             := ['anker'];
+         Options            := ['ank Banker'];
          Colors             := [1270921];
          Tol                := 7;
          Hue                := 0.04;
@@ -321,8 +321,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Falador east bank';
-         UpText             := 'ooth';
-         Option             := 'uick';
+         UpText             := ['ooth'];
+         Options            := ['uick'];
          Colors             := [7044234];
          Tol                := 5;
          Hue                := 0.24;
@@ -346,8 +346,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Varrock west bank';
-         UpText             := 'ooth';
-         Option             := 'uick';
+         UpText             := ['ooth'];
+         Options            := ['uick'];
          Colors             := [5794933];
          Tol                := 8;
          Hue                := 0.13;
@@ -371,8 +371,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Falador west bank';
-         UpText             := 'ooth';
-         Option             := 'uick';
+         UpText             := ['ooth'];
+         Options            := ['uick'];
          Colors             := [3627376];
          Tol                := 6;
          Hue                := 0.17;
@@ -395,8 +395,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Edgeville bank';
-         UpText             := 'ooth';
-         Option             := 'uick';
+         UpText             := ['ooth', 'nk Bo'];
+         Options            := ['uick', 'ickly'];
          Colors             := [4149854, 4215904];
          Tol                := 3;
          Hue                := 0.21;
@@ -420,8 +420,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Port Sarim deposit box';
-         UpText             := 'eposit';
-         Option             := 'it Bank';
+         UpText             := ['eposit'];
+         Options            := ['it Bank'];
          Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
          Tol                := 12;
          Hue                := 0.05;
@@ -445,8 +445,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Seers Village Bank';
-        UpText             := 'ooth';
-        Option             := 'uick';
+        UpText             := ['ooth'];
+        Options            := ['uick'];
         Colors             := [10464171];
         Tol                := 2;
         Hue                := 0.76;
@@ -470,8 +470,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Al-Kharid Bank';
-        UpText             := 'ooth';
-        Option             := 'uick';
+        UpText             := ['ooth'];
+        Options            := ['uick'];
         Colors             := [4870229];
         Tol                := 3;
         Hue                := 0.76;
@@ -495,8 +495,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Catherby bank';
-         UpText             := 'ooth';
-         Option             := 'uick';
+         UpText             := ['ooth'];
+         Options            := ['uick'];
          Colors             := [6714503];
          Tol                := 11;
          Hue                := 0.34;
@@ -522,8 +522,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Clay';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 1;
         Colors             := [5938111];
         Tol                := 13;
@@ -550,8 +550,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Copper';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 1;
         Colors             := [2650323];
         Tol                := 16;
@@ -578,8 +578,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Tin';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 1;
         Colors             := [7500665];
         Tol                := 14;
@@ -606,8 +606,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Iron';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 15;
         Colors             := [3030375];
         Tol                := 8;
@@ -634,8 +634,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Silver';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 20;
         Colors             := [14408944];
         Tol                := 8;
@@ -662,8 +662,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Coal';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 30;
         Colors             := [2171426];
         Tol                := 5;
@@ -690,8 +690,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Gold';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 40;
         Colors             := [4702956];
         Tol                := 5;
@@ -718,8 +718,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Mithril';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 55;
         Colors             := [16624810];
         Tol                := 15;
@@ -746,8 +746,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'Adamantite';
-        UpText             := 'ocks';
-        Option             := 'ine';
+        UpText             := ['ocks'];
+        Options            := ['ine'];
         Level              := 70;
         Colors             := [13100486, 15072730, 13953738];
         Tol                := 10;
@@ -800,8 +800,8 @@ begin
           with MSI_Objects[whichObject] do
           begin
             Name               := 'Net Spot';
-            UpText             := 'Net';
-            Option             := 'Net';
+            UpText             := ['Net'];
+            Options            := ['Net'];
             Level              := 1;
             RightClickOnly     := False;
             AssociatedItems    := [FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE];
@@ -811,8 +811,8 @@ begin
           with MSI_Objects[whichObject] do
           begin
             Name               := 'Bait Spot';
-            UpText             := 'Net';
-            Option             := 'Bait';
+            UpText             := ['Net', 'Bait', 'Lure'];
+            Options            := ['Bait'];
             Level              := 5;
             RightClickOnly     := True;
             AssociatedItems    := [FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE];
@@ -822,8 +822,8 @@ begin
           with MSI_Objects[whichObject] do
           begin
             Name               := 'Lure Spot';
-            UpText             := 'Lure Fish';
-            Option             := 'Lure';
+            UpText             := ['Lure Fish'];
+            Options            := ['Lure'];
             Level              := 20;
             RightClickOnly     := False;
             AssociatedItems    := [FISH_RAW_TROUT, FISH_RAW_SALMON];
@@ -833,8 +833,8 @@ begin
           with MSI_Objects[whichObject] do
           begin
             Name               := 'Cage Spot';
-            UpText             := 'Cage';
-            Option             := 'Cage';
+            UpText             := ['Cage'];
+            Options            := ['Cage'];
             Level              := 40;
             RightClickOnly     := False;
             AssociatedItems    := [FISH_RAW_LOBSTER];
@@ -844,8 +844,8 @@ begin
           with MSI_Objects[whichObject] do
           begin
             Name               := 'Harpooning Spot';
-            UpText             := 'Cage';
-            Option             := 'Harpoon';
+            UpText             := ['Cage'];
+            Options            := ['Harpoon'];
             Level              := 35;
             RightClickOnly     := True;
             AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH];
@@ -859,8 +859,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := 'AK Cooking Range';
-        UpText             := 'Range';
-        Option             := 'Range';
+        UpText             := ['Range'];
+        Options            := ['Range'];
         Colors             := [1779380, 1779646];
         Tol                := 20;
         Hue                := 0.06;
@@ -889,8 +889,8 @@ begin
       with MSI_Objects[whichObject] do
       begin
         Name               := '';
-        UpText             := '';
-        Option             := '';
+        UpText             := [''];
+        Options            := [''];
         Colors             := [0];
         Tol                := 0;
         Hue                := 0.00;
@@ -917,8 +917,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Mining Guild Ladder: Down';
-         UpText             := 'own Ladder';
-         Option             := 'own Ladder';
+         UpText             := ['own Ladder'];
+         Options            := ['own Ladder'];
          Colors             := [2709359];
          Tol                := 8;
          Hue                := 0.05;
@@ -943,8 +943,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Mining Guild Ladder: Up';
-         UpText             := 'up Ladder';
-         Option             := 'up Ladder';
+         UpText             := ['up Ladder'];
+         Options            := ['up Ladder'];
          Colors             := [4410190];
          Tol                := 8;
          Hue                := 0.26;
@@ -969,8 +969,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Falador West Crumbling Wall';
-         UpText             := 'rumbling wall';
-         Option             := 'rumbling wall';
+         UpText             := ['rumbling wall'];
+         Options            := ['rumbling wall'];
          Colors             := [9092811];
          Tol                := 24;
          Hue                := 0.04;
@@ -996,8 +996,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Bird''s nest';
-         UpText             := 's nest';
-         Option             := 'ake';
+         UpText             := ['s nest'];
+         Options            := ['ake'];
          Colors             := [4016204];
          Tol                := 3;
          Hue                := 0.38;
@@ -1024,8 +1024,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Chicken';
-         UpText             := 'ack Chic';
-         Option             := 'ttac';
+         UpText             := ['ack Chic'];
+         Options            := ['ttac'];
          Colors             := [9554153];
          Tol                := 15;
          Hue                := 0.02;
@@ -1050,8 +1050,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Chicken';
-         UpText             := 'ack Chic';
-         Option             := 'ttac';
+         UpText             := ['ack Chic'];
+         Options            := ['ttac'];
          Colors             := [2777482];
          Tol                := 15;
          Hue                := 0.03;
@@ -1076,8 +1076,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Giant Rat';
-         UpText             := 'ack Gian';
-         Option             := 'ttac';
+         UpText             := ['ack Gian'];
+         Options            := ['ttac'];
          Colors             := [4474440];
          Tol                := 25;
          Hue                := 0.00;
@@ -1102,8 +1102,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Stiles';
-         UpText             := 'tiles';
-         Option             := 'chan';
+         UpText             := ['tiles'];
+         Options            := ['chan'];
          Colors             := [3684667]; //3092273
          Tol                := 10;
          Hue                := 0.93;
@@ -1130,8 +1130,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Feathers';
-         UpText             := '';
-         Option             := 'eath';
+         UpText             := [''];
+         Options            := ['eath'];
          Colors             := [10592954];
          Tol                := 10;
          Hue                := 0.00;
@@ -1156,8 +1156,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Varrock East Fountain';
-         UpText             := 'ount';
-         Option             := 'se';
+         UpText             := ['ount'];
+         Options            := ['se'];
          Colors             := [14520685];
          Tol                := 12;
          Hue                := 0.02;
@@ -1183,8 +1183,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Edgeville Well';
-         UpText             := 'ell';
-         Option             := 'se';
+         UpText             := ['ell'];
+         Options            := ['se'];
          Colors             := [3757413];
          Tol                := 7;
          Hue                := 0.05;
@@ -1210,8 +1210,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Falador Waterpump';
-         UpText             := 'pump';
-         Option             := 'se';
+         UpText             := ['pump'];
+         Options            := ['se'];
          Colors             := [4870997];
          Tol                := 6;
          Hue                := 0.14;
@@ -1239,8 +1239,8 @@ begin
        with MSI_Objects[whichObject] do
        begin
          Name               := 'Al Kharid Furnace';
-         UpText             := 'urnace';
-         Option             := 'melt';
+         UpText             := ['urnace'];
+         Options            := ['melt'];
          Colors             := [2240921];
          Tol                := 16;
          Hue                := 0.06;
@@ -1714,14 +1714,20 @@ Begin
 
   MSI_AddHeader('MSI_FindObjectsIn ' + ToStr(Objs));
 
-  Hi := High(Objs);
-
-  SetLength(TheOptions, Hi + 1);
-  SetLength(UpTexts, Hi + 1);
   For I := 0 To Hi Do
   Begin
-    UpTexts[I] := MSI_Objects[Objs[I]].UpText;
-    TheOptions[I] := MSI_Objects[Objs[I]].Option;
+
+    for  j := 0 to High(MSI_Objects[Objs[i]].UpText) do
+    begin
+      SetLength(UpTexts, Length(UpTexts) + 1);
+      UpTexts[High(UpTexts)] := MSI_Objects[Objs[i]].UpText[j];
+    end;
+
+    for j := 0 to High(MSI_Objects[Objs[i]].Options) do
+    begin
+      SetLength(TheOptions, Length(TheOptions) + 1);
+      TheOptions[High(TheOptions)] := MSI_Objects[Objs[i]].Options[j];
+    end;
   End;
 
   With MSI_Objects[Objs[II]] Do
@@ -1799,7 +1805,7 @@ Begin
           Wait(20 + Random(50));
 
           If CheckUpText Then
-            if (waitUptext(name, 200) and (not RightClickOnly)) then
+            if (WaitUpTextMulti(UpTexts, 200) and (not RightClickOnly)) then
             begin
               MSI_Debug('Found ground item');
               c := invCount();

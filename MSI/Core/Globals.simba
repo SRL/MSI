@@ -751,8 +751,8 @@ type
   TMSObject = record
     X, Y             : Integer;
     Name             : string;
-    UpText           : string;  // Set to '' if RightClickOnly := True
-    Option           : string;
+    UpText           : TStringArray;  // Set to '' if RightClickOnly := True
+    Options          : TStringArray;
     Exp              : Extended;
     Level            : Integer; // The skill level required
     Colors           : TIntegerArray;
