@@ -370,7 +370,7 @@ begin
       with MSI_Players[CurrentPlayer] do
       begin
         RunEnergy(20);
-       gameTab(TAB_INV);
+        GameTab(TAB_INV);
 
         with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
           case (MSI_Scripts[Name].SkillConst) of
