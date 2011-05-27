@@ -811,7 +811,7 @@ begin
           with MSI_Objects[whichObject] do
           begin
             Name               := 'Bait Spot';
-            UpText             := ['Net', 'Bait'];
+            UpText             := ['Net', 'Bait', 'Lure'];
             Options            := ['Bait'];
             Level              := 5;
             RightClickOnly     := True;
