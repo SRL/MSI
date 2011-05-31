@@ -1804,28 +1804,18 @@ Begin
           MMouse(TPA[I].X, TPA[I].Y, 2, 2);
           Wait(20 + Random(50));
 
-          If CheckUpText Then
-            if (WaitUpTextMulti(UpTexts, 200) and (not RightClickOnly)) then
+          if (not CheckUpText) then
+            Result := True
+          else
+            if (WaitUptextMulti(UpTexts, 150 + Random(20)) or WaitUptext('ake', 200)) then
             begin
-              MSI_Debug('Found ground item');
-              c := invCount();
-              getMousePos(x, y);
-              mouse(x, y, 0, 0, true);
-              wait(randomRange(1000, 2000));
-              MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
-              notBoxes := [];
-              exit;
-            end else
-              if (WaitUpTextMulti(UpTexts, 150 + Random(20))) then
-              begin
-                MSI_Debug('Uptext found!');
-                Result := True;
-              end else begin
-                SetLength(notBoxes, Length(notBoxes) + 1);
-                notBoxes[High(notBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
-              end
-          Else
-            Result := True;
+              MSI_Debug('Uptext found!');
+              Result := True;
+            end else begin
+              // Add to the bad boxes array
+              SetLength(NotBoxes, Length(NotBoxes) + 1);
+              NotBoxes[High(NotBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
+            end;
 
           If (Action = Move) Then
           begin
