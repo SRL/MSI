@@ -65,9 +65,6 @@ const
   DTM_TOLERANCE        = 10;    // Tolerance on the DTMs
   TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
 
-  ENERGY_MIN = 0;
-  ENERGY_MAX = 30;
-
 (*
 Script Constants
 ~~~~~~~~~~~~~~~~

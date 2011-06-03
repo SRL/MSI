@@ -110,7 +110,6 @@ begin
 
     Result := TileOnMM(Tile);
 
-    RunEnergy(ENERGY_MIN);
     MSI_WaitWhileResting;
     MSI_FindRandoms(False);
     MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
