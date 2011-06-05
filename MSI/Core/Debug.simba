@@ -246,7 +246,7 @@ begin
 
       PROG_ADD_CASTS:
         begin
-          Inc(ScriptCounts[CurrentScript]);
+          IncEx(ScriptCounts[CurrentScript], quant);
         end;
 
       else

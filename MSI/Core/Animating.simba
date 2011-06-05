@@ -194,7 +194,7 @@ begin
           break;
         end;
 
-        MSI_NoMouseFindRandoms;
+        MSI_FindRandoms(false);
         b := false;
         wait(10);
       end;

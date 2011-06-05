@@ -235,7 +235,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  t := (GetSystemTime + (60000 * 5));
+  t := (GetSystemTime + (60000 * 3));
 
   repeat
     with MSI_Players[CurrentPlayer] do

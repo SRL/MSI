@@ -112,6 +112,37 @@ Begin
 End;
 
 (*
+MSI_LevelUp
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LevelUp();
+
+Checks to see if the player has leveled up.  Calls SRL's LevelUp procedure.
+Will increase the stats variable if the player is found to have gained a level.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 04 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LevelUp();
+*)
+procedure MSI_LevelUp();
+begin
+  if (LevelUp) then
+  begin
+    MSI_SubDebug('MSI_LevelUp: Player has leveled up!');
+    stats_IncVariable('Total Levels Gained', 1);
+  end;
+end;
+
+(*
 MSI_FindRandoms
 ~~~~~~~~~~~~~~~
 
@@ -145,14 +176,9 @@ begin
   if (not LoggedIn) then
     Exit;
 
+  MSI_LevelUp();
   if (LeaveDangerZone) then
-    MSI_Debug('Left danger zone');
-
-  if (LevelUp) then
-  begin
-    MSI_SubDebug('MSI_FindRandoms: Player has leveled up!');
-    stats_IncVariable('Total Levels Gained', 1);
-  end;
+    MSI_SubDebug('Left danger zone');
 
   gameTab(TAB_INV);
 
@@ -187,30 +213,30 @@ end;
 
 (*
 MSI_NoMouseFindRandoms
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_NoMouseFindRandoms: Boolean;
+  function MSI_NoMouseFindRandoms(force: boolean): boolean;
 
 Checks to see if the player has encountered a random event. By default, MSI waits a minimum of 15 seconds
 in between randoms scans (changable by user in the script setup).
 
 .. note::
 
-  | Author: Coh3n & FindNormalRandoms & NCDS
-  | Last Updated: 12 March 2011 by NCDS
+  | Author: Coh3n, FindNormalRandoms, & NCDS
+  | Last Updated: 04 June 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
   if (not FindObjects) then // Note that FindObjects is used only as an example
-    if MSI_NoMouseFindRandoms then
+    if MSI_NoMouseFindRandoms(true) then
       if (not LoggedIn) then
         Exit;
 *)
-function MSI_NoMouseFindRandoms: Boolean;
+function MSI_NoMouseFindRandoms(force: boolean): boolean;
 {$IFNDEF REFLECTION}
 var
   cont: boolean;
@@ -220,14 +246,11 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  if (LevelUp) then
-  begin
-    MSI_SubDebug('MSI_FindRandoms: Player has leveled up!');
-    stats_IncVariable('Total Levels Gained', 1);
-  end;
+  MSI_LevelUp();
 
-  if (NextRandCheck > GetSystemTime) then
-    Exit;
+  if (not force) then
+    if (nextRandCheck > getSystemTime) then
+      exit;
 
   MSI_SubDebug('Scanning for randoms...');
   {$IFDEF REFLECTION}
