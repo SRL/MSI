@@ -506,7 +506,8 @@ const
   MSI_BANK_AK = 37;
   MSI_BANK_CB = 38;
   MSI_BANK_FW = 39;
-  DBOX_PS = 40;
+
+  DBOX_PS = 45;
 
   // Fishing spots
   FISHSPOT_NET     = 50;
@@ -516,8 +517,7 @@ const
   FISHSPOT_HARPOON = 54;
 
   // Cooking spots
-  COOKSPOT_FIRE   = 60;
-  COOKSPOT_AK_RANGE  = 61;
+  COOKSPOT_AK_RANGE = 60;
 
   // Obstacles
   LADDER_DOWN_MINE_GUILD      = 70;
@@ -525,21 +525,16 @@ const
   LADDER_UP_MINE_GUILD        = 80;
 
   // NPCs
-  NPC_CHICKEN_WHITE = 90;
-  NPC_CHICKEN_BROWN = 91;
-  NPC_RAT_GIANT     = 92;
   NPC_STILES        = 93;
 
   // Misc Objects
   OBJ_BIRD_NEST       = 100;
   BIRD_NEST_CBMESSAGE = 'nest falls out of';
 
-  LOOT_FEATHERS = 101;
-
   // Water Sources
   FOUNTAIN_VE = 110;
-  WELL_EV = 111;
-  PUMP_FW = 112;
+  WELL_EV     = 111;
+  PUMP_FW     = 112;
 
   // Furnaces
   FURNACE_AK = 120;
@@ -746,30 +741,26 @@ throughout MSI scripts.
 *)
 type
   TMSObject = record
-    X, Y             : Integer;
-    Name             : string;
-    UpText           : TStringArray;  // Set to '' if RightClickOnly := True
+    X, Y             : Integer;       // Set during runtime, not in declaration
+    Name             : string;        // The object's name (doesn''t have to be the same as in-game)
+    Uptexts          : TStringArray;
     Options          : TStringArray;
-    Exp              : Extended;
-    Level            : Integer; // The skill level required
+    Exp              : Extended;      // Experienced gained from object
+    Level            : Integer;       // The skill level required
     Colors           : TIntegerArray;
-    FindAllColors    : Boolean; // Set to true if each TPA needs to include every color in 'Colors'
+    FindAllColors    : Boolean;       // Set to true if all the colors need to be found
     Tol              : Integer;
     Hue              : Extended;
     Sat              : Extended;
-    W, H             : Integer;
-    Accuracy         : Integer; // Min pixels to be found in each TPA
-    SearchArea       : TBox;    // Box to search for object. Carries the Values of MSBox by default.
-    ExcludeSelf      : Boolean; // Exclude pixels in a box around the player
+    W, H             : Integer;       // Width and Height of the object
+    Accuracy         : Integer;       // Min pixels to be found in each TPA
+    SearchArea       : TBox;          // Box to search for object. Carries the Values of MSBox by default.
+    ExcludeSelf      : Boolean;       // Exclude pixels in a box around the player
     RightClickOnly   : Boolean;
-    Tries            : Integer;
-    Anim             : Boolean; // Set to true if object is animating
-    WaitToMove       : Boolean; // When clicked, wait till we have stopped moving? Calls Flag;
-    Track            : Boolean; // When clicked, track the object while the player moves? Calls MSI_TrackObject;
-    MaxTime          : Integer; // Max time (in ms) to wait for the object to disappear
-    BadColors        : TIntegerArray;
-    BadColorTolerance: Integer;
-    AssociatedItems  : TIntegerArray;
+    WaitToMove       : Boolean;       // When clicked, wait till we have stopped moving? Calls Flag;
+    Track            : Boolean;       // When clicked, track the object while the player moves? Calls MSI_TrackObject;
+    MaxTime          : Integer;       // Max time (in ms) to wait for the object to disappear
+    AssociatedItems  : TIntegerArray; // The items that can be gained from interacting with object
   end;
 
   TMSObjectArray = array of TMSObject;

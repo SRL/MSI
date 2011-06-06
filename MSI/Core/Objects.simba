@@ -3,8 +3,9 @@ Objects
 =======
 
 The Objects file has any function needed to find an object on the main screen,
-or even in any specified box.  These functions access MSI's global objects
-array, MSI_Objects.
+or even in any specified box.  These functions pass a TMSObject type.  Detailed
+descriptions of the type can be found in
+`Globals.simba <https://github.com/SRL/MSI/raw/master/MSI/Core/Objects.simba>`_.
 
 The source for Objects.simba can be found
 `here <https://github.com/SRL/MSI/raw/master/MSI/Core/Objects.simba>`_.
@@ -15,32 +16,30 @@ The source for Objects.simba can be found
    DIST_PIXEL_MOVE = 15; // MSI_TrackObject
 
  var
-   NotBoxes: TBoxArray; // Used to track bad TPA points and avoid hovering wrong objects
+   MSI_NotBoxes: TBoxArray; // Used to track bad TPA points and avoid hovering wrong objects
 
 (*
-MSI_LoadObject
-~~~~~~~~~~~~~~
+MSI_GetObject
+~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_LoadObject(whichObject: Integer): Boolean;
+  function MSI_GetObject(Obj: Integer): TMSObject;
 
-Load all the necessary object information; should only be called in
-MSI_LoadAllObjects.  Loads the object 'whichObject' into the MSI_Objects array.
+Getst the TMSObject attributes for the object 'Obj'.
 
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 20 April 2011 by Coh3n
+  | Last Updated: 06 June 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if (MSI_LoadObject(TREE_NORMAL)) then
-    MSI_Debug('Loaded normal tree object');
+  normalTree := MSI_GetObject(TREE_NORMAL);
 *)
-function MSI_LoadObject(whichObject: Integer): Boolean;
+function MSI_GetObject(Obj: Integer): TMSObject;
 begin
   case whichObject of
     { TREES ====================================== ]
@@ -62,14 +61,8 @@ begin
         Accuracy           := 10;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
         Track              := False;
-        MaxTime            := 10000;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_NORMAL];
       end;
 
@@ -90,14 +83,8 @@ begin
         Accuracy           := 10;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
         Track              := False;
-        MaxTime            := 20000;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_OAK];
       end;
 
@@ -118,16 +105,10 @@ begin
         Accuracy           := 10;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
         Track              := False;
-        MaxTime            := 30000;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_WILLOW];
-      End;
+      end;
 
     TREE_WILLOW_NEW:
       with MSI_Objects[whichObject] do
@@ -146,15 +127,9 @@ begin
         Accuracy           := 10;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        MaxTime            := 30000;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_WILLOW];
-      End;
+      end;
 
     TREE_MAPLE:
       with MSI_Objects[whichObject] do
@@ -173,14 +148,8 @@ begin
         Accuracy           := 10;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
         Track              := False;
-        MaxTime            := 35000;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_MAPLE];
       end;
 
@@ -201,14 +170,8 @@ begin
         Accuracy           := 15;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
         Track              := False;
-        MaxTime            := 60000;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_YEW];
       end;
 
@@ -230,13 +193,8 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         RightClickOnly     := False;
-        Tries              := 20;
-        Anim               := False;
         WaitToMove         := True;
         MaxTime            := 90000;
-        Track              := False;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [LOGS_MAGIC];
       end;
 
@@ -248,7 +206,7 @@ begin
         Name               := 'Varrock east bank';
         UpText             := ['ooth'];
         Options            := ['uick'];
-        Colors             := [6715005];//2379871
+        Colors             := [6715005];
         Tol                := 4;
         Hue                := 0.19;
         Sat                := 0.31;
@@ -256,190 +214,150 @@ begin
         W                  := 33;
         H                  := 30;
         Accuracy           := 15;
-        SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
+        SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;
-        Tries              := 7;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := False;
-        BadColors          := [];
-        BadColorTolerance  := 10;
       end;
 
-     MSI_BANK_DB:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Draynor bank';
-         UpText             := ['ount'];
-         Options            := ['uick'];
-         Colors             := [5136741];
-         Tol                := 5;
-         Hue                := 0.73;
-         Sat                := 0.49;
-         FindAllColors      := False;
-         W                  := 10;
-         H                  := 10;
-         Accuracy           := 15;
-         SearchArea         := IntToBox(MSX1, MSY1, MSCX + 200, MSY2);
-         ExcludeSelf        := True;
-         RightClickOnly     := True;
-         Tries              := 20;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+    MSI_BANK_DB:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Draynor bank';
+        UpText             := ['ount'];
+        Options            := ['uick'];
+        Colors             := [5136741];
+        Tol                := 5;
+        Hue                := 0.73;
+        Sat                := 0.49;
+        FindAllColors      := False;
+        W                  := 10;
+        H                  := 10;
+        Accuracy           := 15;
+        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 200, MSY2);
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+      end;
 
-     MSI_BANK_GE:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Grand Exchange bank';
-         UpText             := ['anker'];
-         Options            := ['ank Banker'];
-         Colors             := [1270921];
-         Tol                := 7;
-         Hue                := 0.04;
-         Sat                := 0.23;
-         FindAllColors      := False;
-         W                  := 10;
-         H                  := 10;
-         Accuracy           := 15;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := True;
-         Tries              := 10;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+    MSI_BANK_GE:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Grand Exchange bank';
+        UpText             := ['anker'];
+        Options            := ['ank Banker'];
+        Colors             := [1270921];
+        Tol                := 7;
+        Hue                := 0.04;
+        Sat                := 0.23;
+        FindAllColors      := False;
+        W                  := 10;
+        H                  := 10;
+        Accuracy           := 15;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+      end;
 
-     MSI_BANK_FE:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Falador east bank';
-         UpText             := ['ooth'];
-         Options            := ['uick'];
-         Colors             := [7044234];
-         Tol                := 5;
-         Hue                := 0.24;
-         Sat                := 0.47;
-         FindAllColors      := False;
-         W                  := 35;
-         H                  := 40;
-         Accuracy           := 20;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := True;
-         Tries              := 8;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+    MSI_BANK_FE:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Falador east bank';
+        UpText             := ['ooth'];
+        Options            := ['uick'];
+        Colors             := [7044234];
+        Tol                := 5;
+        Hue                := 0.24;
+        Sat                := 0.47;
+        FindAllColors      := False;
+        W                  := 35;
+        H                  := 40;
+        Accuracy           := 20;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+      end;
 
-     MSI_BANK_VW:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Varrock west bank';
-         UpText             := ['ooth'];
-         Options            := ['uick'];
-         Colors             := [5794933];
-         Tol                := 8;
-         Hue                := 0.13;
-         Sat                := 0.69;
-         FindAllColors      := False;
-         W                  := 15;
-         H                  := 30;
-         Accuracy           := 20;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := True;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+    MSI_BANK_VW:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Varrock west bank';
+        UpText             := ['ooth'];
+        Options            := ['uick'];
+        Colors             := [5794933];
+        Tol                := 8;
+        Hue                := 0.13;
+        Sat                := 0.69;
+        FindAllColors      := False;
+        W                  := 15;
+        H                  := 30;
+        Accuracy           := 20;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+      end;
 
-     MSI_BANK_FW:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Falador west bank';
-         UpText             := ['ooth'];
-         Options            := ['uick'];
-         Colors             := [3627376];
-         Tol                := 6;
-         Hue                := 0.17;
-         Sat                := 0.94;
-         FindAllColors      := False;
-         W                  := 15;
-         H                  := 30;
-         Accuracy           := 20;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := True;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+    MSI_BANK_FW:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Falador west bank';
+        UpText             := ['ooth'];
+        Options            := ['uick'];
+        Colors             := [3627376];
+        Tol                := 6;
+        Hue                := 0.17;
+        Sat                := 0.94;
+        FindAllColors      := False;
+        W                  := 15;
+        H                  := 30;
+        Accuracy           := 20;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+      end;
 
-     MSI_BANK_EV:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Edgeville bank';
-         UpText             := ['ooth', 'nk Bo'];
-         Options            := ['uick', 'ickly'];
-         Colors             := [4149854, 4215904];
-         Tol                := 3;
-         Hue                := 0.21;
-         Sat                := 0.51;
-         FindAllColors      := False;
-         W                  := 20;
-         H                  := 35;
-         Accuracy           := 50;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := True;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+    MSI_BANK_EV:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Edgeville bank';
+        UpText             := ['ooth', 'nk Bo'];
+        Options            := ['uick', 'ickly'];
+        Colors             := [4149854, 4215904];
+        Tol                := 3;
+        Hue                := 0.21;
+        Sat                := 0.51;
+        FindAllColors      := False;
+        W                  := 20;
+        H                  := 35;
+        Accuracy           := 50;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+      end;
 
-     DBOX_PS:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Port Sarim deposit box';
-         UpText             := ['eposit'];
-         Options            := ['it Bank'];
-         Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
-         Tol                := 12;
-         Hue                := 0.05;
-         Sat                := 0.58;
-         FindAllColors      := False;
-         W                  := 30;
-         H                  := 60;
-         Accuracy           := 20;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 15;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+    DBOX_PS:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Port Sarim deposit box';
+        UpText             := ['eposit'];
+        Options            := ['it Bank'];
+        Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
+        Tol                := 12;
+        Hue                := 0.05;
+        Sat                := 0.58;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 60;
+        Accuracy           := 20;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+      end;
 
     MSI_BANK_SV:
       with MSI_Objects[whichObject] do
@@ -455,15 +373,9 @@ begin
         W                  := 30;
         H                  := 20;
         Accuracy           := 7;
-        SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
+        SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := False;
-        BadColors          := [];
-        BadColorTolerance  := 10;
       end;
 
     MSI_BANK_AK:
@@ -480,41 +392,31 @@ begin
         W                  := 14;
         H                  := 60;
         Accuracy           := 20;
-        SearchArea         := IntToBox(MSx1, MSy1, MSCx, MSy2);
+        SearchArea         := IntToBox(MSX1, MSY1, MSCX, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
-        Tries              := 10;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := False;
-        BadColors          := [];
-        BadColorTolerance  := 10;
       end;
 
     MSI_BANK_CB:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Catherby bank';
-         UpText             := ['ooth'];
-         Options            := ['uick'];
-         Colors             := [6714503];
-         Tol                := 11;
-         Hue                := 0.34;
-         Sat                := 0.92;
-         FindAllColors      := False;
-         W                  := 30;
-         H                  := 20;
-         Accuracy           := 7;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := True;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-       end;
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Catherby bank';
+        UpText             := ['ooth'];
+        Options            := ['uick'];
+        Colors             := [6714503];
+        Tol                := 11;
+        Hue                := 0.34;
+        Sat                := 0.92;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 20;
+        Accuracy           := 7;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+      end;
 
     { ROCKS ====================================== ]
     [============================================= }
@@ -536,13 +438,7 @@ begin
         SearchArea         := MSBox;
         MaxTime            := 5000;
         ExcludeSelf        := False;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_CLAY];
       end;
 
@@ -564,13 +460,7 @@ begin
         SearchArea         := MSBox;
         MaxTime            := 7000;
         ExcludeSelf        := False;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_COPPER];
       end;
 
@@ -592,13 +482,7 @@ begin
         SearchArea         := MSBox;
         MaxTime            := 7000;
         ExcludeSelf        := False;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_TIN];
       end;
 
@@ -620,13 +504,7 @@ begin
         SearchArea         := MSBox;
         MaxTime            := 10000;
         ExcludeSelf        := False;
-        RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_IRON];
       end;
 
@@ -649,12 +527,7 @@ begin
         MaxTime            := 20000;
         ExcludeSelf        := False;
         RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_SILVER];
       end;
 
@@ -677,12 +550,7 @@ begin
         MaxTime            := 35000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_COAL];
       end;
 
@@ -704,13 +572,7 @@ begin
         SearchArea         := MSBox;
         MaxTime            := 45000;
         ExcludeSelf        := False;
-        RightClickOnly     := False;
-        Tries              := 15;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_GOLD];
       end;
 
@@ -733,12 +595,7 @@ begin
         MaxTime            := 55000;
         ExcludeSelf        := True;
         RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_MITHRIL];
       end;
 
@@ -760,98 +617,88 @@ begin
         SearchArea         := MSBox;
         MaxTime            := 75000;
         ExcludeSelf        := True;
-        RightClickOnly     := False;
-        Tries              := 15;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
         AssociatedItems    := [ORE_ADAMANTITE];
       end;
 
     { FISHING SPOTS ============================== ]
     [============================================= }
     FISHSPOT_NET..FISHSPOT_HARPOON:
-    begin
-      //same color info for all spots
-      with MSI_Objects[whichObject] do
       begin
-        Colors             := [11050135];
-        Tol                := 10;
-        Hue                := 0.26;
-        Sat                := 0.62;
-        FindAllColors      := False;
-        W                  := 40;
-        H                  := 40;
-        Accuracy           := 5;
-        SearchArea         := MSBox;
-        ExcludeSelf        := True;
-        Tries              := 5;
-        Anim               := False;
-        WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 10;
+        //same color info for all spots
+        with MSI_Objects[whichObject] do
+        begin
+          Colors             := [11050135];
+          Tol                := 10;
+          Hue                := 0.26;
+          Sat                := 0.62;
+          FindAllColors      := False;
+          W                  := 40;
+          H                  := 40;
+          Accuracy           := 5;
+          SearchArea         := MSBox;
+          ExcludeSelf        := True;
+          WaitToMove         := True;
+          Track              := True;
+        end;
+
+        case whichObject of
+          FISHSPOT_NET:
+            with MSI_Objects[whichObject] do
+            begin
+              Name               := 'Net Spot';
+              UpText             := ['Net'];
+              Options            := ['Net'];
+              Level              := 1;
+              RightClickOnly     := False;
+              AssociatedItems    := [FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE];
+            end;
+
+          FISHSPOT_BAIT:
+            with MSI_Objects[whichObject] do
+            begin
+              Name               := 'Bait Spot';
+              UpText             := ['Net', 'Bait', 'Lure'];
+              Options            := ['Bait'];
+              Level              := 5;
+              RightClickOnly     := True;
+              AssociatedItems    := [FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE];
+            end;
+
+          FISHSPOT_LURE:
+            with MSI_Objects[whichObject] do
+            begin
+              Name               := 'Lure Spot';
+              UpText             := ['Lure Fish'];
+              Options            := ['Lure'];
+              Level              := 20;
+              RightClickOnly     := False;
+              AssociatedItems    := [FISH_RAW_TROUT, FISH_RAW_SALMON];
+            end;
+
+          FISHSPOT_CAGE:
+            with MSI_Objects[whichObject] do
+            begin
+              Name               := 'Cage Spot';
+              UpText             := ['Cage'];
+              Options            := ['Cage'];
+              Level              := 40;
+              RightClickOnly     := False;
+              AssociatedItems    := [FISH_RAW_LOBSTER];
+            end;
+
+          FISHSPOT_HARPOON:
+            with MSI_Objects[whichObject] do
+            begin
+              Name               := 'Harpooning Spot';
+              UpText             := ['Cage'];
+              Options            := ['Harpoon'];
+              Level              := 35;
+              RightClickOnly     := True;
+              AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH];
+            end;
+        end;
       end;
-
-      case whichObject of
-        FISHSPOT_NET:
-          with MSI_Objects[whichObject] do
-          begin
-            Name               := 'Net Spot';
-            UpText             := ['Net'];
-            Options            := ['Net'];
-            Level              := 1;
-            RightClickOnly     := False;
-            AssociatedItems    := [FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE];
-          end;
-
-        FISHSPOT_BAIT:
-          with MSI_Objects[whichObject] do
-          begin
-            Name               := 'Bait Spot';
-            UpText             := ['Net', 'Bait', 'Lure'];
-            Options            := ['Bait'];
-            Level              := 5;
-            RightClickOnly     := True;
-            AssociatedItems    := [FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE];
-          end;
-
-        FISHSPOT_LURE:
-          with MSI_Objects[whichObject] do
-          begin
-            Name               := 'Lure Spot';
-            UpText             := ['Lure Fish'];
-            Options            := ['Lure'];
-            Level              := 20;
-            RightClickOnly     := False;
-            AssociatedItems    := [FISH_RAW_TROUT, FISH_RAW_SALMON];
-          end;
-
-        FISHSPOT_CAGE:
-          with MSI_Objects[whichObject] do
-          begin
-            Name               := 'Cage Spot';
-            UpText             := ['Cage'];
-            Options            := ['Cage'];
-            Level              := 40;
-            RightClickOnly     := False;
-            AssociatedItems    := [FISH_RAW_LOBSTER];
-          end;
-
-        FISHSPOT_HARPOON:
-          with MSI_Objects[whichObject] do
-          begin
-            Name               := 'Harpooning Spot';
-            UpText             := ['Cage'];
-            Options            := ['Harpoon'];
-            Level              := 35;
-            RightClickOnly     := True;
-            AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH];
-          end;
-      end;
-    end;
 
     { COOKING SPOTS ============================== ]
     [============================================= }
@@ -872,12 +719,8 @@ begin
         SearchArea         := IntToBox(MSx1, MSy1, MSCx + 80, MSCy + 30);
         ExcludeSelf        := True;
         RightClickOnly     := False;
-        Tries              := 5;
-        Anim               := False;
         WaitToMove         := True;
         Track              := False;
-        BadColors          := [];
-        BadColorTolerance  := 0;
         AssociatedItems    := [FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
                                FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
                                FISH_COOKED_PIKE, FISH_COOKED_TROUT,
@@ -885,276 +728,119 @@ begin
                                FISH_COOKED_TUNA, FISH_COOKED_SWORDFISH];
       end;
 
-    COOKSPOT_FIRE:
+    { Obstacles ================================== ]
+    [============================================= }
+    LADDER_DOWN_MINE_GUILD:
       with MSI_Objects[whichObject] do
       begin
-        Name               := '';
-        UpText             := [''];
-        Options            := [''];
-        Colors             := [0];
-        Tol                := 0;
-        Hue                := 0.00;
-        Sat                := 0.00;
+        Name               := 'Mining Guild Ladder: Down';
+        UpText             := ['own Ladder'];
+        Options            := ['own Ladder'];
+        Colors             := [2709359];
+        Tol                := 8;
+        Hue                := 0.05;
+        Sat                := 0.96;
         FindAllColors      := False;
-        W                  := 0;
-        H                  := 0;
-        Accuracy           := 0;
-        SearchArea         := MSBox;
-        ExcludeSelf        := False;
+        W                  := 18;
+        H                  := 30;
+        Accuracy           := 5;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
         RightClickOnly     := False;
-        Tries              := 0;
-        Anim               := False;
         WaitToMove         := True;
-        Track              := True;
-        BadColors          := [];
-        BadColorTolerance  := 0;
         AssociatedItems    := [];
       end;
 
-    { Obstacles ================================== ]
-    [============================================= }
-     LADDER_DOWN_MINE_GUILD:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Mining Guild Ladder: Down';
-         UpText             := ['own Ladder'];
-         Options            := ['own Ladder'];
-         Colors             := [2709359];
-         Tol                := 8;
-         Hue                := 0.05;
-         Sat                := 0.96;
-         FindAllColors      := False;
-         W                  := 18;
-         H                  := 30;
-         Accuracy           := 5;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 6;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
+    LADDER_UP_MINE_GUILD:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Mining Guild Ladder: Up';
+        UpText             := ['up Ladder'];
+        Options            := ['up Ladder'];
+        Colors             := [4410190];
+        Tol                := 8;
+        Hue                := 0.26;
+        Sat                := 0.14;
+        FindAllColors      := False;
+        W                  := 35;
+        H                  := 30;
+        Accuracy           := 20;
+        SearchArea         := MSBox
+        ExcludeSelf        := False;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+        AssociatedItems    := [];
+      end;
 
-     LADDER_UP_MINE_GUILD:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Mining Guild Ladder: Up';
-         UpText             := ['up Ladder'];
-         Options            := ['up Ladder'];
-         Colors             := [4410190];
-         Tol                := 8;
-         Hue                := 0.26;
-         Sat                := 0.14;
-         FindAllColors      := False;
-         W                  := 35;
-         H                  := 30;
-         Accuracy           := 20;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := False;
-         RightClickOnly     := False;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
-
-     FALADOR_WEST_CRUMBLING_WALL:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Falador West Crumbling Wall';
-         UpText             := ['rumbling wall'];
-         Options            := ['rumbling wall'];
-         Colors             := [9092811];
-         Tol                := 24;
-         Hue                := 0.04;
-         Sat                := 1.35;
-         FindAllColors      := False;
-         W                  := 18;
-         H                  := 30;
-         Accuracy           := 5;
-         SearchArea         := MSBox;
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 10;
-         Anim               := False;
-         WaitToMove         := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
-
-    { Bird Nest ================================== ]
-    [============================================= }
-     OBJ_BIRD_NEST:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Bird''s nest';
-         UpText             := ['s nest'];
-         Options            := ['ake'];
-         Colors             := [4016204];
-         Tol                := 3;
-         Hue                := 0.38;
-         Sat                := 1.16;
-         FindAllColors      := False;
-         W                  := 25;
-         H                  := 18;
-         Accuracy           := 3;
-         SearchArea         := MSBox;
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
-
-    { NPCs ======================================= ]
-    [============================================= }
-     NPC_CHICKEN_WHITE:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Chicken';
-         UpText             := ['ack Chic'];
-         Options            := ['ttac'];
-         Colors             := [9554153];
-         Tol                := 15;
-         Hue                := 0.02;
-         Sat                := 3.21;
-         FindAllColors      := False;
-         W                  := 8;
-         H                  := 8;
-         Accuracy           := 7;
-         SearchArea         := MSBox;
-         ExcludeSelf        := False;
-         RightClickOnly     := False;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := True;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
-
-     NPC_CHICKEN_BROWN:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Chicken';
-         UpText             := ['ack Chic'];
-         Options            := ['ttac'];
-         Colors             := [2777482];
-         Tol                := 15;
-         Hue                := 0.03;
-         Sat                := 0.13;
-         FindAllColors      := False;
-         W                  := 8;
-         H                  := 8;
-         Accuracy           := 7;
-         SearchArea         := MSBox;
-         ExcludeSelf        := False;
-         RightClickOnly     := False;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := True;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
-
-     NPC_RAT_GIANT:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Giant Rat';
-         UpText             := ['ack Gian'];
-         Options            := ['ttac'];
-         Colors             := [4474440];
-         Tol                := 25;
-         Hue                := 0.00;
-         Sat                := 0.00;
-         FindAllColors      := False;
-         W                  := 13;
-         H                  := 13;
-         Accuracy           := 7;
-         SearchArea         := MSBox;
-         ExcludeSelf        := False;
-         RightClickOnly     := False;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := True;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
-
-     NPC_STILES:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Stiles';
-         UpText             := ['tiles'];
-         Options            := ['chan'];
-         Colors             := [3684667]; //3092273
-         Tol                := 10;
-         Hue                := 0.93;
-         Sat                := 0.09;
-         FindAllColors      := False;
-         W                  := 15;
-         H                  := 15;
-         Accuracy           := 5;
-         SearchArea         := IntToBox(MSx1, MSy1, MSx2, MSy2);
-         ExcludeSelf        := False;
-         RightClickOnly     := True;
-         Tries              := 10;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
+    FALADOR_WEST_CRUMBLING_WALL:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Falador West Crumbling Wall';
+        UpText             := ['rumbling wall'];
+        Options            := ['rumbling wall'];
+        Colors             := [9092811];
+        Tol                := 24;
+        Hue                := 0.04;
+        Sat                := 1.35;
+        FindAllColors      := False;
+        W                  := 18;
+        H                  := 30;
+        Accuracy           := 5;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        AssociatedItems    := [];
+      end;
 
     { Ground Items =============================== ]
     [============================================= }
-     LOOT_FEATHERS: // Needs updating!
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Feathers';
-         UpText             := [''];
-         Options            := ['eath'];
-         Colors             := [10592954];
-         Tol                := 10;
-         Hue                := 0.00;
-         Sat                := 0.00;
-         FindAllColors      := False;
-         W                  := 6;
-         H                  := 6;
-         Accuracy           := 3;
-         SearchArea         := MSBox;
-         ExcludeSelf        := False;
-         RightClickOnly     := True;
-         Tries              := 5;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [];
-       end;
+    OBJ_BIRD_NEST:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Bird''s nest';
+        UpText             := ['s nest'];
+        Options            := ['ake'];
+        Colors             := [4016204];
+        Tol                := 3;
+        Hue                := 0.38;
+        Sat                := 1.16;
+        FindAllColors      := False;
+        W                  := 25;
+        H                  := 18;
+        Accuracy           := 3;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        AssociatedItems    := [];
+      end;
 
-     FOUNTAIN_VE:
-       with MSI_Objects[whichObject] do
-       begin
+    { NPCs ======================================= ]
+    [============================================= }
+    NPC_STILES:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Stiles';
+        UpText             := ['tiles'];
+        Options            := ['chan'];
+        Colors             := [3684667];
+        Tol                := 10;
+        Hue                := 0.93;
+        Sat                := 0.09;
+        FindAllColors      := False;
+        W                  := 15;
+        H                  := 15;
+        Accuracy           := 5;
+        SearchArea         := MSBox
+        ExcludeSelf        := False;
+        WaitToMove         := True;
+        AssociatedItems    := [];
+      end;
+
+    { Water Supplies ============================= ]
+    [============================================= }
+    FOUNTAIN_VE:
+      with MSI_Objects[whichObject] do
+      begin
          Name               := 'Varrock East Fountain';
          UpText             := ['ount'];
          Options            := ['se'];
@@ -1168,132 +854,76 @@ begin
          Accuracy           := 20;
          SearchArea         := MSBox;
          ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 10;
-         Anim               := False;
          WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                                 BUCKET_WATER ];
-       end;
+         AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                                BUCKET_WATER ];
+      end;
 
-     WELL_EV:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Edgeville Well';
-         UpText             := ['ell'];
-         Options            := ['se'];
-         Colors             := [3757413];
-         Tol                := 7;
-         Hue                := 0.05;
-         Sat                := 0.17;
-         FindAllColors      := False;
-         W                  := 50;
-         H                  := 50;
-         Accuracy           := 60;
-         SearchArea         := MSBox;
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 10;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                                 BUCKET_WATER ];
-       end;
+    WELL_EV:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Edgeville Well';
+        UpText             := ['ell'];
+        Options            := ['se'];
+        Colors             := [3757413];
+        Tol                := 7;
+        Hue                := 0.05;
+        Sat                := 0.17;
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 50;
+        Accuracy           := 60;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                               BUCKET_WATER ];
+      end;
 
-     PUMP_FW:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Falador Waterpump';
-         UpText             := ['pump'];
-         Options            := ['se'];
-         Colors             := [4870997];
-         Tol                := 6;
-         Hue                := 0.14;
-         Sat                := 0.13;
-         FindAllColors      := False;
-         W                  := 30;
-         H                  := 30;
-         Accuracy           := 3;
-         SearchArea         := MSBox;
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 10;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [ CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                                 BUCKET_WATER ];
-       end;
+    PUMP_FW:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Falador Waterpump';
+        UpText             := ['pump'];
+        Options            := ['se'];
+        Colors             := [4870997];
+        Tol                := 6;
+        Hue                := 0.14;
+        Sat                := 0.13;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 30;
+        Accuracy           := 3;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
+                               BUCKET_WATER ];
+      end;
 
     { FURNACES =================================== ]
     [============================================= }
-     FURNACE_AK:
-       with MSI_Objects[whichObject] do
-       begin
-         Name               := 'Al Kharid Furnace';
-         UpText             := ['urnace'];
-         Options            := ['melt'];
-         Colors             := [2240921];
-         Tol                := 16;
-         Hue                := 0.06;
-         Sat                := 0.73;
-         FindAllColors      := False;
-         W                  := 64;
-         H                  := 13;
-         Accuracy           := 20;
-         SearchArea         := MSBox;
-         ExcludeSelf        := True;
-         RightClickOnly     := False;
-         Tries              := 10;
-         Anim               := False;
-         WaitToMove         := True;
-         Track              := False;
-         BadColors          := [];
-         BadColorTolerance  := 10;
-         AssociatedItems    := [BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
-		               BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE];
-       end;
+    FURNACE_AK:
+      with MSI_Objects[whichObject] do
+      begin
+        Name               := 'Al Kharid Furnace';
+        UpText             := ['urnace'];
+        Options            := ['melt'];
+        Colors             := [2240921];
+        Tol                := 16;
+        Hue                := 0.06;
+        Sat                := 0.73;
+        FindAllColors      := False;
+        W                  := 64;
+        H                  := 13;
+        Accuracy           := 20;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        AssociatedItems    := [BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
+		                           BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE];
+      end;
   end;
-
-  Result := (MSI_Objects[whichObject].Name <> '');
-end;                         
-
-(*
-MSI_LoadAllObjects
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_LoadAllObjects();
-
-Loads all the objects used in MSI scripts; should only be called once in
-MSI_Setup.  Fills the MSI_Objects global array.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 28 July 2010 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_LoadAllObjects;
-*)
-procedure MSI_LoadAllObjects;
-var
-  i: Integer;
-begin
-  for i := 0 to High(MSI_Objects) do
-    MSI_LoadObject(i);
 end;
 
 (*
@@ -1302,268 +932,211 @@ MSI_GetObjects
 
 .. code-block:: pascal
 
-  function MSI_GetObjects(Which: TIntegerArray): TMSObjectArray;
+  function MSI_GetObjects(Objs: TIntegerArray): TMSObjectArray;
 
-Loads all the objects in 'Which' to the resulting TMSObjectArray.
+Loads all the objects in 'Objs' to the resulting TMSObjectArray.
 
 .. note::
 
   | Author: marpis
-  | Last Updated: 03 July 2010 by marpis
+  | Last Updated: 06 June 2011 by marpis
 
 Example:
 
 .. code-block:: pascal
 
-  if (Script = SCRIPT_POWER_CHOP) then // Keep in mind that this is made up and won't actually work
-    trees := MSI_GetObjects([TREE_NORMAL, TREE_OAK, TREE_WILLOW]);
+  treeInfo := MSI_GetObjects([TREE_NORMAL, TREE_OAK, TREE_WILLOW]);
 *)
-function MSI_GetObjects(Which: TIntegerArray): TMSObjectArray;
-Var
-  I, H: Integer;
-Begin
-  H := High(Which);
-  SetLength(Result, H + 1);
+function MSI_GetObjects(Objs: TIntegerArray): TMSObjectArray;
+var
+  i: integer;
+begin
+  setLength(result, length(Objs));
 
-  For I := 0 To H Do
-    Result[I] := MSI_Objects[Which[I]];
-End;
+  for i := 0 to high(result) do
+    result[i] := MSI_GetObject(Objs[i]);
+end;
 
 (*
-MSI_ReturnPointsInBox
-~~~~~~~~~~~~~~~~~~~~~
+MSI_FilterTPADist
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_ReturnPointsInBox(TPA: TPointArray; B: TBox): TPointArray;
+  procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: extended);
 
-Returns all the points in 'TPA' that are within the box 'B'.
+Removes any points in 'TPA' that are within distance 'maxDist' of each other.
+If there are three points within 50 pixels of each other, this function will
+filter out two of them.
 
 .. note::
 
-  | Author: marpis
-  | Last Updated: 10 June 2010 by marpis
+  | Author: Coh3n
+  | Last Updated: 06 June 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  validPoints := MSI_ReturnPointsInBox(TPA, IntToBox(MSX1, MSY1, MSX2, MSY2));
+  MSI_FilterTPADist(TPA);
 *)
-Function MSI_ReturnPointsInBox(TPA: TPointArray; B: TBox): TPointArray;
-Var
-  I, H, N: Integer;
-Begin
-  H := High(TPA);
-  SetLength(Result, 1 shl 20);
-
-  For I := 0 To H Do
-    If PointInBox(TPA[I], B) Then
-    Begin
-      Result[N] := TPA[I];
-      Inc(N);
-    End;
-
-  SetLength(Result, N);
-End;
+procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: extended);
+var
+  i, j: integer;
+begin
+  for i := 0 to high(TPA) do
+    for j := i to high(TPA) do
+      if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) < maxDist) then
+        deleteValueInTPA(TPA, j);
+end;
 
 (*
-MSI_FindObjectsTPA
-~~~~~~~~~~~~~~~~~~
+MSI_FindObjectTPA
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_FindObjectsTPA(Var Objs: TPointArray; ObjID: integer; SearchBox: TBox): Boolean;
+  function MSI_FindObjectTPA(Obj: TMSObject; var Points: TPointArray): Boolean;
 
-Returns a TPA of all the instances of the object 'ObjID' that are found in the
-searching area specified by 'SearchBox'.
+Returns a TPointArray ('Points') of all the instances of the object 'Obj' that
+are found in the object's ('Obj') SearchBox atribute.
 
 .. note::
 
   | Author: marpis
-  | Last Updated: 01 February 2011 by Coh3n
+  | Last Updated: 01 June 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  ms_Points := MSI_FindObjectsTPA(TPA, TREE_NORMAL, IntToBox(MSX1, MSY1, MSX2, MSY2));
+  ms_Points := function MSI_FindObjectTPA(TREE_NORMAL, tmpTPA);
 *)
-Function MSI_FindObjectsTPA(Var Objs: TPointArray; ObjID: integer; SearchBox: TBox): Boolean;
-Var
-  TPA, TempTPA: TPointArray;
+function MSI_FindObjectTPA(Obj: TMSObject; var Points: TPointArray): Boolean;
+var
+  TPA: TPointArray;
   ATPA: T2DPointArray;
-  I, II, CTS, TMP, H: Integer;
-  Box: TBox;
-  Boxes: TBoxArray;
-  Animating2: TBooleanArray;
-  BadPoint: Boolean;
-Begin
-  If (Not LoggedIn) Then
-    Exit;
+  tpaBoxes: TBoxArray;
+  i, j, t, cts: integer;
+  badPoint: boolean;
+begin
+  if (not loggedIn) then
+    exit;
 
-  CTS := GetColorToleranceSpeed;
-  ColorToleranceSpeed(2);
-  SetColorSpeed2Modifiers(MSI_Objects[objID].Hue, MSI_Objects[objID].Sat);
-  Box := IntToBox(249, 146, 276, 187); // Box around player
+  markTime(t);
+  cts := GetToleranceSpeed;
+  setColorToleranceSpeed(2);
+  setToleranceSpeed2Modifiers(obj.hue, obj.sat);
 
-  H := High(MSI_Objects[objID].Colors);
-  SetLength(ATPA, H + 1);
+  // search for all the object's colors
+  setLength(ATPA, length(obj.colors));
+  for i := 0 to high(ATPA) do
+  begin
+    findColorsSpiralTolerance(MSCX, MSCY, ATPA[i], obj.colors[i],
+                              obj.searchArea.x1, obj.searchArea.y1,
+                              obj.searchArea.x2, obj.searchArea.y2, obj.tol);
+  end;
 
-  For I := 0 To H Do
-    FindColorsSpiralTolerance(MSCX, MSCY, ATPA[I], MSI_Objects[objID].Colors[I], SearchBox.X1, SearchBox.Y1, SearchBox.X2, SearchBox.Y2, MSI_Objects[objID].Tol);
+  setColorToleranceSpeed(cts);
+  setToleranceSpeed2Modifiers(0.2, 0.2);
 
-  ColorToleranceSpeed(CTS);
-  SetColorSpeed2Modifiers(0.2, 0.2);
-
-  { Check if some of the colors was not on MS. }
-  If MSI_Objects[objID].FindAllColors Then
-    For I := 0 To H Do
-      If (Length(ATPA) < 1) Then
-      Begin
-        MSI_SubDebug('All colors weren''t found!');
-        Objs := [];
-        Exit;
-      End;
-
-  { Check if we have enough pixels on MS. }
+  // split points in to boxes the size of object & check if there's enough points
   TPA := MergeATPA(ATPA);
-
-  If (Length(TPA) < MSI_Objects[objID].Accuracy) Then
-  Begin
-    MSI_SubDebug('No colors found!');
-    Wait(RandomRange(300, 600));
-    Objs := [];
-    Exit;
-  End;
-
-  ATPA := TPAtoATPAEx(TPA, MSI_Objects[objID].W, MSI_Objects[objID].H);
-  SortATPAFrom(ATPA, Point(MSCX, MSCY));
-  H := High(ATPA);
-  SetLength(TPA, H + 1);
-
-  if MSI_SetupVars[SETUP_DEBUG_SMART] then
-    DrawDotsMulti(true, ATPA);
-
-  For I := 0 To H Do
-    TPA[I] := MiddleTPA(ATPA[I]);
-
-  H := High(TPA);
-  SetLength(Boxes, H + 1);
-
-  For I := 0 To H Do
-    Boxes[I]:= MSI_MakeBox( Point(TPA[I].X, TPA[I].Y),
-                            (MSI_Objects[objID].W / 2),
-                            (MSI_Objects[objID].H / 2)
-               );
-
-  If MSI_Objects[objID].Anim Then
-    Animating2 := AnimatingMulti(Boxes, 100, 1);
-
-  For I := 0 To H Do
-  Begin
-    BadPoint := False;
-
-    { Bad Boxes }
-    if not BadPoint then
-      if Length(NotBoxes) > 0 then
+  ATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
+  for i := 0 to high(ATPA) do
+  begin
+    // check if all the colors were found
+    if (obj.findAllColors) then
+      if (length(ATPA[i]) < 1) then
       begin
-        TMP := High(NotBoxes);
-
-        for II := 0 to TMP do
-          if PointInBox(TPA[i], NotBoxes[II]) then
-          begin
-            MSI_SubDebug('Point in bad box');
-            BadPoint := True;
-            Break;
-          end;
+        MSI_SubDebug('FindObjectTPA: not all colors were found');
+        deleteValueInATPA(ATPA, i);
       end;
 
-    { Animation }
-    If (Not BadPoint) Then
-      If MSI_Objects[objID].Anim Then
-        If (Not Animating2[I]) Then
-        Begin
-          MSI_SubDebug('Not animating!');
-          BadPoint := True;
-        End;
+    if (length(ATPA[i]) < obj.accuracy) then
+    begin
+      MSI_SubDebug('FindObjectTPA: Not enough points: ' + intToStr(length(ATPA[i])));
+      deleteValueInATPA(ATPA, i);
+    end;
+  end;
 
-    { Exclude own character }
-    If (Not BadPoint) Then
-      If MSI_Objects[objID].ExcludeSelf Then
-        If PointInBox(TPA[I], Box) Then
-        Begin
-          MSI_SubDebug('Own character!');
-          BadPoint := True;
-        End;
+  TPA := [];
+  sortATPAFrom(ATPA, point(MSCX, MSCY));
+  setLength(TPA, length(ATPA));
 
-    { Invalid point }
-    If (Not BadPoint) Then
-      If ((TPA[I].X + TPA[I].Y) < 1) Then
-      Begin
-        MSI_SubDebug('Invalid point!');
-        BadPoint := True;
-      End;
+  // draw points on SMART if setting enabled
+  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+    drawDotsMulti(true, ATPA);
 
-    { Accuracy }
-    If (Not BadPoint) Then
-      If (Length(ATPA[I]) < MSI_Objects[objID].Accuracy) Then
-      Begin
-        MSI_SubDebug('Not enough points: ' + IntToStr(Length(ATPA[I])));
-        BadPoint := True;
-      End;
+  // get the middle point of each TPA in the ATPA + create a box for each point
+  setLength(tpaBoxes, length(TPA));
+  for i := 0 to high(ATPA) do
+  begin
+    tpaBoxes[i] := getTPABounds(ATPA[i]);
+    TPA[i] := middleTPA(ATPA[i]);
+  end;
 
-    { Bad colors }
-    If (Not BadPoint) Then
-      For II := 0 To High(MSI_Objects[objID].BadColors) Do
-      Begin
-        MSI_SubDebug('Looking for bad color: '+IntToStr(MSI_Objects[objID].BadColors[II]));
-        If FindColorSpiralTolerance(TMP, TMP, MSI_Objects[objID].BadColors[II], TPA[I].X - (MSI_Objects[objID].W / 2), TPA[I].Y - (MSI_Objects[objID].H / 2), TPA[I].X + (MSI_Objects[objID].W / 2), TPA[I].Y + (MSI_Objects[objID].H / 2), MSI_Objects[objID].BadColorTolerance) Then
-        Begin
-          MSI_SubDebug('Bad color found!');
-          BadPoint := True;
-          Break;
-        End;
-      End;
+  // loop through all the points to see which are valid/invalid
+  for i := 0 to high(TPA) do
+  begin
+    badPoint := false;
 
-    { FindAllColors }
-    If (Not BadPoint) Then
-      If MSI_Objects[objID].FindAllColors Then
-        For II := 0 To H Do
-        Begin
-          TempTPA := MSI_ReturnPointsInBox(ATPA[II], IntToBox(TPA[I].X - (MSI_Objects[objID].W / 2), TPA[I].Y - (MSI_Objects[objID].H / 2), TPA[I].X + (MSI_Objects[objID].W / 2), TPA[I].Y + (MSI_Objects[objID].H / 2)));
-          If (Length(TempTPA) < 1) Then
-          Begin
-            MSI_SubDebug('All colors weren''t found!');
-            BadPoint := True;
-            Break;
-          End;
-        End;
+    // checks to see if the point is in the object's search area
+    if (not badPoint) then
+      if (not pointInBox(TPA[i], obj.searchArea)) then
+      begin
+        MSI_SubDebug('FindObjectTPA: Invalid point - exceeds search area');
+        badPoint := true;
+      end;
 
-    { Valid point! }
-    If (Not BadPoint) Then
-    Begin
-      SetLength(Objs, Length(Objs) + 1);
-      Objs[High(Objs)] := TPA[I];
+    // check to see if point is in a bad box
+    if (not badPoint) then
+      if (length(MSI_NotBoxes) > 0) then
+        for j := 0 to high(MSI_NotBoxes) do
+          if (pointInBox(TPA[i], MSI_NotBoxes[j])) then
+          begin
+            MSI_SubDebug('FindObjectTPA: Point in bad box');
+            badPoint := true;
+          end;
 
+    // checks to see if the point is on the player
+    if (not badPoint) then
+      if (obj.excludeSelf) then
+        if (pointInBox(TPA[i], intToBox(PLBX1, PLBY1, PLBX2, PLBY2))) then
+        begin
+          MSI_SubDebug('FindObjectTPA: Point is on player');
+          badPoint := true;
+        end;
+
+    // a valid point as been found
+    if (not badPoint) then
+    begin
+      setLength(Points, length(Points) + 1);
+      Points[high(Points)] := TPA[i];
+
+    // add point's box to MSI_NotBoxes so it can be avoided next search
+    end else begin
+      setLength(MSI_NotBoxes, length(MSI_NotBoxes) + 1);
+      MSI_NotBoxes[high(MSI_NotBoxes)] := tpaBoxes[i];
+    end;
+  end;
+
+  sortTPAFrom(points, point(MSCX, MSCY));
+  MSI_FilterTPADist(points, min(obj.w, obj.h) * 2);
+
+  if (length(points) > 0) then
+  begin
+    result := true;
+
+    for i := 0 to high(Points) do
       if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxEx(False,
-                        MSI_MakeBox(Point(TPA[I].X, TPA[I].Y),
-                                   (MSI_Objects[objID].W / 2),
-                                   (MSI_Objects[objID].H / 2)
-                        ),
-                        clGreen
-        );
+        SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
 
-    { Set NotBox so point can be avoided next time }
-    End Else Begin
-      SetLength(NotBoxes, Length(NotBoxes) + 1);
-      NotBoxes[High(NotBoxes)] := Boxes[I];
-    End;
-  End;
+    MSI_SubDebug('FindObjectTPA: Points found: ' + intToStr(length(points)));
+  end;
 
-  Result := (Length(Objs) > 0);
-End;
+  MSI_SubDebug('FindObjectTPA: Took ' + intToStr(timeFromMark(t)) + ' ms to complete');
+end;
 
 (*
 MSI_TrackObject
@@ -1573,7 +1146,7 @@ MSI_TrackObject
 
   function MSI_TrackObject(ObjID: integer): Boolean;
 
-Tracks the object while the player is moving.  For example, it will keep track
+Tracks the object while the player is moving.  for example, it will keep track
 of an Oak tree that the player has just clicked, but has to walk to.  Keep in
 mind that this can cause a small amount of lag on slower machines.
 
@@ -1684,7 +1257,7 @@ MSI_FindObjectsIn
 
 .. code-block:: pascal
 
-  function MSI_FindObjectsIn(Objs: TIntegerArray; Var IndexFound: Integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
+  function MSI_FindObjectsIn(Objs: TIntegerArray; var IndexFound: Integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
 
 Finds the objects 'Objs' in the specified search box ('SearchBox'), and performs
 the action 'Action' from SRL's fnct_ActionOptions type.  Also returns the index
@@ -1702,20 +1275,20 @@ Example:
   if (MSI_FindObjectsIn([TREE_NORMAL, TREE_OAK], i, MSBox, 1)) then
     MSI_Debug('Clicked tree');
 *)
-Function MSI_FindObjectsIn(Objs: TIntegerArray; Var IndexFound: Integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
-Var
+function MSI_FindObjectsIn(Objs: TIntegerArray; var IndexFound: Integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
+var
   TPA, TmpTPA: TPointArray;
   TheOptions, UpTexts: TStringArray;
   I, II, III, HH, HHH, Hi, J, c: Integer;
   CheckUpText, inBadBox: Boolean;
-Begin
+begin
   if (not LoggedIn) then
     Exit;
 
   MSI_AddHeader('MSI_FindObjectsIn ' + ToStr(Objs));
 
-  For I := 0 To Hi Do
-  Begin
+  for I := 0 to Hi do
+  begin
 
     for  j := 0 to High(MSI_Objects[Objs[i]].UpText) do
     begin
@@ -1728,10 +1301,10 @@ Begin
       SetLength(TheOptions, Length(TheOptions) + 1);
       TheOptions[High(TheOptions)] := MSI_Objects[Objs[i]].Options[j];
     end;
-  End;
+  end;
 
-  With MSI_Objects[Objs[II]] Do
-    For II := 0 To Hi Do
+  with MSI_Objects[Objs[II]] do
+    for II := 0 to Hi do
     begin
       // Check the players level; if not high enough, skip object
       if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
@@ -1744,9 +1317,9 @@ Begin
           Continue;
         end;
 
-      If MSI_FindObjectsTPA(TmpTPA, Objs[II], SearchBox) Then
-      Begin
-        // If set to, the script will click the closest object (this negates Priority)
+      if MSI_FindObjectsTPA(TmpTPA, Objs[II], SearchBox) then
+      begin
+        // if set to, the script will click the closest object (this negates Priority)
         if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].ClickClosest) then
         begin
           MSI_Debug('Clicking closest object to player');
@@ -1765,12 +1338,12 @@ Begin
         HH := Min((Tries - 1), High(TPA));
         MSI_Debug(IntToStr(Length(TPA))+' objects found!');
 
-        For I := 0 to HH Do
-        Begin
+        for I := 0 to HH do
+        begin
           // Check to see if the point is in a bad box
-          if (Length(NotBoxes) > 0) then
-            for j := 0 to High(NotBoxes) do
-              if (PointInBox(TPA[i], NotBoxes[j])) then
+          if (Length(MSI_NotBoxes) > 0) then
+            for j := 0 to High(MSI_NotBoxes) do
+              if (PointInBox(TPA[i], MSI_NotBoxes[j])) then
               begin
                 MSI_Debug('Point in bad box');
                 inBadBox := True;
@@ -1784,22 +1357,22 @@ Begin
           Y := TPA[I].Y;
           IndexFound := II;
 
-          If (Action = Nothing) Then
-          Begin
+          if (Action = Nothing) then
+          begin
             Result := True;
             MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
-            NotBoxes := [];
+            MSI_NotBoxes := [];
             Exit;
-          End;
+          end;
 
           HHH := High(UpTexts);
           CheckUpText := True;
-          For III := 0 To HHH Do
-            If (UpTexts[III] = '') Then
-            Begin
+          for III := 0 to HHH do
+            if (UpTexts[III] = '') then
+            begin
               CheckUpText := False;
               Break;
-            End;
+            end;
 
           MMouse(TPA[I].X, TPA[I].Y, 2, 2);
           Wait(20 + Random(50));
@@ -1813,32 +1386,32 @@ Begin
               Result := True;
             end else begin
               // Add to the bad boxes array
-              SetLength(NotBoxes, Length(NotBoxes) + 1);
-              NotBoxes[High(NotBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
+              SetLength(MSI_NotBoxes, Length(MSI_NotBoxes) + 1);
+              MSI_NotBoxes[High(MSI_NotBoxes)] := MSI_MakeBox(Point(TPA[I].X, TPA[I].Y), (W / 2), (H / 2));
             end;
 
-          If (Action = Move) Then
+          if (Action = Move) then
           begin
             MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
-            NotBoxes := [];
+            MSI_NotBoxes := [];
             Exit;
           end;
 
-          If Result Then
-          Begin
+          if Result then
+          begin
             GetMousePos(X, Y);
 
-            If (RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) Then
-            Begin
+            if (RightClickOnly) Or InRange(Random(100), 0, 10) Or (Action = ClickRight) then
+            begin
               Mouse(X, Y, 0, 0, False);
-              If (Action = ClickRight) or (Action = ClickLeft) Then
+              if (Action = ClickRight) or (Action = ClickLeft) then
                 Result := (WaitOptionMulti(TheOptions, 750 + Random(100)) or waitOption('ake', 200))
-              Else
+              else
                 Result := DidClick(True, 1200);
-            End Else Begin
+            end else begin
               Mouse(X, Y, 0, 0, True);
               Result := DidClick(True, 1200); ;
-            End;
+            end;
 
             if (result) then
               if ((waitToMove) and (track)) then
@@ -1851,19 +1424,19 @@ Begin
                     MSI_TrackObject(objs[ii]);
 
             MSI_CloseHeader('MSI_FindObjectsIn: ' + BoolToStr(Result));
-            NotBoxes := [];
+            MSI_NotBoxes := [];
             Exit;
-          End Else Begin
+          end else begin
             MSI_FindRandoms(True);
             MSI_Debug('Uptext didn''t match!');
-          End;
-        End;
-      End;
+          end;
+        end;
+      end;
     end;
 
   MSI_CloseHeader('MSI_FindObjectsIn: ' + ToStr(Result));
   MSI_FindRandoms(True);
-End;
+end;
 
 (*
 MSI_FindObjects
@@ -1871,7 +1444,7 @@ MSI_FindObjects
 
 .. code-block:: pascal
 
-  function MSI_FindObjects(Objs: TIntegerArray; Var IndexFound: Integer; Action: fnct_ActionOptions): Boolean;
+  function MSI_FindObjects(Objs: TIntegerArray; var IndexFound: Integer; Action: fnct_ActionOptions): Boolean;
 
 The exact same as MSI_FindObjectsIn, except instead of a specified search box,
 it searches the main screen.
@@ -1882,10 +1455,10 @@ it searches the main screen.
   | Last Updated: 10 June 2010
 
 *)
-Function MSI_FindObjects(Objs: TIntegerArray; Var IndexFound: Integer; Action: fnct_ActionOptions): Boolean;
-Begin
+function MSI_FindObjects(Objs: TIntegerArray; var IndexFound: Integer; Action: fnct_ActionOptions): Boolean;
+begin
   Result := MSI_FindObjectsIn(Objs, IndexFound, MSBox, Action);
-End;
+end;
 
 (*
 MSI_FindObjectIn
@@ -1903,12 +1476,12 @@ The exact same as MSI_FindObjectsIn, for a single object rather than multiple.
   | Last Updated: 10 June 2010
 
 *)
-Function MSI_FindObjectIn(Obj: integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
-Var
+function MSI_FindObjectIn(Obj: integer; SearchBox: TBox; Action: fnct_ActionOptions): Boolean;
+var
   TMP: Integer;
-Begin
+begin
   Result := MSI_FindObjectsIn([Obj], TMP, SearchBox, Action);
-End;
+end;
 
 (*
 MSI_FindObject
@@ -1927,9 +1500,9 @@ object in the main screen.
   | Last Updated: 10 June 2010
 
 *)
-Function MSI_FindObject(Obj: integer; Action: fnct_ActionOptions): Boolean;
-Var
+function MSI_FindObject(Obj: integer; Action: fnct_ActionOptions): Boolean;
+var
   TMP: Integer;
-Begin
+begin
   Result := MSI_FindObjectsIn([Obj], TMP, MSI_Objects[Obj].SearchArea, Action);
-End;
+end;
