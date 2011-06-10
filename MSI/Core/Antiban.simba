@@ -11,6 +11,46 @@ The source for can be found
 *)
 
 (*
+MSI_MultiClickMouse
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_MultiClickMouse(x, y, maxClicks: integer);
+
+Will simulate "spam" clicking on the point x, y.  Will do it a random amount
+between 1 and 'maxClicks'.  Will click once no matter what, then has a 30%
+chance of clicking again after that.  Will not exceed 'maxClicks'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 09 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (waitUptext('ree', 200)) then
+    MSI_MultiClickMouse(x, y, 5);
+*)
+procedure MSI_MultiClickMouse(x, y, maxClicks: integer);
+var
+  clicks, rX, rY: integer;
+begin
+  repeat
+    inc(clicks);
+    mouse(x, y, rX, rY, true);
+
+    if (random(10) < 7) then
+      break;
+
+    rX := randomRange(1, 5);
+    rX := randomRange(1, 5);
+  until(clicks >= maxClicks);
+end;
+
+(*
 MSI_Antiban
 ~~~~~~~~~~~
 

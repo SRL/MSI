@@ -593,8 +593,6 @@ Example:
   MSI_SetupMagic();
 *)
 function MSI_SetupMagic(): Boolean;
-var
-  i: Integer;
 begin
   if (not LoggedIn) then
     Exit;
@@ -707,7 +705,7 @@ Example:
 *)
 procedure MSI_CastsDone();
 var
-  i, j, castsDone, castsDiff: integer;
+  i, castsDone, castsDiff: integer;
   castsLeft: TIntegerArray;
 begin
   if (not loggedIn) then

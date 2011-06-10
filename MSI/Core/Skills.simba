@@ -413,13 +413,13 @@ begin
             tTime := RandomRange(60000, 120000); // Random 1-2 minutes
             MSI_SubDebug('Waiting ' + IntToStr(tTime) + ' ms before relocating again');
             MarkTime(waitTime);
-            NotBoxes := [];
+            MSI_NotBoxes := [];
             Break;
           end else
             Exit;
 
           if (GetSystemTime > (t div 5)) then
-            NotBoxes := [];
+            MSI_NotBoxes := [];
         end;
 
         Wait(RandomRange(300, 800));

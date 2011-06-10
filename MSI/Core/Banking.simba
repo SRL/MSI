@@ -62,7 +62,7 @@ if the PIN screen appears.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 23 May 2011 by Coh3n
+  | Last Updated: 10 June 2011 by Coh3n
 
 Example:
 
@@ -76,6 +76,7 @@ var
   t, x, y: Integer;
   bankType: TBank;
   relocated: boolean;
+  bankObj: TMSObject;
 begin
   if (not LoggedIn) then
     Exit;
@@ -86,6 +87,7 @@ begin
 
   MSI_AddHeader('MSI_OpenBank');
   Result := BankScreen or DepositScreen;
+  bankObj := MSI_GetObject(which);
 
   if (not Result) then
   begin
@@ -97,7 +99,7 @@ begin
     begin
       MSI_FindRandoms(False);
 
-      if (MSI_FindObject(which, ClickRight)) then
+      if (MSI_FindObject(bankObj, moRight)) then
       begin
         if bankType = Bank then
           Result := MSI_HandlePin(tPin);
@@ -112,14 +114,14 @@ begin
       if (not Result) then
         if ((t - GetSystemTime) > 30000) then
         begin
-          NotBoxes := [];
+          MSI_NotBoxes := [];
           Wait(RandomRange(2000, 3000));
 
           if (relocated) then
           begin
             SymbolAccuracy := 50.0;
             if (FindSymbol(x, y, 'bank')) then
-              Mouse(x, y, 3, 3, True);
+              MSI_MultiClickMouse(x, y, 4);
             SymbolAccuracy := 70.0;
             Continue;
           end;
@@ -132,7 +134,7 @@ begin
   if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
     SMART_DrawBoxEx(True, IntToBox(0, 0, 0, 0), clWhite);
 
-  MSI_CloseHeader('MSI_OpenBank: '+BoolToStr(Result)+'('+MSI_Objects[which].Name+')');
+  MSI_CloseHeader('MSI_OpenBank: ' + boolToStr(result) + '(' + bankObj.name + ')');
 end;
 
 (*
@@ -141,7 +143,7 @@ MSI_ExchangeNPC
 
 .. code-block:: pascal
 
-  function MSI_ExchangeNPC(Which: Integer): Boolean;
+  function MSI_ExchangeNPC(which: Integer): boolean;
 
 Exchanges with NPC 'Which' (object constants found in Globals.simba). Will
 right-click and choose the object's (Which) Option attribute. Will attempt 30
@@ -150,7 +152,7 @@ times before returning false.
 .. note::
 
   | Author: 3Garrett3
-  | Last Updated: 10 Febuary 2011 by NCDS
+  | Last Updated: 10 June 2011 by NCDS
 
 Example:
 
@@ -159,27 +161,30 @@ Example:
   if (MSI_ExchangeNPC(NPC_STILES)) then
     MSI_Debug('Successfully opened ' + MSI_Objects[NPC_STILES].Name);
 *)
-function MSI_ExchangeNPC(which: Integer) : Boolean;
+function MSI_ExchangeNPC(which: Integer): boolean;
 var
   t : Integer;
+  npcObj: TMSObject;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
   try
     MSI_AddHeader('MSI_ExchangeNPC');
+    npcObj := MSI_GetObject(which);
 
     t := 0;
     repeat
-      Inc(t);
-      Result := MSI_FindObject(which, ClickRight);
+      inc(t);
+      result := MSI_FindObject(npcObj, moRight);
 
-      if (t >= (MSI_Objects[which].Tries div 2)) then
-        NotBoxes := [];
-    until(Result or (t >= MSI_Objects[which].Tries));
+      if (not result) then
+        if (t >= 5) then
+          MSI_NotBoxes := [];
+    until(result or (t >= 10));
 
   finally
-    MSI_CloseHeader('MSI_ExchangeNPC: ' + BoolToStr(Result) + ' (' + MSI_Objects[which].Name + ')');
+    MSI_CloseHeader('MSI_ExchangeNPC: ' + boolToStr(result) + ' (' + npcObj.name + ')');
   end;
 end;
 
@@ -566,9 +571,7 @@ begin
         CloseBank;
         MSI_Debug('Couldn''t withdraw best tool');
       end;
-
-    end else
-      MSI_Debug('Unable to open ' + MSI_Objects[WhichBank].Name);
+    end;
 end;
 
 (*
@@ -616,7 +619,7 @@ begin
     if (Location = Script.PathInfo.StartLoc) then
       if (not MSI_OpenBank(Script.WhichBank, Pin)) then
       begin
-        ReportInfo.FalseReason := 'Failed to open bank: '+MSI_Objects[Script.WhichBank].Name;
+        ReportInfo.FalseReason := 'Failed to open bank: '+toStr(script.whichBank);
         MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
         Exit;
       end;
@@ -692,11 +695,9 @@ begin
   with MSI_Players[CurrentPlayer] do
     if (Location = Script.PathInfo.StartLoc) then
       if (MSI_ExchangeNPC(Script.WhichBank)) then
-      begin
-        MSI_Debug('Exchanged with NPC: '+MSI_Objects[Script.WhichBank].Name);
-        Result := True;
-      end else
-        ReportInfo.FalseReason := 'Failed to exchange with NPC: '+MSI_Objects[Script.WhichBank].Name;
+        Result := True
+      else
+        ReportInfo.FalseReason := 'Failed to exchange with NPC: '+intToStr(script.whichBank);
 
   MSI_CloseHeader('MSI_BankNPC: ' + BoolToStr(Result));
 end;

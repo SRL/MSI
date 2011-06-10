@@ -698,6 +698,7 @@ var
   i: Integer;
   useDefaults: Boolean;
   tmpScript: TScript;
+  obj: TMSObject;
 begin
   with MSI_Players[Player] do
   begin
@@ -724,8 +725,9 @@ begin
           Items[Script][i] := tmpScript.Defaults.Items[i];
         end else begin
           // Items dependent on the objects filled out by the user
-          SetLength(Items[Script][i], Length(MSI_Objects[newObjs[i]].AssociatedItems));
-          Items[Script][i] := MSI_Objects[newObjs[i]].AssociatedItems;
+          obj := MSI_GetObject(newObjs[i]);
+          SetLength(Items[Script][i], Length(obj.associatedItems));
+          Items[Script][i] := obj.associatedItems;
         end;
 
         SetLength(ItemAmounts[Script][i], Length(Items[Script][i]));

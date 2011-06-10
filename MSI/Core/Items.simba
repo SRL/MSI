@@ -2395,7 +2395,7 @@ first object in 'objs' first.
 .. note::
 
   | Author: NCDS & Coh3n
-  | Last Updated: 27 April 2011 by Coh3n
+  | Last Updated: 09 June 2011 by Coh3n
 
 Example:
 
@@ -2406,7 +2406,9 @@ Example:
 *)
 function MSI_UseItemOn(item: integer; objs: TIntegerArray): boolean;
 var
-  x, y, index: integer;
+  x, y: integer;
+  oo: TMSObjectArray;
+  o: TMSObject;
 begin
   if (not loggedIn) then
     exit;
@@ -2418,7 +2420,8 @@ begin
   end else
     MSI_SubDebug('MSI_UseItemOn: Item already selected');
 
-  result := MSI_FindObjects(objs, index, clickLeft);
+  oo := MSI_GetObjects(objs);
+  result := MSI_FindObjects(oo, moLeft, o);
 end;
 
 

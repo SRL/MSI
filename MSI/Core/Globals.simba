@@ -65,6 +65,12 @@ const
   DTM_TOLERANCE        = 10;    // Tolerance on the DTMs
   TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
 
+  // PLB = Player Box (a tight box around the player)
+  PLBX1 = MSCX - 10;
+  PLBY1 = MSCY - 25;
+  PLBX2 = MSCX + 15;
+  PLBY2 = MSCY + 15;
+
 (*
 Script Constants
 ~~~~~~~~~~~~~~~~
@@ -539,8 +545,6 @@ const
   // Furnaces
   FURNACE_AK = 120;
 
-  OBJ_ARRAY_LENGTH = 120; // Change to the highest object constant
-
 (*
 Obstacle Constants
 ~~~~~~~~~~~~~~~~~~
@@ -741,8 +745,9 @@ throughout MSI scripts.
 *)
 type
   TMSObject = record
-    X, Y             : Integer;       // Set during runtime, not in declaration
+    X, Y             : Integer;
     Name             : string;        // The object's name (doesn''t have to be the same as in-game)
+    Constant         : Integer;
     Uptexts          : TStringArray;
     Options          : TStringArray;
     Exp              : Extended;      // Experienced gained from object
@@ -811,6 +816,15 @@ declaring a TScript record.
 *)
 type
   TBank = (Bank, DBox, NoBank, Drop, NPC);
+
+(*
+TMouseOption
+~~~~~~~~~~~~
+
+Used to tell the object routines which type of mouse action to perform.
+*)
+type
+  TMouseOption = (moRight, moLeft, moMove, moNothing);
 
 (*
 TStaffType
@@ -901,7 +915,7 @@ type
     BankType    : TBank;
     GetMaterials: Boolean;
     WhichBank   : Integer;
-    ClickClosest: Boolean;
+    ClickClosest: Boolean;           // Called in MSI_AutoInvFull()
     AutoObjects : function: Boolean;
     BankObjects : function: Boolean;
     PlayerSetup : function: Boolean;
@@ -1111,7 +1125,6 @@ var
   MSI_SetupVars : array[0..SETUP_ARRAY_LENGTH] of Variant;
   MSI_Players   : TPlayerInfoArray;
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
-  MSI_Objects   : array[0..OBJ_ARRAY_LENGTH] of TMSObject;
   MSI_Locations : array[0..LOC_ARRAY_LENGTH] of TLocation;
   MSI_Scripts   : array[0..SCRIPT_ARRAY_LENGTH] of TScript;
   MSI_Extras    : TExtraArray;
@@ -1119,5 +1132,8 @@ var
   MSI_Obstacles : array[0..OBS_ARRAY_LENGTH] of TObstacle;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
 
-
+function MSI_GetCurrentScript(): TScript;
+begin
+  result := MSI_Scripts[MSI_Players[currentPlayer].scripts[currentScript].name];
+end;
 
