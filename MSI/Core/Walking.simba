@@ -105,6 +105,9 @@ begin
   {$IFDEF REFLECTION}
   t := GetSystemTime + 15000; // Maximum wait time is 15 seconds
   repeat
+    if (rs_GetCompassAngleDegrees <> 0.0) then
+      clickNorth(true);
+
     if (LeaveDangerZone) then
       MSI_Debug('Left danger zone');
 
@@ -163,7 +166,7 @@ begin
   if (TileOnMM(Tile)) then
   begin
     MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is on the minimap');
-    Mouse(MP.X, MP.Y, 5, 5, True);
+    MSI_MultiClickMouse(MP.X, MP.Y, 60, 4);
     Result := True;
     RunEnergy(20);
   end else
@@ -670,17 +673,11 @@ Example:
   MSI_PerformWalk(LOC_VE_BANK, LOC_VE_MINE);
 *)
 function MSI_PerformWalk(startLoc, endLoc: Integer): Boolean;
-var
-  ang: Extended;
 begin
   if (not LoggedIn) then
     Exit;
 
-  ang := rs_GetCompassAngleDegrees;
-  if (ang <> 0.0) then
-    ClickNorth(True);
-  MSI_FindRandoms(True);
-
+  MSI_FindRandoms(true);
   Result := MSI_WalkPath(startLoc, endLoc);
 end;
 

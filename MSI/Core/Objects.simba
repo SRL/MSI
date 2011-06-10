@@ -1293,7 +1293,6 @@ begin
         end;
 
     if (MSI_FindObjectTPA(objs[i], TPA)) then
-    begin
       for j := 0 to high(TPA) do
       begin
         if (action = moNothing) then
@@ -1325,7 +1324,7 @@ begin
               if (waitOptionMulti(objs[i].options, randomRange(150, 200))) then
                 result := didClick(true, randomRange(500, 1000));
 
-              if (random(10) <= 8) then
+              if (random(10) <= 7) then
                 break;
             until(clicks = 3);
 
@@ -1333,7 +1332,7 @@ begin
           if (not result) then
             if (action = moLeft) then
             begin
-              MSI_MultiClickMouse(objs[i].x, objs[i].y, 4);
+              MSI_MultiClickMouse(objs[i].x, objs[i].y, 30, 3);
               result := didClick(true, randomRange(500, 1000));
             end;
         end else begin
@@ -1342,8 +1341,10 @@ begin
           MSI_NotBoxes[high(MSI_NotBoxes)] :=
                   MSI_MakeBox(point(TPA[i].x, TPA[i].y), objs[i].w, objs[i].h);
         end;
+
+        if (result) then
+          break;
       end;
-    end;
 
     if (result) then
     begin

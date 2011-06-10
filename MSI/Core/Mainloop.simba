@@ -1159,7 +1159,6 @@ begin
   MSI_ClearFile(PATH_REMOTE);
   MSI_FreeAllItems;
   FreeSRL;
-  SMART_FreeDebug();
   CloseFile(DebugFile);
 
   Writeln('Thank-you for using MSI Phoenix scripts!');

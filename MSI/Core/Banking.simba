@@ -121,7 +121,7 @@ begin
           begin
             SymbolAccuracy := 50.0;
             if (FindSymbol(x, y, 'bank')) then
-              MSI_MultiClickMouse(x, y, 4);
+              MSI_MultiClickMouse(x, y, 50, 4);
             SymbolAccuracy := 70.0;
             Continue;
           end;

@@ -24,8 +24,8 @@ const
 
 procedure DeclareSettings();
 begin
-  MSI_SetupVars[SETUP_DEBUG_SMART]   := False;         // Debugs things onto SMART (may cause lag)
-  MSI_SetupVars[SETUP_SAVE_DEBUG]    := False;         // Save's the debug box text to a file
+  MSI_SetupVars[SETUP_DEBUG_SMART]   := True;         // Debugs things onto SMART (may cause lag)
+  MSI_SetupVars[SETUP_SAVE_DEBUG]    := True;         // Save's the debug box text to a file
   MSI_SetupVars[SETUP_SAVE_REPORT]   := False;         // Save's the progress report to a file
   MSI_SetupVars[SETUP_HUMAN_BREAK]   := False;         // Take more human like breaks
   MSI_SetupVars[SETUP_SWITCH_WORLDS] := False;         // Switch worlds when switching players or after breaks
@@ -68,6 +68,7 @@ begin
 
     with Scripts[0] do
     begin
+      Name := SCRIPT_VE_OAKS;
       // Copy/paste the script attributes from the setup thread
     end;
   end;
@@ -234,11 +235,12 @@ begin
 
     if (not ScriptReady) then
       TerminateScript;
-  end else begin
+  end else
+} begin
     DeclareSettings;
     DeclarePlayers;
   end;
-}
+
   Smart_Server := 152;
   Smart_Members := False;
   Smart_Signed := True;
@@ -304,7 +306,6 @@ begin
   if (USE_FORM) then
     MSI_SetupVars[SETUP_PRINT_REPORT] := True;
 
-  //MSI_Mainloop;
-  MSI_FindItemSlots(ORE_TIN);
+  MSI_Mainloop;
 end.
 
