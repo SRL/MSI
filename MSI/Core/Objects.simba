@@ -204,13 +204,13 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [6715005];
-        Tol                := 4;
+        Tol                := 5;
         Hue                := 0.19;
         Sat                := 0.31;
         FindAllColors      := False;
-        W                  := 33;
-        H                  := 30;
-        Accuracy           := 15;
+        W                  := 20;
+        H                  := 20;
+        Accuracy           := 10;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;

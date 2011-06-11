@@ -119,7 +119,7 @@ begin
 
           if (relocated) then
           begin
-            SymbolAccuracy := 50.0;
+            SymbolAccuracy := 40.0;
             if (FindSymbol(x, y, 'bank')) then
               MSI_MultiClickMouse(x, y, 50, 4);
             SymbolAccuracy := 70.0;
@@ -128,6 +128,8 @@ begin
 
           relocated := MSI_Relocate(MSI_Players[CurrentPlayer].Location);
         end;
+
+      result := (bankScreen or depositScreen);
     end;
   end;
 
