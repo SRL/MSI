@@ -54,6 +54,7 @@ begin
         Produces    := [BAR_IRON];
         MemberOnly  := False;
         Level       := 15;
+      end;
 
     MATERIAL_BAR_SILVER:
       with Result do
