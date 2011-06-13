@@ -410,7 +410,7 @@ begin
     PICKAXE_DRAGON : Result := 725070;
 
     ORE_CLAY      : Result := 5076363;
-    ORE_COPPER    : Result := 3499183;
+    ORE_COPPER    : Result := 3696563;
     ORE_TIN       : Result := 6118754;
     ORE_IRON      : Result := 1712955;
     ORE_SILVER    : Result := 9538186;

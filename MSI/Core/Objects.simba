@@ -436,6 +436,7 @@ begin
         MaxTime            := 5000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_CLAY];
       end;
 
@@ -458,6 +459,7 @@ begin
         MaxTime            := 7000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_COPPER];
       end;
 
@@ -469,17 +471,18 @@ begin
         Options            := ['ine'];
         Level              := 1;
         Colors             := [7500665];
-        Tol                := 14;
+        Tol                := 15;
         Hue                := 0.18;
         Sat                := 0.06;
         FindAllColors      := False;
-        W                  := 25;
-        H                  := 28;
+        W                  := 20;
+        H                  := 20;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 7000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_TIN];
       end;
 
@@ -502,6 +505,7 @@ begin
         MaxTime            := 10000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_IRON];
       end;
 
@@ -525,6 +529,7 @@ begin
         ExcludeSelf        := False;
         RightClickOnly     := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_SILVER];
       end;
 
@@ -548,6 +553,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_COAL];
       end;
 
@@ -570,6 +576,7 @@ begin
         MaxTime            := 45000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_GOLD];
       end;
 
@@ -593,6 +600,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_MITHRIL];
       end;
 
@@ -615,6 +623,7 @@ begin
         MaxTime            := 75000;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        Track              := True;
         AssociatedItems    := [ORE_ADAMANTITE];
       end;
 
@@ -1163,7 +1172,7 @@ Example:
   if (obj.waitToMove) then
     MSI_TrackObject(obj);
 *)
-function MSI_TrackObject(obj: TMSObject; var x, y: integer): boolean;
+function MSI_TrackObject(var obj: TMSObject): boolean;
 var
   TPA: TPointArray;
   ATPA: T2DPointArray;
@@ -1179,27 +1188,35 @@ begin
   Track_Search(T_TrackObject);
 
   // preparing vars for loop
-  previous := point(x, y);
+  setColorToleranceSpeed(2);
+  setToleranceSpeed2Modifiers(obj.hue, obj.sat);
+  previous := point(obj.x, obj.y);
   t := (getSystemTime + 30000);
   result := true;
-  distMultiplier := (distance(MSCX, MSCY, x, y) / 40);
+  distMultiplier := (distance(MSCX, MSCY, obj.x, obj.y) / 40);
   if (distMultiplier < 1.0) then
     distMultiplier := 1.0;
 
   repeat
-    obj.searchArea := MSI_MakeBox(point(x, y),
+    obj.searchArea := MSI_MakeBox(point(obj.x, obj.y),
                                   round(obj.w * distMultiplier),
                                   round(obj.h * distMultiplier));
 
     if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
       SMART_DrawBoxMS(true, obj.searchArea, clYellow);
 
-    if (MSI_FindObjectTPA(obj, TPA)) then
+    if (findColorsTolerance(TPA,
+                            obj.colors[0],
+                            obj.searchArea.x1,
+                            obj.searchArea.y1,
+                            obj.searchArea.x2,
+                            obj.searchArea.y2,
+                            obj.tol)) then
     begin
       ATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
       sortATPAFromFirstPoint(ATPA, Point(MSCX, MSCY));
       if (length(ATPA) > 0) then
-        middleTPAEx(ATPA[0], x, y);
+        middleTPAEx(ATPA[0], obj.x, obj.y);
 
       if (tries = 1) then
       begin
@@ -1222,12 +1239,12 @@ begin
     if (breakNext) then
       break;
 
-    if (distance(previous.x, previous.y, x, y) < 15) then
+    if (distance(previous.x, previous.y, obj.x, obj.y) < 15) then
       if (not flagPresent) then
         if (not isMoving) then
           breakNext := true;
 
-    previous := point(x, y);
+    previous := point(obj.x, obj.y);
 
     wait(5);
   until(t < getSystemTime);
@@ -1236,6 +1253,8 @@ begin
     Track_Success(T_TrackObject);
 
   Track_Print(T_TrackObject);
+  setColorToleranceSpeed(1);
+  setToleranceSpeed2Modifiers(0.2, 0.2);
 
   MSI_CloseHeader('MSI_TrackObject: ' + boolToStr(result));
 end;
@@ -1295,6 +1314,8 @@ begin
     if (MSI_FindObjectTPA(objs[i], TPA)) then
       for j := 0 to high(TPA) do
       begin
+        obj := objs[i];
+
         if (action = moNothing) then
         begin
           result := true;
@@ -1305,7 +1326,7 @@ begin
         wait(randomRange(20, 50));
 
         // check the uptext of where we moved the mouse to
-        if (waitUptextMulti(objs[i].uptexts, randomRange(150, 200))) then
+        if (waitUptextMulti(obj.uptexts, randomRange(150, 200))) then
         begin
           // if only set to move the mouse, we're done
           if (action = moMove) then
@@ -1314,14 +1335,14 @@ begin
             break;
           end;
 
-          getMousePos(objs[i].x, objs[i].y);
+          getMousePos(obj.x, obj.y);
 
           // right click the object if set to (if not, 10% chance for antiban)
-          if ((objs[i].rightClickOnly) or (action = moRight) or (random(10) = 1)) then
+          if ((obj.rightClickOnly) or (action = moRight) or (random(10) = 1)) then
             repeat // simulates multiple clicking like a human would
               inc(clicks);
-              mouse(objs[i].x, objs[i].y, 0, 0, false);
-              if (waitOptionMulti(objs[i].options, randomRange(150, 200))) then
+              mouse(obj.x, obj.y, 0, 0, false);
+              if (waitOptionMulti(obj.options, randomRange(150, 200))) then
                 result := didClick(true, randomRange(500, 1000));
 
               if (random(10) <= 7) then
@@ -1332,14 +1353,14 @@ begin
           if (not result) then
             if (action = moLeft) then
             begin
-              MSI_MultiClickMouse(objs[i].x, objs[i].y, 30, 3);
+              MSI_MultiClickMouse(obj.x, obj.y, 30, 3);
               result := didClick(true, randomRange(500, 1000));
             end;
         end else begin
           // add to the bad boxes array if the uptext is wrong
           setLength(MSI_NotBoxes, length(MSI_NotBoxes) + 1);
           MSI_NotBoxes[high(MSI_NotBoxes)] :=
-                  MSI_MakeBox(point(TPA[i].x, TPA[i].y), objs[i].w, objs[i].h);
+                  MSI_MakeBox(point(TPA[j].x, TPA[j].y), obj.w, obj.h);
         end;
 
         if (result) then
@@ -1349,20 +1370,21 @@ begin
     if (result) then
     begin
       if ((action <> moMove) and (action <> moNothing)) then
-        if ((objs[i].waitToMove) and (objs[i].track)) then
-          MSI_TrackObject(objs[i], objs[i].x, objs[i].y)
+        if ((obj.waitToMove) and (obj.track)) then
+          MSI_TrackObject(obj)
         else
-          if (objs[i].waitToMove) then
+          if (obj.waitToMove) then
             flag
           else
-            if (objs[i].track) then
-              MSI_TrackObject(objs[i], objs[i].x, objs[i].y);
+            if (obj.track) then
+              MSI_TrackObject(obj);
 
       MSI_NotBoxes := [];
-      obj := objs[i];
       break;
-    end else
+    end else begin
+      flag;
       MSI_FindRandoms(true);
+    end;
   end;
 end;
 

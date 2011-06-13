@@ -85,8 +85,8 @@ begin
 
   t := (getSystemTime + rock.maxTime + randomRange(-1000, 1000));
   rock.searchArea := MSI_MakeBox(point(rock.x, rock.y),
-                                 round(rock.w * SIZE_MULTIPLIER) * 2,
-                                 round(rock.h * SIZE_MULTIPLIER) * 2);
+                                 round(rock.w * SIZE_MULTIPLIER),
+                                 round(rock.h * SIZE_MULTIPLIER));
 
   if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
     SMART_DrawBoxEx(true, rock.searchArea, clBlue);

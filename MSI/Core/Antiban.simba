@@ -42,7 +42,7 @@ begin
     inc(clicks);
     mouse(x, y, rX, rY, true);
 
-    if (random(100) > chance) then
+    if (random(100) > chance) or (not didClick(true, 50 + random(50))) then
       break;
 
     rX := randomRange(-10, 10);
