@@ -44,7 +44,7 @@ begin
     TREE_NORMAL:
       with result do
       begin
-        Name               := 'Normal Tree';
+        Name               := 'TREE_NORMAL';
         Uptexts            := ['ree'];
         Options            := ['own Tree'];
         Level              := 1;
@@ -66,7 +66,7 @@ begin
     TREE_OAK:
       with result do
       begin
-        Name               := 'Oak Tree';
+        Name               := 'TREE_OAK';
         Uptexts            := ['Oak'];
         Options            := ['own Oak'];
         Level              := 15;
@@ -88,7 +88,7 @@ begin
     TREE_WILLOW:
       with result do
       begin
-        Name               := 'Willow tree';
+        Name               := 'TREE_WILLOW';
         Uptexts            := ['wn Wil'];
         Options            := ['Chop down Willow'];
         Level              := 30;
@@ -110,7 +110,7 @@ begin
     TREE_WILLOW_NEW:
       with result do
       begin
-        Name               := 'Willow tree';
+        Name               := 'TREE_WILLOW_NEW';
         Uptexts            := ['wn Wil'];
         Options            := ['Chop down Willow'];
         Level              := 30;
@@ -131,7 +131,7 @@ begin
     TREE_MAPLE:
       with result do
       begin
-        Name               := 'Maple tree';
+        Name               := 'TREE_MAPLE';
         Uptexts            := ['wn Map'];
         Options            := ['Chop down Maple'];
         Level              := 45;
@@ -153,7 +153,7 @@ begin
     TREE_YEW:
       with result do
       begin
-        Name               := 'Yew Tree';
+        Name               := 'TREE_YEW';
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
@@ -175,7 +175,7 @@ begin
     TREE_MAGIC:
       with result do
       begin
-        Name               := 'Magic tree';
+        Name               := 'TREE_MAGIC';
         Uptexts            := ['gic tre'];
         Options            := ['down Mag'];
         Level              := 75;
@@ -200,7 +200,7 @@ begin
     MSI_BANK_VE:
       with result do
       begin
-        Name               := 'Varrock east bank';
+        Name               := 'BANK_VARROCK_EAST';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [6715005];
@@ -220,7 +220,7 @@ begin
     MSI_BANK_DB:
       with result do
       begin
-        Name               := 'Draynor bank';
+        Name               := 'BANK_DRAYNOR';
         Uptexts            := ['ount'];
         Options            := ['uick'];
         Colors             := [5136741];
@@ -240,7 +240,7 @@ begin
     MSI_BANK_GE:
       with result do
       begin
-        Name               := 'Grand Exchange bank';
+        Name               := 'BANK_GRAND_EXCHANGE';
         Uptexts            := ['anker'];
         Options            := ['ank Banker'];
         Colors             := [1270921];
@@ -259,7 +259,7 @@ begin
     MSI_BANK_FE:
       with result do
       begin
-        Name               := 'Falador east bank';
+        Name               := 'BANK_FALADOR_EAST';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [7044234];
@@ -279,7 +279,7 @@ begin
     MSI_BANK_VW:
       with result do
       begin
-        Name               := 'Varrock west bank';
+        Name               := 'BANK_VARROCK_WEST';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [5794933];
@@ -299,7 +299,7 @@ begin
     MSI_BANK_FW:
       with result do
       begin
-        Name               := 'Falador west bank';
+        Name               := 'BANK_FALADOR_WEST';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [3627376];
@@ -319,7 +319,7 @@ begin
     MSI_BANK_EV:
       with result do
       begin
-        Name               := 'Edgeville bank';
+        Name               := 'BANK_EDGEVILLE';
         Uptexts            := ['ooth', 'nk Bo'];
         Options            := ['uick', 'ickly'];
         Colors             := [4149854, 4215904];
@@ -339,7 +339,7 @@ begin
     DBOX_PS:
       with result do
       begin
-        Name               := 'Port Sarim deposit box';
+        Name               := 'DBOX_PORT_SARIM';
         Uptexts            := ['eposit'];
         Options            := ['it Bank'];
         Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
@@ -359,7 +359,7 @@ begin
     MSI_BANK_SV:
       with result do
       begin
-        Name               := 'Seers Village Bank';
+        Name               := 'BANK_SEERS_VILLAGE';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [10464171];
@@ -378,7 +378,7 @@ begin
     MSI_BANK_AK:
       with result do
       begin
-        Name               := 'Al-Kharid Bank';
+        Name               := 'BANK_AL-KHARID';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [4870229];
@@ -398,7 +398,7 @@ begin
     MSI_BANK_CB:
       with result do
       begin
-        Name               := 'Catherby bank';
+        Name               := 'BANK_CATHERBY';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
         Colors             := [6714503];
@@ -420,7 +420,7 @@ begin
     ROCK_CLAY:
       with result do
       begin
-        Name               := 'Clay';
+        Name               := 'ROCK_CLAY';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 1;
@@ -443,7 +443,7 @@ begin
     ROCK_COPPER:
       with result do
       begin
-        Name               := 'Copper';
+        Name               := 'ROCK_COPPER';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 1;
@@ -466,7 +466,7 @@ begin
     ROCK_TIN:
       with result do
       begin
-        Name               := 'Tin';
+        Name               := 'ROCK_TIN';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 1;
@@ -489,7 +489,7 @@ begin
     ROCK_IRON:
       with result do
       begin
-        Name               := 'Iron';
+        Name               := 'ROCK_IRON';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 15;
@@ -512,7 +512,7 @@ begin
     ROCK_SILVER:
       with result do
       begin
-        Name               := 'Silver';
+        Name               := 'ROCK_SILVER';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 20;
@@ -536,7 +536,7 @@ begin
     ROCK_COAL:
       with result do
       begin
-        Name               := 'Coal';
+        Name               := 'ROCK_COAL';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 30;
@@ -560,7 +560,7 @@ begin
     ROCK_GOLD:
       with result do
       begin
-        Name               := 'Gold';
+        Name               := 'ROCK_GOLD';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 40;
@@ -583,7 +583,7 @@ begin
     ROCK_MITHRIL:
       with result do
       begin
-        Name               := 'Mithril';
+        Name               := 'ROCK_MITHRIL';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 55;
@@ -607,7 +607,7 @@ begin
     ROCK_ADAMANTITE:
       with result do
       begin
-        Name               := 'Adamantite';
+        Name               := 'ROCK_ADAMANTITE';
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 70;
@@ -652,7 +652,7 @@ begin
           FISHSPOT_NET:
             with result do
             begin
-              Name               := 'Net Spot';
+              Name               := 'FISHSPOT_NET';
               Uptexts            := ['Net'];
               Options            := ['Net'];
               Level              := 1;
@@ -663,7 +663,7 @@ begin
           FISHSPOT_BAIT:
             with result do
             begin
-              Name               := 'Bait Spot';
+              Name               := 'FISHSPOT_BAIT';
               Uptexts            := ['Net', 'Bait', 'Lure'];
               Options            := ['Bait'];
               Level              := 5;
@@ -674,7 +674,7 @@ begin
           FISHSPOT_LURE:
             with result do
             begin
-              Name               := 'Lure Spot';
+              Name               := 'FISHSPOT_LURE';
               Uptexts            := ['Lure Fish'];
               Options            := ['Lure'];
               Level              := 20;
@@ -685,7 +685,7 @@ begin
           FISHSPOT_CAGE:
             with result do
             begin
-              Name               := 'Cage Spot';
+              Name               := 'FISHSPOT_CAGE';
               Uptexts            := ['Cage'];
               Options            := ['Cage'];
               Level              := 40;
@@ -696,7 +696,7 @@ begin
           FISHSPOT_HARPOON:
             with result do
             begin
-              Name               := 'Harpooning Spot';
+              Name               := 'FISHSPOT_HARPOON';
               Uptexts            := ['Cage'];
               Options            := ['Harpoon'];
               Level              := 35;
@@ -711,7 +711,7 @@ begin
     COOKSPOT_AK_RANGE:
       with result do
       begin
-        Name               := 'AK Cooking Range';
+        Name               := 'RANGE_AL-KHARID';
         Uptexts            := ['Range'];
         Options            := ['Range'];
         Colors             := [1779380, 1779646];
@@ -739,7 +739,7 @@ begin
     LADDER_DOWN_MINE_GUILD:
       with result do
       begin
-        Name               := 'Mining Guild Ladder: Down';
+        Name               := 'LADDER_DOWN_MINE_GUILD';
         Uptexts            := ['own Ladder'];
         Options            := ['own Ladder'];
         Colors             := [2709359];
@@ -760,7 +760,7 @@ begin
     LADDER_UP_MINE_GUILD:
       with result do
       begin
-        Name               := 'Mining Guild Ladder: Up';
+        Name               := 'LADDER_UP_MINE_GUILD';
         Uptexts            := ['up Ladder'];
         Options            := ['up Ladder'];
         Colors             := [4410190];
@@ -781,7 +781,7 @@ begin
     FALADOR_WEST_CRUMBLING_WALL:
       with result do
       begin
-        Name               := 'Falador West Crumbling Wall';
+        Name               := 'FALADOR_WEST_CRUMBLING_WALL:';
         Uptexts            := ['rumbling wall'];
         Options            := ['rumbling wall'];
         Colors             := [9092811];
@@ -803,7 +803,7 @@ begin
     OBJ_BIRD_NEST:
       with result do
       begin
-        Name               := 'Bird''s nest';
+        Name               := 'OBJ_BIRD_NEST';
         Uptexts            := ['s nest'];
         Options            := ['ake'];
         Colors             := [4016204];
@@ -825,7 +825,7 @@ begin
     NPC_STILES:
       with result do
       begin
-        Name               := 'Stiles';
+        Name               := 'NPC_STILES';
         Uptexts            := ['tiles'];
         Options            := ['chan'];
         Colors             := [3684667];
@@ -847,7 +847,7 @@ begin
     FOUNTAIN_VE:
       with result do
       begin
-         Name               := 'Varrock East Fountain';
+         Name               := 'FOUNTAIN_VARROCK_EAST';
          Uptexts            := ['ount'];
          Options            := ['se'];
          Colors             := [14520685];
@@ -868,7 +868,7 @@ begin
     WELL_EV:
       with result do
       begin
-        Name               := 'Edgeville Well';
+        Name               := 'WELL_EDGEVILLE';
         Uptexts            := ['ell'];
         Options            := ['se'];
         Colors             := [3757413];
@@ -889,7 +889,7 @@ begin
     PUMP_FW:
       with result do
       begin
-        Name               := 'Falador Waterpump';
+        Name               := 'PUMP_FALADOR_WEST';
         Uptexts            := ['pump'];
         Options            := ['se'];
         Colors             := [4870997];
@@ -912,7 +912,7 @@ begin
     FURNACE_AK:
       with result do
       begin
-        Name               := 'Al Kharid Furnace';
+        Name               := 'FURNACE_AL-KHARID';
         Uptexts            := ['urnace'];
         Options            := ['melt'];
         Colors             := [2240921];

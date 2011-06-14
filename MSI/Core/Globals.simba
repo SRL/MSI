@@ -545,6 +545,8 @@ const
   // Furnaces
   FURNACE_AK = 120;
 
+  OBJECT_HIGH = 120; // Change to the highest object constant
+
 (*
 Obstacle Constants
 ~~~~~~~~~~~~~~~~~~
