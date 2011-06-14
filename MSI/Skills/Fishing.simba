@@ -191,7 +191,7 @@ is still fishing.
 .. note::
 
   | Author: 3Garrett3
-  | Last Updated: 10 June 2011 by Coh3n
+  | Last Updated: 14 June 2011 by Coh3n
 
 Example:
 
@@ -202,20 +202,34 @@ Example:
 *)
 procedure MSI_WaitWhileFishing(fishSpot: TMSObject; var failed: boolean);
 var
-  x, y, tries, oldInvCount, waitTime, invTimer: Integer;
+  x, y, animTries, colorTries, oldInvCount, waitTime, invTimer: Integer;
   idle: TAnimation;
+  arr: TPointArray;
 begin
   if ((not loggedIn) or (invFull)) then
     exit;
 
   MSI_AddHeader('MSI_WaitWhileFishing');
-  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y), fishSpot.w, fishSpot.h);
+  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y),
+                                     round(fishSpot.w / 1.5),
+                                     round(fishSpot.h / 1.5));
+
+  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+    SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
 
   idle := MSI_GetAnimation(ANIM_IDLE);
-  waitTime := (getSystemTime + 30000);
+  waitTime := (getSystemTime + (60000 * 3));
   oldInvCount := invCount;
   markTime(invTimer);
   flag;
+
+  setColorToleranceSpeed(2);
+  setToleranceSpeed2Modifiers(fishSpot.hue, fishSpot.sat);
+
+  findColorsTolerance(arr, fishSpot.Colors[0],
+                      fishSpot.searchArea.x1, fishSpot.searchArea.y1,
+                      fishSpot.searchArea.x2, fishSpot.searchArea.y2,
+                      fishSpot.tol);
 
   repeat
     MSI_FindRandoms(false);
@@ -228,10 +242,28 @@ begin
       break;
     end;
 
+    // looking for fishing spot
+    findColorsTolerance(arr, fishSpot.Colors[0],
+                        fishSpot.searchArea.x1, fishSpot.searchArea.y1,
+                        fishSpot.searchArea.x2, fishSpot.searchArea.y2,
+                        fishSpot.tol);
+
+    if (length(arr) < fishSpot.accuracy) then
+    begin
+      MSI_Debug('Colours found < Accuracy');
+      inc(colorTries);
+    end else begin
+      MSI_Debug('Fishing spot found');
+      colorTries := 0;
+    end;
+
     MSI_AntiBan(randomRange(0, 3000), ANTI_BAN_CHANCE);
 
     if (invFull) then
+    begin
+      MSI_Debug('Inventory is full');
       break;
+    end;
 
     MSI_Debug('Checking inventory count');
     if (timeFromMark(invTimer) > 30000) then // if no new fish in inv after 30 seconds, spot probably moved
@@ -245,28 +277,30 @@ begin
         markTime(invTimer);
       end;
 
-    MSI_Debug('Looking for fishing spot');
-    if (not MSI_FindObject(fishSpot, moNothing)) then // check to see if the fishing spot is still there
-    begin
-      MSI_SubDebug('Fishing spot not found');
-      break;
-    end else
-      MSI_SubDebug('Fishing spot found');
-
     MSI_Debug('Checking player''s pixel shifting');
-    if (not MSI_IsAnimating(idle)) then // check to see if the player is still animating
+    if (MSI_IsAnimating(idle)) then // check to see if the player is still animating
     begin
       MSI_SubDebug('Player isn''t animating');
-      inc(tries);
+      inc(animTries);
     end else begin
       MSI_SubDebug('Player is animating');
-      tries := 0;
+      animTries := 0;
     end;
 
-    wait(randomRange(200, 500));
-  until((waitTime < getSystemTime) or (not loggedIn) or (tries >= 10));
+    // breaks out after 3 minutes (assumes the player isn't fishing)
+    if (waitTime < getSystemTime) then
+    begin
+      MSI_Debug('Been fishing for 3 minutes straight, breaking as failsafe');
+      break;
+    end;
+
+    wait(randomRange(300, 700));
+  until((not loggedIn) or (animTries >= 10) or (colorTries > 5));
 
   MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
+
+  setColorToleranceSpeed(2);
+  setToleranceSpeed2Modifiers(fishSpot.hue, fishSpot.sat);
 end;
 
 (*
