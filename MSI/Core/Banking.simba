@@ -136,7 +136,7 @@ begin
   if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
     SMART_DrawBoxEx(True, IntToBox(0, 0, 0, 0), clWhite);
 
-  MSI_CloseHeader('MSI_OpenBank: ' + boolToStr(result) + '(' + bankObj.name + ')');
+  MSI_CloseHeader('MSI_OpenBank: ' + boolToStr(result) + ' (' + bankObj.name + ')');
 end;
 
 (*
@@ -318,6 +318,7 @@ begin
     for i := 0 to High(itemsDeposited) do
       if (not itemsDeposited[i]) then // Returns false if it fails to deposit one item
       begin
+        MSI_Players[currentPlayer].reportInfo.falseReason := 'Failed to deposit: '+MSI_Items[items[i]].name;
         MSI_CloseHeader('MSI_Deposit: ' + BoolToStr(Result) + ' (' + MSI_Items[Items[i]].Name + ')');
         Exit;
       end else
@@ -608,6 +609,7 @@ var
   i, iCount: Integer;
   depAll: Boolean;
   Script: TScript;
+  obj: TMSObject;
 begin
   if (not LoggedIn) then
     Exit;
@@ -617,11 +619,12 @@ begin
   with MSI_Players[CurrentPlayer] do
   begin
     Script := MSI_Scripts[Scripts[CurrentScript].Name];
+    obj := MSI_GetObject(script.whichBank);
 
     if (Location = Script.PathInfo.StartLoc) then
       if (not MSI_OpenBank(Script.WhichBank, Pin)) then
       begin
-        ReportInfo.FalseReason := 'Failed to open bank: '+toStr(script.whichBank);
+        ReportInfo.FalseReason := 'Failed to open bank: '+obj.name;
         MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
         Exit;
       end;
@@ -643,7 +646,6 @@ begin
         if (not itemsDeposited[i]) then
         begin
           Result := False;
-          ReportInfo.FalseReason := 'Failed to deposit items';
           MSI_CloseHeader('MSI_BankStandard: ' + BoolToStr(Result));
           Exit;
         end;

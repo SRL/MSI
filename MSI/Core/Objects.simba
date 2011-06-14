@@ -342,14 +342,14 @@ begin
         Name               := 'DBOX_PORT_SARIM';
         Uptexts            := ['eposit'];
         Options            := ['it Bank'];
-        Colors             := [5202031, 6320253, 5859188, 4741996, 437569, 4215135];
-        Tol                := 12;
-        Hue                := 0.05;
-        Sat                := 0.58;
+        Colors             := [4279124];
+        Tol                := 10;
+        Hue                := 0.08;
+        Sat                := 0.11;
         FindAllColors      := False;
-        W                  := 30;
-        H                  := 60;
-        Accuracy           := 20;
+        W                  := 20;
+        H                  := 30;
+        Accuracy           := 30;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -494,12 +494,12 @@ begin
         Options            := ['ine'];
         Level              := 15;
         Colors             := [3030375];
-        Tol                := 8;
+        Tol                := 10;
         Hue                := 0.08;
         Sat                := 0.14;
         FindAllColors      := False;
-        W                  := 30;
-        H                  := 23;
+        W                  := 20;
+        H                  := 20;
         Accuracy           := 2;
         SearchArea         := MSBox;
         MaxTime            := 10000;
@@ -565,13 +565,13 @@ begin
         Options            := ['ine'];
         Level              := 40;
         Colors             := [4702956];
-        Tol                := 5;
+        Tol                := 8;
         Hue                := 0.02;
         Sat                := 3.30;
         FindAllColors      := False;
-        W                  := 25;
+        W                  := 20;
         H                  := 20;
-        Accuracy           := 10;
+        Accuracy           := 5;
         SearchArea         := MSBox;
         MaxTime            := 45000;
         ExcludeSelf        := False;
@@ -992,10 +992,11 @@ procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: extended);
 var
   i, j: integer;
 begin
-  for i := 0 to high(TPA) do
-    for j := i to high(TPA) do
-      if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) < maxDist) then
-        deleteValueInTPA(TPA, j);
+  if (length(TPA) > 1) then // so it doesn't remove the only point
+    for i := 0 to high(TPA) do
+      for j := i to high(TPA) do
+        if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) < maxDist) then
+          deleteValueInTPA(TPA, j);
 end;
 
 (*
