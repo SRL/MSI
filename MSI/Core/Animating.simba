@@ -10,13 +10,6 @@ The source for can be found
 
 *)
 
-const
-  // PLB = Player Box (a tight box around the player)
-  PLBX1 = MSCX - 10;
-  PLBY1 = MSCY - 25;
-  PLBX2 = MSCX + 15;
-  PLBY2 = MSCY + 15;
-
 (*
 MSI_GetAnimation
 ~~~~~~~~~~~~~~~~

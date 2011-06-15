@@ -94,7 +94,7 @@ called in MSI_WaitWhileChopping, and if the current player is a member.
 .. note::
 
   | Author: NCDS
-  | Last Updated: 21 July 2010 by NCDS
+  | Last Updated: 10 June 2011 by Coh3n
 
 Example:
 
@@ -103,26 +103,24 @@ Example:
   if (MSI_FindBirdNest) then
     MSI_Debug('Found and picked up bird's nest');
 *)
-function MSI_FindBirdNest: Boolean;
+function MSI_FindBirdNest: boolean;
 var
-  SearchBox: TBox;
+  nest: TMSObject;
 begin
   if (not (MSI_Players[CurrentPlayer].Member)) or (not LoggedIn) then
     Exit;
 
   MSI_Debug('Looking for bird''s nests');
 
-  if (not MSI_Players[CurrentPlayer].Member) or
-   (not(IsChatBoxTextBetween(BIRD_NEST_CBMESSAGE, 0, 8, 6))) then
-     Exit;
+  if (not isChatBoxTextBetween(BIRD_NEST_CBMESSAGE, 0, 8, 6)) then
+    exit;
 
-  SearchBox := IntToBox(MSCx - 100, MSCy - 100, MSCx + 100, MSCy + 100);
-
-  if MSI_FindObjectIn(OBJ_BIRD_NEST, SearchBox, ClickLeft) then
+  nest := MSI_GetObject(OBJ_BIRD_NEST);
+  if (MSI_FindObject(nest, moLeft)) then
   begin
-    Result := True;
-    Flag;
-    Wait(RandomRange(100, 300));
+    result := true;
+    flag;
+    wait(randomRange(100, 300));
   end;
 end;
 
@@ -206,7 +204,7 @@ MSI_ChopTree
 
 .. code-block:: pascal
 
-  function MSI_ChopTree(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+  function MSI_ChopTree(trees: TIntegerArray; var forceFail: boolean): boolean;
 
 Finds and chops the first tree found in the array 'Which'.  'ForceFail' is used
 to deliberately make the function fail if for some reason the player's hatchet
@@ -215,7 +213,7 @@ was lost, for example.
 .. note::
 
   | Author: marpis
-  | Last Updated: 25 June 2010 by marpis
+  | Last Updated: 10 June 2011 by Coh3n
 
 Example:
 
@@ -225,21 +223,22 @@ Example:
     if (not fail) then
       MSI_Debug('Chopped tree');
 *)
-function MSI_ChopTree(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+function MSI_ChopTree(trees: TIntegerArray; var forceFail: boolean): boolean;
 var
-  TreeIndex: Integer;
+  treeObjs: TMSObjectArray;
+  tree: TMSObject;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  if MSI_FindObjects(Which, TreeIndex, ClickLeft) then
+  treeObjs := MSI_GetObjects(trees);
+
+  if (MSI_FindObjects(treeObjs, moLeft, tree)) then
   begin
-    Result := True;
+    result := true;
     MSI_WaitWhileChopping();
-  end else begin
-    Wait(RandomRange(250, 750));
-    MSI_FindRandoms(True);
-  end;
+  end else
+    MSI_FindRandoms(true);
 end;
 
 (*

@@ -11,6 +11,99 @@ The source for can be found
 *)
 
 (*
+MSI_MultiClickMouse
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_MultiClickMouse(x, y, maxClicks: integer);
+
+Will simulate "spam" clicking on the point x, y.  Will do it a random amount
+between 1 and 'maxClicks'.  Will click once no matter what, then has a percent
+'chance' of clicking again after that.  Will not exceed 'maxClicks'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 09 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (waitUptext('ree', 200)) then
+    MSI_MultiClickMouse(x, y, 35, 5);
+*)
+procedure MSI_MultiClickMouse(x, y, chance, maxClicks: integer);
+var
+  clicks, rX, rY: integer;
+begin
+  repeat
+    inc(clicks);
+    mouse(x, y, rX, rY, true);
+
+    if (random(100) > chance) or (not didClick(true, 50 + random(50))) then
+      break;
+
+    rX := randomRange(-10, 10);
+    rX := randomRange(-10, 10);
+  until(clicks >= maxClicks);
+end;
+
+(*
+MSI_Conversation
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Conversation(texts: TStringArray; clickCont: TBooleanArray): boolean;
+
+Goes through a conversation in the chat box.  Will look for the strings 'texts'.
+If the corresponding boolean from 'clickCont' is set to true, it will click the
+"Click to Continue" button, otherwise will click the text.  The length of
+'texts' and 'clickCont' have to be the same.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 15 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindObject(MSI_GetObject(NPC_STILES), moRight)) then
+    MSI_Conversation(['exchan', 'exchan', 'exchan', 'obbies', 'kay'],
+                     [true, false, true, true, false]);
+*)
+function MSI_Conversation(texts: TStringArray; clickCont: TBooleanArray): boolean;
+var
+  i, x, y: integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  if (length(texts) <> length(clickCont)) then
+  begin
+    MSI_SubDebug('MSI_Conversation: texts <> clickCont');
+    exit;
+  end;
+
+  for i := 0 to high(texts) do
+  begin
+    if (findText(x, y, texts[i], NPCChars, MCX1, MCY1, MCX2, MCY2)) then
+      if (clickCont[i]) then
+        clickContinue(true, true)
+      else begin
+        mouse(x, y, 2, 2, true);
+        chatWait();
+      end;
+
+    wait(100 + random(300))
+  end;
+end;
+
+(*
 MSI_Antiban
 ~~~~~~~~~~~
 

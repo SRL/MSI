@@ -336,7 +336,7 @@ begin
       end;
 
       if (GetSystemTime > (t div 3)) then
-        NotBoxes := [];
+        MSI_NotBoxes := [];
     end;
   until(Result or (GetSystemTime > t));
 end;

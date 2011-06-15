@@ -134,6 +134,25 @@ begin
   //Writeln(Result);
 end;
 
+function GetObjByName(name: string): TMSObject;
+var
+  i: integer;
+  obj: TMSObject;
+begin
+  for i := 0 to OBJECT_HIGH do
+  begin
+    obj := MSI_GetObject(i);
+    if (obj.name = '') then
+      continue;
+
+    if (uppercase(obj.name) = uppercase(name)) then
+    begin
+      result := obj;
+      break;
+    end;
+  end;
+end;
+
 // Get the player index from the player's name
 function GetPlayerIndex(Username: string): Integer;
 var
@@ -151,6 +170,25 @@ begin
       Result := i;
       Exit;
     end;
+end;
+
+function MSI_GetObjByName(name: string): TMSObject;
+var
+  i: integer;
+  obj: TMSObject;
+begin
+  for i := 0 to OBJECT_HIGH do
+  begin
+    obj := MSI_GetObject(i);
+    if (obj.name = '') then
+      continue;
+
+    if (uppercase(obj.name) = uppercase(name)) then
+    begin
+      result := obj;
+      break;
+    end;
+  end;
 end;
 
 // Prevents people from typing in combo boxes
@@ -454,8 +492,9 @@ end;
 
 procedure script_ShowComponents();
 var
-  i, j, k: Integer;
+  i, j: Integer;
   default, lists, edits, items, objs: TIntegerArray;
+  obj: TMSObject;
 begin
   script_HideComponents();
 
@@ -492,9 +531,10 @@ begin
 
             // Add the default objects to the TCheckListBox
             for j := 0 to High(default) do
-              for k := 0 to High(MSI_Objects) do
-                if (default[j] = k) then
-                  script_Lists[lists[0]].Items.Append(MSI_Objects[k].Name);
+            begin
+              obj := MSI_GetObject(default[j]);
+              script_Lists[lists[0]].items.append(obj.name);
+            end;
 
             // Add the items to the don't drop/bank TCheckListBox
             for j := 0 to High(items) do
@@ -528,15 +568,16 @@ begin
 
             // add cooking spots
             for j := 0 to high(objs) do
-              for k := 0 to high(msi_objects) do
-                if (objs[j] = k) then
-                  case MSI_Scripts[i].SkillConst of
-                    SKILL_COOKING:
-                      script_lists[LIST_COOKSPOTS].ITEMS.Append(msi_objects[k].name);
+            begin
+              obj := MSI_GetObject(objs[j]);
+              case MSI_Scripts[i].SkillConst of
+                SKILL_COOKING:
+                  script_lists[LIST_COOKSPOTS].items.append(obj.name);
 
-                    SKILL_NONE:
-                      script_lists[LIST_OBJECTS].ITEMS.Append(msi_objects[k].name);
-                  end;
+                SKILL_NONE:
+                  script_lists[LIST_OBJECTS].items.append(obj.name);
+              end;
+            end;
 
             // add materials
             for j := 0 to high(msi_scripts[i].defaults.materials) do
@@ -590,6 +631,7 @@ var
   i, j, lIndex, sIndex, skill: Integer;
   objects: TIntegerArray;
   m: TMaterial;
+  obj: TMSObject;
 begin
   for i := 0 to High(MSI_Scripts) do
     if (comboBox_Script_6.Text = MSI_Scripts[i].Name) then
@@ -628,9 +670,12 @@ begin
         // Check off the objects in the list
         //Writeln(ToStr(objects));
         for i := 0 to High(objects) do
-          for j := 0 to (script_Lists[lIndex].Items.Count - 1) do
-            if (Lowercase(script_Lists[lIndex].Items.Strings[j]) = Lowercase(MSI_Objects[objects[i]].Name)) then
-              script_Lists[lIndex].Checked[j] := True;
+        begin
+          obj := MSI_GetObject(objects[i]);
+          for j := 0 to (script_Lists[lIndex].items.count - 1) do
+            if (uppercase(script_Lists[lIndex].items.strings[j]) = uppercase(obj.name)) then
+              script_Lists[lIndex].checked[j] := true;
+        end;
 
         // Check off all the dont drop items
         for i := 0 to High(MSI_Players[pIndex].Scripts[sIndex].DontDrop) do
@@ -651,9 +696,12 @@ begin
       begin
         if (skill = SKILL_COOKING) then
           for i := 0 to High(msi_players[pIndex].scripts[sIndex].CookingSpot) do
+          begin
+            obj := MSI_GetObject(msi_players[pIndex].scripts[sIndex].CookingSpot[i]);
             for j := 0 to (script_Lists[LIST_COOKSPOTS].Items.Count - 1) do
-              if (Lowercase(script_Lists[LIST_COOKSPOTS].Items.Strings[j]) = Lowercase(MSI_objects[msi_players[pIndex].scripts[sIndex].CookingSpot[i]].Name)) then
+              if (uppercase(script_Lists[LIST_COOKSPOTS].Items.Strings[j]) = uppercase(obj.name)) then
                 script_Lists[LIST_COOKSPOTS].Checked[j] := true;
+          end;
 
         for i := 0 to High(msi_players[pIndex].scripts[sIndex].materials) do
           for j := 0 to (script_Lists[LIST_MATERIALS].Items.Count - 1) do
@@ -725,6 +773,7 @@ procedure script_SetInfo(pIndex, sIndex: Integer);
 var
   i, j, skill, lIndex: Integer;
   m: TMaterial;
+  obj: TMSObject;
 begin
   if (pIndex <= -1) or (sIndex <= -1) then
     Exit;
@@ -760,38 +809,37 @@ begin
         // Set the Trees, Rocks, and FishSpots depending on the skill
         for i := 0 to script_Lists[lIndex].ITEMS.Count - 1 do
           if (script_Lists[lIndex].Checked[i]) then
-            for j := 0 to High(MSI_Objects) do
-              if (Lowercase(MSI_Objects[j].Name) = Lowercase(script_Lists[lIndex].Items.Strings[i])) then
-              begin
-                case skill of
-                  SKILL_WOODCUTTING:
-                    with MSI_Players[pIndex].Scripts[sIndex] do
-                    begin
-                      SetLength(Trees, Length(Trees) + 1);
-                      Trees[High(Trees)] := j;
-                      ClearSameIntegers(Trees);
-                      //Writeln('Player '+IntToStr(pIndex)+' Trees: '+ToStr(Trees));
-                    end;
-
-                  SKILL_MINING:
-                    with MSI_Players[pIndex].Scripts[sIndex] do
-                    begin
-                      SetLength(Rocks, Length(Rocks) + 1);
-                      Rocks[High(Rocks)] := j;
-                      ClearSameIntegers(Rocks);
-                      //Writeln('Player '+IntToStr(pIndex)+' Rocks: '+ToStr(Rocks));
-                    end;
-
-                  SKILL_FISHING:
-                    with MSI_Players[pIndex].Scripts[sIndex] do
-                    begin
-                      SetLength(FishSpots, Length(FishSpots) + 1);
-                      FishSpots[High(FishSpots)] := j;
-                      ClearSameIntegers(FishSpots);
-                      //Writeln('Player '+IntToStr(pIndex)+' FishSpots: '+ToStr(FishSpots));
-                    end;
+          begin
+            obj := MSI_GetObjByName(script_Lists[lIndex].Items.Strings[i]);
+            case skill of
+              SKILL_WOODCUTTING:
+                with MSI_Players[pIndex].Scripts[sIndex] do
+                begin
+                  SetLength(Trees, Length(Trees) + 1);
+                  Trees[High(Trees)] := obj.constant;
+                  ClearSameIntegers(Trees);
+                  //Writeln('Player '+IntToStr(pIndex)+' Trees: '+ToStr(Trees));
                 end;
-              end;
+
+              SKILL_MINING:
+                with MSI_Players[pIndex].Scripts[sIndex] do
+                begin
+                  SetLength(Rocks, Length(Rocks) + 1);
+                  Rocks[High(Rocks)] := obj.constant;
+                  ClearSameIntegers(Rocks);
+                  //Writeln('Player '+IntToStr(pIndex)+' Rocks: '+ToStr(Rocks));
+                end;
+
+              SKILL_FISHING:
+                with MSI_Players[pIndex].Scripts[sIndex] do
+                begin
+                  SetLength(FishSpots, Length(FishSpots) + 1);
+                  FishSpots[High(FishSpots)] := obj.constant;
+                  ClearSameIntegers(FishSpots);
+                  //Writeln('Player '+IntToStr(pIndex)+' FishSpots: '+ToStr(FishSpots));
+                end;
+            end;
+          end;
 
         SetLength(MSI_Players[pIndex].Scripts[sIndex].DontDrop, 0);
 
@@ -852,31 +900,32 @@ begin
         begin
           for i := 0 to (script_Lists[LIST_COOKSPOTS].ITEMS.Count - 1) do
             if (script_Lists[LIST_COOKSPOTS].Checked[i]) then
-              for j := 0 to High(MSI_Objects) do
-                if (Lowercase(script_Lists[LIST_COOKSPOTS].Items.Strings[i]) = Lowercase(MSI_Objects[j].Name)) then
-                  with MSI_Players[pIndex].Scripts[sIndex] do
-                  begin
-                    SetLength(CookingSpot, Length(CookingSpot) + 1);
-                    CookingSpot[High(CookingSpot)] := j;
-                    ClearSameIntegers(CookingSpot);
-                  end;
+            begin
+              obj := GetObjByName(script_Lists[LIST_COOKSPOTS].Items.Strings[i]);
+              with MSI_Players[pIndex].Scripts[sIndex] do
+              begin
+                SetLength(CookingSpot, Length(CookingSpot) + 1);
+                CookingSpot[High(CookingSpot)] := obj.constant;
+                ClearSameIntegers(CookingSpot);
+              end;
+            end;
 
           if (StrToInt(script_Edits[EDIT_LEVEL].Text) = -1) then
             ShowMessage('Invalid max level! Please enter a number.')
           else
             MSI_Players[pIndex].Scripts[sIndex].MaxLevel := StrToInt(script_Edits[EDIT_LEVEL].Text);
-        end else begin
+        end else
           for i := 0 to (script_Lists[LIST_OBJECTS].ITEMS.Count - 1) do
             if (script_Lists[LIST_OBJECTS].Checked[i]) then
-              for j := 0 to High(MSI_Objects) do
-                if (Lowercase(script_Lists[LIST_OBJECTS].Items.Strings[i]) = Lowercase(MSI_Objects[j].Name)) then
-                  with MSI_Players[pIndex].Scripts[sIndex] do
-                  begin
-                    SetLength(Objects, Length(Objects) + 1);
-                    Objects[High(Objects)] := j;
-                    ClearSameIntegers(Objects);
-                  end;
-        end;
+            begin
+              obj := GetObjByName(script_Lists[LIST_OBJECTS].Items.Strings[i]);
+              with MSI_Players[pIndex].Scripts[sIndex] do
+              begin
+                SetLength(Objects, Length(Objects) + 1);
+                Objects[High(Objects)] := obj.constant;
+                ClearSameIntegers(Objects);
+              end;
+            end;
 
         for i := 0 to script_Lists[LIST_MATERIALS].ITEMS.Count - 1 do
           if (script_Lists[LIST_MATERIALS].Checked[i]) then

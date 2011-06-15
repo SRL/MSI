@@ -48,7 +48,7 @@ MSI_WaitWhileMining
 
 .. code-block:: pascal
 
-  procedure MSI_WaitWhileMining(RockID: Integer);
+  procedure MSI_WaitWhileMining(rock: TMSObject);
 
 Waits while the player is mining.  Performs several failsafe checks such as
 tracking the colors found on the rock being mined, inventory count, animations,
@@ -56,8 +56,8 @@ and timing out.
 
 .. note::
 
-  | Author: Coh3n
-  | Last Updated: 20 March 2011 by Coh3n
+  | Author: NCDS
+  | Last Updated: 10 June 2011 by Coh3n
 
 Example:
 
@@ -66,36 +66,32 @@ Example:
   if (MSI_FindObjectsIn([ROCK_IRON, ROCK_TIN], Index, MSBox, ClickLeft)) then
     MSI_WaitWhileMining();
 *)
-Procedure MSI_WaitWhileMining(RockID: integer);
+procedure MSI_WaitWhileMining(rock: TMSObject);
 var
-  cts, OldInvCount, t, d, RockColorCount: Integer;
+  cts, oldInvCount, t, d, rockColorCount: Integer;
   Arr, TPA: TPointArray;
-  SearchBox: TBox;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  Flag;
-  Wait(RandomRange(285, 450));
+  flag;
+  wait(RandomRange(285, 450));
 
-  if InvFull then
+  if (invFull) then
     Exit;
 
   MSI_AddHeader('MSI_WaitWhileMining');
   cts := GetColorToleranceSpeed;
 
-  t := (GetSystemTime + MSI_Objects[RockID].MaxTime + Random(5000));
-
-  SearchBox := IntToBox(
-                       MSI_Objects[RockID].X - Round(MSI_Objects[RockID].W * SIZE_MULTIPLIER),
-                       MSI_Objects[RockID].Y - Round(MSI_Objects[RockID].H * SIZE_MULTIPLIER),
-                       MSI_Objects[RockID].X + Round(MSI_Objects[RockID].W * SIZE_MULTIPLIER),
-                       MSI_Objects[RockID].Y + Round(MSI_Objects[RockID].H * SIZE_MULTIPLIER));
+  t := (getSystemTime + rock.maxTime + randomRange(-1000, 1000));
+  rock.searchArea := MSI_MakeBox(point(rock.x, rock.y),
+                                 round(rock.w * SIZE_MULTIPLIER),
+                                 round(rock.h * SIZE_MULTIPLIER));
 
   if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(True, SearchBox, clBlue);
+    SMART_DrawBoxEx(true, rock.searchArea, clBlue);
 
-  TPA := TPAFromBox(SearchBox);
+  TPA := TPAFromBox(rock.searchArea);
   sortTPAFrom(TPA, point(MSCX, MSCY));
 
   if (length(TPA) > 0) then
@@ -111,29 +107,29 @@ begin
     end;
   end;
 
-  OldInvCount := InvCount;
-  MSI_Debug('InvCount: ' + IntToStr(OldInvCount));
+  oldInvCount := invCount;
+  MSI_Debug('InvCount: ' + intToStr(oldInvCount));
 
-  SetColorToleranceSpeed(2);
-  SetToleranceSpeed2Modifiers(MSI_Objects[RockID].Hue, MSI_Objects[RockID].Sat);
+  setColorToleranceSpeed(2);
+  setToleranceSpeed2Modifiers(rock.hue, rock.sat);
 
-  {preparing variables to detect when rock is gone through color}
-  FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
-                        SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
+  findColorsTolerance(arr, rock.Colors[0],
+                      rock.searchArea.x1, rock.searchArea.y1,
+                      rock.searchArea.x2, rock.searchArea.y2, rock.tol);
 
-  RockColorCount := Length(Arr);
-  {done}
+  rockColorCount := length(arr);
 
   repeat
     MSI_FindRandoms(False);
 
-    FindColorsTolerance(Arr, MSI_Objects[RockID].Colors[0], SearchBox.x1,
-                        SearchBox.y1, SearchBox.x2, SearchBox.y2, MSI_Objects[RockID].Tol);
+    findColorsTolerance(arr, rock.Colors[0],
+                        rock.searchArea.x1, rock.searchArea.y1,
+                        rock.searchArea.x2, rock.searchArea.y2, rock.tol);
 
     if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
       SMART_DrawDotsEx(False, Arr, clYellow);
 
-    if (Length(Arr) < MSI_Objects[RockID].Accuracy) then
+    if (length(arr) < rock.accuracy) then
     begin
       MSI_Debug('Colours found < Accuracy');
       Break;
@@ -171,8 +167,8 @@ begin
 
   MSI_CloseHeader('MSI_WaitWhileMining: Finished');
 
-  SetColorToleranceSpeed(cts);
-  SetColorSpeed2Modifiers(0.2, 0.2);
+  setColorToleranceSpeed(cts);
+  setToleranceSpeed2Modifiers(0.2, 0.2);
 end;
 
 (*
@@ -181,16 +177,16 @@ MSI_MineRock
 
 .. code-block:: pascal
 
-  function MSI_MineRock(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+  function MSI_MineRock(which: TIntegerArray; var forceFail: Boolean): boolean;
 
-Mines the rocks in the array 'Which'.  Will look for the first one in the array
-first.  'ForceFail' is used to purposely make the function fail if for some
-reason the pickaxe can't be found or the player is unable to mine the rock.
+Mines the rocks in the array 'which'.  'forceFail' is used to purposely make
+the function fail if for some reason the pickaxe can't be found or the player
+is unable to mine the rock.
 
 .. note::
 
   | Author: marpis
-  | Last Updated: 11 July 2010 by NCDS
+  | Last Updated: 10 June 2011 by Coh3n
 
 Example:
 
@@ -200,19 +196,22 @@ Example:
     if (not fail) then
       MSI_Debug('Mined rock');
 *)
-function MSI_MineRock(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+function MSI_MineRock(which: TIntegerArray; var forceFail: Boolean): boolean;
 var
-  Index: integer;
+  rockObjs: TMSObjectArray;
+  rock: TMSObject;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  if MSI_FindObjectsIn(Which, Index, MSBox, ClickLeft) then
+  rockObjs := MSI_GetObjects(which);
+
+  if (MSI_FindObjects(rockObjs, moLeft, rock)) then
   begin
-    Result := True;
-    MSI_WaitWhileMining(Which[Index]);
+    result := true;
+    MSI_WaitWhileMining(rock);
   end else
-    MSI_FindRandoms(False);
+    MSI_FindRandoms(false);
 end;
 
 (*

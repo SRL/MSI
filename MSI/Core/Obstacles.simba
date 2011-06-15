@@ -26,7 +26,7 @@ and return true if they are.
 .. note::
 
   | Author: Sir R. Magician & Coh3n
-  | Last Updated: 01 December 2010 by Coh3n
+  | Last Updated: 10 June 2011 by Coh3n
 
 Example:
 
@@ -39,25 +39,26 @@ function MSI_WaitForMirror(Obs: Integer): Boolean;
 var
   i, t, h: Integer;
   mPos: TPoint;
-  searchBox: TBox;
   colorFail: Boolean;
+  mirObj: TMSObject;
 begin
   if (not LoggedIn) then
     Exit;
 
   t := GetSystemTime + (60000 * 3);
 
-  // The box to search for the mirror obstacle
-  searchBox := IntToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85)
-
   repeat
     with MSI_Obstacles[Obs] do
     begin
-      SMART_DrawBoxEx(False, searchBox, clBlue);
+      mirObj := MSI_GetObject(objMir);
+      mirObj.searchArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
 
-      if (MSI_FindObjectIn(ObjMir, searchBox, Move)) then
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
+
+      if (MSI_FindObject(mirObj, moMove)) then
       begin
-        MSI_Debug('Found mirror object: '+MSI_Objects[ObjMir].Name);
+        MSI_Debug('Found mirror object: ' + mirObj.name);
 
         {$IFDEF REFLECTION}
         mPos := GetMyPos;
@@ -102,7 +103,7 @@ find and click the obstacle, then calls MSI_WaitForMirror.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 18 May 2011 by Coh3n
+  | Last Updated: 10 June 2011 by Coh3n
 
 Example:
 
@@ -113,6 +114,7 @@ Example:
 function MSI_SolveObstacle(Obs: Integer): Boolean;
 var
   t: Integer;
+  obsObj: TMSObject;
 begin
   if (not LoggedIn) then
     Exit;
@@ -121,8 +123,9 @@ begin
 
   MakeCompass(MSI_Obstacles[obs].Camera[0]);
   SetAngle(MSI_Obstacles[obs].Camera[1]);
+  obsObj := MSI_GetObject(MSI_Obstacles[Obs].ObjConst);
   repeat
-    if (MSI_FindObject(MSI_Obstacles[Obs].ObjConst, ClickLeft)) then
+    if (MSI_FindObject(obsObj, moLeft)) then
     begin
       Wait(RandomRange(1000, 2000));
       Result := MSI_WaitForMirror(Obs);

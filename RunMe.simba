@@ -68,6 +68,7 @@ begin
 
     with Scripts[0] do
     begin
+      Name := SCRIPT_VE_OAKS;
       // Copy/paste the script attributes from the setup thread
     end;
   end;
