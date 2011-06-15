@@ -165,7 +165,7 @@ Example:
 *)
 function MSI_ExchangeNPC(which: Integer): boolean;
 var
-  t : Integer;
+  t: Integer;
   npcObj: TMSObject;
 begin
   if (not loggedIn) then
@@ -179,6 +179,13 @@ begin
     repeat
       inc(t);
       result := MSI_FindObject(npcObj, moRight);
+
+      if (result) then
+        case npcObj.constant of
+          NPC_STILES:
+            MSI_Conversation(['exchan', 'exchan', 'exchan', 'obbies', 'kay'],
+                             [true, false, true, true, false]);
+        end;
 
       if (not result) then
         if (t >= 5) then

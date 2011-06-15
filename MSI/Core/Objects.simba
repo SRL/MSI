@@ -635,12 +635,12 @@ begin
         with result do
         begin
           Colors             := [11050135];
-          Tol                := 10;
+          Tol                := 8;
           Hue                := 0.26;
           Sat                := 0.62;
           FindAllColors      := False;
-          W                  := 40;
-          H                  := 40;
+          W                  := 35;
+          H                  := 35;
           Accuracy           := 5;
           SearchArea         := MSBox;
           ExcludeSelf        := True;
@@ -829,16 +829,17 @@ begin
         Uptexts            := ['tiles'];
         Options            := ['chan'];
         Colors             := [3684667];
-        Tol                := 10;
+        Tol                := 8;
         Hue                := 0.93;
         Sat                := 0.09;
         FindAllColors      := False;
         W                  := 15;
-        H                  := 15;
+        H                  := 20;
         Accuracy           := 5;
         SearchArea         := MSBox
         ExcludeSelf        := False;
         WaitToMove         := True;
+        RightClickOnly     := True;
         AssociatedItems    := [];
       end;
 

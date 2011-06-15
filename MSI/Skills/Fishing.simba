@@ -211,8 +211,8 @@ begin
 
   MSI_AddHeader('MSI_WaitWhileFishing');
   fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y),
-                                     round(fishSpot.w / 1.5),
-                                     round(fishSpot.h / 1.5));
+                                     round(fishSpot.w / 1.75),
+                                     round(fishSpot.h / 1.75));
 
   if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
     SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
@@ -242,6 +242,13 @@ begin
       break;
     end;
 
+    // check for the "you need tool to fish" message
+    if (findText(x, y, 'need', NPCChars, MCX1, MCY1, MCX2, MCY2)) then
+    begin
+      MSI_Debug('Accidentially clicked wrong fishing spot');
+      break;
+    end;
+
     // looking for fishing spot
     findColorsTolerance(arr, fishSpot.Colors[0],
                         fishSpot.searchArea.x1, fishSpot.searchArea.y1,
@@ -266,10 +273,10 @@ begin
     end;
 
     MSI_Debug('Checking inventory count');
-    if (timeFromMark(invTimer) > 30000) then // if no new fish in inv after 30 seconds, spot probably moved
+    if (timeFromMark(invTimer) > 45000) then // if no new fish in inv after 30 seconds, spot probably moved
       if (oldInvCount = invCount) then
       begin
-        MSI_SubDebug('Nothing caught for more than 30 seconds');
+        MSI_SubDebug('Nothing caught for more than 45 seconds');
         break;
       end else begin
         MSI_SubDebug('Got more fish, setting new inventory count');
