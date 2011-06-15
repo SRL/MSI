@@ -247,6 +247,7 @@ var
   i, t, cp: Integer;
   p: TPoint;
   TPA: TPointArray;
+  atTile: boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -283,8 +284,13 @@ begin
         MSI_FindRandoms(True);
         Wait(RandomRange(200, 300));
 
-        if (i = High(TPA)) then
-          Break;
+        if ((i = high(TPA)) and (atTile)) then
+        begin
+          result := true;
+          break;
+        end else
+          if (i = high(TPA)) then
+            break;
 
         Continue;
       end;
@@ -296,12 +302,14 @@ begin
         MSI_Flag(0);
         Result := True;
         Break;
-      end else
+      end else begin
+        atTile := true;
         if (i = High(TPA)) then
         begin
           MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
           Result := True;
         end;
+      end;
     end;
 
     if (not Result) then

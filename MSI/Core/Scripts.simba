@@ -281,7 +281,7 @@ begin
 
         with Defaults do
         begin
-          Trees := [TREE_YEW];
+          Trees := [TREE_YEW_NEW];
           Items := [TIntegerArray([LOGS_YEW])];
         end;
 
@@ -390,7 +390,7 @@ begin
 
         with Defaults do
         begin
-          Trees := [TREE_YEW];
+          Trees := [TREE_YEW_NEW];
           Items := [TIntegerArray([LOGS_YEW])];
         end;
 

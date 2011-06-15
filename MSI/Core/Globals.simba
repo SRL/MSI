@@ -488,6 +488,7 @@ const
   TREE_YEW        = 14;
   TREE_MAGIC      = 15;
   TREE_WILLOW_NEW = 16;
+  TREE_YEW_NEW    = 17;
 
   // Rocks
   ROCK_CLAY       = 20;

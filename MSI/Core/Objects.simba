@@ -114,14 +114,14 @@ begin
         Uptexts            := ['wn Wil'];
         Options            := ['Chop down Willow'];
         Level              := 30;
-        Colors             := [2843496];
+        Colors             := [2766391];
         Tol                := 2;
-        Hue                := 0.42;
-        Sat                := 2.87;
+        Hue                := 0.37;
+        Sat                := 0.27;
         FindAllColors      := False;
-        W                  := 30;
-        H                  := 30;
-        Accuracy           := 10;
+        W                  := 40;
+        H                  := 60;
+        Accuracy           := 50;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
@@ -164,6 +164,28 @@ begin
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;
+        Accuracy           := 15;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        Track              := False;
+        AssociatedItems    := [LOGS_YEW];
+      end;
+
+    TREE_YEW_NEW:
+      with result do
+      begin
+        Name               := 'TREE_YEW_NEW';
+        Uptexts            := ['own Yew'];
+        Options            := ['Chop down Yew'];
+        Level              := 60;
+        Colors             := [4608347];
+        Tol                := 8;
+        Hue                := 0.30;
+        Sat                := 0.13;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 15;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
