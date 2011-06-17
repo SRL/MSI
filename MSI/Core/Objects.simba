@@ -1322,18 +1322,22 @@ begin
   for i := 0 to high(objs) do
   begin
     // Checks to see if the player's level is high enough to auto the object
-    with MSI_Players[currentPlayer].ReportInfo do
+    with MSI_Players[currentPlayer] do
       if (script.skillConst <> SKILL_NONE) then
-        if (skillLevels[currentScript] < objs[i].level) then
+      begin
+        if (reportInfo.skillLevels[currentScript] < objs[i].level) then
         begin
           if (i = high(objs)) then
-            falseReason := script.skillName + ' requirement not met (' +
-              toStr(skillLevels[currentScript]) + '/' + toStr(objs[i].level) + ')';
+            reportInfo.falseReason := script.skillName + ' requirement not met (' +
+              toStr(reportInfo.skillLevels[currentScript]) +
+              '/' + toStr(objs[i].level) + ')';
 
-          MSI_SubDebug(script.skillName + ' level (' + toStr(skillLevels[currentScript]) +
-            ') not met for ' + objs[i].name + '(' + toStr(objs[i].level) + ')');
+          MSI_SubDebug(script.skillName + ' level (' +
+            toStr(reportInfo.skillLevels[currentScript]) +
+            ') not met for ' + objs[i].name + ' (' + toStr(objs[i].level) + ')');
           continue;
         end;
+      end;
 
     if (MSI_FindObjectTPA(objs[i], TPA)) then
       for j := 0 to high(TPA) do
