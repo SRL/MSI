@@ -233,7 +233,7 @@ near the location.  Returns true if relocation was successful.
 .. note::
 
   | Author: Sir R. Magician
-  | Last Updated: 27 April 2011 by Coh3n
+  | Last Updated: 22 June 2011 by Coh3n
 
 Example:
 
@@ -281,8 +281,14 @@ begin
     begin
       if (not MSI_PointOnMM(TPA[i], p)) then
       begin
-        MSI_FindRandoms(True);
-        Wait(RandomRange(200, 300));
+        if (MSI_FindRandoms(True)) then
+        begin
+          MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
+          result := true;
+          exit;
+        end;
+
+        wait(RandomRange(200, 300));
 
         if ((i = high(TPA)) and (atTile)) then
         begin
@@ -323,7 +329,10 @@ begin
     {$IFDEF REFLECTION}
     if (not ReflectionBroken) then
       if (Length(MSI_Locations[Loc].Points) > 0) then
+      begin
+        MSI_Debug('Trying r_WebWalk');
         Result := r_WebWalk(MSI_Locations[Loc].Points[0]);
+      end;
     {$ENDIF}
   end;
 

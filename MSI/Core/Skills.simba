@@ -346,7 +346,7 @@ Repeats the function 'Func' until the inventory is full.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 20 September 2010 by Coh3n
+  | Last Updated: 22 June 2011 by Coh3n
 
 Example:
 
@@ -393,7 +393,9 @@ begin
           t := (GetSystemTime + (8 * 60000));
           waitTime := 0;
         end else begin
-          MSI_FindRandoms(False);
+          if (MSI_FindRandoms(False)) then
+            continue;
+
           MSI_Antiban(randomRange(1000, 4000), 50);
 
           if (forceFail) then
