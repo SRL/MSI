@@ -202,6 +202,13 @@ begin
 
 end;
 
+procedure ThreadSafeCallEx(Proc: string);
+var
+  V: TVariantArray;
+begin
+  SetLength(V, 0);
+  ThreadSafeCall(Proc, V);
+end;
 
 var
   i: Integer;
@@ -216,13 +223,11 @@ begin
   if (USE_FORM) then
   begin
     try
-      SafeInitForm;
-      SafeShowFormModal;
-    finally
-      AnimTimer.Enabled := False;
-      AnimTimer.Free;
-      MainForm.Free;
-      Script_Form.Free;
+      try
+        ThreadSafeCallEx('ShowMSIForm');
+      finally
+        ThreadSafeCallEx('FreeMSIForm');
+      end;
     except
       Writeln(ExceptionToString(ExceptionType, ExceptionParam));
     end;

@@ -1846,12 +1846,6 @@ begin
   end;
 end;
 
-procedure OnFormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  //Writeln('Closing');
-  script_Form.Visible := False;
-end;
-
 {******************************************************************************}
 { Name: function GenerateNick(Username: string): string;                       }
 { By: Coh3n                                                                    }
@@ -2240,7 +2234,7 @@ var
   bgndPanel: TImage;
   a, b: Integer;
 
-procedure InitForm;
+procedure ShowMSIForm;
 var
   i, pan: Integer;
   consts: TintegerArray;
@@ -2256,9 +2250,8 @@ begin
   MainForm := TForm.Create(nil);
   MainForm.SetBounds({L} 100, {T} 100, {W} 600, {H} 400);
   MainForm.BorderStyle := bsNone;
-  MainForm.OnClose := @OnFormClose;
 
-  script_Form := TForm.Create(nil);
+  script_Form := TForm.Create(MainForm);
   with script_Form do
   begin
     Width := 383;
@@ -2662,26 +2655,15 @@ begin
     DrawBitmap(frmBitmaps[LOAD_TAB_NORM],tImages[IMG_LOAD_TAB_NORM].Canvas, 0, 0);
     LoadPlayers;
   end;
-end;
 
-procedure SafeInitForm;
-var
-  v: TVariantArray;
-begin
-  SetArrayLength(v, 0);
-  ThreadSafeCall('InitForm', v);
-end;
-
-procedure ShowFormModal;
-begin
   MainForm.ShowModal;
 end;
 
-procedure SafeShowFormModal;
-var
-  v: TVariantArray;
+procedure FreeMSIForm;
 begin
-  SetArrayLength(v, 0);
-  ThreadSafeCall('ShowFormModal', v);
+  AnimTimer.Enabled := False;
+  AnimTimer.Free;
+  script_Form.Free;
+  MainForm.Free;
 end;
 
