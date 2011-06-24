@@ -110,15 +110,17 @@ begin
     for i := 0 to High(intObjs) do
     begin
       tools := MSI_FishingTools(intObjs[i]); // Gets the required fishing tools for the fishing spot
+      SetLength(toWithdraw[i], length(tools));
       t := 0;
 
       for j := 0 to High(tools) do
         if (not MSI_FindTool(tools[j], TAB_INV, x, y)) then
         begin
-          SetLength(toWithdraw[i], t + 1);
           toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
-          Inc(t);
+          inc(t);
         end;
+
+      setLength(toWithdraw[i], t);
     end;
 
     // In a separate loop so it only opens the bank once
@@ -143,18 +145,21 @@ begin
                   objReady[i] := True;
               end;
 
+    setLength(newObjs, length(objReady));
     t := 0;
+
     for i := 0 to High(objReady) do
       if (objReady[i]) then
       begin
-        SetLength(newObjs, t + 1);
         newObjs[t] := intObjs[i];
-        Inc(t);
+        inc(t);
       end else begin
         fishSpot := MSI_GetObject(intObjs[i]);
         MSI_Debug(fishSpot.name + ': Required tools not found');
         MSI_Deposit(MSI_FishingTools(intObjs[i]), [], b);
       end;
+
+    setLength(objReady, t);
 
     // Resets the objects so if the tools aren't found it will still fish in the spots for which the tools were found
     Scripts[CurrentScript].FishSpots := newObjs;

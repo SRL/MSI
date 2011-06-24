@@ -1964,7 +1964,7 @@ Example:
 *)
 function MSI_FindItemSlots(Item: Integer): TIntegerArray;
 var
-  i, j, l, t: Integer;
+  i, j, t, c: Integer;
   itemPoints: TPointArray;
   b: TBox;
   bankType: TBank;
@@ -1973,8 +1973,8 @@ begin
   if (MSI_Items[Item].Name = '') or (not LoggedIn) then
     Exit;
 
-  SetLength(result, 0);
-  GameTab(TAB_INV);
+  gameTab(TAB_INV);
+  c := 0;
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
@@ -1983,6 +1983,8 @@ begin
   end;
 
   itemPoints := ItemCoordinates(searchArea, 'dtm', MSI_Items[Item].DTM, []);
+  setLength(result, length(itemPoints));
+
   for i := 0 to High(itemPoints) do
     for j := 1 to 28 do
     begin
@@ -1993,11 +1995,12 @@ begin
 
       if (PointInBox(itemPoints[i], b)) then
       begin
-        l := Length(result);
-        SetLength(result, l + 1);
-        result[l] := j;
+        result[c] := j;
+        inc(c);
       end;
     end;
+
+  setLength(result, c);
 
   // If the item is stackable and more than one is found, will check uptext to remove bad items
   if (MSI_Items[Item].Stackable) then

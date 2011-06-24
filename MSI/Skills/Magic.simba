@@ -230,40 +230,43 @@ Example:
 *)
 function MSI_FindStaffs(Spells: TIntegerArray): TIntegerArray;
 var
-  i, j, t, x, y: Integer;
+  i, j, t, x, y, c: Integer;
   tabs, possStaffs: TIntegerArray;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
   MSI_AddHeader('MSI_FindStaffs');
 
-  if (GetCurrentTab = TAB_INV) then
+  if (getCurrentTab = TAB_EQUIP) then
     tabs := [TAB_INV, TAB_EQUIP]
   else
     tabs := [TAB_EQUIP, TAB_INV];
 
   possStaffs := MSI_GetPossibleStaffs(Spells);
+  setLength(result, length(possStaffs));
+  c := 0;
 
-  for i := 0 to High(tabs) do
+  for i := high(tabs) downto 0 do
   begin
-    for j := 0 to High(possStaffs) do
+    for j := high(possStaffs) downto 0 do
       if (MSI_FindTool(possStaffs[j], tabs[i], x, y)) then
       begin
         if (tabs[i] = TAB_INV) then
-          MSI_Items[possStaffs[j]].InvSlot := CoordsToItem(x, y); // Set tool's inventory slot
+          MSI_Items[possStaffs[j]].invSlot := coordsToItem(x, y); // Set tool's inventory slot
 
-        SetLength(Result, (Length(Result) + 1));
-        Result[High(Result)] := possStaffs[j];
+        result[c] := possStaffs[j]
+        inc(c);
       end else
-        Inc(t);
+        inc(t);
 
     // If all staffs are found, it will break, otherwise check the other gametab
     if (t <= 0) then
-      Break;
+      break;
   end;
 
-  MSI_CloseHeader('MSI_FindStaffs: '+ToStr(Result));
+  setLength(result, c);
+  MSI_CloseHeader('MSI_FindStaffs: ' + toStr(result));
 end;
 
 (*
@@ -409,7 +412,7 @@ Returns the runes that have an associated staff (i.e. Air, Water, Fire, etc.).
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 14 November 2010 by Coh3n
+  | Last Updated: 23 June 2011 by Coh3n
 
 Example:
 
@@ -419,20 +422,24 @@ Example:
 *)
 function MSI_GetStaffRunes(): TIntegerArray;
 var
-  i, t: Integer;
+  i, t, c: Integer;
   runeStaffs, possStaffs, chosenStaffs: TIntegerArray;
 begin
   runeStaffs := [ RUNE_AIR, RUNE_EARTH, RUNE_FIRE, RUNE_WATER ];
   possStaffs := [ STAFF_AIR, STAFF_EARTH, STAFF_FIRE, STAFF_WATER ];
+
   chosenStaffs := MSI_ChooseStaffs();
+  setLength(result, length(chosenStaffs));
 
   for i := 0 to High(chosenStaffs) do
-    if (InIntArrayEx(possStaffs, t, chosenStaffs[i])) then
+    if (inIntArrayEx(possStaffs, t, chosenStaffs[i])) then
     begin
-      SetLength(Result, Length(Result) + 1);
-      Result[High(Result)] := runeStaffs[t];
-      MSI_SubDebug(MSI_Items[runeStaffs[t]+MSI_RUNE_AIR].Name+' not needed, we have a staff');
+      result[c] := runeStaffs[t];
+      inc(c)
+      MSI_SubDebug(MSI_Items[runeStaffs[t]+MSI_RUNE_AIR].name+' not needed, we have a staff');
     end;
+
+  setLength(result, c);
 end;
 
 (*

@@ -1049,7 +1049,7 @@ var
   TPA: TPointArray;
   ATPA: T2DPointArray;
   tpaBoxes: TBoxArray;
-  i, j, t, cts: integer;
+  i, j, t, h, c, cts: integer;
   badPoint: boolean;
 begin
   if (not loggedIn) then
@@ -1109,8 +1109,12 @@ begin
     TPA[i] := middleTPA(ATPA[i]);
   end;
 
+  setLength(points, length(TPA));
+  h := high(TPA);
+  c := 0;
+
   // loop through all the points to see which are valid/invalid
-  for i := 0 to high(TPA) do
+  for i := 0 to h do
   begin
     badPoint := false;
 
@@ -1144,8 +1148,8 @@ begin
     // a valid point as been found
     if (not badPoint) then
     begin
-      setLength(Points, length(Points) + 1);
-      Points[high(Points)] := TPA[i];
+      points[c] := TPA[i];
+      inc(c);
 
     // add point's box to MSI_NotBoxes so it can be avoided next search
     end else begin
@@ -1154,6 +1158,7 @@ begin
     end;
   end;
 
+  setLength(points, c);
   sortTPAFrom(points, point(MSCX, MSCY));
   MSI_FilterTPADist(points, min(obj.w, obj.h) * 2);
 
