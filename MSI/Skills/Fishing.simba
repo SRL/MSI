@@ -207,7 +207,7 @@ Example:
 *)
 procedure MSI_WaitWhileFishing(fishSpot: TMSObject; var failed: boolean);
 var
-  x, y, animTries, colorTries, oldInvCount, waitTime, invTimer: Integer;
+  x, y, CTS, animTries, colorTries, oldInvCount, waitTime, invTimer: Integer;
   idle: TAnimation;
   arr: TPointArray;
 begin
@@ -227,6 +227,9 @@ begin
   oldInvCount := invCount;
   markTime(invTimer);
   flag;
+
+  CTS := getToleranceSpeed();
+  MSI_Debug('Current CTS: ' + intToStr(CTS));
 
   setColorToleranceSpeed(2);
   setToleranceSpeed2Modifiers(fishSpot.hue, fishSpot.sat);
@@ -311,8 +314,8 @@ begin
 
   MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
 
-  setColorToleranceSpeed(2);
-  setToleranceSpeed2Modifiers(fishSpot.hue, fishSpot.sat);
+  setColorToleranceSpeed(CTS);
+  setToleranceSpeed2Modifiers(0.2, 0.2);
 end;
 
 (*
