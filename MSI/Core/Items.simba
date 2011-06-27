@@ -483,8 +483,8 @@ begin
     CLAY_SOFT   : Result := 802904;
     VIAL_EMPTY  : Result := 5920342;
     VIAL_WATER  : Result := 11040368;
-    JUG_EMPTY   : Result := 7500664;
-    JUG_WATER   : Result := 12216937;
+    JUG_EMPTY   : Result := 6710891;
+    JUG_WATER   : Result := 12085350;
     BOWL_EMPTY  : Result := 1203069;
     BOWL_WATER  : Result := 11712313;
     BUCKET_EMPTY: Result := 1521995;
