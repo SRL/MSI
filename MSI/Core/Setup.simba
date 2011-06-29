@@ -19,7 +19,9 @@ The source for can be found
 {$ENDIF}
 
 {$i srl/srl.scar}
-{$i reflection/reflection.simba}
+{$IFDEF MSI_REFLECTION}
+  {$i reflection/reflection.simba}
+{$ENDIF}
 
 {$IFDEF SPS}
   {$i srl/srl/core/SPS/SPS.simba}
