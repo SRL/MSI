@@ -1207,10 +1207,11 @@ begin
           EndLoc   := LOC_BBV_FISH;
 
           Reflection := [
-                          TPointArray([Point(3094, 3491), Point(3099, 3484),
-                                       Point(3099, 3475), Point(3098, 3466),
-                                       Point(3096, 3455), Point(3092, 3445),
-                                       Point(3098, 3438), Point(3108, 3434)])
+                          TPointArray([Point(3102, 3496), Point(3094, 3491),
+                                       Point(3099, 3484), Point(3099, 3475),
+                                       Point(3098, 3466), Point(3096, 3455),
+                                       Point(3092, 3445), Point(3098, 3438),
+                                       Point(3108, 3434)])
                         ];
 
 
