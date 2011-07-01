@@ -1098,8 +1098,10 @@ begin
   setLength(TPA, length(ATPA));
 
   // draw points on SMART if setting enabled
-  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-    drawDotsMulti(true, ATPA);
+  {$IFDEF SRL_SMART}
+    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      drawDotsMulti(true, ATPA);
+  {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point
   setLength(tpaBoxes, length(TPA));
@@ -1166,9 +1168,11 @@ begin
   begin
     result := true;
 
-    for i := 0 to high(Points) do
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
+    {$IFDEF SRL_SMART}
+      for i := 0 to high(Points) do
+        if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+          SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
+    {$ENDIF}
 
     MSI_Debug('Points found: ' + intToStr(length(points)));
   end;
@@ -1231,8 +1235,10 @@ begin
                                   round(obj.w * distMultiplier),
                                   round(obj.h * distMultiplier));
 
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxMS(true, obj.searchArea, clYellow);
+    {$IFDEF SRL_SMART}
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxMS(true, obj.searchArea, clYellow);
+    {$ENDIF}
 
     if (findColorsTolerance(TPA,
                             obj.colors[0],

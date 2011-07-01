@@ -17,6 +17,7 @@ program MSI_Script;
 {$DEFINE EXTRA_CHARACTER_STATS} // Saves each players stats to a file viewable in HTML format
 
 //{$DEFINE SPS} // Uncomment + select color walking to use SPS
+{$DEFINE MSI_SMART} // Comment to use MSI with a browser. Reflection will be disabled if commented.
 {$DEFINE MSI_REFLECTION} // Comment to completely exclude the use of Reflection
 {$i MSI/MSI/Core/Setup.simba}
 
@@ -25,7 +26,7 @@ const
 
 procedure DeclareSettings();
 begin
-  MSI_SetupVars[SETUP_DEBUG_SMART]   := True;         // Debugs things onto SMART (may cause lag)
+  MSI_SetupVars[SETUP_DEBUG_SMART]   := False;         // Debugs things onto SMART (may cause lag)
   MSI_SetupVars[SETUP_SAVE_DEBUG]    := True;         // Save's the debug box text to a file
   MSI_SetupVars[SETUP_SAVE_REPORT]   := True;         // Save's the progress report to a file
   MSI_SetupVars[SETUP_HUMAN_BREAK]   := True;         // Take more human like breaks
@@ -37,7 +38,7 @@ begin
   MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
   MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
   MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
-  MSI_SetupVars[SETUP_WALKING]       := 'Reflection'; // 'Reflection' or 'Color'
+  MSI_SetupVars[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
 end;
 
 procedure DeclarePlayers;
@@ -259,7 +260,7 @@ begin
   if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
     DebugFile := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
 
-  // Clears the SMART canvas if there is any debug info. left from a previous run
+  //Clears the SMART canvas if there is any debug info. left from a previous run
   {$IFDEF SRL_SMART}
   drawing := TBitmap.Create;
   drawing.canvas.handle := SmartGetDebugDC;
