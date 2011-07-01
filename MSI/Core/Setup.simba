@@ -10,17 +10,28 @@ The source for can be found
 
 *)
 
-///SRL Includes
-{$DEFINE SMART}
+//SRL Includes
+{$IFDEF MSI_SMART}
+  {$DEFINE SMART}
+{$ENDIF}
+
+{$i srl/srl.scar}
+
+{$IFDEF SMART}
+  {$IFDEF MSI_REFLECTION}
+    {$i reflection/reflection.simba}
+  {$ENDIF}
+{$ENDIF}
 
 {$IFDEF DEBUG_REFLECTION}
   {$DEFINE REFLECTION_MEMORY_DEBUG}
   {$i reflection_management.simba}
 {$ENDIF}
 
-{$i srl/srl.scar}
-{$IFDEF MSI_REFLECTION}
-  {$i reflection/reflection.simba}
+
+
+{$IFDEF SMART}
+  {$i srl/srl/misc/PaintSmart.scar}
 {$ENDIF}
 
 {$IFDEF SPS}
@@ -28,7 +39,6 @@ The source for can be found
 {$ENDIF}
 
 {$i srl/srl/misc/Reports.scar}
-{$i srl/srl/misc/PaintSmart.scar}
 {$i srl/srl/misc/Stats.simba}
 
 {$i srl/srl/skill/magic.scar}
