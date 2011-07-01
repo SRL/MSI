@@ -1098,7 +1098,7 @@ begin
   setLength(TPA, length(ATPA));
 
   // draw points on SMART if setting enabled
-  {$IFDEF SRL_SMART}
+  {$IFDEF SMART}
     if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
       drawDotsMulti(true, ATPA);
   {$ENDIF}
@@ -1168,7 +1168,7 @@ begin
   begin
     result := true;
 
-    {$IFDEF SRL_SMART}
+    {$IFDEF SMART}
       for i := 0 to high(Points) do
         if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
           SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
@@ -1235,7 +1235,7 @@ begin
                                   round(obj.w * distMultiplier),
                                   round(obj.h * distMultiplier));
 
-    {$IFDEF SRL_SMART}
+    {$IFDEF SMART}
       if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
         SMART_DrawBoxMS(true, obj.searchArea, clYellow);
     {$ENDIF}

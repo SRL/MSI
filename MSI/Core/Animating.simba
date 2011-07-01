@@ -173,9 +173,9 @@ var
 begin
   with Anim do
   begin
-    {$IFDEF SRL_SMART}
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxEx(true, pixelBox, clYellow);
+    {$IFDEF SMART}
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxEx(true, pixelBox, clYellow);
     {$ENDIF}
 
     while (true) do

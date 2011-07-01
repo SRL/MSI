@@ -14,11 +14,15 @@
  \_____________________________________________________________________________}
 
 program MSI_Script;
+// Define the extras you want to use
 {$DEFINE EXTRA_CHARACTER_STATS} // Saves each players stats to a file viewable in HTML format
 
-//{$DEFINE SPS} // Uncomment + select color walking to use SPS
-{$DEFINE MSI_SMART} // Comment to use MSI with a browser. Reflection will be disabled if commented.
+// Define other settings
+//{$DEFINE SPS}          // Uncomment + select color walking to use SPS (color walking)
+{$DEFINE SMART}          // Comment to use MSI with a browser. Reflection will be disabled if commented.
 {$DEFINE MSI_REFLECTION} // Comment to completely exclude the use of Reflection
+
+{ ============================================================================ }
 {$i MSI/MSI/Core/Setup.simba}
 
 const
@@ -26,18 +30,18 @@ const
 
 procedure DeclareSettings();
 begin
-  MSI_SetupVars[SETUP_DEBUG_SMART]   := False;         // Debugs things onto SMART (may cause lag)
-  MSI_SetupVars[SETUP_SAVE_DEBUG]    := True;         // Save's the debug box text to a file
-  MSI_SetupVars[SETUP_SAVE_REPORT]   := True;         // Save's the progress report to a file
-  MSI_SetupVars[SETUP_HUMAN_BREAK]   := True;         // Take more human like breaks
-  MSI_SetupVars[SETUP_SWITCH_WORLDS] := True;         // Switch worlds when switching players or after breaks
-  MSI_SetupVars[SETUP_PRINT_REPORT]  := True;         // Will only print the short report in the debug box (will still save long report to file)
-  MSI_SetupVars[SETUP_BREAK_TIME]    := 15;           // Single player only - how long to break for (in minutes)
-  MSI_SetupVars[SETUP_DEBUG_LEVEL]   := 10;           // The lower the number, the less the script will debug
-  MSI_SetupVars[SETUP_ANTIBAN_WAIT]  := 15000;        // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
-  MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;        // Minimum time to wait between randoms checks
-  MSI_SetupVars[SETUP_STATS_ID]      := '';           // Stats ID
-  MSI_SetupVars[SETUP_STATS_PASS]    := '';           // Stats password
+  MSI_SetupVars[SETUP_DEBUG_SMART]   := True;    // Debugs things onto SMART (may cause lag)
+  MSI_SetupVars[SETUP_SAVE_DEBUG]    := True;    // Save's the debug box text to a file
+  MSI_SetupVars[SETUP_SAVE_REPORT]   := True;    // Save's the progress report to a file
+  MSI_SetupVars[SETUP_HUMAN_BREAK]   := True;    // Take more human like breaks
+  MSI_SetupVars[SETUP_SWITCH_WORLDS] := True;    // Switch worlds when switching players or after breaks
+  MSI_SetupVars[SETUP_PRINT_REPORT]  := True;    // Will only print the short report in the debug box (will still save long report to file)
+  MSI_SetupVars[SETUP_BREAK_TIME]    := 15;      // Single player only - how long to break for (in minutes)
+  MSI_SetupVars[SETUP_DEBUG_LEVEL]   := 10;      // The lower the number, the less the script will debug
+  MSI_SetupVars[SETUP_ANTIBAN_WAIT]  := 15000;   // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
+  MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
+  MSI_SetupVars[SETUP_STATS_ID]      := '';      // Stats ID
+  MSI_SetupVars[SETUP_STATS_PASS]    := '';      // Stats password
   MSI_SetupVars[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
 end;
 
@@ -70,7 +74,6 @@ begin
 
     with Scripts[0] do
     begin
-      Name := SCRIPT_VE_OAKS;
       // Copy/paste the script attributes from the setup thread
     end;
   end;
@@ -247,10 +250,12 @@ begin
     DeclarePlayers;
   end;
 
-  Smart_Server := 152;
-  Smart_Members := False;
-  Smart_Signed := True;
-  Smart_SuperDetail := False;
+  {$IFDEF SMART}
+    Smart_Server := 152;
+    Smart_Members := False;
+    Smart_Signed := True;
+    Smart_SuperDetail := False;
+  {$ENDIF}
   ActivateClient;
 
   SetupSRL;
@@ -260,11 +265,11 @@ begin
   if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
     DebugFile := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
 
-  //Clears the SMART canvas if there is any debug info. left from a previous run
-  {$IFDEF SRL_SMART}
-  drawing := TBitmap.Create;
-  drawing.canvas.handle := SmartGetDebugDC;
-  ClearRSCanvas(drawing.canvas);
+  // Clears the SMART canvas if there is any debug info. left from a previous run
+  {$IFDEF SMART}
+    drawing := TBitmap.create;
+    drawing.canvas.handle := smartGetDebugDC;
+    clearRSCanvas(drawing.canvas);
   {$ENDIF}
 
   if (MSI_SetupVars[SETUP_STATS_ID] = '') then
@@ -277,9 +282,20 @@ begin
   begin
     ReflectionBroken := True;
     {$IFNDEF SPS}
-    ShowMessage('Reflection is broken/not selected, and SPS isn''t defined. Please '+
-                'select reflection walking, or download SPS from SRL-Forums.');
-    TerminateScript;
+      ShowMessage('Reflection is broken/not selected, and SPS isn''t defined. Please '+
+                  'select reflection walking, or download SPS from SRL-Forums, and '+
+                  'uncomment the define at the top of RunMe.simba');
+      TerminateScript;
+    {$ENDIF}
+  end;
+
+  if (lowercase(MSI_SetupVars[SETUP_WALKING]) = 'reflection') then
+  begin
+    {$IFNDEF MSI_REFLECTION}
+      showMessage('You have selected Reflection walking, but elected not to use '+
+                  'Reflection.  Please choose color walking or uncomment the '+
+                  'Reflection define at the top of RunMe.simba.');
+      terminateScript();
     {$ENDIF}
   end;
 

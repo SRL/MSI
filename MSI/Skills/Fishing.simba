@@ -219,8 +219,10 @@ begin
                                      round(fishSpot.w / 1.75),
                                      round(fishSpot.h / 1.75));
 
-  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
+  {$IFDEF SMART}
+    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
+  {$ENDIF}
 
   idle := MSI_GetAnimation(ANIM_IDLE);
   waitTime := (getSystemTime + (60000 * 3));
