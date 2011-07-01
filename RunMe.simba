@@ -283,8 +283,8 @@ begin
     {$ENDIF}
   end;
 
-  //if (not ReflectionBroken) then
-  //  MSI_SetupReflection();
+  if (not ReflectionBroken) then
+    MSI_SetupReflection();
 
 (**
  * No need to touch anything below here, this is to assign the necessary
