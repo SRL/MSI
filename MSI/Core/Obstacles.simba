@@ -53,8 +53,10 @@ begin
       mirObj := MSI_GetObject(objMir);
       mirObj.searchArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
 
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
+      {$IFDEF SMART}
+        if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+          SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
+      {$ENDIF}
 
       if (MSI_FindObject(mirObj, moMove)) then
       begin

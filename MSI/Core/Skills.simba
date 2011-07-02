@@ -392,6 +392,7 @@ begin
         begin
           t := (GetSystemTime + (8 * 60000));
           waitTime := 0;
+          MSI_NotBoxes := [];
         end else begin
           if (MSI_FindRandoms(False)) then
             continue;

@@ -889,7 +889,7 @@ possible.  This procedure is called after switching players.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 14 March 2011 by Coh3n
+  | Last Updated: 23 June 2011 by Coh3n
 
 Example:
 
@@ -899,23 +899,25 @@ Example:
 *)
 function MSI_GetSPSAreas(): TStringArray;
 var
-  i, j: Integer;
-  Script: TScript;
+  i, j, c: Integer;
+  script: TScript;
 begin
   with MSI_Players[CurrentPlayer] do
-    for i := 0 to High(Scripts) do
+    for i := 0 to High(scripts) do
     begin
-      Script := MSI_Scripts[Scripts[i].Name];
+      script := MSI_Scripts[scripts[i].name];
+      setLength(result, length(script.pathInfo.SPSAreas));
+      c := 0;
 
-      for j := 0 to High(Script.PathInfo.SPSAreas) do
-        if (not InStrArr(Script.PathInfo.SPSAreas[j], Result, True)) then
+      for j := 0 to High(script.pathInfo.SPSAreas) do
+        if (not inStrArr(script.pathInfo.SPSAreas[j], result, true)) then
         begin
-          SetLength(Result, Length(Result) + 1);
-          Result[High(Result)] := Script.PathInfo.SPSAreas[j];
+          result[c] := script.pathInfo.SPSAreas[j];
+          inc(c);
         end;
     end;
 
-  MSI_SubDebug('Player''s SPS_Areas: ' + ToStr(Result));
+  MSI_SubDebug('Player''s SPS_Areas: ' + toStr(result));
 end;
 
 (*
@@ -1097,7 +1099,8 @@ begin
         if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >=
             MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel) then
         begin
-          nPlayer := True;
+          nPlayer := true;
+          takeBreak := false;
           reason := 'Max level reached';
         end;
 

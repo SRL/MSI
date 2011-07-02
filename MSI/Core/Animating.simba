@@ -44,7 +44,7 @@ begin
       with Result do
       begin
         Name := 'Player Idle';
-        MinPixelShift := 10;
+        MinPixelShift := 0;
         MaxPixelShift := 60;
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 25;
@@ -173,8 +173,10 @@ var
 begin
   with Anim do
   begin
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxEx(true, pixelBox, clYellow);
+    {$IFDEF SMART}
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxEx(true, pixelBox, clYellow);
+    {$ENDIF}
 
     while (true) do
     begin

@@ -1207,11 +1207,13 @@ begin
           EndLoc   := LOC_BBV_FISH;
 
           Reflection := [
-                          TPointArray([Point(3094, 3489), Point(3099, 3485),
-                                       Point(3100, 3474), Point(3098, 3464),
-                                       Point(3096, 3449), Point(3103, 3435),
-                                       Point(3107, 3433)])
+                          TPointArray([Point(3102, 3496), Point(3094, 3491),
+                                       Point(3099, 3484), Point(3099, 3475),
+                                       Point(3098, 3466), Point(3096, 3455),
+                                       Point(3092, 3445), Point(3098, 3438),
+                                       Point(3108, 3434)])
                         ];
+
 
           SPSAreas   := ['9_2', '9_3'];
           Color      := MSI_Convert2DTilePath(Reflection);

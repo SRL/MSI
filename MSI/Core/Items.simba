@@ -483,8 +483,8 @@ begin
     CLAY_SOFT   : Result := 802904;
     VIAL_EMPTY  : Result := 5920342;
     VIAL_WATER  : Result := 11040368;
-    JUG_EMPTY   : Result := 7500664;
-    JUG_WATER   : Result := 12216937;
+    JUG_EMPTY   : Result := 6710891;
+    JUG_WATER   : Result := 12085350;
     BOWL_EMPTY  : Result := 1203069;
     BOWL_WATER  : Result := 11712313;
     BUCKET_EMPTY: Result := 1521995;
@@ -1877,7 +1877,7 @@ MSI_FindTool
 
 .. code-block:: pascal
 
-  function MSI_FindTool(Tool, WhichTab: Integer; var x, y: Integer): Boolean;
+  function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
 
 Returns true if the specified tool (Tool) is found in the game tab (WhichTab).
 Sets the items coordinates to x and y.  Uses DTMs to find the item, and adds the
@@ -1886,7 +1886,7 @@ tool to the exceptions array if found in the inventory.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 28 March 2011 by Coh3n
+  | Last Updated: 28 June 2011 by Coh3n
 
 Example:
 
@@ -1895,45 +1895,47 @@ Example:
   if (MSI_FindTool(HATCHET_BRONZE, TAB_INV, x, y)) then
     MSI_Debug('Found ' + MSI_Items[HATCHET_BRONZE].Name);
 *)
-function MSI_FindTool(Tool, WhichTab: Integer; var x, y: Integer): Boolean;
+function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
 var
   s: string;
-  t: Integer;
+  t: integer;
+  toolFound: boolean;
+  tools: TPointArray;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  GameTab(WhichTab);
+  gameTab(whichTab);
+  MSI_AddHeader('MSI_FindTool');
 
-  if (WhichTab = TAB_INV) then
-    s := 'Inventory'
-  else
-    s := 'Equipment';
-
-  // Used because for whatever reason, after switching players, GameTab doesn't like to work
-  if (WhichTab = TAB_EQUIP) and (GetCurrentTab <> TAB_EQUIP) then
+  if (whichTab = TAB_INV) then
   begin
-    MouseBox(680, 180, 693, 192, 1);
-
-    t := GetSystemTime + 5000;
-    while (GetSystemTime < t) and (GetCurrentTab <> TAB_EQUIP) do
-      Wait(RandomRange(500, 1000));
+    s := 'Inventory';
+    tools := itemCoordinates('inv', 'dtm', MSI_Items[tool].DTM, []);
+    if (length(tools) > 0) then
+    begin
+      toolFound := true;
+      x := tools[0].x;
+      y := tools[0].y;
+    end;
+  end else begin
+    s := 'Equipment';
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
   end;
 
-  MSI_AddHeader('MSI_FindTool');
   MSI_Debug('Searching ' + s + ' tab');
 
-  if (FindDTM(MSI_Items[Tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2)) then
+  if (toolFound) then
   begin
-    Result := True;
-    MSI_Debug('Found DTM of ' + MSI_Items[Tool].Name);
+    result := true;
+    MSI_Debug('Found DTM of ' + MSI_Items[tool].name);
 
-    if (WhichTab = TAB_INV) then
-      MSI_AddException(Tool, CoordsToItem(x, y));
+    if (whichTab = TAB_INV) then
+      MSI_AddException(tool, coordsToItem(x, y));
   end else
-		MSI_Debug('Failed to find DTM of ' + MSI_Items[Tool].Name);
+		MSI_Debug('Failed to find DTM of ' + MSI_Items[tool].name);
 
-  MSI_CloseHeader('MSI_FindTool: ' + BoolToStr(Result))
+  MSI_CloseHeader('MSI_FindTool: ' + boolToStr(result))
 end;
 
 (*
@@ -1964,7 +1966,7 @@ Example:
 *)
 function MSI_FindItemSlots(Item: Integer): TIntegerArray;
 var
-  i, j, l, t: Integer;
+  i, j, t, c: Integer;
   itemPoints: TPointArray;
   b: TBox;
   bankType: TBank;
@@ -1973,8 +1975,8 @@ begin
   if (MSI_Items[Item].Name = '') or (not LoggedIn) then
     Exit;
 
-  SetLength(result, 0);
-  GameTab(TAB_INV);
+  gameTab(TAB_INV);
+  c := 0;
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
@@ -1983,6 +1985,8 @@ begin
   end;
 
   itemPoints := ItemCoordinates(searchArea, 'dtm', MSI_Items[Item].DTM, []);
+  setLength(result, length(itemPoints));
+
   for i := 0 to High(itemPoints) do
     for j := 1 to 28 do
     begin
@@ -1993,11 +1997,12 @@ begin
 
       if (PointInBox(itemPoints[i], b)) then
       begin
-        l := Length(result);
-        SetLength(result, l + 1);
-        result[l] := j;
+        result[c] := j;
+        inc(c);
       end;
     end;
+
+  setLength(result, c);
 
   // If the item is stackable and more than one is found, will check uptext to remove bad items
   if (MSI_Items[Item].Stackable) then

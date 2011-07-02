@@ -1049,7 +1049,7 @@ var
   TPA: TPointArray;
   ATPA: T2DPointArray;
   tpaBoxes: TBoxArray;
-  i, j, t, cts: integer;
+  i, j, t, h, c, cts: integer;
   badPoint: boolean;
 begin
   if (not loggedIn) then
@@ -1098,8 +1098,10 @@ begin
   setLength(TPA, length(ATPA));
 
   // draw points on SMART if setting enabled
-  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-    drawDotsMulti(true, ATPA);
+  {$IFDEF SMART}
+    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      drawDotsMulti(true, ATPA);
+  {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point
   setLength(tpaBoxes, length(TPA));
@@ -1109,8 +1111,12 @@ begin
     TPA[i] := middleTPA(ATPA[i]);
   end;
 
+  setLength(points, length(TPA));
+  h := high(TPA);
+  c := 0;
+
   // loop through all the points to see which are valid/invalid
-  for i := 0 to high(TPA) do
+  for i := 0 to h do
   begin
     badPoint := false;
 
@@ -1144,8 +1150,8 @@ begin
     // a valid point as been found
     if (not badPoint) then
     begin
-      setLength(Points, length(Points) + 1);
-      Points[high(Points)] := TPA[i];
+      points[c] := TPA[i];
+      inc(c);
 
     // add point's box to MSI_NotBoxes so it can be avoided next search
     end else begin
@@ -1154,6 +1160,7 @@ begin
     end;
   end;
 
+  setLength(points, c);
   sortTPAFrom(points, point(MSCX, MSCY));
   MSI_FilterTPADist(points, min(obj.w, obj.h) * 2);
 
@@ -1161,9 +1168,11 @@ begin
   begin
     result := true;
 
-    for i := 0 to high(Points) do
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
+    {$IFDEF SMART}
+      for i := 0 to high(Points) do
+        if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+          SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
+    {$ENDIF}
 
     MSI_Debug('Points found: ' + intToStr(length(points)));
   end;
@@ -1226,8 +1235,10 @@ begin
                                   round(obj.w * distMultiplier),
                                   round(obj.h * distMultiplier));
 
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxMS(true, obj.searchArea, clYellow);
+    {$IFDEF SMART}
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxMS(true, obj.searchArea, clYellow);
+    {$ENDIF}
 
     if (findColorsTolerance(TPA,
                             obj.colors[0],

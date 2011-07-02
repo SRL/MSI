@@ -558,7 +558,7 @@ before searching for objects on the mainscreen.
 .. note::
 
   | Author: marpis & Coh3n
-  | Last Updated: 26 January 2011 by Coh3n
+  | Last Updated: 23 June 2011 by Coh3n
 
 Example:
 
@@ -607,6 +607,13 @@ begin
       end;
     until(Result or (GetSystemTime > t));
   end;
+
+  if (not result) then
+    if (length(tPath) > 0) then
+    begin
+      MSI_SubDebug('Regular walking failed, attempting blind walk');
+      result := r_WebWalk(tPath[high(tPath)]);
+    end;
   {$ENDIF}
 end;
 

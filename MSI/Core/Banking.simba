@@ -133,8 +133,11 @@ begin
     end;
   end;
 
-  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(True, IntToBox(0, 0, 0, 0), clWhite);
+
+  {$IFDEF SMART}
+    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      SMART_DrawBoxEx(True, IntToBox(0, 0, 0, 0), clWhite);
+  {$ENDIF}
 
   MSI_CloseHeader('MSI_OpenBank: ' + boolToStr(result) + ' (' + bankObj.name + ')');
 end;

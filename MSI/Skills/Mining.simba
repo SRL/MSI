@@ -88,8 +88,10 @@ begin
                                  round(rock.w * SIZE_MULTIPLIER),
                                  round(rock.h * SIZE_MULTIPLIER));
 
-  if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(true, rock.searchArea, clBlue);
+  {$IFDEF SMART}
+    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      SMART_DrawBoxEx(true, rock.searchArea, clBlue);
+  {$ENDIF}
 
   TPA := TPAFromBox(rock.searchArea);
   sortTPAFrom(TPA, point(MSCX, MSCY));
@@ -126,8 +128,10 @@ begin
                         rock.searchArea.x1, rock.searchArea.y1,
                         rock.searchArea.x2, rock.searchArea.y2, rock.tol);
 
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
-      SMART_DrawDotsEx(False, Arr, clYellow);
+    {$IFDEF SMART}
+      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        SMART_DrawDotsEx(False, Arr, clYellow);
+    {$ENDIF}
 
     if (length(arr) < rock.accuracy) then
     begin
