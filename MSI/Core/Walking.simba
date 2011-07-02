@@ -420,16 +420,18 @@ end;
 
 function MSI_DeathWalk(Loc: Integer): Boolean;
 var
-  pArr: T2DPointArray;
-  Path: TPointArray;
+  pArr, Path: T2DPointArray;
+  ePath: TPointArray;
   Method: function(tpa: TPointArray): Boolean;
+  Script: TScript;
+  e, i: Integer;
+  p: TPoint;
 begin
   if (not LoggedIn) then
     Exit;
   MSI_AddHeader('MSI_DeathWalk');
 
   Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-
 
   case Script.PathInfo.StartLoc of
     LOC_VE_BANK:
@@ -446,12 +448,32 @@ begin
     LOC_CB_BANK:
   end;
 
-
   if ReflectionBroken then
   begin
-    Path := MSI_Convert2DTilePath(Path[Loc]);
-    Method := MSI_WalkColorPath;
+    Path := MSI_Convert2DTilePath(pArr[Loc]);
+    Method := @MSI_WalkColorPath;
+  end else begin
+    Path := pArr[Loc];
+    Method := @MSI_WalkTilePath;
   end;
+
+  e := High(Path);
+  for i := High(Path[e]) downto 0 do
+  begin
+    if ReflectionBroken then
+      p := Point(Path[e][i])
+    else
+      p := TileToMM(Path[e][i]);
+
+    if rs_OnMinimap(p.x, p.y) then
+    begin
+      ePath := MSI_MirrorTPA(Path[e]);
+      Result := Method(ePath);
+    end;
+  end;
+
+  if (not Result) then
+    {Home Tele}
 end;
 
 
