@@ -418,6 +418,46 @@ begin
   MSI_CloseHeader('MSI_AtLocation: ' + BoolToStr(Result));
 end;
 
+function MSI_DeathWalk(Loc: Integer): Boolean;
+var
+  pArr: T2DPointArray;
+  Path: TPointArray;
+  Method: function(tpa: TPointArray): Boolean;
+begin
+  if (not LoggedIn) then
+    Exit;
+  MSI_AddHeader('MSI_DeathWalk');
+
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+
+
+  case Script.PathInfo.StartLoc of
+    LOC_VE_BANK:
+    LOC_VW_BANK:
+    LOC_GE_BANK:
+    LOC_DB_BANK:
+    LOC_FE_BANK:
+    LOC_FW_BANK:
+    LOC_PS_DBOX:
+    LOC_EV_BANK:
+    LOC_SV_BANK:
+    LOC_AK_BANK:
+    LOC_KJ_STILES:
+    LOC_CB_BANK:
+  end;
+
+
+  if ReflectionBroken then
+  begin
+    Path := MSI_Convert2DTilePath(Path[Loc]);
+    Method := MSI_WalkColorPath;
+  end;
+end;
+
+
+
+
+
 (*
 MSI_LoadPath
 ~~~~~~~~~~~~
