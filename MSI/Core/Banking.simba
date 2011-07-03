@@ -121,7 +121,7 @@ begin
           begin
             SymbolAccuracy := 40.0;
             if (FindSymbol(x, y, 'bank')) then
-              MSI_MultiClickMouse(x, y, 50, 4);
+              MSI_MultiMouse(x, y, 50, 4);
             SymbolAccuracy := 70.0;
             Continue;
           end;
@@ -354,7 +354,7 @@ random event items.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 29 March 2011 by Coh3n
+  | Last Updated: 02 July 2011 by Coh3n
 
 Example:
 
@@ -371,6 +371,10 @@ var
 begin
   if (not LoggedIn) or (Length(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions) = InvCount) then
     Exit;
+
+  if (not BankScreen) then
+    if (not DepositScreen) then
+      Exit;
 
   for i := 1 to 28 do
   begin
@@ -413,7 +417,7 @@ constants can be found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 28 March 2011 by NCDS
+  | Last Updated: 02 July 2011 by Coh3n
 
 Example:
 
@@ -451,11 +455,20 @@ begin
     if FindDTMs(MSI_Items[Items[i]].DTM, p, MBX1, MBY1, MBX2, MBY2) then
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
+      MSI_FilterTPADist(p, 15);
+
+      {$IFDEF SMART}
+      for ii := 0 to high(p) do
+        if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+          SMART_DrawBoxEx(false,
+                          intToBox(p[ii].x - 10, p[ii].y - 10, p[ii].x + 10, p[ii].y + 10),
+                          clBlue);
+      {$ENDIF}
 
       for ii := 0 to High(p) do
       begin
         MMouse(p[ii].x, p[ii].y, 4, 4);
-        if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 1000) then
+        if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 150 + random(150)) then
           Break;
 
         if ii = High(p) - 1 then
@@ -748,61 +761,60 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  MSI_BankStandard(); // Open the bank and deposit cooked items
-
-  with MSI_Players[CurrentPlayer] do
-  begin
-    newMaterials := MSI_RearrangeArray(
-                       Scripts[CurrentScript].Materials,
-                       Scripts[CurrentScript].Priority
-                    );
-
-    for i := 0 to High(newMaterials) do
+  if (MSI_BankStandard()) then // Open the bank and deposit cooked items
+    with MSI_Players[CurrentPlayer] do
     begin
-      if (not inIntArrayEx(Scripts[CurrentScript].Materials, pIndex, newMaterials[i])) then
-        pIndex := -1;
+      newMaterials := MSI_RearrangeArray(
+                         Scripts[CurrentScript].Materials,
+                         Scripts[CurrentScript].Priority
+                      );
 
-      material := MSI_GetMaterial(newMaterials[i]);
-
-      if (ReportInfo.SkillLevels[CurrentScript] < material.Level) then
+      for i := 0 to High(newMaterials) do
       begin
-        if (i = High(newMaterials)) then
-          ReportInfo.FalseReason := 'Required level not met';
+        if (not inIntArrayEx(Scripts[CurrentScript].Materials, pIndex, newMaterials[i])) then
+          pIndex := -1;
 
-        MSI_SubDebug('Not high enough level for material: ' + material.Name);
-        Continue;
-      end;
+        material := MSI_GetMaterial(newMaterials[i]);
 
-      for j := 0 to High(material.Supplies) do
-      begin
-        if (not MSI_Withdraw([material.Supplies[j][0]], [material.Supplies[j][1]])) then
-          if (j = High(material.Supplies)) then
-          begin
-            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
+        if (ReportInfo.SkillLevels[CurrentScript] < material.Level) then
+        begin
+          if (i = High(newMaterials)) then
+            ReportInfo.FalseReason := 'Required level not met';
 
-            if (pIndex <> -1) then
+          MSI_SubDebug('Not high enough level for material: ' + material.Name);
+          Continue;
+        end;
+
+        for j := 0 to High(material.Supplies) do
+        begin
+          if (not MSI_Withdraw([material.Supplies[j][0]], [material.Supplies[j][1]])) then
+            if (j = High(material.Supplies)) then
             begin
-              MSI_Debug('Removing from player''s array');
-              deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);
-              deleteValueInIntArray(Scripts[CurrentScript].Priority, pIndex);
+              MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
+
+              if (pIndex <> -1) then
+              begin
+                MSI_Debug('Removing from player''s array');
+                deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);
+                deleteValueInIntArray(Scripts[CurrentScript].Priority, pIndex);
+              end;
+
+              break;
             end;
 
-            break;
-          end;
-
-        t := (GetSystemTime + 5000);
-        while (GetSystemTime < t) do
-        begin
-          if (FindItem(x, y, 'dtm', MSI_Items[material.Supplies[j][0]].DTM, MIX1, MIY1, MIX2, MIY2, [])) then
+          t := (GetSystemTime + 5000);
+          while (GetSystemTime < t) do
           begin
-            Result := True;
-            Exit;
-          end;
+            if (FindItem(x, y, 'dtm', MSI_Items[material.Supplies[j][0]].DTM, MIX1, MIY1, MIX2, MIY2, [])) then
+            begin
+              Result := True;
+              Exit;
+            end;
 
-          Wait(RandomRange(200, 300));
+            Wait(RandomRange(200, 300));
+          end;
         end;
       end;
     end;
-  end;
 end;
 

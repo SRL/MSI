@@ -11,12 +11,12 @@ The source for can be found
 *)
 
 (*
-MSI_MultiClickMouse
-~~~~~~~~~~~~~~~~~~~
+MSI_MultiMouse
+~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  procedure MSI_MultiClickMouse(x, y, maxClicks: integer);
+  procedure MSI_MultiMouse(x, y, chance, maxClicks: integer);
 
 Will simulate "spam" clicking on the point x, y.  Will do it a random amount
 between 1 and 'maxClicks'.  Will click once no matter what, then has a percent
@@ -32,9 +32,9 @@ Example:
 .. code-block:: pascal
 
   if (waitUptext('ree', 200)) then
-    MSI_MultiClickMouse(x, y, 35, 5);
+    MSI_MultiMouse(x, y, 35, 5);
 *)
-procedure MSI_MultiClickMouse(x, y, chance, maxClicks: integer);
+procedure MSI_MultiMouse(x, y, chance, maxClicks: integer);
 var
   clicks, rX, rY: integer;
 begin
@@ -47,6 +47,42 @@ begin
 
     rX := randomRange(-10, 10);
     rX := randomRange(-10, 10);
+  until(clicks >= maxClicks);
+end;
+
+(*
+MSI_MultiOption
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_MultiOption(x, y: integer; options: TStringArray; chance, maxClicks: integer);
+
+Will right-click on the point x, y and choose the option 'options'.  Has a
+percentage chance (chace) of doing so and will do so a maximum of 'maxClicks'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 02 July 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_MultiOption(x, y, ['uick', 'ank-qui'], 30, 3);
+*)
+procedure MSI_MultiOption(x, y: integer; options: TStringArray; chance, maxClicks: integer);
+var
+  clicks: integer;
+begin
+  repeat // simulates multiple clicking like a human would
+    inc(clicks);
+    mouse(x, y, 0, 0, false);
+    waitOptionMulti(options, randomRange(150, 200));
+
+    if (random(100) > chance) or (not didClick(true, 50 + random(50))) then
+      break;
   until(clicks >= maxClicks);
 end;
 
@@ -171,7 +207,7 @@ Begin
 
     2001..5000:
       Case Random(4) Of
-         0 : HoverSkill('Random', False);
+         0 : HoverSkill(MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].SkillName, False);
          1 : PickUpMouse;
          2 : SleepAndMoveMouse(HowLong + Random(HowLong/10));
          3 : If Random(4) = 2 Then
