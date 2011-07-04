@@ -1920,7 +1920,7 @@ begin
     end;
   end else begin
     s := 'Equipment';
-    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, 560, 285, 605, 320);
   end;
 
   MSI_Debug('Searching ' + s + ' tab');

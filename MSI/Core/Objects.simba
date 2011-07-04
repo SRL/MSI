@@ -1066,11 +1066,15 @@ begin
 
   if (length(TPA) > 1) then // so it doesn't remove the only point
     for i := 0 to high(TPA) do
-      for j := 0 to high(TPA) do
+      for j := i to high(TPA) do
         if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) < maxDist) then
           deleteValueInTPA(TPA, j);
 
   MSI_SubDebug('MSI_FilterTPADist: '+intToStr(timeFromMark(t))+' ms');
+
+  // to avoid out of range and so it'll compare last two points
+  if (length(TPA) = 2) then
+    MSI_FilterTPADist(TPA, maxDist);
 end;
 
 (*
@@ -1405,6 +1409,8 @@ begin
       for j := 0 to high(TPA) do
       begin
         obj := objs[i];
+        obj.x := TPA[j].x;
+        obj.y := TPA[j].y;
 
         if (action = moNothing) then
         begin
@@ -1412,7 +1418,7 @@ begin
           break;
         end;
 
-        mmouse(TPA[j].x, TPA[j].y, 5, 5);
+        mmouse(obj.x, obj.y, 5, 5);
         wait(randomRange(20, 50));
 
         // check the uptext of where we moved the mouse to
