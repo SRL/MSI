@@ -418,7 +418,7 @@ begin
   MSI_CloseHeader('MSI_AtLocation: ' + BoolToStr(Result));
 end;
 
-function MSI_DeathWalk(Loc: Integer): Boolean;
+function MSI_DeathWalk: Boolean;
 var
   pArr, Path: T2DPointArray;
   ePath: TPointArray;
@@ -433,6 +433,7 @@ begin
 
   Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
 
+  {load paths}
   case Script.PathInfo.StartLoc of
     LOC_VE_BANK:
     LOC_VW_BANK:
@@ -448,6 +449,7 @@ begin
     LOC_CB_BANK:
   end;
 
+  {Color or Reflection}
   if ReflectionBroken then
   begin
     Path := MSI_Convert2DTilePath(pArr[Loc]);
@@ -457,11 +459,12 @@ begin
     Method := @MSI_WalkTilePath;
   end;
 
+  {Attempt to walk to location without teleporting first}
   e := High(Path);
   for i := High(Path[e]) downto 0 do
   begin
     if ReflectionBroken then
-      p := Point(Path[e][i])
+      p := Point(Path[e][i].x, Path[e][i].y)
     else
       p := TileToMM(Path[e][i]);
 
@@ -470,10 +473,30 @@ begin
       ePath := MSI_MirrorTPA(Path[e]);
       Result := Method(ePath);
     end;
+    if Result then
+      Break;
   end;
 
+  {Teleport home}
   if (not Result) then
-    {Home Tele}
+  begin
+    MSI_LoadSpell(SPELL_TELE_HOME);
+    MSI_ClickSpell(SPELL_TELE_HOME);
+
+    for i := 0 to 20 do
+    begin
+      Wait(500);
+      if MSI_AtLocation(LOC_LB_SPAWN, false) then
+        Break;
+      if i = 20 then
+      begin  //Failsafe this with second attempt
+        MSI_SubDebug('Failed to teleport home');
+        MSI_CloseHeader('MSI_DeathWalk: '+Result+';');
+        Exit;
+      end;
+    end;
+    //Walk back
+  end;
 end;
 
 
