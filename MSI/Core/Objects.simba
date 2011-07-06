@@ -473,13 +473,13 @@ begin
         Uptexts            := ['ocks'];
         Options            := ['ine'];
         Level              := 1;
-        Colors             := [5938111];
-        Tol                := 13;
+        Colors             := [7584739];
+        Tol                := 15;
         Hue                := 0.02;
-        Sat                := 1.23;
+        Sat                := 2.73;
         FindAllColors      := False;
-        W                  := 25;
-        H                  := 20;
+        W                  := 15;
+        H                  := 15;
         Accuracy           := 5;
         SearchArea         := MSBox;
         MaxTime            := 5000;
@@ -1067,7 +1067,7 @@ begin
   if (length(TPA) > 1) then // so it doesn't remove the only point
     for i := 0 to high(TPA) do
       for j := i to high(TPA) do
-        if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) < maxDist) then
+        if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) <= maxDist) then
           deleteValueInTPA(TPA, j);
 
   MSI_SubDebug('MSI_FilterTPADist: '+intToStr(timeFromMark(t))+' ms');
@@ -1217,7 +1217,7 @@ begin
 
   setLength(points, c);
   sortTPAFrom(points, point(MSCX, MSCY));
-  MSI_FilterTPADist(points, min(obj.w, obj.h) * 2);
+  MSI_FilterTPADist(points, min(obj.w, obj.h));
 
   if (length(points) > 0) then
   begin
@@ -1279,7 +1279,7 @@ begin
   setColorToleranceSpeed(2);
   setToleranceSpeed2Modifiers(obj.hue, obj.sat);
   previous := point(obj.x, obj.y);
-  t := (getSystemTime + 30000);
+  t := (getSystemTime + 10000);
   result := true;
   distMultiplier := (distance(MSCX, MSCY, obj.x, obj.y) / 40);
   if (distMultiplier < 1.0) then
@@ -1303,6 +1303,7 @@ begin
                             obj.searchArea.y2,
                             obj.tol)) then
     begin
+      MSI_Debug('Found color');
       ATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
       sortATPAFromFirstPoint(ATPA, Point(MSCX, MSCY));
       if (length(ATPA) > 0) then
@@ -1314,6 +1315,7 @@ begin
         distMultiplier := (distMultiplier - 1.0); // setting the box back to 'normal' size
       end;
     end else begin
+      MSI_Debug('Failed to find color');
       inc(tries);
       if (tries = 1) then
       begin

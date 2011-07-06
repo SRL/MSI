@@ -92,24 +92,23 @@ begin
   if (not Result) then
   begin
     t := (GetSystemTime + 60000);
-    if bankType = Bank then
-      Result := MSI_HandlePin(tPin);
 
     while (not Result) and (GetSystemTime < t) and LoggedIn do
     begin
       MSI_FindRandoms(False);
 
-      if (MSI_FindObject(bankObj, moRight)) then
-      begin
-        if bankType = Bank then
-          Result := MSI_HandlePin(tPin);
+      if (not result) then
+        if (MSI_FindObject(bankObj, moRight)) then
+        begin
+          if bankType = Bank then
+            Result := MSI_HandlePin(tPin);
 
-        if (not Result) then
-          case bankType of
-            Bank: Result := WaitFunc(@BankScreen, 100, 15000);
-            DBox: Result := WaitFunc(@DepositScreen, 100, 15000);
-          end;
-      end;
+          if (not Result) then
+            case bankType of
+              Bank: Result := WaitFunc(@BankScreen, 100, 15000);
+              DBox: Result := WaitFunc(@DepositScreen, 100, 15000);
+            end;
+        end;
 
       if (not Result) then
         if ((t - GetSystemTime) > 30000) then
