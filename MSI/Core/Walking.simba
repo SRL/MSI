@@ -600,7 +600,6 @@ Example:
   if MSI_DeathWalk then
     MSI_Debug('Back on track!');
 *)
-{$i MSI/MSI/Skills/Magic.simba}
 function MSI_DeathWalk: Boolean;
 var
   pArr, Path: T2DPointArray;
@@ -755,9 +754,9 @@ begin
     MSI_LoadSpell(SPELL_TELE_HOME);
     MSI_ClickSpell(SPELL_TELE_HOME);
 
-    for i := 0 to 35 do
+    for i := 0 to 25 do
     begin
-      Wait(500);
+      Wait(1000);
       if MSI_AtLocation(LOC_LB_SPAWN, false) then
         Break;
       if i = 20 then
@@ -767,6 +766,8 @@ begin
         Exit;
       end;
     end;
+
+    ClickNorth(True);
 
     {Walk back}
     for i := 0 to High(Path) do

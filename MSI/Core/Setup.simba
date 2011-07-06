@@ -49,6 +49,7 @@ The source for can be found
 {$i MSI/MSI/Core/Objects.simba}
 {$i MSI/MSI/Core/Items.simba}
 {$i MSI/MSI/Core/Obstacles.simba}
+{$i MSI/MSI/Skills/Magic.simba} //Used in Walking.simba
 {$i MSI/MSI/Core/Walking.simba}
 {$i MSI/MSI/Core/Materials.simba}
 {$i MSI/MSI/Core/Locations.simba}
@@ -61,7 +62,6 @@ The source for can be found
 {$i MSI/MSI/Skills/Mining.simba}
 {$i MSI/MSI/Skills/Fishing.simba}
 {$i MSI/MSI/Skills/Cooking.simba}
-//{$i MSI/MSI/Skills/Magic.simba}
 {$i MSI/MSI/Skills/Money_Making.simba}
 
 {$i MSI/MSI/Core/Reports.simba}
