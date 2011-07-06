@@ -778,6 +778,7 @@ type
     ExcludeSelf      : Boolean;       // Exclude pixels in a box around the player
     RightClickOnly   : Boolean;
     WaitToMove       : Boolean;       // When clicked, wait till we have stopped moving? Calls Flag;
+    MultiClick       : Boolean;       // Milti-click the object like a human would
     Track            : Boolean;       // When clicked, track the object while the player moves? Calls MSI_TrackObject;
     MaxTime          : Integer;       // Max time (in ms) to wait for the object to disappear
     AssociatedItems  : TIntegerArray; // The items that can be gained from interacting with object

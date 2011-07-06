@@ -1920,7 +1920,7 @@ begin
     end;
   end else begin
     s := 'Equipment';
-    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, 560, 285, 605, 320);
   end;
 
   MSI_Debug('Searching ' + s + ' tab');
@@ -2350,7 +2350,7 @@ Waits until the item 'item' is no longer found in the inventory.
 .. note::
 
   | Author: NCSD & Coh3n
-  | Last Updated: 27 April 2011 by Coh3n
+  | Last Updated: 02 July 2011 by Coh3n
 
 Example:
 
@@ -2361,29 +2361,42 @@ Example:
 *)
 function MSI_WaitItemGone(item: TItem): boolean;
 var
-  t: Integer;
+  t, tt, howMany: Integer;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
   MSI_AddHeader('MSI_WaitItemGone');
 
-  t := (GetSystemTime + 180000);
-  while (GetSystemTime < t) do
-  begin
-    if (CountItems('dtm', item.DTM, []) = 0) then
+  t := (getSystemTime + 180000);
+  repeat
+    howMany := countItems('dtm', item.DTM, []);
+
+    tt := (getSystemTime + 5000);
+    while (getSystemTime < tt) do
     begin
-      Result := True;
-      Break;
+      if (countItems('dtm', item.DTM, []) = 0) then
+      begin
+        result := true;
+        break;
+      end;
+
+      MSI_FindRandoms(false);
+      MSI_AntiBan(randomRange(0, 7000), ANTI_BAN_CHANCE);
+
+      wait(1000);
     end;
 
-    MSI_FindRandoms(False);
-    MSI_AntiBan(RandomRange(0, 7000), ANTI_BAN_CHANCE);
+    if (not result) then
+      if (countItems('dtm', item.DTM, []) >= howMany) then
+      begin
+        MSI_Debug('We''ve stopped converting the material');
+        result := false;
+        break;
+      end;
+  until(result or (getSystemTime > t) or (not loggedIn));
 
-    Wait(1000);
-  end;
-
-  MSI_CloseHeader('MSI_WaitItemGone: ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_WaitItemGone: ' + boolToStr(result));
 end;
 
 (*

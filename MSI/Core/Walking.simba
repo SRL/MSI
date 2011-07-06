@@ -166,7 +166,7 @@ begin
   if (TileOnMM(Tile)) then
   begin
     MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is on the minimap');
-    MSI_MultiClickMouse(MP.X, MP.Y, 60, 4);
+    MSI_MultiMouse(MP.X, MP.Y, 60, 4);
     Result := True;
     RunEnergy(20);
   end else

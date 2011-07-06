@@ -59,7 +59,9 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := False;
+        MaxTime            := 20000;
         AssociatedItems    := [LOGS_NORMAL];
       end;
 
@@ -81,7 +83,9 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := False;
+        MaxTime            := 45000;
         AssociatedItems    := [LOGS_OAK];
       end;
 
@@ -103,7 +107,9 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := False;
+        MaxTime            := 60000;
         AssociatedItems    := [LOGS_WILLOW];
       end;
 
@@ -125,6 +131,9 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
+        Track              := False;
+        MaxTime            := 60000;
         AssociatedItems    := [LOGS_WILLOW];
       end;
 
@@ -146,7 +155,9 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := False;
+        MaxTime            := 60000;
         AssociatedItems    := [LOGS_MAPLE];
       end;
 
@@ -168,7 +179,9 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := False;
+        MaxTime            := 75000;
         AssociatedItems    := [LOGS_YEW];
       end;
 
@@ -190,7 +203,9 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := False;
+        MaxTime            := 75000;
         AssociatedItems    := [LOGS_YEW];
       end;
 
@@ -213,6 +228,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := True;
         MaxTime            := 90000;
         AssociatedItems    := [LOGS_MAGIC];
       end;
@@ -237,6 +253,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_DB:
@@ -257,6 +274,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_GE:
@@ -276,6 +294,7 @@ begin
         SearchArea         := MSBox
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_FE:
@@ -296,6 +315,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_VW:
@@ -316,6 +336,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_FW:
@@ -336,6 +357,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_EV:
@@ -356,6 +378,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     DBOX_PS:
@@ -376,6 +399,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_SV:
@@ -395,6 +419,7 @@ begin
         SearchArea         := MSBox
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_AK:
@@ -403,18 +428,19 @@ begin
         Name               := 'BANK_AL-KHARID';
         Uptexts            := ['ooth'];
         Options            := ['uick'];
-        Colors             := [4870229];
-        Tol                := 3;
-        Hue                := 0.76;
-        Sat                := 0.40;
+        Colors             := [6125447];
+        Tol                := 12;
+        Hue                := 0.04;
+        Sat                := 0.52;
         FindAllColors      := False;
-        W                  := 14;
-        H                  := 60;
-        Accuracy           := 20;
+        W                  := 15;
+        H                  := 20;
+        Accuracy           := 15;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     MSI_BANK_CB:
@@ -435,6 +461,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
+        MultiClick         := True;
       end;
 
     { ROCKS ====================================== ]
@@ -458,6 +485,7 @@ begin
         MaxTime            := 5000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_CLAY];
       end;
@@ -481,6 +509,7 @@ begin
         MaxTime            := 7000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_COPPER];
       end;
@@ -504,6 +533,7 @@ begin
         MaxTime            := 7000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_TIN];
       end;
@@ -527,6 +557,7 @@ begin
         MaxTime            := 10000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_IRON];
       end;
@@ -551,6 +582,7 @@ begin
         ExcludeSelf        := False;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_SILVER];
       end;
@@ -575,6 +607,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_COAL];
       end;
@@ -598,6 +631,7 @@ begin
         MaxTime            := 45000;
         ExcludeSelf        := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_GOLD];
       end;
@@ -622,6 +656,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_MITHRIL];
       end;
@@ -645,6 +680,7 @@ begin
         MaxTime            := 75000;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         Track              := True;
         AssociatedItems    := [ORE_ADAMANTITE];
       end;
@@ -667,6 +703,7 @@ begin
           SearchArea         := MSBox;
           ExcludeSelf        := True;
           WaitToMove         := True;
+          MultiClick         := True;
           Track              := True;
         end;
 
@@ -748,6 +785,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := False;
         Track              := False;
         AssociatedItems    := [FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
                                FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
@@ -776,6 +814,7 @@ begin
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := True;
         AssociatedItems    := [];
       end;
 
@@ -797,6 +836,7 @@ begin
         ExcludeSelf        := False;
         RightClickOnly     := False;
         WaitToMove         := True;
+        MultiClick         := True;
         AssociatedItems    := [];
       end;
 
@@ -817,6 +857,7 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         AssociatedItems    := [];
       end;
 
@@ -839,6 +880,7 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := True;
         AssociatedItems    := [];
       end;
 
@@ -862,6 +904,7 @@ begin
         ExcludeSelf        := False;
         WaitToMove         := True;
         RightClickOnly     := True;
+        MultiClick         := True;
         AssociatedItems    := [];
       end;
 
@@ -884,6 +927,7 @@ begin
          SearchArea         := MSBox;
          ExcludeSelf        := True;
          WaitToMove         := True;
+         MultiClick         := False;
          AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
                                 BUCKET_WATER ];
       end;
@@ -905,6 +949,7 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := False;
         AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
                                BUCKET_WATER ];
       end;
@@ -926,6 +971,7 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := False;
         AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
                                BUCKET_WATER ];
       end;
@@ -949,6 +995,7 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
+        MultiClick         := False;
         AssociatedItems    := [BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
 		                           BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE];
       end;
@@ -1003,7 +1050,7 @@ filter out two of them.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 06 June 2011 by Coh3n
+  | Last Updated: 02 July 2011 by Coh3n
 
 Example:
 
@@ -1013,13 +1060,21 @@ Example:
 *)
 procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: extended);
 var
-  i, j: integer;
+  i, j, t: integer;
 begin
+  markTime(t);
+
   if (length(TPA) > 1) then // so it doesn't remove the only point
     for i := 0 to high(TPA) do
       for j := i to high(TPA) do
         if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) < maxDist) then
           deleteValueInTPA(TPA, j);
+
+  MSI_SubDebug('MSI_FilterTPADist: '+intToStr(timeFromMark(t))+' ms');
+
+  // to avoid out of range and so it'll compare last two points
+  if (length(TPA) = 2) then
+    MSI_FilterTPADist(TPA, maxDist);
 end;
 
 (*
@@ -1354,6 +1409,8 @@ begin
       for j := 0 to high(TPA) do
       begin
         obj := objs[i];
+        obj.x := TPA[j].x;
+        obj.y := TPA[j].y;
 
         if (action = moNothing) then
         begin
@@ -1361,7 +1418,7 @@ begin
           break;
         end;
 
-        mmouse(TPA[j].x, TPA[j].y, 5, 5);
+        mmouse(obj.x, obj.y, 5, 5);
         wait(randomRange(20, 50));
 
         // check the uptext of where we moved the mouse to
@@ -1378,21 +1435,26 @@ begin
 
           // right click the object if set to (if not, 10% chance for antiban)
           if ((obj.rightClickOnly) or (action = moRight) or (random(10) = 1)) then
-            repeat // simulates multiple clicking like a human would
-              inc(clicks);
+          begin
+            if (obj.multiClick) then
+              MSI_MultiOption(obj.x, obj.y, obj.options, 30, 2)
+            else begin
               mouse(obj.x, obj.y, 0, 0, false);
-              if (waitOptionMulti(obj.options, randomRange(150, 200))) then
-                result := didClick(true, randomRange(500, 1000));
+              waitOptionMulti(obj.options, randomRange(150, 200));
+            end;
 
-              if (random(10) <= 7) then
-                break;
-            until(clicks = 3);
+            result := didClick(true, randomRange(500, 1000));
+          end;
 
           // left click
           if (not result) then
             if (action = moLeft) then
             begin
-              MSI_MultiClickMouse(obj.x, obj.y, 30, 3);
+              if (obj.multiClick) then
+                MSI_MultiMouse(obj.x, obj.y, 30, 3)
+              else
+                mouse(obj.x, obj.y, 0, 0, true);
+
               result := didClick(true, randomRange(500, 1000));
             end;
         end else begin
