@@ -61,7 +61,7 @@ The source for can be found
 {$i MSI/MSI/Skills/Mining.simba}
 {$i MSI/MSI/Skills/Fishing.simba}
 {$i MSI/MSI/Skills/Cooking.simba}
-{$i MSI/MSI/Skills/Magic.simba}
+//{$i MSI/MSI/Skills/Magic.simba}
 {$i MSI/MSI/Skills/Money_Making.simba}
 
 {$i MSI/MSI/Core/Reports.simba}

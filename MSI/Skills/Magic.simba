@@ -82,8 +82,8 @@ begin
         Level := 1;
         Experience := 0;
         Staffs := [];
-        FreeBox := [564, 218, 584, 239];
-        MemberBox := [564, 218, 584, 239];
+        FreeBox := IntToBox(564, 218, 584, 239);
+        MemberBox := IntToBox(564, 218, 584, 239);
         AutoCast := False;
         Runes := [];
         RuneAmounts := [];
