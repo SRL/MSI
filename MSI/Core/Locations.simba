@@ -633,6 +633,23 @@ begin
     MSI_LoadLocation(i);
 end;
 
+(*
+MSI_GetLocation
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetLocation: Integer;
+
+Detects where the current player is. If lost, then it will "Death Walk" to starting
+location.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 06 July 2011 by NCDS
+
+*)
 function MSI_GetLocation: Integer;
 var
   i, ii: Integer;
