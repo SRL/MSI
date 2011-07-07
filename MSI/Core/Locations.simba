@@ -106,6 +106,23 @@ Example:
          Tiles := [Point(3253, 3421)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+               Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+               Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+               Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+               Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+               Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+               Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+               Point(3285, 3422), Point(3277, 3429), Point(3263, 3429),
+               Point(3255, 3420)])];
+         {
+           SPSAreas := ['11_5', '11_4', '11_3'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_VE_MINE:
@@ -150,6 +167,27 @@ Example:
          Tiles := [Point(2945, 3367)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
+             Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
+             Point(3197, 3280), Point(3184, 3285), Point(3171, 3285),
+             Point(3160, 3290), Point(3147, 3294), Point(3131, 3294),
+             Point(3117, 3294), Point(3103, 3293), Point(3089, 3289),
+             Point(3077, 3280), Point(3064, 3277), Point(3050, 3275),
+             Point(3035, 3275), Point(3022, 3276), Point(3009, 3279),
+             Point(3007, 3294), Point(3005, 3304), Point(3007, 3317),
+             Point(3006, 3331), Point(3007, 3343), Point(3006, 3357),
+             Point(2999, 3364), Point(2988, 3372), Point(2977, 3378),
+             Point(2962, 3379), Point(2952, 3380), Point(2946, 3368)])];
+
+         {
+           SPSAreas := ['11_5', '10_4', '9_4', '8_4'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_FW_PUMP:
@@ -172,6 +210,25 @@ Example:
          Tiles := [Point(3187, 3437)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
+             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
+             Point(3208, 3429), Point(3194, 3430), Point(3185, 3438)])];
+
+         {
+           SPSAreas := ['11_5', '11_4', '11_3', '10_3'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_GE_BANK:
@@ -183,6 +240,27 @@ Example:
          Tiles := [Point(3169, 3490)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
+             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
+             Point(3208, 3429), Point(3194, 3430), Point(3185, 3438),
+             Point(3187, 3447), Point(3179, 3450), Point(3168, 3459),
+             Point(3165, 3471), Point(3167, 3480), Point(3167, 3489)])];
+
+         {
+           SPSAreas := ['11_5', '11_4', '11_3', '10_3', '10_2'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_GE_YEWS:
@@ -202,9 +280,24 @@ Example:
          Name := 'Draynor Village bank';
          Constant := LOC_DB_BANK;
          AtBank := True;
-         Tiles := [Point(3092, 3240)];
+         Tiles := [Point(3093, 3244)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3222, 3216), Point(3213, 3204), Point(3204, 3210),
+             Point(3196, 3214), Point(3185, 3217), Point(3175, 3218),
+             Point(3163, 3222), Point(3153, 3225), Point(3144, 3224),
+             Point(3132, 3225), Point(3120, 3226), Point(3109, 3229),
+             Point(3100, 3235), Point(3094, 3242)])];
+
+         {
+           SPSAreas := ['11_5', '10_5', '9_5'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_DB_WILLOWS:
@@ -359,6 +452,26 @@ Example:
          Tiles := [Point(3012, 3354)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
+             Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
+             Point(3197, 3280), Point(3184, 3285), Point(3171, 3285),
+             Point(3160, 3290), Point(3147, 3294), Point(3131, 3294),
+             Point(3117, 3294), Point(3103, 3293), Point(3089, 3289),
+             Point(3077, 3280), Point(3064, 3277), Point(3050, 3275),
+             Point(3035, 3275), Point(3022, 3276), Point(3009, 3279),
+             Point(3007, 3294), Point(3005, 3304), Point(3007, 3317),
+             Point(3006, 3331), Point(3007, 3343), Point(3006, 3357),
+             Point(3012, 3361), Point(3014, 3356)])];
+
+         {
+           SPSAreas := ['11_5', '10_4', '9_4'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_PS_WILLOWS:
@@ -392,6 +505,21 @@ Example:
          Tiles := [Point(3046, 3235)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3222, 3216), Point(3213, 3204), Point(3204, 3210),
+             Point(3196, 3214), Point(3185, 3217), Point(3175, 3218),
+             Point(3163, 3222), Point(3153, 3225), Point(3144, 3224),
+             Point(3132, 3225), Point(3120, 3226), Point(3109, 3229),
+             Point(3100, 3235), Point(3094, 3242), Point(3082, 3247),
+             Point(3072, 3250), Point(3061, 3252), Point(3054, 3248),
+             Point(3045, 3246), Point(3047, 3235)])];
+
+           SPSAreas := ['11_5', '10_5', '9_5'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         end;
        end;
 
      LOC_LSW_MINE:
@@ -422,9 +550,9 @@ Example:
          Name := 'Lumbridge courtyard';
          Constant := LOC_LB_SPAWN;
          AtBank := False;
-         Tiles := [Point(3220, 3217)];
+         Tiles := [Point(3222, 3218)];
          Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
+         MinDistance := 30;
        end;
 
      LOC_DB_YEWS:
@@ -447,6 +575,30 @@ Example:
          Tiles := [Point(3093, 3493)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
+             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
+             Point(3208, 3429), Point(3194, 3430), Point(3189, 3429),
+             Point(3176, 3428), Point(3164, 3423), Point(3150, 3417),
+             Point(3137, 3417), Point(3123, 3417), Point(3112, 3422),
+             Point(3099, 3420), Point(3092, 3430), Point(3092, 3441),
+             Point(3096, 3453), Point(3099, 3465), Point(3097, 3478),
+             Point(3088, 3485), Point(3089, 3492), Point(3093, 3491)])];
+
+         {
+           SPSAreas := ['11_5', '10_4', '10_3', '9_3', '9_2'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_EV_YEWS:
@@ -502,6 +654,16 @@ Example:
          Tiles := [Point(2726, 3492)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+
+         with DeathPath do
+         begin
+           Reflection := [];
+           Obstacles := [];
+         {
+           SPSAreas := [];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_SV_MAPLES:
@@ -546,6 +708,18 @@ Example:
          Tiles := [Point(3270, 3165)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+
+         with DeathPath do
+         begin
+           Reflection := [TPointArray([
+             Point(3223, 3217), Point(3235, 3212), Point(3237, 3201),
+             Point(3243, 3191), Point(3242, 3180), Point(3246, 3171),
+             Point(3257, 3172), Point(3270, 3174), Point(3270, 3165)])];
+         {
+           SPSAreas := ['11_5'];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_AK_RANGE:
@@ -568,6 +742,16 @@ Example:
          Tiles := [Point(2809, 3442)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+
+         with DeathPath do
+         begin
+           Reflection := [];
+           Obstacles := [];
+         {
+           SPSAreas := [];
+           Color := MSI_Convert2DTilePath(Reflection);
+         }
+         end;
        end;
 
      LOC_CB_FISH:
@@ -634,23 +818,28 @@ begin
 end;
 
 (*
-MSI_GetLocation
-~~~~~~~~~~~~~~~~~~~~
+MSI_SetPlayerLoc
+~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_GetLocation: Integer;
+  function MSI_SetPlayerLoc(): boolean;
 
-Detects where the current player is. If lost, then it will "Death Walk" to starting
-location.
+Detects where the current player is. If lost, then it will "Death Walk" to
+starting location.
 
 .. note::
 
   | Author: NCDS
   | Last Updated: 06 July 2011 by NCDS
 
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetPlayerLoc();
 *)
-function MSI_GetLocation: Integer;
+function MSI_SetPlayerLoc(): boolean;
 var
   i, ii: Integer;
   locArr: TIntegerArray;
@@ -659,32 +848,26 @@ var
 begin
   if (not LoggedIn) then
     Exit;
-  MSI_AddHeader('MSI_GetLocation');
+
+  MSI_AddHeader('MSI_SetPlayerLoc');
 
   Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-  SetArrayLength(locArr, 2);
+  SetLength(locArr, 2);
   locArr[0] := Script.PathInfo.StartLoc;
   locArr[1] := Script.PathInfo.EndLoc;
 
   for i := 0 to 1 do
-    for ii := 0 to High(MSI_Locations[locArr[i]].Tiles) do
+    if (MSI_AtLocation(locArr[i], true)) then
     begin
-      p := TileToMM(MSI_Locations[locArr[i]]. Tiles[ii]);
-      if Distance(MMCx, MMCy, p.x, p.y) < MSI_Locations[locArr[i]].MinDistance then
-      begin
-        Result := MSI_Locations[locArr[i]].Constant;
-        Exit;
-      end;
+      result := true;
+      MSI_Players[CurrentPlayer].location := locArr[i];
+      MSI_Debug('Player''s location: '+MSI_Locations[locArr[i]].name);
+      break;
     end;
 
-  if MSI_DeathWalk then
-    Result := Script.PathInfo.StartLoc;
-  MSI_CloseHeader('MSI_GetLocation: '+MSI_Locations[MSI_Players[CurrentPlayer].Location].Name+';');
+  if (not result) then
+    result := MSI_DeathWalk;
+
+  MSI_CloseHeader('MSI_SetPlayerLoc: '+boolToStr(result));
 end;
-
-
-
-
-
-
 

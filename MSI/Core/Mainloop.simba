@@ -70,21 +70,22 @@ begin
 
   // Setup the player
   with MSI_Players[CurrentPlayer] do
-  begin
-    // Get the player's skill levels for each script
-    if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
-      MSI_SetSkillLevels();
+    if (MSI_SetPlayerLoc()) then
+    begin
+      // Get the player's skill levels for each script
+      if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+        MSI_SetSkillLevels();
 
-    // Check to see if there's items in the set exceptions array
-    for i := 0 to High(Scripts[CurrentScript].Exceptions) do
-      if (not ExistsItem(Scripts[CurrentScript].Exceptions[i])) then
-      begin
-        MSI_Debug('No item found in inventory slot: '+IntToStr(i));
-        DeleteValueInIntArray(Scripts[CurrentScript].Exceptions, i);
-      end;
+      // Check to see if there's items in the set exceptions array
+      for i := 0 to High(Scripts[CurrentScript].Exceptions) do
+        if (not ExistsItem(Scripts[CurrentScript].Exceptions[i])) then
+        begin
+          MSI_Debug('No item found in inventory slot: '+IntToStr(i));
+          DeleteValueInIntArray(Scripts[CurrentScript].Exceptions, i);
+        end;
 
-    Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
-  end;
+      Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
+    end;
 
   MSI_CloseHeader('MSI_SetupPlayer: ' + BoolToStr(Result));
 end;
@@ -946,7 +947,7 @@ procedure MSI_MainLoop;
 var
   tmpLoads, tmpTime, time, iCount: Integer;
   Script: TScript;
-  takeBreak, skipToBank: Boolean;
+  takeBreak: Boolean;
   reason: string;
   nPlayer: Boolean;
 label
@@ -967,10 +968,6 @@ begin
     // Reset temporary variables used for breaking
     tmpLoads := 0;
     MarkTime(tmpTime);
-
-    // Check player's location; works if player is in the middle of the path
-    Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-    MSI_Players[CurrentPlayer].Location := MSI_GetLocation; // Set location
 
     // Setup player
     if (not MSI_SetupPlayer) then
@@ -997,10 +994,11 @@ begin
         MSI_Debug('Committed to SRL stats');
 
       // If player's in middle of path with > 15 items, will walk to bank and deposit
-      if (skipToBank) then
+      if (invCount >= 15) then
       begin
+        MSI_Players[CurrentPlayer].Location :=
+        MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.EndLoc;
         MSI_SubDebug('Player has > 15 items, banking..');
-        skipToBank := False;
         goto WalkToBank;
       end;
 

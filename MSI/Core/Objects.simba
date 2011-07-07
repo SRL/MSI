@@ -1439,7 +1439,7 @@ begin
           if ((obj.rightClickOnly) or (action = moRight) or (random(10) = 1)) then
           begin
             if (obj.multiClick) then
-              MSI_MultiOption(obj.x, obj.y, obj.options, 30, 2)
+              MSI_MultiOption(obj.x, obj.y, obj.options, 100, 2)
             else begin
               mouse(obj.x, obj.y, 0, 0, false);
               waitOptionMulti(obj.options, randomRange(150, 200));
@@ -1453,7 +1453,7 @@ begin
             if (action = moLeft) then
             begin
               if (obj.multiClick) then
-                MSI_MultiMouse(obj.x, obj.y, 30, 3)
+                MSI_MultiMouse(obj.x, obj.y, 15, 3)
               else
                 mouse(obj.x, obj.y, 0, 0, true);
 

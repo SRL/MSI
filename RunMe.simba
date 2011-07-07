@@ -66,7 +66,6 @@ begin
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
     Member     := False;   // Is this player a member?
-    Location   := 0;       // See instructions at the top
     BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
     BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
     TotalLoads := 0;       // Total loads for the player to do; leave 0 if using TotalTime or to go forever
@@ -85,7 +84,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := 0;
     BreakTime  := 0;
     TotalLoads := 0;
@@ -103,7 +101,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     TotalLoads := ;
@@ -121,7 +118,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     TotalLoads := ;
@@ -139,7 +135,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     TotalLoads := ;
@@ -157,7 +152,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     TotalLoads := ;
@@ -175,7 +169,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     TotalLoads := ;
@@ -193,7 +186,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     TotalLoads := ;
@@ -286,6 +278,12 @@ begin
                   'select reflection walking, or download SPS from SRL-Forums, and '+
                   'uncomment the define at the top of RunMe.simba');
       TerminateScript;
+    {$ELSE}
+      ShowMessage('WARNING: Death Walking Unsupported '+#13+#10+
+                  '  MSI doesn''t have death walking support without '+#13+#10+
+                  '  Reflection.  This means you have to start your player '+#13+#10+
+                  '  at the script''s location rather than anywhere in '+#13+#10+
+                  '  Runescape.');
     {$ENDIF}
   end;
 

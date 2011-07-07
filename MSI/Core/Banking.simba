@@ -97,7 +97,7 @@ begin
     begin
       MSI_FindRandoms(False);
 
-      if (not result) then
+      if ((not bankScreen) and (not depositScreen)) then
         if (MSI_FindObject(bankObj, moRight)) then
         begin
           if bankType = Bank then

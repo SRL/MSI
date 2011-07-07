@@ -1844,6 +1844,10 @@ begin
     comboBox_Script_6:
       script_SetInfo(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_5].Text), comboBox_Script_6.ITEMS.IndexOf(comboBox_Script_6.Text));
   end;
+
+  if (sender = tImages[IMG_TAB_NORM_3]) then
+    showMessage('You no longer have to enter the player''s location.'+#13+#10+
+                'Please skip to panel 4. ');
 end;
 
 {******************************************************************************}
@@ -2002,7 +2006,7 @@ end;
  * Used to enable/disable the next and previous buttons depending on the index
  * currently selected in the combo box. Avoids Out of range errors.
  *)
-procedure buttons_ChangeState(ComboBox: TComboBox; PButton, NButton: TButton);
+procedure ChangeButtonState(ComboBox: TComboBox; PButton, NButton: TButton);
 var
   where: string;
 begin
@@ -2055,7 +2059,7 @@ begin
     case sender of
       ChoosePlay[i]:
         begin
-          buttons_ChangeState(ChoosePlay[i], Previous[i], Next[i]);
+          ChangeButtonState(ChoosePlay[i], Previous[i], Next[i]);
           pIndex := GetPlayerIndex(ChoosePlay[i].Text);
         end;
     end;
@@ -2119,7 +2123,7 @@ begin
           if (ChoosePlay[i].ItemIndex > 0) then
             ChoosePlay[i].ItemIndex := ChoosePlay[i].ItemIndex - 1;
 
-          buttons_ChangeState(ChoosePlay[i], Previous[i], Next[i]);
+          ChangeButtonState(ChoosePlay[i], Previous[i], Next[i]);
         end;
 
       Next[i]:
@@ -2127,7 +2131,7 @@ begin
           if (ChoosePlay[i].ItemIndex < ChoosePlay[i].Items.Count) then
             ChoosePlay[i].ItemIndex := ChoosePlay[i].ItemIndex + 1;
 
-          buttons_ChangeState(ChoosePlay[i], Previous[i], Next[i]);
+          ChangeButtonState(ChoosePlay[i], Previous[i], Next[i]);
         end;
     end;
 
@@ -2198,7 +2202,7 @@ begin
 
         pIndex := GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_5].Text);
 
-        buttons_ChangeState(ComboBox_Script_6, pScript, nScript);
+        ChangeButtonState(ComboBox_Script_6, pScript, nScript);
         script_FillComponents(pIndex);
         script_Form.Visible := True;
       end;
@@ -2208,7 +2212,7 @@ begin
         if ComboBox_Script_6.ItemIndex < ComboBox_Script_6.ITEMS.Count then
           ComboBox_Script_6.ItemIndex := ComboBox_Script_6.ItemIndex + 1;
 
-        buttons_ChangeState(ComboBox_Script_6, pScript, nScript);
+        ChangeButtonState(ComboBox_Script_6, pScript, nScript);
 
         script_SetInfo(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_5].Text), comboBox_Script_6.ItemIndex - 1);
         PanelFiveClicks(ComboBox_Script_6);
@@ -2220,7 +2224,7 @@ begin
         if ComboBox_Script_6.ItemIndex > 0 then
           ComboBox_Script_6.ItemIndex := ComboBox_Script_6.ItemIndex - 1;
 
-        buttons_ChangeState(ComboBox_Script_6, pScript, nScript);
+        ChangeButtonState(ComboBox_Script_6, pScript, nScript);
 
         script_SetInfo(ChoosePlay[IMG_TAB_NORM_5].ItemIndex, comboBox_Script_6.ITEMS.IndexOf(comboBox_Script_6.Text) + 1);
         PanelFiveClicks(ComboBox_Script_6);
@@ -2309,6 +2313,8 @@ begin
     bgndPanel.SetBounds(0, 0, a, b);
     DrawBitmap(frmBitmaps[BGND_PANEL], bgndPanel.Canvas, 0, 0);
   end;
+  panels[IMG_TAB_NORM_3].enabled := false;
+  panels[IMG_TAB_NORM_3].onEnter := @onClickEvents;
 
   for i := Low(Previous) to High(Previous) do
   begin

@@ -1052,6 +1052,7 @@ type
     Tiles       : TPointArray; // Reflection tiles
     Points      : TPointArray; // Color tiles (SPS)
     MinDistance : Integer;     // Min distance (in pixels) for the player to be from the relocation point
+    DeathPath   : TPath;       // So the player can start anywhere in RS (applies only to script starting locations)
   end;
 
 (*
