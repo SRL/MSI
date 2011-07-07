@@ -273,6 +273,7 @@ const
   // Lumbridge
   LOC_LSW_MINE   = 70;
   LOC_LSE_MINE   = 71;
+  LOC_LB_SPAWN   = 72;
 
   // Edgeville
   LOC_EV_BANK    = 80;
@@ -650,6 +651,7 @@ const
 
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
+  ANIM_TELE_HOME = 12;
 
   ANIM_FISHING   = 20;
   ANIM_CHOPPING  = 21;

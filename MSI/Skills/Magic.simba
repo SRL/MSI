@@ -71,6 +71,24 @@ begin
         Runes := [RUNE_NATURE, RUNE_FIRE];
         RuneAmounts := [1, 5];
       end;
+
+    SPELL_TELE_HOME:
+      with MSI_Spells[Spell] do
+      begin
+        Name := 'Home Teleport';
+        StatsName := 'Home Teleports';
+        Constant := SPELL_TELE_HOME;
+        AnimConst := ANIM_TELE_HOME;
+        Level := 1;
+        Experience := 0;
+        Staffs := [];
+        FreeBox := IntToBox(564, 218, 584, 239);
+        MemberBox := IntToBox(564, 218, 584, 239);
+        AutoCast := False;
+        Runes := [];
+        RuneAmounts := [];
+      end;
+
   end;
 end;
 

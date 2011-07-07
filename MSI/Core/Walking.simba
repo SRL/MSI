@@ -578,6 +578,222 @@ begin
 end;
 
 (*
+MSI_DeathWalk
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_DeathWalk: Boolean;
+
+Attempts to walk to the starting location for each respective script if the
+player is lost. Teleports home and walks back if need be.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 5 July 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if MSI_DeathWalk then
+    MSI_Debug('Back on track!');
+*)
+function MSI_DeathWalk: Boolean;
+var
+  pArr, Path: T2DPointArray;
+  ePath: TPointArray;
+  Method: function(tpa: TPointArray): Boolean;
+  obs: TIntegerArray;
+  Script: TScript;
+  e, i: Integer;
+  p: TPoint;
+begin
+  if (not LoggedIn) then
+    Exit;
+  MSI_AddHeader('MSI_DeathWalk');
+
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+
+  {load paths}
+  case Script.PathInfo.StartLoc of
+    LOC_VE_BANK: pArr := [TPointArray([Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+             Point(3285, 3422), Point(3277, 3429), Point(3263, 3429),
+             Point(3255, 3420)])];
+    LOC_VW_BANK: pArr := [TPointArray([Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
+             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
+             Point(3208, 3429), Point(3194, 3430), Point(3185, 3438)])];
+    LOC_GE_BANK: pArr := [TPointArray([Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
+             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
+             Point(3208, 3429), Point(3194, 3430), Point(3185, 3438),
+             Point(3187, 3447), Point(3179, 3450), Point(3168, 3459),
+             Point(3165, 3471), Point(3167, 3480), Point(3167, 3489)])];
+    LOC_DB_BANK: pArr := [TPointArray([Point(3231, 3218), Point(3235, 3223), Point(3227, 3233),
+             Point(3221, 3245), Point(3217, 3258), Point(3217, 3272),
+             Point(3206, 3278), Point(3192, 3282), Point(3178, 3285),
+             Point(3164, 3287), Point(3151, 3294), Point(3139, 3294),
+             Point(3126, 3297), Point(3113, 3294), Point(3109, 3280),
+             Point(3105, 3267), Point(3105, 3254), Point(3099, 3248),
+             Point(3094, 3242)])];
+    LOC_FE_BANK: pArr := [TPointArray([Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
+             Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
+             Point(3197, 3280), Point(3184, 3285), Point(3171, 3285),
+             Point(3160, 3290), Point(3147, 3294), Point(3131, 3294),
+             Point(3117, 3294), Point(3103, 3293), Point(3089, 3289),
+             Point(3077, 3280), Point(3064, 3277), Point(3050, 3275),
+             Point(3035, 3275), Point(3022, 3276), Point(3009, 3279),
+             Point(3007, 3294), Point(3005, 3304), Point(3007, 3317),
+             Point(3006, 3331), Point(3007, 3343), Point(3006, 3357),
+             Point(3012, 3361), Point(3014, 3356)])];
+    LOC_FW_BANK: pArr := [TPointArray([Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
+             Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
+             Point(3197, 3280), Point(3184, 3285), Point(3171, 3285),
+             Point(3160, 3290), Point(3147, 3294), Point(3131, 3294),
+             Point(3117, 3294), Point(3103, 3293), Point(3089, 3289),
+             Point(3077, 3280), Point(3064, 3277), Point(3050, 3275),
+             Point(3035, 3275), Point(3022, 3276), Point(3009, 3279),
+             Point(3007, 3294), Point(3005, 3304), Point(3007, 3317),
+             Point(3006, 3331), Point(3007, 3343), Point(3006, 3357),
+             Point(2999, 3364), Point(2988, 3372), Point(2977, 3378),
+             Point(2962, 3379), Point(2952, 3380), Point(2946, 3368)])];
+    LOC_PS_DBOX: pArr := [TPointArray([Point(3228, 3218), Point(3237, 3219), Point(3230, 3230),
+             Point(3223, 3242), Point(3217, 3253), Point(3216, 3267),
+             Point(3209, 3277), Point(3196, 3280), Point(3185, 3283),
+             Point(3171, 3286), Point(3157, 3291), Point(3143, 3293),
+             Point(3130, 3296), Point(3117, 3294), Point(3105, 3293),
+             Point(3092, 3288), Point(3077, 3283), Point(3071, 3273),
+             Point(3057, 3265), Point(3044, 3258), Point(3041, 3244),
+             Point(3047, 3233)])];
+    LOC_EV_BANK: pArr := [TPointArray([Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
+             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
+             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
+             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
+             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
+             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
+             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
+             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
+             Point(3208, 3429), Point(3194, 3430), Point(3189, 3429),
+             Point(3176, 3428), Point(3164, 3423), Point(3150, 3417),
+             Point(3137, 3417), Point(3123, 3417), Point(3112, 3422),
+             Point(3099, 3420), Point(3092, 3430), Point(3092, 3441),
+             Point(3096, 3453), Point(3099, 3465), Point(3097, 3478),
+             Point(3088, 3485), Point(3089, 3492), Point(3093, 3491)])];
+    LOC_SV_BANK:
+                 begin
+                   pArr := [];
+                   obs := [];
+                 end;
+    LOC_AK_BANK: pArr := [TPointArray([Point(3229, 3217), Point(3238, 3221), Point(3247, 3224),
+             Point(3260, 3235), Point(3256, 3248), Point(3251, 3260),
+             Point(3245, 3273), Point(3240, 3286), Point(3238, 3300),
+             Point(3247, 3312), Point(3258, 3323), Point(3271, 3331),
+             Point(3284, 3332), Point(3285, 3316), Point(3286, 3301),
+             Point(3289, 3285), Point(3292, 3270), Point(3293, 3254),
+             Point(3295, 3237), Point(3282, 3228), Point(3282, 3213),
+             Point(3284, 3198), Point(3283, 3183), Point(3278, 3170),
+             Point(3270, 3165)])];
+    LOC_KJ_STILES:
+                  begin
+                    pArr := [];
+                    obs := [];
+                  end;
+    LOC_CB_BANK:
+                 begin
+                   pArr := [];
+                   obs := [];
+                 end;
+  end;
+
+  {Color or Reflection}
+  if ReflectionBroken then
+  begin
+    Path := MSI_Convert2DTilePath(pArr);
+    Method := @MSI_WalkColorPath;
+  end else begin
+    Path := pArr;
+    Method := @MSI_WalkTilePath;
+  end;
+
+  {Attempt to walk to location without teleporting first}
+  e := High(Path);
+  for i := High(Path[e]) downto 0 do
+  begin
+    if ReflectionBroken then
+      p := Point(Path[e][i].x, Path[e][i].y)
+    else
+      p := TileToMM(Path[e][i]);
+
+    if rs_OnMinimap(p.x, p.y) then
+      Result := Method(Path[e]);
+
+    if Result then
+      Break;
+  end;
+
+  {Teleport home}
+  if (not Result) then
+  begin
+    MSI_LoadSpell(SPELL_TELE_HOME);
+    MSI_ClickSpell(SPELL_TELE_HOME);
+
+    for i := 0 to 25 do
+    begin
+      Wait(1000);
+      if MSI_AtLocation(LOC_LB_SPAWN, false) then
+        Break;
+      if i = 20 then
+      begin
+        MSI_SubDebug('Failed to teleport home');
+        MSI_CloseHeader('MSI_DeathWalk: '+BoolToStr(Result)+';');
+        Exit;
+      end;
+    end;
+
+    ClickNorth(True);
+
+    {Walk back}
+    for i := 0 to High(Path) do
+    begin
+      if (not Method(Path[i])) then
+      begin
+        MSI_SubDebug('Failed to walk index '+IntToStr(i)+' of path.');
+        MSI_CloseHeader('MSI_DeathWalk: '+BoolToStr(Result)+';');
+        Exit;
+      end;
+      {Handle obstacles}
+      if Length(obs) > 0 then
+        if (not MSI_SolveObstacle(obs[i])) then
+        begin
+          MSI_SubDebug('Failed to solve obstacle '+IntToStr(obs[i])+'.');
+          MSI_CloseHeader('MSI_DeathWalk: '+BoolToStr(Result)+';');
+          Exit;
+        end;
+      Result := MSI_AtLocation(Script.PathInfo.StartLoc, False);
+      if Result then
+        MSI_Players[CurrentPlayer].Location := Script.PathInfo.StartLoc;
+    end;
+  end;
+end;
+
+(*
 MSI_WalkPath
 ~~~~~~~~~~~~
 
@@ -608,6 +824,7 @@ var
   i, t, h, obsLen: Integer;
   Script: TScript;
   obsSolved: TBooleanArray;
+label StartWalk;
 begin
   if (not LoggedIn) then
     Exit;
@@ -641,12 +858,15 @@ begin
 		for i := 0 to High(ATPA) do
       with MSI_Players[CurrentPlayer] do
 		  begin
+      StartWalk:
         // Walk the leg of the path
 				if (not (Walked(ATPA[i]))) then
           if (not (Walked(eTPA))) and (not (Walked(ATPA[i]))) then
 				  begin
             MSI_Debug('Failed to walk leg '+IntToStr(i)+' of script: '+Capitalize(Script.Name));
-				    ReportInfo.FalseReason := 'Failed to walk to ' + MSI_Locations[eLoc].Name;
+            if MSI_DeathWalk then
+              goto StartWalk;
+            ReportInfo.FalseReason := 'Failed to walk to ' + MSI_Locations[eLoc].Name;
             MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
 				    Location := LOC_LOST;
             Exit;
