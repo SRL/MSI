@@ -633,3 +633,41 @@ begin
     MSI_LoadLocation(i);
 end;
 
+function MSI_GetLocation: Integer;
+var
+  i, ii: Integer;
+  locArr: TIntegerArray;
+  Script: TScript;
+  p: TPoint;
+begin
+  if (not LoggedIn) then
+    Exit;
+  MSI_AddHeader('MSI_GetLocation');
+
+  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+  SetArrayLength(locArr, 2);
+  locArr[0] := Script.PathInfo.StartLoc;
+  locArr[1] := Script.PathInfo.EndLoc;
+
+  for i := 0 to 1 do
+    for ii := 0 to High(MSI_Locations[locArr[i]].Tiles) do
+    begin
+      p := TileToMM(MSI_Locations[locArr[i]]. Tiles[ii]);
+      if Distance(MMCx, MMCy, p.x, p.y) < MSI_Locations[locArr[i]].MinDistance then
+      begin
+        Result := MSI_Locations[locArr[i]].Constant;
+        Exit;
+      end;
+    end;
+
+  if MSI_DeathWalk then
+    Result := Script.PathInfo.StartLoc;
+  MSI_CloseHeader('MSI_GetLocation: '+MSI_Locations[MSI_Players[CurrentPlayer].Location].Name+';');
+end;
+
+
+
+
+
+
+
