@@ -298,11 +298,14 @@ begin
                 'uncomment the define at the top of RunMe.simba');
     TerminateScript;
     {$ELSE}
-    ShowMessage('WARNING: Death Walking Unsupported '+#13+#10+
-                '  MSI doesn''t have death walking support without '+#13+#10+
-                '  Reflection.  This means you have to start your player '+#13+#10+
-                '  at the script''s location rather than anywhere in '+#13+#10+
-                '  Runescape.');
+    case messageDlg('WARNING', 'Death Walking Unsupported '+#13+#10+
+           'MSI doesn''t have death walking support without '+#13+#10+
+           'Reflection.  This means you have to start your player '+#13+#10+
+           'at the script''s location rather than anywhere in '+#13+#10+
+           'Runescape.  Continue?', mtConfirmation, [mbYes, mbNo]) of
+      mrYes: ;
+      mrNo: terminateScript;
+    end;
     {$ENDIF}
   end;
 
