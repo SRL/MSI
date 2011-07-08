@@ -1303,7 +1303,6 @@ begin
                             obj.searchArea.y2,
                             obj.tol)) then
     begin
-      MSI_Debug('Found color');
       ATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
       sortATPAFromFirstPoint(ATPA, Point(MSCX, MSCY));
       if (length(ATPA) > 0) then

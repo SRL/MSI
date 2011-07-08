@@ -1010,6 +1010,15 @@ begin
     tmpLoads := 0;
     MarkTime(tmpTime);
 
+    // Reset for each player as they could be using different scripts
+    {$IFDEF SPS}
+    if (ReflectionBroken) then
+    begin
+      SPS_Areas := MSI_GetSPSAreas();
+      SPS_Loaded := False;
+    end;
+    {$ENDIF}
+
     // Setup player
     if (not MSI_SetupPlayer) then
     begin
@@ -1020,28 +1029,22 @@ begin
       Continue;
     end;
 
-    // Reset for each player as they could be using different scripts
-    {$IFDEF SPS}
-    if (ReflectionBroken) then
-    begin
-      SPS_Areas := MSI_GetSPSAreas();
-      SPS_Loaded := False;
-    end;
-    {$ENDIF}
-
     repeat
       MarkTime(time);
       if (stats_Commit) then
         MSI_Debug('Committed to SRL stats');
 
       // If player's in middle of path with > 15 items, will walk to bank and deposit
-      if (invCount >= 15) then
-      begin
-        MSI_Players[CurrentPlayer].Location :=
-        MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.EndLoc;
-        MSI_SubDebug('Player has > 15 items, banking..');
-        goto WalkToBank;
-      end;
+      if (not MSI_AtLocation(
+                MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.EndLoc,
+                false)) then
+        if (invCount >= 15) then
+        begin
+          MSI_Players[CurrentPlayer].Location :=
+          MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.EndLoc;
+          MSI_SubDebug('Player has > 15 items, banking..');
+          goto WalkToBank;
+        end;
 
       // Walk to location if using a bankable script
       if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects <> nil) then
