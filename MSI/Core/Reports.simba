@@ -24,7 +24,7 @@ player array and their respective script that we want to print.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 25 November 2010 by Coh3n
+  | Last Updated: 08 July 2011 by Coh3n
 
 Example:
 
@@ -44,6 +44,9 @@ begin
 
     for i := 0 to High(Casts[ScriptIndex]) do
     begin
+      if (Casts[ScriptIndex][i] <= 0) then
+        continue;
+
       MSI_PrintSave(FileName, '{         ' + PadR('Spell: ' + MSI_Spells[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Spells[i]].Name, 55) + '}');
       MSI_PrintSave(FileName, '{         ' + PadR('Casts: ' + IntToStr(Casts[ScriptIndex][i]), 55) + '}');
     end;

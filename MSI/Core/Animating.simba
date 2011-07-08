@@ -56,12 +56,12 @@ begin
       with Result do
       begin
         Name := 'Low Alching';
-        MinPixelShift := 500;
-        MaxPixelShift := 10000;
+        MinPixelShift := 80;
+        MaxPixelShift := 260;
         PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
-        Interval := 200;
-        MaxTime := 2000;
-        WaitTime := 2000;
+        Interval := 20;
+        MaxTime := 75;
+        WaitTime := 150;
       end;
 
     ANIM_ALCH_HIGH:

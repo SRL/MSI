@@ -246,6 +246,9 @@ begin
 
       PROG_ADD_CASTS:
         begin
+          if (ScriptCounts[CurrentScript] <= 0) then
+            ScriptCounts[CurrentScript] := 1;
+
           IncEx(ScriptCounts[CurrentScript], quant);
         end;
 
