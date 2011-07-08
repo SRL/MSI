@@ -302,7 +302,7 @@ begin
   {$ENDIF}
 
   f := -1;
-  if (MSI_SetupVars[SETUP_SAVE_REPORT]) then
+  if (MSI_Settings[SETUP_SAVE_REPORT]) then
   begin
     f := RewriteFile(PATH_REPORT + ScriptStart + '.txt', False);
     WriteFileString(f, 'This progress report was written ' +
@@ -315,12 +315,12 @@ begin
   SetScriptProp(SP_WriteTimeStamp, [False]);
 
   SRLRandomsReport;
-  b := MSI_SetupVars[SETUP_PRINT_REPORT];
+  b := MSI_Settings[SETUP_PRINT_REPORT];
   if (not b) then
-    MSI_SetupVars[SETUP_PRINT_REPORT] := True;
+    MSI_Settings[SETUP_PRINT_REPORT] := True;
   MSI_ShortReport(f);
   if (not b) then
-    MSI_SetupVars[SETUP_PRINT_REPORT] := False;
+    MSI_Settings[SETUP_PRINT_REPORT] := False;
 
   MSI_PrintSave(f, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
   MSI_PrintSave(f, '{                    MSI Phoenix Player Report                   }');

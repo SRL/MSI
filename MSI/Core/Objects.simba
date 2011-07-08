@@ -270,7 +270,7 @@ begin
         W                  := 10;
         H                  := 10;
         Accuracy           := 15;
-        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 200, MSY2);
+        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 100, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
@@ -1154,7 +1154,7 @@ begin
 
   // draw points on SMART if setting enabled
   {$IFDEF SMART}
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
       drawDotsMulti(true, ATPA);
   {$ENDIF}
 
@@ -1225,7 +1225,7 @@ begin
 
     {$IFDEF SMART}
       for i := 0 to high(Points) do
-        if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        if (MSI_Settings[SETUP_DEBUG_SMART]) then
           SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
     {$ENDIF}
 
@@ -1291,7 +1291,7 @@ begin
                                   round(obj.h * distMultiplier));
 
     {$IFDEF SMART}
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
         SMART_DrawBoxMS(true, obj.searchArea, clYellow);
     {$ENDIF}
 

@@ -174,7 +174,7 @@ begin
   with Anim do
   begin
     {$IFDEF SMART}
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
         SMART_DrawBoxEx(true, pixelBox, clYellow);
     {$ENDIF}
 

@@ -722,7 +722,7 @@ const
 Setup Constants
 ~~~~~~~~~~~~~~~
 
-Represents the indexes of MSI_SetupVars which are set by the user. Used just
+Represents the indexes of MSI_Settings which are set by the user. Used just
 like the other MSI global arrays.
 *)
 const
@@ -1139,7 +1139,7 @@ var
 
 // Arrays that store all the necessary "go-to" information for MSI
 var
-  MSI_SetupVars : array[0..SETUP_ARRAY_LENGTH] of Variant;
+  MSI_Settings : array[0..SETUP_ARRAY_LENGTH] of Variant;
   MSI_Players   : TPlayerInfoArray;
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
   MSI_Locations : array[0..LOC_ARRAY_LENGTH] of TLocation;

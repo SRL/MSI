@@ -227,7 +227,7 @@ begin
     Font.Color := 2070783;
   end;
 
-  for i := 0 to High(MSI_SetupVars) do
+  for i := 0 to High(MSI_Settings) do
   begin
     case i of
       SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
@@ -354,7 +354,7 @@ var
   i, j: Integer;
   s: string;
 begin
-  for i := 0 to High(MSI_SetupVars) do
+  for i := 0 to High(MSI_Settings) do
     case i of
       SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
         begin
@@ -378,17 +378,17 @@ begin
                   else
                     WriteINI('SETTINGS', s, 'True', PATH_SETTINGS);
 
-                  MSI_SetupVars[i] := True;
+                  MSI_Settings[i] := True;
                 end else begin
                   WriteINI('SETTINGS', s, intro_Combos[j].Text, PATH_SETTINGS);
 
                   if (s = 'Walking Method') then
-                    MSI_SetupVars[i] := intro_Combos[j].Text
+                    MSI_Settings[i] := intro_Combos[j].Text
                   else
-                    MSI_SetupVars[i] := StrToBool(intro_Combos[j].Text);
+                    MSI_Settings[i] := StrToBool(intro_Combos[j].Text);
                 end;
 
-                //Writeln('SetupVar['+IntToStr(i)+'] := '+ToStr(MSI_SetupVars[i]));
+                //Writeln('SetupVar['+IntToStr(i)+'] := '+ToStr(MSI_Settings[i]));
               end else
                 if (FileExists(PATH_SETTINGS)) then
                   intro_Combos[j].Text := ReadINI('SETTINGS', s, PATH_SETTINGS);
@@ -413,18 +413,18 @@ begin
                 if (i = SETUP_STATS_ID) or (i = SETUP_STATS_PASS) then
                 begin
                   WriteINI('SETTINGS', s, intro_Edits[j].Text, PATH_SETTINGS);
-                  MSI_SetupVars[i] := intro_Edits[j].Text;
+                  MSI_Settings[i] := intro_Edits[j].Text;
                 end else
                   if (StrToInt(intro_Edits[j].Text) = -1) then
                   begin
                     ShowMessage(intro_EditLabels[j].Caption + ' must be an number!');
                     Exit;
                   end else begin
-                    MSI_SetupVars[i] := StrToInt(intro_Edits[j].Text);
+                    MSI_Settings[i] := StrToInt(intro_Edits[j].Text);
                     WriteINI('SETTINGS', s, intro_Edits[j].Text, PATH_SETTINGS);
                   end;
 
-                //Writeln('SetupVar['+IntToStr(i)+'] := '+ToStr(MSI_SetupVars[i]));
+                //Writeln('SetupVar['+IntToStr(i)+'] := '+ToStr(MSI_Settings[i]));
               end else
                 if (FileExists(PATH_SETTINGS)) then
                   intro_Edits[j].Text := ReadINI('SETTINGS', s, PATH_SETTINGS);
@@ -2663,6 +2663,14 @@ begin
   end;
 
   MainForm.ShowModal;
+end;
+
+procedure ThreadSafeCallEx(Proc: string);
+var
+  V: TVariantArray;
+begin
+  SetLength(V, 0);
+  ThreadSafeCall(Proc, V);
 end;
 
 procedure FreeMSIForm;

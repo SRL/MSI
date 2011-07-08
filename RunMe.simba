@@ -1,17 +1,19 @@
-{==============================================================================\
-|                         MSI Group Scripting Include                          |
-|                                 RunMe.scar                                   |
-|==============================================================================|
-| For the script user to just simply press play                                |
-|                                                                              |
-|==============================================================================|
-|                         ** Setup Instructions **                             |
-|==============================================================================|
-|                                                                              |
-| -> For a very detailed guide on how to properly setup MSI, please visit:     |
-|                                                                              |
-|        http://villavu.com/forum/showthread.php?p=745942#post745942           |
- \_____________________________________________________________________________}
+(*
+RunMe
+=====
+
+The RunMe file is the file that the user will actually run.  It doesn't matter
+whether they're using the form or not, they still have to run this file.  If
+not using the form, the user should only change the DeclareSettings and
+DeclarePlayers procedures.
+
+The source for can be found
+`here <https://github.com/SRL/MSI/raw/master/RunMe.simba>`_, and a very detailed
+guide on how to properly setup MSI can be found here
+`here <http://villavu.com/forum/showthread.php?p=745942#post745942>`_ if you are
+having trouble setting up.
+
+*)
 
 program MSI_Script;
 // Define the extras you want to use
@@ -28,24 +30,48 @@ program MSI_Script;
 const
   USE_FORM = True;
 
+(*
+DeclareSettings
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure DeclareSettings();
+
+Sets the global variable 'MSI_Settings.' Can be easily expandable to any type
+of setting requested by any user.
+
+*)
 procedure DeclareSettings();
 begin
-  MSI_SetupVars[SETUP_DEBUG_SMART]   := True;    // Debugs things onto SMART (may cause lag)
-  MSI_SetupVars[SETUP_SAVE_DEBUG]    := True;    // Save's the debug box text to a file
-  MSI_SetupVars[SETUP_SAVE_REPORT]   := True;    // Save's the progress report to a file
-  MSI_SetupVars[SETUP_HUMAN_BREAK]   := True;    // Take more human like breaks
-  MSI_SetupVars[SETUP_SWITCH_WORLDS] := True;    // Switch worlds when switching players or after breaks
-  MSI_SetupVars[SETUP_PRINT_REPORT]  := True;    // Will only print the short report in the debug box (will still save long report to file)
-  MSI_SetupVars[SETUP_BREAK_TIME]    := 15;      // Single player only - how long to break for (in minutes)
-  MSI_SetupVars[SETUP_DEBUG_LEVEL]   := 10;      // The lower the number, the less the script will debug
-  MSI_SetupVars[SETUP_ANTIBAN_WAIT]  := 15000;   // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
-  MSI_SetupVars[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
-  MSI_SetupVars[SETUP_STATS_ID]      := '';      // Stats ID
-  MSI_SetupVars[SETUP_STATS_PASS]    := '';      // Stats password
-  MSI_SetupVars[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
+  MSI_Settings[SETUP_DEBUG_SMART]   := True;    // Debugs things onto SMART (may cause lag)
+  MSI_Settings[SETUP_SAVE_DEBUG]    := True;    // Save's the debug box text to a file
+  MSI_Settings[SETUP_SAVE_REPORT]   := True;    // Save's the progress report to a file
+  MSI_Settings[SETUP_HUMAN_BREAK]   := True;    // Take more human like breaks
+  MSI_Settings[SETUP_SWITCH_WORLDS] := True;    // Switch worlds when switching players or after breaks
+  MSI_Settings[SETUP_PRINT_REPORT]  := True;    // Will only print the short report in the debug box (will still save long report to file)
+  MSI_Settings[SETUP_BREAK_TIME]    := 15;      // Single player only - how long to break for (in minutes)
+  MSI_Settings[SETUP_DEBUG_LEVEL]   := 10;      // The lower the number, the less the script will debug
+  MSI_Settings[SETUP_ANTIBAN_WAIT]  := 15000;   // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
+  MSI_Settings[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
+  MSI_Settings[SETUP_STATS_ID]      := '';      // Stats ID
+  MSI_Settings[SETUP_STATS_PASS]    := '';      // Stats password
+  MSI_Settings[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
 end;
 
-procedure DeclarePlayers;
+(*
+DeclarePlayers
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure DeclarePlayers();
+
+When called, sets the global variable 'MSI_Players.'  This is the procedure
+the user needs to setup if they elect not to use the player form.
+
+*)
+procedure DeclarePlayers();
 var
   i: Integer;
 begin
@@ -196,27 +222,19 @@ begin
     end;
   end;
 }
-
-end;
-
-procedure ThreadSafeCallEx(Proc: string);
-var
-  V: TVariantArray;
-begin
-  SetLength(V, 0);
-  ThreadSafeCall(Proc, V);
 end;
 
 var
-  i: Integer;
-  drawing: TBitmap;
+  i: integer;
 begin
+  // set the script start date and time used to progress reports and logs
   ScriptStart := TheDate(DATE_DAY) + ' at ' + TheTime;
   ScriptStart := Replace(scriptStart, ':', ' ');
 
   ClearDebug;
   MSI_Setup;
 
+  // initilize form if selected, otherwise call player setup routines
   if (USE_FORM) then
   begin
     try
@@ -242,89 +260,68 @@ begin
     DeclarePlayers;
   end;
 
+  // initialize SMART and clear it's canvas
   {$IFDEF SMART}
-    Smart_Server := 152;
-    Smart_Members := False;
-    Smart_Signed := True;
-    Smart_SuperDetail := False;
+  SMART_Server := 152;
+  SMART_Members := False;
+  SMART_Signed := True;
+  SMART_SuperDetail := False;
   {$ENDIF}
-  ActivateClient;
 
   SetupSRL;
+  ActivateClient;
+  CurrDebugLevel := 1;
+  MSI_InitSRLPlayers();
   SetScriptProp(SP_WriteTimeStamp, [True]);
   AddOnTerminate('MSI_ScriptTerminate');
 
-  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
-    DebugFile := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
-
-  // Clears the SMART canvas if there is any debug info. left from a previous run
   {$IFDEF SMART}
-    drawing := TBitmap.create;
-    drawing.canvas.handle := smartGetDebugDC;
-    clearRSCanvas(drawing.canvas);
+  SMART_SetupDebug();
+  clearRSCanvas(SMART_Canvas.canvas);
   {$ENDIF}
 
-  if (MSI_SetupVars[SETUP_STATS_ID] = '') then
+  // create debug file
+  if (MSI_Settings[SETUP_SAVE_DEBUG]) then
+    DebugFile := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
+
+  if (MSI_Settings[SETUP_STATS_ID] = '') then
     SetupSRLStats(21, 'Anonymous', 'anon1337')
   else
-    SetupSRLStats(21, MSI_SetupVars[SETUP_STATS_ID], MSI_SetupVars[SETUP_STATS_PASS]);
-  CurrDebugLevel := 1;
+    SetupSRLStats(21, MSI_Settings[SETUP_STATS_ID], MSI_Settings[SETUP_STATS_PASS]);
 
-  if (Lowercase(MSI_SetupVars[SETUP_WALKING]) = 'color') then
+  if (Lowercase(MSI_Settings[SETUP_WALKING]) = 'color') then
   begin
     ReflectionBroken := True;
     {$IFNDEF SPS}
-      ShowMessage('Reflection is broken/not selected, and SPS isn''t defined. Please '+
-                  'select reflection walking, or download SPS from SRL-Forums, and '+
-                  'uncomment the define at the top of RunMe.simba');
-      TerminateScript;
+    ShowMessage('Reflection is broken/not selected, and SPS isn''t defined. Please '+
+                'select reflection walking, or download SPS from SRL-Forums, and '+
+                'uncomment the define at the top of RunMe.simba');
+    TerminateScript;
     {$ELSE}
-      ShowMessage('WARNING: Death Walking Unsupported '+#13+#10+
-                  '  MSI doesn''t have death walking support without '+#13+#10+
-                  '  Reflection.  This means you have to start your player '+#13+#10+
-                  '  at the script''s location rather than anywhere in '+#13+#10+
-                  '  Runescape.');
+    ShowMessage('WARNING: Death Walking Unsupported '+#13+#10+
+                '  MSI doesn''t have death walking support without '+#13+#10+
+                '  Reflection.  This means you have to start your player '+#13+#10+
+                '  at the script''s location rather than anywhere in '+#13+#10+
+                '  Runescape.');
     {$ENDIF}
   end;
 
-  if (lowercase(MSI_SetupVars[SETUP_WALKING]) = 'reflection') then
+  if (lowercase(MSI_Settings[SETUP_WALKING]) = 'reflection') then
   begin
     {$IFNDEF MSI_REFLECTION}
-      showMessage('You have selected Reflection walking, but elected not to use '+
-                  'Reflection.  Please choose color walking or uncomment the '+
-                  'Reflection define at the top of RunMe.simba.');
-      terminateScript();
+    showMessage('You have selected Reflection walking, but elected not to use '+
+                'Reflection.  Please choose color walking or uncomment the '+
+                'Reflection define at the top of RunMe.simba.');
+    terminateScript();
     {$ENDIF}
   end;
 
   if (not ReflectionBroken) then
     MSI_SetupReflection();
 
-(**
- * No need to touch anything below here, this is to assign the necessary
- * information so that SRL's Players array works with MSI's
- *)
-  for i := 0 to High(Players) do
-  begin
-    Players[i].Name   := MSI_Players[i].Name;
-    Players[i].Pass   := MSI_Players[i].Pass;
-    Players[i].Nick   := MSI_Players[i].Nick;
-    Players[i].Pin    := MSI_Players[i].Pin;
-    Players[i].Active := MSI_Players[i].Active;
-    Players[i].Member := MSI_Players[i].Member;
-
-    if (MSI_SetupVars[SETUP_SWITCH_WORLDS]) then
-      Players[i].WorldInfo := [Players[i].Member, -1, False];
-
-    if (not Players[i].Active) then
-      MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
-
-    Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
-  end;
-
-  // This boolean isn't yet in the player form
+  // this boolean isn't yet in the player form
   if (USE_FORM) then
-    MSI_SetupVars[SETUP_PRINT_REPORT] := True;
+    MSI_Settings[SETUP_PRINT_REPORT] := True;
 
   MSI_Mainloop;
 end.

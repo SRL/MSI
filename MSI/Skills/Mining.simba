@@ -89,7 +89,7 @@ begin
                                  round(rock.h * SIZE_MULTIPLIER));
 
   {$IFDEF SMART}
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
       SMART_DrawBoxEx(true, rock.searchArea, clBlue);
   {$ENDIF}
 
@@ -129,7 +129,7 @@ begin
                         rock.searchArea.x2, rock.searchArea.y2, rock.tol);
 
     {$IFDEF SMART}
-      if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
         SMART_DrawDotsEx(False, Arr, clYellow);
     {$ENDIF}
 

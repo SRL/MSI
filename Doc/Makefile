@@ -1,5 +1,6 @@
 .PHONY:    default clean tarball
 
+runme = RunMe
 
 core = Animating Antiban Banking Debug Extras Globals Items Locations \
         Mainloop Manipulation Materials Objects Obstacles Reports Scripts \
@@ -9,6 +10,8 @@ skills = Cooking Fishing Magic Mining Money_Making Woodcutting
 
 
 all:
+        @python docgen.py `echo $(runme) | sed -r \
+        's/(\w+)/..\1.simba/g'` > /dev/null
 	@python docgen.py `echo $(core) | sed -r \
         's/(\w+)/..\/MSI\/Core\/\1.simba/g'` > /dev/null
 	@python docgen.py `echo $(skills) | sed -r \

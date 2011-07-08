@@ -45,7 +45,7 @@ begin
   debugMSG := debugMSG + debug;
 
   // Add debug message to the debug file
-  if (MSI_SetupVars[SETUP_SAVE_DEBUG]) then
+  if (MSI_Settings[SETUP_SAVE_DEBUG]) then
     try
       if (DebugFile <> -1) then
         if (not WriteFileString(DebugFile, debugMSG + #13+#10)) then
@@ -54,7 +54,7 @@ begin
       Writeln(ExceptionToString(ExceptionType, ExceptionParam));
     end;
 
-  if (CurrDebugLevel <= MSI_SetupVars[SETUP_DEBUG_LEVEL]) then
+  if (CurrDebugLevel <= MSI_Settings[SETUP_DEBUG_LEVEL]) then
     Writeln(DebugMSG)
   else
     Debugln(DebugMSG);
@@ -178,7 +178,7 @@ Example:
 *)
 Procedure MSI_PrintSave(theFile: Integer; s: string);
 Begin
-  if (MSI_SetupVars[SETUP_PRINT_REPORT]) then
+  if (MSI_Settings[SETUP_PRINT_REPORT]) then
     Writeln(s);
 
   if (theFile <> -1) then

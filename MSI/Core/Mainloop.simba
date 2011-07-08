@@ -11,6 +11,52 @@ The source for Mainloop.simba can be found
 *)
 
 (*
+MSI_InitSRLPlayers
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_InitSRLPlayers();
+
+A simple procedure that sets the SRL global variable 'Players.'  Since MSI uses
+it's own player information array, SRL's still needs to be set so the login
+and other SRL routines will still work properly.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 08 July 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_InitSRLPlayers();
+*)
+procedure MSI_InitSRLPlayers();
+var
+  i: integer;
+begin
+  for i := 0 to High(Players) do
+  begin
+    Players[i].Name   := MSI_Players[i].Name;
+    Players[i].Pass   := MSI_Players[i].Pass;
+    Players[i].Nick   := MSI_Players[i].Nick;
+    Players[i].Pin    := MSI_Players[i].Pin;
+    Players[i].Active := MSI_Players[i].Active;
+    Players[i].Member := MSI_Players[i].Member;
+
+    if (MSI_Settings[SETUP_SWITCH_WORLDS]) then
+      Players[i].WorldInfo := [Players[i].Member, -1, False];
+
+    if (not Players[i].Active) then
+      MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
+
+    Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
+  end;
+end;
+
+(*
 MSI_SetupPlayer
 ~~~~~~~~~~~~~~~
 
@@ -441,7 +487,7 @@ MSI_HandleBreaking
 
   procedure MSI_HandleBreaking;
 
-Simulates a "human-like" breaking.  If MSI_SetupVars[SETUP_HUMAN_BREAK] (script setup
+Simulates a "human-like" breaking.  If MSI_Settings[SETUP_HUMAN_BREAK] (script setup
 variable found in RunMe.simba) is set to true it will randomly logout,
 time-out, or exit to the lobby, otherwise it will just exit to the lobby.
 If using multiple players, it will switch to the next player.
@@ -465,9 +511,9 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  if not MSI_SetupVars[SETUP_HUMAN_BREAK] then
+  if not MSI_Settings[SETUP_HUMAN_BREAK] then
     if MSI_Players[CurrentPlayer].BreakTime = 0 then
-      if MSI_SetupVars[SETUP_BREAK_TIME] = 0 then
+      if MSI_Settings[SETUP_BREAK_TIME] = 0 then
         Exit;
 
   if (BankScreen) then
@@ -479,7 +525,7 @@ begin
   begin
     MSI_Debug('Taking a short break');
 
-    if MSI_SetupVars[SETUP_HUMAN_BREAK] then
+    if MSI_Settings[SETUP_HUMAN_BREAK] then
       case Random(10) of
 
         0, 2: Logout;
@@ -512,7 +558,7 @@ begin
         ExitToLobby;
 
     _avg := Round(SETUP_BREAK_TIME * RANDOM_TIME_PERCENT);
-    t := (GetSystemTime + ((MSI_SetupVars[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
+    t := (GetSystemTime + ((MSI_Settings[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
     while GetSystemTime < t do
     begin
       MSI_Debug('Break time remaining: '+MsToTime(t - GetSystemTime, Time_Formal));
@@ -957,11 +1003,6 @@ begin
   MSI_SetPlayerInfo;
   MSI_WriteRemote;
 
-  {$IFDEF SRL_SMART}
-  if MSI_SetupVars[SETUP_DEBUG_SMART] then
-    SmartSetDebug(True);
-  {$ENDIF}
-
   repeat
     MSI_ResetRemote;
 
@@ -1122,12 +1163,12 @@ begin
 end;
 
 (*
-MSI_MainLoop
-~~~~~~~~~~~~
+MSI_ScriptTerminate
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  procedure MSI_MainLoop;
+  procedure MSI_ScriptTerminate;
 
 Called upon termination of the script.  Ensures all DTMs/file/bitmaps have been
 freed.
@@ -1141,7 +1182,7 @@ Example:
 
 .. code-block:: pascal
 
-  MSI_Mainloop;
+  AddOnTerminate(MSI_ScriptTerminate);
 *)
 procedure MSI_ScriptTerminate;
 begin

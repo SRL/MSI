@@ -134,7 +134,7 @@ begin
 
 
   {$IFDEF SMART}
-    if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
       SMART_DrawBoxEx(True, IntToBox(0, 0, 0, 0), clWhite);
   {$ENDIF}
 
@@ -458,7 +458,7 @@ begin
 
       {$IFDEF SMART}
       for ii := 0 to high(p) do
-        if (MSI_SetupVars[SETUP_DEBUG_SMART]) then
+        if (MSI_Settings[SETUP_DEBUG_SMART]) then
           SMART_DrawBoxEx(false,
                           intToBox(p[ii].x - 10, p[ii].y - 10, p[ii].x + 10, p[ii].y + 10),
                           clBlue);

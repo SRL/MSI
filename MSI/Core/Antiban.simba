@@ -175,8 +175,8 @@ Begin
   if (Random(100) > ChancePerc) or (NextAntiban > GetSystemTime) then
     Exit;
 
-  _avg := Round(MSI_SetupVars[SETUP_ANTIBAN_WAIT] * (RANDOM_TIME_PERCENT + (RANDOM_TIME_PERCENT * 0.50)));
-  NextAntiban := GetSystemTime + (MSI_SetupVars[SETUP_ANTIBAN_WAIT] + RandomRange(-Round(_avg / 2), _avg));
+  _avg := Round(MSI_Settings[SETUP_ANTIBAN_WAIT] * (RANDOM_TIME_PERCENT + (RANDOM_TIME_PERCENT * 0.50)));
+  NextAntiban := GetSystemTime + (MSI_Settings[SETUP_ANTIBAN_WAIT] + RandomRange(-Round(_avg / 2), _avg));
 
   MSI_SubDebug('MSI_AntiBan');
   if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name = SCRIPT_ALCHER) and (Random(100) > ChancePerc) then
@@ -337,7 +337,7 @@ begin
       Exit;
     end;
 
-  NextRandCheck := GetSystemTime + MSI_SetupVars[SETUP_RANDOMS_WAIT];
+  NextRandCheck := GetSystemTime + MSI_Settings[SETUP_RANDOMS_WAIT];
 end;
 
 (*
@@ -419,7 +419,7 @@ begin
     if (not LoggedIn) then
       MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
 
-  NextRandCheck := GetSystemTime + MSI_SetupVars[SETUP_RANDOMS_WAIT];
+  NextRandCheck := GetSystemTime + MSI_Settings[SETUP_RANDOMS_WAIT];
 end;
 
 (*

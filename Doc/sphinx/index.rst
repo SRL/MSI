@@ -11,6 +11,7 @@ Contents:
 .. toctree::
     :maxdepth: 2
 
+    RunMe.rst
     Animating.rst
     Antiban.rst
     Banking.rst
