@@ -1898,7 +1898,6 @@ Example:
 function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
 var
   s: string;
-  t: integer;
   toolFound: boolean;
   tools: TPointArray;
 begin

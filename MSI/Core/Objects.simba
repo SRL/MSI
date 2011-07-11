@@ -260,16 +260,16 @@ begin
       with result do
       begin
         Name               := 'BANK_DRAYNOR';
-        Uptexts            := ['ount'];
-        Options            := ['uick'];
-        Colors             := [5136741];
+        Uptexts            := ['Banker', 'anker', 'ank'];
+        Options            := ['Bank Banker', 'ank B'];
+        Colors             := [1979715];
         Tol                := 5;
-        Hue                := 0.73;
-        Sat                := 0.49;
+        Hue                := 0.13;
+        Sat                := 0.24;
         FindAllColors      := False;
         W                  := 10;
         H                  := 10;
-        Accuracy           := 15;
+        Accuracy           := 5;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX + 100, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
@@ -1060,21 +1060,33 @@ Example:
 *)
 procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: extended);
 var
-  i, j, t: integer;
+  d, i, j, k, t: integer;
 begin
+  MSI_AddHeader('MSI_FilterTPADist');
+  MSI_Debug('Length (Start): '+toStr(length(TPA)));
   markTime(t);
 
-  if (length(TPA) > 1) then // so it doesn't remove the only point
-    for i := 0 to high(TPA) do
-      for j := i to high(TPA) do
-        if (distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y) <= maxDist) then
-          deleteValueInTPA(TPA, j);
+  for i := 0 to high(TPA) do
+  begin
+    if (i <> high(TPA)) then
+      k := (i + 1)
+    else
+      break;
 
-  MSI_SubDebug('MSI_FilterTPADist: '+intToStr(timeFromMark(t))+' ms');
+    for j := k to high(TPA) do
+    begin
+      d := distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y);
+      if (d <= maxDist) then
+      begin
+        MSI_Debug('Distance: '+toStr(d));
+        deleteValueInTPA(TPA, j);
+      end;
+    end;
+  end;
 
-  // to avoid out of range and so it'll compare last two points
-  if (length(TPA) = 2) then
-    MSI_FilterTPADist(TPA, maxDist);
+  MSI_Debug('Length (End): '+toStr(length(TPA)));
+  MSI_Debug('MSI_FilterTPADist: '+intToStr(timeFromMark(t))+' ms');
+  MSI_CloseHeader('MSI_FilterTPADist: Done');
 end;
 
 (*
@@ -1224,9 +1236,9 @@ begin
     result := true;
 
     {$IFDEF SMART}
-      for i := 0 to high(Points) do
+      for i := 0 to high(points) do
         if (MSI_Settings[SETUP_DEBUG_SMART]) then
-          SMART_DrawBoxMS((i = 0), MSI_MakeBox(point(Points[i].x, Points[i].y), obj.w, obj.h), clGreen);
+          SMART_DrawBoxMS((i = 0), MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
     {$ENDIF}
 
     MSI_Debug('Points found: ' + intToStr(length(points)));
@@ -1378,7 +1390,7 @@ Example:
 function MSI_FindObjects(objs: TMSObjectArray; action: TMouseOption; var obj: TMSObject): boolean;
 var
   TPA: TPointArray;
-  i, j, clicks: Integer;
+  i, j: Integer;
   script: TScript;
 begin
   if (not loggedIn) then
@@ -1438,13 +1450,11 @@ begin
           if ((obj.rightClickOnly) or (action = moRight) or (random(10) = 1)) then
           begin
             if (obj.multiClick) then
-              MSI_MultiOption(obj.x, obj.y, obj.options, 100, 2)
+              result := MSI_MultiOption(obj.x, obj.y, obj.options, 10, 2)
             else begin
               mouse(obj.x, obj.y, 0, 0, false);
-              waitOptionMulti(obj.options, randomRange(150, 200));
+              result := waitOptionMulti(obj.options, randomRange(150, 200));
             end;
-
-            result := didClick(true, randomRange(500, 1000));
           end;
 
           // left click
@@ -1452,11 +1462,11 @@ begin
             if (action = moLeft) then
             begin
               if (obj.multiClick) then
-                MSI_MultiMouse(obj.x, obj.y, 15, 3)
-              else
+                result := MSI_MultiMouse(obj.x, obj.y, 10, 3)
+              else begin
                 mouse(obj.x, obj.y, 0, 0, true);
-
-              result := didClick(true, randomRange(500, 1000));
+                result := didClick(true, randomRange(500, 1000));
+              end;
             end;
         end else begin
           // add to the bad boxes array if the uptext is wrong

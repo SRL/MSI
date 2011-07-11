@@ -841,10 +841,9 @@ Example:
 *)
 function MSI_SetPlayerLoc(): boolean;
 var
-  i, ii: Integer;
+  i: Integer;
   locArr: TIntegerArray;
   Script: TScript;
-  p: TPoint;
 begin
   if (not LoggedIn) then
     Exit;

@@ -16,16 +16,17 @@ MSI_MultiMouse
 
 .. code-block:: pascal
 
-  procedure MSI_MultiMouse(x, y, chance, maxClicks: integer);
+  function MSI_MultiMouse(x, y, chance, maxClicks: integer): boolean;
 
 Will simulate "spam" clicking on the point x, y.  Will do it a random amount
 between 1 and 'maxClicks'.  Will click once no matter what, then has a percent
-'chance' of clicking again after that.  Will not exceed 'maxClicks'.
+'chance' of clicking again after that.  Will not exceed 'maxClicks'.  Returns
+true if the red X appears after clicking an object.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 09 June 2011 by Coh3n
+  | Last Updated: 08 July 2011 by Coh3n
 
 Example:
 
@@ -34,19 +35,17 @@ Example:
   if (waitUptext('ree', 200)) then
     MSI_MultiMouse(x, y, 35, 5);
 *)
-procedure MSI_MultiMouse(x, y, chance, maxClicks: integer);
+function MSI_MultiMouse(x, y, chance, maxClicks: integer): boolean;
 var
-  clicks, rX, rY: integer;
+  clicks: integer;
 begin
   repeat
     inc(clicks);
-    mouse(x, y, rX, rY, true);
+    mouse(x, y, 3, 3, true);
+    result := didClick(true, 50 + random(50));
 
-    if (random(100) > chance) or (not didClick(true, 50 + random(50))) then
+    if (random(100) > chance) or (not result) then
       break;
-
-    rX := randomRange(-10, 10);
-    rX := randomRange(-10, 10);
   until(clicks >= maxClicks);
 end;
 
@@ -56,15 +55,16 @@ MSI_MultiOption
 
 .. code-block:: pascal
 
-  procedure MSI_MultiOption(x, y: integer; options: TStringArray; chance, maxClicks: integer);
+  function MSI_MultiOption(x, y: integer; options: TStringArray; chance, maxClicks: integer): boolean;
 
 Will right-click on the point x, y and choose the option 'options'.  Has a
 percentage chance (chace) of doing so and will do so a maximum of 'maxClicks'.
+Returns true if the correct option is chosen at least once.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 02 July 2011 by Coh3n
+  | Last Updated: 08 July 2011 by Coh3n
 
 Example:
 
@@ -72,14 +72,19 @@ Example:
 
   MSI_MultiOption(x, y, ['uick', 'ank-qui'], 30, 3);
 *)
-procedure MSI_MultiOption(x, y: integer; options: TStringArray; chance, maxClicks: integer);
+function MSI_MultiOption(x, y: integer; options: TStringArray; chance, maxClicks: integer): boolean;
 var
   clicks: integer;
 begin
   repeat // simulates multiple clicking like a human would
     inc(clicks);
     mouse(x, y, 0, 0, false);
-    waitOptionMulti(options, randomRange(150, 200));
+
+    // already chose option, if try again the option may not be there (avoids false negatives)
+    if (not result) then
+      result := waitOptionMulti(options, randomRange(150, 200))
+    else
+      waitOptionMulti(options, randomRange(150, 200));
 
     if (random(100) > chance) or (not didClick(true, 50 + random(50))) then
       break;
