@@ -74,6 +74,7 @@ Example:
 function MSI_OpenBank(which: Integer; tPin: String): Boolean;
 var
   t, x, y: Integer;
+  a: Extended;
   bankType: TBank;
   relocated: boolean;
   bankObj: TMSObject;
@@ -92,6 +93,13 @@ begin
   if (not Result) then
   begin
     t := (GetSystemTime + 60000);
+
+    if bankObj.Constant = MSI_BANK_SV then
+    begin
+      a := rs_GetCompassAngleDegrees;
+      if (a > 85.0) and (a < 275.0) then
+        MakeCompass(RandomRange(85, 275));
+    end;
 
     while (not Result) and (GetSystemTime < t) and LoggedIn do
     begin
