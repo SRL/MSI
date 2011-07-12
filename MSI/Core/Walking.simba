@@ -771,7 +771,6 @@ begin
     if (home) then
     begin
       clickNorth(true);
-      setAngle(true);
       result := MSI_WalkPath(LOC_LB_SPAWN, script.pathInfo.startLoc);
     end else begin
       MSI_Debug('Didn''t spawn after 45 seconds');

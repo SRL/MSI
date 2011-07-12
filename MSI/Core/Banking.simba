@@ -87,19 +87,20 @@ begin
     Exit;
 
   MSI_AddHeader('MSI_OpenBank');
-  Result := BankScreen or DepositScreen;
+  Result := (BankScreen or DepositScreen);
   bankObj := MSI_GetObject(which);
 
   if (not Result) then
   begin
     t := (GetSystemTime + 60000);
 
-    if bankObj.Constant = MSI_BANK_SV then
-    begin
-      a := rs_GetCompassAngleDegrees;
-      if (a > 85.0) and (a < 275.0) then
-        MakeCompass(RandomRange(85, 275));
-    end;
+    // works better when camera is facing north
+    a := rs_GetCompassAngleDegrees;
+    if (a > 80.0) and (a < 280.0) then
+      if (random(10) < 5) then
+        makeCompass(RandomRange(85, 275))
+      else
+        clickNorth(true);
 
     while (not Result) and (GetSystemTime < t) and LoggedIn do
     begin
