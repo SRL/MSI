@@ -261,7 +261,7 @@ Begin
     Exit;
   end;
 
-  MSI_IgnoreSpam;
+  //MSI_IgnoreSpam;
 
   gameTab(TAB_INV);
 
