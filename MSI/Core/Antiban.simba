@@ -145,6 +145,74 @@ begin
 end;
 
 (*
+MSI_IgnoreSpam
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_IgnoreSpam: boolean;
+
+Searches the chat box for a name to appear 3 times in a row, then  will ignore it.
+Meant to ignore spam bots.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 12 July 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_IgnoreSpam;
+*)
+function MSI_IgnoreSpam: Boolean;
+var
+  i, t, ii: Integer;
+  n, o, Alert: string;
+  dataArr: TIntegerArray;
+begin
+  for i := 8 downto 1 do
+  begin
+    n := GetChatBoxText(i, clMessage);
+    if ArrInStr(['already', 'on', 'list'], n) then
+      Exit;
+    if i > 1 then
+    begin
+      if Alert <> '' then
+        if n = Alert then
+          begin
+            MSI_SubDebug('Ignoring '+n);
+            dataArr := [3381759, MIx1+58, MIy1, MIx2-60, MIy1+25, 128{}, 0, 143, 393, 374, 409, 686];
+            GameTab(tab_Friends);
+            if GetColor(725, 455) = 272756 then// FailSafe to make sure we click the right thing
+              if GetColor(718, 447) <> 10533842 then // Check if Ignore list is selected
+                MouseBox(719, 448, 733, 461, 1);
+            for i := 0 to 1 do
+            begin
+              t := GetSystemTime + 5000;
+              while (not CountColor(dataArr[ii*6], dataArr[ii*6+1], dataArr[ii*6+2],
+                dataArr[ii*6+3], dataArr[ii*6+4]) = dataArr[ii*6+5]) do
+              begin
+                if t <= GetSystemTime then
+                  Exit;
+                Wait(50);
+              end;
+              if i = 0 then
+                MouseBox(552, 448, 563, 460, 1);
+            end;
+            TypeSend(n);
+            Result := True;
+            Exit;
+          end;
+    end;
+    if n = o then
+      Alert := n;
+    o := n;
+  end;
+end;
+
+(*
 MSI_Antiban
 ~~~~~~~~~~~
 
@@ -158,7 +226,7 @@ procedures for a specified length of time in milliseconds (HowLong)
 .. note::
 
   | Author: Naum
-  | Last Updated: 9 Febuary 2011 by NCDS
+  | Last Updated: 12 July 2011 by NCDS
 
 Example:
 
@@ -173,6 +241,7 @@ Example:
 Procedure MSI_AntiBan(HowLong, ChancePerc: Integer);
 Var
   RanTab, I, Time, _avg : Integer;
+  b: Boolean;
 Begin
   if (not LoggedIn) then
     Exit;
@@ -192,6 +261,8 @@ Begin
     Exit;
   end;
 
+  MSI_IgnoreSpam;
+
   gameTab(TAB_INV);
 
   if (LeaveDangerZone) then
@@ -199,7 +270,7 @@ Begin
 
   Case HowLong Of
     0..2000:
-     Case Random(3) Of
+     Case Random(4) Of
         0 : SleepAndMoveMouse(HowLong + Random(HowLong/10));
         1 : Begin
               RanTab := RandomRange(TAB_Combat, TAB_LogOut);
@@ -208,6 +279,10 @@ Begin
               GameTab(tab_Inv);
             End;
         2 : RandomRClick;
+        3 : begin
+              b := IsXPBarOpen;
+              ToggleXPBar(not b);
+            end;
       End;
 
     2001..5000:
