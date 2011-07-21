@@ -16,17 +16,18 @@ MSI_MultiMouse
 
 .. code-block:: pascal
 
-  function MSI_MultiMouse(x, y, chance, maxClicks: integer): boolean;
+  function MSI_MultiMouse(x, y, chance, maxClicks: integer; red: boolean): boolean;
 
 Will simulate "spam" clicking on the point x, y.  Will do it a random amount
 between 1 and 'maxClicks'.  Will click once no matter what, then has a percent
-'chance' of clicking again after that.  Will not exceed 'maxClicks'.  Returns
-true if the red X appears after clicking an object.
+'chance' of clicking again after that.  Will not exceed 'maxClicks'.  if 'red'
+then will return true if the red X appears after clicking an object, else will
+return true after clicking.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 08 July 2011 by Coh3n
+  | Last Updated: 21 July 2011 by Coh3n
 
 Example:
 
@@ -35,14 +36,18 @@ Example:
   if (waitUptext('ree', 200)) then
     MSI_MultiMouse(x, y, 35, 5);
 *)
-function MSI_MultiMouse(x, y, chance, maxClicks: integer): boolean;
+function MSI_MultiMouse(x, y, chance, maxClicks: integer; red: boolean): boolean;
 var
   clicks: integer;
 begin
   repeat
     inc(clicks);
     mouse(x, y, 3, 3, true);
-    result := didClick(true, 50 + random(50));
+
+    if (red) then
+      result := didClick(true, 50 + random(50))
+    else
+      result := true;
 
     if (random(100) > chance) or (not result) then
       break;

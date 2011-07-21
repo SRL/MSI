@@ -1495,7 +1495,7 @@ begin
             if (action = moLeft) then
             begin
               if (obj.multiClick) then
-                result := MSI_MultiMouse(obj.x, obj.y, 10, 3)
+                result := MSI_MultiMouse(obj.x, obj.y, 10, 3, true)
               else begin
                 mouse(obj.x, obj.y, 0, 0, true);
                 result := didClick(true, randomRange(500, 1000));

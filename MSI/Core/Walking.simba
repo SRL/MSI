@@ -164,12 +164,9 @@ begin
 
   if (TileOnMM(Tile)) then
   begin
-    MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is on the minimap');
-    MSI_MultiMouse(MP.X, MP.Y, 60, 4);
-    Result := True;
-    RunEnergy(20);
-  end else
-    MSI_Debug('Tile('+IntToStr(Tile.x)+', '+IntToStr(Tile.y)+') is not on the minimap');
+    Result := MSI_MultiMouse(MP.X, MP.Y, 40, 4, false);
+    RunEnergy(40);
+  end;
   {$ENDIF}
 end;
 
@@ -539,6 +536,7 @@ begin
   begin
     t := GetSystemTime + (Length(TPA) * 60 + 180) * 1000; // A minute for each tile + 3 minutes
     h := High(TPA);
+    MSI_Debug('High TPA: ' + toStr(h));
 
     repeat
       for i := h downto 0 do
@@ -548,18 +546,27 @@ begin
         if (not MSI_ClickTile(TPA[i])) then
         begin
           if (i = 0) then
-            Exit;
+            break;
 
           Continue;
-        end else
+        end else begin
+          MSI_Debug('Clicked TPA['+toStr(i)+']: '+toStr(TPA[i]));
+
           if (stopMoving) then
             MSI_Flag(5)
           else
             MSI_WaitTile(TPA[i + 1]);
+        end;
 
         mPos := GetMyPos;
         Result := (Distance(mPos.x, mPos.y, TPA[h].x, TPA[h].y) <= 10);
         Break;
+      end;
+
+      if ((not result) and (i = 0)) then
+      begin
+        MSI_Debug('No points are on the minimap');
+        break;
       end;
     until(Result or (GetSystemTime > t));
   end;
@@ -649,8 +656,8 @@ begin
       with MSI_Players[CurrentPlayer] do
 		  begin
         // Walk the leg of the path
-			  if (not (walked(ATPA[i]))) then
-          if (not (walked(eTPA))) and (not (walked(ATPA[i]))) then
+			  if (not walked(ATPA[i])) then
+          if ((not walked(eTPA)) and (not walked(ATPA[i]))) then
 				  begin
             MSI_Debug('Failed to walk path ('+boolToStr(toLoc)+'): ' + pathInfo.name);
             done := true;

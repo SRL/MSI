@@ -398,6 +398,7 @@ begin
             continue;
 
           MSI_Antiban(randomRange(1000, 4000), 50);
+          wait(randomRange(250, 500));
 
           if (forceFail) then
             Exit;
