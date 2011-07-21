@@ -356,14 +356,15 @@ Example:
 *)
 function MSI_AutoInvFull(Func: function(a: TIntegerArray; var b: Boolean): Boolean): Boolean;
 var
-  t, waitTime, tTime: Integer;
+  t, waitTime, tTime, maxTime: Integer;
   tObjects, newObjects: TIntegerArray;
   forceFail: Boolean;
 begin
   if (not LoggedIn) then
     Exit;
 
-  t := (GetSystemTime + (30 * 60000)); // Maximum 30 minutes
+  maxTime := (getSystemTime + (15 * 60000)) // 15 minutes
+  t := maxTime;
 
   repeat
     while (not InvFull) and (LoggedIn) do
@@ -390,12 +391,15 @@ begin
 
         if (Func(newObjects, forceFail)) then
         begin
-          t := (GetSystemTime + (8 * 60000));
+          t := maxTime;
           waitTime := 0;
           MSI_NotBoxes := [];
         end else begin
           if (MSI_FindRandoms(False)) then
+          begin
+            t := maxTime;
             continue;
+          end;
 
           MSI_Antiban(randomRange(1000, 4000), 50);
           wait(randomRange(250, 500));

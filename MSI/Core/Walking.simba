@@ -279,8 +279,8 @@ begin
       begin
         if (MSI_FindRandoms(True)) then
         begin
-          MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
           result := true;
+          MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
           exit;
         end;
 

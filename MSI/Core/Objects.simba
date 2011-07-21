@@ -1528,7 +1528,7 @@ begin
       break;
     end else begin
       flag;
-      MSI_FindRandoms(true);
+      result := MSI_FindRandoms(true);
     end;
   end;
 end;

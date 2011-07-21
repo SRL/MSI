@@ -464,7 +464,7 @@ begin
     if FindDTMs(MSI_Items[Items[i]].DTM, p, MBX1, MBY1, MBX2, MBY2) then
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-      MSI_FilterTPADist(p, 15);
+      MSI_FilterTPADist(p, 20);
 
       {$IFDEF SMART}
       for ii := 0 to high(p) do
@@ -497,15 +497,16 @@ begin
       end else
         Mouse(x, y, 0, 0, False);
 
-      if (Amounts[i] = -1) then
-        WaitOption('-All', 500)
-      else
-        if (InIntArray([5, 10], Amounts[i])) then
-          WaitOption('-'+IntToStr(Amounts[i]), 500)
+      if (OptionsExist(MSI_Items[Items[i]].UpText, false)) then
+        if (Amounts[i] = -1) then
+          WaitOption('-All', 500)
         else
-          if (WaitOption('-X', 500)) then
-            if (WaitColor(254, 401, ClBlack, 0, 1200)) then
-              TypeSend(IntToStr(Amounts[i]));
+          if (InIntArray([5, 10], Amounts[i])) then
+            WaitOption('-'+IntToStr(Amounts[i]), 500)
+          else
+            if (WaitOption('-X', 500)) then
+              if (WaitColor(254, 401, ClBlack, 0, 1200)) then
+                TypeSend(IntToStr(Amounts[i]));
 
       t := (GetSystemTime + 5000);
       while (GetSystemTime < t) do

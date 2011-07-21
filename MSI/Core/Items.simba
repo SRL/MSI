@@ -204,11 +204,11 @@ begin
     FISH_RAW_TROUT, FISH_COOKED_TROUT, FISH_RAW_PIKE, FISH_COOKED_PIKE,
     FISH_RAW_SALMON, FISH_COOKED_SALMON:
       Result := [
-                  Point(707, 351),
-                  Point(701, 359),
-                  Point(699, 349),
-                  Point(714, 342),
-                  Point(723, 342)
+                  Point(1191, 328),
+                  Point(1187, 334),
+                  Point(1187, 324),
+                  Point(1191, 321),
+                  Point(1200, 325)
                 ];
 
     FISH_RAW_TUNA, FISH_COOKED_TUNA:
@@ -390,7 +390,7 @@ begin
     HATCHET_IRON   : Result := 3618618;
     HATCHET_STEEL  : Result := 5855581;
     HATCHET_MITHRIL: Result := 4599598;
-    HATCHET_ADAMANT: Result := 3291698;
+    HATCHET_ADAMANT: Result := 3489076;
     HATCHET_RUNE   : Result := 4932921;
     HATCHET_DRAGON : Result := 790869;
 
@@ -433,7 +433,7 @@ begin
     FISH_RAW_ANCHOVIE  : Result := 5986135;
     FISH_RAW_SARDINE   : Result := 9940887;
     FISH_RAW_HERRING   : Result := 10461094;
-    FISH_RAW_TROUT     : Result := 9934750;
+    FISH_RAW_TROUT     : Result := 11382453;
     FISH_RAW_PIKE      : Result := 6319968;
     FISH_RAW_SALMON    : Result := 5924258;
     FISH_RAW_TUNA      : Result := 9408662;
@@ -1495,7 +1495,7 @@ begin
       begin
         Name := 'Vial of water';
         StatsName := 'Vials Filled';
-        UpText := ['ial of water'];
+        UpText := ['ial of water', 'water'];
         Stackable := False;
         EquipLevel := -1;
       end;
