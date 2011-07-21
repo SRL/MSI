@@ -399,7 +399,7 @@ begin
 
   {$IFDEF REFLECTION}
   if (not ReflectionBroken) then
-    randomDone := FindNormalRandoms//R_FindRandoms
+    randomDone := R_FindRandoms
   else
     randomDone := FindNormalRandoms;
   {$ELSE}

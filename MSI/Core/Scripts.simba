@@ -83,6 +83,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_VE_BANK to LOC_VE_TREES';
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_TREES;
 
@@ -118,6 +119,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_VE_BANK to LOC_VE_OAKS';
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_OAKS;
 
@@ -152,6 +154,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_GE_BANK to LOC_GE_YEWS';
           StartLoc := LOC_GE_BANK;
           EndLoc   := LOC_GE_YEWS;
 
@@ -187,6 +190,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_DB_BANK to LOC_DB_TREES';
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_TREES;
 
@@ -221,6 +225,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_DB_BANK to LOC_DB_OAKS';
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_OAKS;
 
@@ -254,6 +259,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_DB_BANK to LOC_DB_WILLOWS';
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_WILLOWS;
 
@@ -287,6 +293,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_BANK to LOC_RM_YEWS';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_YEWS;
 
@@ -325,6 +332,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_RM_WILLOWS';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_WILLOWS;
 
@@ -362,6 +370,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_PS_WILLOWS';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_PS_WILLOWS;
 
@@ -396,6 +405,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_PS_YEWS';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_PS_YEWS;
 
@@ -431,6 +441,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_SV_BANK to LOC_SV_MAGICS';
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_MAGICS;
 
@@ -469,6 +480,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_SV_BANK to LOC_SV_MAPLES';
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_MAPLES;
 
@@ -502,6 +514,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_SV_BANK to LOC_SV_YEWS';
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_YEWS;
 
@@ -538,6 +551,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_EV_BANK to LOC_EV_YEWS';
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_EV_YEWS;
 
@@ -572,6 +586,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_DB_BANK to LOC_DB_YEWS';
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_YEWS;
 
@@ -641,6 +656,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_VE_BANK to LOC_VE_MINE';
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_MINE;
 
@@ -681,6 +697,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_DB_BANK to LOC_LSW_MINE';
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_LSW_MINE;
 
@@ -723,6 +740,7 @@ begin
 
         with PathInfo do
         begin
+        Name := 'LOC_VW_BANK to LOC_VW_MINE';
           StartLoc := LOC_VW_BANK;
           EndLoc   := LOC_VW_MINE;
 
@@ -765,6 +783,7 @@ begin
 
         with PathInfo do
         begin
+        Name := 'LOC_FW_BANK to LOC_FW_MINE';
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_MINE;
 
@@ -776,7 +795,8 @@ begin
 
           SPSAreas   := ['8_4'];
           Color      := MSI_Convert2DTilePath(Reflection);
-          Obstacles := [ OBS_FALADOR_WEST_CRUMBLING_WALL ];
+          Obstacles[OBS_LOC_TO] := [OBS_WALL_FW];
+          Obstacles[OBS_LOC_FROM] := [OBS_WALL_FW];
         end;
       end;
 
@@ -801,6 +821,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_EV_BANK to LOC_BBV_MINE';
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_BBV_MINE;
 
@@ -838,6 +859,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_RM_CLAY';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_CLAY;
 
@@ -874,6 +896,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_RM_TIN';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_TIN;
 
@@ -910,6 +933,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_RM_COPPER';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_COPPER;
 
@@ -946,6 +970,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_RM_IRON_1';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_IRON_1;
 
@@ -981,6 +1006,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_RM_IRON_2';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_IRON_2;
 
@@ -1017,6 +1043,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_PS_DBOX to LOC_RM_GOLD';
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_GOLD;
 
@@ -1056,6 +1083,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_DB_BANK to LOC_DB_CLAY';
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_CLAY;
 
@@ -1093,20 +1121,26 @@ begin
 
           with PathInfo do
           begin
+            Name := 'LOC_FE_BANK to LOC_GUILD_MINE';
             StartLoc := LOC_FE_BANK;
-            EndLoc   := LOC_GUILD_MINE;
+            EndLoc := LOC_GUILD_MINE;
 
             Reflection := [
-                            TPointArray([Point(3012, 3355), Point(3023, 3352), // Bank -> Ladder Down
+                            // Bank -> Ladder Down
+                            TPointArray([Point(3012, 3355), Point(3023, 3352),
                                          Point(3030, 3340), Point(3021, 3339)]),
 
-                            TPointArray([Point(3021, 9739), Point(3033, 9738), // Ladder Up -> In Mine
+                            // Ladder Up -> In Mine
+                            TPointArray([Point(3021, 9739), Point(3033, 9738),
                                          Point(3042, 9737)])
                           ];
-
-            SPSAreas  := [''];
-            Color     := MSI_Convert2DTilePath(Reflection);
-            Obstacles := [ OBS_LADDER_DOWN_MINE_GUILD ];
+            // SPS doesn't currently support dungeons
+            {
+              SPSAreas := [''];
+              Color := [];
+            }
+            Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
+            Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
           end;
         end;
 
@@ -1165,6 +1199,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_DB_BANK to LOC_DB_FISH';
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_FISH;
 
@@ -1203,6 +1238,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_EV_BANK to LOC_BBV_FISH';
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_BBV_FISH;
 
@@ -1250,6 +1286,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_CB_BANK to LOC_CB_FISH';
           StartLoc := LOC_CB_BANK;
           EndLoc   := LOC_CB_FISH;
 
@@ -1290,6 +1327,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_KJ_STILES to LOC_KJ_FISH';
           StartLoc := LOC_KJ_STILES;
           EndLoc   := LOC_KJ_FISH;
 
@@ -1340,6 +1378,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_AK_BANK to LOC_AK_RANGE';
           StartLoc := LOC_AK_BANK;
           EndLoc   := LOC_AK_RANGE;
 
@@ -1398,6 +1437,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_VE_BANK to LOC_VE_FOUNTAIN';
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_FOUNTAIN;
 
@@ -1434,6 +1474,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_EV_BANK to LOC_EV_WELL';
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_EV_WELL;
 
@@ -1469,6 +1510,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_FW_BANK to LOC_FW_PUMP';
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_PUMP;
 
@@ -1506,6 +1548,7 @@ begin
 
         with PathInfo do
         begin
+        Name := 'LOC_VE_BANK to LOC_VE_FOUNTAIN';
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_FOUNTAIN;
 
@@ -1544,6 +1587,7 @@ begin
 
         with PathInfo do
         begin
+          Name := 'LOC_FW_BANK to LOC_FW_PUMP';
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_PUMP;
 

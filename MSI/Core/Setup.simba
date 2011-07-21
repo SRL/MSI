@@ -110,7 +110,6 @@ begin
   MSI_LoadAllLocations;
   MSI_LoadAllScripts;
   MSI_LoadAllItems;
-  MSI_LoadAllObstacles;
   MSI_LoadAllSpells;
   MSI_LoadAllExtras;
   Track_LoadNames;

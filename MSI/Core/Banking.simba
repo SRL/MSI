@@ -425,7 +425,7 @@ constants can be found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 02 July 2011 by Coh3n
+  | Last Updated: 15 July 2011 by Coh3n
 
 Example:
 
@@ -440,6 +440,7 @@ var
   i, x, y, ii, t: Integer;
   p: TPointArray;
   itemsWithdrew: TBooleanArray;
+  rClick: boolean;
 begin
   if (not LoggedIn) or (not WaitFunc(@BankScreen, 90, 2500)) then
     Exit;
@@ -479,17 +480,16 @@ begin
         if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 150 + random(150)) then
           Break;
 
-        if ii = High(p) - 1 then
+        if ii = High(p) then
           if (Amounts[i] = 1) then
           begin
             MSI_Debug('Failed to find uptext in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-            MSI_CloseHeader('MSI_Withdraw: ' + BoolToStr(Result));
-            Exit;
+            rClick := true; // will try right clicking
           end;
       end;
 
       GetMousePos(x, y);
-      if (Amounts[i] = 1) then
+      if ((Amounts[i] = 1) and (not rClick)) then
       begin
         Mouse(x, y, 0, 0, True);
         itemsWithdrew[i] := True;

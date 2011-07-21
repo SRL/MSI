@@ -11,12 +11,97 @@ The source for can be found
 *)
 
 (*
+MSI_GetObstacle
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetObstacle(obs: integer): TObstacle;
+
+Returns a TObstacle record for the obstacle specified by 'obs'; 'obs' is a
+constant that can be found in
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Globals.simba>`_ with the
+prefix "OBS_".
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 20 July 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  var
+    obs: TObstacle;
+  begin
+    obs := MSI_GetObstacle(OBS_LADDER_DOWN_MINE_GUILD);
+    writeln('Loaded obstacle: '+obs.name);
+  end;
+*)
+function MSI_GetObstacle(obs: integer): TObstacle;
+begin
+  case obs of
+    OBS_LADDER_MG_DOWN:
+      with result do
+      begin
+        Name     := 'OBS_LADDER_MG_DOWN';
+        MirConst := OBS_LADDER_MG_UP;
+        MirArea  := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
+        ObjConst := LADDER_MG_DOWN;
+        ObjMir   := LADDER_MG_UP;
+        Camera   := ['n', true];
+
+        // West, South, East, North
+        StartTiles := [Point(3017, 3339), Point(3019, 3337),
+                       Point(3021, 3339), Point(3019, 3341)];
+
+        EndTiles   := [Point(3017, 9739), Point(3019, 9737),
+                       Point(3021, 9739), Point(3019, 9741)];
+      end;
+
+    OBS_LADDER_MG_UP:
+      with result do
+      begin
+        Name     := 'OBS_LADDER_MG_UP';
+        MirConst := OBS_LADDER_MG_DOWN;
+        MirArea  := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
+        ObjConst := LADDER_MG_UP;
+        ObjMir   := LADDER_MG_DOWN;
+        Camera   := ['n', true];
+
+        // West, South, East, North
+        StartTiles := [Point(3017, 9739), Point(3019, 9737),
+                       Point(3021, 9739), Point(3019, 9741)];
+
+        EndTiles   := [Point(3017, 3339), Point(3019, 3337),
+                       Point(3021, 3339), Point(3019, 3341)];
+      end;
+
+    OBS_WALL_FW:
+      with result do
+      begin
+        Name       := 'OBS_WALL_FW';
+        MirConst   := OBS_WALL_FW;
+        MirArea    := intToBox(MSCX, MSY1, MSX2, MSY2); // Right half of MS
+        ObjConst   := WALL_FW;
+        ObjMir     := WALL_FW;
+        Camera     := ['w', false];
+        StartTiles := [Point(2940, 3355)];
+        EndTiles   := [Point(2940, 3355)];
+      end;
+  end;
+
+  result.constant := obs;
+end;
+
+(*
 MSI_WaitForMirror
 ~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_WaitForMirror(Obs: Integer): Boolean;
+  function MSI_WaitForMirror(obs: TObstacle): boolean;
 
 Returns true when an obstacles 'mirror obstacle' has appeared. For example, if
 we're climbing a ladder, the mirror obstacle would be the ladder climbing down.
@@ -26,69 +111,74 @@ and return true if they are.
 .. note::
 
   | Author: Sir R. Magician & Coh3n
-  | Last Updated: 10 June 2011 by Coh3n
+  | Last Updated: 20 July 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if (ClickObstacle(LADDER_DOWN_MINE_GUILD)) then // ClickObstacle isn't a real function, just an example
-    MSI_WaitForMirror(LADDER_DOWN_MINE_GUILD);
+  var
+    obs: TObstacle;
+  begin
+    obs := MSI_GetObstacle(LADDER_MG_DOWN);
+
+    // clickObstacle isn't a real function, just an example
+    if (clickObstacle(obs)) then
+      result := MSI_WaitForMirror(obs);
+  end;
 *)
-function MSI_WaitForMirror(Obs: Integer): Boolean;
+function MSI_WaitForMirror(obs: TObstacle): boolean;
 var
   i, t, h: Integer;
   mPos: TPoint;
   colorFail: Boolean;
   mirObj: TMSObject;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  t := GetSystemTime + (60000 * 3);
+  t := (getSystemTime + (60000 * 3));
+  h := high(obs.endTiles);
 
   repeat
-    with MSI_Obstacles[Obs] do
+    mirObj := MSI_GetObject(obs.objMir);
+    mirObj.searchArea := obs.mirArea;
+
+    {$IFDEF SMART}
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
+      SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
+    {$ENDIF}
+
+    if (MSI_FindObject(mirObj, moMove)) then
     begin
-      mirObj := MSI_GetObject(objMir);
-      mirObj.searchArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
+      MSI_SubDebug('Found mirror object: ' + mirObj.name);
 
-      {$IFDEF SMART}
-        if (MSI_Settings[SETUP_DEBUG_SMART]) then
-          SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
-      {$ENDIF}
-
-      if (MSI_FindObject(mirObj, moMove)) then
+      {$IFDEF REFLECTION}
+      if (not reflectionBroken) then
       begin
-        MSI_Debug('Found mirror object: ' + mirObj.name);
+        mPos := getMyPos();
 
-        {$IFDEF REFLECTION}
-        mPos := GetMyPos;
-        h := High(EndTiles);
-
-        // Loop through end tiles comparing to players tile
+        // loop through end tiles comparing to player's current tile
         for i := 0 to h do
-          if ((mPos.x = EndTiles[i].x) and (mPos.y = EndTiles[i].y)) then
+          if (mPos = obs.endTiles[i]) then
           begin
             MSI_SubDebug('Player is on end tile');
-            Result := True;
-            Break;
-          end else begin
+            result := true;
+            break;
+          end else
             if (i = h) then
-              colorFail := True;
-            // Color information gathering will eventually be added here
-          end;
+              colorFail := true;
 
         if (colorFail) then
-          Continue; // Continue if reflection determines that color failed
-        {$ENDIF}
-
-        Result := True;
+          continue; // continue if reflection determines that color failed
       end;
+      {$ENDIF}
 
-      Wait(RandomRange(100, 300));
+      result := true;
     end;
-  until(Result or (GetSystemTime > t));
+
+    wait(randomRange(250, 500));
+  until(result or (getSystemTime > t));
 end;
 
 (*
@@ -97,246 +187,55 @@ MSI_SolveObstacle
 
 .. code-block:: pascal
 
-  function MSI_SolveObstacle(Obs: Integer): Boolean;
+  function MSI_SolveObstacle(obs: TObstacle): boolean;
 
-Returns true if the obstacle is solved. Uses MSI_FindObject (Objects.simba) to
-find and click the obstacle, then calls MSI_WaitForMirror.
+Returns true if the obstacle 'obs' is solved. Uses MSI_FindObject to find and
+click the obstacle, then calls MSI_WaitForMirror to determine when the obstacle
+has been passed.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 10 June 2011 by Coh3n
+  | Last Updated: 20 July 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  Result := MSI_SolveObstacle(LADDER_DOWN_MINE_GUILD);
+  var
+    obs: TObstacle;
+  begin
+    obs := MSI_GetObstacle(LADDER_MG_DOWN);
+    result := MSI_SolveObstacle(obs);
+  end;
 *)
-function MSI_SolveObstacle(Obs: Integer): Boolean;
+function MSI_SolveObstacle(obs: TObstacle): boolean;
 var
   t: Integer;
   obsObj: TMSObject;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  t := GetSystemTime + 60000; // 1 minute to solve obstacle
-
-  MakeCompass(MSI_Obstacles[obs].Camera[0]);
-  SetAngle(MSI_Obstacles[obs].Camera[1]);
-  obsObj := MSI_GetObject(MSI_Obstacles[Obs].ObjConst);
-  repeat
-    if (MSI_FindObject(obsObj, moLeft)) then
-    begin
-      Wait(RandomRange(1000, 2000));
-      Result := MSI_WaitForMirror(Obs);
-    end;
-  until(Result or (GetSystemTime > t));
-
-  ClickNorth(True);
-end;
-
-(*
-MSI_DoObstacle
-~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_DoObstacle(Obs: Integer): Boolean;
-
-For some reason I was getting Type mismatch errors now matter where I put
-MSI_CloseHeader in MSI_SolveObstacle, so I wrote this so we can have proper
-debugging. So, it's just used as a wrapper function for MSI_SolveObstacle.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 02 December 2010 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  Result := MSI_DoObstacle(LADDER_DOWN_MINE_GUILD);
-*)
-function MSI_DoObstacle(Obs: Integer): Boolean;
-begin
   MSI_AddHeader('MSI_SolveObstacle');
-  Result := MSI_SolveObstacle(Obs);
-  MSI_CloseHeader('MSI_SolveObstacle: ' + BoolToStr(Result));
-end;
+  t := (getSystemTime + 60000);
+  obsObj := MSI_GetObject(obs.objConst);
 
-(*
-MSI_LoadObstacle
-~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_LoadObstacle(Obs: Integer): Boolean;
-
-Loads the obstacle's (Obs) attributes; should only be called in
-MSI_LoadAllObstacles.
-
-.. note::
-
-  | Author: The MSI Team
-  | Last Updated: 4 April 2011 by IPwnz
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_LoadObstacle(i); // From MSI_LoadAllObstacles
-*)
-function MSI_LoadObstacle(Obs: Integer): Boolean;
-begin
-  case Obs of
-    OBS_LADDER_DOWN_MINE_GUILD:
-      with MSI_Obstacles[Obs] do
-      begin
-        Name     := 'Mining Guild: Ladder Down';
-
-        // Obstacle constants
-        Constant := OBS_LADDER_DOWN_MINE_GUILD;
-        MirConst := OBS_LADDER_UP_MINE_GUILD;
-
-        // Object constants
-        ObjConst := LADDER_DOWN_MINE_GUILD;
-        ObjMir   := LADDER_UP_MINE_GUILD;
-
-        Camera := ['n', true];
-
-        StartTiles := [Point(3017, 3339), Point(3019, 3337),  // West, South, East, North
-                       Point(3021, 3339), Point(3019, 3341)];
-
-        EndTiles   := [Point(3017, 9739), Point(3019, 9737),
-                       Point(3021, 9739), Point(3019, 9741)];
-
-        Solve      := @MSI_DoObstacle;
-      end;
-
-    OBS_LADDER_UP_MINE_GUILD:
-      with MSI_Obstacles[Obs] do
-      begin
-        Name     := 'Mining Guild: Ladder Up';
-
-        Constant := OBS_LADDER_UP_MINE_GUILD;
-        MirConst := OBS_LADDER_DOWN_MINE_GUILD;
-
-        ObjConst := LADDER_UP_MINE_GUILD;
-        ObjMir   := LADDER_DOWN_MINE_GUILD;
-
-        Camera := ['n', true];
-
-        StartTiles := [Point(3017, 9739), Point(3019, 9737),
-                       Point(3021, 9739), Point(3019, 9741)];
-
-        EndTiles   := [Point(3017, 3339), Point(3019, 3337),  // West, South, East, North
-                       Point(3021, 3339), Point(3019, 3341)];
-
-        Solve      := @MSI_DoObstacle;
-      end;
-
-  OBS_FALADOR_WEST_CRUMBLING_WALL:
-      with MSI_Obstacles[Obs] do
-      begin
-        Name     := 'Falador West Crumbling Wall';
-
-        Constant := OBS_FALADOR_WEST_CRUMBLING_WALL;
-        MirConst := OBS_FALADOR_WEST_CRUMBLING_WALL;
-
-        ObjConst := FALADOR_WEST_CRUMBLING_WALL;
-        ObjMir   := FALADOR_WEST_CRUMBLING_WALL;
-
-        Camera := ['w', false];
-
-        StartTiles := [Point(2940, 3355)];
-
-        EndTiles   := [Point(2940, 3355)];
-
-        Solve      := @MSI_DoObstacle;
-      end;
+  if ((varType(obs.camera[0]) = varString) and (obs.camera[0] = 'n')) then
+    clickNorth(obs.camera[1])
+  else begin
+    makeCompass(obs.camera[0]);
+    setAngle(obs.camera[1]);
   end;
 
-  Result := (MSI_Obstacles[Obs].Name <> '');
-end;
+  while ((not result) and (getSystemTime < t)) do
+    if (MSI_FindObject(obsObj, moLeft)) then
+    begin
+      wait(randomRange(1500, 2000));
+      result := MSI_WaitForMirror(obs);
+    end;
 
-(*
-MSI_LoadAllObstacles
-~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_LoadAllObstacles;
-
-Loads all the obstacles into MSI_Obstacles array; should only be called once in
-SetupMSI.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 30 November 2010 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_LoadAllObstacles();
-*)
-procedure MSI_LoadAllObstacles;
-var
-  i: Integer;
-begin
-  for i := 0 to High(MSI_Obstacles) do
-    MSI_LoadObstacle(i);
-end;
-
-(*
-MSI_HandleObstacle
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_HandleObstacle(Script: TScript; StartLoc, ObsIndex: Integer): Boolean;
-
-Called in MSI_ColorWalk and MSI_ReflectionWalk and is used to handle the
-obstacles that appear in some paths. See MSI_ReflectionWalk or MSI_ColorWalk to
-see exactly how this function is used.
-    - Script: The script that has the path with the obstacle.
-    - StartLoc: The starting location of the path with the obstacle.
-    - ObsIndex: The constant representing the obstacle in the path (i.e. LADDER_UP_MINE_GUILD).
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 26 January 2011 by Coh3n
-
-*)
-function MSI_HandleObstacle(Script: TScript; StartLoc, ObsIndex: Integer): Boolean;
-var
-  obs: Integer;
-begin
-  if (not LoggedIn) then
-    Exit;
-
-	if (Length(Script.PathInfo.Obstacles) > 0) then
-	begin
-    // Gets the right obstacle
-		if (StartLoc = Script.PathInfo.StartLoc) then
-		  obs := Script.PathInfo.Obstacles[ObsIndex]
-		else
-		  if (StartLoc = Script.PathInfo.EndLoc) then
-		    obs := MSI_Obstacles[Script.PathInfo.Obstacles[ObsIndex]].MirConst;
-
-		if (MSI_Obstacles[obs].Solve(obs)) then
-      Result := True
-    else
-      with MSI_Players[CurrentPlayer] do
-      begin
-		    ReportInfo.FalseReason := 'Failed to solve obstacle: '+MSI_Obstacles[obs].Name;
-		    Location := LOC_LOST;
-      end;
-	end;
+  clickNorth(true);
+  MSI_CloseHeader('MSI_SolveObstacle: ' + boolToStr(result));
 end;
 

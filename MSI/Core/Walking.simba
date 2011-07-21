@@ -418,64 +418,52 @@ begin
 end;
 
 (*
-MSI_LoadPath
-~~~~~~~~~~~~
+MSI_GetCorrectPath
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_LoadPath(sLoc, eLoc: Integer; Color: Boolean): T2DPointArray;
+  function MSI_GetCorrectPath(path: TPath; color, toLoc: boolean): T2DPointArray;
 
-Loads either a reflection or color path depending on 'Color' boolean. Loads the
-path from the starting location (sLoc) to the ending location (eLoc).
+Will get the correct path from the 'path' record.  If 'color', will return the
+SPS coords, else return Reflection tiles.  if 'toLoc', will invert the path's
+Reflection or SPS paths.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 July 2011 by Coh3n
+  | Last Updated: 21 July 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  MSI_LoadPath(LOC_VE_BANK, LOC_VE_MINE, True); // Loads color path from VE Bank to VE Mine
+  MSI_GetCorrectPath(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, ReflectionBroken, True);
 *)
-function MSI_LoadPath(sLoc, eLoc: Integer; Color: Boolean): T2DPointArray;
+function MSI_GetCorrectPath(path: TPath; color, toLoc: boolean): T2DPointArray;
 var
-  Script: TScript;
   s: string;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-
-  if (sLoc = LOC_LB_SPAWN) then // Death path
-    if (Color) then
-      Result := MSI_Locations[eLoc].DeathPath.Color
+  if (toLoc) then                // Start loc -> End loc
+    if (color) then
+      result := path.color
     else
-      Result := MSI_Locations[eLoc].DeathPath.Reflection
-  else
-    if (sLoc = Script.PathInfo.StartLoc) then // Start loc -> End loc
-      if (Color) then
-        Result := Script.PathInfo.Color
-      else
-        Result := Script.PathInfo.Reflection
+      result := path.reflection
+  else                           // End loc -> Start loc
+    if (color) then
+      result := MSI_MirrorATPA(path.color)
     else
-      if (sLoc = Script.PathInfo.EndLoc) then // End loc -> Start loc
-        if (Color) then
-          Result := MSI_MirrorATPA(Script.PathInfo.Color)
-        else
-          Result := MSI_MirrorATPA(Script.PathInfo.Reflection);
+      Result := MSI_MirrorATPA(path.reflection);
 
-  if (Color) then
+  if (color) then
     s := 'Color'
   else
     s := 'Reflection';
 
-  if (Length(Result) <= 0) then
-    MSI_SubDebug('Loaded invalid path ('+toStr(sLoc)+' to '+toStr(eLoc)+')')
-  else
-    MSI_SubDebug('Loaded Path (' + s + '): '+ToStr(Result));
+  MSI_SubDebug(s+' Path: '+toStr(result));
 end;
 
 (*
@@ -517,7 +505,7 @@ MSI_WalkTilePath
 
 .. code-block:: pascal
 
-  function MSI_WalkTilePath(tPath: TPointArray): Boolean;
+  function MSI_WalkTilePath(TPA: TPointArray): Boolean;
 
 Walks the entire tile path (tPath). Uses MSI_WaitTile for every tile except the
 last one (uses MSI_Flag(0) instead) to ensure the player has stopped moving
@@ -535,7 +523,7 @@ Example:
   if (MSI_WalkTilePath(TilePathHere)) then
     MSI_Debug('Walked path');
 *)
-function MSI_WalkTilePath(tPath: TPointArray): Boolean;
+function MSI_WalkTilePath(TPA: TPointArray): Boolean;
 {$IFDEF REFLECTION}
 var
   h, i, t: Integer;
@@ -549,15 +537,15 @@ begin
   {$IFDEF REFLECTION}
   with MSI_Players[CurrentPlayer] do
   begin
-    t := GetSystemTime + (Length(tPath) * 60 + 180) * 1000; // A minute for each tile + 3 minutes
-    h := High(tPath);
+    t := GetSystemTime + (Length(TPA) * 60 + 180) * 1000; // A minute for each tile + 3 minutes
+    h := High(TPA);
 
     repeat
       for i := h downto 0 do
       begin
         stopMoving := (i = h);
 
-        if (not MSI_ClickTile(tPath[i])) then
+        if (not MSI_ClickTile(TPA[i])) then
         begin
           if (i = 0) then
             Exit;
@@ -565,22 +553,22 @@ begin
           Continue;
         end else
           if (stopMoving) then
-            MSI_Flag(0)
+            MSI_Flag(5)
           else
-            MSI_WaitTile(tPath[i + 1]);
+            MSI_WaitTile(TPA[i + 1]);
 
         mPos := GetMyPos;
-        Result := (Distance(mPos.x, mPos.y, tPath[h].x, tPath[h].y) <= 10);
+        Result := (Distance(mPos.x, mPos.y, TPA[h].x, TPA[h].y) <= 10);
         Break;
       end;
     until(Result or (GetSystemTime > t));
   end;
 
   if (not result) then
-    if (length(tPath) > 0) then
+    if (length(TPA) > 0) then
     begin
       MSI_SubDebug('Regular walking failed, attempting blind walk');
-      result := r_WebWalk(tPath[high(tPath)]);
+      result := r_WebWalk(TPA[high(TPA)]);
     end;
   {$ENDIF}
 end;
@@ -591,91 +579,109 @@ MSI_WalkPath
 
 .. code-block:: pascal
 
-  function MSI_WalkPath(sLoc, eLoc: Integer): Boolean;
+  function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 
-Walks the entire path from start (sLoc) to finish (eLoc), including obstacles.
-Returns true if the player is at the ending location.
+Walks the entire path (PathInfo), including obstacles. Returns true if the
+player is at the ending location. 'inverted' is used to determine which
+obstacles to load since they may be different depending on the player's
+location.
 
 .. note::
 
   | Author: marpis & Coh3n
-  | Last Updated: 27 February 2011 by Coh3n
+  | Last Updated: 21 July 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  // Walks to VE mine only if your player is set to use SCRIPT_VE_MINER
-  MSI_WalkPath(LOC_VE_BANK, LOC_VE_MINE);
+  MSI_WalkPath(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, true);
 *)
-function MSI_WalkPath(sLoc, eLoc: Integer): Boolean;
+function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 var
   ATPA: T2DPointArray;
   eTPA: TPointArray;
-  Walked: function(TPA: TPointArray): Boolean;
-  i, t, h, obsLen: Integer;
-  Script: TScript;
-  obsSolved: TBooleanArray;
+  walked: function(TPA: TPointArray): Boolean;
+  i, h, t, endLocation: integer;
+  done: boolean;
+  intObs: TIntegerArray;
+  obs: TObstacle;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
   MSI_AddHeader('MSI_WalkPath');
 
-  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-  SetLength(obsSolved, Length(Script.PathInfo.Obstacles));
-
-  if (ReflectionBroken) then
+  if (reflectionBroken) then
   begin
-    ATPA := MSI_LoadPath(sLoc, eLoc, True);
-    eTPA := MSI_MirrorTPA(MSI_Locations[Script.PathInfo.EndLoc].Points);
-    Walked := @MSI_WalkColorPath;
+    ATPA := MSI_GetCorrectPath(pathInfo, true, toLoc);
+    eTPA := MSI_MirrorTPA(MSI_Locations[pathInfo.endLoc].points);
+    walked := @MSI_WalkColorPath;
   end else begin
-    ATPA := MSI_LoadPath(sLoc, eLoc, False);
-    eTPA := MSI_MirrorTPA(MSI_Locations[Script.PathInfo.EndLoc].Tiles);
-    Walked := @MSI_WalkTilePath;
+    ATPA := MSI_GetCorrectPath(pathInfo, false, toLoc);
+    eTPA := MSI_MirrorTPA(MSI_Locations[pathInfo.endLoc].tiles);
+    walked := @MSI_WalkTilePath;
   end;
 
-  t := (GetSystemTime + (Length(ATPA) * 60 + 180) * 1000);
-  obsLen := High(Script.PathInfo.Obstacles);
-
-  if (not RunEnergy(20)) then
+  // make sure we're passing the right obstacles
+  if (toLoc) then
   begin
-    RestUntil(40+Random(20));
-    SetRun(true);
+    endLocation := pathInfo.endLoc;
+    intObs := pathInfo.obstacles[OBS_LOC_TO]
+  end else begin
+    endLocation := pathInfo.startLoc;
+    intObs := pathInfo.obstacles[OBS_LOC_FROM];
   end;
 
-	repeat
-		for i := 0 to High(ATPA) do
+  t := (getSystemTime + (length(ATPA) * 60 + 180) * 1000);
+  h := high(ATPA);
+
+  if (not runEnergy(20)) then
+  begin
+    restUntil(40 + random(20));
+    setRun(true);
+  end;
+
+  while ((not result) and (getSystemTime < t) and (not done)) do
+  begin
+
+	  for i := 0 to h do
       with MSI_Players[CurrentPlayer] do
 		  begin
         // Walk the leg of the path
-				if (not (Walked(ATPA[i]))) then
-          if (not (Walked(eTPA))) and (not (Walked(ATPA[i]))) then
+			  if (not (walked(ATPA[i]))) then
+          if (not (walked(eTPA))) and (not (walked(ATPA[i]))) then
 				  begin
-            MSI_Debug('Failed to walk leg '+IntToStr(i)+' of script: '+Capitalize(Script.Name));
-            MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
-            Exit;
+            MSI_Debug('Failed to walk path ('+boolToStr(toLoc)+'): ' + pathInfo.name);
+            done := true;
+            break;
 				  end;
 
         // Handle the obstacle
-		    if (MSI_HandleObstacle(Script, sLoc, h)) then
-        begin
-          obsSolved[h] := True;
-		      if (h <> obsLen) then
-		        Inc(h);
-        end;
+        if (length(intObs) > 0) then
+          if (i <> h) then // length of obstacles is always 1 less than path ATPA
+          begin
+            obs := MSI_GetObstacle(intObs[i]);
+            if (not MSI_SolveObstacle(obs)) then
+            begin
+              reportInfo.falseReason := 'Failed to pass obstacle: ' + obs.name;
+              MSI_Debug('Failed to pass obstacle: ' + obs.name);
+              done := true;
+              break;
+            end;
+          end;
 
         // Return true if the player is at the ending location
-		    if (MSI_AtLocation(eLoc, True)) then
+		    if (MSI_AtLocation(endLocation, true)) then
 		    begin
-		      Result := True;
-		      Break;
+		      result := true;
+		      break;
 		    end;
 		  end;
-	until(Result or (GetSystemTime > t));
 
-	MSI_CloseHeader('MSI_WalkPath: ' + BoolToStr(Result));
+  end;
+
+	MSI_CloseHeader('MSI_WalkPath: ' + boolToStr(result));
 end;
 
 (*
@@ -695,7 +701,7 @@ will not be supported for Death Walking.
 .. note::
 
   | Author: NCDS
-  | Last Updated: 07 July 2011 by Coh3n
+  | Last Updated: 21 July 2011 by Coh3n
 
 Example:
 
@@ -706,9 +712,10 @@ Example:
 *)
 function MSI_DeathWalk: Boolean;
 var
-  Script: TScript;
+  script: TScript;
   i: integer;
   home: boolean;
+  pathInfo: TPath;
 (*
   {$IFDEF SPS}
   areas_old: TStringArray;
@@ -720,14 +727,23 @@ begin
 
   MSI_AddHeader('MSI_DeathWalk');
 
-  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-
   if (reflectionBroken) then
   begin
     MSI_Debug('Function not supported without Reflection!');
     MSI_CloseHeader('MSI_DeathWalk: '+boolToStr(result));
     exit;
   end;
+
+  script := MSI_Scripts[MSI_Players[CurrentPlayer].scripts[CurrentScript].name];
+  pathInfo := MSI_Locations[script.pathInfo.startLoc].deathPath;
+
+  if (length(pathInfo.reflection) <= 0) then
+  begin
+    MSI_Debug('No death path for location: '+MSI_Locations[script.pathInfo.startLoc].name);
+    MSI_CloseHeader('MSI_DeathWalk: '+boolToStr(result));
+    exit;
+  end;
+
 (*
   !!!!! See function header as to why these are commented out !!!!!
 
@@ -742,15 +758,16 @@ begin
     {$ENDIF}
   end;
 *)
+
   // check to see if the player is already in Lumbridge
   home := MSI_AtLocation(LOC_LB_SPAWN, true);
 
   // tries to walk the path; maybe we're already close to it
   if (not home) then
-    result := MSI_WalkPath(LOC_LB_SPAWN, script.pathInfo.startLoc);
+    result := MSI_WalkPath(pathInfo, true);
 
   // teleport home!
-  if (not result) then
+  if ((not result) and (not home)) then
     if (MSI_ClickSpell(SPELL_TELE_HOME)) then // teleport home
     begin
       MSI_Debug('Waiting to spawn in Lumbridge');
@@ -771,7 +788,7 @@ begin
     if (home) then
     begin
       clickNorth(true);
-      result := MSI_WalkPath(LOC_LB_SPAWN, script.pathInfo.startLoc);
+      result := MSI_WalkPath(pathInfo, true);
     end else begin
       MSI_Debug('Didn''t spawn after 45 seconds');
       result := false;
@@ -796,41 +813,41 @@ MSI_PerformWalk
 
 .. code-block:: pascal
 
-  function MSI_PerformWalk(startLoc, endLoc: Integer): Boolean;
+  function MSI_PerformWalk(pathInfo: TPath; toLoc: boolean): boolean;
 
-This is the function that is called in MSI_Walk (Mainloop.simba). It takes into
-consideration both color and reflection paths depending on the user's preference
-as well as the current state of reflection.
+Will walk the path "pathInfo".  Takes into consideration both color and
+reflection paths depending on the user's preference as well as the current
+state of reflection.  Also uses MSI's death walking feature.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 July 2011 by Coh3n
+  | Last Updated: 21 July 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
   // Walks to VE mine only if your player is set to use SCRIPT_VE_MINER
-  MSI_PerformWalk(LOC_VE_BANK, LOC_VE_MINE);
+  MSI_PerformWalk(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, true);
 *)
-function MSI_PerformWalk(startLoc, endLoc: Integer): Boolean;
+function MSI_PerformWalk(pathInfo: TPath; toLoc: boolean): boolean;
 begin
   if (not loggedIn) then
     exit;
 
   MSI_FindRandoms(true);
-  result := MSI_WalkPath(startLoc, endLoc);
+  result := MSI_WalkPath(pathInfo, toLoc);
 
   if (not result) then
     if (MSI_DeathWalk) then
-      result := MSI_WalkPath(startLoc, endLoc);
+      result := MSI_WalkPath(pathInfo, toLoc);
 
   if (not result) then
     with MSI_Players[currentPlayer] do
-    begin
-      location := LOC_LOST;
-      reportInfo.falseReason := 'FAIL: Walk to '+MSI_Locations[endLoc].name;
-    end;
+      if (toLoc) then
+        reportInfo.falseReason := 'FAIL: Walk path '+pathInfo.name
+      else
+        reportInfo.falseReason := 'FAIL: Walk path (inverted)'+pathInfo.name
 end;
 
