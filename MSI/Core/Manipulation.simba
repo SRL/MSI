@@ -83,10 +83,7 @@ begin
     WriteINI('HowMany', 'HowMany', IntToStr(Length(MSI_Players)), PATH_REMOTE);
 
     for i := 0 to High(MSI_Players) do
-    begin
       WriteINI(IntToStr(i), 'Active', BoolToStr(MSI_Players[i].Active), PATH_REMOTE);
-      WriteINI(IntToStr(i), 'Location', IntToStr(MSI_Players[i].Location), PATH_REMOTE);
-    end;
   except
     MSI_Debug('MSI_WriteINI: Error!');
   end;
@@ -128,7 +125,6 @@ begin
       for i := 0 to High(MSI_Players) do
       begin
         MSI_Players[i].Active:= StrToBool(ReadINI(IntToStr(i), 'Active', PATH_REMOTE));
-        MSI_Players[i].Location:= StrToInt(ReadINI(IntToStr(i), 'Location', PATH_REMOTE));
         Players[i].Active := MSI_Players[i].Active;
       end;
 
