@@ -570,13 +570,6 @@ begin
       end;
     until(Result or (GetSystemTime > t));
   end;
-
-  if (not result) then
-    if (length(TPA) > 0) then
-    begin
-      MSI_SubDebug('Regular walking failed, attempting blind walk');
-      result := r_WebWalk(TPA[high(TPA)]);
-    end;
   {$ENDIF}
 end;
 
