@@ -109,6 +109,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_VE_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_VE_BANK;
+
            Reflection := [TPointArray([
                Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
                Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
@@ -170,6 +174,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_FW_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_FW_BANK;
+
            Reflection := [TPointArray([
              Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
              Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
@@ -213,6 +221,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_VW_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_VW_BANK;
+
            Reflection := [TPointArray([
              Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
              Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
@@ -243,6 +255,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_GE_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_GE_BANK;
+
            Reflection := [TPointArray([
              Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
              Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
@@ -286,6 +302,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_DB_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_DB_BANK;
+
            Reflection := [TPointArray([
              Point(3222, 3216), Point(3213, 3204), Point(3204, 3210),
              Point(3196, 3214), Point(3185, 3217), Point(3175, 3218),
@@ -455,6 +475,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_FE_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_FE_BANK;
+
            Reflection := [TPointArray([
              Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
              Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
@@ -508,14 +532,20 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_PS_DBOX';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_PS_DBOX;
+
            Reflection := [TPointArray([
-             Point(3222, 3216), Point(3213, 3204), Point(3204, 3210),
-             Point(3196, 3214), Point(3185, 3217), Point(3175, 3218),
-             Point(3163, 3222), Point(3153, 3225), Point(3144, 3224),
-             Point(3132, 3225), Point(3120, 3226), Point(3109, 3229),
-             Point(3100, 3235), Point(3094, 3242), Point(3082, 3247),
-             Point(3072, 3250), Point(3061, 3252), Point(3054, 3248),
-             Point(3045, 3246), Point(3047, 3235)])];
+             Point(3222, 3216), Point(3219, 3207), Point(3208, 3203),
+             Point(3203, 3214), Point(3194, 3215), Point(3183, 3216),
+             Point(3173, 3218), Point(3162, 3221), Point(3152, 3221),
+             Point(3143, 3225), Point(3131, 3223), Point(3119, 3221),
+             Point(3111, 3225), Point(3106, 3232), Point(3094, 3232),
+             Point(3088, 3236), Point(3082, 3240), Point(3075, 3246),
+             Point(3073, 3256), Point(3072, 3265), Point(3070, 3275),
+             Point(3064, 3266), Point(3063, 3259), Point(3055, 3250),
+             Point(3044, 3245), Point(3046, 3234)])];
 
            SPSAreas := ['11_5', '10_5', '9_5'];
            Color := MSI_Convert2DTilePath(Reflection);
@@ -578,6 +608,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_EV_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_EV_BANK;
+
            Reflection := [TPointArray([
              Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
              Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
@@ -657,8 +691,12 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_SV_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_SV_BANK;
            Reflection := [];
-           Obstacles := [];
+           Obstacles[OBS_LOC_TO] := [];
+           Obstacles[OBS_LOC_FROM] := [];
          {
            SPSAreas := [];
            Color := MSI_Convert2DTilePath(Reflection);
@@ -711,6 +749,10 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_AK_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_AK_BANK;
+
            Reflection := [TPointArray([
              Point(3223, 3217), Point(3235, 3212), Point(3237, 3201),
              Point(3243, 3191), Point(3242, 3180), Point(3246, 3171),
@@ -756,8 +798,13 @@ Example:
 
          with DeathPath do
          begin
+           Name := 'LOC_LB_SPAWN to LOC_CB_BANK';
+           StartLoc := LOC_LB_SPAWN;
+           EndLoc := LOC_CB_BANK;
+
            Reflection := [];
-           Obstacles := [];
+           Obstacles[OBS_LOC_TO] := [];
+           Obstacles[OBS_LOC_FROM] := [];
          {
            SPSAreas := [];
            Color := MSI_Convert2DTilePath(Reflection);
@@ -834,10 +881,10 @@ MSI_SetPlayerLoc
 
 .. code-block:: pascal
 
-  function MSI_SetPlayerLoc(): boolean;
+  procedure MSI_SetPlayerLoc();
 
-Detects where the current player is. If lost, then it will "Death Walk" to
-starting location.
+Set's the player's location.  Checks the script's starting and ending locations.
+If the player isn't at either, it won't set the player's location.
 
 .. note::
 
@@ -850,7 +897,7 @@ Example:
 
   MSI_SetPlayerLoc();
 *)
-function MSI_SetPlayerLoc(): boolean;
+procedure MSI_SetPlayerLoc();
 var
   i: Integer;
   locArr: TIntegerArray;
@@ -869,15 +916,11 @@ begin
   for i := 0 to 1 do
     if (MSI_AtLocation(locArr[i], true)) then
     begin
-      result := true;
       MSI_Players[CurrentPlayer].location := locArr[i];
       MSI_Debug('Player''s location: '+MSI_Locations[locArr[i]].name);
       break;
     end;
 
-  if (not result) then
-    result := MSI_DeathWalk;
-
-  MSI_CloseHeader('MSI_SetPlayerLoc: '+boolToStr(result));
+  MSI_CloseHeader('MSI_SetPlayerLoc: Done');
 end;
 

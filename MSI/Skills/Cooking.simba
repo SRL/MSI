@@ -72,7 +72,7 @@ begin
         if (not MSI_Locations[location].atBank) then
         begin
           script := MSI_Scripts[scripts[currentScript].name];
-          if (MSI_PerformWalk(script.pathInfo.endLoc, script.pathInfo.startLoc)) then
+          if (MSI_PerformWalk(script.pathInfo, false)) then
           begin
             inc(tries);
             goto procStart;

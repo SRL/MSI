@@ -204,11 +204,11 @@ begin
     FISH_RAW_TROUT, FISH_COOKED_TROUT, FISH_RAW_PIKE, FISH_COOKED_PIKE,
     FISH_RAW_SALMON, FISH_COOKED_SALMON:
       Result := [
-                  Point(707, 351),
-                  Point(701, 359),
-                  Point(699, 349),
-                  Point(714, 342),
-                  Point(723, 342)
+                  Point(1191, 328),
+                  Point(1187, 334),
+                  Point(1187, 324),
+                  Point(1191, 321),
+                  Point(1200, 325)
                 ];
 
     FISH_RAW_TUNA, FISH_COOKED_TUNA:
@@ -390,7 +390,7 @@ begin
     HATCHET_IRON   : Result := 3618618;
     HATCHET_STEEL  : Result := 5855581;
     HATCHET_MITHRIL: Result := 4599598;
-    HATCHET_ADAMANT: Result := 3291698;
+    HATCHET_ADAMANT: Result := 3489076;
     HATCHET_RUNE   : Result := 4932921;
     HATCHET_DRAGON : Result := 790869;
 
@@ -433,7 +433,7 @@ begin
     FISH_RAW_ANCHOVIE  : Result := 5986135;
     FISH_RAW_SARDINE   : Result := 9940887;
     FISH_RAW_HERRING   : Result := 10461094;
-    FISH_RAW_TROUT     : Result := 9934750;
+    FISH_RAW_TROUT     : Result := 11382453;
     FISH_RAW_PIKE      : Result := 6319968;
     FISH_RAW_SALMON    : Result := 5924258;
     FISH_RAW_TUNA      : Result := 9408662;
@@ -1495,7 +1495,7 @@ begin
       begin
         Name := 'Vial of water';
         StatsName := 'Vials Filled';
-        UpText := ['ial of water'];
+        UpText := ['ial of water', 'water'];
         Stackable := False;
         EquipLevel := -1;
       end;
@@ -1872,72 +1872,6 @@ begin
 end;
 
 (*
-MSI_FindTool
-~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
-
-Returns true if the specified tool (Tool) is found in the game tab (WhichTab).
-Sets the items coordinates to x and y.  Uses DTMs to find the item, and adds the
-tool to the exceptions array if found in the inventory.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 28 June 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  if (MSI_FindTool(HATCHET_BRONZE, TAB_INV, x, y)) then
-    MSI_Debug('Found ' + MSI_Items[HATCHET_BRONZE].Name);
-*)
-function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
-var
-  s: string;
-  toolFound: boolean;
-  tools: TPointArray;
-begin
-  if (not loggedIn) then
-    exit;
-
-  gameTab(whichTab);
-  MSI_AddHeader('MSI_FindTool');
-
-  if (whichTab = TAB_INV) then
-  begin
-    s := 'Inventory';
-    tools := itemCoordinates('inv', 'dtm', MSI_Items[tool].DTM, []);
-    if (length(tools) > 0) then
-    begin
-      toolFound := true;
-      x := tools[0].x;
-      y := tools[0].y;
-    end;
-  end else begin
-    s := 'Equipment';
-    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, 560, 285, 605, 320);
-  end;
-
-  MSI_Debug('Searching ' + s + ' tab');
-
-  if (toolFound) then
-  begin
-    result := true;
-    MSI_Debug('Found DTM of ' + MSI_Items[tool].name);
-
-    if (whichTab = TAB_INV) then
-      MSI_AddException(tool, coordsToItem(x, y));
-  end else
-		MSI_Debug('Failed to find DTM of ' + MSI_Items[tool].name);
-
-  MSI_CloseHeader('MSI_FindTool: ' + boolToStr(result))
-end;
-
-(*
 MSI_FindItemSlots
 ~~~~~~~~~~~~~~~~~
 
@@ -2287,6 +2221,73 @@ begin
     MSI_Debug('Player doesn''t have required level');
 
   MSI_CloseHeader('MSI_EquipItem: '+BoolToStr(Result));
+end;
+
+(*
+MSI_FindTool
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
+
+Returns true if the specified tool (Tool) is found in the game tab (WhichTab).
+Sets the items coordinates to x and y.  Uses DTMs to find the item, and adds the
+tool to the exceptions array if found in the inventory.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindTool(HATCHET_BRONZE, TAB_INV, x, y)) then
+    MSI_Debug('Found ' + MSI_Items[HATCHET_BRONZE].Name);
+*)
+function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
+var
+  s: string;
+  toolFound: boolean;
+  tools: TPointArray;
+begin
+  if (not loggedIn) then
+    exit;
+
+  gameTab(whichTab);
+  MSI_AddHeader('MSI_FindTool');
+
+  if (whichTab = TAB_INV) then
+  begin
+    s := 'Inventory';
+    tools := itemCoordinates('inv', 'dtm', MSI_Items[tool].DTM, []);
+    if (length(tools) > 0) then
+    begin
+      toolFound := true;
+      x := tools[0].x;
+      y := tools[0].y;
+    end;
+  end else begin
+    s := 'Equipment';
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, 560, 285, 605, 320);
+  end;
+
+  MSI_Debug('Searching ' + s + ' tab');
+
+  if (toolFound) then
+  begin
+    result := true;
+    MSI_Debug('Found DTM of ' + MSI_Items[tool].name);
+
+    if (whichTab = TAB_INV) then
+      if (not MSI_EquipItem(SKILL_ATTACK, tool)) then
+        MSI_AddException(tool, coordsToItem(x, y));
+  end else
+		MSI_Debug('Failed to find DTM of ' + MSI_Items[tool].name);
+
+  MSI_CloseHeader('MSI_FindTool: ' + boolToStr(result))
 end;
 
 (*

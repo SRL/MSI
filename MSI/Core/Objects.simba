@@ -23,7 +23,7 @@ MSI_GetObject
 
   function MSI_GetObject(Obj: Integer): TMSObject;
 
-Getst the TMSObject attributes for the object 'Obj'.
+Gets the TMSObject attributes for the object 'Obj'.
 
 .. note::
 
@@ -796,10 +796,10 @@ begin
 
     { Obstacles ================================== ]
     [============================================= }
-    LADDER_DOWN_MINE_GUILD:
+    LADDER_MG_DOWN:
       with result do
       begin
-        Name               := 'LADDER_DOWN_MINE_GUILD';
+        Name               := 'LADDER_MG_DOWN';
         Uptexts            := ['own Ladder'];
         Options            := ['own Ladder'];
         Colors             := [2709359];
@@ -818,14 +818,14 @@ begin
         AssociatedItems    := [];
       end;
 
-    LADDER_UP_MINE_GUILD:
+    LADDER_MG_UP:
       with result do
       begin
-        Name               := 'LADDER_UP_MINE_GUILD';
+        Name               := 'LADDER_MG_UP';
         Uptexts            := ['up Ladder'];
         Options            := ['up Ladder'];
         Colors             := [4410190];
-        Tol                := 8;
+        Tol                := 5;
         Hue                := 0.26;
         Sat                := 0.14;
         FindAllColors      := False;
@@ -840,10 +840,10 @@ begin
         AssociatedItems    := [];
       end;
 
-    FALADOR_WEST_CRUMBLING_WALL:
+    WALL_FW:
       with result do
       begin
-        Name               := 'FALADOR_WEST_CRUMBLING_WALL:';
+        Name               := 'WALL_FW';
         Uptexts            := ['rumbling wall'];
         Options            := ['rumbling wall'];
         Colors             := [9092811];
@@ -1041,7 +1041,7 @@ MSI_FilterTPADist
 
 .. code-block:: pascal
 
-  procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: extended);
+  procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: integer);
 
 Removes any points in 'TPA' that are within distance 'maxDist' of each other.
 If there are three points within 50 pixels of each other, this function will
@@ -1050,43 +1050,70 @@ filter out two of them.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 02 July 2011 by Coh3n
+  | Last Updated: 15 July 2011 by Nava2
 
 Example:
 
 .. code-block:: pascal
 
-  MSI_FilterTPADist(TPA);
+  // returns the TPA excluding any points that are within 15 pixels of each other
+  MSI_FilterTPADist(TPA, 15);
 *)
-procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: extended);
+procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: integer);
 var
-  d, i, j, k, t: integer;
+  c, d, i, j, t, l, h: integer;
+  newTPA: TPointArray;
+  inBadElements: TBooleanArray;
 begin
   MSI_AddHeader('MSI_FilterTPADist');
-  MSI_Debug('Length (Start): '+toStr(length(TPA)));
+  MSI_Debug('Length (start): '+toStr(length(TPA)));
   markTime(t);
 
-  for i := 0 to high(TPA) do
-  begin
-    if (i <> high(TPA)) then
-      k := (i + 1)
-    else
-      break;
+  h := high(TPA);
+  l := (h + 1); // i.e. length(TPA);
 
-    for j := k to high(TPA) do
+  setLength(inBadElements, l);
+  setLength(newTPA, l);
+
+  for i := 0 to h do
+    inBadElements[i] := false; // just in case..
+
+  for i := 0 to (h - 1) do
+  begin
+    if (inBadElements[i]) then // increases speed significantly
+      continue;
+
+    for j := (i + 1) to h do
     begin
+      if (inBadElements[j]) then // increases speed significantly
+        continue;
+
       d := distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y);
-      if (d <= maxDist) then
+      if (d <= maxDist) then // if points are too close
       begin
         MSI_Debug('Distance: '+toStr(d));
-        deleteValueInTPA(TPA, j);
+        inBadElements[j] := true;
       end;
     end;
   end;
 
-  MSI_Debug('Length (End): '+toStr(length(TPA)));
-  MSI_Debug('MSI_FilterTPADist: '+intToStr(timeFromMark(t))+' ms');
-  MSI_CloseHeader('MSI_FilterTPADist: Done');
+  MSI_Debug('Bad elements: '+toStr(inBadElements));
+  c := 0;
+
+  // set the new TPA
+  for i := 0 to h do
+    if (not inBadElements[i]) then
+    begin
+      newTPA[c] := TPA[i];
+      inc(c);
+    end;
+
+  setLength(newTPA, c);
+  TPA := newTPA;
+  MSI_Debug('New TPA: '+toStr(TPA));
+
+  MSI_Debug('Length (end): '+toStr(length(TPA)));
+  MSI_CloseHeader('MSI_FilterTPADist: Done ('+toStr(timeFromMark(t))+' ms)');
 end;
 
 (*
@@ -1302,6 +1329,12 @@ begin
                                   round(obj.w * distMultiplier),
                                   round(obj.h * distMultiplier));
 
+    // to avoid out of bounds tracking
+    if (obj.searchArea.x1 < MSX1) then obj.searchArea.x1 := MSX1;
+    if (obj.searchArea.y1 < MSY1) then obj.searchArea.y1 := MSY1;
+    if (obj.searchArea.x2 > MSX2) then obj.searchArea.x2 := MSX2;
+    if (obj.searchArea.y2 > MSY2) then obj.searchArea.y2 := MSY2;
+
     {$IFDEF SMART}
       if (MSI_Settings[SETUP_DEBUG_SMART]) then
         SMART_DrawBoxMS(true, obj.searchArea, clYellow);
@@ -1462,7 +1495,7 @@ begin
             if (action = moLeft) then
             begin
               if (obj.multiClick) then
-                result := MSI_MultiMouse(obj.x, obj.y, 10, 3)
+                result := MSI_MultiMouse(obj.x, obj.y, 10, 3, true)
               else begin
                 mouse(obj.x, obj.y, 0, 0, true);
                 result := didClick(true, randomRange(500, 1000));
@@ -1495,7 +1528,7 @@ begin
       break;
     end else begin
       flag;
-      MSI_FindRandoms(true);
+      result := MSI_FindRandoms(true);
     end;
   end;
 end;

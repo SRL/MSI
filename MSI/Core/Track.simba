@@ -15,14 +15,13 @@ The source for Track.simba can be found
  *)
 type
   TTrack = record
-  Name: string;
-  Searches: integer;
-  Successes: integer;
-end;
+    Name: string;
+    Searches: integer;
+    Successes: integer;
+  end;
 
 const
   T_TrackObject = 0;
-	T_WorldWalker = 1;	
 
   TRACK_ITEMS = 1;
 
@@ -54,7 +53,6 @@ Example:
 Procedure Track_LoadNames;
 begin
   Tracking[T_TrackObject].Name := 'TrackObject';
-  Tracking[T_WorldWalker].Name := 'WorldWalk_cstrike';
 end;
 
 (*

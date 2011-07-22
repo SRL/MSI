@@ -215,7 +215,7 @@ begin
     result := true;
     MSI_WaitWhileMining(rock);
   end else
-    MSI_FindRandoms(false);
+    result := MSI_FindRandoms(false);
 end;
 
 (*

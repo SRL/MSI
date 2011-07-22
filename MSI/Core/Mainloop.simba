@@ -116,22 +116,23 @@ begin
 
   // Setup the player
   with MSI_Players[CurrentPlayer] do
-    if (MSI_SetPlayerLoc()) then
-    begin
-      // Get the player's skill levels for each script
-      if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
-        MSI_SetSkillLevels();
+  begin
+    MSI_SetPlayerLoc();
 
-      // Check to see if there's items in the set exceptions array
-      for i := 0 to High(Scripts[CurrentScript].Exceptions) do
-        if (not ExistsItem(Scripts[CurrentScript].Exceptions[i])) then
-        begin
-          MSI_Debug('No item found in inventory slot: '+IntToStr(i));
-          DeleteValueInIntArray(Scripts[CurrentScript].Exceptions, i);
-        end;
+    // Get the player's skill levels for each script
+    if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+      MSI_SetSkillLevels();
 
-      Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
-    end;
+    // Check to see if there's items in the set exceptions array
+    for i := 0 to High(Scripts[CurrentScript].Exceptions) do
+      if (not ExistsItem(Scripts[CurrentScript].Exceptions[i])) then
+      begin
+        MSI_Debug('No item found in inventory slot: '+IntToStr(i));
+        DeleteValueInIntArray(Scripts[CurrentScript].Exceptions, i);
+      end;
+
+    Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
+  end;
 
   MSI_CloseHeader('MSI_SetupPlayer: ' + BoolToStr(Result));
 end;
@@ -238,8 +239,6 @@ begin
 
   MSI_AddHeader('MSI_Walk');
 
-  MSI_WaitWhileResting;
-
   with MSI_Players[CurrentPlayer] do
   begin
     MSI_Debug('Player''s Location = '+MSI_Locations[Location].Name);
@@ -251,13 +250,7 @@ begin
       Result := MSI_AtLocation(Script.PathInfo.StartLoc, False);
 
     if (not Result) then
-      if (ToLoc) then
-      begin
-        if (Location = Script.PathInfo.StartLoc) then
-          Result := MSI_PerformWalk(Script.PathInfo.StartLoc, Script.PathInfo.EndLoc);
-      end else
-        if (Location = Script.PathInfo.EndLoc) then
-          Result := MSI_PerformWalk(Script.PathInfo.EndLoc, Script.PathInfo.StartLoc);
+      Result := MSI_PerformWalk(Script.PathInfo, ToLoc);
   end;
 
   if (Result) then
@@ -849,7 +842,7 @@ begin
               MSI_SetReportInfo(i, j, Scripts[j].CookingSpot, MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot, newObjs);
               Scripts[j].CookingSpot := newObjs;
 
-              if (Length(Scripts[i].Materials) <= 0) then
+              if (Length(Scripts[j].Materials) <= 0) then
                 Scripts[j].Materials := MSI_Scripts[Scripts[j].Name].Defaults.Materials;
             end;
 
@@ -992,7 +985,6 @@ Example:
 procedure MSI_MainLoop;
 var
   tmpLoads, tmpTime, time, iCount: Integer;
-  Script: TScript;
   takeBreak: Boolean;
   reason: string;
   nPlayer: Boolean;
