@@ -1100,11 +1100,11 @@ begin
         end;
       end;
 
-    SCRIPT_AK_MINER:
+    SCRIPT_AK_MINER_1:
       with MSI_Scripts[whichScript] do
       begin
-        Name        := 'Al Kharid Miner';
-        Constant    := SCRIPT_AK_MINER;
+        Name        := 'Al Kharid Miner 1';
+        Constant    := SCRIPT_AK_MINER_1;
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
@@ -1115,28 +1115,99 @@ begin
 
         with Defaults do
         begin
-          Rocks := [ROCK_COPPER, ROCK_TIN, ROCK_GOLD, ROCK_SILVER, ROCK_IRON,
-                    ROCK_COAL, ROCK_MITHRIL, ROCK_ADAMANTITE];
-          Items := [TIntegerArray([ORE_COPPER]), TIntegerArray([ORE_TIN]), TIntegerArray([ORE_GOLD]),
-                    TIntegerArray([ORE_SILVER]), TIntegerArray([ORE_IRON]), TIntegerArray([ORE_COAL]),
+          Rocks := [ROCK_IRON, ROCK_GOLD];
+          Items := [TIntegerArray([ORE_IRON]), TIntegerArray([ORE_GOLD])];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_AK_MINE_1;
+
+          Reflection := [
+                          TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
+                          Point(3287, 3199), Point(3291, 3212), Point(3298, 3223), Point(3298, 3237),
+                          Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3299, 3286)])
+                         ];
+
+          SPSAreas   := [''];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_AK_MINER_2:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Al Kharid Miner 2';
+        Constant    := SCRIPT_AK_MINER_2;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_AK;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        with Defaults do
+        begin
+          Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_MITHRIL];
+          Items := [TIntegerArray([ORE_SILVER]), TIntegerArray([ORE_IRON]),
+                    TIntegerArray([ORE_MITHRIL])];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_AK_MINE_2;
+
+          Reflection := [
+                          TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
+                          Point(3287, 3199), Point(3291, 3212), Point(3298, 3223), Point(3298, 3237),
+                          Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3300, 3293),
+                          Point(3300, 3301)])
+                         ];
+
+          SPSAreas   := [''];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_AK_MINER_3:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Al Kharid Miner 3';
+        Constant    := SCRIPT_AK_MINER_3;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_AK;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        with Defaults do
+        begin
+          Rocks := [ROCK_COPPER, ROCK_TIN, ROCK_SILVER, ROCK_IRON,
+                    ROCK_MITHRIL, ROCK_ADAMANTITE];
+          Items := [TIntegerArray([ORE_COPPER]), TIntegerArray([ORE_TIN]),
+                    TIntegerArray([ORE_SILVER]), TIntegerArray([ORE_IRON]),
                     TIntegerArray([ORE_MITHRIL]), TIntegerArray([ORE_ADAMANTITE])];
         end;
 
         with PathInfo do
         begin
           StartLoc := LOC_AK_BANK;
-          EndLoc   := LOC_AK_MINE;
+          EndLoc   := LOC_AK_MINE_3;
 
           Reflection := [
                           TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
                           Point(3287, 3199), Point(3291, 3212), Point(3298, 3223), Point(3298, 3237),
                           Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3300, 3293),
-                          Point(3301, 3308)])
+                          Point(3301, 3305), Point(3301, 3313)])
                          ];
 
           SPSAreas   := [''];
           Color      := MSI_Convert2DTilePath(Reflection);
-          Obstacles  := [];
         end;
       end;
 

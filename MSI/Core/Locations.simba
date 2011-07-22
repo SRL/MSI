@@ -775,13 +775,35 @@ Example:
          MinDistance := 25;
        end;
 
-     LOC_AK_MINE:
+     LOC_AK_MINE_1:
        with MSI_Locations[Which] do
        begin
-         Name := 'Al Kharid Mine';
-         Constant := LOC_AK_MINE;
+         Name := 'Al Kharid Mine 1';
+         Constant := LOC_AK_MINE_1;
          AtBank := False;
-         Tiles := [Point(3301, 3308), Point(3300, 3293)];
+         Tiles := [Point(3299, 3286)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
+     LOC_AK_MINE_2:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Al Kharid Mine 2';
+         Constant := LOC_AK_MINE_2;
+         AtBank := False;
+         Tiles := [Point(3300, 3301)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
+     LOC_AK_MINE_3:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Al Kharid Mine 3';
+         Constant := LOC_AK_MINE_3;
+         AtBank := False;
+         Tiles := [Point(3301, 3313)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
