@@ -540,35 +540,36 @@ begin
   begin
     MSI_SubDebug('Resting..');
     if SetRest then
-      case Random(75) of
-        0..50:
-          begin
-            GetMousePos(x, y);
-            if InRange(x, MSx1, MIx2) then
-              if Random(2) = 1 then
-                while (not (x > MIx2)) do
-                  x := x + 20
-              else
-                while (not (x < MSx1)) do
-                  x := x - 20;
+      while ((getMMLevels('run', t) <= (30 + random(30))) and loggedIn) do
+        case Random(75) of
+          0..50:
+            begin
+              GetMousePos(x, y);
+              if InRange(x, MSx1, MIx2) then
+                if Random(2) = 1 then
+                  while (not (x > MIx2)) do
+                    x := x + 20
+                else
+                  while (not (x < MSx1)) do
+                    x := x - 20;
 
-            if InRange(y, MSy1, MIy2) then
-              if Random(2) = 1 then
-                while (not (y > MIy2)) do
-                  y := y + 20
-              else
-                while (not (y < MSy1)) do
-                  y := y - 20;
+              if InRange(y, MSy1, MIy2) then
+                if Random(2) = 1 then
+                  while (not (y > MIy2)) do
+                    y := y + 20
+                else
+                  while (not (y < MSy1)) do
+                    y := y - 20;
 
-            MMouse(x, y, 0, 0);
-          end;
+              MMouse(x, y, 0, 0);
+            end;
 
-        51..55:
-          SleepAndMoveMouse(5000);
+          51..55:
+            SleepAndMoveMouse(5000);
 
-        56:
-          ExamineInv;
-      end;
+          56:
+            ExamineInv;
+        end;
   end;
 
   Result := setRun(true);

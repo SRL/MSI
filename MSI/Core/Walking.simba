@@ -636,12 +636,6 @@ begin
   t := (getSystemTime + (length(ATPA) * 60 + 180) * 1000);
   h := high(ATPA);
 
-  if (not runEnergy(20)) then
-  begin
-    restUntil(40 + random(20));
-    setRun(true);
-  end;
-
   while ((not result) and (getSystemTime < t) and (not done)) do
   begin
 
