@@ -10,8 +10,8 @@ skills = Cooking Fishing Magic Mining Money_Making Woodcutting
 
 
 all:
-        @python docgen.py `echo $(runme) | sed -r \
-        's/(\w+)/..\1.simba/g'` > /dev/null
+	@python docgen.py `echo $(runme) | sed -r \
+        's/(\w+)/..\/\1.simba/g'` > /dev/null
 	@python docgen.py `echo $(core) | sed -r \
         's/(\w+)/..\/MSI\/Core\/\1.simba/g'` > /dev/null
 	@python docgen.py `echo $(skills) | sed -r \
