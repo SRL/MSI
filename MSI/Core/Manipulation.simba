@@ -216,6 +216,8 @@ var
   i: Integer;
 {$ENDIF}
 begin
+  Result := [];
+
   {$IFDEF SPS}
   SetLength(Result, Length(Tiles));
 

@@ -168,3 +168,135 @@ begin
   {$ENDIF}
 end;
 
+(*
+MSI_CheckDefines
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_CheckDefines();
+
+Checks to make sure the defines at the top of RunMe.simba match the settings
+set by the user.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 22 July 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_CheckDefines();
+*)
+const
+  MSG_NO_DEATH = 0;
+  MSG_NDEF_SPS = 1;
+  MSG_NDEF_REF = 2;
+  MSG_DEF_SPS  = 3;
+  MSG_DEF_REF  = 4;
+
+procedure MSI_CheckDefines();
+var
+  messages: array[0..4] of string;
+begin
+  messages[MSG_NO_DEATH] :=
+    'MSI doesn''t have death walking support without reflection.  This means ' +
+    'you have to start your player at the script''s location rather than ' +
+    'anywhere in Runescape.  Click Yes to continue or No to use reflection.';
+
+  messages[MSG_NDEF_SPS] :=
+    'Color walking is selected, and SPS isn''t defined. Please click No and ' +
+    'define SPS at the top of RunMe.simba or Yes to use reflection walking.';
+
+  messages[MSG_NDEF_REF] :=
+    'Reflection walking is selected, but isn''t defined. Please click No and ' +
+    'define reflection at the top of RunMe.simba or click Yes to use color ' +
+    'walking.';
+
+  messages[MSG_DEF_SPS]  := 'Please define SPS at the top of RunMe.simba';
+  messages[MSG_DEF_REF]  := 'Please define reflection at the top of RunMe.simba';
+
+  if (Lowercase(MSI_Settings[SETUP_WALKING]) = 'color') then
+  begin
+    reflectionBroken := true;
+    {$IFNDEF SPS}
+    case messageDlg('WARNING', messages[MSG_NDEF_SPS], mtConfirmation, [mbYes, mbNo]) of
+      mrYes:
+        begin
+          {$IFNDEF MSI_REFLECTION}
+          showMessage(messages[MSG_DEF_REF]);
+          terminateScript();
+          {$ELSE}
+          MSI_Debug('Using reflection');
+          reflectionBroken := false;
+          MSI_Settings[SETUP_WALKING] := 'reflection';
+          {$ENDIF}
+        end;
+
+      mrNo: terminateScript();
+    end;
+    {$ELSE}
+    case messageDlg('WARNING', messages[MSG_NO_DEATH], mtConfirmation, [mbYes, mbNo]) of
+      mrYes: MSI_Debug('Using SPS without death walking support');
+      mrNo:
+        begin
+          {$IFNDEF MSI_REFLECTION}
+          showMessage(messages[MSG_DEF_REF]);
+          terminateScript();
+          {$ELSE}
+          MSI_Debug('Using reflection');
+          reflectionBroken := false;
+          MSI_Settings[SETUP_WALKING] := 'reflection';
+          {$ENDIF}
+        end;
+    end;
+    {$ENDIF}
+  end;
+
+  if (Lowercase(MSI_Settings[SETUP_WALKING]) = 'reflection') then
+  begin
+    reflectionBroken := false;
+    {$IFNDEF MSI_REFLECTION}
+    case messageDlg('WARNING', messages[MSG_NDEF_REF], mtConfirmation, [mbYes, mbNo]) of
+      mrYes:
+        begin
+          {$IFNDEF SPS}
+          showMessage(messages[MSG_DEF_SPS]);
+          {$ELSE}
+          MSI_Debug('Using SPS');
+          reflectionBroken := true;
+          MSI_Settings[SETUP_WALKING]:= 'color';
+
+          case messageDlg(
+                 'WARNING', 'MSI doesn''t have death walking support without '+
+                 'reflection.  This means you have to start your player '+
+                 'at the script''s location rather than anywhere in '+
+                 'Runescape.  Click Yes to continue or No to use reflection.',
+                 mtConfirmation, [mbYes, mbNo]
+               ) of
+
+            mrYes: MSI_Debug('Using SPS without death walking support');
+
+            mrNo:
+              begin
+                {$IFNDEF MSI_REFLECTION}
+                showMessage('Please define reflection at the top of RunMe.simba');
+                terminateScript();
+                {$ELSE}
+                MSI_Debug('Using reflection');
+                reflectionBroken := false;
+                MSI_Settings[SETUP_WALKING] := 'reflection';
+                {$ENDIF}
+              end;
+          {$ENDIF}
+          end;
+        end;
+
+      mrNo: terminateScript();
+    end;
+    {$ENDIF}
+  end;
+end;
+

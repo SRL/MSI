@@ -129,10 +129,13 @@ Example:
 *)
 function MSI_WaitForMirror(obs: TObstacle): boolean;
 var
-  i, t, h: Integer;
+  t, h: integer;
+  mirObj: TMSObject;
+  {$IFDEF REFLECTION}
+  i: integer;
   mPos: TPoint;
   colorFail: Boolean;
-  mirObj: TMSObject;
+  {$ENDIF}
 begin
   if (not loggedIn) then
     exit;

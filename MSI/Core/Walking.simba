@@ -491,6 +491,8 @@ begin
   if (not LoggedIn) then
     Exit;
 
+  result := false;
+
   {$IFDEF SPS}
   Result := SPS_WalkPath(Points);
   {$ENDIF}

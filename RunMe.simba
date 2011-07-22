@@ -288,36 +288,7 @@ begin
   else
     SetupSRLStats(21, MSI_Settings[SETUP_STATS_ID], MSI_Settings[SETUP_STATS_PASS]);
 
-  if (Lowercase(MSI_Settings[SETUP_WALKING]) = 'color') then
-  begin
-    ReflectionBroken := True;
-    {$IFNDEF SPS}
-    ShowMessage('Reflection is broken/not selected, and SPS isn''t defined. Please '+
-                'select reflection walking, or download SPS from SRL-Forums, and '+
-                'uncomment the define at the top of RunMe.simba');
-    TerminateScript;
-    {$ELSE}
-    case messageDlg('WARNING', 'Death Walking Unsupported '+#13+#10+
-           'MSI doesn''t have death walking support without '+#13+#10+
-           'Reflection.  This means you have to start your player '+#13+#10+
-           'at the script''s location rather than anywhere in '+#13+#10+
-           'Runescape.  Continue?', mtConfirmation, [mbYes, mbNo]) of
-      mrYes: ;
-      mrNo: terminateScript;
-    end;
-    {$ENDIF}
-  end;
-
-  if (lowercase(MSI_Settings[SETUP_WALKING]) = 'reflection') then
-  begin
-    {$IFNDEF MSI_REFLECTION}
-    showMessage('You have selected Reflection walking, but elected not to use '+
-                'Reflection.  Please choose color walking or uncomment the '+
-                'Reflection define at the top of RunMe.simba.');
-    terminateScript();
-    {$ENDIF}
-  end;
-
+  MSI_CheckDefines();
   if (not ReflectionBroken) then
     MSI_SetupReflection();
 

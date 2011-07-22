@@ -138,12 +138,16 @@ begin
   for i := 0 to high(texts) do
   begin
     if (findText(x, y, texts[i], NPCChars, MCX1, MCY1, MCX2, MCY2)) then
+    begin
       if (clickCont[i]) then
         clickContinue(true, true)
       else begin
         mouse(x, y, 2, 2, true);
         chatWait();
       end;
+
+      result := (i = high(texts));
+    end;
 
     wait(100 + random(300))
   end;
