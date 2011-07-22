@@ -363,7 +363,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  maxTime := (getSystemTime + (15 * 60000)) // 15 minutes
+  maxTime := (getSystemTime + (45 * 60000)) // 45 minutes
   t := maxTime;
 
   repeat
