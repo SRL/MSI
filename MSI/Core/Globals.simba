@@ -122,6 +122,7 @@ const
   SCRIPT_GUILD_MINER = 41; // SRL Members+ only
   SCRIPT_DB_CLAY     = 42;
   SCRIPT_FW_MINER    = 43;
+  SCRIPT_AK_MINER    = 44;
 
   // Fishing
   SCRIPT_POWER_FISHER  = 50;
@@ -296,6 +297,7 @@ const
   // Al-Kharid
   LOC_AK_BANK   = 120;
   LOC_AK_RANGE  = 121;
+  LOC_AK_MINE   = 122;
 
   // Karamja
   LOC_KJ_STILES = 122;

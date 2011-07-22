@@ -96,8 +96,8 @@ begin
         MaxPixelShift := 360;
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 50;
-        MaxTime := 250;  // (35 * 5) = 175 (Gets the average pixel shift from 5 tries)
-        WaitTime := 700; // (175 * 4) = 700 (Has to fail 4 times to not be animating)
+        MaxTime := 250;  // (50 * 5) = 250 (Gets the average pixel shift from 5 tries)
+        WaitTime := 1000; // (250 * 4) = 1000 (Has to fail 4 times to not be animating)
       end;
   end;
 end;

@@ -165,52 +165,46 @@ Example:
 .. code-block:: pascal
 
   MSI_IgnoreSpam;
-*)
+*)  {
 function MSI_IgnoreSpam: Boolean;
 var
-  i, t, ii: Integer;
-  n, o, Alert: string;
-  dataArr: TIntegerArray;
+  i, h, ii, iii, bCount: Integer;
+  ignoreText: string;
+  textArray: TStringArray;
+  brokenText: array of TStringArray;
+  boolArray: TBooleanArray;
 begin
-  for i := 8 downto 1 do
-  begin
-    n := GetChatBoxText(i, clMessage);
-    if ArrInStr(['already', 'on', 'list'], n) then
-      Exit;
-    if i > 1 then
+  if (not LoggedIn) then
+    Exit;
+
+  textArray := ChatBoxTextArray(clChat);
+  for i := 0 to High(textArray) do
+    brokenText[i] := Explode(' ', textArray[i]);
+
+  for i := 0 to High(brokenText) do
+    for ii := 0 to High(brokenText) do
     begin
-      if Alert <> '' then
-        if n = Alert then
-          begin
-            MSI_SubDebug('Ignoring '+n);
-            dataArr := [3381759, MIx1+58, MIy1, MIx2-60, MIy1+25, 128{}, 0, 143, 393, 374, 409, 686];
-            GameTab(tab_Friends);
-            if GetColor(725, 455) = 272756 then// FailSafe to make sure we click the right thing
-              if GetColor(718, 447) <> 10533842 then // Check if Ignore list is selected
-                MouseBox(719, 448, 733, 461, 1);
-            for i := 0 to 1 do
-            begin
-              t := GetSystemTime + 5000;
-              while (not CountColor(dataArr[ii*6], dataArr[ii*6+1], dataArr[ii*6+2],
-                dataArr[ii*6+3], dataArr[ii*6+4]) = dataArr[ii*6+5]) do
-              begin
-                if t <= GetSystemTime then
-                  Exit;
-                Wait(50);
-              end;
-              if i = 0 then
-                MouseBox(552, 448, 563, 460, 1);
-            end;
-            TypeSend(n);
-            Result := True;
-            Exit;
-          end;
+      if i = ii then
+        Continue;
+      if Length(brokenText[i]) > Length(brokenText[ii]) then
+        h := High(brokenText[ii]) else h := High(brokenText[i]);
+      SetLength(boolArray, h);
+
+      for iii := 0 to h do
+      begin
+        boolArray[iii] := ArrInStr(brokenText[ii][iii], brokenText[i][iii]);
+        for b := 0 to High(boolArray) do
+          if boolArray[b] then
+            Inc(bCount);
+        if bCount >= Round(Length(boolArray)*0.80) then
+        begin
+          ignoreText := Implode(' ', brokenText[i]);
+          ClickText(ignoreText, FriendChars, MCx1, MCy1, MCx2, MCy2, False);
+          Result := WaitOptionMulti(['ignore', 'ign', 'ore'], 1000);
+        end;
+      end;
     end;
-    if n = o then
-      Alert := n;
-    o := n;
-  end;
-end;
+end;}
 
 (*
 MSI_Antiban

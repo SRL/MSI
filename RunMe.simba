@@ -28,7 +28,7 @@ program MSI_Script;
 {$i MSI/MSI/Core/Setup.simba}
 
 const
-  USE_FORM = True;
+  USE_FORM = fALSE;
 
 (*
 DeclareSettings
@@ -56,7 +56,7 @@ begin
   MSI_Settings[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
   MSI_Settings[SETUP_STATS_ID]      := '';      // Stats ID
   MSI_Settings[SETUP_STATS_PASS]    := '';      // Stats password
-  MSI_Settings[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
+  MSI_Settings[SETUP_WALKING]       := 'Reflection'; // 'Reflection' or 'Color'
 end;
 
 (*
@@ -87,11 +87,11 @@ begin
 
   with MSI_Players[0] do
   begin
-    Name       := '';      // Username
-    Pass       := '';      // Password
+    Name       := 'dart6';      // Username
+    Pass       := 'nocoast';      // Password
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
-    Member     := False;   // Is this player a member?
+    Member     := True;   // Is this player a member?
     BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
     BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
     TotalLoads := 0;       // Total loads for the player to do; leave 0 if using TotalTime or to go forever
@@ -99,7 +99,8 @@ begin
 
     with Scripts[0] do
     begin
-      // Copy/paste the script attributes from the setup thread
+      Name := SCRIPT_AK_MINER;
+      Rocks := [ROCK_IRON, ROCK_COAL, ROCK_MITHRIL, ROCK_ADAMANTITE, ROCK_GOLD];
     end;
   end;
 {

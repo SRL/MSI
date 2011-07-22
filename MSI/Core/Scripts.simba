@@ -1072,6 +1072,46 @@ begin
         end;
       end;
 
+    SCRIPT_AK_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Al Kharid Miner';
+        Constant    := SCRIPT_AK_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_AK;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        with Defaults do
+        begin
+          Rocks := [ROCK_COPPER, ROCK_TIN, ROCK_GOLD, ROCK_SILVER, ROCK_IRON,
+                    ROCK_COAL, ROCK_MITHRIL, ROCK_ADAMANTITE];
+          Items := [TIntegerArray([ORE_COPPER]), TIntegerArray([ORE_TIN]), TIntegerArray([ORE_GOLD]),
+                    TIntegerArray([ORE_SILVER]), TIntegerArray([ORE_IRON]), TIntegerArray([ORE_COAL]),
+                    TIntegerArray([ORE_MITHRIL]), TIntegerArray([ORE_ADAMANTITE])];
+        end;
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_AK_MINE;
+
+          Reflection := [
+                          TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
+                          Point(3287, 3199), Point(3291, 3212), Point(3298, 3223), Point(3298, 3237),
+                          Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3300, 3293),
+                          Point(3301, 3308)])
+                         ];
+
+          SPSAreas   := [''];
+          Color      := MSI_Convert2DTilePath(Reflection);
+          Obstacles  := [];
+        end;
+      end;
+
       SCRIPT_GUILD_MINER:
         with MSI_Scripts[whichScript] do
         begin
