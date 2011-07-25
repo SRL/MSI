@@ -737,6 +737,17 @@ Example:
          MinDistance := 25;
        end;
 
+     LOC_CG_MINE:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Crafting Guild Mine';
+         Constant := LOC_CG_MINE;
+         AtBank := False;
+         Tiles := [Point(2941, 3279), Point(2941, 3287)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 15;
+       end;
+
      LOC_AK_BANK:
        with MSI_Locations[Which] do
        begin

@@ -29,7 +29,7 @@ different locations around Runescape.
   | FW: Falador West
   | FE: Falador East
   | MG: Mining Guild
-  | CG: Castle Guards
+  | CG: Crafting Guild
   | DW: Dark Wizards
   | SO: Stronghold Of *
   | AK: Al Kharid
@@ -120,18 +120,19 @@ const
   SCRIPT_RM_IRON_1   = 38;
   SCRIPT_RM_IRON_2   = 39;
   SCRIPT_RM_GOLD     = 40;
-  SCRIPT_GUILD_MINER = 41; // SRL Members+ only
+  SCRIPT_GUILD_MINER = 41;
   SCRIPT_DB_CLAY     = 42;
   SCRIPT_FW_MINER    = 43;
   SCRIPT_AK_MINER_1  = 44;
   SCRIPT_AK_MINER_2  = 45;
   SCRIPT_AK_MINER_3  = 46;
+  SCRIPT_CG_MINER    = 47;
 
   // Fishing
   SCRIPT_POWER_FISHER  = 50;
   SCRIPT_DB_FISHER     = 51;
   SCRIPT_BBV_FISHER    = 52;
-  SCRIPT_KJ_NOTER      = 53; // SRL Members+ only
+  SCRIPT_KJ_NOTER      = 53;
   SCRIPT_CB_FISHER     = 54;
 
   // Cooking
@@ -296,6 +297,7 @@ const
 
   // Guilds
   LOC_GUILD_MINE = 110;
+  LOC_CG_MINE    = 111;
 
   // Al-Kharid
   LOC_AK_BANK   = 120;
@@ -305,14 +307,14 @@ const
   LOC_AK_MINE_3 = 124;
 
   // Karamja
-  LOC_KJ_STILES = 122;
-  LOC_KJ_FISH   = 123;
+  LOC_KJ_STILES = 130;
+  LOC_KJ_FISH   = 131;
 
   // Catherby
-  LOC_CB_BANK = 130;
-  LOC_CB_FISH   = 131;
+  LOC_CB_BANK = 140;
+  LOC_CB_FISH   = 141;
 
-  LOC_ARRAY_LENGTH = 131; // Change to the highest location constant
+  LOC_ARRAY_LENGTH = 141; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -538,6 +540,7 @@ const
   LADDER_MG_DOWN = 70;
   LADDER_MG_UP   = 71;
   WALL_FW        = 72;
+  DOOR_NORMAL    = 73;
 
   // NPCs
   NPC_STILES        = 93;
@@ -581,6 +584,8 @@ const
   OBS_LADDER_MG_DOWN = 10;
   OBS_LADDER_MG_UP   = 11;
   OBS_WALL_FW        = 20;
+  OBS_DOOR_CG_IN     = 30;
+  OBS_DOOR_CG_OUT    = 31;
 
 (*
 Spells Constants
@@ -1076,14 +1081,12 @@ type
   TObstacle = record
     Name       : string;
     Constant   : Integer;       // Obstacle constant
-    MirConst   : Integer;       // Obstacle's mirror constant
-    MirArea    : TBox;          // Obstacle's mirror search area
+    MirText    : TStringArray;  // Text that may appear in the chat box
     ObjConst   : Integer;       // Object constant
     ObjMir     : Integer;       // Object's mirror constant
+    ObjMirArea : TBox;          // Obstacle's mirror search area
     Camera     : TVariantArray; // Changes the camera angle and height
-    StartTiles : TPointArray;   // The tiles the obstacle is on
     EndTiles   : TPointArray;   // Possible tiles the player will end up on
-    //Solve      : function(i: Integer): Boolean; // Commented because it's current unused
   end;
 
   TObstacleArray = array of TObstacle;

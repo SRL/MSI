@@ -110,12 +110,16 @@ begin
     if (LeaveDangerZone) then
       MSI_Debug('Left danger zone');
 
-    Result := TileOnMM(Tile);
+    if (tileOnMM(tile)) then
+    begin
+      result := true;
+      break;
+    end;
 
     MSI_WaitWhileResting;
     MSI_FindRandoms(False);
     MSI_AntiBan(RandomRange(200, 800), ANTI_BAN_CHANCE);
-    Wait(RandomRange(200, 500));
+    Wait(RandomRange(200, 300));
   until(Result or (GetSystemTime > t) or (not LoggedIn));
   {$ENDIF}
 end;
@@ -394,7 +398,7 @@ begin
         d := Distance(p.x, p.y, MMCX, MMCY);
         MSI_Debug('Distance from player to ' + MSI_Locations[Loc].Name + ': ' + IntToStr(d));
 
-        Result := (d <= 30);
+        Result := (d <= MSI_Locations[Loc].MinDistance);
         if (not Result) and (Relocate) then
           Result := MSI_Relocate(Loc);
 
@@ -555,8 +559,10 @@ begin
           MSI_Debug('Clicked TPA['+toStr(i)+']: '+toStr(TPA[i]));
 
           if (stopMoving) then
-            MSI_Flag(5)
-          else
+          begin
+            clickNorth(true);
+            MSI_Flag(10);
+          end else
             MSI_WaitTile(TPA[i + 1]);
         end;
 
@@ -649,8 +655,13 @@ begin
           if ((not walked(eTPA)) and (not walked(ATPA[i]))) then
 				  begin
             MSI_Debug('Failed to walk path ('+boolToStr(toLoc)+'): ' + pathInfo.name);
-            done := true;
-            break;
+
+            if (i = h) then
+            begin
+              done := true;
+              break;
+            end else
+              continue;
 				  end;
 
         // Handle the obstacle
@@ -844,6 +855,6 @@ begin
       if (toLoc) then
         reportInfo.falseReason := 'FAIL: Walk path '+pathInfo.name
       else
-        reportInfo.falseReason := 'FAIL: Walk path (inverted)'+pathInfo.name
+        reportInfo.falseReason := 'FAIL: Walk path (inverted) '+pathInfo.name
 end;
 

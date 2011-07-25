@@ -10,6 +10,10 @@ The source for can be found
 
 *)
 
+const
+  MIRROR_TEXT = 0;
+  MIRROR_OBJ  = 1;
+
 (*
 MSI_GetObstacle
 ~~~~~~~~~~~~~~~
@@ -26,7 +30,7 @@ prefix "OBS_".
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 20 July 2011 by Coh3n
+  | Last Updated: 23 July 2011 by Coh3n
 
 Example:
 
@@ -46,16 +50,12 @@ begin
       with result do
       begin
         Name     := 'OBS_LADDER_MG_DOWN';
-        MirConst := OBS_LADDER_MG_UP;
-        MirArea  := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
         ObjConst := LADDER_MG_DOWN;
         ObjMir   := LADDER_MG_UP;
+        ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
         Camera   := ['n', true];
 
         // West, South, East, North
-        StartTiles := [Point(3017, 3339), Point(3019, 3337),
-                       Point(3021, 3339), Point(3019, 3341)];
-
         EndTiles   := [Point(3017, 9739), Point(3019, 9737),
                        Point(3021, 9739), Point(3019, 9741)];
       end;
@@ -64,16 +64,12 @@ begin
       with result do
       begin
         Name     := 'OBS_LADDER_MG_UP';
-        MirConst := OBS_LADDER_MG_DOWN;
-        MirArea  := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
         ObjConst := LADDER_MG_UP;
         ObjMir   := LADDER_MG_DOWN;
+        ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
         Camera   := ['n', true];
 
         // West, South, East, North
-        StartTiles := [Point(3017, 9739), Point(3019, 9737),
-                       Point(3021, 9739), Point(3019, 9741)];
-
         EndTiles   := [Point(3017, 3339), Point(3019, 3337),
                        Point(3021, 3339), Point(3019, 3341)];
       end;
@@ -82,17 +78,92 @@ begin
       with result do
       begin
         Name       := 'OBS_WALL_FW';
-        MirConst   := OBS_WALL_FW;
-        MirArea    := intToBox(MSCX, MSY1, MSX2, MSY2); // Right half of MS
         ObjConst   := WALL_FW;
         ObjMir     := WALL_FW;
+        ObjMirArea := intToBox(MSCX, MSY1, MSX2, MSY2); // Right half of MS;
         Camera     := ['w', false];
-        StartTiles := [Point(2940, 3355)];
         EndTiles   := [Point(2940, 3355)];
       end;
+
+    OBS_DOOR_CG_IN:
+      with result do
+      begin
+        Name       := 'OBS_DOOR_CG_IN';
+        MirText    := ['elcome', 'uild', 'aster', 'raft'];
+        ObjConst   := DOOR_NORMAL;
+        ObjMir     := DOOR_NORMAL;
+        ObjMirArea := intToBox(MSX1, MSY1, MSX2, MSCY); // Top half of MS
+        Camera     := ['n', true];
+        EndTiles   := [Point(2933, 3288)];
+      end;
+
+    OBS_DOOR_CG_OUT:
+      with result do
+      begin
+        Name       := 'OBS_DOOR_CG_OUT';
+        ObjConst   := DOOR_NORMAL;
+        ObjMir     := DOOR_NORMAL;
+        ObjMirArea := intToBox(MSCX, MSY1, MSX2, MSY2); // bottom half of MS
+        Camera     := ['n', true];
+        EndTiles   := [Point(2933, 3289)];
+      end;
+
   end;
 
   result.constant := obs;
+end;
+
+(*
+MSI_CheckEndTile
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_CheckEndTile(obs: TObstacle): boolean;
+
+Returns true if the player's current tile is the same as one of the obstacle's
+(obs) ending tiles.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 23 July 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_CheckEndTile(obs)) then
+    MSI_Debug('Player not on ending tiles');
+*)
+function MSI_CheckEndTile(obs: TObstacle): boolean;
+var
+  {$IFDEF REFLECTION}
+  i, h: integer;
+  mPos: TPoint;
+  {$ENDIF}
+begin
+  if (not loggedIn) then
+    exit;
+
+  result := false;
+
+  {$IFDEF REFLECTION}
+  if (not reflectionBroken) then
+  begin
+    mPos := getMyPos();
+    h := high(obs.endTiles);
+
+    // loop through end tiles comparing to player's current tile
+    for i := 0 to h do
+      if (mPos = obs.endTiles[i]) then
+      begin
+        MSI_SubDebug('Player is on end tile');
+        result := true;
+        break;
+      end;
+  end;
+  {$ENDIF}
 end;
 
 (*
@@ -103,7 +174,7 @@ MSI_WaitForMirror
 
   function MSI_WaitForMirror(obs: TObstacle): boolean;
 
-Returns true when an obstacles 'mirror obstacle' has appeared. For example, if
+Returns true when an obstacles 'mirror object' has appeared. For example, if
 we're climbing a ladder, the mirror obstacle would be the ladder climbing down.
 If reflection is enabled, it will check to see if the player is on the end tile,
 and return true if they are.
@@ -111,7 +182,7 @@ and return true if they are.
 .. note::
 
   | Author: Sir R. Magician & Coh3n
-  | Last Updated: 20 July 2011 by Coh3n
+  | Last Updated: 23 July 2011 by Coh3n
 
 Example:
 
@@ -129,52 +200,46 @@ Example:
 *)
 function MSI_WaitForMirror(obs: TObstacle): boolean;
 var
-  t, h: integer;
+  t, i, x, y: integer;
   mirObj: TMSObject;
-  {$IFDEF REFLECTION}
-  i: integer;
-  mPos: TPoint;
-  colorFail: Boolean;
-  {$ENDIF}
+  mirFound: boolean;
 begin
   if (not loggedIn) then
     exit;
 
   t := (getSystemTime + (60000 * 3));
-  h := high(obs.endTiles);
 
   repeat
-    mirObj := MSI_GetObject(obs.objMir);
-    mirObj.searchArea := obs.mirArea;
-
-    {$IFDEF SMART}
-    if (MSI_Settings[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
-    {$ENDIF}
-
-    if (MSI_FindObject(mirObj, moMove)) then
+    if (length(obs.mirText) > 0) then
     begin
-      MSI_SubDebug('Found mirror object: ' + mirObj.name);
+      for i := 0 to high(obs.mirText) do
+        if (findText(x, y, obs.mirText[i], 'CharsNPC', MCX1, MCY1, MCX2, MCY2)) then
+        begin
+          mirFound := true;
+          MSI_SubDebug('Found mirror: ' + obs.mirText[i]);
+          break;
+        end;
+    end else begin
+      mirObj := MSI_GetObject(obs.objMir);
+      mirObj.searchArea := obs.objMirArea;
 
-      {$IFDEF REFLECTION}
-      if (not reflectionBroken) then
+      {$IFDEF SMART}
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
+      {$ENDIF}
+
+      if (MSI_FindObject(mirObj, moMove)) then
       begin
-        mPos := getMyPos();
-
-        // loop through end tiles comparing to player's current tile
-        for i := 0 to h do
-          if (mPos = obs.endTiles[i]) then
-          begin
-            MSI_SubDebug('Player is on end tile');
-            result := true;
-            break;
-          end else
-            if (i = h) then
-              colorFail := true;
-
-        if (colorFail) then
-          continue; // continue if reflection determines that color failed
+        MSI_SubDebug('Found mirror: ' + mirObj.name);
+        mirFound := true;
       end;
+    end;
+
+    if (mirFound) then
+    begin
+      {$IFDEF REFLECTION}
+      if (not MSI_CheckEndTile(obs)) then
+        continue;
       {$ENDIF}
 
       result := true;
@@ -199,7 +264,7 @@ has been passed.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 20 July 2011 by Coh3n
+  | Last Updated: 23 July 2011 by Coh3n
 
 Example:
 

@@ -1255,6 +1255,53 @@ begin
           end;
         end;
 
+      SCRIPT_CG_MINER:
+        with MSI_Scripts[whichScript] do
+        begin
+          Name        := 'Crafting Guild Miner';
+          Constant    := SCRIPT_CG_MINER;
+          SkillName   := 'Mining';
+          SkillConst  := SKILL_MINING;
+          BankType    := Bank;
+          WhichBank   := MSI_BANK_FE;
+          AutoObjects := @MSI_MineInvFull;
+          BankObjects := @MSI_BankStandard;
+          PlayerSetup := @MSI_SetupMining;
+
+          with Defaults do
+          begin
+            Rocks := [ROCK_GOLD, ROCK_SILVER, ROCK_CLAY];
+            Items := [TIntegerArray([ORE_GOLD]), TIntegerArray([ORE_SILVER]),
+                      TIntegerArray([ORE_CLAY])];
+          end;
+
+          with PathInfo do
+          begin
+            Name := 'LOC_FE_BANK to LOC_CG_MINE';
+            StartLoc := LOC_FE_BANK;
+            EndLoc := LOC_CG_MINE;
+
+            Reflection := [
+                            // Bank -> Front Door
+                            TPointArray([Point(3012, 3355), Point(3007, 3347),
+                                         Point(3007, 3335), Point(3006, 3324),
+                                         Point(3001, 3313), Point(2994, 3303),
+                                         Point(2987, 3295), Point(2976, 3292),
+                                         Point(2968, 3293), Point(2957, 3294),
+                                         Point(2945, 3296), Point(2933, 3294),
+                                         Point(2933, 3288)]),
+
+                            // Inside Door -> Mine
+                            TPointArray([Point(2934, 3286), Point(2939, 3283)])
+                          ];
+
+            SPSAreas := ['8_4'];
+            Color := MSI_Convert2DTilePath(Reflection);
+            Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
+            Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
+          end;
+        end;
+
     { FISHERS ==================================== ]
     [============================================= }
     SCRIPT_POWER_FISHER:
