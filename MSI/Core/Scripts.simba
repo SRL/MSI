@@ -838,11 +838,11 @@ begin
         end;
       end;
 
-    SCRIPT_RM_CLAY:
+    SCRIPT_RM_MINE_EAST:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Rimmington Clay Miner';
-        Constant      := SCRIPT_RM_CLAY;
+        Name          := 'Rimmington East Mine';
+        Constant      := SCRIPT_RM_MINE_EAST;
         SkillName     := 'Mining';
         SkillConst    := SKILL_MINING;
         BankType      := DBox;
@@ -853,15 +853,15 @@ begin
 
         with Defaults do
         begin
-          Rocks := [ROCK_CLAY];
-          Items := [TIntegerArray([ORE_CLAY])];
+          Rocks := [ROCK_TIN, ROCK_CLAY];
+          Items := [TIntegerArray([ORE_TIN]), TIntegerArray([ORE_CLAY])];
         end;
 
         with PathInfo do
         begin
-          Name := 'LOC_PS_DBOX to LOC_RM_CLAY';
+          Name := 'LOC_PS_DBOX to LOC_RM_MINE_EAST';
           StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_CLAY;
+          EndLoc   := LOC_RM_MINE_EAST;
 
           Reflection := [
                           TPointArray([Point(3047, 3234), Point(3033, 3234),
@@ -875,48 +875,11 @@ begin
         end;
       end;
 
-    SCRIPT_RM_TIN:
+    SCRIPT_RM_MINE_NORTH:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Rimmington Tin Miner';
-        Constant      := SCRIPT_RM_TIN;
-        SkillName     := 'Mining';
-        SkillConst    := SKILL_MINING;
-        BankType      := DBox;
-        WhichBank     := DBOX_PS;
-        AutoObjects   := @MSI_MineInvFull;
-        BankObjects   := @MSI_BankStandard;
-        PlayerSetup   := @MSI_SetupMining;
-
-        with Defaults do
-        begin
-          Rocks := [ROCK_TIN];
-          Items := [TIntegerArray([ORE_TIN])];
-        end;
-
-        with PathInfo do
-        begin
-          Name := 'LOC_PS_DBOX to LOC_RM_TIN';
-          StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_TIN;
-
-          Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3033, 3234),
-                                       Point(3022, 3233), Point(3011, 3230),
-                                       Point(3000, 3232), Point(2993, 3230),
-                                       Point(2986, 3236)])
-                        ];
-
-          SPSAreas   := ['8_5', '9_5'];
-          Color      := MSI_Convert2DTilePath(Reflection);
-        end;
-      end;
-
-    SCRIPT_RM_COPPER:
-      with MSI_Scripts[whichScript] do
-      begin
-        Name          := 'Rimmington Copper Miner';
-        Constant      := SCRIPT_RM_COPPER;
+        Name          := 'Rimmington North Mine';
+        Constant      := SCRIPT_RM_MINE_NORTH;
         SkillName     := 'Mining';
         SkillConst    := SKILL_MINING;
         BankType      := DBox;
@@ -933,9 +896,9 @@ begin
 
         with PathInfo do
         begin
-          Name := 'LOC_PS_DBOX to LOC_RM_COPPER';
+          Name := 'LOC_PS_DBOX to LOC_RM_MINE_NORTH';
           StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_COPPER;
+          EndLoc   := LOC_RM_MINE_NORTH;
 
           Reflection := [
                           TPointArray([Point(3046, 3234), Point(3033, 3234),
@@ -949,11 +912,11 @@ begin
         end;
       end;
 
-    SCRIPT_RM_IRON_1:
+    SCRIPT_RM_MINE_SOUTH:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Rimmington Iron Miner 1';
-        Constant      := SCRIPT_RM_IRON_1;
+        Name          := 'Rimmington South Mine';
+        Constant      := SCRIPT_RM_MINE_SOUTH;
         SkillName     := 'Mining';
         SkillConst    := SKILL_MINING;
         BankType      := DBox;
@@ -964,20 +927,20 @@ begin
 
         with Defaults do
         begin
-          Rocks := [ROCK_IRON];
-          Items := [TIntegerArray([ORE_IRON])];
+          Rocks := [ROCK_IRON, ROCK_GOLD];
+          Items := [TIntegerArray([ORE_IRON]), TIntegerArray([ORE_GOLD])];
         end;
 
         with PathInfo do
         begin
-          Name := 'LOC_PS_DBOX to LOC_RM_IRON_1';
+          Name := 'LOC_PS_DBOX to LOC_RM_MINE_SOUTH';
           StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_IRON_1;
+          EndLoc   := LOC_RM_MINE_SOUTH;
 
           Reflection := [
                           TPointArray([Point(3047, 3234), Point(3033, 3234),
                                        Point(3021, 3233), Point(3008, 3231),
-                                       Point(2996, 3231), Point(2983, 3233)])
+                                       Point(2996, 3231), Point(2983, 3230)])
                         ];
 
           SPSAreas   := ['8_5', '9_5'];
@@ -985,11 +948,11 @@ begin
         end;
       end;
 
-    SCRIPT_RM_IRON_2:
+    SCRIPT_RM_MINE_WEST:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Rimmington Iron Miner 2';
-        Constant      := SCRIPT_RM_IRON_2;
+        Name          := 'Rimmington West Mine';
+        Constant      := SCRIPT_RM_MINE_WEST;
         SkillName     := 'Mining';
         SkillConst    := SKILL_MINING;
         BankType      := DBox;
@@ -1006,52 +969,15 @@ begin
 
         with PathInfo do
         begin
-          Name := 'LOC_PS_DBOX to LOC_RM_IRON_2';
+          Name := 'LOC_PS_DBOX to LOC_RM_MINE_WEST';
           StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_IRON_2;
+          EndLoc   := LOC_RM_MINE_WEST;
 
           Reflection := [
                           TPointArray([Point(3047, 3234), Point(3033, 3234),
                                        Point(3021, 3233), Point(3008, 3231),
                                        Point(2996, 3231), Point(2983, 3230),
                                        Point(2974, 3235), Point(2971, 3239)])
-                        ];
-
-          SPSAreas   := ['8_5', '9_5'];
-          Color      := MSI_Convert2DTilePath(Reflection);
-        end;
-      end;
-
-    SCRIPT_RM_GOLD:
-      with MSI_Scripts[whichScript] do
-      begin
-        Name          := 'Rimmington Gold Miner';
-        Constant      := SCRIPT_RM_GOLD;
-        SkillName     := 'Mining';
-        SkillConst    := SKILL_MINING;
-        BankType      := DBox;
-        WhichBank     := DBOX_PS;
-        AutoObjects   := @MSI_MineInvFull;
-        BankObjects   := @MSI_BankStandard;
-        PlayerSetup   := @MSI_SetupMining;
-
-        with Defaults do
-        begin
-          Rocks := [ROCK_GOLD];
-          Items := [TIntegerArray([ORE_GOLD])];
-        end;
-
-        with PathInfo do
-        begin
-          Name := 'LOC_PS_DBOX to LOC_RM_GOLD';
-          StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_GOLD;
-
-          Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3033, 3234),
-                                       Point(3021, 3233), Point(3008, 3231),
-                                       Point(2996, 3231), Point(2983, 3230),
-                                       Point(2977, 3233)])
                         ];
 
           SPSAreas   := ['8_5', '9_5'];
@@ -1100,11 +1026,11 @@ begin
         end;
       end;
 
-    SCRIPT_AK_MINER_1:
+    SCRIPT_AK_MINER_SOUTH:
       with MSI_Scripts[whichScript] do
       begin
-        Name        := 'Al Kharid Miner 1';
-        Constant    := SCRIPT_AK_MINER_1;
+        Name        := 'Al Kharid Miner South';
+        Constant    := SCRIPT_AK_MINER_SOUTH;
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
@@ -1122,7 +1048,7 @@ begin
         with PathInfo do
         begin
           StartLoc := LOC_AK_BANK;
-          EndLoc   := LOC_AK_MINE_1;
+          EndLoc   := LOC_AK_MINE_SOUTH;
 
           Reflection := [
                           TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
@@ -1130,16 +1056,16 @@ begin
                           Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3299, 3286)])
                          ];
 
-          SPSAreas   := [''];
+          SPSAreas   := ['11_4', '11_5'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
-    SCRIPT_AK_MINER_2:
+    SCRIPT_AK_MINER_CENTRAL:
       with MSI_Scripts[whichScript] do
       begin
-        Name        := 'Al Kharid Miner 2';
-        Constant    := SCRIPT_AK_MINER_2;
+        Name        := 'Al Kharid Miner Central';
+        Constant    := SCRIPT_AK_MINER_CENTRAL;
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
@@ -1158,7 +1084,7 @@ begin
         with PathInfo do
         begin
           StartLoc := LOC_AK_BANK;
-          EndLoc   := LOC_AK_MINE_2;
+          EndLoc   := LOC_AK_MINE_CENTRAL;
 
           Reflection := [
                           TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
@@ -1167,16 +1093,16 @@ begin
                           Point(3300, 3301)])
                          ];
 
-          SPSAreas   := [''];
+          SPSAreas   := ['11_4', '11_5'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
-    SCRIPT_AK_MINER_3:
+    SCRIPT_AK_MINER_NORTH:
       with MSI_Scripts[whichScript] do
       begin
-        Name        := 'Al Kharid Miner 3';
-        Constant    := SCRIPT_AK_MINER_3;
+        Name        := 'Al Kharid Miner North';
+        Constant    := SCRIPT_AK_MINER_NORTH;
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
@@ -1197,7 +1123,7 @@ begin
         with PathInfo do
         begin
           StartLoc := LOC_AK_BANK;
-          EndLoc   := LOC_AK_MINE_3;
+          EndLoc   := LOC_AK_MINE_NORTH;
 
           Reflection := [
                           TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
@@ -1206,7 +1132,7 @@ begin
                           Point(3301, 3305), Point(3301, 3313)])
                          ];
 
-          SPSAreas   := [''];
+          SPSAreas   := ['11_4', '11_5'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
