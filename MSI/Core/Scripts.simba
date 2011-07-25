@@ -1405,12 +1405,12 @@ begin
                            FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
                            FISH_COOKED_PIKE, FISH_COOKED_TROUT, FISH_COOKED_SALMON,
                            FISH_COOKED_LOBSTER, FISH_COOKED_TUNA,
-                           FISH_COOKED_SWORDFISH]) ];
+                           FISH_COOKED_SWORDFISH, FISH_COOKED_SHARK]) ];
 
           Materials := [ MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
                          MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
                          MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
-                         MATERIAL_LOBSTER, MATERIAL_SWORDFISH ];
+                         MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_SHARK ];
         end;
 
         with PathInfo do

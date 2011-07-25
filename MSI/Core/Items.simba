@@ -241,6 +241,15 @@ begin
                   Point(10, 19)
                 ];
 
+    FISH_RAW_SHARK, FISH_COOKED_SHARK:
+     Result := [
+                 Point(1197, 349),
+                 Point(1210, 370),
+                 Point(1206, 345),
+                 Point(1189, 341),
+                 Point(1186, 369)
+               ];
+
     GEM_UNCUT_SAPPHIRE..GEM_UNCUT_DIAMOND:
       Result := [
                   Point(1156, 514),
@@ -439,6 +448,7 @@ begin
     FISH_RAW_TUNA      : Result := 9408662;
     FISH_RAW_LOBSTER   : Result := 2244720;
     FISH_RAW_SWORDFISH : Result := 12615862;
+    FISH_RAW_SHARK     : Result := 6974319;
 
     FISH_COOKED_SHRIMP    : Result := 1195905;
     FISH_COOKED_CRAYFISH  : Result := 1265804;
@@ -451,6 +461,7 @@ begin
     FISH_COOKED_TUNA      : Result := 5263965;
     FISH_COOKED_LOBSTER   : Result := 1728190;
     FISH_COOKED_SWORDFISH : Result := 9330310;
+    FISH_COOKED_SHARK     : Result := 5992328;
 
     GEM_UNCUT_SAPPHIRE : Result := 7279119;
     GEM_UNCUT_EMERALD  : Result := 1007117;
@@ -1081,6 +1092,16 @@ begin
         EquipLevel := -1;
       end;
 
+    FISH_RAW_SHARK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw Shark';
+        StatsName := 'sharks caught';
+        UpText := ['aw shark'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
     FISH_COOKED_SHRIMP:
       with MSI_Items[whichItem] do
       begin
@@ -1187,6 +1208,16 @@ begin
         Name := 'Cooked swordfish';
         StatsName := 'Swordfish Cooked';
         UpText := ['wordfish'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_SHARK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked shark';
+        StatsName := 'Sharks cooked';
+        UpText := ['hark'];
         Stackable := False;
         EquipLevel := -1;
       end;

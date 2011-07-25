@@ -226,6 +226,16 @@ begin
         Level       := 45;
       end;
 
+    MATERIAL_SHARK:
+      with Result do
+      begin
+        Name       := 'Shark';
+        Supplies   := [TIntegerArray([FISH_RAW_SHARK, -1])];
+        Produces   := [FISH_COOKED_SHARK];
+        MemberOnly := True;
+        Level      := 80;
+      end;
+
     MATERIAL_CLAY:
       with Result do
       begin
