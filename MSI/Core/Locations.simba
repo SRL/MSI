@@ -397,68 +397,46 @@ Example:
          MinDistance := 25;
        end;
 
-     LOC_RM_CLAY:
+     LOC_RM_MINE_EAST:
        with MSI_Locations[Which] do
        begin
-         Name := 'Rimmington clay rocks';
-         Constant := LOC_RM_CLAY;
+         Name := 'Rimmington east mine';
+         Constant := LOC_RM_MINE_EAST;
          AtBank := False;
          Tiles := [Point(2986, 3236)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
-     LOC_RM_TIN:
+     LOC_RM_MINE_NORTH:
        with MSI_Locations[Which] do
        begin
-         Name := 'Rimmington tin rocks';
-         Constant := LOC_RM_TIN;
-         AtBank := False;
-         Tiles := [Point(2986, 3236)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-       end;
-
-     LOC_RM_COPPER:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Rimmington copper rocks';
-         Constant := LOC_RM_COPPER;
+         Name := 'Rimmington north mine';
+         Constant := LOC_RM_MINE_NORTH;
          AtBank := False;
          Tiles := [Point(2979, 3245)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
-     LOC_RM_IRON_1:
+     LOC_RM_MINE_SOUTH:
        with MSI_Locations[Which] do
        begin
-         Name := 'Rimmington iron rocks 1';
-         Constant := LOC_RM_IRON_1;
+         Name := 'Rimmington south mine';
+         Constant := LOC_RM_MINE_SOUTH;
          AtBank := False;
          Tiles := [Point(2983, 3233)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
-     LOC_RM_IRON_2:
+     LOC_RM_MINE_WEST:
        with MSI_Locations[Which] do
        begin
-         Name := 'Rimmington iron rocks 2';
-         Constant := LOC_RM_IRON_2;
+         Name := 'Rimmington west mine';
+         Constant := LOC_RM_MINE_WEST;
          AtBank := False;
          Tiles := [Point(2971, 3239)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-       end;
-
-     LOC_RM_GOLD:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Rimmington gold rocks';
-         Constant := LOC_RM_GOLD;
-         AtBank := False;
-         Tiles := [Point(2977, 3233)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
@@ -786,33 +764,33 @@ Example:
          MinDistance := 25;
        end;
 
-     LOC_AK_MINE_1:
+     LOC_AK_MINE_SOUTH:
        with MSI_Locations[Which] do
        begin
-         Name := 'Al Kharid Mine 1';
-         Constant := LOC_AK_MINE_1;
+         Name := 'Al Kharid Mine South';
+         Constant := LOC_AK_MINE_SOUTH;
          AtBank := False;
          Tiles := [Point(3299, 3286)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
-     LOC_AK_MINE_2:
+     LOC_AK_MINE_CENTRAL:
        with MSI_Locations[Which] do
        begin
-         Name := 'Al Kharid Mine 2';
-         Constant := LOC_AK_MINE_2;
+         Name := 'Al Kharid Mine Central';
+         Constant := LOC_AK_MINE_CENTRAL;
          AtBank := False;
          Tiles := [Point(3300, 3301)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
-     LOC_AK_MINE_3:
+     LOC_AK_MINE_NORTH:
        with MSI_Locations[Which] do
        begin
-         Name := 'Al Kharid Mine 3';
-         Constant := LOC_AK_MINE_3;
+         Name := 'Al Kharid Mine North';
+         Constant := LOC_AK_MINE_NORTH;
          AtBank := False;
          Tiles := [Point(3301, 3313)];
          Points := MSI_ConvertTilePath(Tiles);
