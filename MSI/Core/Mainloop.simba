@@ -993,7 +993,7 @@ label
 begin
   MSI_SetScriptLength;
   MSI_SetPlayerInfo;
-  //MSI_WriteRemote;
+  MSI_WriteRemote;
 
   repeat
     MSI_ResetRemote;
@@ -1186,7 +1186,7 @@ begin
   stats_Commit;
 
   // Free DTMs and clear Remote file
-  //MSI_ClearFile(PATH_REMOTE);
+  MSI_ClearFile(PATH_REMOTE);
   MSI_FreeAllItems;
   FreeSRL;
   CloseFile(DebugFile);
