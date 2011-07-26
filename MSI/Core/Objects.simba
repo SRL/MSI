@@ -868,13 +868,13 @@ begin
         Uptexts            := ['Open', 'pen'];
         Options            := ['Open', 'pen'];
         Colors             := [2514555];
-        Tol                := 5;
+        Tol                := 8;
         Hue                := 0.02;
         Sat                := 0.27;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
-        Accuracy           := 20;
+        Accuracy           := 10;
         Track              := False
         SearchArea         := MSBox;
         ExcludeSelf        := False;

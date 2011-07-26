@@ -1096,7 +1096,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Raw Shark';
-        StatsName := 'sharks caught';
+        StatsName := 'Shark Caught';
         UpText := ['aw shark'];
         Stackable := False;
         EquipLevel := -1;
@@ -1216,7 +1216,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cooked shark';
-        StatsName := 'Sharks cooked';
+        StatsName := 'Shark Cooked';
         UpText := ['hark'];
         Stackable := False;
         EquipLevel := -1;

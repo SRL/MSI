@@ -1253,7 +1253,7 @@ begin
                          TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
                          TIntegerArray([FISH_RAW_TROUT, FISH_RAW_SALMON]),
                          TIntegerArray([FISH_RAW_LOBSTER]),
-                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH])
+                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK])
                        ];
         end;
       end;
@@ -1364,7 +1364,7 @@ begin
                          TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
                          TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
                          TIntegerArray([FISH_RAW_LOBSTER]),
-                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH])
+                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK])
                        ];
         end;
 
@@ -1405,7 +1405,7 @@ begin
                          TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
                          TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
                          TIntegerArray([FISH_RAW_LOBSTER]),
-                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH])
+                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK])
                        ];
         end;
 
