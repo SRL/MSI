@@ -1221,7 +1221,7 @@ begin
                             TPointArray([Point(2934, 3286), Point(2939, 3283)])
                           ];
 
-            SPSAreas := ['8_4'];
+            SPSAreas := ['8_4', '9_4'];
             Color := MSI_Convert2DTilePath(Reflection);
             Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
             Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
