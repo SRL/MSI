@@ -791,7 +791,7 @@ begin
                                FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
                                FISH_COOKED_PIKE, FISH_COOKED_TROUT,
                                FISH_COOKED_SALMON, FISH_COOKED_LOBSTER,
-                               FISH_COOKED_TUNA, FISH_COOKED_SWORDFISH
+                               FISH_COOKED_TUNA, FISH_COOKED_SWORDFISH,
                                FISH_COOKED_SHARK];
       end;
 
