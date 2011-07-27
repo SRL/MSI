@@ -195,7 +195,7 @@ begin
           EndLoc   := LOC_DB_TREES;
 
           Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3084, 3248),
+                          TPointArray([Point(3091, 3244), Point(3084, 3248),
                                        Point(3080, 3263), Point(3081, 3268)])
                         ];
 

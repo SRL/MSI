@@ -296,7 +296,7 @@ Example:
          Name := 'Draynor Village bank';
          Constant := LOC_DB_BANK;
          AtBank := True;
-         Tiles := [Point(3093, 3244)];
+         Tiles := [Point(3091, 3244)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
 
