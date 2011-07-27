@@ -243,11 +243,11 @@ begin
 
     FISH_RAW_SHARK, FISH_COOKED_SHARK:
      Result := [
-                 Point(1197, 349),
-                 Point(1210, 370),
-                 Point(1206, 345),
-                 Point(1189, 341),
-                 Point(1186, 369)
+                 Point(1108, 277),
+                 Point(1099, 284),
+                 Point(1102, 271),
+                 Point(1125, 272),
+                 Point(1121, 284)
                ];
 
     GEM_UNCUT_SAPPHIRE..GEM_UNCUT_DIAMOND:
@@ -448,7 +448,7 @@ begin
     FISH_RAW_TUNA      : Result := 9408662;
     FISH_RAW_LOBSTER   : Result := 2244720;
     FISH_RAW_SWORDFISH : Result := 12615862;
-    FISH_RAW_SHARK     : Result := 6974319;
+    FISH_RAW_SHARK     : Result := 5132114;
 
     FISH_COOKED_SHRIMP    : Result := 1195905;
     FISH_COOKED_CRAYFISH  : Result := 1265804;
@@ -461,7 +461,7 @@ begin
     FISH_COOKED_TUNA      : Result := 5263965;
     FISH_COOKED_LOBSTER   : Result := 1728190;
     FISH_COOKED_SWORDFISH : Result := 9330310;
-    FISH_COOKED_SHARK     : Result := 5992328;
+    FISH_COOKED_SHARK     : Result := 5202296;
 
     GEM_UNCUT_SAPPHIRE : Result := 7279119;
     GEM_UNCUT_EMERALD  : Result := 1007117;
@@ -1711,6 +1711,7 @@ begin
           FISH_RAW_TUNA      : e := 80.0;
           FISH_RAW_LOBSTER   : e := 90.0;
           FISH_RAW_SWORDFISH : e := 100.0;
+          FISH_RAW_SHARK     : e := 110.0;
 
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for fishing: ' + IntToStr(Items[i]));
@@ -1728,7 +1729,8 @@ begin
           FISH_RAW_SALMON,
           FISH_RAW_TUNA,
           FISH_RAW_LOBSTER,
-          FISH_RAW_SWORDFISH    : e := 0.0;
+          FISH_RAW_SWORDFISH,
+          FISH_RAW_SHARK        : e := 0.0;
           FISH_COOKED_SHRIMP    : e := 30.0;
           FISH_COOKED_CRAYFISH  : e := 30.0;
           FISH_COOKED_SARDINE   : e := 40.0;
@@ -1740,6 +1742,7 @@ begin
           FISH_COOKED_TUNA      : e := 100.0;
           FISH_COOKED_LOBSTER   : e := 120.0;
           FISH_COOKED_SWORDFISH : e := 140.0;
+          FISH_COOKED_SHARK     : e := 210.0;
 
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for cooking: ' + IntToStr(Items[i]));
