@@ -137,11 +137,11 @@ Example:
     MSI_Debug('Player not on ending tiles');
 *)
 function MSI_CheckEndTile(obs: TObstacle): boolean;
+{$IFDEF REFLECTION}
 var
-  {$IFDEF REFLECTION}
   i, h: integer;
   mPos: TPoint;
-  {$ENDIF}
+{$ENDIF}
 begin
   if (not loggedIn) then
     exit;
@@ -149,7 +149,7 @@ begin
   result := false;
 
   {$IFDEF REFLECTION}
-  if (not reflectionBroken) then
+  if (not MSI_HookBroken[HOOK_WALKING]) then
   begin
     mPos := getMyPos();
     h := high(obs.endTiles);

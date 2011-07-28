@@ -401,7 +401,7 @@ begin
   MSI_SubDebug('Scanning for randoms...');
 
   {$IFDEF REFLECTION}
-  if (not ReflectionBroken) then
+  if (not MSI_HookBroken[HOOK_RANDOMS]) then
     randomDone := R_FindRandoms
   else
     randomDone := FindNormalRandoms;

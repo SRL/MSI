@@ -288,9 +288,7 @@ begin
   else
     SetupSRLStats(21, MSI_Settings[SETUP_STATS_ID], MSI_Settings[SETUP_STATS_PASS]);
 
-  MSI_CheckDefines();
-  if (not ReflectionBroken) then
-    MSI_SetupReflection();
+  MSI_WalkingDefines();
 
   // this boolean isn't yet in the player form
   if (USE_FORM) then

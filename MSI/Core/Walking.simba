@@ -202,7 +202,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  if (ReflectionBroken) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
     {$IFDEF SPS}
     Coord := SPS_PosToMM(p)
     {$ELSE}
@@ -254,7 +254,7 @@ begin
 
   MSI_AddHeader('MSI_Relocate');
 
-  if (ReflectionBroken) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
   begin
     TPA := MSI_Locations[Loc].Points
   end else
@@ -324,18 +324,6 @@ begin
       cp := i;
   end;
 
-  if (not Result) then
-  begin
-    {$IFDEF REFLECTION}
-    if (not ReflectionBroken) then
-      if (Length(MSI_Locations[Loc].Points) > 0) then
-      begin
-        MSI_Debug('Trying r_WebWalk');
-        Result := r_WebWalk(MSI_Locations[Loc].Points[0]);
-      end;
-    {$ENDIF}
-  end;
-
   MSI_Players[CurrentPlayer].CurrentPoint := cp;
   MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
 end;
@@ -383,7 +371,7 @@ begin
 
   if (not Result) then
   begin
-    if (ReflectionBroken) then
+    if (MSI_HookBroken[HOOK_WALKING]) then
     begin
       TPA := MSI_Locations[Loc].Points
     end else
@@ -439,7 +427,7 @@ Example:
 
 .. code-block:: pascal
 
-  MSI_GetCorrectPath(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, ReflectionBroken, True);
+  MSI_GetCorrectPath(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, MSI_HookBroken[HOOK_WALKING], True);
 *)
 function MSI_GetCorrectPath(path: TPath; color, toLoc: boolean): T2DPointArray;
 var
@@ -620,7 +608,7 @@ begin
 
   MSI_AddHeader('MSI_WalkPath');
 
-  if (reflectionBroken) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
   begin
     ATPA := MSI_GetCorrectPath(pathInfo, true, toLoc);
     eTPA := MSI_MirrorTPA(MSI_Locations[pathInfo.endLoc].points);
@@ -734,7 +722,7 @@ begin
 
   MSI_AddHeader('MSI_DeathWalk');
 
-  if (reflectionBroken) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
   begin
     MSI_Debug('Function not supported without Reflection!');
     MSI_CloseHeader('MSI_DeathWalk: '+boolToStr(result));
@@ -755,7 +743,7 @@ begin
   !!!!! See function header as to why these are commented out !!!!!
 
   // set the SPS areas (set here to increase speed as SPS does take time)
-  if (reflectionBroken) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
   begin
     {$IFDEF SPS}
     areas_old := SPS_Areas;
@@ -802,7 +790,7 @@ begin
     end;
 (*
   // set areas back to what they were
-  if (reflectionBroken) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
   begin
     {$IFDEF SPS}
     SPS_Areas := areas_old;

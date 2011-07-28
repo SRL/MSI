@@ -69,7 +69,7 @@ begin
   MSI_SubDebug('Bobzilla_GetData: Getting skill levels');
   SetLength(Players[CurrentPlayer].Arrays[1], 25);
   {$IFDEF REFLECTION}
-  if (not ReflectionBroken) then
+  if (not MSI_HookBroken[HOOK_LEVEL_SKILL]) then
   begin
     for I := SKILL_ATTACK to SKILL_DUNGEONEERING do
       Players[CurrentPlayer].Arrays[1][I] := R_GetSkillLevel(I);

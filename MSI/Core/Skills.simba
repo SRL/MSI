@@ -50,7 +50,7 @@ begin
     for i := 0 to High(Scripts) do
     begin
       {$IFDEF REFLECTION}
-      if (not ReflectionBroken) then
+      if (not MSI_HookBroken[HOOK_LEVEL_SKILL]) then
         curLev := R_GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName)
       else
         curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);

@@ -760,6 +760,19 @@ const
 
   SETUP_ARRAY_LENGTH  = 32;
 
+(*
+Hook Constants
+~~~~~~~~~~~~~~
+
+Represents the indexes of MSI_HookBroken boolean array that is used to check
+for broken hooks after an RS update.
+*)
+const
+  HOOK_COUNT = 3;
+    HOOK_WALKING     = 0;
+    HOOK_LEVEL_SKILL = 1;
+    HOOK_RANDOMS     = 2;
+
 {==============================================================================\
 |                                  Types                                       |
 \==============================================================================}
@@ -1144,7 +1157,6 @@ var
   CurrDebugLevel   : Integer;
   CurrentExtra     : Integer;
   CurrentPointer   : Integer;
-  ReflectionBroken : Boolean;
   ScriptStart      : string;
   NextAntiban      : Integer;
   NextRandCheck    : Integer;
@@ -1152,7 +1164,8 @@ var
 
 // Arrays that store all the necessary "go-to" information for MSI
 var
-  MSI_Settings : array[0..SETUP_ARRAY_LENGTH] of Variant;
+  MSI_Settings  : array[0..SETUP_ARRAY_LENGTH] of variant;
+  MSI_HookBroken: array[0..(HOOK_COUNT - 1)] of boolean;
   MSI_Players   : TPlayerInfoArray;
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
   MSI_Locations : array[0..LOC_ARRAY_LENGTH] of TLocation;

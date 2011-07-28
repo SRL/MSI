@@ -930,7 +930,9 @@ begin
       MSI_Players[CurrentPlayer].location := locArr[i];
       MSI_Debug('Player''s location: '+MSI_Locations[locArr[i]].name);
       break;
-    end;
+    end else
+      if (i = 1) then
+        MSI_DeathWalk();
 
   MSI_CloseHeader('MSI_SetPlayerLoc: Done');
 end;

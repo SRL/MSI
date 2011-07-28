@@ -98,12 +98,13 @@ begin
 
   // To handle relocating for power scripts
   {$IFDEF REFLECTION}
-  with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
-    if (Length(Tiles) <= 0) then // If there are no relocation points
-    begin
-      SetLength(Tiles, Length(Tiles) + 1);
-      Tiles[High(Tiles)] := GetMyPos; // Add the point the player is on
-    end;
+  if (not MSI_HookBroken[HOOK_WALKING]) then
+    with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
+      if (Length(Tiles) <= 0) then // If there are no relocation points
+      begin
+        SetLength(Tiles, Length(Tiles) + 1);
+        Tiles[High(Tiles)] := GetMyPos; // Add the point the player is on
+      end;
   {$ENDIF}
 
   // Add logins to stats
@@ -1004,7 +1005,7 @@ begin
 
     // Reset for each player as they could be using different scripts
     {$IFDEF SPS}
-    if (ReflectionBroken) then
+    if (MSI_HookBroken[HOOK_WALKING]) then
     begin
       SPS_Areas := MSI_GetSPSAreas();
       SPS_Loaded := False;
