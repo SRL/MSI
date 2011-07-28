@@ -675,7 +675,7 @@ begin
         FindAllColors      := False;
         W                  := 25;
         H                  := 20;
-        Accuracy           := 5;
+        Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 75000;
         ExcludeSelf        := True;
@@ -1490,7 +1490,7 @@ begin
         wait(randomRange(20, 50));
 
         // check the uptext of where we moved the mouse to
-        if (waitUptextMulti(obj.uptexts, randomRange(150, 200))) then
+        if (waitUptextMulti(obj.uptexts, randomRange(300, 500))) then
         begin
           // if only set to move the mouse, we're done
           if (action = moMove) then

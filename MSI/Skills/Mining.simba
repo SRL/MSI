@@ -57,19 +57,20 @@ and timing out.
 .. note::
 
   | Author: NCDS
-  | Last Updated: 10 June 2011 by Coh3n
+  | Last Updated: 28 July 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if (MSI_FindObjectsIn([ROCK_IRON, ROCK_TIN], Index, MSBox, ClickLeft)) then
+  if (MSI_FindObject(MSI_GetObject(ROCK_IRON), moLeft)) then
     MSI_WaitWhileMining();
 *)
 procedure MSI_WaitWhileMining(rock: TMSObject);
 var
-  cts, oldInvCount, t, d, rockColorCount: Integer;
-  Arr, TPA: TPointArray;
+  i, h, cts, oldInvCount, t, d, rockColorCount: Integer;
+  arr, TPA: TPointArray;
+  ATPA: T2DPointArray;
 begin
   if (not loggedIn) then
     exit;
@@ -115,22 +116,30 @@ begin
   setColorToleranceSpeed(2);
   setToleranceSpeed2Modifiers(rock.hue, rock.sat);
 
-  findColorsTolerance(arr, rock.Colors[0],
-                      rock.searchArea.x1, rock.searchArea.y1,
-                      rock.searchArea.x2, rock.searchArea.y2, rock.tol);
+  setLength(ATPA, length(rock.colors));
+  h := high(ATPA);
 
-  rockColorCount := length(arr);
-
-  repeat
-    MSI_FindRandoms(False);
-
-    findColorsTolerance(arr, rock.Colors[0],
+  for i := 0 to h do
+    findColorsTolerance(ATPA[i], rock.colors[i],
                         rock.searchArea.x1, rock.searchArea.y1,
                         rock.searchArea.x2, rock.searchArea.y2, rock.tol);
 
+  arr := mergeATPA(ATPA);
+  rockColorCount := length(arr);
+
+  repeat
+    MSI_FindRandoms(false);
+
+    for i := 0 to h do
+      findColorsTolerance(ATPA[i], rock.colors[i],
+                          rock.searchArea.x1, rock.searchArea.y1,
+                          rock.searchArea.x2, rock.searchArea.y2, rock.tol);
+
+    arr := mergeATPA(ATPA);
+
     {$IFDEF SMART}
       if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawDotsEx(False, Arr, clYellow);
+        SMART_DrawDotsEx(false, arr, clYellow);
     {$ENDIF}
 
     if (length(arr) < rock.accuracy) then
