@@ -1149,6 +1149,7 @@ var
   NextAntiban      : Integer;
   NextRandCheck    : Integer;
   DebugFile        : Integer;
+  ForceTimer       : Integer;
 
 // Arrays that store all the necessary "go-to" information for MSI
 var
