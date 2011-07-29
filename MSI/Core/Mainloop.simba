@@ -990,7 +990,7 @@ var
   reason: string;
   nPlayer: Boolean;
 label
-  AtBank, WalkToBank;
+  AtBank;
 begin
   MSI_SetScriptLength;
   MSI_SetPlayerInfo;
@@ -1026,19 +1026,6 @@ begin
       MarkTime(time);
       if (stats_Commit) then
         MSI_Debug('Committed to SRL stats');
-
-      // If player's in middle of path with > 15 items, will walk to bank and deposit
-      if (not MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].getMaterials) then
-        if (not MSI_AtLocation(
-                  MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.EndLoc,
-                  false)) then
-          if (invCount >= 15) then
-          begin
-            MSI_Players[CurrentPlayer].Location :=
-            MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.EndLoc;
-            MSI_SubDebug('Player has > 15 items, banking..');
-            goto WalkToBank;
-          end;
 
       // Walk to location if using a bankable script
       if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects <> nil) then
@@ -1081,7 +1068,6 @@ begin
       end;
 
       // Walks to the bank if using a bankable script
-      WalkToBank:
       if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects <> nil) then
       begin
         if (not MSI_Walk(False)) then // Walk to the bank

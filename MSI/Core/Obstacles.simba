@@ -301,7 +301,9 @@ begin
     begin
       wait(randomRange(1500, 2000));
       result := MSI_WaitForMirror(obs);
-    end;
+    end else
+      if (getSystemTime < (t div 3)) then
+        MSI_NotBoxes := [];
 
   clickNorth(true);
   MSI_CloseHeader('MSI_SolveObstacle: ' + boolToStr(result));

@@ -932,7 +932,8 @@ begin
       break;
     end else
       if (i = 1) then
-        MSI_DeathWalk();
+        if (not MSI_WalkPath(script.pathInfo, (invCount < 15))) then
+          MSI_DeathWalk();
 
   MSI_CloseHeader('MSI_SetPlayerLoc: Done');
 end;
