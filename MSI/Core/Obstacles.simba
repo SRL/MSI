@@ -245,6 +245,10 @@ begin
       result := true;
     end;
 
+    if (not result) then
+      if (getSystemTime > (t div 3)) then
+        MSI_NotBoxes := [];
+
     wait(randomRange(250, 500));
   until(result or (getSystemTime > t));
 end;
