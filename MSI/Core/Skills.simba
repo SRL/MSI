@@ -378,7 +378,6 @@ begin
             SKILL_WOODCUTTING: tObjects := Trees;
             SKILL_MINING: tObjects := Rocks;
             SKILL_FISHING: tObjects := FishSpots;
-            SKILL_COOKING: tObjects := CookingSpot;
           end;
 
         if (not MSI_Scripts[Scripts[CurrentScript].Name].ClickClosest) then

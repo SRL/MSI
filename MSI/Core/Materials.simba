@@ -319,7 +319,7 @@ Example:
 *)
 function MSI_ConvertMaterial(func: function(m: TMaterial): Boolean; objs: TIntegerArray): Boolean;
 var
-  i, t: Integer;
+  i, j, t: Integer;
   material: TMaterial;
 begin
   if (not LoggedIn) then
@@ -327,27 +327,29 @@ begin
 
   t := (GetSystemTime + (60000 * 3));
 
-  repeat
-    with MSI_Players[CurrentPlayer] do
-    begin
+  with MSI_Players[CurrentPlayer] do
+    repeat
       MSI_Relocate(Location);
 
-      for i := 0 to High(Scripts[CurrentScript].Materials) do
-      begin
-        material := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
+      if (length(Scripts[CurrentScript].Materials) > 0) then
+        for i := 0 to High(Scripts[CurrentScript].Materials) do
+        begin
+          material := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
 
-        if (MSI_UseItemOn(material.Supplies[0][0], objs)) then
-          if (func(material)) then
-            if (MSI_WaitItemGone(MSI_Items[material.Supplies[0][0]])) then
-            begin
-              Result := True;
-              MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
-            end;
-      end;
+          MSI_Debug('Length(supplies): ' + toStr(length(material.supplies)));
+          for j := 0 to high(material.supplies) do
+            if (MSI_UseItemOn(material.supplies[i][0], objs)) then
+              if (func(material)) then
+                if (MSI_WaitItemGone(MSI_Items[material.supplies[i][0]])) then
+                begin
+                  result := True;
+                  MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+                  exit;
+                end;
+        end;
 
       if (GetSystemTime > (t div 3)) then
         MSI_NotBoxes := [];
-    end;
-  until(Result or (GetSystemTime > t));
+    until(Result or (GetSystemTime > t));
 end;
 
