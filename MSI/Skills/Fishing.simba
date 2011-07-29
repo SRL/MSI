@@ -207,9 +207,10 @@ Example:
 *)
 procedure MSI_WaitWhileFishing(fishSpot: TMSObject; var failed: boolean);
 var
-  x, y, CTS, animTries, colorTries, oldInvCount, waitTime, invTimer: Integer;
+  i, h, x, y, CTS, animTries, colorTries, oldInvCount, waitTime, invTimer: integer;
   idle: TAnimation;
   arr: TPointArray;
+  ATPA: T2DPointArray;
 begin
   if ((not loggedIn) or (invFull)) then
     exit;
@@ -236,10 +237,16 @@ begin
   setColorToleranceSpeed(2);
   setToleranceSpeed2Modifiers(fishSpot.hue, fishSpot.sat);
 
-  findColorsTolerance(arr, fishSpot.Colors[0],
-                      fishSpot.searchArea.x1, fishSpot.searchArea.y1,
-                      fishSpot.searchArea.x2, fishSpot.searchArea.y2,
-                      fishSpot.tol);
+  setLength(ATPA, length(fishSpot.colors));
+  h := high(ATPA);
+
+  for i := 0 to h do
+    findColorsTolerance(ATPA[i], fishSpot.colors[i],
+                        fishSpot.searchArea.x1, fishSpot.searchArea.y1,
+                        fishSpot.searchArea.x2, fishSpot.searchArea.y2,
+                        fishSpot.tol);
+
+  arr := mergeATPA(ATPA);
 
   repeat
     MSI_FindRandoms(false);
@@ -260,10 +267,13 @@ begin
     end;
 
     // looking for fishing spot
-    findColorsTolerance(arr, fishSpot.Colors[0],
-                        fishSpot.searchArea.x1, fishSpot.searchArea.y1,
-                        fishSpot.searchArea.x2, fishSpot.searchArea.y2,
-                        fishSpot.tol);
+    for i := 0 to h do
+      findColorsTolerance(ATPA[i], fishSpot.colors[i],
+                          fishSpot.searchArea.x1, fishSpot.searchArea.y1,
+                          fishSpot.searchArea.x2, fishSpot.searchArea.y2,
+                          fishSpot.tol);
+
+    arr := mergeATPA(ATPA);
 
     if (length(arr) < fishSpot.accuracy) then
     begin
