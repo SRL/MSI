@@ -803,7 +803,7 @@ begin
 
               if (pIndex <> -1) then
               begin
-                MSI_Debug('Removing from player''s array');
+                MSI_SubDebug('Removing from player''s array');
                 deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);
                 deleteValueInIntArray(Scripts[CurrentScript].Priority, pIndex);
               end;

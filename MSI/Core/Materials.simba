@@ -336,16 +336,20 @@ begin
         begin
           material := MSI_GetMaterial(Scripts[CurrentScript].Materials[i]);
 
-          MSI_Debug('Length(supplies): ' + toStr(length(material.supplies)));
-          for j := 0 to high(material.supplies) do
-            if (MSI_UseItemOn(material.supplies[i][0], objs)) then
-              if (func(material)) then
-                if (MSI_WaitItemGone(MSI_Items[material.supplies[i][0]])) then
-                begin
-                  result := True;
-                  MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
-                  exit;
-                end;
+          if (not member) then
+            if (material.memberOnly) then
+              continue;
+
+          if (length(material.supplies) > 0) then
+            for j := 0 to high(material.supplies) do
+              if (MSI_UseItemOn(material.supplies[j][0], objs)) then
+                if (func(material)) then
+                  if (MSI_WaitItemGone(MSI_Items[material.supplies[j][0]])) then
+                  begin
+                    result := true;
+                    MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+                    exit;
+                  end;
         end;
 
       if (GetSystemTime > (t div 3)) then
