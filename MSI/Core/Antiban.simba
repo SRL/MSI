@@ -506,42 +506,6 @@ begin
 end;
 
 (*
-MSI_KeyedRandoms
-~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_KeyedRandoms(WaitTime: Integer): Boolean;
-
-Designed to check for randoms upon the pressing of a certain F-Key (11) and after
-the specified WaitTime before the last forced check has elapsed.
-
-.. note::
-
-  | Author: Yago
-  | Last Updated: 28 July 2011 by Yago
-
-Example:
-
-.. code-block:: pascal
-
-  if (MSI_KeyedRandoms) then
-    MSI_Debug('A Forced Randoms Check Is Being Run!');
-*)
-function MSI_KeyedRandoms(WaitTime: Integer): Boolean;
-begin
-  if IsFKeyDown(11) then
-    if (TimeFromMark(ForceTimer) >= WaitTime) then
-    begin
-      MSI_Debug('A Forced Randoms Check Is Being Run!');
-      Result := MSI_FindRandoms(True);
-      MarkTime(ForceTimer);
-      NextRandCheck := GetSystemTime + MSI_Settings[SETUP_RANDOMS_WAIT];
-    end else
-      MSI_Debug('Random Checks have been forced under a second ago... Please Try Again!');
-end;
-
-(*
 MSI_WaitWhileResting
 ~~~~~~~~~~~~~~~~~~~~
 
