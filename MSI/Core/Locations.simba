@@ -33,7 +33,7 @@ Example:
   for i := 0 to High(MSI_Locations) do
     MSI_LoadLocation(i);
 *)
- function MSI_LoadLocation(Which: Integer): Boolean;
+  function MSI_LoadLocation(Which: Integer): Boolean;
  begin
    case Which of
      LOC_POWER_SKILL:
@@ -62,6 +62,7 @@ Example:
          Tiles := [Point(3085, 3500)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3080,3506),Point(3087,3500))];
        end;
 
      LOC_VE_FOUNTAIN:
@@ -73,6 +74,7 @@ Example:
          Tiles := [Point(3241, 3434)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3234,3439),Point(3244,3431))];
        end;
 
      LOC_VE_TREES:
@@ -84,6 +86,7 @@ Example:
          Tiles := [Point(3276, 3450)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3271,3458),Point(3282,3439))];
        end;
 
      LOC_VE_OAKS:
@@ -95,6 +98,7 @@ Example:
          Tiles := [Point(3279, 3428)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3278,3434),Point(3278,3422))];
        end;
 
      LOC_VE_BANK:
@@ -106,6 +110,7 @@ Example:
          Tiles := [Point(3253, 3421)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+         Areas := [PointToBox(Point(3251,3424),Point(3258,3420))];
 
          with DeathPath do
          begin
@@ -138,6 +143,7 @@ Example:
          Tiles := [Point(3288, 3368)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
+         Areas := [PointToBox(Point(3279,3373),Point(3297,3360))];
        end;
 
      LOC_VW_MINE:
@@ -149,6 +155,7 @@ Example:
          Tiles := [Point(3181, 3367)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3178,3382),Point(3185,3396)),PointToBox(Point(3171,3371),Point(3179,3364))];
        end;
 
      LOC_FW_MINE:
@@ -160,6 +167,7 @@ Example:
          Tiles := [Point(2907, 3358)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(2907,3369),Point(2911,3361)),PointToBox(Point(2901,3362),Point(2907,3352))];
        end;
 
      LOC_FW_BANK:
@@ -171,6 +179,7 @@ Example:
          Tiles := [Point(2945, 3367)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(2948,3367),Point(2944,3370))];
 
          with DeathPath do
          begin
@@ -207,6 +216,7 @@ Example:
          Tiles := [Point(2949, 3382)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(2946,3385),Point(2950,3380))];
        end;
 
      LOC_VW_BANK:
@@ -218,6 +228,7 @@ Example:
          Tiles := [Point(3187, 3437)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3182,3447),Point(3188,3433))];
 
          with DeathPath do
          begin
@@ -252,6 +263,7 @@ Example:
          Tiles := [Point(3169, 3490)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3160,3495),Point(3168,3487))];
 
          with DeathPath do
          begin
@@ -288,6 +300,7 @@ Example:
          Tiles := [Point(3209, 3503), Point(3220, 3502)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3202,3507),Point(3213,3504))];
        end;
 
      LOC_DB_BANK:
@@ -296,9 +309,10 @@ Example:
          Name := 'Draynor Village bank';
          Constant := LOC_DB_BANK;
          AtBank := True;
-         Tiles := [Point(3091, 3244)];
+         Tiles := [Point(3093, 3244)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3092,3245),Point(3095,3239))];
 
          with DeathPath do
          begin
@@ -329,6 +343,7 @@ Example:
          Tiles := [Point(3087, 3234)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3082,3238),Point(3090,3225))];
        end;
 
      LOC_DB_TREES:
@@ -340,6 +355,7 @@ Example:
          Tiles := [Point(3081, 3268)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3075,3285),Point(3088,3263))];
        end;
 
      LOC_DB_OAKS:
@@ -351,6 +367,7 @@ Example:
          Tiles := [Point(3101, 3244)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3098,3253),Point(3103,3239))];
        end;
 
      LOC_DB_FISH:
@@ -362,6 +379,7 @@ Example:
          Tiles := [Point(3087, 3228)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3084,3233),Point(3089,3220))];
        end;
 
      LOC_DB_CLAY:
@@ -373,6 +391,7 @@ Example:
          Tiles := [Point(3141, 3316)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3134,3322),Point(3148,3314))];
        end;
 
      LOC_RM_YEWS:
@@ -384,6 +403,8 @@ Example:
          Tiles := [Point(2940, 3231), Point(2933, 3227), Point(2928, 3229)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 10;
+         Areas := [PointToBox(Point(2937,3234),Point(2942,3229)),PointToBox(Point(2931,3230),Point(2936,3224)),
+                   PointToBox(Point(2926,3231),Point(2931,3226))];
        end;
 
      LOC_RM_WILLOWS:
@@ -406,6 +427,7 @@ Example:
          Tiles := [Point(2986, 3236)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+         Areas := [PointToBox(Point(2984,3240),Point(2988,3234))];
        end;
 
      LOC_RM_MINE_NORTH:
@@ -417,6 +439,7 @@ Example:
          Tiles := [Point(2979, 3245)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+         Areas := [PointToBox(Point(2981,3243),Point(2975,3249))];
        end;
 
      LOC_RM_MINE_SOUTH:
@@ -428,6 +451,7 @@ Example:
          Tiles := [Point(2983, 3233)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+         Areas := [PointToBox(Point(2980,3235),Point(2984,3231))];
        end;
 
      LOC_RM_MINE_WEST:
@@ -439,6 +463,7 @@ Example:
          Tiles := [Point(2971, 3239)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+         Areas := [PointToBox(Point(2966,3243),Point(2973,3235))];
        end;
 
      LOC_FE_BANK:
@@ -450,6 +475,7 @@ Example:
          Tiles := [Point(3012, 3354)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3009,3358),Point(3017,3355))];
 
          with DeathPath do
          begin
@@ -485,6 +511,7 @@ Example:
          Tiles := [Point(3058, 3253), Point(3063, 3258)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 10;
+         Areas := [PointToBox(Point(3055,3255),Point(3063,3243)), PointToBox(Point(3056,3264),Point(3066,3256))];
        end;
 
      LOC_PS_YEWS:
@@ -496,6 +523,7 @@ Example:
          Tiles := [Point(3053, 3270)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+         Areas := [PointToBox(Point(3049,3274),Point(3056,3266))];
        end;
 
      LOC_PS_DBOX:
@@ -507,6 +535,7 @@ Example:
          Tiles := [Point(3046, 3235)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3043,3238),Point(3049,3234))];
 
          with DeathPath do
          begin
@@ -539,6 +568,7 @@ Example:
          Tiles := [Point(3148, 3147)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
+         Areas := [PointToBox(Point(3143,3153),Point(3152,3140))];
        end;
 
      LOC_LSE_MINE:
@@ -550,6 +580,7 @@ Example:
          Tiles := [Point(3227, 3148)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
+         Areas := [PointToBox(Point(3221,3150),Point(3233,3141))];
        end;
 
      LOC_LB_SPAWN:
@@ -561,6 +592,7 @@ Example:
          Tiles := [Point(3222, 3218)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
+         Areas := [PointToBox(Point(3219,3222),Point(3224,3213))];
        end;
 
      LOC_DB_YEWS:
@@ -572,6 +604,8 @@ Example:
          Tiles := [Point(3153, 3229), Point(3166, 3222), Point(3181, 3227)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
+         Areas := [PointToBox(Point(3149,3233),Point(3154,3226)), PointToBox(Point(3164,3224),Point(3168,3219)),
+                   PointToBox(Point(3178,3229),Point(3183,3225))];
        end;
 
      LOC_EV_BANK:
@@ -583,6 +617,7 @@ Example:
          Tiles := [Point(3093, 3493)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
+         Areas := [PointToBox(Point(3091,3498),Point(3094,3490))];
 
          with DeathPath do
          begin
@@ -622,6 +657,7 @@ Example:
          Tiles := [Point(3087, 3472), Point(3087, 3479)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3089,3470),Point(3086,3473)), PointToBox(Point(3085,3480),Point(3088,3477))];
        end;
 
      LOC_BBV_MINE:
@@ -633,6 +669,7 @@ Example:
          Tiles := [Point(3079, 3423)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3077,3425),Point(3085,3418))];
        end;
 
      LOC_BBV_FISH:
@@ -644,6 +681,7 @@ Example:
          Tiles := [Point(3108, 3434), Point(3103, 3426)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
+         Areas := [PointToBox(Point(3106,3437),Point(3110,3431)), PointToBox(Point(3101,3428),Point(3104,3423))];
        end;
 
      LOC_SV_MAGICS:
@@ -724,6 +762,7 @@ Example:
          Tiles := [Point(2941, 3279), Point(2941, 3287)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
+         Areas := [PointToBox(Point(2937,3281),Point(2942,3276)), PointToBox(Point(2939,3290),Point(2942,3285))];
        end;
 
      LOC_AK_BANK:
@@ -735,6 +774,7 @@ Example:
          Tiles := [Point(3270, 3165)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3268,3168),Point(3272,3161))];
 
          with DeathPath do
          begin
@@ -762,6 +802,7 @@ Example:
          Tiles := [Point(3273, 3179)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3272,3181),Point(3278,3177))];
        end;
 
      LOC_AK_MINE_SOUTH:
@@ -773,6 +814,7 @@ Example:
          Tiles := [Point(3299, 3286)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3294,3305),Point(3304,3295))];
        end;
 
      LOC_AK_MINE_CENTRAL:
@@ -784,6 +826,7 @@ Example:
          Tiles := [Point(3300, 3301)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3296,3298),Point(3303,3284))];
        end;
 
      LOC_AK_MINE_NORTH:
@@ -795,6 +838,7 @@ Example:
          Tiles := [Point(3301, 3313)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(3297,3318),Point(3305,3308))];
        end;
 
      LOC_CB_BANK:
@@ -844,6 +888,7 @@ Example:
          Tiles := [Point(2851, 3141)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(2849,3143),Point(2852,3138))];
        end;
 
      LOC_KJ_FISH:
@@ -855,6 +900,7 @@ Example:
          Tiles := [Point(2924, 3175)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
+         Areas := [PointToBox(Point(2922,3179),Point(2925,3172))];
        end;
    end;
 
