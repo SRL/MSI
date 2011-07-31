@@ -286,6 +286,8 @@ begin
         Level       := -1;
       end;
   end;
+
+  MSI_SubDebug('Loaded material: '+result.name);
 end;
 
 (*
