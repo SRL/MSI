@@ -1496,6 +1496,7 @@ begin
           // if only set to move the mouse, we're done
           if (action = moMove) then
           begin
+            MSI_SubDebug('Action set to moMove');
             result := true;
             break;
           end;

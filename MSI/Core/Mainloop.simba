@@ -333,7 +333,7 @@ Example:
 *)
 function MSI_BankMaterials(): Boolean;
 var
-  scriptConst: Integer;
+  scriptConst, t: Integer;
 begin
   if (not LoggedIn) then
     Exit;
@@ -342,7 +342,17 @@ begin
   MSI_CountItems;
 
   scriptConst := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name;
-  Result := MSI_Scripts[scriptConst].BankObjects();
+
+  while (t < 5) do
+  begin
+    inc(t);
+
+    if (MSI_Scripts[scriptConst].bankObjects()) then
+    begin
+      result := true;
+      break;
+    end;
+  end;
 
   MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
   stats_IncVariable('Times Banked', 1);
