@@ -402,7 +402,7 @@ begin
 
   {$IFDEF REFLECTION}
   if (not MSI_HookBroken[HOOK_RANDOMS]) then
-    randomDone := FindNormalRandoms //R_FindRandoms
+    randomDone := R_FindRandoms
   else
     randomDone := FindNormalRandoms;
   {$ELSE}
