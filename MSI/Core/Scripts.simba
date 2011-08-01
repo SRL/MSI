@@ -1209,7 +1209,7 @@ begin
 
             Reflection := [
                             // Bank -> Front Door
-                            TPointArray([Point(3012, 3355), Point(3007, 3347),
+                            TPointArray([Point(3012, 3353), Point(3007, 3347),
                                          Point(3007, 3335), Point(3006, 3324),
                                          Point(3001, 3313), Point(2994, 3303),
                                          Point(2987, 3295), Point(2976, 3292),

@@ -307,7 +307,11 @@ begin
       result := MSI_WaitForMirror(obs);
     end else
       if (getSystemTime > (t div 3)) then
+      begin
+        MSI_Debug('Setting obstacle to right click only');
+        obsObj.rightClickOnly := true; // in case uptext is failing
         MSI_NotBoxes := [];
+      end;
 
   clickNorth(true);
   MSI_CloseHeader('MSI_SolveObstacle: ' + boolToStr(result));

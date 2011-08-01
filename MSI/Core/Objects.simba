@@ -1487,7 +1487,8 @@ begin
         end;
 
         mmouse(obj.x, obj.y, 5, 5);
-        wait(randomRange(20, 50));
+        wait(randomRange(100, 200));
+        MSI_SubDebug('Uptext: '+rs_GetUptext());
 
         // check the uptext of where we moved the mouse to
         if (waitUptextMulti(obj.uptexts, randomRange(300, 500))) then
@@ -1524,6 +1525,8 @@ begin
               end;
             end;
         end else begin
+          MSI_SubDebug('Failed to find uptext: '+toStr(obj.uptexts));
+
           // add to the bad boxes array if the uptext is wrong
           setLength(MSI_NotBoxes, length(MSI_NotBoxes) + 1);
           MSI_NotBoxes[high(MSI_NotBoxes)] :=
