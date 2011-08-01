@@ -306,7 +306,7 @@ begin
       wait(randomRange(1500, 2000));
       result := MSI_WaitForMirror(obs);
     end else
-      if (getSystemTime > (t div 3)) then
+      if ((t - getSystemTime) >= 15000) then
       begin
         MSI_Debug('Setting obstacle to right click only');
         obsObj.rightClickOnly := true; // in case uptext is failing
