@@ -349,7 +349,6 @@ begin
                   if (MSI_WaitItemGone(MSI_Items[material.supplies[j][0]])) then
                   begin
                     result := true;
-                    MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
                     exit;
                   end;
         end;

@@ -166,6 +166,9 @@ procedure MSI_CountItems;
 var
   itemCount, expCount, j, k: Integer;
   objs: TIntegerArray;
+  exps: TExtendedArray;
+  script: TScript;
+  item: TItem;
 begin
   if (not LoggedIn) then
     Exit;
@@ -174,7 +177,9 @@ begin
 
   with MSI_Players[CurrentPlayer] do
   begin
-    case (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst) of
+    script := MSI_Scripts[Scripts[CurrentScript].Name];
+
+    case (script.skillConst) of
       SKILL_WOODCUTTING:
         objs := Scripts[CurrentScript].Trees;
 
@@ -184,26 +189,28 @@ begin
       SKILL_FISHING:
         objs := Scripts[CurrentScript].FishSpots;
 
-      SKILL_COOKING:
-        objs := Scripts[CurrentScript].CookingSpot;
-
-      SKILL_NONE:
-        objs := Scripts[CurrentScript].Objects;
+      SKILL_COOKING, SKILL_NONE:
+        objs := Scripts[CurrentScript].Materials;
     end;
 
     for j := 0 to High(objs) do
+    begin
+      exps := MSI_GetItemExp(script.skillConst, reportInfo.items[currentScript][j]);
+
       for k := 0 to High(ReportInfo.Items[CurrentScript][j]) do
       begin
-        itemCount := CountItems('dtm', MSI_Items[ReportInfo.Items[CurrentScript][j][k]].DTM, []);
-        expCount  := Round(ReportInfo.Experiences[CurrentScript][j][k] * itemCount);
+        item := MSI_Items[ReportInfo.Items[CurrentScript][j][k]];
+
+        itemCount := CountItems('dtm', item.DTM, []);
+        expCount  := round(exps[k] * itemCount);
 
         MSI_AddToProggy(PROG_ADD_EXP, -1, -1, expCount);  // Adds experience
         MSI_AddToProggy(PROG_ADD_ITEMS, j, k, itemCount); // Adds items
 
-        MSI_Debug('MSI_CountItems: Found '+IntToStr(itemCount)+' of '+
-                  MSI_Items[ReportInfo.Items[CurrentScript][j][k]].Name+' ('+
-                  IntToStr(expCount) + ' XP)');
+        MSI_Debug('MSI_CountItems: Found ' + toStr(itemCount) + ' of ' +
+          item.name + ' (' + toStr(expCount) + ' XP)');
       end;
+    end;
   end;
 end;
 
@@ -722,170 +729,6 @@ begin
 end;
 
 (*
-MSI_SetReportInfo
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_SetReportInfo(Player, Script: Integer; PlayerObjs, DefaultObjs: TIntegerArray; var newObjs: TIntegerArray);
-
-Called in MSI_SetPlayerInfo. Sets the Items & their respecive
-experiences/amounts depending on the objects filled out during player setup.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 20 April 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  // From MSI_SetPlayerInfo
-  MSI_SetReportInfo(i, j, Scripts[j].Trees, MSI_Scripts[Scripts[j].Name].Defaults.Trees, newObjs);
-*)
-procedure MSI_SetReportInfo(Player, Script: Integer; PlayerObjs, DefaultObjs: TIntegerArray; var newObjs: TIntegerArray);
-var
-  i: Integer;
-  useDefaults: Boolean;
-  tmpScript: TScript;
-  obj: TMSObject;
-begin
-  with MSI_Players[Player] do
-  begin
-    tmpScript := MSI_Scripts[Scripts[Script].Name];
-
-    if (Length(PlayerObjs) = 0) then
-    begin
-      useDefaults := True;
-      newObjs := DefaultObjs; // Set to default objects
-    end else
-      newObjs := PlayerObjs;
-
-    SetLength(ReportInfo.Items[Script], Length(newObjs));
-    SetLength(ReportInfo.ItemAmounts[Script], Length(ReportInfo.Items[Script]));
-    SetLength(ReportInfo.Experiences[Script], Length(ReportInfo.Items[Script]));
-
-    for i := 0 to High(newObjs) do
-      with MSI_Players[Player].ReportInfo do
-      begin
-        if (useDefaults) then
-        begin
-          // Default items set in the TScript record
-          SetLength(Items[Script][i], Length(tmpScript.Defaults.Items[i]));
-          Items[Script][i] := tmpScript.Defaults.Items[i];
-        end else begin
-          // Items dependent on the objects filled out by the user
-          obj := MSI_GetObject(newObjs[i]);
-          SetLength(Items[Script][i], Length(obj.associatedItems));
-          Items[Script][i] := obj.associatedItems;
-        end;
-
-        SetLength(ItemAmounts[Script][i], Length(Items[Script][i]));
-        SetLength(Experiences[Script][i], Length(Items[Script][i]));
-        Experiences[Script][i] := MSI_GetItemExp(tmpScript.SkillConst, Items[Script][i]);
-      {
-        for j := 0 to High(Experiences[Script][i]) do
-          Writeln('Player['+IntToStr(Player)+'].Scripts['+IntToStr(Script)+'].Objs['+IntToStr(i)+'] Experience = '+FloatToStr(Experiences[Script][i][j]));
-      }
-      end;
-  end;
-end;
-
-(*
-MSI_SetPlayerInfo
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_SetPlayerInfo;
-
-Sets the necessary player information (called at the beginning of MSI_MainLoop).
-Includes handling of default objects if the user decides not to specify for a
-certain player.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 20 April 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_SetPlayerInfo;
-*)
-procedure MSI_SetPlayerInfo;
-var
-  i, j: Integer;
-  newObjs: TIntegerArray;
-begin
-  for i := 0 to High(MSI_Players) do
-    with MSI_Players[i] do
-    begin
-      SetLength(ReportInfo.Items, Length(Scripts));
-      SetLength(ReportInfo.ItemAmounts, Length(ReportInfo.Items));
-      SetLength(ReportInfo.Experiences, Length(ReportInfo.Items));
-      SetLength(ReportInfo.Casts, Length(Scripts)); // Magic
-
-      for j := 0 to High(Scripts) do
-        case (MSI_Scripts[Scripts[j].Name].SkillConst) of // Need to set specific attributes depending on the skill
-          SKILL_WOODCUTTING:
-            begin
-              MSI_SetReportInfo(i, j, Scripts[j].Trees, MSI_Scripts[Scripts[j].Name].Defaults.Trees, newObjs);
-              Scripts[j].Trees := newObjs;
-            end;
-
-          SKILL_MINING:
-            begin
-              MSI_SetReportInfo(i, j, Scripts[j].Rocks, MSI_Scripts[Scripts[j].Name].Defaults.Rocks, newObjs);
-              Scripts[j].Rocks := newObjs;
-            end;
-
-          SKILL_FISHING:
-            begin
-              MSI_SetReportInfo(i, j, Scripts[j].FishSpots, MSI_Scripts[Scripts[j].Name].Defaults.FishSpots, newObjs);
-              Scripts[j].FishSpots := newObjs;
-            end;
-
-          SKILL_COOKING:
-            begin
-              MSI_SetReportInfo(i, j, Scripts[j].CookingSpot, MSI_Scripts[Scripts[j].Name].Defaults.CookingSpot, newObjs);
-              Scripts[j].CookingSpot := newObjs;
-
-              if (Length(Scripts[j].Materials) <= 0) then
-                Scripts[j].Materials := MSI_Scripts[Scripts[j].Name].Defaults.Materials;
-            end;
-
-          SKILL_MAGIC:
-            begin
-              // Set to default spells if needed
-              if (Length(Scripts[j].Spells) <= 0) then
-              begin
-                SetLength(Scripts[j].Staffs, Length(MSI_Scripts[Scripts[j].Name].Defaults.Spells));
-                Scripts[j].Spells := MSI_Scripts[Scripts[j].Name].Defaults.Spells;
-              end;
-
-              SetLength(ReportInfo.Casts[j], Length(Scripts[CurrentScript].Spells));
-              Scripts[j].StaffType := MSI_Scripts[Scripts[j].Name].Defaults.StaffType; // Automatically set to default until other options are added
-            end;
-
-          SKILL_NONE:
-            begin
-              MSI_SetReportInfo(i, j, Scripts[j].Objects, MSI_Scripts[Scripts[j].Name].Defaults.Objects, newObjs);
-              Scripts[j].Objects := newObjs;
-
-              if (Length(Scripts[j].Materials) <= 0) then
-                Scripts[j].Materials := MSI_Scripts[Scripts[j].Name].Defaults.Materials;
-            end;
-
-          else
-            MSI_Debug('ERROR: Invalid skill in MSI_SetPlayerInfo');
-        end;
-    end;
-end;
-
-(*
 MSI_SetScriptLength
 ~~~~~~~~~~~~~~~~~~~
 
@@ -1003,7 +846,7 @@ label
   AtBank;
 begin
   MSI_SetScriptLength;
-  MSI_SetPlayerInfo;
+  MSI_SetReportInfo;
   MSI_WriteRemote;
 
   repeat

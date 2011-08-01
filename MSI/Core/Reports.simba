@@ -10,6 +10,159 @@ The source for can be found
 *)
 
 (*
+MSI_SetReportItems
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetReportItems(pIndex, sIndex: Integer; preset, default: TIntegerArray): TIntegerArray;
+
+Returns a player's script's new array depending on the parameters given.  The
+new array could represent objects or materials (as of right now).
+    - pIndex: The index of the player in MSI_Players
+    - sIndex: The index of the script in MSI_Players[pIndex].Scripts
+    - preset: The objects/materials set in DeclarePlayers
+    - default: The default objects/materials set in the script's record
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 01 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetReportInfo(i, j, scripts[j].trees, MSI_Scripts[scripts[j].name].defaults.trees, new);
+*)
+function MSI_SetReportItems(pIndex, sIndex: Integer; preset, default: TIntegerArray): TIntegerArray;
+var
+  i, l, h: integer;
+  script: TScript;
+  obj: TMSObject;
+  mat: TMaterial;
+begin
+  with MSI_Players[pIndex] do
+  begin
+    script := MSI_Scripts[Scripts[sIndex].name];
+
+    if (length(preset) = 0) then
+      result := default
+    else
+      result := preset;
+
+    h := high(result);
+    l := (h + 1);
+    setLength(reportInfo.items[sIndex], l);
+    setLength(reportInfo.itemAmounts[sIndex], l);
+
+    for i := 0 to h do
+      with MSI_Players[pIndex].reportInfo do
+      begin
+        case script.skillConst of
+          SKILL_WOODCUTTING, SKILL_MINING, SKILL_FISHING: // skills that use objects
+            begin
+              obj := MSI_GetObject(result[i]);
+              setLength(items[sIndex][i], length(obj.associatedItems));
+              items[sIndex][i] := obj.associatedItems;
+            end;
+
+          SKILL_COOKING, SKILL_NONE: // skills that use materials
+            begin
+              mat := MSI_GetMaterial(result[i]);
+              setLength(items[sIndex][i], length(mat.produces));
+              items[sIndex][i] := mat.produces;
+            end;
+        end;
+
+        setLength(itemAmounts[sIndex][i], length(items[sIndex][i]));
+      end;
+
+    MSI_SubDebug('Player['+toStr(pIndex)+'].script['+toStr(sIndex)+'].reportInfo.items := '+toStr(reportInfo.items));
+  end;
+end;
+
+(*
+MSI_SetPlayerInfo
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetReportInfo();
+
+Sets the necessary player information (called at the beginning of MSI_MainLoop).
+Includes handling of default objects if the user decides not to specify for a
+certain player.  Also sets all the required information for the MSI progress
+report.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 01 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetPlayerInfo();
+*)
+procedure MSI_SetReportInfo();
+var
+  i, j, h, l: integer;
+  script: TScript;
+begin
+  for i := 0 to high(MSI_Players) do
+    with MSI_Players[i] do
+    begin
+      h := high(scripts);
+      l := (h + 1);
+
+      setLength(reportInfo.items, l);
+      setLength(reportInfo.itemAmounts, l);
+      setLength(reportInfo.casts, l);
+
+      for j := 0 to h do
+      begin
+        script := MSI_Scripts[scripts[j].name];
+
+        case (script.skillConst) of // need to set specific attributes depending on the skill
+          SKILL_WOODCUTTING:
+            scripts[j].trees := MSI_SetReportItems(i, j, scripts[j].trees, script.defaults.trees);
+
+          SKILL_MINING:
+            scripts[j].rocks := MSI_SetReportItems(i, j, scripts[j].rocks, script.defaults.rocks);
+
+          SKILL_FISHING:
+            scripts[j].fishSpots := MSI_SetReportItems(i, j, scripts[j].fishSpots, script.defaults.fishSpots);
+
+          SKILL_COOKING, SKILL_NONE:
+            begin
+              scripts[j].materials := MSI_SetReportItems(i, j, scripts[j].materials, script.defaults.materials);
+              scripts[j].cookingSpot := script.defaults.cookingSpot;
+              scripts[j].objects := script.defaults.objects;
+            end;
+
+          SKILL_MAGIC:
+            begin
+              // Set to default spells if needed
+              if (length(scripts[j].spells) <= 0) then
+              begin
+                setLength(scripts[j].staffs, length(script.defaults.spells));
+                scripts[j].spells := script.defaults.spells;
+              end;
+
+              setLength(reportInfo.casts[j], length(scripts[j].spells));
+              scripts[j].staffType := script.defaults.staffType; // Automatically set to default until other options are added
+            end;
+
+          else
+            MSI_Debug('ERROR: Invalid skill in MSI_SetPlayerInfo');
+        end;
+      end;
+    end;
+end;
+
+(*
 MSI_MagicReport
 ~~~~~~~~~~~~~~~
 

@@ -1087,7 +1087,7 @@ begin
       begin
         Name := 'Raw swordfish';
         StatsName := 'Swordfish Caught';
-        UpText := ['aw swordfish'];
+        UpText := ['aw swordfish', 'aw sword', 'aw swo'];
         Stackable := False;
         EquipLevel := -1;
       end;
@@ -1664,6 +1664,8 @@ var
   i: integer;
   e: extended;
 begin
+  setLength(result, length(items));
+
   for i := 0 to High(Items) do
   begin
     e := 0;

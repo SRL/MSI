@@ -526,6 +526,7 @@ begin
     if (not itemsWithdrew[i]) then // Returns false if it fails to withdraw one item
     begin
       MSI_CloseHeader('MSI_Withdraw: ' + BoolToStr(Result) + ' (' + MSI_Items[Items[i]].Name + ')');
+      MouseBox(MIX1, MIY1, MIX2, MIY2, 3); // Mouse out of option menu
       Exit;
     end else
       MSI_Debug('Withdrew '+Capitalize(MSI_Items[Items[i]].Name));

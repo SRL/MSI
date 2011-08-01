@@ -787,12 +787,6 @@ begin
         WaitToMove         := True;
         MultiClick         := False;
         Track              := False;
-        AssociatedItems    := [FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
-                               FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
-                               FISH_COOKED_PIKE, FISH_COOKED_TROUT,
-                               FISH_COOKED_SALMON, FISH_COOKED_LOBSTER,
-                               FISH_COOKED_TUNA, FISH_COOKED_SWORDFISH,
-                               FISH_COOKED_SHARK];
       end;
 
     { Obstacles ================================== ]
@@ -950,8 +944,6 @@ begin
          ExcludeSelf        := True;
          WaitToMove         := True;
          MultiClick         := False;
-         AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                                BUCKET_WATER ];
       end;
 
     WELL_EV:
@@ -972,8 +964,6 @@ begin
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := False;
-        AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                               BUCKET_WATER ];
       end;
 
     PUMP_FW:
@@ -994,8 +984,6 @@ begin
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := False;
-        AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                               BUCKET_WATER ];
       end;
 
     { FURNACES =================================== ]
@@ -1018,8 +1006,6 @@ begin
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := False;
-        AssociatedItems    := [BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
-		                           BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE];
       end;
   end;
 
