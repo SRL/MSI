@@ -402,7 +402,7 @@ begin
 
   {$IFDEF REFLECTION}
   if (not MSI_HookBroken[HOOK_RANDOMS]) then
-    randomDone := R_FindRandoms
+    randomDone := FindNormalRandoms //R_FindRandoms
   else
     randomDone := FindNormalRandoms;
   {$ELSE}
@@ -413,6 +413,7 @@ begin
   begin
     Result := True;
     MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
+    ClickNorth(True);
   end else
     if (not LoggedIn) then
     begin

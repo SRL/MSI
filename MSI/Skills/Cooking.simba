@@ -129,7 +129,7 @@ begin
     for i := 0 to High(recipe.Supplies) do
       if (FindDTM(MSI_Items[recipe.Supplies[i][0]].DTM, x, y, MCx1, MCy1, MCx2, MCy2)) then
       begin
-        MMouse(x, y, -25, 25);
+        MMouse(x, y, -15, 15);
 
         if (WaitUpTextMulti(['ook A', 'k All', 'ook', 'll'], 2000)) then
         begin
