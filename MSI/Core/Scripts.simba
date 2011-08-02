@@ -53,6 +53,21 @@ begin
         ];
       end;
 
+    SCRIPT_IVY:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Ivy cutter';
+        Constant      := SCRIPT_IVY;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Drop;
+        //AutoObjects   := @MSI_ChopIvy;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        with Defaults do
+          Trees := [TREE_IVY];
+      end;
+
     SCRIPT_VE_TREES:
       with MSI_Scripts[whichScript] do
       begin
