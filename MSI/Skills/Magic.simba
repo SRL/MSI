@@ -652,7 +652,7 @@ MSI_ClickSpell
 
 .. code-block:: pascal
 
-  function MSI_ClickSpell(Spell: Integer): Boolean;
+  function MSI_ClickSpell(spell: Integer): boolean;
 
 Returns true when the spell 'Spell' is clicked.
 
@@ -669,30 +669,35 @@ Example:
     if (MSI_ClickSpell(SPELL_ALCH_HIGH)) then
       MSI_Debug('Clicked the high alchemy spell');
 *)
-function MSI_ClickSpell(Spell: Integer): Boolean;
+function MSI_ClickSpell(spell: Integer): boolean;
 var
-  x, y: Integer;
+  x, y, i: Integer;
   b: TBox;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  b := MSI_GetSpellBox(Spell);
-  Gametab(TAB_MAGIC);
-  Wait(RandomRange(200, 700));
+  b := MSI_GetSpellBox(spell);
 
-  GetMousePos(x, y);
-  if (not PointInBox(Point(x, y), b)) then
+  for i := 1 to 5 do
   begin
-    MouseBox(b.x1, b.y1, b.x2, b.y2, 3); // 3 = MMouse
-    GetMousePos(x, y);
-  end;
+    gametab(TAB_MAGIC);
+    wait(randomRange(200, 700));
 
-  if (WaitUptext('ast', 500)) then
-  begin
-    Mouse(x, y, 0, 0, True);
-    MSI_SubDebug('Clicked spell: '+MSI_Spells[Spell].Name);
-    Result := True;
+    getMousePos(x, y);
+    if (not pointInBox(point(x, y), b)) then
+    begin
+      mouseBox(b.x1, b.y1, b.x2, b.y2, 3); // 3 = MMouse
+      getMousePos(x, y);
+    end;
+
+    if (waitUptext('ast', 500)) then
+    begin
+      mouse(x, y, 0, 0, true);
+      MSI_SubDebug('Clicked spell: '+MSI_Spells[spell].name);
+      result := true;
+      break;
+    end;
   end;
 end;
 
