@@ -936,7 +936,7 @@ begin
   locArr[1] := Script.PathInfo.EndLoc;
 
   for i := 0 to 1 do
-    if (MSI_AtLocation(locArr[i], true)) then
+    if (MSI_AtLocation(locArr[i], false)) then
     begin
       MSI_Players[CurrentPlayer].location := locArr[i];
       MSI_Debug('Player''s location: '+MSI_Locations[locArr[i]].name);
