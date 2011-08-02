@@ -44,7 +44,18 @@ Example:
          AtBank := False;
          MinDistance := 30;
        end;
-
+     {
+     LOC_VE_IVY:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Varrock Ivy';
+         Constant := LOC_VE_IVY;
+         AtBank := False;
+         Tiles := [Point(3232, 3461)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 15;
+       end;
+      }
      LOC_LOST:
        with MSI_Locations[Which] do
        begin
@@ -309,7 +320,7 @@ Example:
          Name := 'Draynor Village bank';
          Constant := LOC_DB_BANK;
          AtBank := True;
-         Tiles := [Point(3093, 3244)];
+         Tiles := [Point(3095, 3244)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
          Areas := [PointToBox(Point(3092,3245),Point(3095,3239))];

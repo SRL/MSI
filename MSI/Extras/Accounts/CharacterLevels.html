@@ -3,8 +3,18 @@
 <head>  
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
 <title>Untitled Document</title>  
+<script>
+   function changeScreenSize(w,h)
+     {
+       window.resizeTo( w,h )
+     }
+</script>
 <script type="text/javascript" src="jquery.js"></script>  
-
+<script type="text/javascript">
+function writetext(id,what){
+document.getElementById(''+id+'').innerHTML=''+what+'';
+}
+</script>
 <script type="text/javascript"> 
 var data=new Array()
 
@@ -51,7 +61,6 @@ data.push(name,attack,defence,strength,hitpoints,range,prayer,magic,cooking,wood
 select.append("<option>"+name+"</option>");
 
 
-
 });
 
 
@@ -64,53 +73,49 @@ select.children(":first").text("please make a selection").attr("selected",true);
 </script>
  
 </script>  
+
+<style media="screen" type="text/css">
+
+.example {
+width: 763px;
+height: 501px;
+background-image: url(img/stats4.png);
+background-position: center top;
+background-repeat: no-repeat;
+}
+p{
+font-size:13px bold;
+color:yellow;
+white-space: pre;
+line-height:1.74;
+
+} 
+
+</style>
+
+
 </head>  
-<body> 
+<body onload="changeScreenSize(810,695)">
 <title>RS Character Levels</title>
 <form>
 <h3>Select a character to view its skill levels : <select id="mySelect">
 <option></option>
 </select></h3>
 </form> 
-<table border='1'>
-<tr><td><h2></h2></td><td><h3>Skill Levels</h3></td></tr>
-<tr><td>Attack Level</td><td><input type="text" id="1"/><br/></td></tr>
-<tr><td>Defence Level</td><td><input type="text" id="2"/><br/></td></tr>
-<tr><td>Strength Level</td><td><input type="text" id="3"/><br/></td></tr>
-<tr><td>Hitpoints Level</td><td><input type="text" id="4"/><br/></td></tr>
-<tr><td>Range Level</td><td><input type="text" id="5"/><br/></td></tr>
-<tr><td>Prayer Level</td><td><input type="text" id="6"/><br/></td></tr>
-<tr><td>Magic Level</td><td><input type="text" id="7"/><br/></td></tr>
-<tr><td>Cooking Level</td><td><input type="text" id="8"/><br/></td></tr>
-<tr><td>Woodcutting Level</td><td><input type="text" id="9"/><br/></td></tr>
-<tr><td>Fletching Level</td><td><input type="text" id="10"/><br/></td></tr>
-<tr><td>Fishing Level</td><td><input type="text" id="11"/><br/></td></tr>
-<tr><td>Firemaking Level</td><td><input type="text" id="12"/><br/></td></tr>
-<tr><td>Crafting Level</td><td><input type="text" id="13"/><br/></td></tr>
-<tr><td>Smithing Level</td><td><input type="text" id="14"/><br/></td></tr>
-<tr><td>Mining Level</td><td><input type="text" id="15"/><br/></td></tr>
-<tr><td>Herblore Level</td><td><input type="text" id="16"/><br/></td></tr>
-<tr><td>Agility Level</td><td><input type="text" id="17"/><br/></td></tr>
-<tr><td>Thieving Level</td><td><input type="text" id="18"/><br/></td></tr>
-<tr><td>Slayer Level</td><td><input type="text" id="19"/><br/></td></tr>
-<tr><td>Farming Level</td><td><input type="text" id="20"/><br/></td></tr>
-<tr><td>RuneCrafting Level</td><td><input type="text" id="21"/><br/></td></tr>
-<tr><td>Hunter Level</td><td><input type="text" id="22"/><br/></td></tr>
-<tr><td>Construction Level</td><td><input type="text" id="23"/><br/></td></tr>
-<tr><td>Summoning Level</td><td><input type="text" id="24"/><br/></td></tr>
-<tr><td>Dungeoneering Level</td><td><input type="text" id="25"/><br/></td></tr>
-</table>
 
+<div class="example">
+<p><br/><br/><br/><br/>                                                                                      <span id="27"></span><br/></p><p>                                                                                <span id="1"></span>            <span id="4"></span>           <span id="15"></span><br/>                                                                                <span id="3"></span>            <span id="17"></span>             <span id="14"></span><br/>                                                                                <span id="2"></span>            <span id="16"></span>             <span id="11"></span><br/>                                                                                <span id="5"></span>            <span id="18"></span>             <span id="8"></span><br/>                                                                                <span id="6"></span>            <span id="13"></span>             <span id="12"></span><br/>                                                                                <span id="7"></span>            <span id="10"></span>             <span id="9"></span><br/>                                                                                <span id="21"></span>              <span id="19"></span>             <span id="20"></span><br/>                                                                                <span id="23"></span>              <span id="22"></span>             <span id="24"></span><br/>                                                                                <span id="25"></span>                            <span id="26"></span><br/></p>
+</div>
 
 <script>
-
-
 
 $("select").change(function () {
           var str = "";
           var b = 1;
           var start;
           var n = 0;
+          var TotalLevel;
+          var temp = 0;
           $("select option:selected").each(function () {
                 var search = $(this).text()
                 //alert("Searching for character : "+search);
@@ -128,7 +133,12 @@ $("select").change(function () {
   			b++;
   			n++;
   			}else{  			
-  			$("#"+b).val(posdata);  			
+  			$("#"+b).val(posdata); 
+                writetext(b,posdata);
+			temp = temp + parseInt(posdata);
+			TotalLevel = temp;
+			writetext(26,TotalLevel);	
+			writetext(27,search);		
   			b++;}
   			}else{
   			

@@ -36,7 +36,7 @@ Example:
 *)
 function MSI_SetupCooking: Boolean;
 var
-  i, tries: integer;
+  i, j, tries: integer;
   recipe: TMaterial;
   script: TScript;
 label
@@ -53,13 +53,18 @@ begin
       begin
         recipe := MSI_GetMaterial(scripts[currentScript].materials[i]);
 
-        if (countItems('dtm', MSI_Items[recipe.supplies[0][0]].DTM, []) <= 0) then
-          continue
-        else begin
-          MSI_SubDebug('Materials found in inventory');
-          result := true;
+        if (length(recipe.supplies) > 0) then
+          for j := 0 to high(recipe.supplies) do
+            if (countItems('dtm', MSI_Items[recipe.supplies[j][0]].DTM, []) <= 0) then
+              break
+            else begin
+              MSI_SubDebug('Materials found in inventory');
+              result := true;
+              break;
+            end;
+
+        if (result) then
           break;
-        end;
       end;
 
       // if items aren't found, try to bank
@@ -124,7 +129,7 @@ begin
     for i := 0 to High(recipe.Supplies) do
       if (FindDTM(MSI_Items[recipe.Supplies[i][0]].DTM, x, y, MCx1, MCy1, MCx2, MCy2)) then
       begin
-        MMouse(x, y, -25, 25);
+        MMouse(x, y, -15, 15);
 
         if (WaitUpTextMulti(['ook A', 'k All', 'ook', 'll'], 2000)) then
         begin

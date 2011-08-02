@@ -413,6 +413,7 @@ begin
   begin
     Result := True;
     MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
+    ClickNorth(True);
   end else
     if (not LoggedIn) then
     begin
