@@ -70,7 +70,7 @@ begin
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Drop;
-        AutoObjects   := @MSI_ChopIvy;
+        //AutoObjects   := @MSI_ChopIvy;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
         with Defaults do
