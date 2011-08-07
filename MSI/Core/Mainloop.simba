@@ -121,8 +121,7 @@ begin
     MSI_SetPlayerLoc();
 
     // Get the player's skill levels for each script
-    if (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
-      MSI_SetSkillLevels();
+    MSI_SetSkillLevels();
 
     // Check to see if there's items in the set exceptions array
     for i := 0 to High(Scripts[CurrentScript].Exceptions) do

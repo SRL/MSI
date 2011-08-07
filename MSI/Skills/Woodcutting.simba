@@ -204,7 +204,7 @@ MSI_ChopTree
 
 .. code-block:: pascal
 
-  function MSI_ChopTree(trees: TIntegerArray; var forceFail: boolean): boolean;
+  function MSI_ChopTree(trees: TIntegerArray): boolean;
 
 Finds and chops the first tree found in the array 'Which'.  'ForceFail' is used
 to deliberately make the function fail if for some reason the player's hatchet
@@ -219,11 +219,10 @@ Example:
 
 .. code-block:: pascal
 
-  if (MSI_ChopTree([TREE_NORMAL, TREE_OAK], fail)) then
-    if (not fail) then
-      MSI_Debug('Chopped tree');
+  if (MSI_ChopTree([TREE_NORMAL, TREE_OAK])) then
+    MSI_Debug('Chopped tree');
 *)
-function MSI_ChopTree(trees: TIntegerArray; var forceFail: boolean): boolean;
+function MSI_ChopTree(trees: TIntegerArray): boolean;
 var
   treeObjs: TMSObjectArray;
   tree: TMSObject;

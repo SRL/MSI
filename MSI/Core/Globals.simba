@@ -961,7 +961,7 @@ type
     BankType    : TBank;
     GetMaterials: Boolean;
     WhichBank   : Integer;
-    ClickClosest: Boolean;           // Called in MSI_AutoInvFull()
+    ClickClosest: Boolean;
     AutoObjects : function: Boolean;
     BankObjects : function: Boolean;
     PlayerSetup : function: Boolean;
@@ -1178,6 +1178,6 @@ var
 
 function MSI_GetCurrentScript(): TScript;
 begin
-  result := MSI_Scripts[MSI_Players[currentPlayer].scripts[currentScript].name];
+  result := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
 end;
 

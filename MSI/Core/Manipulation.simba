@@ -210,6 +210,27 @@ begin
   MSI_SubDebug('MSI_MirrorATPA: New ATPA ' + toStr(result));
 end;
 
+(*
+MSI_ConvertTilePath
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ConvertTilePath(Tiles: TPointArray): TPointArray;
+
+Converts the tile path 'Tiles' to a path that can be used for SPS.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 23 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  SPSPath := MSI_ConvertTilePath(path);
+*)
 function MSI_ConvertTilePath(Tiles: TPointArray): TPointArray;
 {$IFDEF SPS}
 var
@@ -226,6 +247,28 @@ begin
   {$ENDIF}
 end;
 
+(*
+MSI_Convert2DTilePath
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Convert2DTilePath(Tiles: T2DPointArray): T2DPointArray;
+
+Converts the tile path 'Tiles' to a path that can be used for SPS. Exact same
+as MSI_ConvertTilePath, except converts a 2D path.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 23 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  SPSPath := MSI_Convert2DTilePath(path);
+*)
 function MSI_Convert2DTilePath(Tiles: T2DPointArray): T2DPointArray;
 var
   i: Integer;
@@ -237,82 +280,131 @@ begin
 end;
 
 (*
-MSI_StrToIntArr
-~~~~~~~~~~~~~~~
+MSI_RandomizeArray
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_StrToIntArr(Str: string): TIntegerArray;
+  function MSI_RandomizeArray(arr: TIntegerArray): TIntegerArray;
 
-Converts a string to an integer array; for example, MSI_StrToIntArr('1, 2, 3, 4')
-will result [1, 2, 3, 4]. This is used for interaction with the files MSI uses
-to save records (i.e. player, walk points, scripts, etc).
+Returns the array of integers, 'Objs', in a random order.  This is used so the
+user can set MSI's Priority Autoing feature so it will look for one object
+(i.e. look for one tree) over another.
 
 .. note::
 
-  | Author: Coh3n
-  | Last Updated: 24 January 2010 by Coh3n
+  | Author: NCDS
+  | Last Updated: 20 September 2010 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  // Sets the player's script priority array based on what it reads from the file
-  with MSI_Players[i].Scripts[j] do
-    Priority := MSI_StrToIntArr(ReadINI(IntToStr(i), 'Scripts'+IntToStr(j)+'.Priority', PATH_PLAYER));
+  MSI_FindObject(MSI_GetObject(TREE_NORMAL), moLeft);
 *)
-function MSI_StrToIntArr(str: string): TIntegerArray;
+function MSI_RandomizeArray(arr: TIntegerArray): TIntegerArray;
 var
-  i, c, h: Integer;
-  s: TStringArray;
+  i, o: integer;
 begin
-  if (str = '') then
-    exit;
+  setLength(result, length(arr));
 
-  s := explode(',', str);
-  setLength(result, length(s));
-  c := 0;
-
-  h := high(s);
-  for i := 0 to h do
-    try
-      result[c] := strToInt(s[i]);
-      inc(c);
-    except
+  while (length(arr) <> 0) do
+    for i := 0 to high(result) do
+    begin
+      o := random(length(arr));
+      result[i] := arr[o];
+      deleteValueInIntArray(arr, o);
     end;
 end;
 
 (*
-MSI_IntArrToStr
-~~~~~~~~~~~~~~~
+MSI_ChooseInteger
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_IntArrToStr(Int: TIntegerArray): string;
+  function MSI_ChooseInteger(priorities: TIntegerArray): integer;
 
-Converts an integer array to a string; for example, MSI_IntArrToStr([1, 2, 3, 4])
-will result '1, 2, 3, 4'. See MSI_StrToIntArr.
+Chooses an index from 'Priorities' based on the index's value.  The higher the
+index value, the higher chance it has of being chosen.
 
 .. note::
 
-  | Author: Coh3n
-  | Last Updated: 24 January 2010 by Coh3n
+  | Author: Sir R. Magician
+  | Last Updated: 20 September 2010 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  objs := [TREE_NORMAL, TREE_OAK, TREE_WILLOW];
+  obj := MSI_ChooseInteger([10, 30, 60]);
+  MSI_FindObject(objs[obj], ClickLeft);
 *)
-function MSI_IntArrToStr(Int: TIntegerArray): string;
+function MSI_ChooseInteger(priorities: TIntegerArray): integer;
 var
-  i: Integer;
+  TIA: TIntegerArray;
+  i , sum, currSum: integer;
 begin
-  if (Length(Int) <= 0) then
+  setLength(TIA, Length(priorities));
+  sum := sumIntegerArray(priorities);
+
+  for i := 0 to high(priorities) do
   begin
-    Result := '';
-    Exit;
+    currSum := (currSum + priorities[i]);
+    TIA[i] := currSum;
   end;
 
-  for i := 0 to High(Int) do
-    if (i = High(Int)) then
-      Result := Result + IntToStr(Int[i])
-    else
-      Result := Result + IntToStr(Int[i]) + ', ';
+  sum := (random(sum) + 1);
+
+  for result := 0 to high(TIA) do
+    if (sum <= TIA[result]) then
+      break;
+end;
+
+(*
+MSI_RearrangeArray
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_RearrangeArray(arr, priorities: TIntegerArray): TIntegerArray;
+
+Returns the array 'arr' in a rearranged order based on 'priorities'.  Uses a
+combination of MSI_RandomizeArray and MSI_ChooseInteger.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  objs := MSI_RearrangeArray([TREE_NORMAL, TREE_OAK], [30, 70]);
+*)
+function MSI_RearrangeArray(arr, priorities: TIntegerArray): TIntegerArray;
+var
+  i, o: Integer;
+begin
+  setLength(result, length(arr));
+
+  if (length(arr) <> length(priorities)) or (length(priorities) = 0) then
+  begin
+    result := MSI_RandomizeArray(arr);
+    exit;
+  end;
+
+  while (length(arr) > 0) do
+    for i := 0 to high(Result) do
+    begin
+      o := MSI_ChooseInteger(priorities);
+      result[i] := arr[o];
+
+      deleteValueInIntArray(arr, o);
+      deleteValueInIntArray(priorities, o);
+    end;
 end;
 
 (*
@@ -344,35 +436,6 @@ begin
                      center.y - (h / 2),
                      center.x + (w / 2),
                      center.Y + (h / 2));
-end;
-
-(*
-MSI_SumTIA
-~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_SumTIA(TIA: TIntegerArray): Integer;
-
-Returns the sum of the integer array 'TIA'.
-
-.. note::
-
-  | Author: Sir R. Magician
-  | Last Updated: 17 September 2010 by Sir R. Magician
-
-Example:
-
-.. code-block:: pascal
-
-  sum := MSI_SumTIA([10, 30, 66, 85]);
-*)
-function MSI_SumTIA(TIA: TIntegerArray): Integer;
-var
-  i: Integer;
-begin
-  for i := High(TIA) downto 0 do
-    Result := Result + TIA[i];
 end;
 
 

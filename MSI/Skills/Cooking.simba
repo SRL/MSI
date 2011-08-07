@@ -125,7 +125,7 @@ begin
   if (not LoggedIn) then
     Exit;
 
-  if WaitFunc(@MSI_CB_DoAllScreen, 50, 5000) then
+  if WaitFunc(@MSI_MaterialScreen, 50, 5000) then
     for i := 0 to High(recipe.Supplies) do
       if (FindDTM(MSI_Items[recipe.Supplies[i][0]].DTM, x, y, MCx1, MCy1, MCx2, MCy2)) then
       begin
@@ -148,10 +148,10 @@ begin
   end;
 
   t := (GetSystemTime + 5000);
-  while MSI_CB_DoAllScreen and (t > GetSystemTime) do
+  while MSI_MaterialScreen and (t > getSystemTime) do
     Wait(50);
 
-  Result := (not MSI_CB_DoAllScreen);
+  Result := (not MSI_MaterialScreen);
 end;
 
 (*

@@ -470,7 +470,7 @@ begin
       for ii := 0 to high(p) do
         if (MSI_Settings[SETUP_DEBUG_SMART]) then
           SMART_DrawBoxEx(false,
-                          intToBox(p[ii].x - 10, p[ii].y - 10, p[ii].x + 10, p[ii].y + 10),
+                          MSI_MakeBox(point(p[ii].x, p[ii].y), 20, 20),
                           clBlue);
       {$ENDIF}
 
@@ -504,9 +504,10 @@ begin
           if (InIntArray([5, 10], Amounts[i])) then
             WaitOption('-'+IntToStr(Amounts[i]), 500)
           else
-            if (WaitOption('-X', 500)) then
-              if (WaitColor(254, 401, ClBlack, 0, 1200)) then
-                TypeSend(IntToStr(Amounts[i]));
+            if (not WaitOption('-'+ToStr(Amounts[i]), 500)) then
+              if (WaitOption('-X', 500)) then
+                if (WaitColor(254, 401, ClBlack, 0, 1200)) then
+                  TypeSend(IntToStr(Amounts[i]));
 
       t := (GetSystemTime + 5000);
       while (GetSystemTime < t) do
