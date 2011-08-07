@@ -35,9 +35,14 @@ Example:
 procedure MSI_SetSkillLevels();
 var
   i, curLev: Integer;
+  script: TScript;
 begin
-  if (not loggedIn) or (MSI_GetCurrentScript().SkillConst = SKILL_NONE) then
-    Exit;
+  if (not loggedIn) then
+    exit;
+
+  script := MSI_GetCurrentScript();
+  if (script.skillConst = SKILL_NONE) then
+    exit;
 
   MSI_AddHeader('MSI_SetSkillLevels');
 

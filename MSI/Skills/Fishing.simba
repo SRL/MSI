@@ -222,7 +222,7 @@ begin
   end;
 
   MSI_AddHeader('MSI_WaitWhileFishing');
-  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y), fishSpot.w, fishSpot.h;
+  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y), fishSpot.w, fishSpot.h);
 
   {$IFDEF SMART}
   if (MSI_Settings[SETUP_DEBUG_SMART]) then
