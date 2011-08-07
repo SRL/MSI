@@ -316,79 +316,19 @@ begin
 end;
 
 (*
-MSI_RemovePointsInBox
-~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_RemovePointsInBox(Points: TPointArray; Box: TBox): TPointArray;
-
-Removes all points in tpa 'Points' in a box specified by 'Box'.
-
-.. note::
-
-  | Author: Markus
-  | Last Updated: 05 November 2010 by Coh3n
-*)
-function MSI_RemovePointsInBox(Points: TPointArray; Box: TBox): TPointArray;
-var
-  i, L, rescnt: Integer;
-begin
-  L := GetArrayLength(points)-1
-  for i := 0 to L do
-  begin
-    if not PointInBox(points[i], box) then
-    begin
-      rescnt := rescnt + 1;
-      SetArrayLength(Result, rescnt);
-      Result[rescnt - 1] := points[i];
-    end;
-  end;
-end;
-
-(*
-MSI_DeletePointInTPA
-~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_DeletePointInTPA(var Arr: TPointArray; Index: Integer);
-
-Deletes the point in (Index) from a TPointArray (Arr). Used for temporarily
-removing a point in a reflection path in order to properly generate a new color
-path.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 29 January 2010 by Coh3n
-*)
-procedure MSI_DeletePointInTPA(var Arr: TPointArray; Index: Integer);
-var
-  arrLen, i: Integer;
-begin
-  arrLen := High(Arr);
-
-  for i := Index to (arrLen - 1) do
-    Swap(Arr[i], Arr[i + 1]);
-
-  SetLength(Arr, arrLen);
-end;
-
-(*
 MSI_MakeBox
 ~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_MakeBox(Center: TPoint; W, H: integer): TBox;
+  function MSI_MakeBox(center: TPoint; w, h: integer): TBox;
 
-Creates a box with center point 'Center' and width and height 'W' and 'H'.
+Creates a box with center point 'center' and width and height 'w' and 'h'.
 
 .. note::
 
-  | Author: Coh3n
-  | Last Updated: 17 September 2010 by Sir R. Magician
+  | Author: Sir R. Magician
+  | Last Updated: 07 August 2010 by Coh3n
 
 Example:
 
@@ -398,12 +338,12 @@ Example:
   with MSI_Objects[TREE_NORMAL] do
     MSI_MakeBox(Point(x, y), W, H); // W/H are TMSObject attributes
 *)
-function MSI_MakeBox(Center: TPoint; W, H: integer): TBox;
+function MSI_MakeBox(center: TPoint; w, h: integer): TBox;
 begin
-  Result := IntToBox( Center.x - W,
-                      Center.y - H,
-                      Center.x + W,
-                      Center.Y + H);
+  result := intToBox(center.x - (w / 2),
+                     center.y - (h / 2),
+                     center.x + (w / 2),
+                     center.Y + (h / 2));
 end;
 
 (*

@@ -1061,91 +1061,10 @@ function MSI_GetObjects(objs: TIntegerArray): TMSObjectArray;
 var
   i: integer;
 begin
-  setLength(result, length(Objs));
+  setLength(result, length(objs));
 
   for i := 0 to high(result) do
-    result[i] := MSI_GetObject(Objs[i]);
-end;
-
-(*
-MSI_FilterTPADist
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: integer);
-
-Removes any points in 'TPA' that are within distance 'maxDist' of each other.
-If there are three points within 50 pixels of each other, this function will
-filter out two of them.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 15 July 2011 by Nava2
-
-Example:
-
-.. code-block:: pascal
-
-  // returns the TPA excluding any points that are within 15 pixels of each other
-  MSI_FilterTPADist(TPA, 15);
-*)
-procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: integer);
-var
-  c, d, i, j, t, l, h: integer;
-  newTPA: TPointArray;
-  inBadElements: TBooleanArray;
-begin
-  MSI_AddHeader('MSI_FilterTPADist');
-  MSI_Debug('Length (start): '+toStr(length(TPA)));
-  markTime(t);
-
-  h := high(TPA);
-  l := (h + 1); // i.e. length(TPA);
-
-  setLength(inBadElements, l);
-  setLength(newTPA, l);
-
-  for i := 0 to h do
-    inBadElements[i] := false; // just in case..
-
-  for i := 0 to (h - 1) do
-  begin
-    if (inBadElements[i]) then // increases speed significantly
-      continue;
-
-    for j := (i + 1) to h do
-    begin
-      if (inBadElements[j]) then // increases speed significantly
-        continue;
-
-      d := distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y);
-      if (d <= maxDist) then // if points are too close
-      begin
-        MSI_Debug('Distance: '+toStr(d));
-        inBadElements[j] := true;
-      end;
-    end;
-  end;
-
-  MSI_Debug('Bad elements: '+toStr(inBadElements));
-  c := 0;
-
-  // set the new TPA
-  for i := 0 to h do
-    if (not inBadElements[i]) then
-    begin
-      newTPA[c] := TPA[i];
-      inc(c);
-    end;
-
-  setLength(newTPA, c);
-  TPA := newTPA;
-  MSI_Debug('New TPA: '+toStr(TPA));
-
-  MSI_Debug('Length (end): '+toStr(length(TPA)));
-  MSI_CloseHeader('MSI_FilterTPADist: Done ('+toStr(timeFromMark(t))+' ms)');
+    result[i] := MSI_GetObject(objs[i]);
 end;
 
 (*
@@ -1288,7 +1207,7 @@ begin
 
   setLength(points, c);
   sortTPAFrom(points, point(MSCX, MSCY));
-  MSI_FilterTPADist(points, min(obj.w, obj.h));
+  filterTPADist(points, min(obj.w, obj.h));
 
   if (length(points) > 0) then
   begin

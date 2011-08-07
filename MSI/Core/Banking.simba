@@ -464,7 +464,7 @@ begin
     if FindDTMs(MSI_Items[Items[i]].DTM, p, MBX1, MBY1, MBX2, MBY2) then
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-      MSI_FilterTPADist(p, 20);
+      filterTPADist(p, 20);
 
       {$IFDEF SMART}
       for ii := 0 to high(p) do
