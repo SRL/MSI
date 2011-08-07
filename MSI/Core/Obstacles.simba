@@ -88,7 +88,7 @@ begin
         MirText    := ['elcome', 'uild', 'aster', 'raft'];
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
-        ObjMirArea := intToBox(MSCX - 100, MSCY - 100, MSCX + 100, MSCY);
+        ObjMirArea := intToBox(MSCX - 100, MSCY - 100, MSCX + 100, MSCY - 20);
         Camera     := ['n', true];
         EndTiles   := [Point(2933, 3288)];
       end;

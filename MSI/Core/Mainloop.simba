@@ -302,13 +302,13 @@ begin
 
   Result := MSI_Scripts[scriptConst].AutoObjects();
 
-  if (MSI_Scripts[scriptConst].BankType = Drop) then //drop the items if not banking
-  begin
-    MSI_CountItems;
-    MSI_DropAll;
-    MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
-    Result := True;
-  end;
+  if (Result) then
+    if (MSI_Scripts[scriptConst].BankType = Drop) then //drop the items if not banking
+    begin
+      MSI_CountItems;
+      MSI_DropAll;
+      MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
+    end;
 
   MSI_CloseHeader('MSI_AutoObjects: ' + BoolToStr(Result));
 end;

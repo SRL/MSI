@@ -24,11 +24,6 @@ The source for can be found
   {$ENDIF}
 {$ENDIF}
 
-{$IFDEF DEBUG_REFLECTION}
-  {$DEFINE REFLECTION_MEMORY_DEBUG}
-  {$i reflection_management.simba}
-{$ENDIF}
-
 {$IFDEF SPS}
   {$i srl/srl/core/SPS/SPS.simba}
 {$ENDIF}
