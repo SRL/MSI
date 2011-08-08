@@ -837,7 +837,7 @@ type
 
 (*
 TMaterial
-~~~~~~~
+~~~~~~~~~
 
 The type that holds all the attributes of any materials used for a skill.
 *)

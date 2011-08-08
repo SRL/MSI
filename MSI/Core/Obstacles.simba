@@ -341,7 +341,10 @@ Example:
 *)
 function MSI_SolveObstacle(obs: TObstacle): boolean;
 var
-  t, i: Integer;
+  {$IFDEF REFLECTION}
+  i: integer;
+  {$ENDIF}
+  t: integer;
   obsObj: TMSObject;
 begin
   if (not loggedIn) then
