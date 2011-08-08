@@ -49,7 +49,7 @@ The source for can be found
 {$i MSI/MSI/Core/Materials.simba}
 {$i MSI/MSI/Core/Locations.simba}
 
-{$i MSI/MSI/Core/Skills.simba}
+{$i MSI/MSI/Skills/Common.simba}
 {$i MSI/MSI/Core/Banking.simba}
 
 //MSI Skill Files

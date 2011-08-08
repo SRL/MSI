@@ -10,6 +10,76 @@ The source for can be found
 *)
 
 (*
+MSI_SetSkillLevels
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetSkillLevels();
+
+Gets and sets each player's skill levels for each on if their scripts.  This
+procedure is called before the progress report.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 15 May 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetSkillLevels();
+*)
+procedure MSI_SetSkillLevels();
+var
+  i, curLev: Integer;
+  script: TScript;
+begin
+  if (not loggedIn) then
+    exit;
+
+  script := MSI_GetCurrentScript();
+  if (script.skillConst = SKILL_NONE) then
+    exit;
+
+  MSI_AddHeader('MSI_SetSkillLevels');
+
+  case MSI_PointerCall(MSI_OnGetSkillLevels, []) of
+    EXTRA_CONTINUE: ;
+    EXTRA_EXIT: Exit;
+  end;
+
+  with MSI_Players[CurrentPlayer] do
+    for i := 0 to High(Scripts) do
+    begin
+      {$IFDEF REFLECTION}
+      if (not MSI_HookBroken[HOOK_LEVEL_SKILL]) then
+        curLev := R_GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName)
+      else
+        curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+      {$ELSE}
+      curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+      {$ENDIF}
+
+      // Only sets if the level has increased
+      if (curLev <= ReportInfo.SkillLevels[i]) then
+      begin
+        MSI_Debug(Capitalize(MSI_Scripts[Scripts[i].Name].SkillName) + ' level hasn''t changed');
+        Continue;
+      end;
+
+      // Set the ReportInfo attribute
+      ReportInfo.SkillLevels[i] := curLev;
+
+      with MSI_Scripts[Scripts[i].Name] do
+        MSI_Debug(SkillName + ' Level: ' + IntToStr(ReportInfo.SkillLevels[i]));
+    end;
+
+  MSI_CloseHeader('MSI_SetSkillLevels: Finished');
+end;
+
+(*
 MSI_SetReportItems
 ~~~~~~~~~~~~~~~~~~
 
