@@ -207,7 +207,7 @@ Example:
 *)
 function MSI_WaitWhileFishing(fishSpot: TMSObject): boolean;
 var
-  i, h, x, y, CTS, animTries, colorTries, oldInvCount, waitTime, invTimer: integer;
+  i, h, x, y, CTS, animTries, oldInvCount, waitTime, invTimer: integer;
   idle: TAnimation;
   arr: TPointArray;
   ATPA: T2DPointArray;
@@ -223,11 +223,6 @@ begin
 
   MSI_AddHeader('MSI_WaitWhileFishing');
   fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y), fishSpot.w, fishSpot.h);
-
-  {$IFDEF SMART}
-  if (MSI_Settings[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
-  {$ENDIF}
 
   idle := MSI_GetAnimation(ANIM_IDLE);
   waitTime := (getSystemTime + (60000 * 3));
@@ -282,14 +277,20 @@ begin
 
     arr := mergeATPA(ATPA);
 
+    {$IFDEF SMART}
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
+    begin
+      SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
+      SMART_DrawDotsEx(false, arr, clRed);
+    end;
+    {$ENDIF}
+
     if (length(arr) < fishSpot.accuracy) then
     begin
-      MSI_Debug('Colours found < Accuracy');
-      inc(colorTries);
-    end else begin
+      MSI_Debug('Fishing spot not found');
+      break;
+    end else
       MSI_Debug('Fishing spot found');
-      colorTries := 0;
-    end;
 
     MSI_AntiBan(randomRange(0, 3000), ANTI_BAN_CHANCE);
 
@@ -329,7 +330,7 @@ begin
     end;
 
     wait(randomRange(300, 700));
-  until((not loggedIn) or (animTries >= 10) or (colorTries > 5));
+  until((not loggedIn) or (animTries >= 10));
 
   MSI_CloseHeader('MSI_WaitWhileFishing: ' + boolToStr(result));
 

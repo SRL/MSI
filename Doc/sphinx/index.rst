@@ -28,7 +28,6 @@ Contents:
     Reports.rst
     Scripts.rst
     Setup.rst
-    Skills.rst
     Track.rst
     Walking.rst
     Woodcutting.rst
@@ -37,6 +36,7 @@ Contents:
     Fishing.rst
     Cooking.rst
     Money_Making.rst
+    Common.rst
 
 
 Indices and tables

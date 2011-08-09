@@ -716,14 +716,14 @@ begin
         //same color info for all spots
         with result do
         begin
-          Colors             := [11050135];
+          Colors             := [12168614];
           Tol                := 8;
-          Hue                := 0.26;
-          Sat                := 0.62;
+          Hue                := 0.28;
+          Sat                := 0.71;
           FindAllColors      := False;
           W                  := 40;
           H                  := 40;
-          Accuracy           := 5;
+          Accuracy           := 10;
           SearchArea         := MSBox;
           ExcludeSelf        := True;
           WaitToMove         := True;
@@ -1286,11 +1286,6 @@ begin
     if (obj.searchArea.x2 > MSX2) then obj.searchArea.x2 := MSX2;
     if (obj.searchArea.y2 > MSY2) then obj.searchArea.y2 := MSY2;
 
-    {$IFDEF SMART}
-      if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxMS(true, obj.searchArea, clYellow);
-    {$ENDIF}
-
     if (findColorsTolerance(TPA,
                             obj.colors[0],
                             obj.searchArea.x1,
@@ -1299,6 +1294,14 @@ begin
                             obj.searchArea.y2,
                             obj.tol)) then
     begin
+      {$IFDEF SMART}
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
+      begin
+        SMART_DrawDotsEx(true, TPA, clRed);
+        SMART_DrawBoxMS(false, obj.searchArea, clYellow);
+      end;
+      {$ENDIF}
+
       ATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
       sortATPAFromFirstPoint(ATPA, Point(MSCX, MSCY));
       if (length(ATPA) > 0) then
@@ -1441,10 +1444,7 @@ begin
               mouse(obj.x, obj.y, 0, 0, false);
               result := waitOptionMulti(obj.options, randomRange(150, 200));
             end;
-          end;
-
-          // left click
-          if (not result) then
+          end else
             if (action = moLeft) then
             begin
               if (obj.multiClick) then

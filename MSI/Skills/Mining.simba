@@ -138,8 +138,8 @@ begin
     arr := mergeATPA(ATPA);
 
     {$IFDEF SMART}
-      if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawDotsEx(false, arr, clYellow);
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
+      SMART_DrawDotsEx(false, arr, clYellow);
     {$ENDIF}
 
     if (length(arr) < rock.accuracy) then

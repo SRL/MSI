@@ -1,12 +1,11 @@
 (*
-Skills
+Common
 ======
 
-The Skills file holds any routines that are used for multiple skills and that
-don't fit into any other include file.
+The Common file holds any routines that are used for more than one skill.
 
-The source for Skills.simba can be found
-`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Skills.simba>`_.
+The source for Common.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Common.simba>`_.
 
 *)
 
@@ -137,7 +136,7 @@ Example:
 *)
 function MSI_AutoInvFull(auto: function(objs: TIntegerArray): boolean): boolean;
 var
-  t, waitTime, tTime, maxTime: Integer;
+  t, waitTime, tTime, maxTime, timesRelocated: integer;
   tObjects, newObjects: TIntegerArray;
 begin
   if (not loggedIn) then
@@ -199,11 +198,17 @@ begin
           else
             makeCompass(randomRange(195, 215));
 
-          if (MSI_Relocate(MSI_Players[CurrentPlayer].Location)) then
+          if (MSI_Relocate(Location)) then
           begin
-            tTime := RandomRange(60000, 120000); // Random 1-2 minutes
-            MSI_SubDebug('Waiting ' + IntToStr(tTime) + ' ms before relocating again');
-            MarkTime(waitTime);
+            inc(timesRelocated);
+
+            if (timesRelocated <> (length(MSI_Locations[Location].Tiles) - 1)) then
+            begin
+              tTime := RandomRange(60000, 120000); // Random 1-2 minutes
+              MSI_SubDebug('Waiting ' + IntToStr(tTime) + ' ms before relocating again');
+              MarkTime(waitTime);
+            end;
+
             MSI_NotBoxes := [];
             Break;
           end else
