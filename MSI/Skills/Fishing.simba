@@ -207,7 +207,7 @@ Example:
 *)
 function MSI_WaitWhileFishing(fishSpot: TMSObject): boolean;
 var
-  i, h, x, y, CTS, animTries, oldInvCount, waitTime, invTimer: integer;
+  i, h, x, y, CTS, animTries, colTries, oldInvCount, waitTime, invTimer: integer;
   idle: TAnimation;
   arr: TPointArray;
   ATPA: T2DPointArray;
@@ -288,9 +288,11 @@ begin
     if (length(arr) < fishSpot.accuracy) then
     begin
       MSI_Debug('Fishing spot not found');
-      break;
-    end else
+      inc(colTries);
+    end else begin
       MSI_Debug('Fishing spot found');
+      colTries := 0;
+    end;
 
     MSI_AntiBan(randomRange(0, 3000), ANTI_BAN_CHANCE);
 
@@ -330,7 +332,7 @@ begin
     end;
 
     wait(randomRange(300, 700));
-  until((not loggedIn) or (animTries >= 10));
+  until((not loggedIn) or (animTries >= 10) or (colTries >= 3));
 
   MSI_CloseHeader('MSI_WaitWhileFishing: ' + boolToStr(result));
 

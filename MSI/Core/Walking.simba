@@ -526,7 +526,7 @@ var
   stopMoving: Boolean;
 {$ENDIF}
 begin
-  result := true;
+  result := false;
 
   if (not LoggedIn) then
     Exit;

@@ -716,8 +716,8 @@ begin
         //same color info for all spots
         with result do
         begin
-          Colors             := [12168614];
-          Tol                := 8;
+          Colors             := [12168614, 10721169];
+          Tol                := 7;
           Hue                := 0.28;
           Sat                := 0.71;
           FindAllColors      := False;

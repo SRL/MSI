@@ -138,6 +138,7 @@ function MSI_AutoInvFull(auto: function(objs: TIntegerArray): boolean): boolean;
 var
   t, waitTime, tTime, maxTime, timesRelocated: integer;
   tObjects, newObjects: TIntegerArray;
+  cameraChanged: boolean;
 begin
   if (not loggedIn) then
     exit;
@@ -193,20 +194,30 @@ begin
             Continue;
 
           // Adjust camera angle to make some objects visible
-          if (random(2) < 1) then
-            makeCompass(randomRange(35, 55))
-          else
-            makeCompass(randomRange(195, 215));
+          if (not cameraChanged) then
+            if (MSI_Scripts[Scripts[CurrentScript].Name].AdjustCamera) then
+            begin
+              if (random(2) < 1) then
+                makeCompass(randomRange(35, 55))
+              else
+                makeCompass(randomRange(195, 215));
+
+              cameraChanged := true;
+              continue;
+            end;
+
+          cameraChanged := false;
 
           if (MSI_Relocate(Location)) then
           begin
             inc(timesRelocated);
 
-            if (timesRelocated <> (length(MSI_Locations[Location].Tiles) - 1)) then
+            if (timesRelocated = (length(MSI_Locations[Location].Tiles) - 1)) then
             begin
-              tTime := RandomRange(60000, 120000); // Random 1-2 minutes
-              MSI_SubDebug('Waiting ' + IntToStr(tTime) + ' ms before relocating again');
-              MarkTime(waitTime);
+              tTime := randomRange(60000, 120000); // Random 1-2 minutes
+              MSI_SubDebug('Waiting ' + intToStr(tTime) + ' ms before relocating again');
+              markTime(waitTime);
+              timesRelocated := 0;
             end;
 
             MSI_NotBoxes := [];

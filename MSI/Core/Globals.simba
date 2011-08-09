@@ -962,6 +962,7 @@ type
     GetMaterials: Boolean;
     WhichBank   : Integer;
     ClickClosest: Boolean;
+    AdjustCamera: Boolean;
     AutoObjects : function: Boolean;
     BankObjects : function: Boolean;
     PlayerSetup : function: Boolean;
