@@ -283,10 +283,10 @@ begin
         Name               := 'BANK_GRAND_EXCHANGE';
         Uptexts            := ['anker'];
         Options            := ['ank Banker'];
-        Colors             := [1270921];
-        Tol                := 7;
-        Hue                := 0.04;
-        Sat                := 0.23;
+        Colors             := [5800630];
+        Tol                := 12;
+        Hue                := 0.02;
+        Sat                := 0.97;
         FindAllColors      := False;
         W                  := 10;
         H                  := 10;
@@ -364,16 +364,16 @@ begin
       with result do
       begin
         Name               := 'BANK_EDGEVILLE';
-        Uptexts            := ['ooth', 'nk Bo'];
-        Options            := ['uick', 'ickly'];
-        Colors             := [4149854, 4215904];
-        Tol                := 3;
-        Hue                := 0.21;
-        Sat                := 0.51;
+        Uptexts            := ['Banker', 'anker', 'ank'];
+        Options            := ['Bank Banker', 'ank B'];
+        Colors             := [2376018];
+        Tol                := 4;
+        Hue                := 0.10;
+        Sat                := 0.25;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 35;
-        Accuracy           := 50;
+        W                  := 10;
+        H                  := 10;
+        Accuracy           := 5;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;
@@ -938,10 +938,10 @@ begin
         Name               := 'WELL_EDGEVILLE';
         Uptexts            := ['ell'];
         Options            := ['se'];
-        Colors             := [3757413];
-        Tol                := 7;
-        Hue                := 0.05;
-        Sat                := 0.17;
+        Colors             := [7372419];
+        Tol                := 5;
+        Hue                := 0.13;
+        Sat                := 0.15;
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;
