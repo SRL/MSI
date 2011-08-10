@@ -155,9 +155,8 @@ begin
           EndLoc   := LOC_GE_YEWS;
 
           Reflection := [
-                          TPointArray([Point(3169, 3490), Point(3183, 3489),
-                                       Point(3193, 3489), Point(3197, 3499),
-                                       Point(3208, 3503)])
+                          TPointArray([Point(3180, 3475), Point(3186, 3488),
+                                       Point(3197, 3500), Point(3211, 3500)])
                         ];
 
           SPSAreas   := ['10_2', '11_2'];
