@@ -307,10 +307,10 @@ begin
         Name               := 'BANK_GRAND_EXCHANGE';
         Uptexts            := ['anker'];
         Options            := ['ank Banker'];
-        Colors             := [1270921];
-        Tol                := 7;
-        Hue                := 0.04;
-        Sat                := 0.23;
+        Colors             := [5800630];
+        Tol                := 12;
+        Hue                := 0.02;
+        Sat                := 0.97;
         FindAllColors      := False;
         W                  := 10;
         H                  := 10;
@@ -388,16 +388,16 @@ begin
       with result do
       begin
         Name               := 'BANK_EDGEVILLE';
-        Uptexts            := ['ooth', 'nk Bo'];
-        Options            := ['uick', 'ickly'];
-        Colors             := [4149854, 4215904];
-        Tol                := 3;
-        Hue                := 0.21;
-        Sat                := 0.51;
+        Uptexts            := ['Banker', 'anker', 'ank'];
+        Options            := ['Bank Banker', 'ank B'];
+        Colors             := [2376018];
+        Tol                := 4;
+        Hue                := 0.10;
+        Sat                := 0.25;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 35;
-        Accuracy           := 50;
+        W                  := 10;
+        H                  := 10;
+        Accuracy           := 5;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;
@@ -502,8 +502,8 @@ begin
         Hue                := 0.02;
         Sat                := 2.73;
         FindAllColors      := False;
-        W                  := 15;
-        H                  := 15;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 5;
         SearchArea         := MSBox;
         MaxTime            := 5000;
@@ -526,8 +526,8 @@ begin
         Hue                := 0.06;
         Sat                := 1.86;
         FindAllColors      := False;
-        W                  := 29;
-        H                  := 23;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 7000;
@@ -550,8 +550,8 @@ begin
         Hue                := 0.18;
         Sat                := 0.06;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 20;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 7000;
@@ -574,8 +574,8 @@ begin
         Hue                := 0.08;
         Sat                := 0.14;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 20;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 2;
         SearchArea         := MSBox;
         MaxTime            := 10000;
@@ -598,8 +598,8 @@ begin
         Hue                := 0.11;
         Sat                := 4.02;
         FindAllColors      := False;
-        W                  := 25;
-        H                  := 20;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 20000;
@@ -623,8 +623,8 @@ begin
         Hue                := 0.00;
         Sat                := 0.63;
         FindAllColors      := False;
-        W                  := 25;
-        H                  := 20;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 35000;
@@ -648,8 +648,8 @@ begin
         Hue                := 0.02;
         Sat                := 3.30;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 20;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 5;
         SearchArea         := MSBox;
         MaxTime            := 45000;
@@ -672,8 +672,8 @@ begin
         Hue                := 0.27;
         Sat                := 3.28;
         FindAllColors      := False;
-        W                  := 25;
-        H                  := 20;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 55000;
@@ -697,8 +697,8 @@ begin
         Hue                := 0.80;
         Sat                := 0.17;
         FindAllColors      := False;
-        W                  := 25;
-        H                  := 20;
+        W                  := 30;
+        H                  := 30;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 75000;
@@ -716,14 +716,14 @@ begin
         //same color info for all spots
         with result do
         begin
-          Colors             := [11050135];
-          Tol                := 8;
-          Hue                := 0.26;
-          Sat                := 0.62;
+          Colors             := [12168614, 10721169];
+          Tol                := 7;
+          Hue                := 0.28;
+          Sat                := 0.71;
           FindAllColors      := False;
-          W                  := 35;
-          H                  := 35;
-          Accuracy           := 5;
+          W                  := 40;
+          H                  := 40;
+          Accuracy           := 10;
           SearchArea         := MSBox;
           ExcludeSelf        := True;
           WaitToMove         := True;
@@ -811,12 +811,6 @@ begin
         WaitToMove         := True;
         MultiClick         := False;
         Track              := False;
-        AssociatedItems    := [FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
-                               FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
-                               FISH_COOKED_PIKE, FISH_COOKED_TROUT,
-                               FISH_COOKED_SALMON, FISH_COOKED_LOBSTER,
-                               FISH_COOKED_TUNA, FISH_COOKED_SWORDFISH,
-                               FISH_COOKED_SHARK];
       end;
 
     { Obstacles ================================== ]
@@ -974,8 +968,6 @@ begin
          ExcludeSelf        := True;
          WaitToMove         := True;
          MultiClick         := False;
-         AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                                BUCKET_WATER ];
       end;
 
     WELL_EV:
@@ -984,10 +976,10 @@ begin
         Name               := 'WELL_EDGEVILLE';
         Uptexts            := ['ell'];
         Options            := ['se'];
-        Colors             := [3757413];
-        Tol                := 7;
-        Hue                := 0.05;
-        Sat                := 0.17;
+        Colors             := [7372419];
+        Tol                := 5;
+        Hue                := 0.13;
+        Sat                := 0.15;
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;
@@ -996,8 +988,6 @@ begin
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := False;
-        AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                               BUCKET_WATER ];
       end;
 
     PUMP_FW:
@@ -1018,8 +1008,6 @@ begin
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := False;
-        AssociatedItems    := [CLAY_SOFT, VIAL_WATER, JUG_WATER, BOWL_WATER,
-                               BUCKET_WATER ];
       end;
 
     { FURNACES =================================== ]
@@ -1042,8 +1030,6 @@ begin
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := False;
-        AssociatedItems    := [BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
-		                           BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE];
       end;
   end;
 
@@ -1075,91 +1061,10 @@ function MSI_GetObjects(objs: TIntegerArray): TMSObjectArray;
 var
   i: integer;
 begin
-  setLength(result, length(Objs));
+  setLength(result, length(objs));
 
   for i := 0 to high(result) do
-    result[i] := MSI_GetObject(Objs[i]);
-end;
-
-(*
-MSI_FilterTPADist
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: integer);
-
-Removes any points in 'TPA' that are within distance 'maxDist' of each other.
-If there are three points within 50 pixels of each other, this function will
-filter out two of them.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 15 July 2011 by Nava2
-
-Example:
-
-.. code-block:: pascal
-
-  // returns the TPA excluding any points that are within 15 pixels of each other
-  MSI_FilterTPADist(TPA, 15);
-*)
-procedure MSI_FilterTPADist(var TPA: TPointArray; maxDist: integer);
-var
-  c, d, i, j, t, l, h: integer;
-  newTPA: TPointArray;
-  inBadElements: TBooleanArray;
-begin
-  MSI_AddHeader('MSI_FilterTPADist');
-  MSI_Debug('Length (start): '+toStr(length(TPA)));
-  markTime(t);
-
-  h := high(TPA);
-  l := (h + 1); // i.e. length(TPA);
-
-  setLength(inBadElements, l);
-  setLength(newTPA, l);
-
-  for i := 0 to h do
-    inBadElements[i] := false; // just in case..
-
-  for i := 0 to (h - 1) do
-  begin
-    if (inBadElements[i]) then // increases speed significantly
-      continue;
-
-    for j := (i + 1) to h do
-    begin
-      if (inBadElements[j]) then // increases speed significantly
-        continue;
-
-      d := distance(TPA[i].x, TPA[i].y, TPA[j].x, TPA[j].y);
-      if (d <= maxDist) then // if points are too close
-      begin
-        MSI_Debug('Distance: '+toStr(d));
-        inBadElements[j] := true;
-      end;
-    end;
-  end;
-
-  MSI_Debug('Bad elements: '+toStr(inBadElements));
-  c := 0;
-
-  // set the new TPA
-  for i := 0 to h do
-    if (not inBadElements[i]) then
-    begin
-      newTPA[c] := TPA[i];
-      inc(c);
-    end;
-
-  setLength(newTPA, c);
-  TPA := newTPA;
-  MSI_Debug('New TPA: '+toStr(TPA));
-
-  MSI_Debug('Length (end): '+toStr(length(TPA)));
-  MSI_CloseHeader('MSI_FilterTPADist: Done ('+toStr(timeFromMark(t))+' ms)');
+    result[i] := MSI_GetObject(objs[i]);
 end;
 
 (*
@@ -1302,7 +1207,7 @@ begin
 
   setLength(points, c);
   sortTPAFrom(points, point(MSCX, MSCY));
-  MSI_FilterTPADist(points, min(obj.w, obj.h));
+  filterTPADist(points, min(obj.w, obj.h));
 
   if (length(points) > 0) then
   begin
@@ -1381,11 +1286,6 @@ begin
     if (obj.searchArea.x2 > MSX2) then obj.searchArea.x2 := MSX2;
     if (obj.searchArea.y2 > MSY2) then obj.searchArea.y2 := MSY2;
 
-    {$IFDEF SMART}
-      if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxMS(true, obj.searchArea, clYellow);
-    {$ENDIF}
-
     if (findColorsTolerance(TPA,
                             obj.colors[0],
                             obj.searchArea.x1,
@@ -1394,6 +1294,14 @@ begin
                             obj.searchArea.y2,
                             obj.tol)) then
     begin
+      {$IFDEF SMART}
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
+      begin
+        SMART_DrawDotsEx(true, TPA, clRed);
+        SMART_DrawBoxMS(false, obj.searchArea, clYellow);
+      end;
+      {$ENDIF}
+
       ATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
       sortATPAFromFirstPoint(ATPA, Point(MSCX, MSCY));
       if (length(ATPA) > 0) then
@@ -1511,7 +1419,8 @@ begin
         end;
 
         mmouse(obj.x, obj.y, 5, 5);
-        wait(randomRange(20, 50));
+        wait(randomRange(100, 200));
+        MSI_SubDebug('Uptext: '+rs_GetUptext());
 
         // check the uptext of where we moved the mouse to
         if (waitUptextMulti(obj.uptexts, randomRange(300, 500))) then
@@ -1519,6 +1428,7 @@ begin
           // if only set to move the mouse, we're done
           if (action = moMove) then
           begin
+            MSI_SubDebug('Action set to moMove');
             result := true;
             break;
           end;
@@ -1534,10 +1444,7 @@ begin
               mouse(obj.x, obj.y, 0, 0, false);
               result := waitOptionMulti(obj.options, randomRange(150, 200));
             end;
-          end;
-
-          // left click
-          if (not result) then
+          end else
             if (action = moLeft) then
             begin
               if (obj.multiClick) then
@@ -1548,6 +1455,8 @@ begin
               end;
             end;
         end else begin
+          MSI_SubDebug('Failed to find uptext: '+toStr(obj.uptexts));
+
           // add to the bad boxes array if the uptext is wrong
           setLength(MSI_NotBoxes, length(MSI_NotBoxes) + 1);
           MSI_NotBoxes[high(MSI_NotBoxes)] :=

@@ -138,8 +138,8 @@ begin
     arr := mergeATPA(ATPA);
 
     {$IFDEF SMART}
-      if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawDotsEx(false, arr, clYellow);
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
+      SMART_DrawDotsEx(false, arr, clYellow);
     {$ENDIF}
 
     if (length(arr) < rock.accuracy) then
@@ -190,7 +190,7 @@ MSI_MineRock
 
 .. code-block:: pascal
 
-  function MSI_MineRock(which: TIntegerArray; var forceFail: Boolean): boolean;
+  function MSI_MineRock(which: TIntegerArray): boolean;
 
 Mines the rocks in the array 'which'.  'forceFail' is used to purposely make
 the function fail if for some reason the pickaxe can't be found or the player
@@ -205,11 +205,10 @@ Example:
 
 .. code-block:: pascal
 
-  if (MSI_MineRock([ROCK_IRON, ROCK_SILVER], fail)) then
-    if (not fail) then
-      MSI_Debug('Mined rock');
+  if (MSI_MineRock([ROCK_IRON, ROCK_SILVER])) then
+    MSI_Debug('Mined rock');
 *)
-function MSI_MineRock(which: TIntegerArray; var forceFail: Boolean): boolean;
+function MSI_MineRock(which: TIntegerArray): boolean;
 var
   rockObjs: TMSObjectArray;
   rock: TMSObject;

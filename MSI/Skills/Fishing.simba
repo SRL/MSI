@@ -187,7 +187,7 @@ MSI_WaitWhileFishing
 
 .. code-block:: pascal
 
-  procedure MSI_WaitWhileFishing(fishSpot: TMSObject; var failed: boolean);
+  function MSI_WaitWhileFishing(fishSpot: TMSObject): boolean;
 
 Waits while the player is fishing.  Uses a combination of inventory checks,
 timers, animations and object finding to detemerine whether or not the player
@@ -196,7 +196,7 @@ is still fishing.
 .. note::
 
   | Author: 3Garrett3
-  | Last Updated: 14 June 2011 by Coh3n
+  | Last Updated: 07 August 2011 by Coh3n
 
 Example:
 
@@ -205,25 +205,24 @@ Example:
   if (MSI_FindObject(fishSpot, ClickLeft)) then
     Result := MSI_WaitWhileFishing(fishSpot, failed);
 *)
-procedure MSI_WaitWhileFishing(fishSpot: TMSObject; var failed: boolean);
+function MSI_WaitWhileFishing(fishSpot: TMSObject): boolean;
 var
-  i, h, x, y, CTS, animTries, colorTries, oldInvCount, waitTime, invTimer: integer;
+  i, h, x, y, CTS, animTries, colTries, oldInvCount, waitTime, invTimer: integer;
   idle: TAnimation;
   arr: TPointArray;
   ATPA: T2DPointArray;
 begin
-  if ((not loggedIn) or (invFull)) then
+  if (not loggedIn) then
     exit;
 
-  MSI_AddHeader('MSI_WaitWhileFishing');
-  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y),
-                                     round(fishSpot.w / 1.75),
-                                     round(fishSpot.h / 1.75));
+  if (invFull) then
+  begin
+    result := true;
+    exit;
+  end;
 
-  {$IFDEF SMART}
-    if (MSI_Settings[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
-  {$ENDIF}
+  MSI_AddHeader('MSI_WaitWhileFishing');
+  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y), fishSpot.w, fishSpot.h);
 
   idle := MSI_GetAnimation(ANIM_IDLE);
   waitTime := (getSystemTime + (60000 * 3));
@@ -249,13 +248,16 @@ begin
   arr := mergeATPA(ATPA);
 
   repeat
-    MSI_FindRandoms(false);
+    result := true;
+
+    if (MSI_FindRandoms(false)) then
+      break;
 
     // check for the "you're out of bait" text in the chat box
     if (findText(x, y, 'left', NPCChars, MCX1, MCY1, MCX2, MCY2)) then
     begin
       MSI_Debug('We have run out of fishing bait!');
-      failed := true;
+      result := false;
       break;
     end;
 
@@ -275,13 +277,21 @@ begin
 
     arr := mergeATPA(ATPA);
 
+    {$IFDEF SMART}
+    if (MSI_Settings[SETUP_DEBUG_SMART]) then
+    begin
+      SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
+      SMART_DrawDotsEx(false, arr, clRed);
+    end;
+    {$ENDIF}
+
     if (length(arr) < fishSpot.accuracy) then
     begin
-      MSI_Debug('Colours found < Accuracy');
-      inc(colorTries);
+      MSI_Debug('Fishing spot not found');
+      inc(colTries);
     end else begin
       MSI_Debug('Fishing spot found');
-      colorTries := 0;
+      colTries := 0;
     end;
 
     MSI_AntiBan(randomRange(0, 3000), ANTI_BAN_CHANCE);
@@ -322,9 +332,9 @@ begin
     end;
 
     wait(randomRange(300, 700));
-  until((not loggedIn) or (animTries >= 10) or (colorTries > 5));
+  until((not loggedIn) or (animTries >= 10) or (colTries >= 3));
 
-  MSI_CloseHeader('MSI_WaitWhileFishing: Finished');
+  MSI_CloseHeader('MSI_WaitWhileFishing: ' + boolToStr(result));
 
   setColorToleranceSpeed(CTS);
   setToleranceSpeed2Modifiers(0.2, 0.2);
@@ -336,7 +346,7 @@ MSI_Fish
 
 .. code-block:: pascal
 
-  function MSI_Fish(which: TIntegerArray; var forceFail: boolean): boolean;
+  function MSI_Fish(which: TIntegerArray): boolean;
 
 Fishes at the first fishing spot it finds from the array 'which'.  Will return
 false if the player runs out of bait or loses a required tool.  If such a thing
@@ -345,20 +355,18 @@ happens, that fishing spot is removed from the player's fishing spots array.
 .. note::
 
   | Author: 3Garrett3
-  | Last Updated: 10 June 2011 by Coh3n
+  | Last Updated: 07 August 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if (MSI_Fish([FISHSPOT_NET], fail)) then
-    if (not fail) then
-      MSI_Debug('Fished');
+  if (MSI_Fish([FISHSPOT_NET])) then
+    MSI_Debug('Fished');
 *)
-function MSI_Fish(which: TIntegerArray; var forceFail: boolean): boolean;
+function MSI_Fish(which: TIntegerArray): boolean;
 var
   t, i: integer;
-  failed: boolean;
   tools: TIntegerArray;
   objs: TMSObjectArray;
   obj: TMSObject;
@@ -367,46 +375,43 @@ begin
     exit;
 
   objs := MSI_GetObjects(which);
-  if (MSI_FindObjects(objs, moLeft, obj)) then
-  begin
-    result := true;
-    MSI_WaitWhileFishing(obj, failed);
 
-    if (failed) then
-      with MSI_Players[currentPlayer].scripts[currentScript] do
-        if (Length(fishSpots) > 1) then
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+    if (MSI_FindObjects(objs, moLeft, obj)) then
+    begin
+      result := MSI_WaitWhileFishing(obj);
+
+      if (not result) then
+        if (length(fishSpots) > 1) then
+        begin
+
           if (inIntArrayEx(fishSpots, t, obj.constant)) then
           begin
             MSI_SubDebug('Removing '+obj.name+' from FishSpot array');
             deleteValueInIntArray(fishSpots, t);
             deleteValueInIntArray(priority, t);
 
-            // Remove tools from exceptions array
+            // Remove tools
             tools := MSI_FishingTools(obj.constant);
             for i := 0 to High(tools) do
-              if (inIntArrayEx(exceptions, t, MSI_Items[tools[i]].invSlot)) then
-              begin
-                deleteValueInIntArray(exceptions, t);
-                MSI_Items[tools[i]].invSlot := 0;
-              end;
-          end
-        else begin
-          MSI_Players[currentPlayer].reportInfo.falseReason := 'Ran out of fishing bait';
+              MSI_DeleteException(tools[i], MSI_Items[tools[i]].invSlot);
+          end;
+
+        end else begin
+          MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of fishing bait';
           result := false;
-          forceFail := true;
-          exit;
         end;
-  end else
-    MSI_FindRandoms(false);
+    end else
+      MSI_FindRandoms(false);
 end;
 
 (*
-MSI_Fish
-~~~~~~~~
+MSI_FishInvFull
+~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_Fish(Which: TIntegerArray; var ForceFail: Boolean): Boolean;
+  function MSI_FishInvFull: boolean;
 
 Calls MSI_AutoInvFull (
 `Skills.simba <https://github.com/SRL/MSI/raw/master/MSI/Skills/Skills.simba>`_)
@@ -423,9 +428,9 @@ Example:
 
   MSI_Scripts[SCRIPT_DB_FISHER].AutoObjects := @MSI_FishInvFull;
 *)
-function MSI_FishInvFull: Boolean;
+function MSI_FishInvFull: boolean;
 begin
-  Result := MSI_AutoInvFull(@MSI_Fish); // MSI_AutoInvFull in Skills.simba
+  result := MSI_AutoInvFull(@MSI_Fish); // MSI_AutoInvFull in Skills.simba
 end;
 
 

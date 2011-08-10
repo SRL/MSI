@@ -24,11 +24,6 @@ The source for can be found
   {$ENDIF}
 {$ENDIF}
 
-{$IFDEF DEBUG_REFLECTION}
-  {$DEFINE REFLECTION_MEMORY_DEBUG}
-  {$i reflection_management.simba}
-{$ENDIF}
-
 {$IFDEF SPS}
   {$i srl/srl/core/SPS/SPS.simba}
 {$ENDIF}
@@ -54,7 +49,7 @@ The source for can be found
 {$i MSI/MSI/Core/Materials.simba}
 {$i MSI/MSI/Core/Locations.simba}
 
-{$i MSI/MSI/Core/Skills.simba}
+{$i MSI/MSI/Skills/Common.simba}
 {$i MSI/MSI/Core/Banking.simba}
 
 //MSI Skill Files

@@ -4,9 +4,9 @@ runme = RunMe
 
 core = Animating Antiban Banking Debug Extras Globals Items Locations \
         Mainloop Manipulation Materials Objects Obstacles Reports Scripts \
-        Setup Skills Track Walking
+        Setup Track Walking
 
-skills = Cooking Fishing Magic Mining Money_Making Woodcutting
+skills = Common Cooking Fishing Magic Mining Money_Making Woodcutting
 
 
 all:

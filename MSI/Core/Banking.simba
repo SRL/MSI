@@ -464,13 +464,13 @@ begin
     if FindDTMs(MSI_Items[Items[i]].DTM, p, MBX1, MBY1, MBX2, MBY2) then
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
-      MSI_FilterTPADist(p, 20);
+      filterTPADist(p, 20);
 
       {$IFDEF SMART}
       for ii := 0 to high(p) do
         if (MSI_Settings[SETUP_DEBUG_SMART]) then
           SMART_DrawBoxEx(false,
-                          intToBox(p[ii].x - 10, p[ii].y - 10, p[ii].x + 10, p[ii].y + 10),
+                          MSI_MakeBox(point(p[ii].x, p[ii].y), 20, 20),
                           clBlue);
       {$ENDIF}
 
@@ -504,9 +504,10 @@ begin
           if (InIntArray([5, 10], Amounts[i])) then
             WaitOption('-'+IntToStr(Amounts[i]), 500)
           else
-            if (WaitOption('-X', 500)) then
-              if (WaitColor(254, 401, ClBlack, 0, 1200)) then
-                TypeSend(IntToStr(Amounts[i]));
+            if (not WaitOption('-'+ToStr(Amounts[i]), 500)) then
+              if (WaitOption('-X', 500)) then
+                if (WaitColor(254, 401, ClBlack, 0, 1200)) then
+                  TypeSend(IntToStr(Amounts[i]));
 
       t := (GetSystemTime + 5000);
       while (GetSystemTime < t) do
@@ -526,6 +527,7 @@ begin
     if (not itemsWithdrew[i]) then // Returns false if it fails to withdraw one item
     begin
       MSI_CloseHeader('MSI_Withdraw: ' + BoolToStr(Result) + ' (' + MSI_Items[Items[i]].Name + ')');
+      MouseBox(MIX1, MIY1, MIX2, MIY2, 3); // Mouse out of option menu
       Exit;
     end else
       MSI_Debug('Withdrew '+Capitalize(MSI_Items[Items[i]].Name));

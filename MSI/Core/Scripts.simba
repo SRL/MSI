@@ -44,22 +44,14 @@ begin
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Drop;
+        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [
-                     TREE_NORMAL, TREE_OAK, TREE_WILLOW, TREE_MAPLE,
-                     TREE_YEW, TREE_MAGIC
-                   ];
-
-          Items := [
-                     TIntegerArray([LOGS_NORMAL]), TIntegerArray([LOGS_OAK]),
-                     TIntegerArray([LOGS_WILLOW]), TIntegerArray([LOGS_MAPLE]),
-                     TIntegerArray([LOGS_YEW]), TIntegerArray([LOGS_MAGIC])
-                   ];
-        end;
+        Defaults.Trees := [
+          TREE_NORMAL, TREE_OAK, TREE_WILLOW, TREE_WILLOW_NEW, TREE_MAPLE,
+          TREE_YEW, TREE_MAGIC
+        ];
       end;
 
     SCRIPT_IVY:
@@ -90,11 +82,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_NORMAL];
-          Items := [TIntegerArray([LOGS_NORMAL])];
-        end;
+        Defaults.Trees := [TREE_NORMAL];
 
         with PathInfo do
         begin
@@ -122,15 +110,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_VE;
+        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_OAK];
-          Items := [TIntegerArray([LOGS_OAK])];
-        end;
+        Defaults.Trees := [TREE_OAK];
 
         with PathInfo do
         begin
@@ -161,11 +146,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_YEW];
-          Items := [TIntegerArray([LOGS_YEW])];
-        end;
+        Defaults.Trees := [TREE_YEW];
 
         with PathInfo do
         begin
@@ -174,9 +155,8 @@ begin
           EndLoc   := LOC_GE_YEWS;
 
           Reflection := [
-                          TPointArray([Point(3169, 3490), Point(3183, 3489),
-                                       Point(3193, 3489), Point(3197, 3499),
-                                       Point(3208, 3503)])
+                          TPointArray([Point(3180, 3475), Point(3186, 3488),
+                                       Point(3197, 3500), Point(3211, 3500)])
                         ];
 
           SPSAreas   := ['10_2', '11_2'];
@@ -197,11 +177,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_NORMAL];
-          Items := [TIntegerArray([LOGS_NORMAL])];
-        end;
+        Defaults.Trees := [TREE_NORMAL];
 
         with PathInfo do
         begin
@@ -232,11 +208,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_OAK];
-          Items := [TIntegerArray([LOGS_OAK])];
-        end;
+        Defaults.Trees := [TREE_OAK];
 
         with PathInfo do
         begin
@@ -262,15 +234,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_WILLOW];
-          Items := [TIntegerArray([LOGS_WILLOW])];
-        end;
+        Defaults.Trees := [TREE_WILLOW];
 
         with PathInfo do
         begin
@@ -296,15 +265,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
+        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_YEW_NEW];
-          Items := [TIntegerArray([LOGS_YEW])];
-        end;
+        Defaults.Trees := [TREE_YEW_NEW];
 
         with PathInfo do
         begin
@@ -339,11 +305,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_WILLOW];
-          Items := [TIntegerArray([LOGS_WILLOW])];
-        end;
+        Defaults.Trees := [TREE_WILLOW];
 
         with PathInfo do
         begin
@@ -373,15 +335,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
+        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_WILLOW_NEW];
-          Items := [TIntegerArray([LOGS_WILLOW])];
-        end;
+        Defaults.Trees := [TREE_WILLOW_NEW];
 
         with PathInfo do
         begin
@@ -412,11 +371,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_YEW_NEW];
-          Items := [TIntegerArray([LOGS_YEW])];
-        end;
+        Defaults.Trees := [TREE_YEW_NEW];
 
         with PathInfo do
         begin
@@ -444,15 +399,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_MAGIC];
-          Items := [TIntegerArray([LOGS_MAGIC])];
-        end;
+        Defaults.Trees := [TREE_MAGIC];
 
         with PathInfo do
         begin
@@ -487,11 +439,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_MAPLE];
-          Items := [TIntegerArray([LOGS_MAPLE])];
-        end;
+        Defaults.Trees := [TREE_MAPLE];
 
         with PathInfo do
         begin
@@ -517,15 +465,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_YEW];
-          Items := [TIntegerArray([LOGS_YEW])];
-        end;
+        Defaults.Trees := [TREE_YEW];
 
         with PathInfo do
         begin
@@ -558,11 +503,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_YEW];
-          Items := [TIntegerArray([LOGS_YEW])];
-        end;
+        Defaults.Trees := [TREE_YEW];
 
         with PathInfo do
         begin
@@ -593,11 +534,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        with Defaults do
-        begin
-          Trees := [TREE_YEW];
-          Items := [TIntegerArray([LOGS_YEW])];
-        end;
+        Defaults.Trees := [TREE_YEW];
 
         with PathInfo do
         begin
@@ -626,24 +563,14 @@ begin
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Drop;
+        AdjustCamera := true;
         AutoObjects := @MSI_MineInvFull;
         PlayerSetup := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [
-                     ROCK_CLAY, ROCK_COPPER, ROCK_TIN, ROCK_IRON, ROCK_SILVER,
-                     ROCK_COAL, ROCK_GOLD, ROCK_MITHRIL, ROCK_ADAMANTITE
-                   ];
-
-          Items := [
-                     TIntegerArray([ORE_CLAY]), TIntegerArray([ORE_COPPER]),
-                     TIntegerArray([ORE_TIN]), TIntegerArray([ORE_IRON]),
-                     TIntegerArray([ORE_SILVER]), TIntegerArray([ORE_COAL]),
-                     TIntegerArray([ORE_GOLD]), TIntegerArray([ORE_MITHRIL]),
-                     TIntegerArray([ORE_ADAMANTITE])
-                   ];
-        end;
+        Defaults.Rocks := [
+          ROCK_CLAY, ROCK_COPPER, ROCK_TIN, ROCK_IRON, ROCK_SILVER,
+          ROCK_COAL, ROCK_GOLD, ROCK_MITHRIL, ROCK_ADAMANTITE
+        ];
       end;
 
     SCRIPT_VE_MINER:
@@ -659,15 +586,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON];
-
-          Items := [
-                     TIntegerArray([ORE_TIN]), TIntegerArray([ORE_COPPER]),
-                     TIntegerArray([ORE_IRON])
-                   ];
-        end;
+        Defaults.Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON];
 
         with PathInfo do
         begin
@@ -700,15 +619,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_COAL, ROCK_MITHRIL, ROCK_ADAMANTITE];
-
-          Items := [
-                     TIntegerArray([ORE_COAL]), TIntegerArray([ORE_MITHRIL]),
-                     TIntegerArray([ORE_ADAMANTITE])
-                   ];
-        end;
+        Defaults.Rocks := [ROCK_COAL, ROCK_MITHRIL, ROCK_ADAMANTITE];
 
         with PathInfo do
         begin
@@ -743,15 +654,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_TIN, ROCK_CLAY, ROCK_IRON, ROCK_SILVER];
-
-          Items := [
-                     TIntegerArray([ORE_TIN]), TIntegerArray([ORE_CLAY]),
-                     TIntegerArray([ORE_IRON]), TIntegerArray([ORE_SILVER])
-                   ];
-        end;
+        Defaults.Rocks := [ROCK_TIN, ROCK_CLAY, ROCK_IRON, ROCK_SILVER];
 
         with PathInfo do
         begin
@@ -786,15 +689,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON, ROCK_COAL];
-
-          Items := [
-                     TIntegerArray([ORE_TIN]), TIntegerArray([ORE_COPPER]),
-                     TIntegerArray([ORE_IRON]), TIntegerArray([ORE_COAL])
-                   ];
-        end;
+        Defaults.Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON, ROCK_COAL];
 
         with PathInfo do
         begin
@@ -828,11 +723,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_TIN, ROCK_COAL];
-          Items := [TIntegerArray([ORE_TIN]), TIntegerArray([ORE_COAL])];
-        end;
+        Defaults.Rocks := [ROCK_TIN, ROCK_COAL];
 
         with PathInfo do
         begin
@@ -866,11 +757,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_TIN, ROCK_CLAY];
-          Items := [TIntegerArray([ORE_TIN]), TIntegerArray([ORE_CLAY])];
-        end;
+        Defaults.Rocks := [ROCK_TIN, ROCK_CLAY];
 
         with PathInfo do
         begin
@@ -903,11 +790,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_COPPER];
-          Items := [TIntegerArray([ORE_COPPER])];
-        end;
+        Defaults.Rocks := [ROCK_COPPER];
 
         with PathInfo do
         begin
@@ -940,11 +823,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_IRON, ROCK_GOLD];
-          Items := [TIntegerArray([ORE_IRON]), TIntegerArray([ORE_GOLD])];
-        end;
+        Defaults.Rocks := [ROCK_IRON, ROCK_GOLD];
 
         with PathInfo do
         begin
@@ -976,11 +855,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_IRON];
-          Items := [TIntegerArray([ORE_IRON])];
-        end;
+        Defaults.Rocks := [ROCK_IRON];
 
         with PathInfo do
         begin
@@ -1013,14 +888,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_CLAY];
-
-          Items := [
-                     TIntegerArray([ORE_CLAY])
-                   ];
-        end;
+        Defaults.Rocks := [ROCK_CLAY];
 
         with PathInfo do
         begin
@@ -1054,11 +922,7 @@ begin
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_IRON, ROCK_GOLD];
-          Items := [TIntegerArray([ORE_IRON]), TIntegerArray([ORE_GOLD])];
-        end;
+        Defaults.Rocks := [ROCK_IRON, ROCK_GOLD];
 
         with PathInfo do
         begin
@@ -1089,12 +953,7 @@ begin
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_MITHRIL];
-          Items := [TIntegerArray([ORE_SILVER]), TIntegerArray([ORE_IRON]),
-                    TIntegerArray([ORE_MITHRIL])];
-        end;
+        Defaults.Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_MITHRIL];
 
         with PathInfo do
         begin
@@ -1126,14 +985,8 @@ begin
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        with Defaults do
-        begin
-          Rocks := [ROCK_COPPER, ROCK_TIN, ROCK_SILVER, ROCK_IRON,
-                    ROCK_MITHRIL, ROCK_ADAMANTITE];
-          Items := [TIntegerArray([ORE_COPPER]), TIntegerArray([ORE_TIN]),
-                    TIntegerArray([ORE_SILVER]), TIntegerArray([ORE_IRON]),
-                    TIntegerArray([ORE_MITHRIL]), TIntegerArray([ORE_ADAMANTITE])];
-        end;
+        Defaults.Rocks := [ROCK_COPPER, ROCK_TIN, ROCK_SILVER, ROCK_IRON,
+                           ROCK_MITHRIL, ROCK_ADAMANTITE];
 
         with PathInfo do
         begin
@@ -1165,11 +1018,7 @@ begin
           BankObjects := @MSI_BankStandard;
           PlayerSetup := @MSI_SetupMining;
 
-          with Defaults do
-          begin
-            Rocks := [ROCK_COAL, ROCK_MITHRIL];
-            Items := [TIntegerArray([ORE_COAL]), TIntegerArray([ORE_MITHRIL])];
-          end;
+          Defaults.Rocks := [ROCK_COAL, ROCK_MITHRIL];
 
           with PathInfo do
           begin
@@ -1209,12 +1058,7 @@ begin
           BankObjects := @MSI_BankStandard;
           PlayerSetup := @MSI_SetupMining;
 
-          with Defaults do
-          begin
-            Rocks := [ROCK_GOLD, ROCK_SILVER, ROCK_CLAY];
-            Items := [TIntegerArray([ORE_GOLD]), TIntegerArray([ORE_SILVER]),
-                      TIntegerArray([ORE_CLAY])];
-          end;
+          Defaults.Rocks := [ROCK_GOLD, ROCK_SILVER, ROCK_CLAY];
 
           with PathInfo do
           begin
@@ -1224,7 +1068,7 @@ begin
 
             Reflection := [
                             // Bank -> Front Door
-                            TPointArray([Point(3012, 3355), Point(3007, 3347),
+                            TPointArray([Point(3012, 3353), Point(3007, 3347),
                                          Point(3007, 3335), Point(3006, 3324),
                                          Point(3001, 3313), Point(2994, 3303),
                                          Point(2987, 3295), Point(2976, 3292),
@@ -1256,21 +1100,10 @@ begin
         AutoObjects   := @MSI_FishInvFull;
         PlayerSetup   := @MSI_SetupFishing;
 
-        with Defaults do
-        begin
-          FishSpots := [
-                         FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_LURE,
-                         FISHSPOT_CAGE, FISHSPOT_HARPOON
-                       ];
-
-          Items     := [
-                         TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
-                         TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
-                         TIntegerArray([FISH_RAW_TROUT, FISH_RAW_SALMON]),
-                         TIntegerArray([FISH_RAW_LOBSTER]),
-                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK])
-                       ];
-        end;
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_LURE, FISHSPOT_CAGE,
+          FISHSPOT_HARPOON
+        ];
       end;
 
     SCRIPT_DB_FISHER:
@@ -1286,15 +1119,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupFishing;
 
-        with Defaults do
-        begin
-          FishSpots := [FISHSPOT_NET, FISHSPOT_BAIT];
-
-          Items     := [
-                         TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
-                         TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE])
-                       ];
-        end;
+        Defaults.FishSpots := [FISHSPOT_NET, FISHSPOT_BAIT];
 
         with PathInfo do
         begin
@@ -1325,15 +1150,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupFishing;
 
-        with Defaults do
-        begin
-          FishSpots := [FISHSPOT_LURE, FISHSPOT_BAIT];
-
-          Items     := [
-                         TIntegerArray([FISH_RAW_TROUT, FISH_RAW_SALMON]),
-                         TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE])
-                       ];
-        end;
+        Defaults.FishSpots := [FISHSPOT_LURE, FISHSPOT_BAIT];
 
         with PathInfo do
         begin
@@ -1368,20 +1185,9 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupFishing;
 
-        with Defaults do
-        begin
-          FishSpots := [
-                         FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE,
-                         FISHSPOT_HARPOON
-                       ];
-
-          Items     := [
-                         TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
-                         TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
-                         TIntegerArray([FISH_RAW_LOBSTER]),
-                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK])
-                       ];
-        end;
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON
+         ];
 
         with PathInfo do
         begin
@@ -1412,17 +1218,9 @@ begin
         BankObjects   := @MSI_BankNPC;
         PlayerSetup   := @MSI_SetupFishing;
 
-        with Defaults do
-        begin
-          FishSpots := [FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON];
-
-          Items     := [
-                         TIntegerArray([FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE]),
-                         TIntegerArray([FISH_RAW_SARDINE, FISH_RAW_HERRING, FISH_RAW_PIKE]),
-                         TIntegerArray([FISH_RAW_LOBSTER]),
-                         TIntegerArray([FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK])
-                       ];
-        end;
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON
+        ];
 
         with PathInfo do
         begin
@@ -1461,13 +1259,6 @@ begin
         with Defaults do
         begin
           CookingSpot := [COOKSPOT_AK_RANGE];
-
-          Items     := [ TIntegerArray([
-                           FISH_COOKED_CRAYFISH, FISH_COOKED_SHRIMP, FISH_COOKED_ANCHOVIE,
-                           FISH_COOKED_SARDINE, FISH_COOKED_HERRING,
-                           FISH_COOKED_PIKE, FISH_COOKED_TROUT, FISH_COOKED_SALMON,
-                           FISH_COOKED_LOBSTER, FISH_COOKED_TUNA,
-                           FISH_COOKED_SWORDFISH, FISH_COOKED_SHARK]) ];
 
           Materials := [ MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
                          MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
@@ -1530,7 +1321,6 @@ begin
         with Defaults do
         begin
           Objects   := [FOUNTAIN_VE];
-          Items     := [TIntegerArray([CLAY_SOFT])];
           Materials := [MATERIAL_CLAY];
         end;
 
@@ -1567,7 +1357,6 @@ begin
         with Defaults do
         begin
           Objects   := [WELL_EV];
-          Items     := [TIntegerArray([CLAY_SOFT])];
           Materials := [MATERIAL_CLAY];
         end;
 
@@ -1603,7 +1392,6 @@ begin
         with Defaults do
         begin
           Objects   := [PUMP_FW];
-          Items     := [TIntegerArray([CLAY_SOFT])];
           Materials := [MATERIAL_CLAY];
         end;
 
@@ -1639,8 +1427,6 @@ begin
         with Defaults do
         begin
           Objects   := [FOUNTAIN_VE];
-          Items     := [TIntegerArray([VIAL_WATER, JUG_WATER, BOWL_WATER,
-                                       BUCKET_WATER])];
           Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
                         MATERIAL_BUCKET];
         end;
@@ -1678,8 +1464,6 @@ begin
         with Defaults do
         begin
           Objects   := [PUMP_FW];
-          Items     := [TIntegerArray([VIAL_WATER, JUG_WATER, BOWL_WATER,
-                                       BUCKET_WATER])];
           Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
                         MATERIAL_BUCKET];
         end;

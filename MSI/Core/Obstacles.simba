@@ -10,10 +10,6 @@ The source for can be found
 
 *)
 
-const
-  MIRROR_TEXT = 0;
-  MIRROR_OBJ  = 1;
-
 (*
 MSI_GetObstacle
 ~~~~~~~~~~~~~~~
@@ -92,7 +88,7 @@ begin
         MirText    := ['elcome', 'uild', 'aster', 'raft'];
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
-        ObjMirArea := intToBox(MSX1, MSY1, MSX2, MSCY); // Top half of MS
+        ObjMirArea := intToBox(MSCX - 100, MSCY - 100, MSCX + 100, MSCY - 20);
         Camera     := ['n', true];
         EndTiles   := [Point(2933, 3288)];
       end;
@@ -103,7 +99,7 @@ begin
         Name       := 'OBS_DOOR_CG_OUT';
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
-        ObjMirArea := intToBox(MSCX, MSY1, MSX2, MSY2); // bottom half of MS
+        ObjMirArea := intToBox(MSCX - 100, MSCY, MSCX + 100, MSCY + 100);
         Camera     := ['n', true];
         EndTiles   := [Point(2933, 3289)];
       end;
@@ -114,12 +110,96 @@ begin
 end;
 
 (*
-MSI_CheckEndTile
+MSI_FindMirrorText
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindMirrorText(obs: TObstacle): boolean;
+
+Returns true if the obstacle's (obs) mirror text is found in the RS chat box.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 01 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_FindMirrorText(obs)) then
+    MSI_Debug('Found mirror text: ' + obs.mirText);
+*)
+function MSI_FindMirrorText(obs: TObstacle): boolean;
+var
+  i, x, y: integer;
+begin
+  if (length(obs.mirText) <= 0) then
+  begin
+    MSI_SubDebug('No text for obstacle: ' + obs.name);
+    exit;
+  end;
+
+  for i := 0 to high(obs.mirText) do
+    if (findText(x, y, obs.mirText[i], 'CharsNPC', MCX1, MCY1, MCX2, MCY2)) then
+    begin
+      result := true;
+      MSI_SubDebug('Found mirror text: ' + obs.mirText[i]);
+      break;
+    end;
+end;
+
+(*
+MSI_FindMirrorObject
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindMirrorObject(obs: TObstacle): boolean;
+
+Returns true if the obstacle's (obs) mirror object is found in the record's
+search area.  Will move the mouse and check for uptext, just to be sure.  Will
+also draw the search area in blue on the main screen.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 01 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (not MSI_FindMirrorObject(obs)) then
+    MSI_Debug('Found mirror object: ' + obs.name);
+*)
+function MSI_FindMirrorObject(obs: TObstacle): boolean;
+var
+  mirObj: TMSObject;
+begin
+  mirObj := MSI_GetObject(obs.objMir);
+  mirObj.searchArea := obs.objMirArea;
+
+  {$IFDEF SMART}
+  if (MSI_Settings[SETUP_DEBUG_SMART]) then
+    SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
+  {$ENDIF}
+
+  if (MSI_FindObject(mirObj, moMove)) then
+  begin
+    MSI_SubDebug('Found mirror object: ' + mirObj.name);
+    result := true;
+  end;
+end;
+
+(*
+MSI_OnMirrorTile
 ~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_CheckEndTile(obs: TObstacle): boolean;
+  function MSI_OnMirrorTile(obs: TObstacle): boolean;
 
 Returns true if the player's current tile is the same as one of the obstacle's
 (obs) ending tiles.
@@ -133,10 +213,10 @@ Example:
 
 .. code-block:: pascal
 
-  if (not MSI_CheckEndTile(obs)) then
+  if (not MSI_OnMirrorTile(obs)) then
     MSI_Debug('Player not on ending tiles');
 *)
-function MSI_CheckEndTile(obs: TObstacle): boolean;
+function MSI_OnMirrorTile(obs: TObstacle): boolean;
 {$IFDEF REFLECTION}
 var
   i, h: integer;
@@ -182,7 +262,7 @@ and return true if they are.
 .. note::
 
   | Author: Sir R. Magician & Coh3n
-  | Last Updated: 23 July 2011 by Coh3n
+  | Last Updated: 01 August 2011 by Coh3n
 
 Example:
 
@@ -200,45 +280,23 @@ Example:
 *)
 function MSI_WaitForMirror(obs: TObstacle): boolean;
 var
-  t, i, x, y: integer;
-  mirObj: TMSObject;
+  t: integer;
   mirFound: boolean;
 begin
   if (not loggedIn) then
     exit;
 
-  t := (getSystemTime + (60000 * 3));
+  t := (getSystemTime + 30000);
 
   repeat
-    if (length(obs.mirText) > 0) then
-    begin
-      for i := 0 to high(obs.mirText) do
-        if (findText(x, y, obs.mirText[i], 'CharsNPC', MCX1, MCY1, MCX2, MCY2)) then
-        begin
-          mirFound := true;
-          MSI_SubDebug('Found mirror: ' + obs.mirText[i]);
-          break;
-        end;
-    end else begin
-      mirObj := MSI_GetObject(obs.objMir);
-      mirObj.searchArea := obs.objMirArea;
-
-      {$IFDEF SMART}
-      if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
-      {$ENDIF}
-
-      if (MSI_FindObject(mirObj, moMove)) then
-      begin
-        MSI_SubDebug('Found mirror: ' + mirObj.name);
-        mirFound := true;
-      end;
-    end;
+    mirFound := MSI_FindMirrorText(obs);
+    if (not mirFound) then
+      mirFound := MSI_FindMirrorObject(obs);
 
     if (mirFound) then
     begin
       {$IFDEF REFLECTION}
-      if (not MSI_CheckEndTile(obs)) then
+      if (not MSI_OnMirrorTile(obs)) then
         continue;
       {$ENDIF}
 
@@ -246,7 +304,7 @@ begin
     end;
 
     if (not result) then
-      if (getSystemTime > (t div 3)) then
+      if ((t - getSystemTime) > 10000) then // reset after 10 seconds
         MSI_NotBoxes := [];
 
     wait(randomRange(250, 500));
@@ -268,7 +326,7 @@ has been passed.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 23 July 2011 by Coh3n
+  | Last Updated: 01 August 2011 by Coh3n
 
 Example:
 
@@ -283,14 +341,16 @@ Example:
 *)
 function MSI_SolveObstacle(obs: TObstacle): boolean;
 var
-  t: Integer;
+  {$IFDEF REFLECTION}
+  i: integer;
+  {$ENDIF}
+  t: integer;
   obsObj: TMSObject;
 begin
   if (not loggedIn) then
     exit;
 
   MSI_AddHeader('MSI_SolveObstacle');
-  t := (getSystemTime + 60000);
   obsObj := MSI_GetObject(obs.objConst);
 
   if ((varType(obs.camera[0]) = varString) and (obs.camera[0] = 'n')) then
@@ -300,16 +360,33 @@ begin
     setAngle(obs.camera[1]);
   end;
 
-  while ((not result) and (getSystemTime < t)) do
+  while ((not result) and (t < 5)) do
+  begin
+    inc(t);
+
     if (MSI_FindObject(obsObj, moLeft)) then
     begin
       wait(randomRange(1500, 2000));
       result := MSI_WaitForMirror(obs);
-    end else
-      if (getSystemTime > (t div 3)) then
-        MSI_NotBoxes := [];
+    end else begin
+      // click the obstacle's tile if it's not found
+      {$IFDEF REFLECTION}
+      if (not MSI_HookBroken[HOOK_WALKING]) then
+        for i := 0 to high(obs.endTiles) do
+          if (walkToTile(obs.endTiles[i], 0, 0)) then
+          begin
+            MSI_Debug('Clicked obstacle''s tile');
+            wait(randomRange(500, 1000));
+            break;
+          end;
+      {$ENDIF}
 
-  clickNorth(true);
+      MSI_Debug('Setting obstacle to right click only');
+      obsObj.rightClickOnly := true; // in case uptext is failing
+      MSI_NotBoxes := [];
+    end;
+  end;
+
   MSI_CloseHeader('MSI_SolveObstacle: ' + boolToStr(result));
 end;
 

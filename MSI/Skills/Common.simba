@@ -1,0 +1,239 @@
+(*
+Common
+======
+
+The Common file holds any routines that are used for more than one skill.
+
+The source for Common.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Common.simba>`_.
+
+*)
+
+(*
+MSI_BestTool
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_BestTool: Integer;
+
+Determines the best tool for the current player's current script.  This probably
+will not be used for every skill or script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 05 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := MSI_BestTool downto MSI_WorstTool do
+    Result := MSI_FindTool(i, TAB_INV, x, y);
+*)
+function MSI_BestTool: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do
+  begin
+    case (SkillConst) of
+      SKILL_WOODCUTTING:
+        case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
+          REQ_TOOL_DRAGON..REQ_MAX_LEVEL     : Result := HATCHET_DRAGON;
+          REQ_TOOL_RUNE..REQ_TOOL_DRAGON     : Result := HATCHET_RUNE;
+          REQ_TOOL_ADAMANT..REQ_TOOL_RUNE    : Result := HATCHET_ADAMANT;
+          REQ_TOOL_MITHRIL..REQ_TOOL_ADAMANT : Result := HATCHET_MITHRIL;
+          REQ_TOOL_STEEL..REQ_TOOL_MITHRIL   : Result := HATCHET_STEEL;
+
+          else
+            Result := HATCHET_IRON;
+        end;
+
+      SKILL_MINING:
+        case (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript]) of
+          REQ_TOOL_DRAGON..REQ_MAX_LEVEL     : Result := PICKAXE_DRAGON;
+          REQ_TOOL_RUNE..REQ_TOOL_DRAGON     : Result := PICKAXE_RUNE;
+          REQ_TOOL_ADAMANT..REQ_TOOL_RUNE    : Result := PICKAXE_ADAMANT;
+          REQ_TOOL_MITHRIL..REQ_TOOL_ADAMANT : Result := PICKAXE_MITHRIL;
+          REQ_TOOL_STEEL..REQ_TOOL_MITHRIL   : Result := PICKAXE_STEEL;
+
+          else
+            Result := PICKAXE_IRON;
+        end;
+
+      else
+        MSI_SubDebug('MSI_BestTool: Invalid skill!');
+    end;
+
+    MSI_Debug('Best tool for ' + SkillName + ' is '+ MSI_Items[Result].Name);
+  end;
+end;
+
+(*
+MSI_WorstTool
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WorstTool: Integer;
+
+Determines the worst tool for the current player's current script.
+This probably will not be used for every skill or script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 05 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := MSI_BestTool downto MSI_WorstTool do
+    Result := MSI_FindTool(i, TAB_INV, x, y);
+*)
+function MSI_WorstTool: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do
+    case (SkillConst) of
+      SKILL_WOODCUTTING:
+        Result := HATCHET_BRONZE;
+
+      SKILL_MINING:
+        Result := PICKAXE_BRONZE;
+
+      else
+        MSI_SubDebug('MSI_WorstTool: Invalid skill!');
+    end;
+end;
+
+(*
+MSI_AutoInvFull
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_AutoInvFull(auto: function(objs: TIntegerArray): boolean): boolean;
+
+Repeats the function 'func' until the inventory is full.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  Result := MSI_AutoInvFull(@MSI_ChopTree);
+*)
+function MSI_AutoInvFull(auto: function(objs: TIntegerArray): boolean): boolean;
+var
+  t, waitTime, tTime, maxTime, timesRelocated: integer;
+  tObjects, newObjects: TIntegerArray;
+  cameraChanged: boolean;
+begin
+  if (not loggedIn) then
+    exit;
+
+  maxTime := (getSystemTime + (45 * 60000)) // 45 minutes
+  t := maxTime;
+
+  repeat
+    while (not InvFull) and (LoggedIn) do
+      with MSI_Players[CurrentPlayer] do
+      begin
+        RunEnergy(20);
+        GameTab(TAB_INV);
+
+        with Scripts[CurrentScript] do
+          case (MSI_Scripts[Name].SkillConst) of
+            SKILL_WOODCUTTING: tObjects := Trees;
+            SKILL_MINING: tObjects := Rocks;
+            SKILL_FISHING: tObjects := FishSpots;
+          end;
+
+        if (not MSI_Scripts[Scripts[CurrentScript].Name].ClickClosest) then
+          newObjects := MSI_RearrangeArray(tObjects, Scripts[CurrentScript].Priority)
+        else
+          newObjects := tObjects;
+
+        if (TimeFromMark(waitTime) >= tTime) then
+          waitTime := 0;
+
+        if (auto(newObjects)) then
+        begin
+          t := maxTime;
+          waitTime := 0;
+          MSI_NotBoxes := [];
+        end else begin
+          if (MSI_FindRandoms(False)) then
+          begin
+            t := maxTime;
+            continue;
+          end;
+
+          MSI_Antiban(randomRange(1000, 4000), 50);
+          wait(randomRange(250, 500));
+
+          // if falseReason was set, something went wrong
+          if (reportInfo.falseReason <> '') then
+          begin
+            MSI_Debug('False reason set to: "'+reportInfo.falseReason+'"');
+            exit;
+          end;
+
+          if (waitTime > 0) then
+            Continue;
+
+          // Adjust camera angle to make some objects visible
+          if (not cameraChanged) then
+            if (MSI_Scripts[Scripts[CurrentScript].Name].AdjustCamera) then
+            begin
+              if (random(2) < 1) then
+                makeCompass(randomRange(35, 55))
+              else
+                makeCompass(randomRange(195, 215));
+
+              cameraChanged := true;
+              continue;
+            end;
+
+          cameraChanged := false;
+
+          if (MSI_Relocate(Location)) then
+          begin
+            inc(timesRelocated);
+
+            if (timesRelocated = (length(MSI_Locations[Location].Tiles) - 1)) then
+            begin
+              tTime := randomRange(60000, 120000); // Random 1-2 minutes
+              MSI_SubDebug('Waiting ' + intToStr(tTime) + ' ms before relocating again');
+              markTime(waitTime);
+              timesRelocated := 0;
+            end;
+
+            MSI_NotBoxes := [];
+            Break;
+          end else
+            Exit;
+
+          if ((t - getSystemTime) > (10 * 60000)) then
+            MSI_NotBoxes := [];
+        end;
+
+        Wait(RandomRange(300, 800));
+      end;
+
+    result := (invFull) or (pos('h inventor', getBlackChatMessage) <> 0);
+  until(Result or (GetSystemTime > t) or (not LoggedIn));
+end;
+
+

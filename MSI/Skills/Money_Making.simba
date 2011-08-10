@@ -69,7 +69,7 @@ function MSI_SoftenAll(material: TMaterial): boolean;
 var
   i, x, y: integer;
 begin
-  if (waitFunc(@MSI_CB_DoAllScreen, 50, 5000)) then // Wait for the selection screen to appear
+  if (waitFunc(@MSI_MaterialScreen, 50, 5000)) then // Wait for the selection screen to appear
     for i := 0 to high(material.produces) do
       if (findDTM(MSI_Items[material.produces[i]].DTM, x, y, MCX1, MCY1, MCX2, MCY2)) then // Look for the material's DTMs in the chat box
       begin

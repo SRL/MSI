@@ -99,6 +99,8 @@ var
   t: Integer;
 {$ENDIF}
 begin
+  result := false;
+
   if (not LoggedIn) then
     Exit;
 
@@ -153,6 +155,8 @@ var
   MP: TPoint;
 {$ENDIF}
 begin
+  result := false;
+
   if (not LoggedIn) then
     Exit;
 
@@ -522,6 +526,8 @@ var
   stopMoving: Boolean;
 {$ENDIF}
 begin
+  result := false;
+
   if (not LoggedIn) then
     Exit;
 

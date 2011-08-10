@@ -271,7 +271,7 @@ Example:
          Name := 'Grand Exchange bank';
          Constant := LOC_GE_BANK;
          AtBank := True;
-         Tiles := [Point(3169, 3490)];
+         Tiles := [Point(3180, 3480)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
          Areas := [PointToBox(Point(3160,3495),Point(3168,3487))];
@@ -625,7 +625,7 @@ Example:
          Name := 'Edgeville bank';
          Constant := LOC_EV_BANK;
          AtBank := True;
-         Tiles := [Point(3093, 3493)];
+         Tiles := [Point(3093, 3490)];
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
          Areas := [PointToBox(Point(3091,3498),Point(3094,3490))];
@@ -982,7 +982,7 @@ begin
   locArr[1] := Script.PathInfo.EndLoc;
 
   for i := 0 to 1 do
-    if (MSI_AtLocation(locArr[i], true)) then
+    if (MSI_AtLocation(locArr[i], false)) then
     begin
       MSI_Players[CurrentPlayer].location := locArr[i];
       MSI_Debug('Player''s location: '+MSI_Locations[locArr[i]].name);

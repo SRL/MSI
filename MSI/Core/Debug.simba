@@ -94,7 +94,7 @@ end;
 
 (*
 MSI_CloseHeader
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
@@ -234,7 +234,6 @@ begin
         begin
           IncEx(ItemAmounts[CurrentScript][Obj][Item], Quant);
           stats_IncVariable(MSI_Items[Items[CurrentScript][Obj][Item]].StatsName, Quant);
-          MSI_Debug('stats_IncVariable('''+MSI_Items[Items[CurrentScript][Obj][Item]].StatsName+''', '+IntToStr(Quant)+');');
         end;
 
       PROG_ADD_LOADS:

@@ -837,7 +837,7 @@ type
 
 (*
 TMaterial
-~~~~~~~
+~~~~~~~~~
 
 The type that holds all the attributes of any materials used for a skill.
 *)
@@ -961,7 +961,8 @@ type
     BankType    : TBank;
     GetMaterials: Boolean;
     WhichBank   : Integer;
-    ClickClosest: Boolean;           // Called in MSI_AutoInvFull()
+    ClickClosest: Boolean;
+    AdjustCamera: Boolean;
     AutoObjects : function: Boolean;
     BankObjects : function: Boolean;
     PlayerSetup : function: Boolean;
@@ -1031,7 +1032,6 @@ type
                // Script | Object | Multiple per object
     Items       : array of array of TIntegerArray;  // Logs, drop items, ores, fish, etc.
     ItemAmounts : array of array of TIntegerArray;
-    Experiences : array of array of TExtendedArray; // Item, object (depending on skill)
     Casts       : array of TIntegerArray; // Number of casts per spell
   end;
 
@@ -1180,6 +1180,6 @@ var
 
 function MSI_GetCurrentScript(): TScript;
 begin
-  result := MSI_Scripts[MSI_Players[currentPlayer].scripts[currentScript].name];
+  result := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
 end;
 

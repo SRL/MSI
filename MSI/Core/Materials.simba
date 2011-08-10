@@ -291,6 +291,33 @@ begin
 end;
 
 (*
+MSI_MaterialScreen
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MaterialScreen: Boolean;
+
+Detects if the chat box option menu is open.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 22 March 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_MaterialScreen) then
+    MSI_Debug('Materials screen is open in chat box');
+*)
+function MSI_MaterialScreen: Boolean;
+begin
+  Result := (GetColor(497, 367) = 5025494);
+end;
+
+(*
 MSI_ConvertMaterial
 ~~~~~~~~~~~~~~~~~~~
 
@@ -349,12 +376,11 @@ begin
                   if (MSI_WaitItemGone(MSI_Items[material.supplies[j][0]])) then
                   begin
                     result := true;
-                    MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
                     exit;
                   end;
         end;
 
-      if (GetSystemTime > (t div 3)) then
+      if ((t - getSystemTime) > 60000) then
         MSI_NotBoxes := [];
     until(Result or (GetSystemTime > t));
 end;
