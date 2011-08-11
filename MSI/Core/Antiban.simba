@@ -414,12 +414,7 @@ begin
     Result := True;
     MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
     ClickNorth(True);
-  end else
-    if (not LoggedIn) then
-    begin
-      MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
-      Exit;
-    end;
+  end;
 
   NextRandCheck := GetSystemTime + MSI_Settings[SETUP_RANDOMS_WAIT];
 end;
