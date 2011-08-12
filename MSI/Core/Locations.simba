@@ -24,7 +24,7 @@ the location constants MSI uses, which can be found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 2 April 2011 by IPwnz
+  | Last Updated: 12 August 2011 by Coh3n
 
 Example:
 
@@ -33,890 +33,995 @@ Example:
   for i := 0 to High(MSI_Locations) do
     MSI_LoadLocation(i);
 *)
-  function MSI_LoadLocation(Which: Integer): Boolean;
- begin
-   case Which of
+function MSI_LoadLocation(loc: integer): boolean;
+var
+  i: integer;
+begin
+   case loc of
      LOC_POWER_SKILL:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Powerskilling';
-         Constant := LOC_POWER_SKILL;
-         AtBank := False;
-         MinDistance := 30;
+         name := 'Powerskilling';
+         atBank := false;
        end;
-     {
-     LOC_VE_IVY:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Varrock Ivy';
-         Constant := LOC_VE_IVY;
-         AtBank := False;
-         Tiles := [Point(3232, 3461)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-       end;
-      }
+
      LOC_LOST:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Lost';
-         Constant := LOC_LOST;
-         AtBank := False;
-       end;
-
-     LOC_EV_WELL:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Edgeville Well';
-         Constant := LOC_EV_WELL;
-         AtBank := False;
-         Tiles := [Point(3085, 3500)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3080,3506),Point(3087,3500))];
-       end;
-
-     LOC_VE_FOUNTAIN:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Varrock East Fountain';
-         Constant := LOC_VE_FOUNTAIN;
-         AtBank := False;
-         Tiles := [Point(3241, 3434)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3234,3439),Point(3244,3431))];
+         name := 'Lost';
+         atBank := false;
        end;
 
      LOC_VE_TREES:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Varrock east trees';
-         Constant := LOC_VE_TREES;
-         AtBank := False;
-         Tiles := [Point(3276, 3450)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3271,3458),Point(3282,3439))];
+         name := 'Varrock East Trees';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Varrock East Trees';
+           tileBox := intToBox(3271, 3458, 3282, 3439);
+         end;
        end;
 
      LOC_VE_OAKS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Varrock east oaks';
-         Constant := LOC_VE_OAKS;
-         AtBank := False;
-         Tiles := [Point(3279, 3428)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3278,3434),Point(3278,3422))];
+         name := 'Varrock East Oaks';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Varrock East Oaks';
+           tileBox := intToBox(3278, 3434, 3278, 3422);
+         end;
        end;
 
      LOC_VE_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Varrock east bank';
-         Constant := LOC_VE_BANK;
-         AtBank := True;
-         Tiles := [Point(3253, 3421)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-         Areas := [PointToBox(Point(3251,3424),Point(3258,3420))];
+         name := 'Varrock East Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_VE_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_VE_BANK;
+           name := 'Varrock East Bank';
+           tileBox := intToBox(3251, 3424, 3258, 3420);
+         end;
 
-           Reflection := [TPointArray([
-               Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
-               Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
-               Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
-               Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
-               Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
-               Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
-               Point(3285, 3422), Point(3277, 3429), Point(3263, 3429),
-               Point(3255, 3420)])];
-         {
-           SPSAreas := ['11_5', '11_4', '11_3'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_VE_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_VE_BANK;
+
+           reflection := [TPointArray([
+             point(3230, 3217), point(3242, 3224), point(3257, 3226),
+             point(3260, 3238), point(3254, 3250), point(3251, 3263),
+             point(3242, 3275), point(3239, 3290), point(3241, 3306),
+             point(3251, 3317), point(3264, 3324), point(3278, 3332),
+             point(3287, 3345), point(3296, 3356), point(3296, 3369),
+             point(3294, 3382), point(3292, 3396), point(3290, 3409),
+             point(3285, 3422), point(3277, 3429), point(3263, 3429),
+             point(3255, 3420)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '11_4', '11_3'];
          end;
        end;
 
      LOC_VE_MINE:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Varrock east mine';
-         Constant := LOC_VE_MINE;
-         AtBank := False;
-         Tiles := [Point(3288, 3368)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 30;
-         Areas := [PointToBox(Point(3279,3373),Point(3297,3360))];
-       end;
+         name := 'Varrock East Mine';
+         atBank := false;
 
-     LOC_VW_MINE:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Varrock west mine';
-         Constant := LOC_VW_MINE;
-         AtBank := False;
-         Tiles := [Point(3181, 3367)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3178,3382),Point(3185,3396)),PointToBox(Point(3171,3371),Point(3179,3364))];
-       end;
-
-     LOC_FW_MINE:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Falador west mine';
-         Constant := LOC_FW_MINE;
-         AtBank := False;
-         Tiles := [Point(2907, 3358)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(2907,3369),Point(2911,3361)),PointToBox(Point(2901,3362),Point(2907,3352))];
-       end;
-
-     LOC_FW_BANK:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Falador west bank';
-         Constant := LOC_FW_BANK;
-         AtBank := True;
-         Tiles := [Point(2945, 3367)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(2948,3367),Point(2944,3370))];
-
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_FW_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_FW_BANK;
-
-           Reflection := [TPointArray([
-             Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
-             Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
-             Point(3197, 3280), Point(3184, 3285), Point(3171, 3285),
-             Point(3160, 3290), Point(3147, 3294), Point(3131, 3294),
-             Point(3117, 3294), Point(3103, 3293), Point(3089, 3289),
-             Point(3077, 3280), Point(3064, 3277), Point(3050, 3275),
-             Point(3035, 3275), Point(3022, 3276), Point(3009, 3279),
-             Point(3007, 3294), Point(3005, 3304), Point(3007, 3317),
-             Point(3006, 3331), Point(3007, 3343), Point(3006, 3357),
-             Point(2999, 3364), Point(2988, 3372), Point(2977, 3378),
-             Point(2962, 3379), Point(2952, 3380), Point(2946, 3368)])];
-
-         {
-           SPSAreas := ['11_5', '10_4', '9_4', '8_4'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           name := 'Varrock East Mine';
+           tileBox := intToBox(3279, 3373, 3297, 3360);
          end;
        end;
 
-     LOC_FW_PUMP:
-       with MSI_Locations[Which] do
+     LOC_VE_FOUNTAIN:
+       with MSI_Locations[loc] do
        begin
-         Name := 'Falador WaterPump';
-         Constant := LOC_FW_PUMP;
-         AtBank := False;
-         Tiles := [Point(2949, 3382)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(2946,3385),Point(2950,3380))];
+         name := 'Varrock East Fountain';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Varrock East Fountain';
+           tileBox := intToBox(3234, 3439, 3244, 3431);
+         end;
        end;
 
      LOC_VW_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Varrock west bank';
-         Constant := LOC_VW_BANK;
-         AtBank := True;
-         Tiles := [Point(3187, 3437)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3182,3447),Point(3188,3433))];
+         name := 'Varrock West Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_VW_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_VW_BANK;
+           name := 'Varrock West Bank';
+           tileBox := intToBox(3182, 3447, 3188, 3433);
+         end;
 
-           Reflection := [TPointArray([
-             Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
-             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
-             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
-             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
-             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
-             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
-             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
-             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
-             Point(3208, 3429), Point(3194, 3430), Point(3185, 3438)])];
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_VW_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_VW_BANK;
 
-         {
-           SPSAreas := ['11_5', '11_4', '11_3', '10_3'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           reflection := [TPointArray([
+             point(3230, 3217), point(3242, 3224), point(3257, 3226),
+             point(3260, 3238), point(3254, 3250), point(3251, 3263),
+             point(3242, 3275), point(3239, 3290), point(3241, 3306),
+             point(3251, 3317), point(3264, 3324), point(3278, 3332),
+             point(3287, 3345), point(3296, 3356), point(3296, 3369),
+             point(3294, 3382), point(3292, 3396), point(3290, 3409),
+             point(3285, 3422), point(3279, 3429), point(3264, 3428),
+             point(3252, 3429), point(3238, 3430), point(3224, 3429),
+             point(3208, 3429), point(3194, 3430), point(3185, 3438)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '11_4', '11_3', '10_3'];
+         end;
+       end;
+
+     LOC_VW_MINE:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Varrock West Mine';
+         atBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Varrock West Mine North';
+           tileBox := intToBox(3178, 3382, 3185, 3396);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Varrock West Mine South';
+           tileBox := intToBox(3171, 3371, 3179, 3364);
          end;
        end;
 
      LOC_GE_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Grand Exchange bank';
-         Constant := LOC_GE_BANK;
-         AtBank := True;
-         Tiles := [Point(3180, 3480)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3160,3495),Point(3168,3487))];
+         name := 'Grand Exchange Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_GE_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_GE_BANK;
+           name := 'Grand Exchange Bank';
+           tileBox := intToBox(3160, 3495, 3168, 3487);
+         end;
 
-           Reflection := [TPointArray([
-             Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
-             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
-             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
-             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
-             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
-             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
-             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
-             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
-             Point(3208, 3429), Point(3194, 3430), Point(3185, 3438),
-             Point(3187, 3447), Point(3179, 3450), Point(3168, 3459),
-             Point(3165, 3471), Point(3167, 3480), Point(3167, 3489)])];
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_GE_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_GE_BANK;
 
-         {
-           SPSAreas := ['11_5', '11_4', '11_3', '10_3', '10_2'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           reflection := [TPointArray([
+             point(3230, 3217), point(3242, 3224), point(3257, 3226),
+             point(3260, 3238), point(3254, 3250), point(3251, 3263),
+             point(3242, 3275), point(3239, 3290), point(3241, 3306),
+             point(3251, 3317), point(3264, 3324), point(3278, 3332),
+             point(3287, 3345), point(3296, 3356), point(3296, 3369),
+             point(3294, 3382), point(3292, 3396), point(3290, 3409),
+             point(3285, 3422), point(3279, 3429), point(3264, 3428),
+             point(3252, 3429), point(3238, 3430), point(3224, 3429),
+             point(3208, 3429), point(3194, 3430), point(3185, 3438),
+             point(3187, 3447), point(3179, 3450), point(3168, 3459),
+             point(3165, 3471), point(3167, 3480), point(3167, 3489)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '11_4', '11_3', '10_3', '10_2'];
          end;
        end;
 
      LOC_GE_YEWS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Grand Exchange yews';
-         Constant := LOC_GE_YEWS;
-         AtBank := False;
-         Tiles := [Point(3209, 3503), Point(3220, 3502)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3202,3507),Point(3213,3504))];
+         name := 'Grand Exchange Yews';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Grand Exchange Yews';
+           tileBox := intToBox(3202, 3507, 3213, 3504);
+         end;
        end;
 
      LOC_DB_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Draynor Village bank';
-         Constant := LOC_DB_BANK;
-         AtBank := True;
-         Tiles := [Point(3095, 3244)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3092,3245),Point(3095,3239))];
+         name := 'Draynor Village Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_DB_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_DB_BANK;
+           name := 'Draynor Village Bank';
+           tileBox := intToBox(3092, 3245, 3095, 3239);
+         end;
 
-           Reflection := [TPointArray([
-             Point(3222, 3216), Point(3213, 3204), Point(3204, 3210),
-             Point(3196, 3214), Point(3185, 3217), Point(3175, 3218),
-             Point(3163, 3222), Point(3153, 3225), Point(3144, 3224),
-             Point(3132, 3225), Point(3120, 3226), Point(3109, 3229),
-             Point(3100, 3235), Point(3094, 3242)])];
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_DB_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_DB_BANK;
 
-         {
-           SPSAreas := ['11_5', '10_5', '9_5'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           reflection := [TPointArray([
+             point(3222, 3216), point(3213, 3204), point(3204, 3210),
+             point(3196, 3214), point(3185, 3217), point(3175, 3218),
+             point(3163, 3222), point(3153, 3225), point(3144, 3224),
+             point(3132, 3225), point(3120, 3226), point(3109, 3229),
+             point(3100, 3235), point(3094, 3242)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '10_5', '9_5'];
          end;
        end;
 
      LOC_DB_WILLOWS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Draynor Village willows';
-         Constant := LOC_DB_WILLOWS;
-         AtBank := False;
-         Tiles := [Point(3087, 3234)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3082,3238),Point(3090,3225))];
+         name := 'Draynor Village Willows';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Draynor Village Willows';
+           tileBox := intToBox(3082, 3238, 3090, 3225);
+         end;
        end;
 
      LOC_DB_TREES:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Draynor Village trees';
-         Constant := LOC_DB_TREES;
-         AtBank := False;
-         Tiles := [Point(3081, 3268)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3075,3285),Point(3088,3263))];
+         name := 'Draynor Village Trees';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Draynor Village Trees';
+           tileBox := intToBox(3075, 3285, 3088, 3263);
+         end;
        end;
 
      LOC_DB_OAKS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Draynor Village oaks';
-         Constant := LOC_DB_OAKS;
-         AtBank := False;
-         Tiles := [Point(3101, 3244)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3098,3253),Point(3103,3239))];
+         name := 'Draynor Village Oaks';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Draynor Village Oaks';
+           tileBox := intToBox(3098, 3253, 3103, 3239);
+         end;
        end;
 
      LOC_DB_FISH:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Draynor Village fishing spots';
-         Constant := LOC_DB_FISH;
-         AtBank := False;
-         Tiles := [Point(3087, 3228)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3084,3233),Point(3089,3220))];
+         name := 'Draynor Village Fishing Spots';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Draynor Village Fishing Spots';
+           tileBox := intToBox(3084, 3233, 3089, 3220);
+         end;
        end;
 
      LOC_DB_CLAY:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Draynor Village Clay Mine';
-         Constant := LOC_DB_CLAY;
-         AtBank := False;
-         Tiles := [Point(3141, 3316)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3134,3322),Point(3148,3314))];
+         name := 'Draynor Village Clay Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Draynor Village Clay Mine';
+           tileBox := intToBox(3134, 3322, 3148, 3314);
+         end;
+       end;
+
+     LOC_DB_YEWS:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Draynor Village Yews';
+         atBank := false;
+
+         setLength(subLocs, 3);
+         with subLocs[0] do
+         begin
+           name := 'Draynor Village Yews West';
+           tileBox := intToBox(3149, 3233, 3154, 3226);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Draynor Village Yews Central';
+           tileBox := intToBox(3164, 3224, 3168, 3219);
+         end;
+
+         with subLocs[2] do
+         begin
+           name := 'Draynor Village Yews East';
+           tileBox := intToBox(3178, 3229, 3183, 3225);
+         end;
        end;
 
      LOC_RM_YEWS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Rimmington Yews';
-         Constant := LOC_RM_YEWS;
-         AtBank := False;
-         Tiles := [Point(2940, 3231), Point(2933, 3227), Point(2928, 3229)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 10;
-         Areas := [PointToBox(Point(2937,3234),Point(2942,3229)),PointToBox(Point(2931,3230),Point(2936,3224)),
-                   PointToBox(Point(2926,3231),Point(2931,3226))];
-       end;
+         name := 'Rimmington Yews';
+         atBank := false;
 
-     LOC_RM_WILLOWS:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Rimmington Willows';
-         Constant := LOC_RM_WILLOWS;
-         AtBank := False;
-         Tiles := [Point(2999, 3169)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-       end;
+         setLength(subLocs, 3);
+         with subLocs[0] do
+         begin
+           name := 'Rimmington Yews East';
+           tileBox := intToBox(2937, 3234, 2942, 3229);
+         end;
 
-     LOC_RM_MINE_EAST:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Rimmington east mine';
-         Constant := LOC_RM_MINE_EAST;
-         AtBank := False;
-         Tiles := [Point(2986, 3236)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-         Areas := [PointToBox(Point(2984,3240),Point(2988,3234))];
+         with subLocs[1] do
+         begin
+           name := 'Rimmington Yews Central';
+           tileBox := intToBox(2931, 3230, 2936, 3224);
+         end;
+
+         with subLocs[2] do
+         begin
+           name := 'Rimmington Yews West';
+           tileBox := intToBox(2926, 3231, 2931, 3226);
+         end;
        end;
 
      LOC_RM_MINE_NORTH:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Rimmington north mine';
-         Constant := LOC_RM_MINE_NORTH;
-         AtBank := False;
-         Tiles := [Point(2979, 3245)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-         Areas := [PointToBox(Point(2981,3243),Point(2975,3249))];
+         name := 'Rimmington North Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Rimmington North Mine';
+           tileBox := intToBox(2981, 3243, 2975, 3249);
+         end;
+       end;
+
+     LOC_RM_MINE_EAST:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Rimmington East Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Rimmington East Mine';
+           tileBox := intToBox(2984, 3240, 2988, 3234);
+         end;
        end;
 
      LOC_RM_MINE_SOUTH:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Rimmington south mine';
-         Constant := LOC_RM_MINE_SOUTH;
-         AtBank := False;
-         Tiles := [Point(2983, 3233)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-         Areas := [PointToBox(Point(2980,3235),Point(2984,3231))];
+         name := 'Rimmington South Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Rimmington South Mine';
+           tileBox := intToBox(2980, 3235, 2984, 3231);
+         end;
        end;
 
      LOC_RM_MINE_WEST:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Rimmington west mine';
-         Constant := LOC_RM_MINE_WEST;
-         AtBank := False;
-         Tiles := [Point(2971, 3239)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-         Areas := [PointToBox(Point(2966,3243),Point(2973,3235))];
+         name := 'Rimmington West Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Rimmington West Mine';
+           tileBox := intToBox(2966, 3243, 2973, 3235);
+         end;
+       end;
+
+     LOC_RM_WILLOWS:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Rimmington Willows';
+         atBank := false;
+
+         setLength(subLocs, 0);
        end;
 
      LOC_FE_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Falador east bank';
-         Constant := LOC_FE_BANK;
-         AtBank := True;
-         Tiles := [Point(3012, 3354)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3009,3358),Point(3017,3355))];
+         name := 'Falador East Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_FE_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_FE_BANK;
+           name := 'Falador East Bank';
+           tileBox := intToBox(3009, 3358, 3017, 3355);
+         end;
 
-           Reflection := [TPointArray([
-             Point(3229, 3217), Point(3234, 3223), Point(3226, 3236),
-             Point(3219, 3249), Point(3216, 3263), Point(3211, 3276),
-             Point(3197, 3280), Point(3184, 3285), Point(3171, 3285),
-             Point(3160, 3290), Point(3147, 3294), Point(3131, 3294),
-             Point(3117, 3294), Point(3103, 3293), Point(3089, 3289),
-             Point(3077, 3280), Point(3064, 3277), Point(3050, 3275),
-             Point(3035, 3275), Point(3022, 3276), Point(3009, 3279),
-             Point(3007, 3294), Point(3005, 3304), Point(3007, 3317),
-             Point(3006, 3331), Point(3007, 3343), Point(3006, 3357),
-             Point(3012, 3361), Point(3014, 3356)])];
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_FE_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_FE_BANK;
 
-         {
-           SPSAreas := ['11_5', '10_4', '9_4'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           reflection := [TPointArray([
+             point(3229, 3217), point(3234, 3223), point(3226, 3236),
+             point(3219, 3249), point(3216, 3263), point(3211, 3276),
+             point(3197, 3280), point(3184, 3285), point(3171, 3285),
+             point(3160, 3290), point(3147, 3294), point(3131, 3294),
+             point(3117, 3294), point(3103, 3293), point(3089, 3289),
+             point(3077, 3280), point(3064, 3277), point(3050, 3275),
+             point(3035, 3275), point(3022, 3276), point(3009, 3279),
+             point(3007, 3294), point(3005, 3304), point(3007, 3317),
+             point(3006, 3331), point(3007, 3343), point(3006, 3357),
+             point(3012, 3361), point(3014, 3356)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '10_4', '9_4'];
+         end;
+       end;
+
+     LOC_FW_BANK:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Falador West Bank';
+         atBank := true;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Falador West Bank';
+           tileBox := intToBox(2948, 3367, 2944, 3370);
+         end;
+
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_FW_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_FW_BANK;
+
+           reflection := [TPointArray([
+             point(3229, 3217), point(3234, 3223), point(3226, 3236),
+             point(3219, 3249), point(3216, 3263), point(3211, 3276),
+             point(3197, 3280), point(3184, 3285), point(3171, 3285),
+             point(3160, 3290), point(3147, 3294), point(3131, 3294),
+             point(3117, 3294), point(3103, 3293), point(3089, 3289),
+             point(3077, 3280), point(3064, 3277), point(3050, 3275),
+             point(3035, 3275), point(3022, 3276), point(3009, 3279),
+             point(3007, 3294), point(3005, 3304), point(3007, 3317),
+             point(3006, 3331), point(3007, 3343), point(3006, 3357),
+             point(2999, 3364), point(2988, 3372), point(2977, 3378),
+             point(2962, 3379), point(2952, 3380), point(2946, 3368)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '10_4', '9_4', '8_4'];
+         end;
+       end;
+
+     LOC_FW_MINE:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Falador West Mine';
+         atBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Falador West Mine North';
+           tileBox := intToBox(2907, 3369, 2911, 3361);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Falador West Mine South';
+           tileBox := intToBox(2901, 3362, 2907, 3352);
+         end;
+       end;
+
+     LOC_FW_PUMP:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Falador WaterPump';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Falador WaterPump';
+           tileBox := intToBox(2946, 3385, 2950, 3380);
          end;
        end;
 
      LOC_PS_WILLOWS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Port Sarim willows';
-         Constant := LOC_PS_WILLOWS;
-         AtBank := False;
-         Tiles := [Point(3058, 3253), Point(3063, 3258)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 10;
-         Areas := [PointToBox(Point(3055,3255),Point(3063,3243)), PointToBox(Point(3056,3264),Point(3066,3256))];
+         name := 'Port Sarim Willows';
+         atBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Port Sarim Willows South';
+           tileBox := intToBox(3055, 3255, 3063, 3243);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Port Sarim Willows North';
+           tileBox := intToBox(3056, 3264, 3066, 3256);
+         end;
        end;
 
      LOC_PS_YEWS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Port Sarim yews';
-         Constant := LOC_PS_YEWS;
-         AtBank := False;
-         Tiles := [Point(3053, 3270)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-         Areas := [PointToBox(Point(3049,3274),Point(3056,3266))];
+         name := 'Port Sarim Yews';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Port Sarim Yews';
+           tileBox := intToBox(3049, 3274, 3056, 3266);
+         end;
        end;
 
      LOC_PS_DBOX:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Port Sarim Deposit Box';
-         Constant := LOC_PS_DBOX;
-         AtBank := True;
-         Tiles := [Point(3046, 3235)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3043,3238),Point(3049,3234))];
+         name := 'Port Sarim Deposit Box';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_PS_DBOX';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_PS_DBOX;
+           name := 'Port Sarim Deposit Box';
+           tileBox := intToBox(3043, 3238, 3049, 3234);
+         end;
 
-           Reflection := [TPointArray([
-             Point(3222, 3216), Point(3219, 3207), Point(3208, 3203),
-             Point(3203, 3214), Point(3194, 3215), Point(3183, 3216),
-             Point(3173, 3218), Point(3162, 3221), Point(3152, 3221),
-             Point(3143, 3225), Point(3131, 3223), Point(3119, 3221),
-             Point(3111, 3225), Point(3106, 3232), Point(3094, 3232),
-             Point(3088, 3236), Point(3082, 3240), Point(3075, 3246),
-             Point(3073, 3256), Point(3072, 3265), Point(3070, 3275),
-             Point(3064, 3266), Point(3063, 3259), Point(3055, 3250),
-             Point(3044, 3245), Point(3046, 3234)])];
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_PS_DBOX';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_PS_DBOX;
 
-           SPSAreas := ['11_5', '10_5', '9_5'];
-           Color := MSI_Convert2DTilePath(Reflection);
+           reflection := [TPointArray([
+             point(3222, 3216), point(3219, 3207), point(3208, 3203),
+             point(3203, 3214), point(3194, 3215), point(3183, 3216),
+             point(3173, 3218), point(3162, 3221), point(3152, 3221),
+             point(3143, 3225), point(3131, 3223), point(3119, 3221),
+             point(3111, 3225), point(3106, 3232), point(3094, 3232),
+             point(3088, 3236), point(3082, 3240), point(3075, 3246),
+             point(3073, 3256), point(3072, 3265), point(3070, 3275),
+             point(3064, 3266), point(3063, 3259), point(3055, 3250),
+             point(3044, 3245), point(3046, 3234)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '10_5', '9_5'];
          end;
        end;
 
      LOC_LSW_MINE:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Lumbridge swamp west mine';
-         Constant := LOC_LSW_MINE;
-         AtBank := False;
-         Tiles := [Point(3148, 3147)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 30;
-         Areas := [PointToBox(Point(3143,3153),Point(3152,3140))];
+         name := 'Lumbridge Swamp West Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Lumbridge Swamp West Mine';
+           tileBox := intToBox(3143, 3153, 3152, 3140);
+         end;
        end;
 
      LOC_LSE_MINE:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Lumbridge swamp east mine';
-         Constant := LOC_LSE_MINE;
-         AtBank := False;
-         Tiles := [Point(3227, 3148)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 30;
-         Areas := [PointToBox(Point(3221,3150),Point(3233,3141))];
+         name := 'Lumbridge Swamp East Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Lumbridge Swamp East Mine';
+           tileBox := intToBox(3221, 3150, 3233, 3141);
+         end;
        end;
 
      LOC_LB_SPAWN:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Lumbridge courtyard';
-         Constant := LOC_LB_SPAWN;
-         AtBank := False;
-         Tiles := [Point(3222, 3218)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 30;
-         Areas := [PointToBox(Point(3219,3222),Point(3224,3213))];
-       end;
+         name := 'Lumbridge Courtyard';
+         atBank := false;
 
-     LOC_DB_YEWS:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Draynor Village Yews';
-         Constant := LOC_DB_YEWS;
-         AtBank := False;
-         Tiles := [Point(3153, 3229), Point(3166, 3222), Point(3181, 3227)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 30;
-         Areas := [PointToBox(Point(3149,3233),Point(3154,3226)), PointToBox(Point(3164,3224),Point(3168,3219)),
-                   PointToBox(Point(3178,3229),Point(3183,3225))];
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Lumbridge Courtyard';
+           tileBox := intToBox(3219, 3222, 3224, 3213);
+         end;
        end;
 
      LOC_EV_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Edgeville bank';
-         Constant := LOC_EV_BANK;
-         AtBank := True;
-         Tiles := [Point(3093, 3490)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 30;
-         Areas := [PointToBox(Point(3091,3498),Point(3094,3490))];
+         name := 'Edgeville Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_EV_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_EV_BANK;
+           name := 'Edgeville Bank';
+           tileBox := intToBox(3091, 3498, 3094, 3490);
+         end;
 
-           Reflection := [TPointArray([
-             Point(3230, 3217), Point(3242, 3224), Point(3257, 3226),
-             Point(3260, 3238), Point(3254, 3250), Point(3251, 3263),
-             Point(3242, 3275), Point(3239, 3290), Point(3241, 3306),
-             Point(3251, 3317), Point(3264, 3324), Point(3278, 3332),
-             Point(3287, 3345), Point(3296, 3356), Point(3296, 3369),
-             Point(3294, 3382), Point(3292, 3396), Point(3290, 3409),
-             Point(3285, 3422), Point(3279, 3429), Point(3264, 3428),
-             Point(3252, 3429), Point(3238, 3430), Point(3224, 3429),
-             Point(3208, 3429), Point(3194, 3430), Point(3189, 3429),
-             Point(3176, 3428), Point(3164, 3423), Point(3150, 3417),
-             Point(3137, 3417), Point(3123, 3417), Point(3112, 3422),
-             Point(3099, 3420), Point(3092, 3430), Point(3092, 3441),
-             Point(3096, 3453), Point(3099, 3465), Point(3097, 3478),
-             Point(3088, 3485), Point(3089, 3492), Point(3093, 3491)])];
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_EV_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_EV_BANK;
 
-         {
-           SPSAreas := ['11_5', '10_4', '10_3', '9_3', '9_2'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           reflection := [TPointArray([
+             point(3230, 3217), point(3242, 3224), point(3257, 3226),
+             point(3260, 3238), point(3254, 3250), point(3251, 3263),
+             point(3242, 3275), point(3239, 3290), point(3241, 3306),
+             point(3251, 3317), point(3264, 3324), point(3278, 3332),
+             point(3287, 3345), point(3296, 3356), point(3296, 3369),
+             point(3294, 3382), point(3292, 3396), point(3290, 3409),
+             point(3285, 3422), point(3279, 3429), point(3264, 3428),
+             point(3252, 3429), point(3238, 3430), point(3224, 3429),
+             point(3208, 3429), point(3194, 3430), point(3189, 3429),
+             point(3176, 3428), point(3164, 3423), point(3150, 3417),
+             point(3137, 3417), point(3123, 3417), point(3112, 3422),
+             point(3099, 3420), point(3092, 3430), point(3092, 3441),
+             point(3096, 3453), point(3099, 3465), point(3097, 3478),
+             point(3088, 3485), point(3089, 3492), point(3093, 3491)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5', '10_4', '10_3', '9_3', '9_2'];
          end;
        end;
 
      LOC_EV_YEWS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Edgeville yews';
-         Constant := LOC_EV_YEWS;
-         AtBank := False;
-         Tiles := [Point(3087, 3472), Point(3087, 3479)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3089,3470),Point(3086,3473)), PointToBox(Point(3085,3480),Point(3088,3477))];
+         name := 'Edgeville Yews';
+         atBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Edgeville Yews North';
+           tileBox := intToBox(3089, 3470, 3086, 3473);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Edgeville Yews South';
+           tileBox := intToBox(3085, 3480, 3088, 3477);
+         end;
+       end;
+
+     LOC_EV_WELL:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Edgeville Well';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Edgeville Well';
+           tileBox := intToBox(3080, 3506, 3087, 3500);
+         end;
        end;
 
      LOC_BBV_MINE:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Barbarian Village mine';
-         Constant := LOC_BBV_MINE;
-         AtBank := False;
-         Tiles := [Point(3079, 3423)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3077,3425),Point(3085,3418))];
+         name := 'Barbarian Village Mine';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Barbarian Village Mine';
+           tileBox := intToBox(3077, 3425, 3085, 3418);
+         end;
        end;
 
      LOC_BBV_FISH:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Barbarian Village fishing spot';
-         Constant := LOC_BBV_FISH;
-         AtBank := False;
-         Tiles := [Point(3108, 3434), Point(3103, 3426)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
-         Areas := [PointToBox(Point(3106,3437),Point(3110,3431)), PointToBox(Point(3101,3428),Point(3104,3423))];
+         name := 'Barbarian Village Fishing Spot';
+         atBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Barbarian Village Fishing Spot North';
+           tileBox := intToBox(3106, 3437, 3110, 3431);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Barbarian Village Fishing Spot South';
+           tileBox := intToBox(3101, 3428, 3104, 3423);
+         end;
        end;
 
      LOC_SV_MAGICS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Seers Village Magic trees';
-         Constant := LOC_SV_MAGICS;
-         AtBank := False;
-         Tiles := [Point(2702, 3398)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 20;
+         name := 'Seers Village Magic Trees';
+         atBank := false;
+
+         setLength(subLocs, 0);
        end;
 
      LOC_SV_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Seers Village Bank';
-         Constant := LOC_SV_BANK;
-         AtBank := True;
-         Tiles := [Point(2726, 3492)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
+         name := 'Seers Village Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 0);
+         with deathPath do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_SV_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_SV_BANK;
-           Reflection := [];
-           Obstacles[OBS_LOC_TO] := [];
-           Obstacles[OBS_LOC_FROM] := [];
-         {
-           SPSAreas := [];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           name := 'LOC_LB_SPAWN to LOC_SV_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_SV_BANK;
+
+           reflection := [TPointArray([])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := [];
          end;
        end;
 
      LOC_SV_MAPLES:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Seers Village Maples';
-         Constant := LOC_SV_MAPLES;
-         AtBank := False;
-         Tiles := [Point(2724, 3502)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
+         name := 'Seers Village Maples';
+         atBank := false;
+
+         setLength(subLocs, 0);
        end;
 
      LOC_SV_YEWS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Seers Village Yews';
-         Constant := LOC_SV_YEWS;
-         AtBank := False;
-         Tiles := [Point(2712, 3462), Point(2706,3463)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 5;
+         name := 'Seers Village Yews';
+         atBank := false;
+
+         setLength(subLocs, 0);
        end;
 
      LOC_GUILD_MINE:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Mining Guild';
-         Constant := LOC_GUILD_MINE;
-         AtBank := False;
-         Tiles := [Point(3035, 9737), Point(3048, 9737)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
+         name := 'Mining Guild';
+         atBank := false;
+
+         setLength(subLocs, 0);
        end;
 
      LOC_CG_MINE:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Crafting Guild Mine';
-         Constant := LOC_CG_MINE;
-         AtBank := False;
-         Tiles := [Point(2941, 3279), Point(2941, 3287)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 15;
-         Areas := [PointToBox(Point(2937,3281),Point(2942,3276)), PointToBox(Point(2939,3290),Point(2942,3285))];
+         name := 'Crafting Guild Mine';
+         atBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Crafting Guild Mine South';
+           tileBox := intToBox(2937, 3281, 2942, 3276);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Crafting Guild Mine North';
+           tileBox := intToBox(2939, 3290, 2942, 3285);
+         end;
        end;
 
      LOC_AK_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Al Kharid Bank';
-         Constant := LOC_AK_BANK;
-         AtBank := True;
-         Tiles := [Point(3270, 3165)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3268,3168),Point(3272,3161))];
+         name := 'Al Kharid Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 1);
+         with subLocs[0] do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_AK_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_AK_BANK;
+           name := 'Al Kharid Bank';
+           tileBox := intToBox(3268, 3168, 3272, 3161);
+         end;
 
-           Reflection := [TPointArray([
-             Point(3223, 3217), Point(3235, 3212), Point(3237, 3201),
-             Point(3243, 3191), Point(3242, 3180), Point(3246, 3171),
-             Point(3257, 3172), Point(3270, 3174), Point(3270, 3165)])];
-         {
-           SPSAreas := ['11_5'];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+         with deathPath do
+         begin
+           name := 'LOC_LB_SPAWN to LOC_AK_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_AK_BANK;
+
+           reflection := [TPointArray([
+             point(3223, 3217), point(3235, 3212), point(3237, 3201),
+             point(3243, 3191), point(3242, 3180), point(3246, 3171),
+             point(3257, 3172), point(3270, 3174), point(3270, 3165)])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := ['11_5'];
          end;
        end;
 
      LOC_AK_RANGE:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Al Kharid Cooking Range';
-         Constant := LOC_AK_RANGE;
-         AtBank := False;
-         Tiles := [Point(3273, 3179)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3272,3181),Point(3278,3177))];
+         name := 'Al Kharid Cooking Range';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Al Kharid Cooking Range';
+           tileBox := intToBox(3272, 3181, 3278, 3177);
+         end;
        end;
 
      LOC_AK_MINE_SOUTH:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Al Kharid Mine South';
-         Constant := LOC_AK_MINE_SOUTH;
-         AtBank := False;
-         Tiles := [Point(3299, 3286)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3294,3305),Point(3304,3295))];
+         name := 'Al Kharid Mine South';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Al Kharid Mine South';
+           tileBox := intToBox(3294, 3305, 3304, 3295);
+         end;
        end;
 
      LOC_AK_MINE_CENTRAL:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Al Kharid Mine Central';
-         Constant := LOC_AK_MINE_CENTRAL;
-         AtBank := False;
-         Tiles := [Point(3300, 3301)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3296,3298),Point(3303,3284))];
+         name := 'Al Kharid Mine Central';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Al Kharid Mine Central';
+           tileBox := intToBox(3296, 3298, 3303, 3284);
+         end;
        end;
 
      LOC_AK_MINE_NORTH:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Al Kharid Mine North';
-         Constant := LOC_AK_MINE_NORTH;
-         AtBank := False;
-         Tiles := [Point(3301, 3313)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(3297,3318),Point(3305,3308))];
+         name := 'Al Kharid Mine North';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Al Kharid Mine North';
+           tileBox := intToBox(3297, 3318, 3305, 3308);
+         end;
+       end;
+
+     LOC_KJ_STILES:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Stiles On Karamja';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Stiles On Karamja';
+           tileBox := intToBox(2849, 3143, 2852, 3138);
+         end;
+       end;
+
+     LOC_KJ_FISH:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Karamja Fishing Spot';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Karamja Fishing Spot';
+           tileBox := intToBox(2922, 3179, 2925, 3172);
+         end;
        end;
 
      LOC_CB_BANK:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Catherby Bank';
-         Constant := LOC_CB_BANK;
-         AtBank := True;
-         Tiles := [Point(2809, 3442)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
+         name := 'Catherby Bank';
+         atBank := true;
 
-         with DeathPath do
+         setLength(subLocs, 0);
+
+         with deathPath do
          begin
-           Name := 'LOC_LB_SPAWN to LOC_CB_BANK';
-           StartLoc := LOC_LB_SPAWN;
-           EndLoc := LOC_CB_BANK;
+           name := 'LOC_LB_SPAWN to LOC_CB_BANK';
+           startLoc := LOC_LB_SPAWN;
+           endLoc := LOC_CB_BANK;
 
-           Reflection := [];
-           Obstacles[OBS_LOC_TO] := [];
-           Obstacles[OBS_LOC_FROM] := [];
-         {
-           SPSAreas := [];
-           Color := MSI_Convert2DTilePath(Reflection);
-         }
+           reflection := [TPointArray([])];
+
+           color := MSI_Convert2DTilePath(reflection);
+           spsAreas := [];
          end;
        end;
 
      LOC_CB_FISH:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Catherby Fishing Spots';
-         Constant := LOC_CB_FISH;
-         AtBank := False;
-         Tiles := [Point(2837, 3432), Point(2845, 3430),
-                   Point(2853, 3424), Point(2859, 3427)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-       end;
+         name := 'Catherby Fishing Spots';
+         atBank := false;
 
-     LOC_KJ_STILES:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Stiles on Karamja';
-         Constant := LOC_KJ_STILES;
-         AtBank := False;
-         Tiles := [Point(2851, 3141)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(2849,3143),Point(2852,3138))];
+         setLength(subLocs, 0);
        end;
+  end;
 
-     LOC_KJ_FISH:
-       with MSI_Locations[Which] do
-       begin
-         Name := 'Karamja Fishing Spot';
-         Constant := LOC_KJ_FISH;
-         AtBank := False;
-         Tiles := [Point(2924, 3175)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
-         Areas := [PointToBox(Point(2922,3179),Point(2925,3172))];
-       end;
-   end;
+  with MSI_Locations[loc] do
+  begin
+    constant := loc;
 
-   Result := (MSI_Locations[Which].Name <> '');
- end;
+    for i := 0 to high(subLocs) do
+      subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
+  end;
+
+  result := (MSI_Locations[loc].Name <> '');
+end;
 
 (*
 MSI_LoadAllLocations

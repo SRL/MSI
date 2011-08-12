@@ -212,7 +212,7 @@ begin
           begin
             inc(timesRelocated);
 
-            if (timesRelocated = (length(MSI_Locations[Location].Tiles) - 1)) then
+            if (timesRelocated = (length(MSI_Locations[Location].subLocs) - 1)) then
             begin
               tTime := randomRange(60000, 120000); // Random 1-2 minutes
               MSI_SubDebug('Waiting ' + intToStr(tTime) + ' ms before relocating again');

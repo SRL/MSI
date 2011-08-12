@@ -100,11 +100,16 @@ begin
   {$IFDEF REFLECTION}
   if (not MSI_HookBroken[HOOK_WALKING]) then
     with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
-      if (Length(Tiles) <= 0) then // If there are no relocation points
+    begin
+      setLength(subLocs, length(subLocs) + 1);
+
+      with subLocs[high(subLocs)] do
       begin
-        SetLength(Tiles, Length(Tiles) + 1);
-        Tiles[High(Tiles)] := GetMyPos; // Add the point the player is on
+        name := 'Powerskilling Location';
+        tileBox := MSI_MakeBox(getMyPos, 10, 10);
+        spsBox := MSI_ConvertTileBox(tileBox);
       end;
+    end;
   {$ENDIF}
 
   // Add logins to stats

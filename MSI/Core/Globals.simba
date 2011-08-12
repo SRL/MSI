@@ -1075,16 +1075,20 @@ Used in several areas throughout the include such as reloacting, player setup,
 and confirming player locations.
 *)
 type
-  TLocation = record
-    Name        : string;
-    Constant    : Integer;
-    AtBank      : Boolean;
-    Tiles       : TPointArray; // Reflection tiles
-    Points      : TPointArray; // Color tiles (SPS)
-    MinDistance : Integer;     // Min distance (in pixels) for the player to be from the relocation point
-    Areas       : TBoxArray;   // The different tile boxes that are at the location
-    DeathPath   : TPath;       // So the player can start anywhere in RS (applies only to script starting locations)
+  TSubLoc = record
+    name: string;
+    tileBox, spsBox: TBox;
   end;
+  TSubLocArray = array of TSubLoc;
+
+  TLocation = record
+    name: string;
+    constant: integer;
+    subLocs: TSubLocArray;
+    atBank: boolean;
+    deathPath: TPath;
+  end;
+  TLocationArray = array of TLocation;
 
 (*
 TObstacle

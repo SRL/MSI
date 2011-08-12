@@ -211,6 +211,37 @@ begin
 end;
 
 (*
+MSI_ConvertTileBox
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ConvertTileBox(tileBox: TBox): TBox;
+
+Converts a tile TBox to an SPS Tbox
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  spsBox := MSI_ConvertTileBox(tileBox);
+*)
+function MSI_ConvertTileBox(tileBox: TBox): TBox;
+begin
+  result := intToBox(0, 0, 0, 0);
+
+  {$IFDEF SPS}
+  result := pointToBox(SPS_PointToPixel(point(tileBox.x1, tileBox.y1)),
+                       SPS_PointToPixel(point(tileBox.x2, tileBox.y2)));
+  {$ENDIF}
+end;
+
+(*
 MSI_ConvertTilePath
 ~~~~~~~~~~~~~~~~~~~
 
