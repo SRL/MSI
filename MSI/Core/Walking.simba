@@ -794,6 +794,9 @@ begin
       MSI_Debug('Didn''t spawn after 45 seconds');
       result := false;
     end;
+
+  if (result) then
+    MSI_Players[CurrentPlayer].ReportInfo.FalseReason := '';
 (*
   // set areas back to what they were
   if (MSI_HookBroken[HOOK_WALKING]) then
