@@ -45,7 +45,7 @@ begin
       begin
         Name := 'Player Idle';
         MinPixelShift := 0;
-        MaxPixelShift := 40;
+        MaxPixelShift := 75;
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 25;
         MaxTime := 125;
@@ -92,8 +92,8 @@ begin
       with Result do
       begin
         Name := 'Chopping';
-        MinPixelShift := 120;
-        MaxPixelShift := 360;
+        MinPixelShift := 150;
+        MaxPixelShift := 600;
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 50;
         MaxTime := 250;  // (50 * 5) = 250 (Gets the average pixel shift from 5 tries)

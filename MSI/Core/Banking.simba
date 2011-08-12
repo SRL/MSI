@@ -655,6 +655,12 @@ begin
     Script := MSI_Scripts[Scripts[CurrentScript].Name];
     obj := MSI_GetObject(script.whichBank);
 
+    if Script.Name = MSI_Scripts[SCRIPT_GE_YEWS].Name then
+    begin
+      MakeCompass('n');
+      SetAngle(False);
+    end;
+
     if (Location = Script.PathInfo.StartLoc) then
       if (not MSI_OpenBank(Script.WhichBank, Pin)) then
       begin
