@@ -1,0 +1,77 @@
+program new;
+{$i msi/msi/core/setup.simba}
+
+procedure printLocations();
+var
+  i, j, h: integer;
+begin
+  h := high(MSI_Locations);
+
+  for i := 0 to h do
+  begin
+    if (MSI_Locations[i].Name = '') then
+      continue;
+
+    with MSI_Locations[i] do
+    begin
+      writeln('     LOC_'+toStr(i)+':'); // update manually
+      writeln('       with MSI_Locations[loc] do');
+      writeln('       begin');
+      writeln('         name := '''+capitalize(name)+''';');
+      writeln('         atBank := '+lowercase(boolToStr(atBank))+';');
+      writeln('');
+      writeln('         setLength(subLocs, '+toStr(length(subLocs))+');');
+
+      for j := 0 to high(subLocs) do
+      begin
+        writeln('         with subLocs['+toStr(j)+'] do');
+        writeln('         begin');
+        writeln('           name := '''+capitalize(name)+''';'); // may need to update manually
+        writeln('           tileBox := intToBox('+toStr(subLocs[j].tileBox.x1)+', '+
+                                                  toStr(subLocs[j].tileBox.y1)+', '+
+                                                  toStr(subLocs[j].tileBox.x2)+', '+
+                                                  toStr(subLocs[j].tileBox.y2)+');');
+        writeln('         end;');
+
+        if (j <> high(subLocs)) then
+          writeln('');
+      end;
+
+      if (deathPath.name <> '') then
+      begin
+        writeln('');
+        writeln('         with deathPath do');
+        writeln('         begin');
+        writeln('           name := '''+deathPath.name+''';');
+        writeln('           startLoc := ''LOC_LB_SPAWN''');
+        writeln('           endLoc := '+toStr(deathPath.endLoc)+';'); // update manually
+        writeln('');
+        writeln('           reflection := [TPointArray([');
+        writeln('             '+toStr(deathPath.reflection)+')];'); // update manually
+        writeln('');
+        writeln('           color := MSI_Convert2DTilePath(reflection);');
+        writeln('           spsAreas := '+toStr(deathPath.spsAreas)+';');
+        writeln('         end;');
+      end;
+
+      writeln('       end;');
+      writeln('');
+    end;
+  end;
+
+  writeln('');
+  writeln('  with MSI_Locations[loc] do');
+  writeln('  begin');
+  writeln('    constant := loc;');
+  writeln('');
+  writeln('    for i := 0 to high(subLocs) do');
+  writeln('      subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);');
+  writeln('  end;');
+end;
+
+begin
+  clearDebug();
+  MSI_Setup();
+
+  printLocations();
+end.
