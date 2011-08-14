@@ -465,6 +465,8 @@ begin
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
       filterTPADist(p, 20);
+      MSI_SubDebug('Length(p) = '+toStr(length(p)));
+      MSI_SubDebug('p := '+toStr(p));
 
       {$IFDEF SMART}
       for ii := 0 to high(p) do
@@ -809,7 +811,7 @@ begin
             begin
               MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
 
-              if (pIndex <> -1) then
+              if (pIndex <> -1) and (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
               begin
                 MSI_SubDebug('Removing from player''s array');
                 deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);
@@ -824,6 +826,7 @@ begin
           begin
             if (FindItem(x, y, 'dtm', MSI_Items[material.Supplies[j][0]].DTM, MIX1, MIY1, MIX2, MIY2, [])) then
             begin
+              MSI_Players[CurrentPlayer].ReportInfo.FalseReason := '';
               Result := True;
               Exit;
             end;
