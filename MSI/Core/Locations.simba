@@ -678,6 +678,7 @@ Example:
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 10;
        end;
+
      LOC_SV_TREES:
        with MSI_Locations[Which] do
        begin
@@ -688,6 +689,7 @@ Example:
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
+
      LOC_SV_BANK:
        with MSI_Locations[Which] do
        begin
