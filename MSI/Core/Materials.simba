@@ -348,7 +348,7 @@ Example:
 *)
 function MSI_ConvertMaterial(func: function(m: TMaterial): Boolean; objs: TIntegerArray): Boolean;
 var
-  i, j, t: Integer;
+  i, j, k, t, x, y: Integer;
   material: TMaterial;
 begin
   if (not LoggedIn) then
@@ -372,11 +372,20 @@ begin
           if (length(material.supplies) > 0) then
             for j := 0 to high(material.supplies) do
               if (MSI_UseItemOn(material.supplies[j][0], objs)) then
+              begin
                 if (func(material)) then
                   if (MSI_WaitItemGone(MSI_Items[material.supplies[j][0]])) then
                   begin
                     result := true;
                     exit;
+                  end;
+              end else
+                for k := 0 to high(material.produces) do
+                  if (findDTM(MSI_Items[material.produces[k]].DTM, x, y, MIX1, MIY1, MIX2, MIY2)) then
+                  begin
+                    MSI_Debug(MSI_Items[material.produces[k]].Name + ' found');
+                    result := true;
+                    break;
                   end;
         end;
 
