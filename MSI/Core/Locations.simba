@@ -668,6 +668,17 @@ Example:
          MinDistance := 20;
        end;
 
+     LOC_SV_OAKS:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Seers Village Oak trees';
+         Constant := LOC_SV_OAKS;
+         AtBank := False;
+         Tiles := [Point(2719, 3480)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 10;
+       end;
+
      LOC_SV_BANK:
        with MSI_Locations[Which] do
        begin

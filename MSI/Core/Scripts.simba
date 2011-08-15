@@ -490,6 +490,37 @@ begin
         end;
       end;
 
+    SCRIPT_SV_OAKS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Seers Village Oaks';
+        Constant      := SCRIPT_SV_OAKS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_OAK];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_SV_BANK to LOC_SV_OAKS';
+          StartLoc := LOC_SV_BANK;
+          EndLoc   := LOC_SV_OAKS;
+
+          Reflection := [
+                          TPointArray([Point(2724, 3493), Point(2719, 3480)])
+                        ];
+
+          SPSAreas   := ['6_2'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
     SCRIPT_EV_YEWS:
       with MSI_Scripts[whichScript] do
       begin

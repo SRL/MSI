@@ -106,8 +106,9 @@ const
   SCRIPT_SV_MAGICS  = 22;
   SCRIPT_SV_MAPLES  = 23;
   SCRIPT_SV_YEWS    = 24;
-  SCRIPT_EV_YEWS    = 25;
-  SCRIPT_IVY        = 26;
+  SCRIPT_SV_OAKS    = 25;
+  SCRIPT_EV_YEWS    = 26;
+  SCRIPT_IVY        = 27;
 
   // Mining
   SCRIPT_POWER_MINER = 30;
@@ -292,6 +293,7 @@ const
   LOC_SV_BANK    = 101;
   LOC_SV_MAPLES  = 102;
   LOC_SV_YEWS    = 103;
+  LOC_SV_OAKS    = 104;
 
   // Guilds
   LOC_GUILD_MINE = 110;
