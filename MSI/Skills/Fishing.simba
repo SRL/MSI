@@ -90,7 +90,7 @@ var
   objReady: TBooleanArray;
   curScript: TScript;
   fishSpot: TMSObject;
-  b: Boolean;
+  b, canBank: Boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -127,8 +127,12 @@ begin
     for i := 0 to High(intObjs) do
       if (Length(toWithdraw[i]) <= 0) then // If all tools are found
         objReady[i] := True
-      else // If 1+ tools aren't found
-        if (MSI_Locations[Location].AtBank) then
+      else begin // if 1+ tools aren't found
+        canBank := MSI_Locations[Location].AtBank;
+        if (not canBank) then
+          canBank := MSI_WalkPath(curScript.pathInfo, false);
+
+        if (canBank) then
           if (MSI_OpenBank(curScript.WhichBank, Pin)) then
             if (MSI_Withdraw(toWithdraw[i], [])) then
               for j := 0 to High(toWithdraw[i]) do
@@ -144,22 +148,18 @@ begin
                 if (j = High(toWithdraw[i])) then
                   objReady[i] := True;
               end;
-
-    setLength(newObjs, length(objReady));
-    t := 0;
+      end;
 
     for i := 0 to High(objReady) do
       if (objReady[i]) then
       begin
-        newObjs[t] := intObjs[i];
-        inc(t);
+        setLength(newObjs, length(newObjs) + 1);
+        newObjs[high(newObjs)] := intObjs[i];
       end else begin
         fishSpot := MSI_GetObject(intObjs[i]);
         MSI_Debug(fishSpot.name + ': Required tools not found');
         MSI_Deposit(MSI_FishingTools(intObjs[i]), [], b);
       end;
-
-    setLength(objReady, t);
 
     // Resets the objects so if the tools aren't found it will still fish in the spots for which the tools were found
     Scripts[CurrentScript].FishSpots := newObjs;

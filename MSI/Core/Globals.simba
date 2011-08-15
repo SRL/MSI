@@ -1078,7 +1078,7 @@ type
   TSubLoc = record
     name: string;
     tileBox, spsBox: TBox;
-    camera: T2DVariantArray;
+    camera: array of TVariantArray;
   end;
   TSubLocArray = array of TSubLoc;
 

@@ -95,12 +95,15 @@ begin
     t := (GetSystemTime + 60000);
 
     // works better when camera is facing north
-    a := rs_GetCompassAngleDegrees;
-    if (a > 80.0) and (a < 280.0) then
-      if (random(10) < 5) then
-        makeCompass(RandomRange(85, 275))
-      else
-        clickNorth(true);
+    if (not (MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name = SCRIPT_GE_YEWS)) then
+    begin
+      a := rs_GetCompassAngleDegrees;
+      if (a > 80.0) and (a < 280.0) then
+        if (random(10) < 5) then
+          makeCompass(RandomRange(85, 275))
+        else
+          clickNorth(true);
+    end;
 
     while (not Result) and (GetSystemTime < t) and LoggedIn do
     begin
@@ -465,6 +468,8 @@ begin
     begin
       MSI_Debug('Found item in bank: '+Capitalize(MSI_Items[Items[i]].Name));
       filterTPADist(p, 20);
+      MSI_SubDebug('Length(p) = '+toStr(length(p)));
+      MSI_SubDebug('p := '+toStr(p));
 
       {$IFDEF SMART}
       for ii := 0 to high(p) do
@@ -657,7 +662,7 @@ begin
 
     if Script.Name = MSI_Scripts[SCRIPT_GE_YEWS].Name then
     begin
-      MakeCompass('n');
+      MakeCompass(90);
       SetAngle(False);
     end;
 
@@ -809,7 +814,7 @@ begin
             begin
               MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
 
-              if (pIndex <> -1) then
+              if (pIndex <> -1) and (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
               begin
                 MSI_SubDebug('Removing from player''s array');
                 deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);
@@ -824,6 +829,7 @@ begin
           begin
             if (FindItem(x, y, 'dtm', MSI_Items[material.Supplies[j][0]].DTM, MIX1, MIY1, MIX2, MIY2, [])) then
             begin
+              MSI_Players[CurrentPlayer].ReportInfo.FalseReason := '';
               Result := True;
               Exit;
             end;

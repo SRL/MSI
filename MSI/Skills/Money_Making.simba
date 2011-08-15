@@ -74,6 +74,8 @@ begin
       if (findDTM(MSI_Items[material.produces[i]].DTM, x, y, MCX1, MCY1, MCX2, MCY2)) then // Look for the material's DTMs in the chat box
       begin
         MMouse(x, y, -25, 25);
+        getMousePos(x, y);
+
         if (waitUpTextMulti(['Make All', 'ake', 'll'], 500)) then
         begin
           Mouse(x, y, 0, 0, true);
