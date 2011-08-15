@@ -521,6 +521,41 @@ begin
         end;
       end;
 
+    SCRIPT_SV_TREES:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Seers Village Trees';
+        Constant      := SCRIPT_SV_TREES;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_NORMAL];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_SV_BANK to LOC_SV_TREES';
+          StartLoc := LOC_SV_BANK;
+          EndLoc   := LOC_SV_TREES;
+
+          Reflection := [
+                          TPointArray([Point(2724, 3492), Point(2724, 3479),
+                          Point(2725, 3464), Point(2722, 3453),
+                          Point(2724, 3461), Point(2721, 3447)])
+                        ];
+
+          SPSAreas   := ['6_2'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+
+
     SCRIPT_EV_YEWS:
       with MSI_Scripts[whichScript] do
       begin
