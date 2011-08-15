@@ -161,59 +161,47 @@ MSI_IgnoreSpam
 
   function MSI_IgnoreSpam: boolean;
 
-Searches the chat box for a name to appear 3 times in a row, then  will ignore it.
-Meant to ignore spam bots.
+Searches the chat box for common spam bot phrases and ignores player if found.
 
 .. note::
 
   | Author: NCDS
-  | Last Updated: 12 July 2011 by NCDS
+  | Last Updated: 14 August 2011 by NCDS
 
 Example:
 
 .. code-block:: pascal
 
   MSI_IgnoreSpam;
-*)  {
+*)
 function MSI_IgnoreSpam: Boolean;
 var
-  i, h, ii, iii, bCount: Integer;
-  ignoreText: string;
-  textArray: TStringArray;
-  brokenText: array of TStringArray;
-  boolArray: TBooleanArray;
+  i, h, ii: Integer;
+  textArray, Trigger: TStringArray;
 begin
   if (not LoggedIn) then
     Exit;
 
-  textArray := ChatBoxTextArray(clChat);
-  for i := 0 to High(textArray) do
-    brokenText[i] := Explode(' ', textArray[i]);
+  try
+    Trigger := ['Wvvw', 'Co M', 'Co m', 'C o m', 'C 0m', 'C 0 m', 'C O M', 'C OM', 'C o M',
+                'cheap Gold', 'Cheap Gold', 'Rsgold', '$$$$$$$$$', '+++++++++++',
+                '~~~~~~~~~', '*******'];
+    textArray := ChatBoxTextArray(clChat);
+    h := High(textArray);
 
-  for i := 0 to High(brokenText) do
-    for ii := 0 to High(brokenText) do
-    begin
-      if i = ii then
-        Continue;
-      if Length(brokenText[i]) > Length(brokenText[ii]) then
-        h := High(brokenText[ii]) else h := High(brokenText[i]);
-      SetLength(boolArray, h);
-
-      for iii := 0 to h do
-      begin
-        boolArray[iii] := ArrInStr(brokenText[ii][iii], brokenText[i][iii]);
-        for b := 0 to High(boolArray) do
-          if boolArray[b] then
-            Inc(bCount);
-        if bCount >= Round(Length(boolArray)*0.80) then
+    for i := h downto 1 do // Main text
+      for ii := 0 to High(Trigger) do
+        if (Pos(Trigger[ii], textArray[i]) > 0) then
         begin
-          ignoreText := Implode(' ', brokenText[i]);
-          ClickText(ignoreText, FriendChars, MCx1, MCy1, MCx2, MCy2, False);
+          ClickText(Trigger[ii], SmallChars, MCx1, MCy1, MCx2, MCy2, False);
           Result := WaitOptionMulti(['ignore', 'ign', 'ore'], 1000);
+          if Result then
+            Exit;
         end;
-      end;
-    end;
-end;}
+  except
+    MSI_SubDebug('MSI_IgnoreSpam: Caught exception');
+  end;
+end;
 
 (*
 MSI_Antiban
@@ -264,7 +252,7 @@ Begin
     Exit;
   end;
 
-  //MSI_IgnoreSpam;
+  MSI_IgnoreSpam;
 
   gameTab(TAB_INV);
 
