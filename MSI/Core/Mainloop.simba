@@ -44,6 +44,11 @@ begin
     Players[i].Nick   := MSI_Players[i].Nick;
     Players[i].Pin    := MSI_Players[i].Pin;
     Players[i].Active := MSI_Players[i].Active;
+    Players[i].Integers[0] := MSI_Players[i].TotalLoads;
+    Players[i].Integers[1] := MSI_Players[i].BreakLoads;
+    Players[i].Integers[2] := MSI_Players[i].TotalTime;
+    Players[i].Integers[3] := MSI_Players[i].BreakTime;
+    Players[i].Booleans[0] := MSI_Players[i].Member;
     Players[i].Member := MSI_Players[i].Member;
 
     if (MSI_Settings[SETUP_SWITCH_WORLDS]) then
@@ -846,7 +851,7 @@ label
 begin
   MSI_SetScriptLength;
   MSI_SetReportInfo;
-  MSI_WriteRemote;
+  SetpSRLRemote('MSI Pheonix', ['Total Loads', 0, 'Break Loads', 1, 'Total Time', 2, 'Break time', 3], ['Member', 0], [], [TStringArray([])]);
 
   repeat
     MSI_ResetRemote;
