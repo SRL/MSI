@@ -121,14 +121,32 @@ begin
   end;
 
   try
-    if (StrToBool(ReadINI('Changed', 'Changed', PATH_REMOTE))) then // If updated
-      for i := 0 to High(MSI_Players) do
-      begin
-        MSI_Players[i].Active:= StrToBool(ReadINI(IntToStr(i), 'Active', PATH_REMOTE));
-        Players[i].Active := MSI_Players[i].Active;
-      end;
+    SRLRemote;
 
-    MSI_WriteRemote; // Resets INI
+    SetLength(MSI_Players, length(players));
+
+    for i:=0 to High(MSI_Players) do
+    begin
+      MSI_Players[i].Name:= Players[i].Name;
+      MSI_Players[i].Pass:= Players[i].Pass;
+      MSI_Players[i].Nick:= Players[i].Nick;
+      MSI_Players[i].Pin:= Players[i].Pin;
+      MSI_Players[i].TotalLoads:= Players[i].Integers[0];
+      MSI_Players[i].BreakLoads:= Players[i].Integers[1];
+      MSI_Players[i].TotalTime:= Players[i].Integers[2];
+      MSI_Players[i].BreakTime:= Players[i].Integers[3];
+      MSI_Players[i].Member:= Players[i].Booleans[0];
+      Players[i].Member:= MSI_Players[i].Member;
+      MSI_Players[i].Active:= Players[i].Active;
+
+      if (MSI_Settings[SETUP_SWITCH_WORLDS]) then
+        Players[i].WorldInfo := [Players[i].Member, -1, False];
+
+      if (not Players[i].Active) then
+        MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
+
+      Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
+    end;
   except
     MSI_Debug('MSI_ResetRemote: ' + ExceptionToString(ExceptionType, ExceptionParam));
   end;
