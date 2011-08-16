@@ -851,7 +851,7 @@ label
 begin
   MSI_SetScriptLength;
   MSI_SetReportInfo;
-  SetpSRLRemote('MSI Pheonix', ['Total Loads', 0, 'Break Loads', 1, 'Total Time', 2, 'Break time', 3], ['Member', 0], [], [TStringArray([])]);
+  SetupSRLRemote('MSI Pheonix', ['Total Loads', 0, 'Break Loads', 1, 'Total Time', 2, 'Break time', 3], ['Member', 0], [], [TStringArray([])]);
 
   repeat
     MSI_ResetRemote;
