@@ -33,6 +33,9 @@ Example:
   tools := MSI_FishingTools(FISHSPOT_LURE);
 *)
 function MSI_FishingTools(Obj: Integer): TIntegerArray;
+var
+  tabs: TIntegerArray;
+  i, j, x, y: Integer;
 begin
   case (Obj) of
     FISHSPOT_NET:
@@ -47,8 +50,20 @@ begin
     FISHSPOT_CAGE:
       Result := [FISH_POT_LOBSTER];
 
-    FISHSPOT_HARPOON:
-      Result := [FISH_HARPOON, FISH_HARPOON_BARB];
+    FISHSPOT_HARPOON: begin
+                        if (GetCurrentTab = TAB_INV) then
+                          tabs := [TAB_INV, TAB_EQUIP]
+                        else
+                          tabs := [TAB_EQUIP, TAB_INV];
+
+                        for i := 0 to 1 do
+                          for j := FISH_HARPOON_BARB downto FISH_HARPOON do
+                            if (MSI_FindTool(j, tabs[i], x, y)) then
+                            begin
+                              Result:= [j];
+                              Break;
+                            end;
+                      end;
 
     else
       MSI_Debug('Invalid Fishing Spot Argument');
