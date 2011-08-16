@@ -48,7 +48,7 @@ begin
       Result := [FISH_POT_LOBSTER];
 
     FISHSPOT_HARPOON:
-      Result := [FISH_HARPOON];
+      Result := [FISH_HARPOON, FISH_HARPOON_BARB];
 
     else
       MSI_Debug('Invalid Fishing Spot Argument');
