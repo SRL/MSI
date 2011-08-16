@@ -672,7 +672,6 @@ const
   ANIM_ALCH_HIGH = 11;
   ANIM_TELE_HOME = 12;
 
-  ANIM_FISHING   = 20;
   ANIM_CHOPPING  = 21;
 
 (*
@@ -1115,7 +1114,9 @@ TAnimation
 ~~~~~~~~~~
 
 A record that stores all the necessary information for the different
-animations used for MSI.
+animations used for MSI.  See
+`Dev Tools/aid_TAnimation.simba <https://github.com/SRL/MSI/raw/master/Dev Tools/aid_TAnimation.simba>`_
+for an aiding program for making a TAnimation record.
 *)
 type
   TAnimation = record
@@ -1124,7 +1125,7 @@ type
     MaxPixelShift : Integer; // Maximum pixel shift
     PixelBox      : TBox;    // Box to check for pixel shift
     Interval      : Integer; // How long to check for pixel shift
-    MaxTime       : Integer; // Gets the average pixel shift over MaxTime
+    MaxTime       : Integer; // Gets the average pixel shift from Interval over MaxTime
     WaitTime      : Integer; // How long to wait for animation in ms
   end;
 

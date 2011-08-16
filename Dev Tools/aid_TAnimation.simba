@@ -1,0 +1,102 @@
+(**
+ * DIRECTIONS:
+ * ~~~~~~~~~~~
+ *
+ *   1. Run script, let SMART load, and login player
+ *   2. Call printRange() while your character is animating
+ *   3. Insert new animtion into newAnimation() function
+ *   4. Call testAnimation while your character is animating
+ *   5. Don't forget to add the new animation's constant to Globals.simba
+ *
+ * EXAMPLE:
+ * ~~~~~~~~
+ *
+ *   The resulting TAnimation record after calling:
+ *     printRange(intToBox(PLBX1, PLBY1, PLBX2, PLBY2), 25, 125, 50);
+ *
+ *   with result do
+ *   begin
+ *     name := 'Player Idle';
+ *     minPixelShift := 5; // printed after printRange is done
+ *     maxPixelShift := 45; // printed after printRange is done
+ *     pixelBox := intToBox(PLBX1, PLBY1, PLBX2, PLBY2); // from printRange parameter
+ *     interval := 25; // from parameter
+ *     maxTime := 125; // from parameter
+ *     waitTime := 425; // 125 * 5 = 425 (5 tries to detect animation)
+ *   end;
+ *)
+
+program aid_TAnimation;
+{$DEFINE SMART}
+{$i msi/msi/core/setup.simba}
+
+// refer to MSI/Core/Animating.simba for TAminations examples
+function newAnimation(): TAnimation;
+begin
+  with result do
+  begin
+    name := 'Player Idle';
+    minPixelShift := 5;
+    maxPixelShift := 45;
+    pixelBox := intToBox(PLBX1, PLBY1, PLBX2, PLBY2);
+    interval := 25;
+    maxTime := 125;
+    waitTime := 425;          // maxTime * waitTime = times to check for animation
+  end;
+end;
+
+// run this procedure while the player is doing the new animation
+// box: the box to check for pixel shifting (TAnimation.PixelBox)
+// interval: how long to check for pixel shifting (TAnimation.Interval)
+// maxTime: how long averagePixelShift is called for interval (TAnimation.maxTime)
+// loops: how many times to call averagePixelShift (the more calls the more accurate result)
+procedure printRange(box: TBox; interval, maxTime, loops: integer);
+var
+  i: integer;
+  arr: TIntegerArray;
+begin
+  setLength(arr, loops);
+
+  for i := 0 to (loops - 1) do
+  begin
+    smart_DrawBoxEx(true, box, clYellow);
+
+    arr[i] := averagePixelShift(box, interval, maxTime)
+    writeln(toStr(arr[i]));
+  end;
+
+  quickSort(arr);
+
+  writeln('minPixelShift: '+toStr(arr[low(arr)]));
+  writeln('maxPixelShift: '+toStr(arr[high(arr)]));
+end;
+
+// use this to test your new animation.  Again, run when the player is doing animation
+function testAnimation(): boolean;
+var
+  anim: TAnimation;
+begin
+  anim := newAnimation();
+  result := MSI_IsAnimating(anim);
+end;
+
+var
+  i: integer;
+begin
+  smart_Server := 152;
+  smart_Members := False;
+  smart_Signed := True;
+  smart_SuperDetail := False;
+  setupSRL;
+  clearDebug;
+  smartSetDebug(true);
+  MSI_Settings[SETUP_DEBUG_LEVEL] := 10;
+  CurrDebugLevel := 1;
+
+  // 25 * 5 = 125 (gets pixel shift 5 times then gets average)
+  //printRange(intToBox(PLBX1, PLBY1, PLBX2, PLBY2), 25, 125, 50);
+
+  repeat
+    testAnimation();
+  until(false);
+end.
