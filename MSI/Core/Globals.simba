@@ -152,7 +152,10 @@ const
   SCRIPT_VE_FILLER   = 103;
   SCRIPT_FW_FILLER   = 104;
 
-  SCRIPT_ARRAY_LENGTH = 104; // Change to the highest script constant
+  //Runecrafting
+  SCRIPT_AIR_RUNE_CRAFTER = 110;
+
+  SCRIPT_ARRAY_LENGTH = 110; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -314,9 +317,13 @@ const
 
   // Catherby
   LOC_CB_BANK = 140;
-  LOC_CB_FISH   = 141;
+  LOC_CB_FISH = 141;
 
-  LOC_ARRAY_LENGTH = 141; // Change to the highest location constant
+  // Alters
+
+  LOC_AIR_ALTER = 150;
+
+  LOC_ARRAY_LENGTH = 150; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -472,7 +479,17 @@ const
   BAR_ADAMANT = 206;
   BAR_RUNE    = 207;
 
-  ITEM_ARRAY_LENGTH = 207; // Change to the highest item constant
+  AIR_TIARA   = 210;
+  BODY_TIARA  = 211;
+  MIND_TIARA  = 212;
+  EARTH_TIARA = 213;
+  FIRE_TIARA  = 214;
+  WATER_TIARA = 215;
+
+  RUNE_ESSENCE = 220;
+  PURE_ESSENCE = 221;
+
+  ITEM_ARRAY_LENGTH = 221; // Change to the highest item constant
 
 (*
 Object Constants
@@ -542,10 +559,12 @@ const
   COOKSPOT_AK_RANGE = 60;
 
   // Obstacles
-  LADDER_MG_DOWN = 70;
-  LADDER_MG_UP   = 71;
-  WALL_FW        = 72;
-  DOOR_NORMAL    = 73;
+  LADDER_MG_DOWN    = 70;
+  LADDER_MG_UP      = 71;
+  WALL_FW           = 72;
+  DOOR_NORMAL       = 73;
+  OBS_OUTSIDE_ALTER = 74;
+  OBS_PORTAL_ALTER  = 75;
 
   // NPCs
   NPC_STILES        = 93;
@@ -562,7 +581,12 @@ const
   // Furnaces
   FURNACE_AK = 120;
 
-  OBJECT_HIGH = 120; // Change to the highest object constant
+  //Alters
+  ALTER_OUTSIDE      = 130;
+  ALTER_PORTAL       = 131;
+  ALTER_CRAFTING_AIR = 132;
+
+  OBJECT_HIGH = 131; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -722,7 +746,10 @@ const
   MATERIAL_BAR_ADAMANT = 36;
   MATERIAL_BAR_RUNE    = 37;
 
-  MATERIAL_LENGTH      = 37;
+  //Runecrafting
+  MATERIAL_AIR_RUNE = 40;
+
+  MATERIAL_LENGTH      = 40;
 
 (*
 Proggy Constants

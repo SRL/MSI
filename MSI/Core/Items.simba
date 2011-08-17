@@ -364,6 +364,26 @@ begin
                   Point(29, 6),
                   Point(12, 2)
                 ];
+    AIR_TIARA, BODY_TIARA, MIND_TIARA, EARTH_TIARA,
+    FIRE_TIARA, WATER_TIARA:
+      Result := [
+                  Point(580, 238),
+                  Point(565, 224),
+                  Point(592, 224),
+                  Point(578, 228),
+                  Point(570, 237),
+                  Point(590, 233)
+                ];
+    RUNE_ESSENCE, PURE_ESSENCE:
+      Result := [
+                  Point(622, 250),
+                  Point(621, 278),
+                  Point(607, 262),
+                  Point(634, 265)
+                ];
+
+
+
 
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
@@ -509,6 +529,16 @@ begin
     BAR_MITHRIL : Result := 6439490;
     BAR_ADAMANT : Result := 4871497;
     BAR_RUNE    : Result := 6840656;
+
+    AIR_TIARA   : Result := 131072;
+    BODY_TIARA  : Result := 131072;
+    MIND_TIARA  : Result := 131072;
+    EARTH_TIARA : Result := 131072;
+    FIRE_TIARA  : Result := 131072;
+    WATER_TIARA : Result := 131072;
+
+    RUNE_ESSENCE : Result := 131072;
+    PURE_ESSENCE : Result := 131072;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1511,6 +1541,8 @@ begin
         EquipLevel := -1;
       end;
 
+    { Money Making =============================== ]
+    [============================================= }
     VIAL_EMPTY:
       with MSI_Items[whichItem] do
       begin
@@ -1590,6 +1622,83 @@ begin
         Stackable := False;
         EquipLevel := -1;
       end;
+
+    { Tiara ====================================== ]
+    [============================================= }
+    AIR_TIARA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air tiara';
+        UpText := ['ir','tia','ara'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    BODY_TIARA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body tiara';
+        UpText := ['tia','ara'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    MIND_TIARA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind tiara';
+        UpText := ['tia','ara'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    EARTH_TIARA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth tiara';
+        UpText := ['tia','ara'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    FIRE_TIARA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire tiara';
+        UpText := ['tia','ara'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    WATER_TIARA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water tiara';
+        UpText := ['tia','ara'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    RUNE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune essence';
+        UpText := ['ssen'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    PURE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Pure essence';
+        UpText := ['ssen'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+
+
   end;
 
   Result := (MSI_Items[whichItem].Name <> '');

@@ -889,6 +889,19 @@ Example:
          Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
+
+     LOC_AIR_ALTER:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Air ALTER';
+         Constant := AIR_ALTER;
+         AtBank := False;
+         Tiles := [Point(2841, 4830)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
+
    end;
 
    Result := (MSI_Locations[Which].Name <> '');

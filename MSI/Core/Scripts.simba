@@ -1549,6 +1549,49 @@ begin
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
+
+    SCRIPT_AIR_RUNE_CRAFTER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Air rune crafter';
+        Constant      := SCRIPT_AIR_RUNE_CRAFTER;
+        SkillName     := 'RuneCrafting';
+        SkillConst    := SKILL_RUNECRAFTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_CraftRunes;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupRunecrafting;
+
+        with Defaults do
+        begin
+          Objects   := [ALTER_CRAFTING_AIR];
+          Materials := [RUNE_ESSENCE];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_VE_BANK to LOC_AIR_ALTER';
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_AIR_ALTER;
+
+          Reflection := [
+                          TPointArray([Point(3184, 3436), Point(3173, 3428),
+                                       Point(3164, 3417), Point(3158, 3403)
+                                       Point(3141, 3403), Point(3129, 3403)]),
+
+                          TPointArray([]),
+
+                        ];
+
+    {      SPSAreas := ['8_4'];                           Not sure how this works
+          Color    := MSI_Convert2DTilePath(Reflection); }
+            Obstacles[OBS_LOC_TO] := [OBS_OUTSIDE_ALTER];
+            Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_ALTER];
+        end;
+      end;
+
     end;
 
   Result := (MSI_Scripts[whichScript].Name <> '');

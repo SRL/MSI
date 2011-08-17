@@ -285,6 +285,17 @@ begin
         MemberOnly  := False;
         Level       := -1;
       end;
+
+    MATERIAL_AIR_RUNE:
+      with Result do
+      begin
+        Name        := 'Air rune';
+        Supplies    := [TIntegerArray([RUNE_ESSENCE, -1])];
+        Produces    := [MSI_RUNE_AIR];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
   end;
 
   MSI_SubDebug('Loaded material: '+result.name);
