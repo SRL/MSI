@@ -1,0 +1,21 @@
+program RuneCrafting;
+
+
+Function MSI_SetupRunecrafting:Boolean;
+
+
+Function MSI_CraftRunes:Boolean;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
