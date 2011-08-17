@@ -50,7 +50,18 @@ begin
     FISHSPOT_CAGE:
       Result := [FISH_POT_LOBSTER];
 
-    FISHSPOT_HARPOON: Result:= [FISH_HARPOON, FISH_HARPOON_BARB];
+    FISHSPOT_HARPOON:
+      with MSI_Players[CurrentPlayer] do
+      begin
+        if (member) then
+          if (reportInfo.skillLevels[CurrentScript] >= 35) then
+            for i := tab_Inv to tab_Equip do // gameTab called in FindTool
+              if (MSI_FindTool(FISH_HARPOON_BARB, i, x, y)) then
+                result := [FISH_HARPOON_BARB];
+
+        if (length(result) <= 0) then
+          result := [FISH_HARPOON];
+      end;
 
     else
       MSI_Debug('Invalid Fishing Spot Argument');
@@ -112,30 +123,20 @@ begin
     for i := 0 to High(intObjs) do
     begin
       tools := MSI_FishingTools(intObjs[i]); // Gets the required fishing tools for the fishing spot
-      SetLength(toWithdraw[i], length(tools));
-      t := 0;
 
       for j := 0 to High(tools) do
-        found := MSI_FindTool(tools[j], TAB_INV, x, y);
-      if (not found) then
       begin
-        Dec(j)
-        if (MSI_Items[tools[j]].EquipLevel > 0) then
-          found := MSI_FindTool(tools[j], TAB_EQUIP, x, y);
+        found := MSI_FindTool(tools[j], TAB_INV, x, y);
+        if (not found) then
+          if (MSI_Items[tools[j]].EquipLevel > 0) then
+            found := MSI_FindTool(tools[j], TAB_EQUIP, x, y);
       end;
 
       if (not found) then
       begin
-        toWithdraw[i][t] := tools[j-1]; // Adds to the array if the tool isn't found
+        toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
         inc(t);
       end;
-
-      {for j := 0 to High(tools) do
-        if (not MSI_FindTool(tools[j], TAB_INV, x, y)) then
-        begin
-          toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
-          inc(t);
-        end;                        }
 
       setLength(toWithdraw[i], t);
     end;

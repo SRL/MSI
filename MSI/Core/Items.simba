@@ -2249,7 +2249,7 @@ begin
   MSI_Debug('Attempting to equip '+Capitalize(MSI_Items[Item].Name));
 
   if (lev >= MSI_Items[Item].EquipLevel) then
-    if (MSI_ClickItem(Item, ['Wield', 'ield', 'eld'])) then
+    if (MSI_ClickItem(Item, ['Wield', 'ield', 'eld', 'Wear', 'ear'])) then
     begin
       // Get the inventory slot that was clicked
       GetMousePos(x, y);
@@ -2263,7 +2263,7 @@ begin
         begin
           Result := True;
           MSI_DeleteException(Item, slot);
-          MSI_Debug('Equipped');
+          MSI_Debug('Equipped '+Capitalize(MSI_Items[Item].Name));
           Break;
         end;
 
