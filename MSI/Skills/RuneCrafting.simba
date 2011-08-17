@@ -3,10 +3,10 @@ program RuneCrafting;
 
 Function MSI_SetupRunecrafting:Boolean;
 Var TiaraFound:Boolean;
+    tiara     :Integer;
 Begin
 
-  //Not sure how to do it but somthing like
-  //  curentplayer.tscript.which tiara
+  tiara := MSI_Players[CurrentPlayer].Scripts[CurrentScript].WhichTiara
   TiaraFound := MSI_FindTool(tiara,TAB_INV,x,y);
   If TiaraFound Then
     MSI_ClickItem(tiara,['ear']);
