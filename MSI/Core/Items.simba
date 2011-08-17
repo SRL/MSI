@@ -153,6 +153,15 @@ begin
                   Point(618, 335)
                 ];
 
+    FISH_HARPOON_BARB:
+      Result := [
+                  Point(396, 205),
+                  Point(384, 214),
+                  Point(376, 222),
+                  Point(394, 209),
+                  Point(402, 198)
+                ];
+
     FISH_POT_LOBSTER:
       Result := [
                   Point(665, 343),
@@ -436,6 +445,7 @@ begin
     FISH_ROD_FLY      : Result := 3355445;
     FISH_HARPOON      : Result := 6052960;
     FISH_POT_LOBSTER  : Result := 6184546;
+    FISH_HARPOON_BARB : Result := 2702154;
 
     FISH_RAW_SHRIMP    : Result := 4742531;
     FISH_RAW_CRAYFISH  : Result := 2046823;
@@ -697,7 +707,7 @@ begin
         Stackable := False;
         EquipLevel := -1;
       end;
-    
+
     LOGS_OAK:
       with MSI_Items[whichItem] do
       begin
@@ -727,7 +737,7 @@ begin
         Stackable := False;
         EquipLevel := -1;
       end;
-    
+
     LOGS_YEW:
       with MSI_Items[whichItem] do
       begin
@@ -969,6 +979,15 @@ begin
         UpText := ['arpoon'];
         Stackable := False;
         EquipLevel := -1;
+      end;
+
+    FISH_HARPOON_BARB:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Barb-tail harpoon';
+        UpText := ['arb-tail harpoon'];
+        Stackable := False;
+        EquipLevel := 1;
       end;
 
     FISH_POT_LOBSTER:
@@ -1784,7 +1803,7 @@ Procedure MSI_FreeItem(Which: Integer);
 Begin
   Try
     FreeDTM(MSI_Items[Which].DTM);
-    
+
     With MSI_Items[Which] Do
     Begin
       Name := '';
