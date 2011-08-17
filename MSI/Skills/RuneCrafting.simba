@@ -5,12 +5,14 @@ Function MSI_SetupRunecrafting:Boolean;
 Var TiaraFound:Boolean;
 Begin
 
-  TiaraFound := MSI_FindTool(AIR_TIARA,TAB_INV,x,y)
-  //Would need to put on, just
- {Mouse(x,y,3,3,True)  ?? }
+  //Not sure how to do it but somthing like
+  //  curentplayer.tscript.which tiara
+  TiaraFound := MSI_FindTool(tiara,TAB_INV,x,y);
+  If TiaraFound Then
+    MSI_ClickItem(tiara,['ear']);
 
  If Not TiaraFound Then
-   tiaraFound :=  MSI_FindTool(tiara, TAB_EQUIP, x, y)
+   tiaraFound :=  MSI_FindTool(tiara, TAB_EQUIP, x, y);
 
  If TiaraFound Then
    Result := MSI_SetupCooking;

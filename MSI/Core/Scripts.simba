@@ -1563,6 +1563,7 @@ begin
         AutoObjects   := @MSI_CraftRunes;
         BankObjects   := @MSI_BankWithdraw;
         PlayerSetup   := @MSI_SetupRunecrafting;
+        WhichTiara    := AIR_TIARA;
 
         with Defaults do
         begin
