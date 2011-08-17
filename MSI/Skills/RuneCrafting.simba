@@ -2,6 +2,22 @@ program RuneCrafting;
 
 
 Function MSI_SetupRunecrafting:Boolean;
+Var TiaraFound:Boolean;
+Begin
+
+  TiaraFound := MSI_FindTool(AIR_TIARA,TAB_INV,x,y)
+  //Would need to put on, just
+ {Mouse(x,y,3,3,True)  ?? }
+
+ If Not TiaraFound Then
+   tiaraFound :=  MSI_FindTool(tiara, TAB_EQUIP, x, y)
+
+ If TiaraFound Then
+   Result := MSI_SetupCooking;
+
+End;
+
+
 
 
 Function MSI_CraftRunes:Boolean;

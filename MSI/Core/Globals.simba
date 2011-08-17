@@ -968,6 +968,9 @@ type
     // Miscellaneous
     Objects : TIntegerArray;
 
+    //Runecrafting
+    Tiara : Integer;
+
     // Not setup by the user
     Items    : array of TIntegerArray;
     MaxCasts : TIntegerArray; // Maximum casts for each spell (calculated in MSI_SetupMagic)
@@ -1208,6 +1211,7 @@ var
   MSI_Extras    : TExtraArray;
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
+
 
 function MSI_GetCurrentScript(): TScript;
 begin
