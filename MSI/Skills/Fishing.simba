@@ -50,20 +50,7 @@ begin
     FISHSPOT_CAGE:
       Result := [FISH_POT_LOBSTER];
 
-    FISHSPOT_HARPOON: begin
-                        if (GetCurrentTab = TAB_INV) then
-                          tabs := [TAB_INV, TAB_EQUIP]
-                        else
-                          tabs := [TAB_EQUIP, TAB_INV];
-
-                        for i := 0 to 1 do
-                          for j := FISH_HARPOON_BARB downto FISH_HARPOON do
-                            if (MSI_FindTool(j, tabs[i], x, y)) then
-                            begin
-                              Result:= [j];
-                              Break;
-                            end;
-                      end;
+    FISHSPOT_HARPOON: Result:= [FISH_HARPOON, FISH_HARPOON_BARB];
 
     else
       MSI_Debug('Invalid Fishing Spot Argument');
@@ -105,7 +92,7 @@ var
   objReady: TBooleanArray;
   curScript: TScript;
   fishSpot: TMSObject;
-  b, canBank: Boolean;
+  b, canBank, found: Boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -129,11 +116,26 @@ begin
       t := 0;
 
       for j := 0 to High(tools) do
+        found := MSI_FindTool(tools[j], TAB_INV, x, y);
+      if (not found) then
+      begin
+        Dec(j)
+        if (MSI_Items[tools[j]].EquipLevel > 0) then
+          found := MSI_FindTool(tools[j], TAB_EQUIP, x, y);
+      end;
+
+      if (not found) then
+      begin
+        toWithdraw[i][t] := tools[j-1]; // Adds to the array if the tool isn't found
+        inc(t);
+      end;
+
+      {for j := 0 to High(tools) do
         if (not MSI_FindTool(tools[j], TAB_INV, x, y)) then
         begin
           toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
           inc(t);
-        end;
+        end;                        }
 
       setLength(toWithdraw[i], t);
     end;
