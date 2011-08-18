@@ -364,22 +364,22 @@ begin
                   Point(29, 6),
                   Point(12, 2)
                 ];
-    AIR_TIARA, BODY_TIARA, MIND_TIARA, EARTH_TIARA,
-    FIRE_TIARA, WATER_TIARA:
+    TIARA_AIR, TIARA_BODY, TIARA_MIND, TIARA_EARTH,
+    TIARA_FIRE, TIARA_WATER:
       Result := [
-                  Point(580, 238),
-                  Point(565, 224),
-                  Point(592, 224),
-                  Point(578, 228),
-                  Point(570, 237),
-                  Point(590, 233)
+                  Point(621, 233),
+                  Point(607, 224),
+                  Point(634, 224),
+                  Point(510, 235),
+                  Point(631, 235)
                 ];
-    RUNE_ESSENCE, PURE_ESSENCE:
+    ESSENCE_RUNE:
       Result := [
-                  Point(622, 250),
-                  Point(621, 278),
-                  Point(607, 262),
-                  Point(634, 265)
+                  Point(622, 264),
+                  Point(654, 253),
+                  Point(670, 253),
+                  Point(653, 275),
+                  Point(674, 272)
                 ];
 
 
@@ -530,15 +530,15 @@ begin
     BAR_ADAMANT : Result := 4871497;
     BAR_RUNE    : Result := 6840656;
 
-    AIR_TIARA   : Result := 131072;
-    BODY_TIARA  : Result := 131072;
-    MIND_TIARA  : Result := 131072;
-    EARTH_TIARA : Result := 131072;
-    FIRE_TIARA  : Result := 131072;
-    WATER_TIARA : Result := 131072;
+    TIARA_AIR   : Result := 14079712;
+    TIARA_BODY  : Result := 855309;
+    TIARA_MIND  : Result := 2175210;
+    TIARA_EARTH : Result := 2114151;
+    TIARA_FIRE  : Result := 8948125;
+    TIARA_WATER : Result := 15959586;
 
-    RUNE_ESSENCE : Result := 131072;
-    PURE_ESSENCE : Result := 131072;
+    ESSENCE_RUNE : Result := 4539720;
+
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1625,7 +1625,7 @@ begin
 
     { Tiara ====================================== ]
     [============================================= }
-    AIR_TIARA:
+    TIARA_AIR:
       with MSI_Items[whichItem] do
       begin
         Name := 'Air tiara';
@@ -1634,7 +1634,7 @@ begin
         EquipLevel := 1;
       end;
 
-    BODY_TIARA:
+    TIARA_BODY:
       with MSI_Items[whichItem] do
       begin
         Name := 'Body tiara';
@@ -1643,7 +1643,7 @@ begin
         EquipLevel := 1;
       end;
 
-    MIND_TIARA:
+    TIARA_MIND:
       with MSI_Items[whichItem] do
       begin
         Name := 'Mind tiara';
@@ -1652,7 +1652,7 @@ begin
         EquipLevel := 1;
       end;
 
-    EARTH_TIARA:
+    TIARA_EARTH:
       with MSI_Items[whichItem] do
       begin
         Name := 'Earth tiara';
@@ -1661,7 +1661,7 @@ begin
         EquipLevel := 1;
       end;
 
-    FIRE_TIARA:
+    TIARA_FIRE:
       with MSI_Items[whichItem] do
       begin
         Name := 'Fire tiara';
@@ -1670,7 +1670,7 @@ begin
         EquipLevel := 1;
       end;
 
-    WATER_TIARA:
+    TIARA_WATER:
       with MSI_Items[whichItem] do
       begin
         Name := 'Water tiara';
@@ -1679,25 +1679,14 @@ begin
         EquipLevel := 1;
       end;
 
-    RUNE_ESSENCE:
+    ESSENCE_RUNE:
       with MSI_Items[whichItem] do
       begin
         Name := 'Rune essence';
-        UpText := ['ssen'];
+        UpText := ['une ssen'];
         Stackable := False;
         EquipLevel := -1;
       end;
-
-    PURE_ESSENCE:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Pure essence';
-        UpText := ['ssen'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-
 
   end;
 

@@ -1558,9 +1558,9 @@ begin
         SkillName     := 'RuneCrafting';
         SkillConst    := SKILL_RUNECRAFTING;
         BankType      := Bank;
-        WhichBank     := MSI_BANK_VE;
+        WhichBank     := MSI_BANK_VW;
         GetMaterials  := True;
-        AutoObjects   := @MSI_CraftRunes;
+        AutoObjects   := @MSI_FillAll; // not sure, this gives a type mismatch
         BankObjects   := @MSI_BankWithdraw;
         PlayerSetup   := @MSI_SetupRunecrafting;
         WhichTiara    := AIR_TIARA;
@@ -1568,7 +1568,7 @@ begin
         with Defaults do
         begin
           Objects   := [ALTER_CRAFTING_AIR];
-          Materials := [RUNE_ESSENCE];
+          Materials := [ESSENCE_RUNE];
         end;
 
         with PathInfo do
@@ -1582,7 +1582,7 @@ begin
                                        Point(3164, 3417), Point(3158, 3403)
                                        Point(3141, 3403), Point(3129, 3403)]),
 
-                          TPointArray([]),
+                          TPointArray([Point(2841, 4829), Point(2843, 4832)]),
 
                         ];
 

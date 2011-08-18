@@ -894,7 +894,7 @@ Example:
        with MSI_Locations[Which] do
        begin
          Name := 'Air ALTER';
-         Constant := AIR_ALTER;
+         Constant := loc_AIR_ALTER;
          AtBank := False;
          Tiles := [Point(2841, 4830)];
          Points := MSI_ConvertTilePath(Tiles);

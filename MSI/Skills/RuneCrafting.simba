@@ -18,22 +18,3 @@ Begin
    Result := MSI_SetupCooking;
 
 End;
-
-
-
-
-Function MSI_CraftRunes:Boolean;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

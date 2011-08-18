@@ -479,17 +479,16 @@ const
   BAR_ADAMANT = 206;
   BAR_RUNE    = 207;
 
-  AIR_TIARA   = 210;
-  BODY_TIARA  = 211;
-  MIND_TIARA  = 212;
-  EARTH_TIARA = 213;
-  FIRE_TIARA  = 214;
-  WATER_TIARA = 215;
+  TIARA_AIR   = 210;
+  TIARA_BODY  = 211;
+  TIARA_MIND  = 212;
+  TIARA_EARTH = 213;
+  TIARA_FIRE  = 214;
+  TIARA_WATER = 215;
 
-  RUNE_ESSENCE = 220;
-  PURE_ESSENCE = 221;
+  ESSENCE_RUNE = 220;
 
-  ITEM_ARRAY_LENGTH = 221; // Change to the highest item constant
+  ITEM_ARRAY_LENGTH = 220; // Change to the highest item constant
 
 (*
 Object Constants
@@ -747,7 +746,8 @@ const
   MATERIAL_BAR_RUNE    = 37;
 
   //Runecrafting
-  MATERIAL_AIR_RUNE = 40;
+  MATERIAL_AIR_RUNE = 40; //from Rune essence
+  MATERIAL_AIR_PURE = 41; //from pure essence
 
   MATERIAL_LENGTH      = 40;
 
