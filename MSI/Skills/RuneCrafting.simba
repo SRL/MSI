@@ -9,7 +9,7 @@ Begin
   tiara := MSI_Players[CurrentPlayer].Scripts[CurrentScript].WhichTiara
   TiaraFound := MSI_FindTool(tiara,TAB_INV,x,y);
   If TiaraFound Then
-    MSI_ClickItem(tiara,['ear']);
+    MSI_ClickItem(tiara,['ear']);   // wear
 
  If Not TiaraFound Then
    tiaraFound :=  MSI_FindTool(tiara, TAB_EQUIP, x, y);
