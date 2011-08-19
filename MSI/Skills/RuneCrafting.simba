@@ -6,12 +6,19 @@ Begin
   WhichTiara := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Tiara
   TiaraFound := MSI_FindTool(WhichTiara,TAB_INV,x,y);
   If TiaraFound Then
-    MSI_ClickItem(WhichTiara,['ear']);   // wear
+    If MSI_ClickItem(WhichTiara,['ear']) Then   // wear
+      TiaraFound := True
+    Else
+      TiaraFound := False
 
  If Not TiaraFound Then
    tiaraFound :=  MSI_FindTool(WhichTiara, TAB_EQUIP, x, y);
 
+ Result := TiaraFound //just to make sure
+
  If TiaraFound Then
    Result := MSI_SetupCooking;
+
+
 
 End;
