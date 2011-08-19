@@ -320,8 +320,7 @@ const
   LOC_CB_FISH = 141;
 
   // Alters
-
-  LOC_AIR_ALTER = 150;
+  LOC_ALTER_AIR = 150;
 
   LOC_ARRAY_LENGTH = 150; // Change to the highest location constant
 
@@ -746,10 +745,10 @@ const
   MATERIAL_BAR_RUNE    = 37;
 
   //Runecrafting
-  MATERIAL_AIR_RUNE = 40; //from Rune essence
-  MATERIAL_AIR_PURE = 41; //from pure essence
+  MATERIAL_ESSENCE_RUNE = 40;
+  MATERIAL_ESSENCE_PURE = 41;
 
-  MATERIAL_LENGTH      = 40;
+  MATERIAL_LENGTH      = 41;
 
 (*
 Proggy Constants

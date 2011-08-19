@@ -58,6 +58,7 @@ The source for can be found
 {$i MSI/MSI/Skills/Fishing.simba}
 {$i MSI/MSI/Skills/Cooking.simba}
 {$i MSI/MSI/Skills/Money_Making.simba}
+{$i MSI/MSI/Skills/RuneCrafting.simba}
 
 {$i MSI/MSI/Core/Reports.simba}
 {$i MSI/MSI/Core/Scripts.simba}

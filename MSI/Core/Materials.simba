@@ -286,15 +286,29 @@ begin
         Level       := -1;
       end;
 
-    MATERIAL_AIR_RUNE:
+    MATERIAL_ESSENCE_RUNE:
       with Result do
       begin
-        Name        := 'Air rune';
+        Name        := 'Rune essence';
         Supplies    := [TIntegerArray([ESSENCE_RUNE, -1])];
-        Produces    := [MSI_RUNE_AIR];
+        Produces    := [MSI_RUNE_AIR,MSI_RUNE_BODY,MSI_RUNE_MIND,MSI_RUNE_EARTH,
+                        MSI_RUNE_FIRE,MSI_RUNE_WATER];
         MemberOnly  := False;
         Level       := 1;
       end;
+
+    MATERIAL_ESSENCE_PURE:
+      with Result do
+      begin
+        Name        := 'Pure essence';
+        Supplies    := [TIntegerArray([ESSENCE_RUNE, -1])];
+        Produces    := [MSI_RUNE_AIR,MSI_RUNE_BODY,MSI_RUNE_MIND,MSI_RUNE_EARTH,
+                        MSI_RUNE_FIRE,MSI_RUNE_WATER,MSI_RUNE_CHAOS,MSI_RUNE_LAW,
+                        MSI_RUNE_COSMIC,MSI_RUNE_DEATH,MSI_RUNE_NATURE];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
 
   end;
 

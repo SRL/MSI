@@ -890,11 +890,11 @@ Example:
          MinDistance := 25;
        end;
 
-     LOC_AIR_ALTER:
+     LOC_ALTER_AIR:
        with MSI_Locations[Which] do
        begin
          Name := 'Air ALTER';
-         Constant := loc_AIR_ALTER;
+         Constant := LOC_ALTER_AIR;
          AtBank := False;
          Tiles := [Point(2841, 4830)];
          Points := MSI_ConvertTilePath(Tiles);

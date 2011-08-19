@@ -1,12 +1,9 @@
-program RuneCrafting;
-
-
 Function MSI_SetupRunecrafting:Boolean;
 Var TiaraFound:Boolean;
     tiara     :Integer;
 Begin
 
-  tiara := MSI_Players[CurrentPlayer].Scripts[CurrentScript].WhichTiara
+  tiara := Script.Defaults.WhichTiara
   TiaraFound := MSI_FindTool(tiara,TAB_INV,x,y);
   If TiaraFound Then
     MSI_ClickItem(tiara,['ear']);   // wear

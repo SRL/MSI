@@ -1560,22 +1560,23 @@ begin
         BankType      := Bank;
         WhichBank     := MSI_BANK_VW;
         GetMaterials  := True;
-        AutoObjects   := @MSI_FillAll; // not sure, this gives a type mismatch
+        AutoObjects   := @MSI_FillItems;
         BankObjects   := @MSI_BankWithdraw;
         PlayerSetup   := @MSI_SetupRunecrafting;
-        WhichTiara    := AIR_TIARA;
+
 
         with Defaults do
         begin
           Objects   := [ALTER_CRAFTING_AIR];
           Materials := [ESSENCE_RUNE];
+          WhichTiara    := AIR_TIARA;
         end;
 
         with PathInfo do
         begin
-          Name := 'LOC_VE_BANK to LOC_AIR_ALTER';
+          Name := 'LOC_VE_BANK to LOC_ALTER_AIR';
           StartLoc := LOC_VE_BANK;
-          EndLoc   := LOC_AIR_ALTER;
+          EndLoc   := LOC_ALTER_AIR;
 
           Reflection := [
                           TPointArray([Point(3184, 3436), Point(3173, 3428),
