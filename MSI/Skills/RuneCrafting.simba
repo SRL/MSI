@@ -1,15 +1,15 @@
 Function MSI_SetupRunecrafting:Boolean;
-Var TiaraFound:Boolean;
-    tiara     :Integer;
+Var TiaraFound     :Boolean;
+    WhichTiara,x,y :Integer;
 Begin
 
-  tiara := Script.Defaults.WhichTiara
-  TiaraFound := MSI_FindTool(tiara,TAB_INV,x,y);
+  WhichTiara := MSI_Players[CurrentPlayer].Scripts[CurrentScript].Tiara
+  TiaraFound := MSI_FindTool(WhichTiara,TAB_INV,x,y);
   If TiaraFound Then
-    MSI_ClickItem(tiara,['ear']);   // wear
+    MSI_ClickItem(WhichTiara,['ear']);   // wear
 
  If Not TiaraFound Then
-   tiaraFound :=  MSI_FindTool(tiara, TAB_EQUIP, x, y);
+   tiaraFound :=  MSI_FindTool(WhichTiara, TAB_EQUIP, x, y);
 
  If TiaraFound Then
    Result := MSI_SetupCooking;

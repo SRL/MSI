@@ -1569,7 +1569,7 @@ begin
         begin
           Objects   := [ALTER_CRAFTING_AIR];
           Materials := [ESSENCE_RUNE];
-          WhichTiara    := AIR_TIARA;
+          Tiara     := TIARA_AIR;
         end;
 
         with PathInfo do
@@ -1580,14 +1580,14 @@ begin
 
           Reflection := [
                           TPointArray([Point(3184, 3436), Point(3173, 3428),
-                                       Point(3164, 3417), Point(3158, 3403)
+                                       Point(3164, 3417), Point(3158, 3403),
                                        Point(3141, 3403), Point(3129, 3403)]),
 
-                          TPointArray([Point(2841, 4829), Point(2843, 4832)]),
+                          TPointArray([Point(2841, 4829), Point(2843, 4832)])
 
                         ];
-
-    {      SPSAreas := ['8_4'];                           Not sure how this works
+                                                          //SPS does not work in Alters
+    {      SPSAreas := ['8_4'];
           Color    := MSI_Convert2DTilePath(Reflection); }
             Obstacles[OBS_LOC_TO] := [OBS_OUTSIDE_ALTER];
             Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_ALTER];
