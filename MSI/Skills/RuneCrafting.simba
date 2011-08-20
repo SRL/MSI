@@ -9,7 +9,7 @@ Begin
     If MSI_ClickItem(WhichTiara,['ear']) Then   // wear
       TiaraFound := True
     Else
-      TiaraFound := False
+      TiaraFound := False;
 
  If Not TiaraFound Then
    tiaraFound :=  MSI_FindTool(WhichTiara, TAB_EQUIP, x, y);

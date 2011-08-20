@@ -364,14 +364,13 @@ begin
                   Point(29, 6),
                   Point(12, 2)
                 ];
-    TIARA_AIR, TIARA_BODY, TIARA_MIND, TIARA_EARTH,
-    TIARA_FIRE, TIARA_WATER:
+    TIARA_AIR:
       Result := [
-                  Point(621, 233),
-                  Point(607, 224),
-                  Point(634, 224),
-                  Point(510, 235),
-                  Point(631, 235)
+                  Point(579, 237),
+                  Point(565, 224),
+                  Point(591, 224),
+                  Point(570, 237),
+                  Point(690, 234)
                 ];
     ESSENCE_RUNE:
       Result := [
@@ -530,12 +529,7 @@ begin
     BAR_ADAMANT : Result := 4871497;
     BAR_RUNE    : Result := 6840656;
 
-    TIARA_AIR   : Result := 14079712;
-    TIARA_BODY  : Result := 855309;
-    TIARA_MIND  : Result := 2175210;
-    TIARA_EARTH : Result := 2114151;
-    TIARA_FIRE  : Result := 8948125;
-    TIARA_WATER : Result := 15959586;
+    TIARA_AIR   : Result := 9474455;
 
     ESSENCE_RUNE : Result := 4539720;
 
@@ -1629,52 +1623,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Air tiara';
-        UpText := ['ir','tia','ara'];
-        Stackable := False;
-        EquipLevel := 1;
-      end;
-
-    TIARA_BODY:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Body tiara';
-        UpText := ['tia','ara'];
-        Stackable := False;
-        EquipLevel := 1;
-      end;
-
-    TIARA_MIND:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Mind tiara';
-        UpText := ['tia','ara'];
-        Stackable := False;
-        EquipLevel := 1;
-      end;
-
-    TIARA_EARTH:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Earth tiara';
-        UpText := ['tia','ara'];
-        Stackable := False;
-        EquipLevel := 1;
-      end;
-
-    TIARA_FIRE:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Fire tiara';
-        UpText := ['tia','ara'];
-        Stackable := False;
-        EquipLevel := 1;
-      end;
-
-    TIARA_WATER:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Water tiara';
-        UpText := ['tia','ara'];
+        UpText := ['ir', 'r tia', 'ir t'];
         Stackable := False;
         EquipLevel := 1;
       end;
@@ -1843,10 +1792,27 @@ begin
           FISH_COOKED_LOBSTER   : e := 120.0;
           FISH_COOKED_SWORDFISH : e := 140.0;
           FISH_COOKED_SHARK     : e := 210.0;
-
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for cooking: ' + IntToStr(Items[i]));
         end;
+
+      SKILL_RUNECRAFTING:
+        case Items[i] of
+          MSI_RUNE_AIR    : e := 5;
+          MSI_RUNE_BODY   : e := 7.5;
+          MSI_RUNE_MIND   : e := 5.5;
+          MSI_RUNE_EARTH  : e := 6.5;
+          MSI_RUNE_FIRE   : e := 7;
+          MSI_RUNE_WATER  : e := 6;
+          MSI_RUNE_CHAOS  : e := 8.5;
+          MSI_RUNE_LAW    : e := 9.5;
+          MSI_RUNE_COSMIC : e := 8;
+          MSI_RUNE_DEATH  : e := 10;
+          MSI_RUNE_NATURE : e := 9;
+          else
+             MSI_SubDebug('MSI_GetItemExperiences: Invalid object for Runecrafting: ' + IntToStr(Items[i]));
+        end;
+
 
       else
         MSI_SubDebug('MSI_GetItemExperiences: Invalid script skill');

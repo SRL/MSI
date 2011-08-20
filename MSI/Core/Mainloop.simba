@@ -188,7 +188,7 @@ begin
       SKILL_FISHING:
         objs := Scripts[CurrentScript].FishSpots;
 
-      SKILL_COOKING, SKILL_NONE:
+      SKILL_COOKING, SKILL_NONE, SKILL_RUNECRAFTING:
         objs := Scripts[CurrentScript].Materials;
     end;
 
