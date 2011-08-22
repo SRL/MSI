@@ -1081,7 +1081,8 @@ type
   TSubLoc = record
     name: string;
     tileBox, spsBox: TBox;
-    camera: array of TVariantArray;
+    compass: variant;
+    camera: boolean;
   end;
   TSubLocArray = array of TSubLoc;
 
@@ -1089,6 +1090,7 @@ type
     name: string;
     constant: integer;
     subLocs: TSubLocArray;
+    areas: TBoxArray;
     atBank: boolean;
     deathPath: TPath;
   end;
