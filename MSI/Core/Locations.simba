@@ -1042,11 +1042,6 @@ begin
       subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
       subLocs[i].camera := true;
       subLocs[i].compass := 'n';
-
-      if (MSI_HookBroken[HOOK_WALKING]) then
-        areas[i] := subLocs[i].spsBox
-      else
-        areas[i] := subLocs[i].tileBox;
     end;
   end;
 

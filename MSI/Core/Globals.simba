@@ -1090,7 +1090,6 @@ type
     name: string;
     constant: integer;
     subLocs: TSubLocArray;
-    areas: TBoxArray;
     atBank: boolean;
     deathPath: TPath;
   end;

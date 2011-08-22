@@ -251,10 +251,9 @@ var
   i, t, cp, h: Integer;
   p: TPoint;
   areaTPA: TPointArray;
-  tmpTPA: array of TBox;
+  local_subLocs: TSubLocArray;
   atTile: boolean;
   Box: TBox;
-  tba: TBoxArray;
 begin
   if (not LoggedIn) then
     Exit;
@@ -267,24 +266,29 @@ begin
     Exit;
   end;
 
-  tba := MSI_Locations[Loc].Areas;
-
-  cp := MSI_Players[CurrentPlayer].CurrentPoint;
-  if (cp = High(tba)) then
+  with MSI_Locations[Loc] do
   begin
-    SetLength(tmpTPA, Length(tba));
-    h := High(tba);
-    for i := h downto 0 do  // Invert the box array
-      tmpTPA[h - i] := tba[i];
-    tba := tmpTPA;
-    cp := h - cp;
-  end;
-  MSI_Players[CurrentPlayer].CurrentPoint := cp;
+    cp := MSI_Players[CurrentPlayer].CurrentPoint;
+    h := high(subLocs);
 
-  if (MSI_HookBroken[HOOK_WALKING]) then
-    Box := MSI_Locations[Loc].subLocs[cp].spsBox
-  else
-    Box := MSI_Locations[Loc].subLocs[cp].tileBox;
+    if (cp = h) then
+    begin
+      setLength(local_subLocs, (h + 1));
+
+      for i := h downto 0 do  // Invert the box array
+        local_subLocs[h - i] := subLocs[i];
+
+      subLocs := local_subLocs;
+      cp := (h - cp);
+    end;
+
+    MSI_Players[CurrentPlayer].CurrentPoint := cp;
+
+    if (MSI_HookBroken[HOOK_WALKING]) then
+      box := subLocs[cp].spsBox
+    else
+      box := subLocs[cp].tileBox;
+  end;
 
   areaTPA := TPAFromBox(Box);
   sortTPAfrom(areaTPA, middleTPA(areaTPA));
@@ -391,10 +395,13 @@ begin
   with MSI_Locations[Loc] do
   begin
     if (not Result) then
-      for i := 0 to high(areas) do
+      for i := 0 to high(subLocs) do
       begin
         MSI_Debug('Checking box index: ' + toStr(i));
-        box := areas[i];
+        if (MSI_HookBroken[HOOK_WALKING]) then
+          box := subLocs[i].spsBox
+        else
+          box := subLocs[i].tileBox;
 
         if (MSI_PointOnMM(middleBox(box), p)) then
         begin
