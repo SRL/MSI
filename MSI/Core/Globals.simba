@@ -107,8 +107,9 @@ const
   SCRIPT_SV_MAPLES  = 23;
   SCRIPT_SV_YEWS    = 24;
   SCRIPT_SV_OAKS    = 25;
-  SCRIPT_EV_YEWS    = 26;
-  SCRIPT_IVY        = 27;
+  SCRIPT_SV_TREES   = 26;
+  SCRIPT_EV_YEWS    = 27;
+  SCRIPT_IVY        = 28;
 
   // Mining
   SCRIPT_POWER_MINER = 30;
@@ -294,6 +295,7 @@ const
   LOC_SV_MAPLES  = 102;
   LOC_SV_YEWS    = 103;
   LOC_SV_OAKS    = 104;
+  LOC_SV_TREES   = 105;
 
   // Guilds
   LOC_GUILD_MINE = 110;
@@ -670,7 +672,6 @@ const
   ANIM_ALCH_HIGH = 11;
   ANIM_TELE_HOME = 12;
 
-  ANIM_FISHING   = 20;
   ANIM_CHOPPING  = 21;
 
 (*
@@ -1119,7 +1120,9 @@ TAnimation
 ~~~~~~~~~~
 
 A record that stores all the necessary information for the different
-animations used for MSI.
+animations used for MSI.  See
+`Dev Tools/aid_TAnimation.simba <https://github.com/SRL/MSI/raw/master/Dev Tools/aid_TAnimation.simba>`_
+for an aiding program for making a TAnimation record.
 *)
 type
   TAnimation = record
@@ -1128,7 +1131,7 @@ type
     MaxPixelShift : Integer; // Maximum pixel shift
     PixelBox      : TBox;    // Box to check for pixel shift
     Interval      : Integer; // How long to check for pixel shift
-    MaxTime       : Integer; // Gets the average pixel shift over MaxTime
+    MaxTime       : Integer; // Gets the average pixel shift from Interval over MaxTime
     WaitTime      : Integer; // How long to wait for animation in ms
   end;
 

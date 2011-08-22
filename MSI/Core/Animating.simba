@@ -49,7 +49,7 @@ begin
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 25;
         MaxTime := 125;
-        WaitTime := 500;
+        WaitTime := 425;
       end;
 
     ANIM_ALCH_LOW:
@@ -76,18 +76,6 @@ begin
         WaitTime := 200;
       end;
 
-    ANIM_FISHING:
-      with Result do
-      begin
-        Name := 'Fishing';
-        MinPixelShift := 750;
-        MaxPixelShift := 10000;
-        PixelBox := IntToBox(MSCX - 25, MSCY - 30, MSCX + 25, MSCY + 25);
-        Interval := 1250;
-        MaxTime := 3000;
-        WaitTime := 3000;
-      end;
-
     ANIM_CHOPPING:
       with Result do
       begin
@@ -96,8 +84,8 @@ begin
         MaxPixelShift := 600;
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 50;
-        MaxTime := 250;  // (50 * 5) = 250 (Gets the average pixel shift from 5 tries)
-        WaitTime := 1000; // (250 * 4) = 1000 (Has to fail 4 times to not be animating)
+        MaxTime := 250;
+        WaitTime := 1000;
       end;
   end;
 end;

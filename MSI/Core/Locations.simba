@@ -810,6 +810,17 @@ begin
          setLength(subLocs, 0);
        end;
 
+     LOC_SV_TREES:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Seers Village Trees';
+         Constant := LOC_SV_TREES;
+         AtBank := False;
+         Tiles := [Point(2721, 3447)];
+         Points := MSI_ConvertTilePath(Tiles);
+         MinDistance := 25;
+       end;
+
      LOC_SV_BANK:
        with MSI_Locations[loc] do
        begin
