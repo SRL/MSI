@@ -33,6 +33,10 @@ The source for can be found
 
 {$i srl/srl/skill/magic.scar}
 
+{$IFDEF SRL_REMOTE}
+  {$i srl/srl/misc/remote.simba}
+{$ENDIF}
+
 //MSI Script
 {$i MSI/MSI/Core/Globals.simba}
 {$i MSI/MSI/Core/Debug.simba}

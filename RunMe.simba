@@ -23,6 +23,7 @@ program MSI_Script;
 //{$DEFINE SPS}          // Uncomment + select color walking to use SPS (color walking)
 {$DEFINE SMART}          // Comment to use MSI with a browser. Reflection will be disabled if commented.
 {$DEFINE MSI_REFLECTION} // Comment to completely exclude the use of Reflection
+//{$DEFINE SRL_REMOTE}     // Comment if you don't want to use the SRL Player Remote
 
 { ============================================================================ }
 {$i MSI/MSI/Core/Setup.simba}
