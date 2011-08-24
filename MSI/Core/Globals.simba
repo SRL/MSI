@@ -1089,8 +1089,8 @@ type
   TLocation = record
     name: string;
     constant: integer;
-    subLocs: TSubLocArray;
     atBank: boolean;
+    subLocs: TSubLocArray;
     deathPath: TPath;
   end;
   TLocationArray = array of TLocation;

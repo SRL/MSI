@@ -2,7 +2,8 @@
 Locations
 =========
 
-The Locations file stores all the TLocation records used in MSI.
+The Locations file stores all the TLocation records and any functions specific
+to locations in MSI.
 
 The source for Locations.simba can be found
 `here <https://github.com/SRL/MSI/raw/master/MSI/Core/Locations.simba>`_.
@@ -802,7 +803,7 @@ begin
        end;
 
      LOC_SV_OAKS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
          name := 'Seers Village Oak Trees';
          atBank := false;
@@ -811,14 +812,12 @@ begin
        end;
 
      LOC_SV_TREES:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
-         Name := 'Seers Village Trees';
-         Constant := LOC_SV_TREES;
-         AtBank := False;
-         Tiles := [Point(2721, 3447)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
+         name := 'Seers Village Trees';
+         atBank := false;
+
+         setLength(subLocs, 0);
        end;
 
      LOC_SV_BANK:
@@ -1036,7 +1035,6 @@ begin
   begin
     constant := loc;
 
-    setLength(areas, length(subLocs));
     for i := 0 to high(subLocs) do
     begin
       subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
