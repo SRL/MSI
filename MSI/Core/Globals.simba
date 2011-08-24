@@ -396,7 +396,8 @@ const
   FISH_BAIT           = 63;
   FISH_ROD_FLY        = 64;
   FISH_HARPOON        = 65;
-  FISH_POT_LOBSTER    = 66;
+  FISH_HARPOON_BARB   = 66;
+  FISH_POT_LOBSTER    = 67;
 
   FISH_RAW_SHRIMP     = 70;
   FISH_RAW_CRAYFISH   = 71;
