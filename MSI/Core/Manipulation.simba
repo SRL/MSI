@@ -98,7 +98,9 @@ begin
       Players[i].Member := MSI_Players[i].Member;
 
       if (not MSI_Players[i].Active) then
-        MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
+        MSI_Players[i].ReportInfo.FalseReason := 'User set to false'
+      else
+        MSI_Players[i].ReportInfo.FalseReason := '';
     end;
   except
     MSI_Debug('MSI_ResetRemote: ' + ExceptionToString(ExceptionType, ExceptionParam));
