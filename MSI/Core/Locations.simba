@@ -2,8 +2,7 @@
 Locations
 =========
 
-The Locations file stores all the TLocation records and any functions specific
-to locations in MSI.
+The Locations file stores all the TLocation records used in MSI.
 
 The source for Locations.simba can be found
 `here <https://github.com/SRL/MSI/raw/master/MSI/Core/Locations.simba>`_.
@@ -241,11 +240,23 @@ begin
          name := 'Grand Exchange Yews';
          atBank := false;
 
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         setLength(subLocs, 3);
+         with subLocs[0] do //East tree
          begin
-           name := 'Grand Exchange Yews';
-           tileBox := intToBox(3202, 3507, 3213, 3504);
+           name := 'Grand Exchange East Yew';
+           tileBox := intToBox(3202, 3508, 3208, 3503);
+         end;
+
+         with subLocs[1] do //Center tree
+         begin
+           name := 'Grand Exchange Center Yew';
+           tileBox := intToBox(3208, 3508, 3213, 3503);
+         end;
+
+         with subLocs[2] do //West tree
+         begin
+           name := 'Grand Exchange West Yew';
+           tileBox := intToBox(3218, 3508, 3225, 3501);
          end;
        end;
 
@@ -799,7 +810,18 @@ begin
          name := 'Seers Village Magic Trees';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 2);
+         with subLocs[0] do //East trees
+         begin
+           name := 'Seers Village East Magic Trees';
+           tileBox := intToBox(2695, 3403, 2699, 3395);
+         end;
+
+         with subLocs[1] do //West trees
+         begin
+           name := 'Seers Village West Magic Trees';
+           tileBox := intToBox(2701, 3402, 2705, 3394);
+         end;
        end;
 
      LOC_SV_OAKS:
@@ -826,7 +848,13 @@ begin
          name := 'Seers Village Bank';
          atBank := true;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Seers Village Bank';
+           tileBox := intToBox(2719, 3495, 2729, 3489);
+         end;
+
          with deathPath do
          begin
            name := 'LOC_LB_SPAWN to LOC_SV_BANK';
@@ -864,7 +892,12 @@ begin
          name := 'Mining Guild';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do //Ladders
+         begin
+           name := 'Mining Guild: Ladders';
+           tileBox := intToBox(3014, 3342, 3022, 3336);
+         end;
        end;
 
      LOC_CG_MINE:
@@ -1006,7 +1039,12 @@ begin
          name := 'Catherby Bank';
          atBank := true;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Catherby Bank';
+           tileBox := intToBox(2805, 3443, 2811, 3439);
+         end;
 
          with deathPath do
          begin
@@ -1027,7 +1065,30 @@ begin
          name := 'Catherby Fishing Spots';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 4);
+         with subLocs[0] do //East spot
+         begin
+           name := 'Catherby East Fishing Spot';
+           tileBox := intToBox(2832, 3434, 2839, 3429);
+         end;
+
+         with subLocs[1] do //East/Central Spot
+         begin
+           name := 'Catherby East/Central Fishing Spot';
+           tileBox := intToBox(2841, 3433, 2847, 3426);
+         end;
+
+         with subLocs[2] do //West/Central Spot
+         begin
+           name := 'Catherby West/Central Fishing Spot';
+           tileBox := intToBox(2849, 3427, 2855, 3421);
+         end;
+
+         with subLocs[3] do //West Spot
+         begin
+           name := 'Catherby West Fishing Spot';
+           tileBox := intToBox(2856, 3430, 2861, 3424);
+         end;
        end;
   end;
 
@@ -1122,4 +1183,3 @@ begin
 
   MSI_CloseHeader('MSI_SetPlayerLoc: Done');
 end;
-
