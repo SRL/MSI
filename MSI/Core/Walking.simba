@@ -439,11 +439,10 @@ MSI_GetCorrectPath
 
 .. code-block:: pascal
 
-  function MSI_GetCorrectPath(path: TPath; color, toLoc: boolean): T2DPointArray;
+  function MSI_GetCorrectPath(path: TPath; toLoc: boolean): T2DPointArray;
 
-Will get the correct path from the 'path' record.  If 'color', will return the
-SPS coords, else return Reflection tiles.  if 'toLoc', will invert the path's
-Reflection or SPS paths.
+Will get the correct path from the 'path' record. If 'toLoc', will invert the
+path's Reflection or SPS paths.
 
 .. note::
 
@@ -456,7 +455,7 @@ Example:
 
   MSI_GetCorrectPath(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, MSI_HookBroken[HOOK_WALKING], True);
 *)
-function MSI_GetCorrectPath(path: TPath; color, toLoc: boolean): T2DPointArray;
+function MSI_GetCorrectPath(path: TPath; toLoc: boolean): T2DPointArray;
 var
   s: string;
 begin
@@ -464,22 +463,60 @@ begin
     exit;
 
   if (toLoc) then                // Start loc -> End loc
-    if (color) then
+    if (MSI_HookBroken[HOOK_WALKING]) then
       result := path.color
     else
       result := path.reflection
   else                           // End loc -> Start loc
-    if (color) then
+    if (MSI_HookBroken[HOOK_WALKING]) then
       result := MSI_MirrorATPA(path.color)
     else
       Result := MSI_MirrorATPA(path.reflection);
 
-  if (color) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
     s := 'Color'
   else
     s := 'Reflection';
 
   MSI_SubDebug(s+' Path: '+toStr(result));
+end;
+
+(*
+MSI_SetPlayerLoc
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetPlayerLoc();
+
+Returns a walkable path from the location (loc) record given.  Uses the middle
+point of each TLocation.SubLocs tile and sps boxes.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 23 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  path := MSI_PathFromLoc(MSI_Locations[LOC_VE_MINE]);
+*)
+function MSI_PathFromLoc(loc: TLocation): TPointArray;
+var
+  i: integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  setLength(result, length(loc.subLocs));
+
+  for i := 0 to high(loc.subLocs) do
+    if (MSI_HookBroken[HOOK_WALKING]) then
+      result[i] := middleBox(loc.subLocs[i].spsBox)
+    else
+      result[i] := middleBox(loc.subLocs[i].tileBox);
 end;
 
 (*
@@ -624,8 +661,8 @@ Example:
 *)
 function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 var
-  ATPA: T2DPointArray;
-  eTPA: TPointArray;
+  regPath: T2DPointArray;
+  locPath: TPointArray;
   walked: function(TPA: TPointArray): Boolean;
   i, h, t, endLocation: integer;
   done: boolean;
@@ -638,28 +675,25 @@ begin
   MSI_AddHeader('MSI_WalkPath');
 
   if (MSI_HookBroken[HOOK_WALKING]) then
-  begin
-    ATPA := MSI_GetCorrectPath(pathInfo, true, toLoc);
-    eTPA := MSI_MirrorTPA(MSI_Locations[pathInfo.endLoc].points);
-    walked := @MSI_WalkColorPath;
-  end else begin
-    ATPA := MSI_GetCorrectPath(pathInfo, false, toLoc);
-    eTPA := MSI_MirrorTPA(MSI_Locations[pathInfo.endLoc].tiles);
+    walked := @MSI_WalkColorPath
+  else
     walked := @MSI_WalkTilePath;
-  end;
+
+  regPath := MSI_GetCorrectPath(pathInfo, toLoc);
+  locPath := MSI_MirrorTPA(MSI_PathFromLoc(MSI_Locations[pathInfo.endLoc]));
 
   // make sure we're passing the right obstacles
   if (toLoc) then
   begin
     endLocation := pathInfo.endLoc;
-    intObs := pathInfo.obstacles[OBS_LOC_TO]
+    intObs := pathInfo.obstacles[OBS_LOC_TO];
   end else begin
     endLocation := pathInfo.startLoc;
     intObs := pathInfo.obstacles[OBS_LOC_FROM];
   end;
 
-  t := (getSystemTime + (length(ATPA) * 60 + 180) * 1000);
-  h := high(ATPA);
+  t := (getSystemTime + (length(regPath) * 60 + 180) * 1000);
+  h := high(regPath);
 
   while ((not result) and (getSystemTime < t) and (not done)) do
   begin
@@ -668,8 +702,8 @@ begin
       with MSI_Players[CurrentPlayer] do
 		  begin
         // Walk the leg of the path
-			  if (not walked(ATPA[i])) then
-          if ((not walked(eTPA)) and (not walked(ATPA[i]))) then
+			  if (not walked(regPath[i])) then
+          if ((not walked(locPath)) and (not walked(regPath[i]))) then
 				  begin
             MSI_Debug('Failed to walk path ('+boolToStr(toLoc)+'): ' + pathInfo.name);
 
@@ -683,7 +717,7 @@ begin
 
         // Handle the obstacle
         if (length(intObs) > 0) then
-          if (i <> h) then // length of obstacles is always 1 less than path ATPA
+          if (i <> h) then // length of obstacles is always 1 less than path regPath
           begin
             obs := MSI_GetObstacle(intObs[i]);
             if (not MSI_SolveObstacle(obs)) then
