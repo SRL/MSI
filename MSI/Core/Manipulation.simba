@@ -97,9 +97,7 @@ begin
       MSI_Players[i].Member := Players[i].Booleans[0];
       Players[i].Member := MSI_Players[i].Member;
 
-      if (not MSI_Players[i].Active) then
-        MSI_Players[i].ReportInfo.FalseReason := 'User set to false'
-      else
+      if (MSI_Players[i].Active) then
         MSI_Players[i].ReportInfo.FalseReason := '';
     end;
   except
