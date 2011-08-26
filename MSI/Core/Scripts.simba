@@ -96,7 +96,7 @@ begin
                                        Point(3276, 3450)])
                         ];
 
-          SPSAreas := ['11_3'];
+          SPSAreas := ['12_7'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -128,7 +128,7 @@ begin
                                        Point(3279, 3428)])
                         ];
 
-          SPSAreas := ['11_3'];
+          SPSAreas := ['12_7'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -159,7 +159,7 @@ begin
                                        Point(3197, 3500), Point(3211, 3500)])
                         ];
 
-          SPSAreas   := ['10_2', '11_2'];
+          SPSAreas   := ['11_6'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -190,7 +190,7 @@ begin
                                        Point(3080, 3263), Point(3081, 3268)])
                         ];
 
-          SPSAreas   := ['9_4', '9_5'];
+          SPSAreas   := ['10_8'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -220,7 +220,7 @@ begin
                           TPointArray([Point(3093, 3244), Point(3101, 3244)])
                         ];
 
-          SPSAreas   := ['9_5'];
+          SPSAreas   := ['10_8'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -251,7 +251,7 @@ begin
                           TPointArray([Point(3093, 3244), Point(3087, 3234)])
                         ];
 
-          SPSAreas   := ['9_5'];
+          SPSAreas   := ['10_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -287,7 +287,7 @@ begin
                                        Point(2937, 3228)])
                         ];
 
-          SPSAreas   := ['8_5', '9_5'];
+          SPSAreas   := ['9_9', '8_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -321,7 +321,7 @@ begin
                                        Point(2999, 3165)])
                         ];
 
-          SPSAreas   := ['8_5', '9_5'];
+          SPSAreas   := ['9_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -353,7 +353,7 @@ begin
                                        Point(3060, 3253)])
                         ];
 
-          SPSAreas   := ['9_5'];
+          SPSAreas   := ['9_8', '9_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -385,7 +385,7 @@ begin
                                        Point(3044, 3269), Point(3053, 3270)])
                         ];
 
-          SPSAreas   := ['9_5'];
+          SPSAreas   := ['9_9', '9_8'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -421,7 +421,7 @@ begin
                                        Point(2704, 3392), Point(2701, 3399)])
                         ];
 
-          SPSAreas   := ['6_2', '6_3'];
+          SPSAreas   := ['6_6', '6_7'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -451,7 +451,7 @@ begin
                           TPointArray([Point(2726, 3492), Point(2724, 3502)])
                         ];
 
-          SPSAreas   := ['6_2'];
+          SPSAreas   := ['6_6'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -485,7 +485,7 @@ begin
                                        Point(2719, 3463), Point(2714, 3464)])
                         ];
 
-          SPSAreas   := ['6_2'];
+          SPSAreas   := ['6_6'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -516,7 +516,7 @@ begin
                           TPointArray([Point(2724, 3493), Point(2719, 3480)])
                         ];
 
-          SPSAreas   := ['6_2'];
+          SPSAreas   := ['6_6'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -549,12 +549,10 @@ begin
                           Point(2724, 3461), Point(2721, 3447)])
                         ];
 
-          SPSAreas   := ['6_2'];
+          SPSAreas   := ['6_6'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
-
-
 
     SCRIPT_EV_YEWS:
       with MSI_Scripts[whichScript] do
@@ -582,7 +580,7 @@ begin
                                        Point(3087, 3472)])
                         ];
 
-          SPSAreas   := ['9_2'];
+          SPSAreas   := ['10_6'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -614,7 +612,7 @@ begin
                                        Point(3136, 3227), Point(3151, 3229)])
                         ];
 
-          SPSAreas   := ['10_5'];
+          SPSAreas   := ['10_9', '11_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -667,7 +665,7 @@ begin
                                        Point(3293, 3377), Point(3287, 3368)])
                         ];
 
-          SPSAreas   := ['11_3'];
+          SPSAreas   := ['12_7'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -702,7 +700,7 @@ begin
                                        Point(3148, 3155), Point(3148, 3147)])
                         ];
 
-          SPSAreas   := ['9_5', '10_5', '10_6'];
+          SPSAreas   := ['10_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -737,7 +735,7 @@ begin
                                        Point(3178, 3367)])
                         ];
 
-          SPSAreas   := ['10_3'];
+          SPSAreas   := ['11_7'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -769,7 +767,7 @@ begin
                           TPointArray([Point(2920, 3355), Point(2909, 3357)])
                         ];
 
-          SPSAreas   := ['8_4'];
+          SPSAreas   := ['8_7'];
           Color      := MSI_Convert2DTilePath(Reflection);
           Obstacles[OBS_LOC_TO] := [OBS_WALL_FW];
           Obstacles[OBS_LOC_FROM] := [OBS_WALL_FW];
@@ -805,7 +803,7 @@ begin
                                        Point(3079, 3423)])
                         ];
 
-          SPSAreas   := ['9_2', '9_3'];
+          SPSAreas   := ['10_6', '10_7'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -838,7 +836,7 @@ begin
                                        Point(2986, 3236)])
                         ];
 
-          SPSAreas   := ['8_5', '9_5'];
+          SPSAreas   := ['9_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -871,7 +869,7 @@ begin
                                        Point(2981, 3241), Point(2979, 3245)])
                         ];
 
-          SPSAreas   := ['8_5', '9_5'];
+          SPSAreas   := ['9_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -903,7 +901,7 @@ begin
                                        Point(2996, 3231), Point(2983, 3230)])
                         ];
 
-          SPSAreas   := ['8_5', '9_5'];
+          SPSAreas   := ['9_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -936,7 +934,7 @@ begin
                                        Point(2974, 3235), Point(2971, 3239)])
                         ];
 
-          SPSAreas   := ['8_5', '9_5'];
+          SPSAreas   := ['9_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -970,7 +968,7 @@ begin
                                        Point(3141, 3316)])
                         ];
 
-          SPSAreas   := ['9_5', '10_4'];
+          SPSAreas   := ['10_8'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1001,7 +999,7 @@ begin
                           Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3299, 3286)])
                          ];
 
-          SPSAreas   := ['11_4', '11_5'];
+          SPSAreas   := ['12_8', '12_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1033,7 +1031,7 @@ begin
                           Point(3300, 3301)])
                          ];
 
-          SPSAreas   := ['11_4', '11_5'];
+          SPSAreas   := ['12_8', '12_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1066,7 +1064,7 @@ begin
                           Point(3301, 3305), Point(3301, 3313)])
                          ];
 
-          SPSAreas   := ['11_4', '11_5'];
+          SPSAreas   := ['12_8', '12_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1147,7 +1145,7 @@ begin
                             TPointArray([Point(2934, 3286), Point(2939, 3283)])
                           ];
 
-            SPSAreas := ['8_4', '9_4'];
+            SPSAreas := ['8_8', '9_7', '9_8'];
             Color := MSI_Convert2DTilePath(Reflection);
             Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
             Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
@@ -1199,7 +1197,7 @@ begin
                                        Point(3087, 3228)])
                         ];
 
-          SPSAreas   := ['9_5'];
+          SPSAreas   := ['10_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1234,7 +1232,7 @@ begin
                         ];
 
 
-          SPSAreas   := ['9_2', '9_3'];
+          SPSAreas   := ['10_6', '10_7'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1267,7 +1265,7 @@ begin
                            Point(2827, 3439), Point(2835, 3434)])
                         ];
 
-          SPSAreas   := ['7_3'];
+          SPSAreas   := ['7_7'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1302,7 +1300,7 @@ begin
                                        Point(2919, 3171), Point(2924, 3175)])
                         ];
 
-          SPSAreas := ['7_5', '8_5', '8_6', '7_6'];
+          SPSAreas := ['8_9'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1344,7 +1342,7 @@ begin
                                        Point(3273, 3179)])
                         ];
 
-          SPSAreas   := ['11_5'];
+          SPSAreas   := ['12_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1402,7 +1400,7 @@ begin
                                        Point(3247, 3429), Point(3241, 3434)])
                         ];
 
-          SPSAreas := ['11_3'];
+          SPSAreas := ['11_7'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1437,7 +1435,7 @@ begin
                           TPointArray([Point(3093, 3493), Point(3085, 3500)])
                         ];
 
-          SPSAreas := ['9_2'];
+          SPSAreas := ['10_6'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1472,7 +1470,7 @@ begin
                           TPointArray([Point(2945, 3367), Point(2949, 3382)])
                         ];
 
-          SPSAreas := ['8_4'];
+          SPSAreas := ['8_7'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1509,7 +1507,7 @@ begin
                                        Point(3247, 3429), Point(3241, 3434)])
                         ];
 
-          SPSAreas := ['11_3'];
+          SPSAreas := ['11_7'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -1545,7 +1543,7 @@ begin
                           TPointArray([Point(2945, 3367), Point(2949, 3382)])
                         ];
 
-          SPSAreas := ['8_4'];
+          SPSAreas := ['8_7'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;

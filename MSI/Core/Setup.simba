@@ -25,7 +25,7 @@ The source for can be found
 {$ENDIF}
 
 {$IFDEF SPS}
-  {$i srl/srl/core/SPS/SPS.simba}
+  {$i sps/sps.simba}
 {$ENDIF}
 
 {$i srl/srl/misc/Reports.scar}
