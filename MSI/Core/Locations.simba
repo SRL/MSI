@@ -902,7 +902,12 @@ begin
          name := 'Seers Village Maples';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Seers Village Maples';
+           tileBox := intToBox(2717, 3507, 2733, 3499);
+         end;
        end;
 
      LOC_SV_YEWS:
