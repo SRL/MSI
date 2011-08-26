@@ -843,7 +843,7 @@ begin
        end;
 
      LOC_SV_OAKS:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
          name := 'Seers Village Oak Trees';
          atBank := false;
@@ -857,7 +857,7 @@ begin
        end;
 
      LOC_SV_TREES:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
          name := 'Seers Village Trees';
          atBank := False;
@@ -1078,7 +1078,7 @@ begin
          name := 'Catherby Bank';
          atBank := true;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
          with subLocs[0] do
          begin
            name := 'Catherby Bank';
@@ -1135,7 +1135,6 @@ begin
   begin
     constant := loc;
 
-    setLength(areas, length(subLocs));
     for i := 0 to high(subLocs) do
     begin
       subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
@@ -1223,4 +1222,3 @@ begin
 
   MSI_CloseHeader('MSI_SetPlayerLoc: Done');
 end;
-
