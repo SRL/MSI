@@ -208,6 +208,7 @@ begin
          begin
            name := 'Grand Exchange Bank';
            tileBox := intToBox(3160, 3495, 3168, 3487);
+           camera := [False, 90];
          end;
 
          with deathPath do
@@ -240,11 +241,26 @@ begin
          name := 'Grand Exchange Yews';
          atBank := false;
 
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         setLength(subLocs, 3);
+         with subLocs[0] do //East tree
          begin
-           name := 'Grand Exchange Yews';
-           tileBox := intToBox(3202, 3507, 3213, 3504);
+           name := 'Grand Exchange East Yew';
+           tileBox := intToBox(3202, 3508, 3208, 3503);
+           camera := [False, 165];
+         end;
+
+         with subLocs[1] do //Center tree
+         begin
+           name := 'Grand Exchange Center Yew';
+           tileBox := intToBox(3208, 3508, 3213, 3503);
+           camera := [False, 'n'];
+         end;
+
+         with subLocs[2] do //West tree
+         begin
+           name := 'Grand Exchange West Yew';
+           tileBox := intToBox(3218, 3508, 3225, 3501);
+           camera := [False, 130];
          end;
        end;
 
@@ -360,18 +376,21 @@ begin
          begin
            name := 'Draynor Village Yews West';
            tileBox := intToBox(3149, 3233, 3154, 3226);
+           camera := [False, 90];
          end;
 
          with subLocs[1] do
          begin
            name := 'Draynor Village Yews Central';
            tileBox := intToBox(3164, 3224, 3168, 3219);
+           camera := [False, 170];
          end;
 
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
            tileBox := intToBox(3178, 3229, 3183, 3225);
+           camera := [False, 's'];
          end;
        end;
 
@@ -584,6 +603,7 @@ begin
          begin
            name := 'Port Sarim Willows South';
            tileBox := intToBox(3055, 3255, 3063, 3243);
+           camera := [False, 'w'];
          end;
 
          with subLocs[1] do
@@ -603,7 +623,15 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Yews';
-           tileBox := intToBox(3049, 3274, 3056, 3266);
+           tileBox := intToBox(3050, 3272, 3056, 3266);
+           camera := [False, 'n'];
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Port Sarim West Yew';
+           tileBox := intToBox(3038, 3273, 3043, 3269);
+           camera := [False, 's'];
          end;
        end;
 
@@ -735,12 +763,14 @@ begin
          begin
            name := 'Edgeville Yews North';
            tileBox := intToBox(3089, 3470, 3086, 3473);
+           camera := [False, 'n'];
          end;
 
          with subLocs[1] do
          begin
            name := 'Edgeville Yews South';
            tileBox := intToBox(3085, 3480, 3088, 3477);
+           camera := [False, 's'];
          end;
        end;
 
@@ -798,7 +828,18 @@ begin
          name := 'Seers Village Magic Trees';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 2);
+         with subLocs[0] do //East trees
+         begin
+           name := 'Seers Village East Magic Trees';
+           tileBox := intToBox(2695, 3403, 2699, 3395);
+         end;
+
+         with subLocs[1] do //West trees
+         begin
+           name := 'Seers Village West Magic Trees';
+           tileBox := intToBox(2701, 3402, 2705, 3394);
+         end;
        end;
 
      LOC_SV_OAKS:
@@ -807,18 +848,26 @@ begin
          name := 'Seers Village Oak Trees';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Seers Village Oak Trees';
+           tileBox := intToBox(2715, 3486, 2722, 3478);
+         end;
        end;
 
      LOC_SV_TREES:
        with MSI_Locations[Which] do
        begin
-         Name := 'Seers Village Trees';
-         Constant := LOC_SV_TREES;
-         AtBank := False;
-         Tiles := [Point(2721, 3447)];
-         Points := MSI_ConvertTilePath(Tiles);
-         MinDistance := 25;
+         name := 'Seers Village Trees';
+         atBank := False;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Seers Village Trees';
+           tileBox := intToBox(2707, 3455, 2729, 3435);
+         end;
        end;
 
      LOC_SV_BANK:
@@ -827,7 +876,13 @@ begin
          name := 'Seers Village Bank';
          atBank := true;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Seers Village Bank';
+           tileBox := intToBox(2719, 3495, 2729, 3489);
+         end;
+
          with deathPath do
          begin
            name := 'LOC_LB_SPAWN to LOC_SV_BANK';
@@ -856,7 +911,18 @@ begin
          name := 'Seers Village Yews';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Seers Village East Yew';
+           tileBox := intToBox(2710, 3464, 2716, 3458);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Seers Village West Yews';
+           tileBox := intToBox(2702, 3469, 2706, 3458);
+         end;
        end;
 
      LOC_GUILD_MINE:
@@ -865,7 +931,12 @@ begin
          name := 'Mining Guild';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do //Ladders
+         begin
+           name := 'Mining Guild: Ladders';
+           tileBox := intToBox(3014, 3342, 3022, 3336);
+         end;
        end;
 
      LOC_CG_MINE:
@@ -1008,6 +1079,11 @@ begin
          atBank := true;
 
          setLength(subLocs, 0);
+         with subLocs[0] do
+         begin
+           name := 'Catherby Bank';
+           tileBox := intToBox(2805, 3443, 2811, 3439);
+         end;
 
          with deathPath do
          begin
@@ -1028,7 +1104,30 @@ begin
          name := 'Catherby Fishing Spots';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 4);
+         with subLocs[0] do //East spot
+         begin
+           name := 'Catherby East Fishing Spot';
+           tileBox := intToBox(2832, 3434, 2839, 3429);
+         end;
+
+         with subLocs[1] do //East/Central Spot
+         begin
+           name := 'Catherby East/Central Fishing Spot';
+           tileBox := intToBox(2841, 3433, 2847, 3426);
+         end;
+
+         with subLocs[2] do //West/Central Spot
+         begin
+           name := 'Catherby West/Central Fishing Spot';
+           tileBox := intToBox(2849, 3427, 2855, 3421);
+         end;
+
+         with subLocs[3] do //West Spot
+         begin
+           name := 'Catherby West Fishing Spot';
+           tileBox := intToBox(2856, 3430, 2861, 3424);
+         end;
        end;
   end;
 
