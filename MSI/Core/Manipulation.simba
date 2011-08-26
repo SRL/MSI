@@ -182,43 +182,6 @@ begin
 end;
 
 (*
-MSI_ConvertTilePath
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_ConvertTilePath(Tiles: TPointArray): TPointArray;
-
-Converts the tile path 'Tiles' to a path that can be used for SPS.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 23 June 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  SPSPath := MSI_ConvertTilePath(path);
-*)
-function MSI_ConvertTilePath(Tiles: TPointArray): TPointArray;
-{$IFDEF SPS}
-var
-  i: Integer;
-{$ENDIF}
-begin
-  Result := [];
-
-  {$IFDEF SPS}
-  SetLength(Result, Length(Tiles));
-
-  for i := 0 to High(Result) do
-    Result[i] := SPS_PointToPixel(Tiles[i]);
-  {$ENDIF}
-end;
-
-(*
 MSI_Convert2DTilePath
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -241,13 +204,19 @@ Example:
   SPSPath := MSI_Convert2DTilePath(path);
 *)
 function MSI_Convert2DTilePath(Tiles: T2DPointArray): T2DPointArray;
+{$IFDEF SPS}
 var
   i: Integer;
+{$ENDIF}
 begin
+  Result := [TPointArray([])];
+
+  {$IFDEF SPS}
   SetLength(Result, Length(Tiles));
 
   for i := 0 to High(Result) do
-    Result[i] := MSI_ConvertTilePath(Tiles[i]);
+    Result[i] := SPS_TilePathToPos(Tiles[i]);
+  {$ENDIF}
 end;
 
 (*

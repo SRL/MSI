@@ -71,7 +71,6 @@ Example:
          Constant := LOC_EV_WELL;
          AtBank := False;
          Tiles := [Point(3085, 3500)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -82,7 +81,6 @@ Example:
          Constant := LOC_VE_FOUNTAIN;
          AtBank := False;
          Tiles := [Point(3241, 3434)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -93,7 +91,6 @@ Example:
          Constant := LOC_VE_TREES;
          AtBank := False;
          Tiles := [Point(3276, 3450)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -104,7 +101,6 @@ Example:
          Constant := LOC_VE_OAKS;
          AtBank := False;
          Tiles := [Point(3279, 3428)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -115,7 +111,6 @@ Example:
          Constant := LOC_VE_BANK;
          AtBank := True;
          Tiles := [Point(3253, 3421)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
 
          with DeathPath do
@@ -147,7 +142,6 @@ Example:
          Constant := LOC_VE_MINE;
          AtBank := False;
          Tiles := [Point(3288, 3368)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
        end;
 
@@ -158,7 +152,6 @@ Example:
          Constant := LOC_VW_MINE;
          AtBank := False;
          Tiles := [Point(3181, 3367)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -169,7 +162,6 @@ Example:
          Constant := LOC_FW_MINE;
          AtBank := False;
          Tiles := [Point(2907, 3358)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -180,7 +172,6 @@ Example:
          Constant := LOC_FW_BANK;
          AtBank := True;
          Tiles := [Point(2945, 3367)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
 
          with DeathPath do
@@ -216,7 +207,6 @@ Example:
          Constant := LOC_FW_PUMP;
          AtBank := False;
          Tiles := [Point(2949, 3382)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -227,7 +217,6 @@ Example:
          Constant := LOC_VW_BANK;
          AtBank := True;
          Tiles := [Point(3187, 3437)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
 
          with DeathPath do
@@ -261,7 +250,6 @@ Example:
          Constant := LOC_GE_BANK;
          AtBank := True;
          Tiles := [Point(3180, 3476)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
 
          with DeathPath do
@@ -297,7 +285,6 @@ Example:
          Constant := LOC_GE_YEWS;
          AtBank := False;
          Tiles := [Point(3209, 3503), Point(3220, 3502)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -308,7 +295,6 @@ Example:
          Constant := LOC_DB_BANK;
          AtBank := True;
          Tiles := [Point(3095, 3244)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
 
          with DeathPath do
@@ -338,7 +324,6 @@ Example:
          Constant := LOC_DB_WILLOWS;
          AtBank := False;
          Tiles := [Point(3087, 3234)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -349,7 +334,6 @@ Example:
          Constant := LOC_DB_TREES;
          AtBank := False;
          Tiles := [Point(3081, 3268)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -360,7 +344,6 @@ Example:
          Constant := LOC_DB_OAKS;
          AtBank := False;
          Tiles := [Point(3101, 3244)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -371,7 +354,6 @@ Example:
          Constant := LOC_DB_FISH;
          AtBank := False;
          Tiles := [Point(3087, 3228)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -382,7 +364,6 @@ Example:
          Constant := LOC_DB_CLAY;
          AtBank := False;
          Tiles := [Point(3141, 3316)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -393,7 +374,6 @@ Example:
          Constant := LOC_RM_YEWS;
          AtBank := False;
          Tiles := [Point(2940, 3231), Point(2933, 3227), Point(2928, 3229)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 10;
        end;
 
@@ -404,7 +384,6 @@ Example:
          Constant := LOC_RM_WILLOWS;
          AtBank := False;
          Tiles := [Point(2999, 3169)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -415,7 +394,6 @@ Example:
          Constant := LOC_RM_MINE_EAST;
          AtBank := False;
          Tiles := [Point(2986, 3236)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
@@ -426,7 +404,6 @@ Example:
          Constant := LOC_RM_MINE_NORTH;
          AtBank := False;
          Tiles := [Point(2979, 3245)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
@@ -437,7 +414,6 @@ Example:
          Constant := LOC_RM_MINE_SOUTH;
          AtBank := False;
          Tiles := [Point(2983, 3233)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
@@ -448,7 +424,6 @@ Example:
          Constant := LOC_RM_MINE_WEST;
          AtBank := False;
          Tiles := [Point(2971, 3239)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
@@ -459,7 +434,6 @@ Example:
          Constant := LOC_FE_BANK;
          AtBank := True;
          Tiles := [Point(3012, 3354)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
 
          with DeathPath do
@@ -494,7 +468,6 @@ Example:
          Constant := LOC_PS_WILLOWS;
          AtBank := False;
          Tiles := [Point(3058, 3253), Point(3063, 3258)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 10;
        end;
 
@@ -505,7 +478,6 @@ Example:
          Constant := LOC_PS_YEWS;
          AtBank := False;
          Tiles := [Point(3053, 3270)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
@@ -516,7 +488,6 @@ Example:
          Constant := LOC_PS_DBOX;
          AtBank := True;
          Tiles := [Point(3046, 3235)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
 
          with DeathPath do
@@ -548,7 +519,6 @@ Example:
          Constant := LOC_LSW_MINE;
          AtBank := False;
          Tiles := [Point(3148, 3147)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
        end;
 
@@ -559,7 +529,6 @@ Example:
          Constant := LOC_LSE_MINE;
          AtBank := False;
          Tiles := [Point(3227, 3148)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
        end;
 
@@ -570,7 +539,6 @@ Example:
          Constant := LOC_LB_SPAWN;
          AtBank := False;
          Tiles := [Point(3222, 3218)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
        end;
 
@@ -581,7 +549,6 @@ Example:
          Constant := LOC_DB_YEWS;
          AtBank := False;
          Tiles := [Point(3153, 3229), Point(3166, 3222), Point(3181, 3227)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
        end;
 
@@ -592,7 +559,6 @@ Example:
          Constant := LOC_EV_BANK;
          AtBank := True;
          Tiles := [Point(3093, 3490)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 30;
 
          with DeathPath do
@@ -631,7 +597,6 @@ Example:
          Constant := LOC_EV_YEWS;
          AtBank := False;
          Tiles := [Point(3087, 3472), Point(3087, 3479)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -642,7 +607,6 @@ Example:
          Constant := LOC_BBV_MINE;
          AtBank := False;
          Tiles := [Point(3079, 3423)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -653,7 +617,6 @@ Example:
          Constant := LOC_BBV_FISH;
          AtBank := False;
          Tiles := [Point(3108, 3434), Point(3103, 3426)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -664,7 +627,6 @@ Example:
          Constant := LOC_SV_MAGICS;
          AtBank := False;
          Tiles := [Point(2702, 3398)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 20;
        end;
 
@@ -675,7 +637,6 @@ Example:
          Constant := LOC_SV_OAKS;
          AtBank := False;
          Tiles := [Point(2719, 3480)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 10;
        end;
 
@@ -686,7 +647,6 @@ Example:
          Constant := LOC_SV_TREES;
          AtBank := False;
          Tiles := [Point(2721, 3447)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -697,7 +657,6 @@ Example:
          Constant := LOC_SV_BANK;
          AtBank := True;
          Tiles := [Point(2726, 3492)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
 
          with DeathPath do
@@ -722,7 +681,6 @@ Example:
          Constant := LOC_SV_MAPLES;
          AtBank := False;
          Tiles := [Point(2724, 3502)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -733,7 +691,6 @@ Example:
          Constant := LOC_SV_YEWS;
          AtBank := False;
          Tiles := [Point(2712, 3462), Point(2706,3463)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 5;
        end;
 
@@ -744,7 +701,6 @@ Example:
          Constant := LOC_GUILD_MINE;
          AtBank := False;
          Tiles := [Point(3035, 9737), Point(3048, 9737)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -755,7 +711,6 @@ Example:
          Constant := LOC_CG_MINE;
          AtBank := False;
          Tiles := [Point(2941, 3279), Point(2941, 3287)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 15;
        end;
 
@@ -766,7 +721,6 @@ Example:
          Constant := LOC_AK_BANK;
          AtBank := True;
          Tiles := [Point(3270, 3165)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
 
          with DeathPath do
@@ -793,7 +747,6 @@ Example:
          Constant := LOC_AK_RANGE;
          AtBank := False;
          Tiles := [Point(3273, 3179)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -804,7 +757,6 @@ Example:
          Constant := LOC_AK_MINE_SOUTH;
          AtBank := False;
          Tiles := [Point(3299, 3286)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -815,7 +767,6 @@ Example:
          Constant := LOC_AK_MINE_CENTRAL;
          AtBank := False;
          Tiles := [Point(3300, 3301)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -826,7 +777,6 @@ Example:
          Constant := LOC_AK_MINE_NORTH;
          AtBank := False;
          Tiles := [Point(3301, 3313)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -837,7 +787,6 @@ Example:
          Constant := LOC_CB_BANK;
          AtBank := True;
          Tiles := [Point(2809, 3442)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
 
          with DeathPath do
@@ -864,7 +813,6 @@ Example:
          AtBank := False;
          Tiles := [Point(2837, 3432), Point(2845, 3430),
                    Point(2853, 3424), Point(2859, 3427)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -875,7 +823,6 @@ Example:
          Constant := LOC_KJ_STILES;
          AtBank := False;
          Tiles := [Point(2851, 3141)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
 
@@ -886,10 +833,13 @@ Example:
          Constant := LOC_KJ_FISH;
          AtBank := False;
          Tiles := [Point(2924, 3175)];
-         Points := MSI_ConvertTilePath(Tiles);
          MinDistance := 25;
        end;
    end;
+
+   {$IFDEF SPS}
+   MSI_Locations[Which].Points := SPS_TilePathToPos(MSI_Locations[Which].Tiles);
+   {$ENDIF}
 
    Result := (MSI_Locations[Which].Name <> '');
  end;
