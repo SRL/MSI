@@ -149,7 +149,8 @@ begin
   MSI_AddHeader('MSI_CheckHooks');
 
   // try to get updated hooks
-  r_UpdateKill := false;
+  //r_UpdateKill := false;
+  R_ContinueIfOutdated := True;
   setupReflection();
 
   // to check some hooks, player needs to be logged in

@@ -108,7 +108,7 @@ begin
       if (Length(Tiles) <= 0) then // If there are no relocation points
       begin
         SetLength(Tiles, Length(Tiles) + 1);
-        Tiles[High(Tiles)] := GetMyPos; // Add the point the player is on
+        Tiles[High(Tiles)] := r_GetMyPos; // Add the point the player is on
       end;
   {$ENDIF}
 
