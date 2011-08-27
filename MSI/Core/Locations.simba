@@ -208,7 +208,8 @@ begin
          begin
            name := 'Grand Exchange Bank';
            tileBox := intToBox(3160, 3495, 3168, 3487);
-           camera := [False, 90];
+           compass := 90;
+           camera := False;
          end;
 
          with deathPath do
@@ -246,21 +247,24 @@ begin
          begin
            name := 'Grand Exchange East Yew';
            tileBox := intToBox(3202, 3508, 3208, 3503);
-           camera := [False, 165];
+           compass := 165;
+           camera := False;
          end;
 
          with subLocs[1] do //Center tree
          begin
            name := 'Grand Exchange Center Yew';
            tileBox := intToBox(3208, 3508, 3213, 3503);
-           camera := [False, 'n'];
+           compass := 'n';
+           camera := False;
          end;
 
          with subLocs[2] do //West tree
          begin
            name := 'Grand Exchange West Yew';
            tileBox := intToBox(3218, 3508, 3225, 3501);
-           camera := [False, 130];
+           compass := 130;
+           camera := False;
          end;
        end;
 
@@ -376,21 +380,24 @@ begin
          begin
            name := 'Draynor Village Yews West';
            tileBox := intToBox(3149, 3233, 3154, 3226);
-           camera := [False, 90];
+           compass := 90;
+           camera := False;
          end;
 
          with subLocs[1] do
          begin
            name := 'Draynor Village Yews Central';
            tileBox := intToBox(3164, 3224, 3168, 3219);
-           camera := [False, 170];
+           compass := 170;
+           camera := False;
          end;
 
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
            tileBox := intToBox(3178, 3229, 3183, 3225);
-           camera := [False, 's'];
+           compass := 's';
+           camera := False;
          end;
        end;
 
@@ -603,7 +610,8 @@ begin
          begin
            name := 'Port Sarim Willows South';
            tileBox := intToBox(3055, 3255, 3063, 3243);
-           camera := [False, 'w'];
+           compass := 'w';
+           camera := False;
          end;
 
          with subLocs[1] do
@@ -624,14 +632,16 @@ begin
          begin
            name := 'Port Sarim Yews';
            tileBox := intToBox(3050, 3272, 3056, 3266);
-           camera := [False, 'n'];
+           compass := 'n';
+           camera := False;
          end;
 
          with subLocs[1] do
          begin
            name := 'Port Sarim West Yew';
            tileBox := intToBox(3038, 3273, 3043, 3269);
-           camera := [False, 's'];
+           compass := 's';
+           camera := False;
          end;
        end;
 
@@ -763,14 +773,16 @@ begin
          begin
            name := 'Edgeville Yews North';
            tileBox := intToBox(3089, 3470, 3086, 3473);
-           camera := [False, 'n'];
+           compass := 'n';
+           camera := False;
          end;
 
          with subLocs[1] do
          begin
            name := 'Edgeville Yews South';
            tileBox := intToBox(3085, 3480, 3088, 3477);
-           camera := [False, 's'];
+           compass := 's';
+           camera := False;
          end;
        end;
 
