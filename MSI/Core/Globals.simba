@@ -185,11 +185,10 @@ Example:
   MSI_Pointers[MSI_OnDebugCall] := @Coh3n_Debug; // Where Coh3n_Debug would be in an extra I wrote
 *)
 const
-  MSI_OnWriteRemoteCall = 0;
-  MSI_OnResetRemoteCall = 1;
-  MSI_OnGetSkillLevels  = 2;
+  MSI_OnResetRemoteCall = 0;
+  MSI_OnGetSkillLevels  = 1;
 
-  POINTER_ARRAY_LENGTH  = 3;
+  POINTER_ARRAY_LENGTH  = 2;
 
 (*
 Path Constants

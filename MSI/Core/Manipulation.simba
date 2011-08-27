@@ -46,50 +46,6 @@ begin
 end;
 
 (*
-MSI_WriteRemote
-~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_WriteRemote;
-
-Writes each player's activity and location to a file so it can be read by the
-Player Remote extension (msi_player_remote.sex).
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 13 May 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  procedure MSI_WriteRemote;
-*)
-procedure MSI_WriteRemote;
-var
-  i: Integer;
-begin
-  case MSI_PointerCall(MSI_OnWriteRemoteCall, []) of
-    EXTRA_CONTINUE: ;
-    EXTRA_EXIT: Exit;
-  end;
-
-  try
-    MSI_ClearFile(PATH_REMOTE);
-
-    WriteINI('Changed', 'Changed', 'False', PATH_REMOTE);
-    WriteINI('HowMany', 'HowMany', IntToStr(Length(MSI_Players)), PATH_REMOTE);
-
-    for i := 0 to High(MSI_Players) do
-      WriteINI(IntToStr(i), 'Active', BoolToStr(MSI_Players[i].Active), PATH_REMOTE);
-  except
-    MSI_Debug('MSI_WriteINI: Error!');
-  end;
-end;
-
-(*
 MSI_ResetRemote
 ~~~~~~~~~~~~~~~
 
@@ -121,14 +77,29 @@ begin
   end;
 
   try
-    if (StrToBool(ReadINI('Changed', 'Changed', PATH_REMOTE))) then // If updated
-      for i := 0 to High(MSI_Players) do
-      begin
-        MSI_Players[i].Active:= StrToBool(ReadINI(IntToStr(i), 'Active', PATH_REMOTE));
-        Players[i].Active := MSI_Players[i].Active;
-      end;
+    {$IFDEF SRL_REMOTE}
+    SRLRemote;
+    {$ENDIF}
 
-    MSI_WriteRemote; // Resets INI
+    SetLength(MSI_Players, length(players));
+
+    for i := 0 to High(MSI_Players) do
+    begin
+      MSI_Players[i].Name := Players[i].Name;
+      MSI_Players[i].Pass := Players[i].Pass;
+      MSI_Players[i].Nick := Players[i].Nick;
+      MSI_Players[i].Pin := Players[i].Pin;
+      MSI_Players[i].Active := Players[i].Active;
+      MSI_Players[i].TotalLoads := Players[i].Integers[0];
+      MSI_Players[i].BreakLoads := Players[i].Integers[1];
+      MSI_Players[i].TotalTime := Players[i].Integers[2];
+      MSI_Players[i].BreakTime := Players[i].Integers[3];
+      MSI_Players[i].Member := Players[i].Booleans[0];
+      Players[i].Member := MSI_Players[i].Member;
+
+      if (MSI_Players[i].Active) then
+        MSI_Players[i].ReportInfo.FalseReason := '';
+    end;
   except
     MSI_Debug('MSI_ResetRemote: ' + ExceptionToString(ExceptionType, ExceptionParam));
   end;
@@ -242,43 +213,6 @@ begin
 end;
 
 (*
-MSI_ConvertTilePath
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_ConvertTilePath(Tiles: TPointArray): TPointArray;
-
-Converts the tile path 'Tiles' to a path that can be used for SPS.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 23 June 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  SPSPath := MSI_ConvertTilePath(path);
-*)
-function MSI_ConvertTilePath(Tiles: TPointArray): TPointArray;
-{$IFDEF SPS}
-var
-  i: Integer;
-{$ENDIF}
-begin
-  Result := [];
-
-  {$IFDEF SPS}
-  SetLength(Result, Length(Tiles));
-
-  for i := 0 to High(Result) do
-    Result[i] := SPS_PointToPixel(Tiles[i]);
-  {$ENDIF}
-end;
-
-(*
 MSI_Convert2DTilePath
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -301,13 +235,19 @@ Example:
   SPSPath := MSI_Convert2DTilePath(path);
 *)
 function MSI_Convert2DTilePath(Tiles: T2DPointArray): T2DPointArray;
+{$IFDEF SPS}
 var
   i: Integer;
+{$ENDIF}
 begin
+  Result := [TPointArray([])];
+
+  {$IFDEF SPS}
   SetLength(Result, Length(Tiles));
 
   for i := 0 to High(Result) do
-    Result[i] := MSI_ConvertTilePath(Tiles[i]);
+    Result[i] := SPS_TilePathToPos(Tiles[i]);
+  {$ENDIF}
 end;
 
 (*

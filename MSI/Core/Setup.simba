@@ -25,13 +25,17 @@ The source for can be found
 {$ENDIF}
 
 {$IFDEF SPS}
-  {$i srl/srl/core/SPS/SPS.simba}
+  {$i sps/sps.simba}
 {$ENDIF}
 
 {$i srl/srl/misc/Reports.scar}
 {$i srl/srl/misc/Stats.simba}
 
 {$i srl/srl/skill/magic.scar}
+
+{$IFDEF SRL_REMOTE}
+  {$i srl/srl/misc/remote.simba}
+{$ENDIF}
 
 //MSI Script
 {$i MSI/MSI/Core/Globals.simba}
