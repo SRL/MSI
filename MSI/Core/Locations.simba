@@ -627,7 +627,7 @@ begin
          name := 'Port Sarim Yews';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 2);
          with subLocs[0] do
          begin
            name := 'Port Sarim Yews';
