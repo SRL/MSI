@@ -290,7 +290,7 @@ begin
       box := subLocs[cp].tileBox;
   end;
 
-  areaTPA := TPAFromBox(Box);
+  areaTPA := TPAFromBox(box);
   sortTPAfrom(areaTPA, middleTPA(areaTPA));
 
   t := (GetSystemTime + 10000);
@@ -357,7 +357,7 @@ MSI_AtLocation
 
 .. code-block:: pascal
 
-  function MSI_AtLocation(Loc: Integer; Relocate: Boolean): Boolean;
+  function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
 
 Returns true if the player is at the location 'Loc'. Works with both reflection
 and SPS. If the player isn't at the location and 'Relocate' is set to true,
@@ -366,7 +366,7 @@ will call MSI_Relocate.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 27 April 2011 by Coh3n
+  | Last Updated: 27 August 2011 by Coh3n
 
 Example:
 
@@ -375,61 +375,62 @@ Example:
   if (MSI_AtLocation(LOC_VE_BANK, True)) then
     MSI_Debug('We are at Varrock East Bank');
 *)
-function MSI_AtLocation(Loc: Integer; Relocate: Boolean): Boolean;
+function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
 var
-  i, d: Integer;
-  p: TPoint;
-  Box: TBox;
+  i: integer;
+  box: TBox;
+  mPos: TPoint;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
+
+  if (loc = LOC_POWER_SKILL) then
+  begin
+    MSI_SubDebug('Powerskilling, no defined location');
+    result := true;
+  end;
 
   MSI_AddHeader('MSI_AtLocation');
 
-  if (Loc = LOC_POWER_SKILL) then
+  with MSI_Locations[loc] do
   begin
-    MSI_Debug('We are powerskilling, we have no specific location');
-    Result := True;
-  end;
+    for i := 0 to high(subLocs) do
+    begin
+      MSI_Debug('Checking box index: ' + toStr(i));
 
-  with MSI_Locations[Loc] do
-  begin
-    if (not Result) then
-      for i := 0 to high(subLocs) do
+      if (MSI_HookBroken[HOOK_WALKING]) then
       begin
-        MSI_Debug('Checking box index: ' + toStr(i));
-        if (MSI_HookBroken[HOOK_WALKING]) then
-          box := subLocs[i].spsBox
-        else
-          box := subLocs[i].tileBox;
-
-        if (MSI_PointOnMM(middleBox(box), p)) then
-        begin
-          d := Distance(p.x, p.y, MMCX, MMCY);
-          MSI_Debug('Distance from player to ' + name + ': ' + intToStr(d));
-
-          Result := PointInBox(Point(MMCx, MMCy), Box);
-          if (not Result) and (Relocate) then
-            Result := MSI_Relocate(Loc)
-          else begin
-            SetAngle(subLocs[i].camera);
-            MakeCompass(subLocs[i].compass);
-          end;
-
-          if (Result) then
-          begin
-            MSI_Debug('Player is at ' + MSI_Locations[Loc].Name);
-            MSI_Players[CurrentPlayer].Location := MSI_Locations[Loc].Constant;
-            Break;
-          end;
-        end;
+        {$IFDEF SPS}
+        mPos := SPS_GetMyPos();
+        {$ENDIF}
+        box := subLocs[i].spsBox
+      end else begin
+        {$IFDEF REFLECTION}
+        mPos := getMyPos();
+        {$ENDIF}
+        box := subLocs[i].tileBox;
       end;
 
+      if (pointInBox(mPos, box)) then
+      begin
+        result := true;
+        setAngle(subLocs[i].camera);
+        makeCompass(subLocs[i].compass);
+
+        MSI_BoxToMM(box);
+        MSI_Debug('Player is at ' + name);
+        MSI_Players[CurrentPlayer].Location := constant;
+        break;
+      end else
+        if (relocate) then
+          result := MSI_Relocate(loc);
+    end;
+
     if (not Result) then
-      MSI_Debug('Player not at ' + MSI_Locations[Loc].Name);
+      MSI_Debug('Player not at ' + name);
   end;
 
-  MSI_CloseHeader('MSI_AtLocation: ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_AtLocation: ' + boolToStr(Result));
 end;
 
 
