@@ -187,7 +187,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Mine North';
-           tileBox := intToBox(3178, 3396, 3185, 3382);
+           tileBox := intToBox(3178, 3382, 3185, 3396);
          end;
 
          with subLocs[1] do
