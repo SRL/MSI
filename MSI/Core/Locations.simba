@@ -986,7 +986,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Bank';
-           tileBox := intToBox(3268, 3161, 3272, 3168);
+           tileBox := intToBox(3268, 3161, 3272, 3173);
          end;
 
          with deathPath do

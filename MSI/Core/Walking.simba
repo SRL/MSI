@@ -70,6 +70,46 @@ begin
 end;
 
 (*
+MSI_GetMyPos
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetMyPos(): TPoint;
+
+Gets the player's position by using either SPS or reflection depending on how
+the user has setup the script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  var
+    playerPos: TPoint;
+  begin
+    playerPos := MSI_GetMyPos();
+    ...
+*)
+function MSI_GetMyPos(): TPoint;
+begin
+  if (MSI_HookBroken[HOOK_WALKING]) then
+  begin
+    {$IFDEF SPS}
+    result := SPS_GetMyPos();
+    {$ENDIF}
+  end else begin
+    {$IFDEF REFLECTION}
+    result := getMyPos();
+    {$ENDIF}
+  end;
+end;
+
+(*
 MSI_WaitTile
 ~~~~~~~~~~~~
 
@@ -248,107 +288,101 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  i, t, cp, h: Integer;
+  hSubLoc, hArea, i, j, cP: integer;
   p: TPoint;
   areaTPA: TPointArray;
   local_subLocs: TSubLocArray;
-  atTile: boolean;
-  Box: TBox;
+  box: TBox;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  MSI_AddHeader('MSI_Relocate');
+  MSI_AddHeader('MSI_Relocate (' + MSI_Locations[loc].Name + ')');
 
-  if (Length(MSI_Locations[Loc].subLocs) < 1) then
+  if (Length(MSI_Locations[loc].subLocs) < 1) then
   begin
-    MSI_SubDebug('No relocation points for ' + MSI_Locations[Loc].Name);
-    Exit;
+    MSI_SubDebug('No relocation points for ' + MSI_Locations[loc].Name);
+    result := true;
   end;
 
-  with MSI_Locations[Loc] do
+  if (not result) then
   begin
-    cp := MSI_Players[CurrentPlayer].CurrentPoint;
-    h := high(subLocs);
-
-    if (cp = h) then
+    with MSI_Locations[Loc] do
     begin
-      setLength(local_subLocs, (h + 1));
+      // check to see if player's in the last box, if no, invert the boxes
+      cP := MSI_Players[CurrentPlayer].CurrentPoint;
+      hSubLoc := high(subLocs);
 
-      for i := h downto 0 do  // Invert the box array
-        local_subLocs[h - i] := subLocs[i];
-
-      subLocs := local_subLocs;
-      cp := (h - cp);
-    end;
-
-    MSI_Players[CurrentPlayer].CurrentPoint := cp;
-
-    if (MSI_HookBroken[HOOK_WALKING]) then
-      box := subLocs[cp].spsBox
-    else
-      box := subLocs[cp].tileBox;
-  end;
-
-  areaTPA := TPAFromBox(box);
-  sortTPAfrom(areaTPA, middleTPA(areaTPA));
-
-  t := (GetSystemTime + 10000);
-  h := High(areaTPA);
-  while (not Result) and (LoggedIn) and (GetSystemTime < t) do
-  begin
-    for i := 0 to h do
-    begin
-      if MSI_PointOnMM(areaTPA[i], p) then
+      if (cP = hSubLoc) then
       begin
-        if (MSI_FindRandoms(True)) then
+        setLength(local_subLocs, (hSubLoc + 1));
+
+        for i := hSubLoc downto 0 do
+          local_subLocs[hSubLoc - i] := subLocs[i];
+
+        subLocs := local_subLocs;
+        cp := (hSubLoc - cP);
+      end;
+
+      MSI_Players[CurrentPlayer].CurrentPoint := cP;
+
+      // loop through each "subLoc"
+      for i := cP to hSubLoc do
+      begin
+        if (MSI_HookBroken[HOOK_WALKING]) then
+          box := subLocs[i].spsBox
+        else
+          box := subLocs[i].tileBox;
+
+        //MSI_BoxToMM(box);
+
+        // if player is already in box, continue
+        if (pointInBox(MSI_GetMyPos(), box)) then
         begin
-          result := true;
-          MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
-          exit;
+          if (i = hSubLoc) then
+          begin
+            MSI_Debug('Already at ' + MSI_Locations[loc].name);
+            result := true;
+          end;
+
+          continue;
         end;
 
-        wait(RandomRange(200, 300));
-        if atTile then
+        // create a TPA from the subLoc's box
+        areaTPA := TPAFromBox(box);
+        sortTPAfrom(areaTPA, middleTPA(areaTPA));
+        hArea := high(areaTPA);
+
+        // loop through each point of the TPA, starting from the middle
+        for j := 0 to hArea do
         begin
-          result := true;
-          break;
-        end else
-          if (i = h) then
+          MSI_FindRandoms(true);
+
+          if (MSI_PointOnMM(areaTPA[j], p)) then
+          begin
+            mouse(p.x, p.y, random(5), random(5), true);
+            MSI_Debug('Relocating to box: ' + toStr(i));
+
+            setAngle(MSI_Locations[loc].subLocs[cp].camera);
+            makeCompass(MSI_Locations[loc].subLocs[cp].compass);
+
+            cP := i;
+            MSI_Flag(0);
+            result := true;
             break;
-
-        continue;
-      end;
-
-      if (not (PointInBox(Point(MMCx, MMCy), Box))) then
-      begin
-        Mouse(p.x, p.y, 2, 2, True);
-        MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
-
-        setAngle(MSI_Locations[Loc].subLocs[cp].camera);
-        makeCompass(MSI_Locations[Loc].subLocs[cp].compass);
-
-        MSI_Flag(0);
-        Result := True;
-        Break;
-      end else begin
-        atTile := true;
-        if (i = h) then
-        begin
-          MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
-          Result := True;
+          end;
         end;
+
+        if (result) then
+          break
+        else
+          cP := 0;
       end;
     end;
-
-    if (not Result) then
-      cp := 0
-    else
-      cp := i;
   end;
 
-  MSI_Players[CurrentPlayer].CurrentPoint := cp;
-  MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
+  MSI_Players[CurrentPlayer].CurrentPoint := cP;
+  MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
 end;
 
 (*
@@ -379,7 +413,6 @@ function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
 var
   i: integer;
   box: TBox;
-  mPos: TPoint;
 begin
   if (not loggedIn) then
     exit;
@@ -399,25 +432,17 @@ begin
       MSI_Debug('Checking box index: ' + toStr(i));
 
       if (MSI_HookBroken[HOOK_WALKING]) then
-      begin
-        {$IFDEF SPS}
-        mPos := SPS_GetMyPos();
-        {$ENDIF}
         box := subLocs[i].spsBox
-      end else begin
-        {$IFDEF REFLECTION}
-        mPos := getMyPos();
-        {$ENDIF}
+      else
         box := subLocs[i].tileBox;
-      end;
 
-      if (pointInBox(mPos, box)) then
+      if (pointInBox(MSI_GetMyPos(), box)) then
       begin
         result := true;
         setAngle(subLocs[i].camera);
         makeCompass(subLocs[i].compass);
 
-        MSI_BoxToMM(box);
+        //MSI_BoxToMM(box);
         MSI_Debug('Player is at ' + name);
         MSI_Players[CurrentPlayer].Location := constant;
         break;

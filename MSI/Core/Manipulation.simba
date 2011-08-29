@@ -206,9 +206,9 @@ function MSI_ConvertTileBox(tileBox: TBox): TBox;
 begin
   result := intToBox(0, 0, 0, 0);
 
-  {$IFDEF SPS}
-  result := pointToBox(SPS_PointToPixel(point(tileBox.x1, tileBox.y1)),
-                       SPS_PointToPixel(point(tileBox.x2, tileBox.y2)));
+  {$IFDEF SPS}   // yes, the Y values are supposed to be reversed
+  result := pointToBox(SPS_TileToPos(point(tileBox.x1, tileBox.y2)),
+                       SPS_TileToPos(point(tileBox.x2, tileBox.y1)));
   {$ENDIF}
 end;
 
@@ -220,7 +220,9 @@ MSI_BoxToMM
 
   function MSI_BoxToMM(box: TBox): TBox;
 
-Converts an SPS or tile TBox into a TBox that's on the minimap.
+Converts an SPS or tile TBox into a TBox that's on the minimap.  This method is
+extremely slow when using SPS so it should be avoided and is used specifically
+for debugging.
 
 .. note::
 
