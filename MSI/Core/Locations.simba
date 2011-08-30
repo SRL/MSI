@@ -1015,7 +1015,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Cooking Range';
-           tileBox := intToBox(3272, 3177, 3278, 3181);
+           tileBox := intToBox(3270, 3178, 3276, 3184);
          end;
        end;
 
@@ -1029,7 +1029,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Mine South';
-           tileBox := intToBox(3294, 3295, 3304, 3305);
+           tileBox := intToBox(3295, 3284, 3302, 3290);
          end;
        end;
 
@@ -1043,7 +1043,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Mine Central';
-           tileBox := intToBox(3296, 3284, 3303, 3298);
+           tileBox := intToBox(3293, 3296, 3303, 3307);
          end;
        end;
 
