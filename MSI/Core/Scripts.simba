@@ -146,7 +146,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_YEW];
+        Defaults.Trees := [TREE_YEW_NEW];
 
         with PathInfo do
         begin
