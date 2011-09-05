@@ -1083,6 +1083,7 @@ type
     tileBox, spsBox: TBox;
     compass: variant;
     camera: boolean;
+    objects: TIntegerArray;
   end;
   TSubLocArray = array of TSubLoc;
 
@@ -1192,5 +1193,48 @@ var
 function MSI_GetCurrentScript(): TScript;
 begin
   result := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+end;
+
+(*
+MSI_GetPlayerObjects
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetPlayerObjects(): TIntegerArray;
+
+Gets the current player's objects and returns them in an integer array.  Used to
+avoid skill cases is several instances throughout the include.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 05 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  objs := MSI_GetPlayerObjects();
+*)
+function MSI_GetPlayerObjects(): TIntegerArray;
+begin
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+    case MSI_Scripts[Name].SkillConst of
+      SKILL_WOODCUTTING:
+        result := trees;
+
+      SKILL_MINING:
+        result := rocks;
+
+      SKILL_FISHING:
+        result := fishSpots;
+
+      SKILL_COOKING:
+        result := cookingSpot;
+
+      SKILL_NONE:
+        result := objects;
+    end;
 end;
 

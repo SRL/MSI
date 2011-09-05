@@ -962,17 +962,30 @@ begin
          name := 'Crafting Guild Mine';
          atBank := false;
 
-         setLength(subLocs, 2);
+         setLength(subLocs, 3);
          with subLocs[0] do
          begin
-           name := 'Crafting Guild Mine South';
-           tileBox := intToBox(2937, 3276, 2942, 3281);
+           name := 'Crafting Guild Gold';
+           tileBox := intToBox(2938, 3276, 2943, 3282);
+           compass := randomRange(60, 190);
+           camera := true;
+           objects := [ROCK_GOLD];
          end;
 
          with subLocs[1] do
          begin
-           name := 'Crafting Guild Mine North';
-           tileBox := intToBox(2939, 3285, 2942, 3290);
+           name := 'Crafting Guild Clay';
+           tileBox := intToBox(2938, 3282, 2943, 3285);
+           objects := [ROCK_CLAY];
+         end;
+
+         with subLocs[2] do
+         begin
+           name := 'Crafting Guild Silver';
+           tileBox := intToBox(2939, 3285, 2943, 3291);
+           compass := randomRange(315, 360);
+           camera := true;
+           objects := [ROCK_SILVER];
          end;
        end;
 

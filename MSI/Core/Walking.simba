@@ -264,6 +264,45 @@ begin
 end;
 
 (*
+MSI_ValidSubLoc
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ValidSubLoc(subLoc: TSubLoc): boolean;
+
+Returns true if the player is autoing an object that appears in the sub location
+'subLoc'.
+
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 05 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ValidSubLoc(MSI_Locations[LOC_VE_BANK].SubLoc[i])) then
+    MSI_Relocate(LOC_VE_BANK);
+*)
+function MSI_ValidSubLoc(subLoc: TSubLoc): boolean;
+var
+  i: integer;
+  objs: TIntegerArray;
+begin
+  objs := MSI_GetPlayerObjects();
+
+  for i := 0 to high(subLoc.objects) do
+    if (inIntArray(objs, subLoc.objects[i])) then
+    begin
+      result := true;
+      break;
+    end;
+end;
+
+(*
 MSI_Relocate
 ~~~~~~~~~~~~
 
@@ -329,6 +368,10 @@ begin
       // loop through each "subLoc"
       for i := cP to hSubLoc do
       begin
+        // no point in relocating to a location that doesn't have the object we want
+        if (not MSI_ValidSubLoc(subLocs[i])) then
+          continue;
+
         if (MSI_HookBroken[HOOK_WALKING]) then
           box := subLocs[i].spsBox
         else
@@ -361,7 +404,7 @@ begin
           if (MSI_PointOnMM(areaTPA[j], p)) then
           begin
             mouse(p.x, p.y, random(5), random(5), true);
-            MSI_Debug('Relocating to box: ' + toStr(i));
+            MSI_Debug('Relocating to box: ' + subLocs[i].name);
 
             setAngle(MSI_Locations[loc].subLocs[i].camera);
             makeCompass(MSI_Locations[loc].subLocs[i].compass);
@@ -429,7 +472,7 @@ begin
   begin
     for i := 0 to high(subLocs) do
     begin
-      MSI_Debug('Checking box index: ' + toStr(i));
+      MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
       if (MSI_HookBroken[HOOK_WALKING]) then
         box := subLocs[i].spsBox
