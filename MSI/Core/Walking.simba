@@ -472,6 +472,9 @@ begin
   begin
     for i := 0 to high(subLocs) do
     begin
+      if (not MSI_ValidSubLoc(subLocs[i])) then
+        continue;
+
       MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
       if (MSI_HookBroken[HOOK_WALKING]) then

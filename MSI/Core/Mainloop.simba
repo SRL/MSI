@@ -876,9 +876,6 @@ begin
     end;
     {$ENDIF}
 
-    MSI_AtLocation(LOC_CG_MINE, false);
-    TerminateScript();
-
     // Setup player
     if (not MSI_SetupPlayer) then
     begin
