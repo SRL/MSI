@@ -362,13 +362,10 @@ begin
           begin
             mouse(p.x, p.y, random(5), random(5), true);
             MSI_Debug('Relocating to box: ' + toStr(i));
-            srl_Warn('MSI_Relocate', 'Should adjust camera here!!', warn_AllVersions);
-            setAngle(MSI_Locations[loc].subLocs[cp].camera);
-            try
-              makeCompass(MSI_Locations[loc].subLocs[i].compass+RandomRange(-5, 5));
-            except
-              makeCompass(MSI_Locations[loc].subLocs[i].compass);
-            end;
+
+            setAngle(MSI_Locations[loc].subLocs[i].camera);
+            makeCompass(MSI_Locations[loc].subLocs[i].compass);
+
             cP := i;
             MSI_Flag(0);
             result := true;
@@ -442,14 +439,8 @@ begin
       if (pointInBox(MSI_GetMyPos(), box)) then
       begin
         result := true;
-        srl_Warn('MSI_AtLocation', 'Should adjust camera here!!', warn_AllVersions);
-        srl_Warn('MSI_AtLocation', BoolToStr(subLocs[i].camera)+': '+ToStr(subLocs[i].compass)+';', warn_AllVersions);
         setAngle(subLocs[i].camera);
-        try
-          makeCompass(MSI_Locations[loc].subLocs[i].compass+RandomRange(-5, 5));
-        except
-          makeCompass(MSI_Locations[loc].subLocs[i].compass);
-        end;
+        makeCompass(MSI_Locations[loc].subLocs[i].compass);
 
         MSI_BoxToMM(box);
         MSI_Debug('Player is at ' + name);
