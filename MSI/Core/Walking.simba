@@ -104,7 +104,7 @@ begin
     {$ENDIF}
   end else begin
     {$IFDEF REFLECTION}
-    result := getMyPos();
+    result := r_GetMyPos();
     {$ENDIF}
   end;
 end;
@@ -152,7 +152,7 @@ begin
     if (LeaveDangerZone) then
       MSI_Debug('Left danger zone');
 
-    if (tileOnMM(tile)) then
+    if (r_tileOnMM(tile)) then
     begin
       result := true;
       break;
@@ -201,7 +201,7 @@ begin
     Exit;
 
   {$IFDEF REFLECTION}
-  MP := TileToMM(Tile);
+  MP := r_TileToMM(Tile);
 
   if (Distance(MP.X, MP.Y, MMCX, MMCY) <= 5) then
   begin
@@ -210,7 +210,7 @@ begin
     Exit;
   end;
 
-  if (TileOnMM(Tile)) then
+  if (r_TileOnMM(Tile)) then
   begin
     Result := MSI_MultiMouse(MP.X, MP.Y, 40, 4, false);
     RunEnergy(40);
@@ -254,7 +254,7 @@ begin
     {$ENDIF}
   else
     {$IFDEF REFLECTION}
-    Coord := TileToMM(p);
+    Coord := r_TileToMM(p);
     {$ELSE}
     Wait(50);
     {$ENDIF}
@@ -646,7 +646,7 @@ begin
             MSI_WaitTile(TPA[i + 1]);
         end;
 
-        mPos := GetMyPos;
+        mPos := r_GetMyPos;
         Result := (Distance(mPos.x, mPos.y, TPA[h].x, TPA[h].y) <= 10);
         Break;
       end;

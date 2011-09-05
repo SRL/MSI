@@ -55,11 +55,11 @@ begin
     begin
       {$IFDEF REFLECTION}
       if (not MSI_HookBroken[HOOK_LEVEL_SKILL]) then
-        curLev := R_GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName)
+        curLev := R_GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillConst)
       else
-        curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+        curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillConst);
       {$ELSE}
-      curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillName);
+      curLev := GetSkillLevel(MSI_Scripts[Scripts[i].Name].SkillConst);
       {$ENDIF}
 
       // Only sets if the level has increased

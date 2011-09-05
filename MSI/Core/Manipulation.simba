@@ -251,8 +251,8 @@ begin
     {$ENDIF}
   end else begin
     {$IFDEF REFLECTION}
-    corners[0] := tileToMM(point(box.x1, box.y1));
-    corners[1] := tileToMM(point(box.x2, box.y2));
+    corners[0] := r_TileToMM(point(box.x1, box.y1));
+    corners[1] := r_TileToMM(point(box.x2, box.y2));
     {$ENDIF}
   end;
 

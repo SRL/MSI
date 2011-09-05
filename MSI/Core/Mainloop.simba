@@ -111,7 +111,7 @@ begin
       with subLocs[high(subLocs)] do
       begin
         name := 'Powerskilling Location';
-        tileBox := MSI_MakeBox(getMyPos, 10, 10);
+        tileBox := MSI_MakeBox(r_GetMyPos, 10, 10);
         spsBox := MSI_ConvertTileBox(tileBox);
       end;
     end;
