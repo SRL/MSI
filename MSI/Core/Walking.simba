@@ -334,7 +334,7 @@ begin
         else
           box := subLocs[i].tileBox;
 
-        //MSI_BoxToMM(box);
+        MSI_BoxToMM(box);
 
         // if player is already in box, continue
         if (pointInBox(MSI_GetMyPos(), box)) then
@@ -442,7 +442,7 @@ begin
         setAngle(subLocs[i].camera);
         makeCompass(subLocs[i].compass);
 
-        //MSI_BoxToMM(box);
+        MSI_BoxToMM(box);
         MSI_Debug('Player is at ' + name);
         break;
       end else
