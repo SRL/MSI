@@ -444,15 +444,17 @@ begin
 
         //MSI_BoxToMM(box);
         MSI_Debug('Player is at ' + name);
-        MSI_Players[CurrentPlayer].Location := constant;
         break;
       end else
-        if (relocate) then
-          result := MSI_Relocate(loc);
+        if (i = high(subLocs)) then
+          if (relocate) then
+            result := MSI_Relocate(loc);
     end;
 
     if (not Result) then
-      MSI_Debug('Player not at ' + name);
+      MSI_Debug('Player not at ' + name)
+    else
+      MSI_Players[CurrentPlayer].Location := constant;
   end;
 
   MSI_CloseHeader('MSI_AtLocation: ' + boolToStr(Result));
