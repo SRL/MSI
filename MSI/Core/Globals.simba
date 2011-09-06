@@ -92,7 +92,6 @@ Example:
 const
   // Woodcutting
   SCRIPT_POWER_CHOP = 10;
-  SCRIPT_VE_TREES   = 11;
   SCRIPT_VE_OAKS    = 12;
   SCRIPT_GE_YEWS    = 13;
   SCRIPT_DB_WILLOWS = 14;
@@ -124,10 +123,8 @@ const
   SCRIPT_GUILD_MINER = 39;
   SCRIPT_DB_CLAY = 40;
   SCRIPT_FW_MINER = 41;
-  SCRIPT_AK_MINER_SOUTH = 42;
-  SCRIPT_AK_MINER_CENTRAL = 43;
-  SCRIPT_AK_MINER_NORTH = 44;
-  SCRIPT_CG_MINER = 45;
+  SCRIPT_AK_MINER = 42;
+  SCRIPT_CG_MINER = 43;
 
   // Fishing
   SCRIPT_POWER_FISHER  = 50;
@@ -231,7 +228,6 @@ const
 
   // Varrock
     // East
-    LOC_VE_TREES    = 10;
     LOC_VE_OAKS     = 11;
     LOC_VE_BANK     = 12;
     LOC_VE_MINE     = 13;
@@ -303,9 +299,7 @@ const
   // Al-Kharid
   LOC_AK_BANK   = 120;
   LOC_AK_RANGE  = 121;
-  LOC_AK_MINE_SOUTH   = 122;
-  LOC_AK_MINE_CENTRAL = 123;
-  LOC_AK_MINE_NORTH   = 124;
+  LOC_AK_MINE   = 122;
 
   // Karamja
   LOC_KJ_STILES = 130;

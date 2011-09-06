@@ -106,8 +106,8 @@ var
 begin
   MarkTime(Timer);
 
-  MSI_LoadAllLocations;
   MSI_LoadAllScripts;
+  MSI_LoadAllLocations;
   MSI_LoadAllItems;
   MSI_LoadAllSpells;
   MSI_LoadAllExtras;

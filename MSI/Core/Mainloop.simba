@@ -875,7 +875,10 @@ begin
       SPS_Loaded := False;
     end;
     {$ENDIF}
-
+    {
+    MSI_AtLocation(LOC_VE_MINE, true);
+    terminateScript;
+    }
     // Setup player
     if (not MSI_SetupPlayer) then
     begin

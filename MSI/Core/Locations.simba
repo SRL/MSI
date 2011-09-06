@@ -52,20 +52,6 @@ begin
          atBank := false;
        end;
 
-     LOC_VE_TREES:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Varrock East Trees';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
-         begin
-           name := 'Varrock East Trees';
-           tileBox := intToBox(3271, 3439, 3282, 3458);
-         end;
-       end;
-
      LOC_VE_OAKS:
        with MSI_Locations[loc] do
        begin
@@ -124,7 +110,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Mine';
-           tileBox := intToBox(3279, 3360, 3297, 3373);
+           tileBox := intToBox(3279, 3360, 3292, 3372);
+           objects := MSI_Scripts[SCRIPT_VE_MINER].Defaults.Rocks;
          end;
        end;
 
@@ -1032,45 +1019,33 @@ begin
          end;
        end;
 
-     LOC_AK_MINE_SOUTH:
+     LOC_AK_MINE:
        with MSI_Locations[loc] do
        begin
-         name := 'Al Kharid Mine South';
+         name := 'Al Kharid Mine';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 3);
          with subLocs[0] do
          begin
            name := 'Al Kharid Mine South';
            tileBox := intToBox(3295, 3284, 3302, 3290);
+           objects := [ROCK_GOLD, ROCK_IRON];
          end;
-       end;
 
-     LOC_AK_MINE_CENTRAL:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Al Kharid Mine Central';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[1] do
          begin
            name := 'Al Kharid Mine Central';
            tileBox := intToBox(3293, 3296, 3303, 3307);
+           objects := [ROCK_SILVER, ROCK_MITHRIL, ROCK_IRON, ROCK_COAL];
          end;
-       end;
 
-     LOC_AK_MINE_NORTH:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Al Kharid Mine North';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[2] do
          begin
            name := 'Al Kharid Mine North';
            tileBox := intToBox(3297, 3308, 3305, 3318);
+           objects := [ROCK_SILVER, ROCK_MITHRIL, ROCK_IRON, ROCK_TIN,
+                       ROCK_ADAMANTITE, ROCK_COPPER];
          end;
        end;
 
