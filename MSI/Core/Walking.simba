@@ -805,7 +805,7 @@ begin
           end;
 
         // Return true if the player is at the ending location
-		    if (MSI_AtLocation(endLocation, true)) then
+		    if (MSI_AtLocation(endLocation, (i = h))) then
 		    begin
 		      result := true;
 		      break;

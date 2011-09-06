@@ -1025,7 +1025,6 @@ begin
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
         WhichBank   := MSI_BANK_FE;
-        AdjustCamera  := true;
         AutoObjects := @MSI_MineInvFull;
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;

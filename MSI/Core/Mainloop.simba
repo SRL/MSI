@@ -104,17 +104,18 @@ begin
   // To handle relocating for power scripts
   {$IFDEF REFLECTION}
   if (not MSI_HookBroken[HOOK_WALKING]) then
-    with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
-    begin
-      setLength(subLocs, length(subLocs) + 1);
-
-      with subLocs[high(subLocs)] do
+    if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects = nil) then
+      with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
       begin
-        name := 'Powerskilling Location';
-        tileBox := MSI_MakeBox(r_GetMyPos, 10, 10);
-        spsBox := MSI_ConvertTileBox(tileBox);
+        setLength(subLocs, length(subLocs) + 1);
+
+        with subLocs[high(subLocs)] do
+        begin
+          name := 'Powerskilling Location';
+          tileBox := MSI_MakeBox(r_GetMyPos, 10, 10);
+          spsBox := MSI_ConvertTileBox(tileBox);
+        end;
       end;
-    end;
   {$ENDIF}
 
   // Add logins to stats
