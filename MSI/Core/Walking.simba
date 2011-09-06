@@ -369,8 +369,9 @@ begin
       for i := cP to hSubLoc do
       begin
         // no point in relocating to a location that doesn't have the object we want
-        if (not MSI_ValidSubLoc(subLocs[i])) then
-          continue;
+        if (not atBank) then
+          if (not MSI_ValidSubLoc(subLocs[i])) then
+            continue;
 
         if (MSI_HookBroken[HOOK_WALKING]) then
           box := subLocs[i].spsBox
@@ -472,8 +473,9 @@ begin
   begin
     for i := 0 to high(subLocs) do
     begin
-      if (not MSI_ValidSubLoc(subLocs[i])) then
-        continue;
+      if (not atBank) then
+        if (not MSI_ValidSubLoc(subLocs[i])) then
+          continue;
 
       MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
@@ -670,7 +672,6 @@ begin
   begin
     t := GetSystemTime + (Length(TPA) * 60 + 180) * 1000; // A minute for each tile + 3 minutes
     h := High(TPA);
-    MSI_Debug('High TPA: ' + toStr(h));
 
     repeat
       for i := h downto 0 do
@@ -684,7 +685,7 @@ begin
 
           Continue;
         end else begin
-          MSI_Debug('Clicked TPA['+toStr(i)+']: '+toStr(TPA[i]));
+          MSI_Debug('Clicked Tile Path Element ['+toStr(i)+']: '+toStr(TPA[i]));
 
           if (stopMoving) then
           begin

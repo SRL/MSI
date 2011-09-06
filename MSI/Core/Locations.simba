@@ -1169,7 +1169,8 @@ begin
     begin
       subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
 
-      if (subLocs[i].compass = null) then
+      // if compass isn't set, set to default
+      if (varType(subLocs[i].compass) = 0) then
       begin
         subLocs[i].compass := 'n';
         subLocs[i].camera := true;
