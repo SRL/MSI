@@ -309,6 +309,9 @@ begin
         break;
       end;
   end;
+
+  if (not result) then
+    MSI_SubDebug('Not a valid sub-location: ' + loc.subLocs[subIndex].name);
 end;
 
 (*

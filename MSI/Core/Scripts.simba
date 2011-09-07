@@ -78,7 +78,6 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_VE;
-        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
@@ -93,10 +92,41 @@ begin
 
           Reflection := [
                           TPointArray([Point(3253, 3420), Point(3266, 3429),
-                                       Point(3279, 3428)])
+                                       Point(3279, 3424)])
                         ];
 
           SPSAreas := ['12_7'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_GE_OAKS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Oaks';
+        Constant      := SCRIPT_GE_OAKS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_OAK];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_OAKS';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_OAKS;
+
+          Reflection := [
+                          TPointArray([Point(3183, 3480), Point(3193, 3489),
+                                       Point(3194, 3475), Point(3193, 3461)])
+                        ];
+
+          SPSAreas := ['11_6'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;

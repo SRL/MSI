@@ -58,11 +58,32 @@ begin
          name := 'Varrock East Oaks';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 3);
          with subLocs[0] do
          begin
-           name := 'Varrock East Oaks';
-           tileBox := intToBox(3278, 3422, 3278, 3434);
+           name := 'Varrock East Oak North';
+           tileBox := intToBox(3279, 3422, 3284, 3428);
+           compass := randomRange(75, 360);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Varrock East Oak Central';
+           tileBox := intToBox(3280, 3415, 3286, 3420);
+           compass := randomRange(260, 315);
+         end;
+
+         with subLocs[2] do
+         begin
+           name := 'Varrock East Oak South';
+           tileBox := intToBox(3276, 3411, 3281, 3416);
+           compass := randomRange(165, 195);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_VE_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -76,7 +97,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Bank';
-           tileBox := intToBox(3251, 3420, 3258, 3424);
+           tileBox := intToBox(3251, 3418, 3256, 3423);
          end;
 
          with deathPath do
@@ -125,7 +146,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Fountain';
-           tileBox := intToBox(3234, 3431, 3244, 3439);
+           tileBox := intToBox(3235, 3431, 3242, 3438);
+           objects := [FOUNTAIN_VE];
          end;
        end;
 
@@ -139,7 +161,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Bank';
-           tileBox := intToBox(3182, 3433, 3188, 3447);
+           tileBox := intToBox(3182, 3433, 3190, 3445);
          end;
 
          with deathPath do
@@ -174,13 +196,32 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Mine North';
-           tileBox := intToBox(3178, 3382, 3185, 3396);
+           tileBox := intToBox(3180, 3370, 3186, 3380);
+           objects := [ROCK_TIN, ROCK_CLAY, ROCK_IRON];
          end;
 
          with subLocs[1] do
          begin
            name := 'Varrock West Mine South';
-           tileBox := intToBox(3171, 3364, 3179, 3371);
+           tileBox := intToBox(3172, 3362, 3180, 3372);
+           objects := [ROCK_TIN, ROCK_SILVER]
+         end;
+       end;
+
+     LOC_GE_OAKS:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Grand Exchange Oaks';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Grand Exchange Oaks';
+           tileBox := intToBox(3191, 3458, 3195, 3465);
+           //compass := randomRange(205, 315);
+           camera := false;
+           objects := MSI_Scripts[SCRIPT_GE_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -195,7 +236,7 @@ begin
          begin
            name := 'Grand Exchange Bank';
            tileBox := intToBox(3173, 3475, 3181, 3482);
-           compass := 90;
+           compass := randomRange(75, 105);
            camera := false;
          end;
 
@@ -236,6 +277,7 @@ begin
            tileBox := intToBox(3201, 3501, 3208, 3506);
            compass := 319;
            camera := false;
+           objects := MSI_Scripts[SCRIPT_GE_YEWS].Defaults.Trees;
          end;
 
          with subLocs[1] do //Center tree
