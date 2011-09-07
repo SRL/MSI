@@ -705,7 +705,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Courtyard';
-           tileBox := intToBox(3219, 3213, 3224, 3222);
+           tileBox := intToBox(3216, 3210, 3227, 3225);
          end;
        end;
 
@@ -1187,7 +1187,7 @@ MSI_SetPlayerLoc
 
 .. code-block:: pascal
 
-  procedure MSI_SetPlayerLoc();
+  function MSI_SetPlayerLoc(): boolean;
 
 Set's the player's location.  Checks the script's starting and ending locations.
 If the player isn't at either, it won't set the player's location.
@@ -1195,7 +1195,7 @@ If the player isn't at either, it won't set the player's location.
 .. note::
 
   | Author: NCDS
-  | Last Updated: 06 July 2011 by NCDS
+  | Last Updated: 06 September 2011 by Coh3n
 
 Example:
 
@@ -1203,7 +1203,7 @@ Example:
 
   MSI_SetPlayerLoc();
 *)
-procedure MSI_SetPlayerLoc();
+function MSI_SetPlayerLoc(): boolean;
 var
   i: Integer;
   locArr: TIntegerArray;
@@ -1223,13 +1223,18 @@ begin
     if (MSI_AtLocation(locArr[i], false)) then
     begin
       MSI_Players[CurrentPlayer].location := locArr[i];
-      MSI_Debug('Player''s location: '+MSI_Locations[locArr[i]].name);
+      result := true;
       break;
     end else
       if (i = 1) then
         if (not MSI_WalkPath(script.pathInfo, (invCount < 15))) then
-          MSI_DeathWalk();
+          result := MSI_DeathWalk();
 
-  MSI_CloseHeader('MSI_SetPlayerLoc: Done');
+  if (result) then
+    MSI_Debug('Player''s location: '+MSI_Locations[MSI_Players[CurrentPlayer].location].name)
+  else
+    MSI_Debug('Failed to get player''s location');
+
+  MSI_CloseHeader('MSI_SetPlayerLoc: '+boolToStr(result));
 end;
 

@@ -269,37 +269,46 @@ MSI_ValidSubLoc
 
 .. code-block:: pascal
 
-  function MSI_ValidSubLoc(subLoc: TSubLoc): boolean;
+  function MSI_ValidSubLoc(loc: TLocation; subIndex: integer): boolean;
 
 Returns true if the player is autoing an object that appears in the sub location
-'subLoc'.
+of the location 'loc' and sub location element 'subIndex'.
 
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 05 September 2011 by Coh3n
+  | Last Updated: 07 September 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  if (MSI_ValidSubLoc(MSI_Locations[LOC_VE_BANK].SubLoc[i])) then
+  if (MSI_ValidSubLoc(MSI_Locations[LOC_VE_BANK], i)) then
     MSI_Relocate(LOC_VE_BANK);
 *)
-function MSI_ValidSubLoc(subLoc: TSubLoc): boolean;
+function MSI_ValidSubLoc(loc: TLocation; subIndex: integer): boolean;
 var
   i: integer;
   objs: TIntegerArray;
 begin
-  objs := MSI_GetPlayerObjects();
+  result := loc.atBank; // always valid if the location is a bank
 
-  for i := 0 to high(subLoc.objects) do
-    if (inIntArray(objs, subLoc.objects[i])) then
-    begin
-      result := true;
-      break;
-    end;
+  // spawning point is valid; if more locations are added, an array should be used
+  if (not result) then
+    result := (loc.constant = LOC_LB_SPAWN);
+
+  if (not result) then
+  begin
+    objs := MSI_GetPlayerObjects();
+
+    for i := 0 to high(loc.subLocs[subIndex].objects) do
+      if (inIntArray(objs, loc.subLocs[subIndex].objects[i])) then
+      begin
+        result := true;
+        break;
+      end;
+  end;
 end;
 
 (*
@@ -369,9 +378,8 @@ begin
       for i := cP to hSubLoc do
       begin
         // no point in relocating to a location that doesn't have the object we want
-        if (not atBank) then
-          if (not MSI_ValidSubLoc(subLocs[i])) then
-            continue;
+        if (not MSI_ValidSubLoc(MSI_Locations[loc], i)) then
+          continue;
 
         if (MSI_HookBroken[HOOK_WALKING]) then
           box := subLocs[i].spsBox
@@ -473,9 +481,8 @@ begin
   begin
     for i := 0 to high(subLocs) do
     begin
-      if (not atBank) then
-        if (not MSI_ValidSubLoc(subLocs[i])) then
-          continue;
+      if (not MSI_ValidSubLoc(MSI_Locations[loc], i)) then
+        continue;
 
       MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
@@ -777,18 +784,14 @@ begin
       with MSI_Players[CurrentPlayer] do
 		  begin
         // Walk the leg of the path
-			  if (not walked(regPath[i])) then
-          if ((not walked(locPath)) and (not walked(regPath[i]))) then
-				  begin
-            MSI_Debug('Failed to walk path ('+boolToStr(toLoc)+'): ' + pathInfo.name);
-
+			  if (not walked(regPath[i])) then // regular path
+          if ((not walked(locPath)) and (not walked(regPath[i]))) then // location's path then regular path (for multiple sub-locations
             if (i = h) then
             begin
               done := true;
               break;
             end else
               continue;
-				  end;
 
         // Handle the obstacle
         if (length(intObs) > 0) then
@@ -811,8 +814,10 @@ begin
 		      break;
 		    end;
 		  end;
-
   end;
+
+  if (not result) then
+    MSI_Debug('Failed walk (to loc: '+boolToStr(toLoc)+'): ' + pathInfo.name);
 
 	MSI_CloseHeader('MSI_WalkPath: ' + boolToStr(result));
 end;
