@@ -237,7 +237,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_WILLOW];
+        Defaults.Trees := [TREE_WILLOW_NEW];
 
         with PathInfo do
         begin
@@ -303,7 +303,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_WILLOW];
+        Defaults.Trees := [TREE_WILLOW_NEW];
 
         with PathInfo do
         begin
