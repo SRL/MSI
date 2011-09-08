@@ -518,7 +518,13 @@ begin
          name := 'Rimmington Willows';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Rimmington Willows';
+           tileBox := intToBox(2996, 3160, 3006, 3169);
+           objects := [TREE_WILLOW_NEW];
+         end;
        end;
 
      LOC_FE_BANK:
@@ -638,16 +644,17 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Willows South';
-           tileBox := intToBox(3055, 3243, 3063, 3255);
-           compass := 'w';
-           camera := false;
+           tileBox := intToBox(3057, 3248, 3064, 3256);
          end;
 
          with subLocs[1] do
          begin
            name := 'Port Sarim Willows North';
-           tileBox := intToBox(3056, 3256, 3066, 3264);
+           tileBox := intToBox(3060, 3254, 3066, 3263);
          end;
+
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := [TREE_WILLOW_NEW];
        end;
 
      LOC_PS_YEWS:
@@ -684,7 +691,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Deposit Box';
-           tileBox := intToBox(3043, 3234, 3049, 3238);
+           tileBox := intToBox(3043, 3234, 3052, 3238);
          end;
 
          with deathPath do
