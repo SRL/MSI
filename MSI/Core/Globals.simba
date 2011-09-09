@@ -21,8 +21,6 @@ different locations around Runescape.
 
 .. note::
 
-  | FS: Fishing Spot
-  | GS: General Store
   | GE: Grand Exchange
   | VE: Varrock East
   | VW: Varrock West
@@ -30,11 +28,8 @@ different locations around Runescape.
   | FE: Falador East
   | MG: Mining Guild
   | CG: Crafting Guild
-  | DW: Dark Wizards
-  | SO: Stronghold Of *
   | AK: Al Kharid
-  | SW: Spinning Wheel
-  | LB: Lumby
+  | LB: Lumbridge
   | EV: EdgeVille
   | BBV: Barbarian Village
   | DB: Draynor Bank
@@ -42,8 +37,9 @@ different locations around Runescape.
   | PS: Port Sarim
   | SV: Seers Village
   | LSW: Lumbridge Swamp West
+  | LSE: Lumbridge Swamp East
   | KJ: Karamja
-  | CB: Catherby Bank
+  | CB: Catherby
 *)
 
 {==============================================================================\
@@ -92,44 +88,44 @@ Example:
 const
   // Woodcutting
   SCRIPT_POWER_CHOP = 10;
-  SCRIPT_VE_OAKS    = 12;
-  SCRIPT_GE_YEWS    = 13;
-  SCRIPT_GE_OAKS    = 14;
-  SCRIPT_DB_WILLOWS = 15;
-  SCRIPT_DB_TREES   = 16;
-  SCRIPT_DB_OAKS    = 17;
-  SCRIPT_DB_YEWS    = 18;
-  SCRIPT_RM_YEWS    = 19;
-  SCRIPT_RM_WILLOWS = 20;
-  SCRIPT_PS_WILLOWS = 21;
-  SCRIPT_PS_YEWS    = 22;
-  SCRIPT_SV_MAGICS  = 23;
-  SCRIPT_SV_MAPLES  = 24;
-  SCRIPT_SV_YEWS    = 25;
-  SCRIPT_SV_OAKS    = 26;
-  SCRIPT_SV_TREES   = 27;
-  SCRIPT_EV_YEWS    = 28;
-  SCRIPT_IVY        = 29;
+  SCRIPT_VE_OAKS    = 11;
+  SCRIPT_GE_YEWS    = 12;
+  SCRIPT_GE_OAKS    = 13;
+  SCRIPT_DB_WILLOWS = 14;
+  SCRIPT_DB_TREES   = 15;
+  SCRIPT_DB_OAKS    = 16;
+  SCRIPT_DB_YEWS    = 17;
+  SCRIPT_RM_YEWS    = 18;
+  SCRIPT_RM_WILLOWS = 19;
+  SCRIPT_PS_WILLOWS = 20;
+  SCRIPT_PS_YEWS    = 21;
+  SCRIPT_SV_MAGICS  = 22;
+  SCRIPT_SV_MAPLES  = 23;
+  SCRIPT_SV_YEWS    = 24;
+  SCRIPT_SV_OAKS    = 25;
+  SCRIPT_SV_TREES   = 26;
+  SCRIPT_EV_YEWS    = 27;
+  SCRIPT_IVY        = 28;
 
   // Mining
   SCRIPT_POWER_MINER = 30;
-  SCRIPT_VE_MINER = 31;
-  SCRIPT_VW_MINER = 32;
-  SCRIPT_LSW_MINER = 33;
-  SCRIPT_BBV_MINER = 34;
-  SCRIPT_RM_MINER = 35;
-  SCRIPT_GUILD_MINER = 39;
-  SCRIPT_DB_CLAY = 40;
-  SCRIPT_FW_MINER = 41;
-  SCRIPT_AK_MINER = 42;
-  SCRIPT_CG_MINER = 43;
+  SCRIPT_VE_MINER    = 31;
+  SCRIPT_VW_MINER    = 32;
+  SCRIPT_LSW_MINER   = 33;
+  SCRIPT_BBV_MINER   = 34;
+  SCRIPT_RM_MINER    = 35;
+  SCRIPT_GUILD_MINER = 36;
+  SCRIPT_DB_CLAY     = 37;
+  SCRIPT_FW_MINER    = 38;
+  SCRIPT_AK_MINER    = 39;
+  SCRIPT_CG_MINER    = 40;
 
   // Fishing
-  SCRIPT_POWER_FISHER  = 50;
-  SCRIPT_DB_FISHER     = 51;
-  SCRIPT_BBV_FISHER    = 52;
-  SCRIPT_KJ_NOTER      = 53;
-  SCRIPT_CB_FISHER     = 54;
+  SCRIPT_POWER_FISHER = 50;
+  SCRIPT_DB_FISHER    = 51;
+  SCRIPT_BBV_FISHER   = 52;
+  SCRIPT_KJ_NOTER     = 53;
+  SCRIPT_CB_FISHER    = 54;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
@@ -193,13 +189,13 @@ These constants represent the different paths to files accessed by MSI, such as
 the saved player's information, the debug/report files, and the settings file.
 *)
 const
-  PATH_PLAYER       = IncludePath + 'MSI\Player.txt';                 // Path for all the player information
-  PATH_REMOTE       = IncludePath + 'MSI\Remote.txt';                 // Path for the player remote information
-  PATH_REPORT       = IncludePath + 'MSI\Progress Reports\';          // Path for progress report
-  PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';                // Path for debug
-  PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';               // Path for script settings
-  PATH_FORM_BITMAPS = IncludePath + 'MSI\MSI\Form\Bitmaps\';          // Path to all the form images
-  PATH_EXTRAS       = IncludePath + 'MSI\MSI\Extras\';                // Path to all the extras
+  PATH_PLAYER       = IncludePath + 'MSI\Player.txt';        // Path for all the player information
+  PATH_REMOTE       = IncludePath + 'MSI\Remote.txt';        // Path for the player remote information
+  PATH_REPORT       = IncludePath + 'MSI\Progress Reports\'; // Path for progress report
+  PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';       // Path for debug
+  PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';      // Path for script settings
+  PATH_FORM_BITMAPS = IncludePath + 'MSI\MSI\Form\Bitmaps\'; // Path to all the form images
+  PATH_EXTRAS       = IncludePath + 'MSI\MSI\Extras\';       // Path to all the extras
 
 (*
 Location Constants
@@ -253,7 +249,7 @@ const
   // Rimmington
   LOC_RM_YEWS    = 40;
   LOC_RM_MINE    = 41;
-  LOC_RM_WILLOWS = 45;
+  LOC_RM_WILLOWS = 42;
 
   // Falador
   LOC_FE_BANK    = 50;
@@ -303,7 +299,7 @@ const
 
   // Catherby
   LOC_CB_BANK = 140;
-  LOC_CB_FISH   = 141;
+  LOC_CB_FISH = 141;
 
   LOC_ARRAY_LENGTH = 141; // Change to the highest location constant
 
