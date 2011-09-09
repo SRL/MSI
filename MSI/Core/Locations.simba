@@ -1277,7 +1277,9 @@ begin
     end else
       if (i = 1) then
         if (not MSI_WalkPath(script.pathInfo, (invCount < 15))) then
-          result := MSI_DeathWalk();
+          result := MSI_DeathWalk()
+        else
+          result := true;
 
   if (result) then
     MSI_Debug('Player''s location: '+MSI_Locations[MSI_Players[CurrentPlayer].location].name)
