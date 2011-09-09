@@ -468,6 +468,7 @@ function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
 var
   i: integer;
   box: TBox;
+  mPos: TPoint;
 begin
   if (not loggedIn) then
     exit;
@@ -479,6 +480,7 @@ begin
   end;
 
   MSI_AddHeader('MSI_AtLocation');
+  mPos := MSI_GetMyPos();
 
   with MSI_Locations[loc] do
   begin
@@ -494,14 +496,14 @@ begin
       else
         box := subLocs[i].tileBox;
 
-      if (pointInBox(MSI_GetMyPos(), box)) then
+      if (pointInBox(mPos, box)) then
       begin
         result := true;
         setAngle(subLocs[i].camera);
-        makeCompass(MSI_Locations[loc].subLocs[i].compass);
+        makeCompass(subLocs[i].compass);
 
         MSI_BoxToMM(box);
-        MSI_Debug('Player is at ' + name);
+        MSI_Debug('Player is at ' + subLocs[i].name);
         break;
       end else
         if (i = high(subLocs)) then

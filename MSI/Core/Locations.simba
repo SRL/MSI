@@ -219,7 +219,7 @@ begin
          begin
            name := 'Grand Exchange Oaks';
            tileBox := intToBox(3191, 3458, 3195, 3465);
-           //compass := randomRange(205, 315);
+           compass := randomRange(205, 315);
            camera := false;
            objects := MSI_Scripts[SCRIPT_GE_OAKS].Defaults.Trees;
          end;
@@ -436,79 +436,75 @@ begin
          name := 'Rimmington Yews';
          atBank := false;
 
-         setLength(subLocs, 3);
+         setLength(subLocs, 4);
          with subLocs[0] do
          begin
            name := 'Rimmington Yews East';
-           tileBox := intToBox(2937, 3229, 2942, 3234);
+           tileBox := intToBox(2937, 3230, 2942, 3236);
+           compass := randomRange(280, 360);
          end;
 
          with subLocs[1] do
          begin
            name := 'Rimmington Yews Central';
-           tileBox := intToBox(2931, 3224, 2936, 3230);
+           tileBox := intToBox(2931, 3231, 2937, 3237);
+           compass := randomRange(60, 225);
          end;
 
          with subLocs[2] do
          begin
            name := 'Rimmington Yews West';
            tileBox := intToBox(2926, 3226, 2931, 3231);
+           compass := randomRange(0, 55);
+         end;
+
+         with subLocs[3] do
+         begin
+           name := 'Rimmington Yews South';
+           tileBox := intToBox(2933, 3225, 2938, 3230);
+           compass := randomRange(280, 360);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := [TREE_YEW_NEW];
          end;
        end;
 
-     LOC_RM_MINE_NORTH:
+     LOC_RM_MINE:
        with MSI_Locations[loc] do
        begin
-         name := 'Rimmington North Mine';
+         name := 'Rimmington Mine';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 4);
          with subLocs[0] do
          begin
-           name := 'Rimmington North Mine';
-           tileBox := intToBox(2981, 3243, 2975, 3249);
+           name := 'Rimmington Mine North';
+           tileBox := intToBox(2975, 3244, 2981, 3248);
+           objects := [ROCK_COPPER];
          end;
-       end;
 
-     LOC_RM_MINE_EAST:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Rimmington East Mine';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[1] do
          begin
-           name := 'Rimmington East Mine';
-           tileBox := intToBox(2984, 3234, 2988, 3240);
+           name := 'Rimmington Mine East';
+           tileBox := intToBox(2983, 3233, 2988, 3241);
+           objects := [ROCK_CLAY, ROCK_TIN];
          end;
-       end;
 
-     LOC_RM_MINE_SOUTH:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Rimmington South Mine';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[2] do
          begin
-           name := 'Rimmington South Mine';
-           tileBox := intToBox(2980, 3231, 2984, 3235);
+           name := 'Rimmington Mine South';
+           tileBox := intToBox(2976, 3231, 2981, 3236);
+           objects := [ROCK_IRON, ROCK_GOLD]
          end;
-       end;
 
-     LOC_RM_MINE_WEST:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Rimmington West Mine';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[3] do
          begin
-           name := 'Rimmington West Mine';
-           tileBox := intToBox(2966, 3235, 2973, 3243);
+           name := 'Rimmington Mine West';
+           tileBox := intToBox(2968, 3235, 2973, 3243);
+           objects := [ROCK_IRON];
          end;
        end;
 
