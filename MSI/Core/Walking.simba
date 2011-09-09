@@ -339,8 +339,8 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  hSubLoc, hArea, i, j, cP: integer;
-  p: TPoint;
+  hSubLoc, i, cP: integer;
+  p, mPos: TPoint;
   areaTPA: TPointArray;
   local_subLocs: TSubLocArray;
   box: TBox;
@@ -358,6 +358,8 @@ begin
 
   if (not result) then
   begin
+    mPos := MSI_GetMyPos();
+
     with MSI_Locations[Loc] do
     begin
       // check to see if player's in the last box, if no, invert the boxes
@@ -392,7 +394,7 @@ begin
         MSI_BoxToMM(box);
 
         // if player is already in box, continue
-        if (pointInBox(MSI_GetMyPos(), box)) then
+        if (pointInBox(mPos, box)) then
         begin
           if (i = hSubLoc) then
           begin
@@ -403,34 +405,31 @@ begin
           continue;
         end;
 
-        // create a TPA from the subLoc's box
-        areaTPA := TPAFromBox(box);
-        sortTPAfrom(areaTPA, middleTPA(areaTPA));
-        hArea := high(areaTPA);
+        MSI_FindRandoms(true);
 
-        // loop through each point of the TPA, starting from the middle
-        for j := 0 to hArea do
+        result := MSI_PointOnMM(middleBox(box), p);
+        if (not result) then
         begin
-          MSI_FindRandoms(true);
+          // create a TPA from the subLoc's box
+          areaTPA := TPAFromBox(box);
+          sortTPAfrom(areaTPA, mPos);
 
-          if (MSI_PointOnMM(areaTPA[j], p)) then
-          begin
-            mouse(p.x, p.y, random(5), random(5), true);
-            MSI_Debug('Relocating to box: ' + subLocs[i].name);
-
-            setAngle(MSI_Locations[loc].subLocs[i].camera);
-            makeCompass(MSI_Locations[loc].subLocs[i].compass);
-
-            cP := i;
-            MSI_Flag(0);
-            result := true;
-            break;
-          end;
+          if (length(areaTPA) > 0) then
+            result := MSI_PointOnMM(areaTPA[0], p); // closest point to player
         end;
 
         if (result) then
-          break
-        else
+        begin
+          mouse(p.x, p.y, random(5), random(5), true);
+          MSI_Debug('Relocating to box: ' + subLocs[i].name);
+
+          setAngle(MSI_Locations[loc].subLocs[i].camera);
+          makeCompass(MSI_Locations[loc].subLocs[i].compass);
+
+          cP := i;
+          MSI_Flag(0);
+          break;
+        end else
           cP := 0;
       end;
     end;
