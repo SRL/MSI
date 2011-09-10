@@ -848,6 +848,7 @@ function MSI_Alch(Spell: Integer): Boolean;
 var
   i, t, idealSlot, wT: Integer;
   anim: TAnimation;
+  b: boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -870,8 +871,14 @@ begin
     begin
       if (ExistsItem(AlchSlots[i])) and (AlchSlots[i] <> idealSlot) then
       begin
-        DragItem(AlchSlots[i], idealSlot); // Drag alch item to ideal inventory slot
-        DeleteValueInIntArray(AlchSlots, i);
+        if (not b) then
+        begin
+          DragItem(AlchSlots[i], idealSlot); // Drag alch item to ideal inventory slot
+          DeleteValueInIntArray(AlchSlots, i);
+          MSI_Debug('Slots: ' + toStr(alchSlots));
+        end;
+
+        b := (length(alchSlots) <= 0);
         Wait(RandomRange(100, 300));
       end else
         if (not ExistsItem(idealSlot)) then
