@@ -355,6 +355,8 @@ begin
            name := 'Draynor Village Trees';
            tileBox := intToBox(3075, 3265, 3085, 3275);
            objects := MSI_Scripts[SCRIPT_DB_TREES].Defaults.Trees;
+           compass := 180;
+           camera := false;
          end;
        end;
 
@@ -680,18 +682,21 @@ begin
          setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Port Sarim Yews';
-           tileBox := intToBox(3050, 3266, 3056, 3272);
-           compass := 'n';
-           camera := false;
+           name := 'Port Sarim Yews East';
+           tileBox := intToBox(3050, 3268, 3054, 3274);
          end;
 
          with subLocs[1] do
          begin
-           name := 'Port Sarim West Yew';
-           tileBox := intToBox(3038, 3269, 3043, 3273);
-           compass := 's';
-           camera := false;
+           name := 'Port Sarim Yews West';
+           tileBox := intToBox(3041, 3269, 3046, 3274);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].compass := randomRange(135, 190);
+           subLocs[i].objects := MSI_Scripts[SCRIPT_PS_YEWS].Defaults.Trees;
          end;
        end;
 
