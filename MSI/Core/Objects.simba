@@ -41,6 +41,30 @@ begin
   case obj of
     { TREES ====================================== ]
     [============================================= }
+    TREE_DEAD:
+      with result do
+      begin
+        Name               := 'TREE_DEAD';
+        Uptexts            := ['Dead', 'ead'];
+        Options            := ['own Dead'];
+        Level              := 1;
+        Colors             := [2304302];
+        Tol                := 5;
+        Hue                := 0.38;
+        Sat                := 0.63;
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 70;
+        Accuracy           := 50;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        MultiClick         := True;
+        Track              := False;
+        MaxTime            := 20000;
+        AssociatedItems    := [LOGS_NORMAL];
+      end;
+
     TREE_NORMAL:
       with result do
       begin
@@ -56,6 +80,30 @@ begin
         W                  := 35;
         H                  := 35;
         Accuracy           := 10;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        MultiClick         := True;
+        Track              := False;
+        MaxTime            := 20000;
+        AssociatedItems    := [LOGS_NORMAL];
+      end;
+
+    TREE_NORMAL_NEW:
+      with result do
+      begin
+        Name               := 'TREE_NORMAL';
+        Uptexts            := ['ree'];
+        Options            := ['own Tree'];
+        Level              := 1;
+        Colors             := [3361629];
+        Tol                := 6;
+        Hue                := 0.11;
+        Sat                := 0.27;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 30;
+        Accuracy           := 20;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
@@ -82,6 +130,30 @@ begin
         Accuracy           := 10;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
+        WaitToMove         := True;
+        MultiClick         := True;
+        Track              := False;
+        MaxTime            := 45000;
+        AssociatedItems    := [LOGS_OAK];
+      end;
+
+    TREE_OAK_NEW:
+      with result do
+      begin
+        Name               := 'TREE_OAK_NEW';
+        Uptexts            := ['Oak'];
+        Options            := ['own Oak'];
+        Level              := 15;
+        Colors             := [3100777];
+        Tol                := 5;
+        Hue                := 0.09;
+        Sat                := 0.10;
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 70;
+        Accuracy           := 50;
+        SearchArea         := MSBox;
+        ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;

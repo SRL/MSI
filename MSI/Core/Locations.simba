@@ -307,7 +307,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Bank';
-           tileBox := intToBox(3092, 3239, 3095, 3245);
+           tileBox := intToBox(3090, 3240, 3095, 3246);
          end;
 
          with deathPath do
@@ -338,7 +338,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Willows';
-           tileBox := intToBox(3082, 3225, 3090, 3238);
+           tileBox := intToBox(3084, 3225, 3090, 3238);
+           objects := MSI_Scripts[SCRIPT_DB_WILLOWS].Defaults.Trees;
          end;
        end;
 
@@ -352,7 +353,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Trees';
-           tileBox := intToBox(3075, 3263, 3088, 3285);
+           tileBox := intToBox(3075, 3265, 3085, 3275);
+           objects := MSI_Scripts[SCRIPT_DB_TREES].Defaults.Trees;
          end;
        end;
 
@@ -362,11 +364,25 @@ begin
          name := 'Draynor Village Oaks';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Draynor Village Oaks';
-           tileBox := intToBox(3098, 3239, 3103, 3253);
+           name := 'Draynor Village Oaks West';
+           tileBox := intToBox(3099, 3239, 3103, 3245);
+           compass := randomRange(270, 360);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Draynor Village Oaks East';
+           tileBox := intToBox(3105, 3243, 3109, 3247);
+           compass := randomRange(260, 350);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_DB_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -380,7 +396,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Fishing Spots';
-           tileBox := intToBox(3084, 3220, 3089, 3233);
+           tileBox := intToBox(3084, 3223, 3089, 3233);
+           objects := MSI_Scripts[SCRIPT_DB_FISHER].Defaults.FishSpots;
          end;
        end;
 
@@ -569,7 +586,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador West Bank';
-           tileBox := intToBox(2948, 3367, 2944, 3370);
+           tileBox := intToBox(2943, 3366, 2950, 3371);
          end;
 
          with deathPath do
@@ -627,6 +644,7 @@ begin
          begin
            name := 'Falador WaterPump';
            tileBox := intToBox(2946, 3380, 2950, 3385);
+           objects := MSI_Scripts[SCRIPT_FW_FILLER].Defaults.Objects;
          end;
        end;
 
@@ -722,7 +740,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp West Mine';
-           tileBox := intToBox(3143, 3140, 3152, 3153);
+           tileBox := intToBox(3143, 3142, 3150, 3150);
+           objects := MSI_Scripts[SCRIPT_LSW_MINER].Defaults.Rocks;
          end;
        end;
 
@@ -736,7 +755,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp East Mine';
-           tileBox := intToBox(3221, 3141, 3233, 3150);
+           tileBox := intToBox(3223, 3144, 3233, 3151);
+           objects := MSI_Scripts[SCRIPT_LSE_MINER].Defaults.Rocks;
          end;
        end;
 
@@ -980,11 +1000,26 @@ begin
          name := 'Mining Guild';
          atBank := false;
 
-         setLength(subLocs, 1);
-         with subLocs[0] do //Ladders
+         setLength(subLocs, 3);
+         with subLocs[0] do
          begin
-           name := 'Mining Guild: Ladders';
-           tileBox := intToBox(3014, 3336, 3022, 3342);
+           name := 'Mining Guild West';
+           tileBox := intToBox(3016, 9736, 3025, 9743);
+           objects := [ROCK_COAL];
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Mining Guild Central';
+           tileBox := intToBox(3027, 9731, 3041, 9743);
+           objects := [ROCK_COAL];
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Mining Guild East';
+           tileBox := intToBox(3042, 9732, 3054, 9745);
+           objects := [ROCK_COAL, ROCK_MITHRIL];
          end;
        end;
 

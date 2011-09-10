@@ -112,13 +112,14 @@ const
   SCRIPT_VE_MINER    = 31;
   SCRIPT_VW_MINER    = 32;
   SCRIPT_LSW_MINER   = 33;
-  SCRIPT_BBV_MINER   = 34;
-  SCRIPT_RM_MINER    = 35;
-  SCRIPT_GUILD_MINER = 36;
-  SCRIPT_DB_CLAY     = 37;
-  SCRIPT_FW_MINER    = 38;
-  SCRIPT_AK_MINER    = 39;
-  SCRIPT_CG_MINER    = 40;
+  SCRIPT_LSE_MINER   = 34;
+  SCRIPT_BBV_MINER   = 35;
+  SCRIPT_RM_MINER    = 36;
+  SCRIPT_GUILD_MINER = 37;
+  SCRIPT_DB_CLAY     = 38;
+  SCRIPT_FW_MINER    = 39;
+  SCRIPT_AK_MINER    = 40;
+  SCRIPT_CG_MINER    = 41;
 
   // Fishing
   SCRIPT_POWER_FISHER = 50;
@@ -481,15 +482,19 @@ Example:
 *)
 const
   // Trees
+  TREE_DEAD       = 9;
   TREE_NORMAL     = 10;
-  TREE_OAK        = 11;
-  TREE_WILLOW     = 12;
-  TREE_MAPLE      = 13;
-  TREE_YEW        = 14;
-  TREE_MAGIC      = 15;
-  TREE_WILLOW_NEW = 16;
-  TREE_YEW_NEW    = 17;
-  TREE_IVY        = 18;
+  TREE_NORMAL_NEW = 11;
+  TREE_OAK        = 12;
+  TREE_OAK_NEW    = 13;
+  TREE_WILLOW     = 14;
+  TREE_WILLOW_NEW = 15;
+  TREE_MAPLE      = 16;
+  TREE_MAPLE_NEW  = 17;
+  TREE_YEW        = 18;
+  TREE_YEW_NEW    = 19;
+  TREE_MAGIC      = 20;
+  TREE_IVY        = 21;
 
   // Rocks
   ROCK_CLAY       = 20;

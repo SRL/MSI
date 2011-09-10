@@ -49,8 +49,9 @@ begin
         PlayerSetup   := @MSI_SetupWoodcutting;
 
         Defaults.Trees := [
-          TREE_NORMAL, TREE_OAK, TREE_WILLOW, TREE_WILLOW_NEW, TREE_MAPLE,
-          TREE_YEW, TREE_MAGIC
+          TREE_DEAD, TREE_NORMAL, TREE_NORMAL_NEW, TREE_OAK, TREE_OAK_NEW,
+          TREE_WILLOW, TREE_WILLOW_NEW, TREE_MAPLE, TREE_MAPLE_NEW,
+          TREE_YEW, TREE_YEW_NEW, TREE_MAGIC
         ];
       end;
 
@@ -82,7 +83,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_OAK];
+        Defaults.Trees := [TREE_OAK_NEW];
 
         with PathInfo do
         begin
@@ -175,7 +176,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_NORMAL];
+        Defaults.Trees := [TREE_NORMAL_NEW, TREE_DEAD];
 
         with PathInfo do
         begin
@@ -206,7 +207,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_OAK];
+        Defaults.Trees := [TREE_OAK_NEW];
 
         with PathInfo do
         begin
@@ -699,6 +700,41 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_LSE_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Lumby Swamp East Miner';
+        Constant      := SCRIPT_LSE_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_AK;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_TIN, ROCK_COPPER];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_AK_BANK to LOC_LSE_MINE';
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_LSE_MINE;
+
+          Reflection := [
+                          TPointArray([Point(3091, 3242), Point(3101, 3234),
+                                       Point(3108, 3225), Point(3115, 3217),
+                                       Point(3124, 3211), Point(3132, 3205),
+                                       Point(3138, 3197), Point(3140, 3186),
+                                       Point(3141, 3175), Point(3144, 3165),
+                                       Point(3148, 3155), Point(3148, 3147)])
+                        ];
+
+          SPSAreas   := ['11_9', '12_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
