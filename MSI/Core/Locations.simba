@@ -413,7 +413,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Clay Mine';
-           tileBox := intToBox(3137, 3322, 3145, 3313);
+           tileBox := intToBox(3138, 3314, 3145, 3321);
+           objects := MSI_Scripts[SCRIPT_DB_CLAY].Defaults.Rocks;
          end;
        end;
 
