@@ -790,7 +790,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Bank';
-           tileBox := intToBox(3091, 3490, 3094, 3498);
+           tileBox := intToBox(3091, 3488, 3097, 3498);
          end;
 
          with deathPath do
@@ -831,16 +831,20 @@ begin
          begin
            name := 'Edgeville Yews North';
            tileBox := intToBox(3089, 3470, 3086, 3473);
-           compass := 'n';
-           camera := false;
+           compass := 0;
          end;
 
          with subLocs[1] do
          begin
            name := 'Edgeville Yews South';
            tileBox := intToBox(3085, 3477, 3088, 3480);
-           compass := 's';
-           camera := false;
+           compass := randomRange(170, 190);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_EV_YEWS].Defaults.Trees;
          end;
        end;
 
@@ -854,7 +858,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Well';
-           tileBox := intToBox(3080, 3500, 3087, 3506);
+           tileBox := intToBox(3081, 3498, 3087, 3503);
+           objects := MSI_Scripts[SCRIPT_EV_SOFTENER].Defaults.Objects;
          end;
        end;
 
@@ -868,28 +873,32 @@ begin
          with subLocs[0] do
          begin
            name := 'Barbarian Village Mine';
-           tileBox := intToBox(3077, 3418, 3085, 3425);
+           tileBox := intToBox(3077, 3417, 3086, 3425);
+           objects := MSI_Scripts[SCRIPT_BBV_MINER].Defaults.Rocks;
          end;
        end;
 
      LOC_BBV_FISH:
        with MSI_Locations[loc] do
        begin
-         name := 'Barbarian Village Fishing Spot';
+         name := 'Barbarian Village Fishing Spots';
          atBank := false;
 
          setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Barbarian Village Fishing Spot North';
-           tileBox := intToBox(3106, 3431, 3110, 3437);
+           name := 'Barbarian Fishing North';
+           tileBox := intToBox(3106, 3429, 3110, 3437);
          end;
 
          with subLocs[1] do
          begin
-           name := 'Barbarian Village Fishing Spot South';
+           name := 'Barbarian Fishing South';
            tileBox := intToBox(3101, 3423, 3104, 3428);
          end;
+
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_BBV_FISHER].Defaults.FishSpots;
        end;
 
      LOC_SV_MAGICS:
@@ -1145,7 +1154,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Stiles On Karamja';
-           tileBox := intToBox(2849, 3138, 2852, 3143);
+           tileBox := intToBox(2849, 3140, 2853, 3145);
          end;
        end;
 
@@ -1159,7 +1168,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Karamja Fishing Spot';
-           tileBox := intToBox(2922, 3172, 2925, 3179);
+           tileBox := intToBox(2922, 3173, 2927, 3180);
+           objects := MSI_Scripts[SCRIPT_KJ_NOTER].Defaults.FishSpots;
          end;
        end;
 

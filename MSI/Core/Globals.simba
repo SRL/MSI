@@ -1181,51 +1181,30 @@ var
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
 
-function MSI_GetCurrentScript(): TScript;
-begin
-  result := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-end;
-
 (*
-MSI_GetPlayerObjects
+MSI_GetCurrentScript
 ~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: pascal
 
-  function MSI_GetPlayerObjects(): TIntegerArray;
+  function MSI_GetCurrentScript(): TScript;
 
-Gets the current player's objects and returns them in an integer array.  Used to
-avoid skill cases is several instances throughout the include.
+Returns a TScript record of the current player's current script.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 05 September 2011 by Coh3n
+  | Last Updated: 10 Sept 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  objs := MSI_GetPlayerObjects();
+  scr := MSI_GetCurrentScript();
 *)
-function MSI_GetPlayerObjects(): TIntegerArray;
+function MSI_GetCurrentScript(): TScript;
 begin
-  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
-    case MSI_Scripts[Name].SkillConst of
-      SKILL_WOODCUTTING:
-        result := trees;
-
-      SKILL_MINING:
-        result := rocks;
-
-      SKILL_FISHING:
-        result := fishSpots;
-
-      SKILL_COOKING:
-        result := cookingSpot;
-
-      SKILL_NONE:
-        result := objects;
-    end;
+  with MSI_Players[CurrentPlayer] do
+    result := MSI_Scripts[Scripts[CurrentScript].Name];
 end;
 

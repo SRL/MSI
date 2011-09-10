@@ -114,6 +114,7 @@ begin
           name := 'Powerskilling Location';
           tileBox := MSI_MakeBox(r_GetMyPos, 10, 10);
           spsBox := MSI_ConvertTileBox(tileBox);
+          objects := MSI_GetPlayerObjects();
         end;
       end;
   {$ENDIF}

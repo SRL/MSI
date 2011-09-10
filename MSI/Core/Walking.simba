@@ -291,12 +291,14 @@ function MSI_ValidSubLoc(loc: TLocation; subIndex: integer): boolean;
 var
   i: integer;
   objs: TIntegerArray;
+  exceptions: TIntegerArray;
 begin
   result := loc.atBank; // always valid if the location is a bank
 
   // spawning point is valid; if more locations are added, an array should be used
+  exceptions := [LOC_LB_SPAWN, LOC_KJ_STILES];
   if (not result) then
-    result := (loc.constant = LOC_LB_SPAWN);
+    result := (inIntArray(exceptions, loc.constant));
 
   if (not result) then
   begin
