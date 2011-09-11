@@ -255,7 +255,7 @@ begin
          begin
            name := 'Grand Exchange Center Yew';
            tileBox := intToBox(3208, 3501, 3214, 3506);
-           compass := 'n';
+           compass := 0;
            camera := false;
          end;
 
@@ -396,7 +396,7 @@ begin
          begin
            name := 'Draynor Village Yews East';
            tileBox := intToBox(3178, 3225, 3183, 3229);
-           compass := 's';
+           compass := 180;
            camera := false;
          end;
        end;
@@ -610,7 +610,7 @@ begin
          begin
            name := 'Port Sarim Willows South';
            tileBox := intToBox(3055, 3243, 3063, 3255);
-           compass := 'w';
+           compass := 270;
            camera := false;
          end;
 
@@ -632,7 +632,7 @@ begin
          begin
            name := 'Port Sarim Yews';
            tileBox := intToBox(3050, 3266, 3056, 3272);
-           compass := 'n';
+           compass := 0;
            camera := false;
          end;
 
@@ -640,7 +640,7 @@ begin
          begin
            name := 'Port Sarim West Yew';
            tileBox := intToBox(3038, 3269, 3043, 3273);
-           compass := 's';
+           compass := 180;
            camera := false;
          end;
        end;
@@ -732,7 +732,9 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Bank';
-           tileBox := intToBox(3091, 3490, 3094, 3498);
+           tileBox := intToBox(3098, 3501, 3091, 3490);
+           camera := True;
+           compass := 0;
          end;
 
          with deathPath do
@@ -772,16 +774,16 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Yews North';
-           tileBox := intToBox(3089, 3470, 3086, 3473);
-           compass := 'n';
+           tileBox := intToBox(3085, 3479, 3089, 3481);
+           compass := 0;
            camera := false;
          end;
 
          with subLocs[1] do
          begin
            name := 'Edgeville Yews South';
-           tileBox := intToBox(3085, 3477, 3088, 3480);
-           compass := 's';
+           tileBox := intToBox(3084, 3469, 3089, 3474);
+           compass := 180;
            camera := false;
          end;
        end;
@@ -1158,7 +1160,7 @@ begin
 
       if (subLocs[i].compass = null) then
       begin
-        subLocs[i].compass := 'n';
+        subLocs[i].compass := 0;
         subLocs[i].camera := true;
       end;
     end;
