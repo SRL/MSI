@@ -294,8 +294,8 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           camera := false;
-           objects := MSI_Scripts[SCRIPT_GE_YEWS].Defaults.Trees;
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_GE_YEWS].Defaults.Trees;
          end;
        end;
 

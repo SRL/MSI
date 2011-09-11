@@ -152,13 +152,7 @@ begin
       begin
         RunEnergy(20);
         GameTab(TAB_INV);
-
-        with Scripts[CurrentScript] do
-          case (MSI_Scripts[Name].SkillConst) of
-            SKILL_WOODCUTTING: tObjects := Trees;
-            SKILL_MINING: tObjects := Rocks;
-            SKILL_FISHING: tObjects := FishSpots;
-          end;
+        tObjects := MSI_GetPlayerObjects();
 
         if (not MSI_Scripts[Scripts[CurrentScript].Name].ClickClosest) then
           newObjects := MSI_RearrangeArray(tObjects, Scripts[CurrentScript].Priority)
