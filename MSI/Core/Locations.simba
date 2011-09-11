@@ -271,29 +271,31 @@ begin
          atBank := false;
 
          setLength(subLocs, 3);
-         with subLocs[0] do //East tree
+         with subLocs[0] do
          begin
            name := 'Grand Exchange East Yew';
            tileBox := intToBox(3201, 3501, 3208, 3506);
-           compass := 319;
-           camera := false;
-           objects := MSI_Scripts[SCRIPT_GE_YEWS].Defaults.Trees;
+           compass := 320;
          end;
 
-         with subLocs[1] do //Center tree
+         with subLocs[1] do
          begin
            name := 'Grand Exchange Center Yew';
            tileBox := intToBox(3208, 3501, 3214, 3506);
-           compass := 'n';
-           camera := false;
+           compass := 0;
          end;
 
-         with subLocs[2] do //West tree
+         with subLocs[2] do
          begin
            name := 'Grand Exchange West Yew';
            tileBox := intToBox(3218, 3501, 3225, 3508);
            compass := 50;
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
            camera := false;
+           objects := MSI_Scripts[SCRIPT_GE_YEWS].Defaults.Trees;
          end;
        end;
 
@@ -430,7 +432,6 @@ begin
            name := 'Draynor Village Yews West';
            tileBox := intToBox(3149, 3226, 3154, 3233);
            compass := 90;
-           camera := false;
          end;
 
          with subLocs[1] do
@@ -438,15 +439,19 @@ begin
            name := 'Draynor Village Yews Central';
            tileBox := intToBox(3164, 3219, 3168, 3224);
            compass := 170;
-           camera := false;
          end;
 
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
            tileBox := intToBox(3178, 3225, 3183, 3229);
-           compass := 's';
-           camera := false;
+           compass := 180;
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_DB_YEWS].Defaults.Trees;
          end;
        end;
 
@@ -1111,6 +1116,7 @@ begin
          begin
            name := 'Al Kharid Cooking Range';
            tileBox := intToBox(3270, 3178, 3276, 3184);
+           objects := MSI_Scripts[SCRIPT_AK_COOKER].Defaults.Objects;
          end;
        end;
 
