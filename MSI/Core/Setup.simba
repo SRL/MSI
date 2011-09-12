@@ -106,8 +106,8 @@ var
 begin
   MarkTime(Timer);
 
-  MSI_LoadAllLocations;
   MSI_LoadAllScripts;
+  MSI_LoadAllLocations;
   MSI_LoadAllItems;
   MSI_LoadAllSpells;
   MSI_LoadAllExtras;
@@ -149,7 +149,8 @@ begin
   MSI_AddHeader('MSI_CheckHooks');
 
   // try to get updated hooks
-  r_UpdateKill := false;
+  //r_UpdateKill := false;
+  R_ContinueIfOutdated := True;
   setupReflection();
 
   // to check some hooks, player needs to be logged in
@@ -161,7 +162,7 @@ begin
 
   // check to see if the hooks MSI uses are updated
   MSI_HookBroken[HOOK_WALKING] := (smartGetFieldObject(0, hook_static_MyPlayer) <= 0);
-  MSI_HookBroken[HOOK_LEVEL_SKILL] := (smartGetFieldArrayInt(0, hook_static_GetSkillLevels, 0) <= 0);
+  MSI_HookBroken[HOOK_LEVEL_SKILL] := (smartGetFieldArrayInt(0, hook_static_SkillLevels, 0) <= 0);
 
   for i := 0 to high(MSI_HookBroken) do
     if (MSI_HookBroken[i]) then

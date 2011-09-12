@@ -21,8 +21,6 @@ different locations around Runescape.
 
 .. note::
 
-  | FS: Fishing Spot
-  | GS: General Store
   | GE: Grand Exchange
   | VE: Varrock East
   | VW: Varrock West
@@ -30,11 +28,8 @@ different locations around Runescape.
   | FE: Falador East
   | MG: Mining Guild
   | CG: Crafting Guild
-  | DW: Dark Wizards
-  | SO: Stronghold Of *
   | AK: Al Kharid
-  | SW: Spinning Wheel
-  | LB: Lumby
+  | LB: Lumbridge
   | EV: EdgeVille
   | BBV: Barbarian Village
   | DB: Draynor Bank
@@ -42,8 +37,9 @@ different locations around Runescape.
   | PS: Port Sarim
   | SV: Seers Village
   | LSW: Lumbridge Swamp West
+  | LSE: Lumbridge Swamp East
   | KJ: Karamja
-  | CB: Catherby Bank
+  | CB: Catherby
 *)
 
 {==============================================================================\
@@ -92,9 +88,9 @@ Example:
 const
   // Woodcutting
   SCRIPT_POWER_CHOP = 10;
-  SCRIPT_VE_TREES   = 11;
-  SCRIPT_VE_OAKS    = 12;
-  SCRIPT_GE_YEWS    = 13;
+  SCRIPT_VE_OAKS    = 11;
+  SCRIPT_GE_YEWS    = 12;
+  SCRIPT_GE_OAKS    = 13;
   SCRIPT_DB_WILLOWS = 14;
   SCRIPT_DB_TREES   = 15;
   SCRIPT_DB_OAKS    = 16;
@@ -113,37 +109,30 @@ const
 
   // Mining
   SCRIPT_POWER_MINER = 30;
-  SCRIPT_VE_MINER = 31;
-  SCRIPT_VW_MINER = 32;
-  SCRIPT_LSW_MINER = 33;
-  SCRIPT_BBV_MINER = 34;
-  SCRIPT_RM_MINER_NORTH = 35;
-  SCRIPT_RM_MINER_EAST = 36;
-  SCRIPT_RM_MINER_SOUTH = 37;
-  SCRIPT_RM_MINER_WEST = 38;
-  SCRIPT_GUILD_MINER = 39;
-  SCRIPT_DB_CLAY = 40;
-  SCRIPT_FW_MINER = 41;
-  SCRIPT_AK_MINER_SOUTH = 42;
-  SCRIPT_AK_MINER_CENTRAL = 43;
-  SCRIPT_AK_MINER_NORTH = 44;
-  SCRIPT_CG_MINER = 45;
+  SCRIPT_VE_MINER    = 31;
+  SCRIPT_VW_MINER    = 32;
+  SCRIPT_LSW_MINER   = 33;
+  SCRIPT_LSE_MINER   = 34;
+  SCRIPT_BBV_MINER   = 35;
+  SCRIPT_RM_MINER    = 36;
+  SCRIPT_GUILD_MINER = 37;
+  SCRIPT_DB_CLAY     = 38;
+  SCRIPT_FW_MINER    = 39;
+  SCRIPT_AK_MINER    = 40;
+  SCRIPT_CG_MINER    = 41;
 
   // Fishing
-  SCRIPT_POWER_FISHER  = 50;
-  SCRIPT_DB_FISHER     = 51;
-  SCRIPT_BBV_FISHER    = 52;
-  SCRIPT_KJ_NOTER      = 53;
-  SCRIPT_CB_FISHER     = 54;
+  SCRIPT_POWER_FISHER = 50;
+  SCRIPT_DB_FISHER    = 51;
+  SCRIPT_BBV_FISHER   = 52;
+  SCRIPT_KJ_NOTER     = 53;
+  SCRIPT_CB_FISHER    = 54;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
 
   // Magic
   SCRIPT_ALCHER = 80;
-
-  // Fighting
-  SCRIPT_FIGHTER = 90;
 
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
@@ -198,13 +187,13 @@ These constants represent the different paths to files accessed by MSI, such as
 the saved player's information, the debug/report files, and the settings file.
 *)
 const
-  PATH_PLAYER       = IncludePath + 'MSI\Player.txt';                 // Path for all the player information
-  PATH_REMOTE       = IncludePath + 'MSI\Remote.txt';                 // Path for the player remote information
-  PATH_REPORT       = IncludePath + 'MSI\Progress Reports\';          // Path for progress report
-  PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';                // Path for debug
-  PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';               // Path for script settings
-  PATH_FORM_BITMAPS = IncludePath + 'MSI\MSI\Form\Bitmaps\';          // Path to all the form images
-  PATH_EXTRAS       = IncludePath + 'MSI\MSI\Extras\';                // Path to all the extras
+  PATH_PLAYER       = IncludePath + 'MSI\Player.txt';        // Path for all the player information
+  PATH_REMOTE       = IncludePath + 'MSI\Remote.txt';        // Path for the player remote information
+  PATH_REPORT       = IncludePath + 'MSI\Progress Reports\'; // Path for progress report
+  PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';       // Path for debug
+  PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';      // Path for script settings
+  PATH_FORM_BITMAPS = IncludePath + 'MSI\MSI\Form\Bitmaps\'; // Path to all the form images
+  PATH_EXTRAS       = IncludePath + 'MSI\MSI\Extras\';       // Path to all the extras
 
 (*
 Location Constants
@@ -231,7 +220,6 @@ const
 
   // Varrock
     // East
-    LOC_VE_TREES    = 10;
     LOC_VE_OAKS     = 11;
     LOC_VE_BANK     = 12;
     LOC_VE_MINE     = 13;
@@ -245,6 +233,7 @@ const
     // Grand Exchange
     LOC_GE_BANK  = 20;
     LOC_GE_YEWS  = 21;
+    LOC_GE_OAKS  = 22;
 
   // Draynor
   LOC_DB_BANK    = 30;
@@ -257,11 +246,8 @@ const
 
   // Rimmington
   LOC_RM_YEWS    = 40;
-  LOC_RM_MINE_NORTH   = 41;
-  LOC_RM_MINE_EAST    = 42;
-  LOC_RM_MINE_SOUTH   = 43;
-  LOC_RM_MINE_WEST    = 44;
-  LOC_RM_WILLOWS = 45;
+  LOC_RM_MINE    = 41;
+  LOC_RM_WILLOWS = 42;
 
   // Falador
   LOC_FE_BANK    = 50;
@@ -303,9 +289,7 @@ const
   // Al-Kharid
   LOC_AK_BANK   = 120;
   LOC_AK_RANGE  = 121;
-  LOC_AK_MINE_SOUTH   = 122;
-  LOC_AK_MINE_CENTRAL = 123;
-  LOC_AK_MINE_NORTH   = 124;
+  LOC_AK_MINE   = 122;
 
   // Karamja
   LOC_KJ_STILES = 130;
@@ -313,7 +297,7 @@ const
 
   // Catherby
   LOC_CB_BANK = 140;
-  LOC_CB_FISH   = 141;
+  LOC_CB_FISH = 141;
 
   LOC_ARRAY_LENGTH = 141; // Change to the highest location constant
 
@@ -495,15 +479,19 @@ Example:
 *)
 const
   // Trees
+  TREE_DEAD       = 9;
   TREE_NORMAL     = 10;
-  TREE_OAK        = 11;
-  TREE_WILLOW     = 12;
-  TREE_MAPLE      = 13;
-  TREE_YEW        = 14;
-  TREE_MAGIC      = 15;
-  TREE_WILLOW_NEW = 16;
-  TREE_YEW_NEW    = 17;
-  TREE_IVY        = 18;
+  TREE_NORMAL_NEW = 11;
+  TREE_OAK        = 12;
+  TREE_OAK_NEW    = 13;
+  TREE_WILLOW     = 14;
+  TREE_WILLOW_NEW = 15;
+  TREE_MAPLE      = 16;
+  TREE_MAPLE_NEW  = 17;
+  TREE_YEW        = 18;
+  TREE_YEW_NEW    = 19;
+  TREE_MAGIC      = 20;
+  TREE_IVY        = 21;
 
   // Rocks
   ROCK_CLAY       = 20;
@@ -667,12 +655,9 @@ Example:
 *)
 const
   ANIM_IDLE      = 0;
-
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
-  ANIM_TELE_HOME = 12;
-
-  ANIM_CHOPPING  = 21;
+  ANIM_CHOPPING  = 12;
 
 (*
 Material Constants
@@ -930,11 +915,6 @@ type
     StaffType : TStaffType;
     AlchSlots : TIntegerArray;
 
-    // Fighting
-    Monsters     : TIntegerArray;
-    Loot         : TIntegerArray; // Monster drops the user wants to collect
-    RunDirection : String;        // Run direction if low in health
-
     // Cooking
     CookingSpot : TIntegerArray;
 
@@ -1083,6 +1063,7 @@ type
     tileBox, spsBox: TBox;
     compass: variant;
     camera: boolean;
+    objects: TIntegerArray;
   end;
   TSubLocArray = array of TSubLoc;
 
@@ -1189,8 +1170,30 @@ var
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
 
+(*
+MSI_GetCurrentScript
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetCurrentScript(): TScript;
+
+Returns a TScript record of the current player's current script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Sept 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  scr := MSI_GetCurrentScript();
+*)
 function MSI_GetCurrentScript(): TScript;
 begin
-  result := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
+  with MSI_Players[CurrentPlayer] do
+    result := MSI_Scripts[Scripts[CurrentScript].Name];
 end;
 

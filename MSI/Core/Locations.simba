@@ -52,31 +52,38 @@ begin
          atBank := false;
        end;
 
-     LOC_VE_TREES:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Varrock East Trees';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
-         begin
-           name := 'Varrock East Trees';
-           tileBox := intToBox(3271, 3439, 3282, 3458);
-         end;
-       end;
-
      LOC_VE_OAKS:
        with MSI_Locations[loc] do
        begin
          name := 'Varrock East Oaks';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 3);
          with subLocs[0] do
          begin
-           name := 'Varrock East Oaks';
-           tileBox := intToBox(3278, 3422, 3278, 3434);
+           name := 'Varrock East Oak North';
+           tileBox := intToBox(3279, 3422, 3284, 3428);
+           compass := randomRange(75, 360);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Varrock East Oak Central';
+           tileBox := intToBox(3280, 3415, 3286, 3420);
+           compass := randomRange(260, 315);
+         end;
+
+         with subLocs[2] do
+         begin
+           name := 'Varrock East Oak South';
+           tileBox := intToBox(3276, 3411, 3281, 3416);
+           compass := randomRange(165, 195);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_VE_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -90,7 +97,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Bank';
-           tileBox := intToBox(3251, 3420, 3258, 3424);
+           tileBox := intToBox(3251, 3418, 3256, 3423);
          end;
 
          with deathPath do
@@ -124,7 +131,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Mine';
-           tileBox := intToBox(3279, 3360, 3297, 3373);
+           tileBox := intToBox(3279, 3360, 3292, 3372);
+           objects := MSI_Scripts[SCRIPT_VE_MINER].Defaults.Rocks;
          end;
        end;
 
@@ -138,7 +146,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Fountain';
-           tileBox := intToBox(3234, 3431, 3244, 3439);
+           tileBox := intToBox(3235, 3431, 3242, 3438);
+           objects := [FOUNTAIN_VE];
          end;
        end;
 
@@ -152,7 +161,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Bank';
-           tileBox := intToBox(3182, 3433, 3188, 3447);
+           tileBox := intToBox(3182, 3433, 3190, 3445);
          end;
 
          with deathPath do
@@ -187,13 +196,32 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Mine North';
-           tileBox := intToBox(3178, 3382, 3185, 3396);
+           tileBox := intToBox(3180, 3370, 3186, 3380);
+           objects := [ROCK_TIN, ROCK_CLAY, ROCK_IRON];
          end;
 
          with subLocs[1] do
          begin
            name := 'Varrock West Mine South';
-           tileBox := intToBox(3171, 3364, 3179, 3371);
+           tileBox := intToBox(3172, 3362, 3180, 3372);
+           objects := [ROCK_TIN, ROCK_SILVER]
+         end;
+       end;
+
+     LOC_GE_OAKS:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Grand Exchange Oaks';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Grand Exchange Oaks';
+           tileBox := intToBox(3191, 3458, 3195, 3465);
+           compass := randomRange(205, 315);
+           camera := false;
+           objects := MSI_Scripts[SCRIPT_GE_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -208,7 +236,7 @@ begin
          begin
            name := 'Grand Exchange Bank';
            tileBox := intToBox(3173, 3475, 3181, 3482);
-           compass := 90;
+           compass := randomRange(75, 105);
            camera := false;
          end;
 
@@ -249,6 +277,7 @@ begin
            tileBox := intToBox(3201, 3501, 3208, 3506);
            compass := 319;
            camera := false;
+           objects := MSI_Scripts[SCRIPT_GE_YEWS].Defaults.Trees;
          end;
 
          with subLocs[1] do //Center tree
@@ -278,7 +307,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Bank';
-           tileBox := intToBox(3092, 3239, 3095, 3245);
+           tileBox := intToBox(3090, 3240, 3095, 3246);
          end;
 
          with deathPath do
@@ -309,7 +338,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Willows';
-           tileBox := intToBox(3082, 3225, 3090, 3238);
+           tileBox := intToBox(3084, 3225, 3090, 3238);
+           objects := MSI_Scripts[SCRIPT_DB_WILLOWS].Defaults.Trees;
          end;
        end;
 
@@ -323,7 +353,10 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Trees';
-           tileBox := intToBox(3075, 3263, 3088, 3285);
+           tileBox := intToBox(3075, 3265, 3085, 3275);
+           objects := MSI_Scripts[SCRIPT_DB_TREES].Defaults.Trees;
+           compass := 180;
+           camera := false;
          end;
        end;
 
@@ -333,11 +366,25 @@ begin
          name := 'Draynor Village Oaks';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Draynor Village Oaks';
-           tileBox := intToBox(3098, 3239, 3103, 3253);
+           name := 'Draynor Village Oaks West';
+           tileBox := intToBox(3099, 3239, 3103, 3245);
+           compass := randomRange(270, 360);
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Draynor Village Oaks East';
+           tileBox := intToBox(3105, 3243, 3109, 3247);
+           compass := randomRange(260, 350);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_DB_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -351,7 +398,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Fishing Spots';
-           tileBox := intToBox(3084, 3220, 3089, 3233);
+           tileBox := intToBox(3084, 3223, 3089, 3233);
+           objects := MSI_Scripts[SCRIPT_DB_FISHER].Defaults.FishSpots;
          end;
        end;
 
@@ -365,7 +413,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Clay Mine';
-           tileBox := intToBox(3137, 3322, 3145, 3313);
+           tileBox := intToBox(3138, 3314, 3145, 3321);
+           objects := MSI_Scripts[SCRIPT_DB_CLAY].Defaults.Rocks;
          end;
        end;
 
@@ -407,79 +456,75 @@ begin
          name := 'Rimmington Yews';
          atBank := false;
 
-         setLength(subLocs, 3);
+         setLength(subLocs, 4);
          with subLocs[0] do
          begin
            name := 'Rimmington Yews East';
-           tileBox := intToBox(2937, 3229, 2942, 3234);
+           tileBox := intToBox(2937, 3230, 2942, 3236);
+           compass := randomRange(280, 360);
          end;
 
          with subLocs[1] do
          begin
            name := 'Rimmington Yews Central';
-           tileBox := intToBox(2931, 3224, 2936, 3230);
+           tileBox := intToBox(2931, 3231, 2937, 3237);
+           compass := randomRange(60, 225);
          end;
 
          with subLocs[2] do
          begin
            name := 'Rimmington Yews West';
            tileBox := intToBox(2926, 3226, 2931, 3231);
+           compass := randomRange(0, 55);
+         end;
+
+         with subLocs[3] do
+         begin
+           name := 'Rimmington Yews South';
+           tileBox := intToBox(2933, 3225, 2938, 3230);
+           compass := randomRange(280, 360);
+         end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := [TREE_YEW_NEW];
          end;
        end;
 
-     LOC_RM_MINE_NORTH:
+     LOC_RM_MINE:
        with MSI_Locations[loc] do
        begin
-         name := 'Rimmington North Mine';
+         name := 'Rimmington Mine';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 4);
          with subLocs[0] do
          begin
-           name := 'Rimmington North Mine';
-           tileBox := intToBox(2981, 3243, 2975, 3249);
+           name := 'Rimmington Mine North';
+           tileBox := intToBox(2975, 3244, 2981, 3248);
+           objects := [ROCK_COPPER];
          end;
-       end;
 
-     LOC_RM_MINE_EAST:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Rimmington East Mine';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[1] do
          begin
-           name := 'Rimmington East Mine';
-           tileBox := intToBox(2984, 3234, 2988, 3240);
+           name := 'Rimmington Mine East';
+           tileBox := intToBox(2983, 3233, 2988, 3241);
+           objects := [ROCK_CLAY, ROCK_TIN];
          end;
-       end;
 
-     LOC_RM_MINE_SOUTH:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Rimmington South Mine';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[2] do
          begin
-           name := 'Rimmington South Mine';
-           tileBox := intToBox(2980, 3231, 2984, 3235);
+           name := 'Rimmington Mine South';
+           tileBox := intToBox(2976, 3231, 2981, 3236);
+           objects := [ROCK_IRON, ROCK_GOLD]
          end;
-       end;
 
-     LOC_RM_MINE_WEST:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Rimmington West Mine';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[3] do
          begin
-           name := 'Rimmington West Mine';
-           tileBox := intToBox(2966, 3235, 2973, 3243);
+           name := 'Rimmington Mine West';
+           tileBox := intToBox(2968, 3235, 2973, 3243);
+           objects := [ROCK_IRON];
          end;
        end;
 
@@ -489,7 +534,13 @@ begin
          name := 'Rimmington Willows';
          atBank := false;
 
-         setLength(subLocs, 0);
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Rimmington Willows';
+           tileBox := intToBox(2996, 3160, 3006, 3169);
+           objects := [TREE_WILLOW_NEW];
+         end;
        end;
 
      LOC_FE_BANK:
@@ -538,7 +589,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador West Bank';
-           tileBox := intToBox(2948, 3367, 2944, 3370);
+           tileBox := intToBox(2943, 3366, 2950, 3371);
          end;
 
          with deathPath do
@@ -596,6 +647,7 @@ begin
          begin
            name := 'Falador WaterPump';
            tileBox := intToBox(2946, 3380, 2950, 3385);
+           objects := MSI_Scripts[SCRIPT_FW_FILLER].Defaults.Objects;
          end;
        end;
 
@@ -617,8 +669,11 @@ begin
          with subLocs[1] do
          begin
            name := 'Port Sarim Willows North';
-           tileBox := intToBox(3056, 3256, 3066, 3264);
+           tileBox := intToBox(3060, 3254, 3066, 3263);
          end;
+
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := [TREE_WILLOW_NEW];
        end;
 
      LOC_PS_YEWS:
@@ -643,6 +698,13 @@ begin
            compass := 180;
            camera := false;
          end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].compass := randomRange(135, 190);
+           subLocs[i].objects := MSI_Scripts[SCRIPT_PS_YEWS].Defaults.Trees;
+         end;
        end;
 
      LOC_PS_DBOX:
@@ -655,7 +717,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Deposit Box';
-           tileBox := intToBox(3043, 3234, 3049, 3238);
+           tileBox := intToBox(3043, 3234, 3052, 3238);
          end;
 
          with deathPath do
@@ -690,7 +752,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp West Mine';
-           tileBox := intToBox(3143, 3140, 3152, 3153);
+           tileBox := intToBox(3143, 3142, 3150, 3150);
+           objects := MSI_Scripts[SCRIPT_LSW_MINER].Defaults.Rocks;
          end;
        end;
 
@@ -704,7 +767,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp East Mine';
-           tileBox := intToBox(3221, 3141, 3233, 3150);
+           tileBox := intToBox(3223, 3144, 3233, 3151);
+           objects := MSI_Scripts[SCRIPT_LSE_MINER].Defaults.Rocks;
          end;
        end;
 
@@ -718,7 +782,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Courtyard';
-           tileBox := intToBox(3219, 3213, 3224, 3222);
+           tileBox := intToBox(3216, 3210, 3227, 3225);
          end;
        end;
 
@@ -786,6 +850,12 @@ begin
            compass := 180;
            camera := false;
          end;
+
+         for i := 0 to high(subLocs) do
+         begin
+           subLocs[i].camera := false;
+           subLocs[i].objects := MSI_Scripts[SCRIPT_EV_YEWS].Defaults.Trees;
+         end;
        end;
 
      LOC_EV_WELL:
@@ -798,7 +868,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Well';
-           tileBox := intToBox(3080, 3500, 3087, 3506);
+           tileBox := intToBox(3081, 3498, 3087, 3503);
+           objects := MSI_Scripts[SCRIPT_EV_SOFTENER].Defaults.Objects;
          end;
        end;
 
@@ -812,28 +883,32 @@ begin
          with subLocs[0] do
          begin
            name := 'Barbarian Village Mine';
-           tileBox := intToBox(3077, 3418, 3085, 3425);
+           tileBox := intToBox(3077, 3417, 3086, 3425);
+           objects := MSI_Scripts[SCRIPT_BBV_MINER].Defaults.Rocks;
          end;
        end;
 
      LOC_BBV_FISH:
        with MSI_Locations[loc] do
        begin
-         name := 'Barbarian Village Fishing Spot';
+         name := 'Barbarian Village Fishing Spots';
          atBank := false;
 
          setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Barbarian Village Fishing Spot North';
-           tileBox := intToBox(3106, 3431, 3110, 3437);
+           name := 'Barbarian Fishing North';
+           tileBox := intToBox(3106, 3429, 3110, 3437);
          end;
 
          with subLocs[1] do
          begin
-           name := 'Barbarian Village Fishing Spot South';
+           name := 'Barbarian Fishing South';
            tileBox := intToBox(3101, 3423, 3104, 3428);
          end;
+
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_BBV_FISHER].Defaults.FishSpots;
        end;
 
      LOC_SV_MAGICS:
@@ -846,7 +921,7 @@ begin
          with subLocs[0] do //East trees
          begin
            name := 'Seers Village East Magic Trees';
-           tileBox := intToBox(2695, 3395, 2699, 3403);
+           tileBox := intToBox(2695, 3395, 2701, 3403);
          end;
 
          with subLocs[1] do //West trees
@@ -854,6 +929,8 @@ begin
            name := 'Seers Village West Magic Trees';
            tileBox := intToBox(2701, 3394, 2705, 3402);
          end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_SV_MAGICS].Defaults.Trees;
        end;
 
      LOC_SV_OAKS:
@@ -867,6 +944,7 @@ begin
          begin
            name := 'Seers Village Oak Trees';
            tileBox := intToBox(2715, 3478, 2722, 3486);
+           objects := MSI_Scripts[SCRIPT_SV_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -881,6 +959,7 @@ begin
          begin
            name := 'Seers Village Trees';
            tileBox := intToBox(2707, 3435, 2729, 3455);
+           objects := MSI_Scripts[SCRIPT_SV_TREES].Defaults.Trees;
          end;
        end;
 
@@ -894,7 +973,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Seers Village Bank';
-           tileBox := intToBox(2719, 3489, 2729, 3495);
+           tileBox := intToBox(2719, 3491, 2729, 3496);
          end;
 
          with deathPath do
@@ -916,12 +995,21 @@ begin
          name := 'Seers Village Maples';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Seers Village Maples';
-           tileBox := intToBox(2717, 3499, 2733, 3507);
+           name := 'Seers Village West Maples';
+           tileBox := intToBox(2717, 3499, 2727, 3506);
+           objects := MSI_Scripts[SCRIPT_SV_MAPLES].Defaults.Trees;
          end;
+
+         with subLocs[1] do
+         begin
+           name := 'Seers Village East Maples';
+           tileBox := intToBox(2728, 3500, 2733, 3505);
+         end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_SV_MAPLES].Defaults.Trees;
        end;
 
      LOC_SV_YEWS:
@@ -942,6 +1030,8 @@ begin
            name := 'Seers Village West Yews';
            tileBox := intToBox(2702, 3458, 2706, 3469);
          end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_SV_YEWS].Defaults.Trees;
        end;
 
      LOC_GUILD_MINE:
@@ -950,11 +1040,26 @@ begin
          name := 'Mining Guild';
          atBank := false;
 
-         setLength(subLocs, 1);
-         with subLocs[0] do //Ladders
+         setLength(subLocs, 3);
+         with subLocs[0] do
          begin
-           name := 'Mining Guild: Ladders';
-           tileBox := intToBox(3014, 3336, 3022, 3342);
+           name := 'Mining Guild West';
+           tileBox := intToBox(3016, 9736, 3025, 9743);
+           objects := [ROCK_COAL];
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Mining Guild Central';
+           tileBox := intToBox(3027, 9731, 3041, 9743);
+           objects := [ROCK_COAL];
+         end;
+
+         with subLocs[1] do
+         begin
+           name := 'Mining Guild East';
+           tileBox := intToBox(3042, 9732, 3054, 9745);
+           objects := [ROCK_COAL, ROCK_MITHRIL];
          end;
        end;
 
@@ -964,17 +1069,30 @@ begin
          name := 'Crafting Guild Mine';
          atBank := false;
 
-         setLength(subLocs, 2);
+         setLength(subLocs, 3);
          with subLocs[0] do
          begin
-           name := 'Crafting Guild Mine South';
-           tileBox := intToBox(2937, 3276, 2942, 3281);
+           name := 'Crafting Guild Gold';
+           tileBox := intToBox(2938, 3276, 2943, 3282);
+           compass := randomRange(60, 190);
+           camera := true;
+           objects := [ROCK_GOLD];
          end;
 
          with subLocs[1] do
          begin
-           name := 'Crafting Guild Mine North';
-           tileBox := intToBox(2939, 3285, 2942, 3290);
+           name := 'Crafting Guild Clay';
+           tileBox := intToBox(2938, 3282, 2943, 3285);
+           objects := [ROCK_CLAY];
+         end;
+
+         with subLocs[2] do
+         begin
+           name := 'Crafting Guild Silver';
+           tileBox := intToBox(2939, 3285, 2943, 3291);
+           compass := randomRange(315, 360);
+           camera := true;
+           objects := [ROCK_SILVER];
          end;
        end;
 
@@ -1021,45 +1139,33 @@ begin
          end;
        end;
 
-     LOC_AK_MINE_SOUTH:
+     LOC_AK_MINE:
        with MSI_Locations[loc] do
        begin
-         name := 'Al Kharid Mine South';
+         name := 'Al Kharid Mine';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 3);
          with subLocs[0] do
          begin
            name := 'Al Kharid Mine South';
            tileBox := intToBox(3295, 3284, 3302, 3290);
+           objects := [ROCK_GOLD, ROCK_IRON];
          end;
-       end;
 
-     LOC_AK_MINE_CENTRAL:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Al Kharid Mine Central';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[1] do
          begin
            name := 'Al Kharid Mine Central';
            tileBox := intToBox(3293, 3296, 3303, 3307);
+           objects := [ROCK_SILVER, ROCK_MITHRIL, ROCK_IRON, ROCK_COAL];
          end;
-       end;
 
-     LOC_AK_MINE_NORTH:
-       with MSI_Locations[loc] do
-       begin
-         name := 'Al Kharid Mine North';
-         atBank := false;
-
-         setLength(subLocs, 1);
-         with subLocs[0] do
+         with subLocs[2] do
          begin
            name := 'Al Kharid Mine North';
            tileBox := intToBox(3297, 3308, 3305, 3318);
+           objects := [ROCK_SILVER, ROCK_MITHRIL, ROCK_IRON, ROCK_TIN,
+                       ROCK_ADAMANTITE, ROCK_COPPER];
          end;
        end;
 
@@ -1073,7 +1179,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Stiles On Karamja';
-           tileBox := intToBox(2849, 3138, 2852, 3143);
+           tileBox := intToBox(2849, 3140, 2853, 3145);
          end;
        end;
 
@@ -1087,7 +1193,8 @@ begin
          with subLocs[0] do
          begin
            name := 'Karamja Fishing Spot';
-           tileBox := intToBox(2922, 3172, 2925, 3179);
+           tileBox := intToBox(2922, 3173, 2927, 3180);
+           objects := MSI_Scripts[SCRIPT_KJ_NOTER].Defaults.FishSpots;
          end;
        end;
 
@@ -1147,6 +1254,8 @@ begin
            name := 'Catherby West Fishing Spot';
            tileBox := intToBox(2856, 3424, 2861, 3430);
          end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_CB_FISHER].Defaults.FishSpots;
        end;
   end;
 
@@ -1158,7 +1267,8 @@ begin
     begin
       subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
 
-      if (subLocs[i].compass = null) then
+      // if compass isn't set, set to default
+      if (varType(subLocs[i].compass) = 0) then
       begin
         subLocs[i].compass := 0;
         subLocs[i].camera := true;
@@ -1200,7 +1310,7 @@ MSI_SetPlayerLoc
 
 .. code-block:: pascal
 
-  procedure MSI_SetPlayerLoc();
+  function MSI_SetPlayerLoc(): boolean;
 
 Set's the player's location.  Checks the script's starting and ending locations.
 If the player isn't at either, it won't set the player's location.
@@ -1208,7 +1318,7 @@ If the player isn't at either, it won't set the player's location.
 .. note::
 
   | Author: NCDS
-  | Last Updated: 06 July 2011 by NCDS
+  | Last Updated: 06 September 2011 by Coh3n
 
 Example:
 
@@ -1216,7 +1326,7 @@ Example:
 
   MSI_SetPlayerLoc();
 *)
-procedure MSI_SetPlayerLoc();
+function MSI_SetPlayerLoc(): boolean;
 var
   i: Integer;
   locArr: TIntegerArray;
@@ -1236,13 +1346,20 @@ begin
     if (MSI_AtLocation(locArr[i], false)) then
     begin
       MSI_Players[CurrentPlayer].location := locArr[i];
-      MSI_Debug('Player''s location: '+MSI_Locations[locArr[i]].name);
+      result := true;
       break;
     end else
       if (i = 1) then
         if (not MSI_WalkPath(script.pathInfo, (invCount < 15))) then
-          MSI_DeathWalk();
+          result := MSI_DeathWalk()
+        else
+          result := true;
 
-  MSI_CloseHeader('MSI_SetPlayerLoc: Done');
+  if (result) then
+    MSI_Debug('Player''s location: '+MSI_Locations[MSI_Players[CurrentPlayer].location].name)
+  else
+    MSI_Debug('Failed to get player''s location');
+
+  MSI_CloseHeader('MSI_SetPlayerLoc: '+boolToStr(result));
 end;
 

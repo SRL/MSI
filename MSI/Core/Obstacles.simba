@@ -231,7 +231,7 @@ begin
   {$IFDEF REFLECTION}
   if (not MSI_HookBroken[HOOK_WALKING]) then
   begin
-    mPos := getMyPos();
+    mPos := r_getMyPos();
     h := high(obs.endTiles);
 
     // loop through end tiles comparing to player's current tile
@@ -373,7 +373,7 @@ begin
       {$IFDEF REFLECTION}
       if (not MSI_HookBroken[HOOK_WALKING]) then
         for i := 0 to high(obs.endTiles) do
-          if (walkToTile(obs.endTiles[i], 0, 0)) then
+          if (r_walkToTile(obs.endTiles[i], 0, 0)) then
           begin
             MSI_Debug('Clicked obstacle''s tile');
             wait(randomRange(500, 1000));

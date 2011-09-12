@@ -34,8 +34,7 @@ Example:
 *)
 function MSI_FishingTools(Obj: Integer): TIntegerArray;
 var
-  tabs: TIntegerArray;
-  i, j, x, y: Integer;
+  i, x, y: Integer;
 begin
   case (Obj) of
     FISHSPOT_NET:
