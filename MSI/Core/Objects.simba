@@ -144,16 +144,16 @@ begin
         Uptexts            := ['Oak'];
         Options            := ['own Oak'];
         Level              := 15;
-        Colors             := [2837349];
-        Tol                := 8;
-        Hue                := 0.03;
-        Sat                := 0.18;
+        Colors             := [1583672];
+        Tol                := 5;
+        Hue                := 0.13;
+        Sat                := 0.28;
         FindAllColors      := False;
-        W                  := 50;
-        H                  := 70;
-        Accuracy           := 70;
+        W                  := 60;
+        H                  := 90;
+        Accuracy           := 100;
         SearchArea         := MSBox;
-        ExcludeSelf        := True;
+        ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
@@ -264,16 +264,16 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [4609121];
-        Tol                := 3;
-        Hue                := 0.45;
-        Sat                := 3.35;
+        Colors             := [3094334];
+        Tol                := 10;
+        Hue                := 0.22;
+        Sat                := 0.19;
         FindAllColors      := False;
-        W                  := 50;
-        H                  := 70;
-        Accuracy           := 40;
+        W                  := 60;
+        H                  := 90;
+        Accuracy           := 70;
         SearchArea         := MSBox;
-        ExcludeSelf        := True;
+        ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
@@ -379,15 +379,15 @@ begin
         Name               := 'BANK_GRAND_EXCHANGE';
         Uptexts            := ['anker'];
         Options            := ['ank Banker'];
-        Colors             := [5800630];
-        Tol                := 12;
-        Hue                := 0.02;
-        Sat                := 0.97;
-        FindAllColors      := False;
-        W                  := 10;
-        H                  := 10;
-        Accuracy           := 15;
-        SearchArea         := MSBox
+        Colors             := [9145233, 6381925, 2039584, 2434342, 5132114, 4737099];
+        Tol                := 10;
+        Hue                := 0.19;
+        Sat                := 0.05;
+        FindAllColors      := True;
+        W                  := 20;
+        H                  := 60;
+        Accuracy           := 20;
+        SearchArea         := IntToBox(MSX1, MSY1, MSX2, MSCY);
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := True;
@@ -1293,10 +1293,7 @@ begin
       if (length(MSI_NotBoxes) > 0) then
         for j := 0 to high(MSI_NotBoxes) do
           if (pointInBox(TPA[i], MSI_NotBoxes[j])) then
-          begin
-            MSI_Debug('Point in bad box');
             badPoint := true;
-          end;
 
     // checks to see if the point is on the player
     if (not badPoint) then
@@ -1498,7 +1495,7 @@ begin
   if (not loggedIn) then
     exit;
 
-  script := MSI_GetCurrentScript();
+  script := MSI_Players[CurrentPlayer].GetScript();
 
   for i := 0 to high(objs) do
   begin

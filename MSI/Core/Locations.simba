@@ -219,7 +219,7 @@ begin
          begin
            name := 'Grand Exchange Oaks';
            tileBox := intToBox(3191, 3458, 3195, 3465);
-           compass := randomRange(205, 315);
+           compass := randomRange(260, 290);
            camera := false;
            objects := MSI_Scripts[SCRIPT_GE_OAKS].Defaults.Trees;
          end;
@@ -270,26 +270,19 @@ begin
          name := 'Grand Exchange Yews';
          atBank := false;
 
-         setLength(subLocs, 3);
+         setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Grand Exchange East Yew';
-           tileBox := intToBox(3201, 3501, 3208, 3506);
-           compass := 320;
+           name := 'Grand Exchange Yews West';
+           tileBox := intToBox(3218, 3501, 3225, 3508);
+           compass := randomRange(305, 360);
          end;
 
          with subLocs[1] do
          begin
-           name := 'Grand Exchange Center Yew';
-           tileBox := intToBox(3208, 3501, 3214, 3506);
-           compass := 0;
-         end;
-
-         with subLocs[2] do
-         begin
-           name := 'Grand Exchange West Yew';
-           tileBox := intToBox(3218, 3501, 3225, 3508);
-           compass := 50;
+           name := 'Grand Exchange Yews East';
+           tileBox := intToBox(3204, 3501, 3211, 3506);
+           compass := 320;
          end;
 
          for i := 0 to high(subLocs) do
@@ -357,8 +350,6 @@ begin
            name := 'Draynor Village Trees';
            tileBox := intToBox(3075, 3265, 3085, 3275);
            objects := MSI_Scripts[SCRIPT_DB_TREES].Defaults.Trees;
-           compass := 180;
-           camera := false;
          end;
        end;
 
@@ -373,7 +364,7 @@ begin
          begin
            name := 'Draynor Village Oaks West';
            tileBox := intToBox(3099, 3239, 3103, 3245);
-           compass := randomRange(270, 360);
+           compass := randomRange(300, 360);
          end;
 
          with subLocs[1] do
@@ -480,7 +471,7 @@ begin
          begin
            name := 'Rimmington Yews West';
            tileBox := intToBox(2926, 3226, 2931, 3231);
-           compass := randomRange(0, 55);
+           compass := randomRange(20, 55);
          end;
 
          with subLocs[3] do
@@ -690,18 +681,19 @@ begin
          begin
            name := 'Port Sarim Yews East';
            tileBox := intToBox(3050, 3268, 3054, 3274);
+           compass := 280;
          end;
 
          with subLocs[1] do
          begin
            name := 'Port Sarim Yews West';
            tileBox := intToBox(3041, 3269, 3046, 3274);
+           compass := 80;
          end;
 
          for i := 0 to high(subLocs) do
          begin
            subLocs[i].camera := false;
-           subLocs[i].compass := randomRange(135, 190);
            subLocs[i].objects := MSI_Scripts[SCRIPT_PS_YEWS].Defaults.Trees;
          end;
        end;
@@ -834,16 +826,16 @@ begin
          setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Edgeville Yews North';
+           name := 'Edgeville Yews South';
            tileBox := intToBox(3089, 3470, 3086, 3473);
-           compass := 0;
+           compass := randomRange(170, 190);
          end;
 
          with subLocs[1] do
          begin
-           name := 'Edgeville Yews South';
+           name := 'Edgeville Yews North';
            tileBox := intToBox(3085, 3477, 3088, 3480);
-           compass := randomRange(170, 190);
+           compass := 0;
          end;
 
          for i := 0 to high(subLocs) do

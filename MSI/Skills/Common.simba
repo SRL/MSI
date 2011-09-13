@@ -143,8 +143,7 @@ begin
   if (not loggedIn) then
     exit;
 
-  maxTime := (getSystemTime + (60 * 60000)) // 60 minutes
-  t := maxTime;
+  markTime(t);
 
   repeat
     while (not InvFull) and (LoggedIn) do
@@ -206,7 +205,7 @@ begin
           begin
             inc(timesRelocated);
 
-            if (timesRelocated = (length(MSI_Locations[Location].subLocs) - 1)) then
+            if (timesRelocated = high(MSI_Locations[Location].subLocs)) then
             begin
               tTime := randomRange(60000, 120000); // Random 1-2 minutes
               MSI_SubDebug('Waiting ' + intToStr(tTime) + ' ms before relocating again');
@@ -219,15 +218,18 @@ begin
           end else
             Exit;
 
-          if ((t - getSystemTime) > (10 * 60000)) then
+          if (timeFromMark(t) > (10 * 60000)) then
+          begin
+            markTime(t);
             MSI_NotBoxes := [];
+          end;
         end;
 
         Wait(RandomRange(300, 800));
       end;
 
     result := (invFull) or (pos('h inventor', getBlackChatMessage) <> 0);
-  until(Result or (GetSystemTime > t) or (not LoggedIn));
+  until(Result or (not LoggedIn));
 end;
 
 

@@ -364,7 +364,7 @@ begin
 
     with MSI_Locations[Loc] do
     begin
-      // check to see if player's in the last box, if no, invert the boxes
+      // check to see if player's in the last box, if so, invert the boxes
       cP := MSI_Players[CurrentPlayer].CurrentPoint;
       hSubLoc := high(subLocs);
 

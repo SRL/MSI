@@ -39,7 +39,7 @@ begin
   if (not loggedIn) then
     exit;
 
-  script := MSI_GetCurrentScript();
+  script := MSI_Players[CurrentPlayer].GetScript();
   if (script.skillConst = SKILL_NONE) then
     exit;
 

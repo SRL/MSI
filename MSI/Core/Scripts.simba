@@ -114,7 +114,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_OAK];
+        Defaults.Trees := [TREE_OAK_NEW];
 
         with PathInfo do
         begin
@@ -365,6 +365,7 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
@@ -561,6 +562,7 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_EV;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
@@ -592,11 +594,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_YEW];
+        Defaults.Trees := [TREE_YEW_NEW];
 
         with PathInfo do
         begin
@@ -1453,4 +1456,31 @@ var
 begin
   for i := 0 to High(MSI_Scripts) do
     MSI_LoadScript(i);
+end;
+
+(*
+MSI_GetPlayerScript
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetPlayerScript(): TScript;
+
+Returns a TScript record of the current player's current script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Sept 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  scr := MSI_GetCurrentScript();
+*)
+function MSI_GetPlayerScript(): TScript;
+begin
+  with MSI_Players[CurrentPlayer] do
+    result := MSI_Scripts[Scripts[CurrentScript].Name];
 end;
