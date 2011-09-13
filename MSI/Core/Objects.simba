@@ -1259,8 +1259,8 @@ begin
 
   // draw points on SMART if setting enabled
   {$IFDEF SMART}
-    if (MSI_Settings[SETUP_DEBUG_SMART]) then
-      drawDotsMulti(true, ATPA);
+  if (MSI_Settings[SETUP_DEBUG_SMART]) then
+    drawDotsMulti(true, ATPA);
   {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point
@@ -1326,9 +1326,9 @@ begin
     result := true;
 
     {$IFDEF SMART}
-      for i := 0 to high(points) do
-        if (MSI_Settings[SETUP_DEBUG_SMART]) then
-          SMART_DrawBoxMS((i = 0), MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
+    for i := 0 to high(points) do
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxMS((i = 0), MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
     {$ENDIF}
 
     MSI_Debug('Points found: ' + intToStr(length(points)));
