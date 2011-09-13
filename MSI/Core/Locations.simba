@@ -827,14 +827,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Yews South';
-           tileBox := intToBox(3089, 3470, 3086, 3473);
+           tileBox := intToBox(3085, 3469, 3089, 3474);
            compass := randomRange(170, 190);
          end;
 
          with subLocs[1] do
          begin
            name := 'Edgeville Yews North';
-           tileBox := intToBox(3085, 3477, 3088, 3480);
+           tileBox := intToBox(3085, 3476, 3089, 3480);
            compass := 0;
          end;
 
