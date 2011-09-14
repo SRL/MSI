@@ -623,12 +623,14 @@ begin
          begin
            name := 'Falador West Mine North';
            tileBox := intToBox(2907, 3361, 2911, 3369);
+           objects := [ROCK_COAL, ROCK_COPPER];
          end;
 
          with subLocs[1] do
          begin
            name := 'Falador West Mine South';
            tileBox := intToBox(2901, 3352, 2907, 3362);
+           objects := [ROCK_TIN, ROCK_IRON];
          end;
        end;
 
@@ -920,6 +922,7 @@ begin
            name := 'Seers Village West Magic Trees';
            tileBox := intToBox(2701, 3394, 2705, 3402);
          end;
+
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_SV_MAGICS].Defaults.Trees;
        end;
@@ -999,6 +1002,7 @@ begin
            name := 'Seers Village East Maples';
            tileBox := intToBox(2728, 3500, 2733, 3505);
          end;
+
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_SV_MAPLES].Defaults.Trees;
        end;
@@ -1021,6 +1025,7 @@ begin
            name := 'Seers Village West Yews';
            tileBox := intToBox(2702, 3458, 2706, 3469);
          end;
+
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_SV_YEWS].Defaults.Trees;
        end;
@@ -1046,7 +1051,7 @@ begin
            objects := [ROCK_COAL];
          end;
 
-         with subLocs[1] do
+         with subLocs[2] do
          begin
            name := 'Mining Guild East';
            tileBox := intToBox(3042, 9732, 3054, 9745);
@@ -1127,7 +1132,7 @@ begin
          begin
            name := 'Al Kharid Cooking Range';
            tileBox := intToBox(3270, 3178, 3276, 3184);
-           objects := MSI_Scripts[SCRIPT_AK_COOKER].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_AK_COOKER].Defaults.CookingSpot;
          end;
        end;
 
@@ -1223,29 +1228,30 @@ begin
          atBank := false;
 
          setLength(subLocs, 4);
-         with subLocs[0] do //East spot
+         with subLocs[0] do
          begin
            name := 'Catherby East Fishing Spot';
            tileBox := intToBox(2832, 3429, 2839, 3434);
          end;
 
-         with subLocs[1] do //East/Central Spot
+         with subLocs[1] do
          begin
            name := 'Catherby East/Central Fishing Spot';
            tileBox := intToBox(2841, 3426, 2847, 3433);
          end;
 
-         with subLocs[2] do //West/Central Spot
+         with subLocs[2] do
          begin
            name := 'Catherby West/Central Fishing Spot';
            tileBox := intToBox(2849, 3421, 2855, 3427);
          end;
 
-         with subLocs[3] do //West Spot
+         with subLocs[3] do
          begin
            name := 'Catherby West Fishing Spot';
            tileBox := intToBox(2856, 3424, 2861, 3430);
          end;
+
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_CB_FISHER].Defaults.FishSpots;
        end;
