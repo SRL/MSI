@@ -110,6 +110,7 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_GE;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
