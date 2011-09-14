@@ -661,7 +661,6 @@ begin
            name := 'Port Sarim Willows South';
            tileBox := intToBox(3055, 3243, 3063, 3255);
            compass := 270;
-           camera := false;
          end;
 
          with subLocs[1] do
