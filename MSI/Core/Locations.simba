@@ -657,7 +657,9 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Willows South';
-           tileBox := intToBox(3057, 3248, 3064, 3256);
+           tileBox := intToBox(3055, 3243, 3063, 3255);
+           compass := 270;
+           camera := false;
          end;
 
          with subLocs[1] do
@@ -787,7 +789,9 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Bank';
-           tileBox := intToBox(3091, 3488, 3097, 3498);
+           tileBox := intToBox(3098, 3501, 3091, 3490);
+           camera := True;
+           compass := 0;
          end;
 
          with deathPath do
@@ -908,7 +912,7 @@ begin
          with subLocs[0] do //East trees
          begin
            name := 'Seers Village East Magic Trees';
-           tileBox := intToBox(2695, 3395, 2699, 3403);
+           tileBox := intToBox(2695, 3395, 2701, 3403);
          end;
 
          with subLocs[1] do //West trees
@@ -916,6 +920,8 @@ begin
            name := 'Seers Village West Magic Trees';
            tileBox := intToBox(2701, 3394, 2705, 3402);
          end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_SV_MAGICS].Defaults.Trees;
        end;
 
      LOC_SV_OAKS:
@@ -929,6 +935,7 @@ begin
          begin
            name := 'Seers Village Oak Trees';
            tileBox := intToBox(2715, 3478, 2722, 3486);
+           objects := MSI_Scripts[SCRIPT_SV_OAKS].Defaults.Trees;
          end;
        end;
 
@@ -943,6 +950,7 @@ begin
          begin
            name := 'Seers Village Trees';
            tileBox := intToBox(2707, 3435, 2729, 3455);
+           objects := MSI_Scripts[SCRIPT_SV_TREES].Defaults.Trees;
          end;
        end;
 
@@ -956,7 +964,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Seers Village Bank';
-           tileBox := intToBox(2719, 3489, 2729, 3495);
+           tileBox := intToBox(2719, 3491, 2729, 3496);
          end;
 
          with deathPath do
@@ -978,12 +986,21 @@ begin
          name := 'Seers Village Maples';
          atBank := false;
 
-         setLength(subLocs, 1);
+         setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Seers Village Maples';
-           tileBox := intToBox(2717, 3499, 2733, 3507);
+           name := 'Seers Village West Maples';
+           tileBox := intToBox(2717, 3499, 2727, 3506);
+           objects := MSI_Scripts[SCRIPT_SV_MAPLES].Defaults.Trees;
          end;
+
+         with subLocs[1] do
+         begin
+           name := 'Seers Village East Maples';
+           tileBox := intToBox(2728, 3500, 2733, 3505);
+         end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_SV_MAPLES].Defaults.Trees;
        end;
 
      LOC_SV_YEWS:
@@ -1004,6 +1021,8 @@ begin
            name := 'Seers Village West Yews';
            tileBox := intToBox(2702, 3458, 2706, 3469);
          end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_SV_YEWS].Defaults.Trees;
        end;
 
      LOC_GUILD_MINE:
@@ -1227,6 +1246,8 @@ begin
            name := 'Catherby West Fishing Spot';
            tileBox := intToBox(2856, 3424, 2861, 3430);
          end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_CB_FISHER].Defaults.FishSpots;
        end;
   end;
 
@@ -1241,7 +1262,7 @@ begin
       // if compass isn't set, set to default
       if (varType(subLocs[i].compass) = 0) then
       begin
-        subLocs[i].compass := 'n';
+        subLocs[i].compass := 0;
         subLocs[i].camera := true;
       end;
     end;
