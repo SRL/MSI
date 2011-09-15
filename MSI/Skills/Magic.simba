@@ -797,10 +797,13 @@ begin
     getMousePos(x, y);
     MSI_CastsDone();
 
-    if (pointInBox(point(x, y), b)) then
-      mouse(x, y, 0, 0, true)
-    else
-      mouseBox(b.x1, b.y1, b.x2, b.y2, 1); // 1 = Left Click
+    if (not (pointInBox(point(x, y), b))) then
+      mouseBox(b.x1, b.y1, b.x2, b.y2, 0); // 0 = Nothing
+    if waitUpText('ast', 500) then
+    begin
+      getMousePos(x, y);
+      mouse(x, y, 0, 0, true);
+    end;
 
     t := (getSystemTime + 5000);
     while (getSystemTime < t) do
@@ -847,6 +850,7 @@ function MSI_Alch(Spell: Integer): Boolean;
 var
   i, t, idealSlot, wT: Integer;
   anim: TAnimation;
+  b: boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -869,8 +873,14 @@ begin
     begin
       if (ExistsItem(AlchSlots[i])) and (AlchSlots[i] <> idealSlot) then
       begin
-        DragItem(AlchSlots[i], idealSlot); // Drag alch item to ideal inventory slot
-        DeleteValueInIntArray(AlchSlots, i);
+        if (not b) then
+        begin
+          DragItem(AlchSlots[i], idealSlot); // Drag alch item to ideal inventory slot
+          DeleteValueInIntArray(AlchSlots, i);
+          MSI_Debug('Slots: ' + toStr(alchSlots));
+        end;
+
+        b := (length(alchSlots) <= 0);
         Wait(RandomRange(100, 300));
       end else
         if (not ExistsItem(idealSlot)) then
