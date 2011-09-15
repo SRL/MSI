@@ -307,7 +307,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Bank';
-           tileBox := intToBox(3090, 3240, 3095, 3246);
+           tileBox := intToBox(3092, 3240, 3097, 3246);
          end;
 
          with deathPath do
@@ -431,22 +431,25 @@ begin
            tileBox := intToBox(3149, 3226, 3154, 3233);
            compass := 90;
            camera := false;
+           objects := [TREE_YEW_NEW];
          end;
 
          with subLocs[1] do
          begin
            name := 'Draynor Village Yews Central';
            tileBox := intToBox(3164, 3219, 3168, 3224);
-           compass := 170;
+           compass := 90;
            camera := false;
+           objects := [TREE_YEW_NEW];
          end;
 
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
-           tileBox := intToBox(3178, 3225, 3183, 3229);
+           tileBox := intToBox(3180, 3222, 3188, 3228);
            compass := 180;
            camera := false;
+           objects := [TREE_YEW_NEW];
          end;
        end;
 

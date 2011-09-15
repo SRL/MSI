@@ -597,7 +597,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_YEW];
+        Defaults.Trees := [TREE_YEW_NEW];
 
         with PathInfo do
         begin
@@ -922,7 +922,7 @@ begin
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        Defaults.Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_MITHRIL, ROCK_GOLD,
+        Defaults.Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_COAL, ROCK_MITHRIL, ROCK_GOLD,
                            ROCK_COPPER, ROCK_TIN, ROCK_ADAMANTITE];
 
         with PathInfo do
