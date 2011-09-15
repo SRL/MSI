@@ -1045,6 +1045,10 @@ type
 
     // Not setup by the user
     ReportInfo : TProggy;
+
+    // Pointers
+    GetObjects: function(): TIntegerArray;
+    GetScript : function(): TScript;
   end;
 
   TPlayerInfoArray = array of TPlayerInfo;
@@ -1169,31 +1173,4 @@ var
   MSI_Extras    : TExtraArray;
   MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
-
-(*
-MSI_GetCurrentScript
-~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_GetCurrentScript(): TScript;
-
-Returns a TScript record of the current player's current script.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 10 Sept 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  scr := MSI_GetCurrentScript();
-*)
-function MSI_GetCurrentScript(): TScript;
-begin
-  with MSI_Players[CurrentPlayer] do
-    result := MSI_Scripts[Scripts[CurrentScript].Name];
-end;
 

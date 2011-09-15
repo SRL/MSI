@@ -144,14 +144,14 @@ begin
         Uptexts            := ['Oak'];
         Options            := ['own Oak'];
         Level              := 15;
-        Colors             := [3100777];
+        Colors             := [1583672];
         Tol                := 5;
-        Hue                := 0.09;
-        Sat                := 0.10;
+        Hue                := 0.13;
+        Sat                := 0.28;
         FindAllColors      := False;
-        W                  := 50;
-        H                  := 70;
-        Accuracy           := 50;
+        W                  := 60;
+        H                  := 90;
+        Accuracy           := 100;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -233,6 +233,30 @@ begin
         AssociatedItems    := [LOGS_MAPLE];
       end;
 
+    TREE_MAPLE_NEW:
+      with result do
+      begin
+        Name               := 'TREE_MAPLE_NEW';
+        Uptexts            := ['wn Map'];
+        Options            := ['Chop down Maple'];
+        Level              := 45;
+        Colors             := [2502472];
+        Tol                := 7;
+        Hue                := 0.30;
+        Sat                := 1.44;
+        FindAllColors      := False;
+        W                  := 35;
+        H                  := 50;
+        Accuracy           := 100;
+        SearchArea         := MSBox;
+        ExcludeSelf        := False;
+        WaitToMove         := True;
+        MultiClick         := True;
+        Track              := False;
+        MaxTime            := 60000;
+        AssociatedItems    := [LOGS_MAPLE];
+      end;
+
     TREE_YEW:
       with result do
       begin
@@ -264,16 +288,16 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [4609121];
-        Tol                := 3;
-        Hue                := 0.45;
-        Sat                := 3.35;
+        Colors             := [2896441];
+        Tol                := 5;
+        Hue                := 0.46;
+        Sat                := 0.28;
         FindAllColors      := False;
-        W                  := 50;
-        H                  := 70;
-        Accuracy           := 40;
+        W                  := 60;
+        H                  := 90;
+        Accuracy           := 70;
         SearchArea         := MSBox;
-        ExcludeSelf        := True;
+        ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
@@ -379,15 +403,15 @@ begin
         Name               := 'BANK_GRAND_EXCHANGE';
         Uptexts            := ['anker'];
         Options            := ['ank Banker'];
-        Colors             := [5800630];
-        Tol                := 12;
-        Hue                := 0.02;
-        Sat                := 0.97;
-        FindAllColors      := False;
-        W                  := 10;
-        H                  := 10;
-        Accuracy           := 15;
-        SearchArea         := MSBox
+        Colors             := [9145233, 6381925, 2039584, 2434342, 5132114, 4737099];
+        Tol                := 10;
+        Hue                := 0.19;
+        Sat                := 0.05;
+        FindAllColors      := True;
+        W                  := 20;
+        H                  := 60;
+        Accuracy           := 20;
+        SearchArea         := IntToBox(MSX1, MSY1, MSX2, MSCY);
         ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := True;
@@ -1259,8 +1283,8 @@ begin
 
   // draw points on SMART if setting enabled
   {$IFDEF SMART}
-    if (MSI_Settings[SETUP_DEBUG_SMART]) then
-      drawDotsMulti(true, ATPA);
+  if (MSI_Settings[SETUP_DEBUG_SMART]) then
+    drawDotsMulti(true, ATPA);
   {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point
@@ -1293,10 +1317,7 @@ begin
       if (length(MSI_NotBoxes) > 0) then
         for j := 0 to high(MSI_NotBoxes) do
           if (pointInBox(TPA[i], MSI_NotBoxes[j])) then
-          begin
-            MSI_Debug('Point in bad box');
             badPoint := true;
-          end;
 
     // checks to see if the point is on the player
     if (not badPoint) then
@@ -1329,9 +1350,9 @@ begin
     result := true;
 
     {$IFDEF SMART}
-      for i := 0 to high(points) do
-        if (MSI_Settings[SETUP_DEBUG_SMART]) then
-          SMART_DrawBoxMS((i = 0), MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
+    for i := 0 to high(points) do
+      if (MSI_Settings[SETUP_DEBUG_SMART]) then
+        SMART_DrawBoxMS((i = 0), MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
     {$ENDIF}
 
     MSI_Debug('Points found: ' + intToStr(length(points)));
@@ -1498,7 +1519,7 @@ begin
   if (not loggedIn) then
     exit;
 
-  script := MSI_GetCurrentScript();
+  script := MSI_Players[CurrentPlayer].GetScript();
 
   for i := 0 to high(objs) do
   begin
