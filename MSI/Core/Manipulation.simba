@@ -182,6 +182,90 @@ begin
 end;
 
 (*
+MSI_ConvertTileBox
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ConvertTileBox(tileBox: TBox): TBox;
+
+Converts a tile TBox to an SPS Tbox
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  spsBox := MSI_ConvertTileBox(tileBox);
+*)
+function MSI_ConvertTileBox(tileBox: TBox): TBox;
+begin
+  result := intToBox(0, 0, 0, 0);
+
+  {$IFDEF SPS}   // yes, the Y values are supposed to be reversed
+  result := pointToBox(SPS_TileToPos(point(tileBox.x1, tileBox.y2)),
+                       SPS_TileToPos(point(tileBox.x2, tileBox.y1)));
+  {$ENDIF}
+end;
+
+(*
+MSI_BoxToMM
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_BoxToMM(box: TBox): TBox;
+
+Converts an SPS or tile TBox into a TBox that's on the minimap.  This method is
+extremely slow when using SPS so it should be avoided and is used specifically
+for debugging.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  var
+    loc: TLocation;
+  begin
+    mmBox := MSI_BoxToMM(loc.subLocs[i].tileBox);
+    ...
+*)
+function MSI_BoxToMM(box: TBox): TBox;
+var
+  corners: array[0..1] of TPoint;
+begin
+  if (not MSI_Settings[SETUP_DEBUG_SMART]) then
+    exit;
+
+  if (MSI_HookBroken[HOOK_WALKING]) then
+  begin
+    {$IFDEF SPS}
+    corners[0] := SPS_PosToMM(point(box.x1, box.y1));
+    corners[1] := SPS_PosToMM(point(box.x2, box.y2));
+    {$ENDIF}
+  end else begin
+    {$IFDEF REFLECTION}
+    corners[0] := r_TileToMM(point(box.x1, box.y1));
+    corners[1] := r_TileToMM(point(box.x2, box.y2));
+    {$ENDIF}
+  end;
+
+  result := intToBox(corners[0].x, corners[0].y, corners[1].x, corners[1].y);
+  SMART_DrawBoxEx(true, result, clGreen);
+
+  MSI_SubDebug('MSI_BoxToMM(): ' + toStr(result));
+end;
+
+(*
 MSI_Convert2DTilePath
 ~~~~~~~~~~~~~~~~~~~~~
 

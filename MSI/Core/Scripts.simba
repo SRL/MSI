@@ -49,8 +49,9 @@ begin
         PlayerSetup   := @MSI_SetupWoodcutting;
 
         Defaults.Trees := [
-          TREE_NORMAL, TREE_OAK, TREE_WILLOW, TREE_WILLOW_NEW, TREE_MAPLE,
-          TREE_YEW, TREE_MAGIC
+          TREE_DEAD, TREE_NORMAL, TREE_NORMAL_NEW, TREE_OAK, TREE_OAK_NEW,
+          TREE_WILLOW, TREE_WILLOW_NEW, TREE_MAPLE, TREE_MAPLE_NEW,
+          TREE_YEW, TREE_YEW_NEW, TREE_MAGIC
         ];
       end;
 
@@ -69,38 +70,6 @@ begin
           Trees := [TREE_IVY];
       end;
 
-    SCRIPT_VE_TREES:
-      with MSI_Scripts[whichScript] do
-      begin
-        Name          := 'Varrock East Trees';
-        Constant      := SCRIPT_VE_TREES;
-        SkillName     := 'Woodcutting';
-        SkillConst    := SKILL_WOODCUTTING;
-        BankType      := Bank;
-        WhichBank     := MSI_BANK_VE;
-        AutoObjects   := @MSI_ChopInvFull;
-        BankObjects   := @MSI_BankStandard;
-        PlayerSetup   := @MSI_SetupWoodcutting;
-
-        Defaults.Trees := [TREE_NORMAL];
-
-        with PathInfo do
-        begin
-          Name := 'LOC_VE_BANK to LOC_VE_TREES';
-          StartLoc := LOC_VE_BANK;
-          EndLoc   := LOC_VE_TREES;
-
-          Reflection := [
-                          TPointArray([Point(3253, 3421), Point(3265, 3428),
-                                       Point(3275, 3429), Point(3280, 3439),
-                                       Point(3276, 3450)])
-                        ];
-
-          SPSAreas := ['12_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
-        end;
-      end;
-
     SCRIPT_VE_OAKS:
       with MSI_Scripts[whichScript] do
       begin
@@ -110,12 +79,11 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_VE;
-        AdjustCamera  := true;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_OAK];
+        Defaults.Trees := [TREE_OAK_NEW];
 
         with PathInfo do
         begin
@@ -125,10 +93,42 @@ begin
 
           Reflection := [
                           TPointArray([Point(3253, 3420), Point(3266, 3429),
-                                       Point(3279, 3428)])
+                                       Point(3279, 3424)])
                         ];
 
           SPSAreas := ['12_7'];
+          Color    := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_GE_OAKS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Oaks';
+        Constant      := SCRIPT_GE_OAKS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_OAK_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_OAKS';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_OAKS;
+
+          Reflection := [
+                          TPointArray([Point(3183, 3480), Point(3193, 3489),
+                                       Point(3194, 3475), Point(3193, 3461)])
+                        ];
+
+          SPSAreas := ['11_6'];
           Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -146,7 +146,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_YEW];
+        Defaults.Trees := [TREE_YEW_NEW];
 
         with PathInfo do
         begin
@@ -177,7 +177,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_NORMAL];
+        Defaults.Trees := [TREE_NORMAL_NEW, TREE_DEAD];
 
         with PathInfo do
         begin
@@ -208,7 +208,7 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_OAK];
+        Defaults.Trees := [TREE_OAK_NEW];
 
         with PathInfo do
         begin
@@ -265,7 +265,7 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
-        AdjustCamera  := true;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
@@ -367,6 +367,7 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
@@ -563,6 +564,7 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_EV;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
@@ -594,11 +596,12 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
 
-        Defaults.Trees := [TREE_YEW];
+        Defaults.Trees := [TREE_YEW_NEW];
 
         with PathInfo do
         begin
@@ -701,6 +704,41 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
+          Color      := MSI_Convert2DTilePath(Reflection);
+        end;
+      end;
+
+    SCRIPT_LSE_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Lumby Swamp East Miner';
+        Constant      := SCRIPT_LSE_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_AK;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_TIN, ROCK_COPPER];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_AK_BANK to LOC_LSE_MINE';
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_LSE_MINE;
+
+          Reflection := [
+                          TPointArray([Point(3091, 3242), Point(3101, 3234),
+                                       Point(3108, 3225), Point(3115, 3217),
+                                       Point(3124, 3211), Point(3132, 3205),
+                                       Point(3138, 3197), Point(3140, 3186),
+                                       Point(3141, 3175), Point(3144, 3165),
+                                       Point(3148, 3155), Point(3148, 3147)])
+                        ];
+
+          SPSAreas   := ['11_9', '12_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
@@ -808,11 +846,11 @@ begin
         end;
       end;
 
-    SCRIPT_RM_MINER_EAST:
+    SCRIPT_RM_MINER:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Rimmington East Miner';
-        Constant      := SCRIPT_RM_MINER_EAST;
+        Name          := 'Rimmington Miner';
+        Constant      := SCRIPT_RM_MINER;
         SkillName     := 'Mining';
         SkillConst    := SKILL_MINING;
         BankType      := DBox;
@@ -821,117 +859,19 @@ begin
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
 
-        Defaults.Rocks := [ROCK_TIN, ROCK_CLAY];
+        Defaults.Rocks := [ROCK_CLAY, ROCK_TIN, ROCK_COPPER, ROCK_IRON, ROCK_GOLD];
 
         with PathInfo do
         begin
-          Name := 'LOC_PS_DBOX to LOC_RM_MINE_EAST';
+          Name := 'LOC_PS_DBOX to LOC_RM_MINE';
           StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_MINE_EAST;
+          EndLoc   := LOC_RM_MINE;
 
           Reflection := [
                           TPointArray([Point(3047, 3234), Point(3033, 3234),
                                        Point(3022, 3233), Point(3011, 3230),
                                        Point(3000, 3232), Point(2993, 3230),
-                                       Point(2986, 3236)])
-                        ];
-
-          SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
-        end;
-      end;
-
-    SCRIPT_RM_MINER_NORTH:
-      with MSI_Scripts[whichScript] do
-      begin
-        Name          := 'Rimmington North Miner';
-        Constant      := SCRIPT_RM_MINER_NORTH;
-        SkillName     := 'Mining';
-        SkillConst    := SKILL_MINING;
-        BankType      := DBox;
-        WhichBank     := DBOX_PS;
-        AutoObjects   := @MSI_MineInvFull;
-        BankObjects   := @MSI_BankStandard;
-        PlayerSetup   := @MSI_SetupMining;
-
-        Defaults.Rocks := [ROCK_COPPER];
-
-        with PathInfo do
-        begin
-          Name := 'LOC_PS_DBOX to LOC_RM_MINE_NORTH';
-          StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_MINE_NORTH;
-
-          Reflection := [
-                          TPointArray([Point(3046, 3234), Point(3033, 3234),
-                                       Point(3020, 3230), Point(3007, 3231),
-                                       Point(2997, 3230), Point(2986, 3231),
-                                       Point(2981, 3241), Point(2979, 3245)])
-                        ];
-
-          SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
-        end;
-      end;
-
-    SCRIPT_RM_MINER_SOUTH:
-      with MSI_Scripts[whichScript] do
-      begin
-        Name          := 'Rimmington South Mine';
-        Constant      := SCRIPT_RM_MINER_SOUTH;
-        SkillName     := 'Mining';
-        SkillConst    := SKILL_MINING;
-        BankType      := DBox;
-        WhichBank     := DBOX_PS;
-        AutoObjects   := @MSI_MineInvFull;
-        BankObjects   := @MSI_BankStandard;
-        PlayerSetup   := @MSI_SetupMining;
-
-        Defaults.Rocks := [ROCK_IRON, ROCK_GOLD];
-
-        with PathInfo do
-        begin
-          Name := 'LOC_PS_DBOX to LOC_RM_MINE_SOUTH';
-          StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_MINE_SOUTH;
-
-          Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3033, 3234),
-                                       Point(3021, 3233), Point(3008, 3231),
-                                       Point(2996, 3231), Point(2983, 3230)])
-                        ];
-
-          SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
-        end;
-      end;
-
-    SCRIPT_RM_MINER_WEST:
-      with MSI_Scripts[whichScript] do
-      begin
-        Name          := 'Rimmington West Mine';
-        Constant      := SCRIPT_RM_MINER_WEST;
-        SkillName     := 'Mining';
-        SkillConst    := SKILL_MINING;
-        BankType      := DBox;
-        WhichBank     := DBOX_PS;
-        AutoObjects   := @MSI_MineInvFull;
-        BankObjects   := @MSI_BankStandard;
-        PlayerSetup   := @MSI_SetupMining;
-
-        Defaults.Rocks := [ROCK_IRON];
-
-        with PathInfo do
-        begin
-          Name := 'LOC_PS_DBOX to LOC_RM_MINE_WEST';
-          StartLoc := LOC_PS_DBOX;
-          EndLoc   := LOC_RM_MINE_WEST;
-
-          Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3033, 3234),
-                                       Point(3021, 3233), Point(3008, 3231),
-                                       Point(2996, 3231), Point(2983, 3230),
-                                       Point(2974, 3235), Point(2971, 3239)])
+                                       Point(2986, 3236), Point(2980, 3236)])
                         ];
 
           SPSAreas   := ['9_9'];
@@ -973,11 +913,11 @@ begin
         end;
       end;
 
-    SCRIPT_AK_MINER_SOUTH:
+    SCRIPT_AK_MINER:
       with MSI_Scripts[whichScript] do
       begin
-        Name        := 'Al Kharid Miner South';
-        Constant    := SCRIPT_AK_MINER_SOUTH;
+        Name        := 'Al Kharid Miner';
+        Constant    := SCRIPT_AK_MINER;
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
@@ -986,171 +926,109 @@ begin
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        Defaults.Rocks := [ROCK_IRON, ROCK_GOLD];
+        Defaults.Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_MITHRIL, ROCK_GOLD,
+                           ROCK_COPPER, ROCK_TIN, ROCK_ADAMANTITE];
 
         with PathInfo do
         begin
           StartLoc := LOC_AK_BANK;
-          EndLoc   := LOC_AK_MINE_SOUTH;
+          EndLoc   := LOC_AK_MINE;
 
           Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
-                          Point(3287, 3199), Point(3291, 3212), Point(3298, 3223), Point(3298, 3237),
-                          Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3299, 3286)])
-                         ];
+                          TPointArray([Point(3270, 3165), Point(3278, 3175),
+                                       Point(3283, 3187), Point(3287, 3199),
+                                       Point(3291, 3212), Point(3298, 3223),
+                                       Point(3298, 3237), Point(3298, 3251),
+                                       Point(3298, 3264), Point(3299, 3278),
+                                       Point(3300, 3293), Point(3300, 3301)])
+                        ];
 
           SPSAreas   := ['12_8', '12_9'];
           Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
-    SCRIPT_AK_MINER_CENTRAL:
+    SCRIPT_GUILD_MINER:
       with MSI_Scripts[whichScript] do
       begin
-        Name        := 'Al Kharid Miner Central';
-        Constant    := SCRIPT_AK_MINER_CENTRAL;
+        Name        := 'Mining Guild Miner';
+        Constant    := SCRIPT_GUILD_MINER;
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
-        WhichBank   := MSI_BANK_AK;
+        WhichBank   := MSI_BANK_FE;
         AutoObjects := @MSI_MineInvFull;
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        Defaults.Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_MITHRIL];
+        Defaults.Rocks := [ROCK_COAL, ROCK_MITHRIL];
 
         with PathInfo do
         begin
-          StartLoc := LOC_AK_BANK;
-          EndLoc   := LOC_AK_MINE_CENTRAL;
+          Name := 'LOC_FE_BANK to LOC_GUILD_MINE';
+          StartLoc := LOC_FE_BANK;
+          EndLoc := LOC_GUILD_MINE;
 
           Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
-                          Point(3287, 3199), Point(3291, 3212), Point(3298, 3223), Point(3298, 3237),
-                          Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3300, 3293),
-                          Point(3300, 3301)])
-                         ];
+                          // Bank -> Ladder Down
+                          TPointArray([Point(3012, 3355), Point(3023, 3352),
+                                       Point(3030, 3340), Point(3021, 3339)]),
 
-          SPSAreas   := ['12_8', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+                          // Ladder Up -> In Mine
+                          TPointArray([Point(3021, 9739), Point(3033, 9738),
+                                       Point(3042, 9737)])
+                        ];
+          // SPS doesn't currently support dungeons
+          {
+            SPSAreas := [''];
+            Color := [];
+          }
+          Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
+          Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
         end;
       end;
 
-    SCRIPT_AK_MINER_NORTH:
+    SCRIPT_CG_MINER:
       with MSI_Scripts[whichScript] do
       begin
-        Name        := 'Al Kharid Miner North';
-        Constant    := SCRIPT_AK_MINER_NORTH;
+        Name        := 'Crafting Guild Miner';
+        Constant    := SCRIPT_CG_MINER;
         SkillName   := 'Mining';
         SkillConst  := SKILL_MINING;
         BankType    := Bank;
-        WhichBank   := MSI_BANK_AK;
+        WhichBank   := MSI_BANK_FE;
         AutoObjects := @MSI_MineInvFull;
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        Defaults.Rocks := [ROCK_COPPER, ROCK_TIN, ROCK_SILVER, ROCK_IRON,
-                           ROCK_MITHRIL, ROCK_ADAMANTITE];
+        Defaults.Rocks := [ROCK_GOLD, ROCK_SILVER, ROCK_CLAY];
 
         with PathInfo do
         begin
-          StartLoc := LOC_AK_BANK;
-          EndLoc   := LOC_AK_MINE_NORTH;
+          Name := 'LOC_FE_BANK to LOC_CG_MINE';
+          StartLoc := LOC_FE_BANK;
+          EndLoc := LOC_CG_MINE;
 
           Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3278, 3175), Point(3283, 3187),
-                          Point(3287, 3199), Point(3291, 3212), Point(3298, 3223), Point(3298, 3237),
-                          Point(3298, 3251), Point(3298, 3264), Point(3299, 3278), Point(3300, 3293),
-                          Point(3301, 3305), Point(3301, 3313)])
-                         ];
+                          // Bank -> Front Door
+                          TPointArray([Point(3012, 3353), Point(3007, 3347),
+                                       Point(3007, 3335), Point(3006, 3324),
+                                       Point(3001, 3313), Point(2994, 3303),
+                                       Point(2987, 3295), Point(2976, 3292),
+                                       Point(2968, 3293), Point(2957, 3294),
+                                       Point(2945, 3296), Point(2933, 3294),
+                                       Point(2933, 3288)]),
 
-          SPSAreas   := ['12_8', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+                          // Inside Door -> Mine
+                          TPointArray([Point(2934, 3286), Point(2939, 3283)])
+                        ];
+
+          SPSAreas := ['8_8', '9_7', '9_8'];
+          Color := MSI_Convert2DTilePath(Reflection);
+          Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
+          Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
         end;
       end;
-
-      SCRIPT_GUILD_MINER:
-        with MSI_Scripts[whichScript] do
-        begin
-          Name        := 'Mining Guild Miner';
-          Constant    := SCRIPT_GUILD_MINER;
-          SkillName   := 'Mining';
-          SkillConst  := SKILL_MINING;
-          BankType    := Bank;
-          WhichBank   := MSI_BANK_FE;
-          AutoObjects := @MSI_MineInvFull;
-          BankObjects := @MSI_BankStandard;
-          PlayerSetup := @MSI_SetupMining;
-
-          Defaults.Rocks := [ROCK_COAL, ROCK_MITHRIL];
-
-          with PathInfo do
-          begin
-            Name := 'LOC_FE_BANK to LOC_GUILD_MINE';
-            StartLoc := LOC_FE_BANK;
-            EndLoc := LOC_GUILD_MINE;
-
-            Reflection := [
-                            // Bank -> Ladder Down
-                            TPointArray([Point(3012, 3355), Point(3023, 3352),
-                                         Point(3030, 3340), Point(3021, 3339)]),
-
-                            // Ladder Up -> In Mine
-                            TPointArray([Point(3021, 9739), Point(3033, 9738),
-                                         Point(3042, 9737)])
-                          ];
-            // SPS doesn't currently support dungeons
-            {
-              SPSAreas := [''];
-              Color := [];
-            }
-            Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
-            Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
-          end;
-        end;
-
-      SCRIPT_CG_MINER:
-        with MSI_Scripts[whichScript] do
-        begin
-          Name        := 'Crafting Guild Miner';
-          Constant    := SCRIPT_CG_MINER;
-          SkillName   := 'Mining';
-          SkillConst  := SKILL_MINING;
-          BankType    := Bank;
-          WhichBank   := MSI_BANK_FE;
-          AdjustCamera  := true;
-          AutoObjects := @MSI_MineInvFull;
-          BankObjects := @MSI_BankStandard;
-          PlayerSetup := @MSI_SetupMining;
-
-          Defaults.Rocks := [ROCK_GOLD, ROCK_SILVER, ROCK_CLAY];
-
-          with PathInfo do
-          begin
-            Name := 'LOC_FE_BANK to LOC_CG_MINE';
-            StartLoc := LOC_FE_BANK;
-            EndLoc := LOC_CG_MINE;
-
-            Reflection := [
-                            // Bank -> Front Door
-                            TPointArray([Point(3012, 3353), Point(3007, 3347),
-                                         Point(3007, 3335), Point(3006, 3324),
-                                         Point(3001, 3313), Point(2994, 3303),
-                                         Point(2987, 3295), Point(2976, 3292),
-                                         Point(2968, 3293), Point(2957, 3294),
-                                         Point(2945, 3296), Point(2933, 3294),
-                                         Point(2933, 3288)]),
-
-                            // Inside Door -> Mine
-                            TPointArray([Point(2934, 3286), Point(2939, 3283)])
-                          ];
-
-            SPSAreas := ['8_8', '9_7', '9_8'];
-            Color := MSI_Convert2DTilePath(Reflection);
-            Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
-            Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
-          end;
-        end;
 
     { FISHERS ==================================== ]
     [============================================= }
@@ -1580,4 +1458,31 @@ var
 begin
   for i := 0 to High(MSI_Scripts) do
     MSI_LoadScript(i);
+end;
+
+(*
+MSI_GetPlayerScript
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetPlayerScript(): TScript;
+
+Returns a TScript record of the current player's current script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Sept 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  scr := MSI_GetCurrentScript();
+*)
+function MSI_GetPlayerScript(): TScript;
+begin
+  with MSI_Players[CurrentPlayer] do
+    result := MSI_Scripts[Scripts[CurrentScript].Name];
 end;

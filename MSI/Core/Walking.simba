@@ -70,6 +70,46 @@ begin
 end;
 
 (*
+MSI_GetMyPos
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetMyPos(): TPoint;
+
+Gets the player's position by using either SPS or reflection depending on how
+the user has setup the script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  var
+    playerPos: TPoint;
+  begin
+    playerPos := MSI_GetMyPos();
+    ...
+*)
+function MSI_GetMyPos(): TPoint;
+begin
+  if (MSI_HookBroken[HOOK_WALKING]) then
+  begin
+    {$IFDEF SPS}
+    result := SPS_GetMyPos();
+    {$ENDIF}
+  end else begin
+    {$IFDEF REFLECTION}
+    result := r_GetMyPos();
+    {$ENDIF}
+  end;
+end;
+
+(*
 MSI_WaitTile
 ~~~~~~~~~~~~
 
@@ -224,6 +264,59 @@ begin
 end;
 
 (*
+MSI_ValidSubLoc
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ValidSubLoc(loc: TLocation; subIndex: integer): boolean;
+
+Returns true if the player is autoing an object that appears in the sub location
+of the location 'loc' and sub location element 'subIndex'.
+
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ValidSubLoc(MSI_Locations[LOC_VE_BANK], i)) then
+    MSI_Relocate(LOC_VE_BANK);
+*)
+function MSI_ValidSubLoc(loc: TLocation; subIndex: integer): boolean;
+var
+  i: integer;
+  objs: TIntegerArray;
+  exceptions: TIntegerArray;
+begin
+  result := loc.atBank; // always valid if the location is a bank
+
+  // spawning point is valid; if more locations are added, an array should be used
+  exceptions := [LOC_LB_SPAWN, LOC_KJ_STILES];
+  if (not result) then
+    result := (inIntArray(exceptions, loc.constant));
+
+  if (not result) then
+  begin
+    objs := MSI_GetPlayerObjects();
+
+    for i := 0 to high(loc.subLocs[subIndex].objects) do
+      if (inIntArray(objs, loc.subLocs[subIndex].objects[i])) then
+      begin
+        result := true;
+        break;
+      end;
+  end;
+
+  if (not result) then
+    MSI_SubDebug('Not a valid sub-location: ' + loc.subLocs[subIndex].name);
+end;
+
+(*
 MSI_Relocate
 ~~~~~~~~~~~~
 
@@ -231,13 +324,13 @@ MSI_Relocate
 
   function MSI_Relocate(Loc: Integer): Boolean;
 
-Relocates the player to the location 'Loc'.  Only relocates if the player is
-near the location.  Returns true if relocation was successful.
+Relocates the player to the location 'Loc'. Only relocates if the player is
+near the location. Returns true if relocation was successful.
 
 .. note::
 
-  | Author: Sir R. Magician
-  | Last Updated: 22 June 2011 by Coh3n
+  | Author: Coh3n and NCDS
+  | Last Updated: 21 August 2011 by NCDS
 
 Example:
 
@@ -248,88 +341,104 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  i, t, cp: Integer;
-  p: TPoint;
-  TPA: TPointArray;
-  atTile: boolean;
+  hSubLoc, i, cP: integer;
+  p, mPos: TPoint;
+  areaTPA: TPointArray;
+  local_subLocs: TSubLocArray;
+  box: TBox;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
 
-  MSI_AddHeader('MSI_Relocate');
+  MSI_AddHeader('MSI_Relocate (' + MSI_Locations[loc].Name + ')');
 
-  if (MSI_HookBroken[HOOK_WALKING]) then
+  if (Length(MSI_Locations[loc].subLocs) < 1) then
   begin
-    TPA := MSI_Locations[Loc].Points
-  end else
-    TPA := MSI_Locations[Loc].Tiles;
-
-  if (Length(TPA) = 0) then
-  begin
-    MSI_SubDebug('No relocation points for ' + MSI_Locations[Loc].Name);
-    Exit;
+    MSI_SubDebug('No relocation points for ' + MSI_Locations[loc].Name);
+    result := true;
   end;
 
-  cp := MSI_Players[CurrentPlayer].CurrentPoint;
-  if (cp = High(TPA)) then
+  if (not result) then
   begin
-    InvertTPA(TPA);
-    cp := High(TPA) - cp;
-  end;
-  MSI_Players[CurrentPlayer].CurrentPoint := cp;
+    mPos := MSI_GetMyPos();
 
-  t := (GetSystemTime + 10000);
-  while (not Result) and (LoggedIn) and (GetSystemTime < t) do
-  begin
-    for i := cp to High(TPA) do
+    with MSI_Locations[Loc] do
     begin
-      if (not MSI_PointOnMM(TPA[i], p)) then
+      // check to see if player's in the last box, if so, invert the boxes
+      cP := MSI_Players[CurrentPlayer].CurrentPoint;
+      hSubLoc := high(subLocs);
+
+      if (cP = hSubLoc) then
       begin
-        if (MSI_FindRandoms(True)) then
+        setLength(local_subLocs, (hSubLoc + 1));
+
+        for i := hSubLoc downto 0 do
+          local_subLocs[hSubLoc - i] := subLocs[i];
+
+        subLocs := local_subLocs;
+        cp := (hSubLoc - cP);
+      end;
+
+      MSI_Players[CurrentPlayer].CurrentPoint := cP;
+
+      // loop through each "subLoc"
+      for i := cP to hSubLoc do
+      begin
+        // no point in relocating to a location that doesn't have the object we want
+        if (not MSI_ValidSubLoc(MSI_Locations[loc], i)) then
+          continue;
+
+        if (MSI_HookBroken[HOOK_WALKING]) then
+          box := subLocs[i].spsBox
+        else
+          box := subLocs[i].tileBox;
+
+        MSI_BoxToMM(box);
+
+        // if player is already in box, continue
+        if (pointInBox(mPos, box)) then
         begin
-          result := true;
-          MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
-          exit;
+          if (i = hSubLoc) then
+          begin
+            MSI_Debug('Already at ' + MSI_Locations[loc].name);
+            result := true;
+          end;
+
+          continue;
         end;
 
-        wait(RandomRange(200, 300));
+        MSI_FindRandoms(true);
 
-        if ((i = high(TPA)) and (atTile)) then
+        result := MSI_PointOnMM(middleBox(box), p);
+        if (not result) then
         begin
-          result := true;
+          // create a TPA from the subLoc's box
+          areaTPA := TPAFromBox(box);
+          sortTPAfrom(areaTPA, mPos);
+
+          if (length(areaTPA) > 0) then
+            result := MSI_PointOnMM(areaTPA[0], p); // closest point to player
+        end;
+
+        if (result) then
+        begin
+          mouse(p.x, p.y, random(5), random(5), true);
+          MSI_Debug('Relocating to box: ' + subLocs[i].name);
+
+          setAngle(MSI_Locations[loc].subLocs[i].camera);
+          makeCompass(MSI_Locations[loc].subLocs[i].compass);
+
+          cP := i;
+          MSI_Flag(0);
           break;
         end else
-          if (i = high(TPA)) then
-            break;
-
-        Continue;
-      end;
-
-      if (Distance(p.x, p.y, MMCX, MMCY) > MSI_Locations[Loc].MinDistance) then
-      begin
-        Mouse(p.x, p.y, 4, 4, True);
-        MSI_Debug('Walking to Point(' + IntToStr(p.x) + ', ' + IntToStr(p.y) + ')');
-        MSI_Flag(0);
-        Result := True;
-        Break;
-      end else begin
-        atTile := true;
-        if (i = High(TPA)) then
-        begin
-          MSI_Debug('Already at ' + MSI_Locations[Loc].Name + ' Point('+IntToStr(i)+')');
-          Result := True;
-        end;
+          cP := 0;
       end;
     end;
-
-    if (not Result) then
-      cp := 0
-    else
-      cp := i;
   end;
 
-  MSI_Players[CurrentPlayer].CurrentPoint := cp;
-  MSI_CloseHeader('MSI_Relocate: ' + BoolToStr(Result));
+  MSI_Players[CurrentPlayer].CurrentPoint := cP;
+  MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
 end;
 
 (*
@@ -338,16 +447,16 @@ MSI_AtLocation
 
 .. code-block:: pascal
 
-  function MSI_AtLocation(Loc: Integer; Relocate: Boolean): Boolean;
+  function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
 
-Returns true if the player is at the location 'Loc'.  Works with both reflection
+Returns true if the player is at the location 'Loc'. Works with both reflection
 and SPS. If the player isn't at the location and 'Relocate' is set to true,
 will call MSI_Relocate.
 
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 27 April 2011 by Coh3n
+  | Last Updated: 27 August 2011 by Coh3n
 
 Example:
 
@@ -356,59 +465,62 @@ Example:
   if (MSI_AtLocation(LOC_VE_BANK, True)) then
     MSI_Debug('We are at Varrock East Bank');
 *)
-function MSI_AtLocation(Loc: Integer; Relocate: Boolean): Boolean;
+function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
 var
-  i, d: Integer;
-  p: TPoint;
-  TPA: TPointArray;
+  i: integer;
+  box: TBox;
+  mPos: TPoint;
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn) then
+    exit;
+
+  if (loc = LOC_POWER_SKILL) then
+  begin
+    MSI_SubDebug('Powerskilling, no defined location');
+    result := true;
+  end;
 
   MSI_AddHeader('MSI_AtLocation');
+  mPos := MSI_GetMyPos();
 
-  if (Loc = LOC_POWER_SKILL) then
+  with MSI_Locations[loc] do
   begin
-    MSI_Debug('We are powerskilling, we have no specific location');
-    Result := True;
-  end;
-
-  if (not Result) then
-  begin
-    if (MSI_HookBroken[HOOK_WALKING]) then
+    for i := 0 to high(subLocs) do
     begin
-      TPA := MSI_Locations[Loc].Points
-    end else
-      TPA := MSI_Locations[Loc].Tiles;
+      if (not MSI_ValidSubLoc(MSI_Locations[loc], i)) then
+        continue;
 
-    for i := 0 to High(TPA) do
-    begin
-      MSI_Debug('Checking Point: ' + ToStr(TPA[i]));
+      MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
-      if (MSI_PointOnMM(TPA[i], p)) then
+      if (MSI_HookBroken[HOOK_WALKING]) then
+        box := subLocs[i].spsBox
+      else
+        box := subLocs[i].tileBox;
+
+      if (pointInBox(mPos, box)) then
       begin
-        d := Distance(p.x, p.y, MMCX, MMCY);
-        MSI_Debug('Distance from player to ' + MSI_Locations[Loc].Name + ': ' + IntToStr(d));
+        result := true;
+        setAngle(subLocs[i].camera);
+        makeCompass(subLocs[i].compass);
 
-        Result := (d <= MSI_Locations[Loc].MinDistance);
-        if (not Result) and (Relocate) then
-          Result := MSI_Relocate(Loc);
-
-        if (Result) then
-        begin
-          MSI_Debug('Player is at ' + MSI_Locations[Loc].Name);
-          MSI_Players[CurrentPlayer].Location := MSI_Locations[Loc].Constant;
-          Break;
-        end;
-      end;
+        MSI_BoxToMM(box);
+        MSI_Debug('Player is at ' + subLocs[i].name);
+        break;
+      end else
+        if (i = high(subLocs)) then
+          if (relocate) then
+            result := MSI_Relocate(loc);
     end;
+
+    if (not Result) then
+      MSI_Debug('Player not at ' + name)
+    else
+      MSI_Players[CurrentPlayer].Location := constant;
   end;
 
-  if (not Result) then
-    MSI_Debug('Player not at ' + MSI_Locations[Loc].Name);
-
-  MSI_CloseHeader('MSI_AtLocation: ' + BoolToStr(Result));
+  MSI_CloseHeader('MSI_AtLocation: ' + boolToStr(Result));
 end;
+
 
 (*
 MSI_GetCorrectPath
@@ -416,11 +528,10 @@ MSI_GetCorrectPath
 
 .. code-block:: pascal
 
-  function MSI_GetCorrectPath(path: TPath; color, toLoc: boolean): T2DPointArray;
+  function MSI_GetCorrectPath(path: TPath; toLoc: boolean): T2DPointArray;
 
-Will get the correct path from the 'path' record.  If 'color', will return the
-SPS coords, else return Reflection tiles.  if 'toLoc', will invert the path's
-Reflection or SPS paths.
+Will get the correct path from the 'path' record. If 'toLoc', will invert the
+path's Reflection or SPS paths.
 
 .. note::
 
@@ -433,7 +544,7 @@ Example:
 
   MSI_GetCorrectPath(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, MSI_HookBroken[HOOK_WALKING], True);
 *)
-function MSI_GetCorrectPath(path: TPath; color, toLoc: boolean): T2DPointArray;
+function MSI_GetCorrectPath(path: TPath; toLoc: boolean): T2DPointArray;
 var
   s: string;
 begin
@@ -441,22 +552,60 @@ begin
     exit;
 
   if (toLoc) then                // Start loc -> End loc
-    if (color) then
+    if (MSI_HookBroken[HOOK_WALKING]) then
       result := path.color
     else
       result := path.reflection
   else                           // End loc -> Start loc
-    if (color) then
+    if (MSI_HookBroken[HOOK_WALKING]) then
       result := MSI_MirrorATPA(path.color)
     else
       Result := MSI_MirrorATPA(path.reflection);
 
-  if (color) then
+  if (MSI_HookBroken[HOOK_WALKING]) then
     s := 'Color'
   else
     s := 'Reflection';
 
   MSI_SubDebug(s+' Path: '+toStr(result));
+end;
+
+(*
+MSI_SetPlayerLoc
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetPlayerLoc();
+
+Returns a walkable path from the location (loc) record given.  Uses the middle
+point of each TLocation.SubLocs tile and sps boxes.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 23 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  path := MSI_PathFromLoc(MSI_Locations[LOC_VE_MINE]);
+*)
+function MSI_PathFromLoc(loc: TLocation): TPointArray;
+var
+  i: integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  setLength(result, length(loc.subLocs));
+
+  for i := 0 to high(loc.subLocs) do
+    if (MSI_HookBroken[HOOK_WALKING]) then
+      result[i] := middleBox(loc.subLocs[i].spsBox)
+    else
+      result[i] := middleBox(loc.subLocs[i].tileBox);
 end;
 
 (*
@@ -536,7 +685,6 @@ begin
   begin
     t := GetSystemTime + (Length(TPA) * 60 + 180) * 1000; // A minute for each tile + 3 minutes
     h := High(TPA);
-    MSI_Debug('High TPA: ' + toStr(h));
 
     repeat
       for i := h downto 0 do
@@ -550,7 +698,7 @@ begin
 
           Continue;
         end else begin
-          MSI_Debug('Clicked TPA['+toStr(i)+']: '+toStr(TPA[i]));
+          MSI_Debug('Clicked Tile Path Element ['+toStr(i)+']: '+toStr(TPA[i]));
 
           if (stopMoving) then
           begin
@@ -601,8 +749,8 @@ Example:
 *)
 function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 var
-  ATPA: T2DPointArray;
-  eTPA: TPointArray;
+  regPath: T2DPointArray;
+  locPath: TPointArray;
   walked: function(TPA: TPointArray): Boolean;
   i, h, t, endLocation: integer;
   done: boolean;
@@ -615,28 +763,25 @@ begin
   MSI_AddHeader('MSI_WalkPath');
 
   if (MSI_HookBroken[HOOK_WALKING]) then
-  begin
-    ATPA := MSI_GetCorrectPath(pathInfo, true, toLoc);
-    eTPA := MSI_MirrorTPA(MSI_Locations[pathInfo.endLoc].points);
-    walked := @MSI_WalkColorPath;
-  end else begin
-    ATPA := MSI_GetCorrectPath(pathInfo, false, toLoc);
-    eTPA := MSI_MirrorTPA(MSI_Locations[pathInfo.endLoc].tiles);
+    walked := @MSI_WalkColorPath
+  else
     walked := @MSI_WalkTilePath;
-  end;
+
+  regPath := MSI_GetCorrectPath(pathInfo, toLoc);
+  locPath := MSI_MirrorTPA(MSI_PathFromLoc(MSI_Locations[pathInfo.endLoc]));
 
   // make sure we're passing the right obstacles
   if (toLoc) then
   begin
     endLocation := pathInfo.endLoc;
-    intObs := pathInfo.obstacles[OBS_LOC_TO]
+    intObs := pathInfo.obstacles[OBS_LOC_TO];
   end else begin
     endLocation := pathInfo.startLoc;
     intObs := pathInfo.obstacles[OBS_LOC_FROM];
   end;
 
-  t := (getSystemTime + (length(ATPA) * 60 + 180) * 1000);
-  h := high(ATPA);
+  t := (getSystemTime + (length(regPath) * 60 + 180) * 1000);
+  h := high(regPath);
 
   while ((not result) and (getSystemTime < t) and (not done)) do
   begin
@@ -645,22 +790,18 @@ begin
       with MSI_Players[CurrentPlayer] do
 		  begin
         // Walk the leg of the path
-			  if (not walked(ATPA[i])) then
-          if ((not walked(eTPA)) and (not walked(ATPA[i]))) then
-				  begin
-            MSI_Debug('Failed to walk path ('+boolToStr(toLoc)+'): ' + pathInfo.name);
-
+			  if (not walked(regPath[i])) then // regular path
+          if ((not walked(locPath)) and (not walked(regPath[i]))) then // location's path then regular path (for multiple sub-locations
             if (i = h) then
             begin
               done := true;
               break;
             end else
               continue;
-				  end;
 
         // Handle the obstacle
         if (length(intObs) > 0) then
-          if (i <> h) then // length of obstacles is always 1 less than path ATPA
+          if (i <> h) then // length of obstacles is always 1 less than path regPath
           begin
             obs := MSI_GetObstacle(intObs[i]);
             if (not MSI_SolveObstacle(obs)) then
@@ -673,14 +814,16 @@ begin
           end;
 
         // Return true if the player is at the ending location
-		    if (MSI_AtLocation(endLocation, true)) then
+		    if (MSI_AtLocation(endLocation, (i = h))) then
 		    begin
 		      result := true;
 		      break;
 		    end;
 		  end;
-
   end;
+
+  if (not result) then
+    MSI_Debug('Failed walk (to loc: '+boolToStr(toLoc)+'): ' + pathInfo.name);
 
 	MSI_CloseHeader('MSI_WalkPath: ' + boolToStr(result));
 end;

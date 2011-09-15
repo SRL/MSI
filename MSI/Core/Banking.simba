@@ -74,7 +74,6 @@ Example:
 function MSI_OpenBank(which: Integer; tPin: String): Boolean;
 var
   t, x, y: Integer;
-  a: Extended;
   bankType: TBank;
   relocated: boolean;
   bankObj: TMSObject;
@@ -93,17 +92,6 @@ begin
   if (not Result) then
   begin
     t := (GetSystemTime + 60000);
-
-    // works better when camera is facing north
-    if (not (MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name = SCRIPT_GE_YEWS)) then
-    begin
-      a := rs_GetCompassAngleDegrees;
-      if (a > 80.0) and (a < 280.0) then
-        if (random(10) < 5) then
-          makeCompass(RandomRange(85, 275))
-        else
-          clickNorth(true);
-    end;
 
     while (not Result) and (GetSystemTime < t) and LoggedIn do
     begin

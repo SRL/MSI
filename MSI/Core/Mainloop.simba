@@ -58,6 +58,8 @@ begin
       MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
 
     Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
+    MSI_Players[i].GetObjects := @MSI_GetPlayerObjects;
+    MSI_Players[i].GetScript := @MSI_GetPlayerScript;
   end;
 end;
 
@@ -104,11 +106,18 @@ begin
   // To handle relocating for power scripts
   {$IFDEF REFLECTION}
   if (not MSI_HookBroken[HOOK_WALKING]) then
-    with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
-      if (Length(Tiles) <= 0) then // If there are no relocation points
+    if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects = nil) then
+      with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
       begin
-        SetLength(Tiles, Length(Tiles) + 1);
-        Tiles[High(Tiles)] := r_GetMyPos; // Add the point the player is on
+        setLength(subLocs, length(subLocs) + 1);
+
+        with subLocs[high(subLocs)] do
+        begin
+          name := 'Powerskilling Location';
+          tileBox := MSI_MakeBox(r_GetMyPos, 10, 10);
+          spsBox := MSI_ConvertTileBox(tileBox);
+          objects := MSI_GetPlayerObjects();
+        end;
       end;
   {$ENDIF}
 
@@ -122,22 +131,21 @@ begin
 
   // Setup the player
   with MSI_Players[CurrentPlayer] do
-  begin
-    MSI_SetPlayerLoc();
+    if (MSI_SetPlayerLoc()) then
+    begin
+      // Get the player's skill levels for each script
+      MSI_SetSkillLevels();
 
-    // Get the player's skill levels for each script
-    MSI_SetSkillLevels();
+      // Check to see if there's items in the set exceptions array
+      for i := 0 to high(Scripts[CurrentScript].Exceptions) do
+        if (not existsItem(Scripts[CurrentScript].Exceptions[i])) then
+        begin
+          MSI_Debug('No item found in inventory slot: '+intToStr(i));
+          deleteValueInIntArray(Scripts[CurrentScript].Exceptions, i);
+        end;
 
-    // Check to see if there's items in the set exceptions array
-    for i := 0 to High(Scripts[CurrentScript].Exceptions) do
-      if (not ExistsItem(Scripts[CurrentScript].Exceptions[i])) then
-      begin
-        MSI_Debug('No item found in inventory slot: '+IntToStr(i));
-        DeleteValueInIntArray(Scripts[CurrentScript].Exceptions, i);
-      end;
-
-    Result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
-  end;
+      result := MSI_Scripts[Scripts[CurrentScript].Name].PlayerSetup();
+    end;
 
   MSI_CloseHeader('MSI_SetupPlayer: ' + BoolToStr(Result));
 end;

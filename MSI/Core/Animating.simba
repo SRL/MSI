@@ -80,7 +80,7 @@ begin
       with Result do
       begin
         Name := 'Chopping';
-        MinPixelShift := 150;
+        MinPixelShift := 200;
         MaxPixelShift := 600;
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 50;

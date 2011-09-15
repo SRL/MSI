@@ -78,7 +78,6 @@ begin
         Name := 'Home Teleport';
         StatsName := 'Home Teleports';
         Constant := SPELL_TELE_HOME;
-        AnimConst := ANIM_TELE_HOME;
         Level := 1;
         Experience := 0;
         Staffs := [];
