@@ -622,14 +622,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador West Mine North';
-           tileBox := intToBox(2907, 3361, 2911, 3369);
+           tileBox := intToBox(2907, 3360, 2911, 3367);
            objects := [ROCK_COAL, ROCK_COPPER];
          end;
 
          with subLocs[1] do
          begin
            name := 'Falador West Mine South';
-           tileBox := intToBox(2901, 3352, 2907, 3362);
+           tileBox := intToBox(2903, 3352, 2909, 3360);
            objects := [ROCK_TIN, ROCK_IRON];
          end;
        end;

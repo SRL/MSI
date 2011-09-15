@@ -190,10 +190,8 @@ begin
           if (not cameraChanged) then
             if (MSI_Scripts[Scripts[CurrentScript].Name].AdjustCamera) then
             begin
-              if (random(2) < 1) then
-                makeCompass(randomRange(35, 55))
-              else
-                makeCompass(randomRange(195, 215));
+              makeCompass(MSI_Locations[Location].SubLocs[CurrentPoint].Compass +
+                randomRange(-20, 20));
 
               cameraChanged := true;
               continue;

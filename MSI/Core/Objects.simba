@@ -233,6 +233,30 @@ begin
         AssociatedItems    := [LOGS_MAPLE];
       end;
 
+    TREE_MAPLE_NEW:
+      with result do
+      begin
+        Name               := 'TREE_MAPLE_NEW';
+        Uptexts            := ['wn Map'];
+        Options            := ['Chop down Maple'];
+        Level              := 45;
+        Colors             := [2502472];
+        Tol                := 7;
+        Hue                := 0.30;
+        Sat                := 1.44;
+        FindAllColors      := False;
+        W                  := 35;
+        H                  := 50;
+        Accuracy           := 100;
+        SearchArea         := MSBox;
+        ExcludeSelf        := False;
+        WaitToMove         := True;
+        MultiClick         := True;
+        Track              := False;
+        MaxTime            := 60000;
+        AssociatedItems    := [LOGS_MAPLE];
+      end;
+
     TREE_YEW:
       with result do
       begin
