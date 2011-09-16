@@ -190,20 +190,7 @@ begin
   with MSI_Players[CurrentPlayer] do
   begin
     script := MSI_Scripts[Scripts[CurrentScript].Name];
-
-    case (script.skillConst) of
-      SKILL_WOODCUTTING:
-        objs := Scripts[CurrentScript].Trees;
-
-      SKILL_MINING:
-        objs := Scripts[CurrentScript].Rocks;
-
-      SKILL_FISHING:
-        objs := Scripts[CurrentScript].FishSpots;
-
-      SKILL_COOKING, SKILL_NONE:
-        objs := Scripts[CurrentScript].Materials;
-    end;
+    objs := MSI_GetPlayerObjects();
 
     for j := 0 to High(objs) do
     begin
