@@ -329,30 +329,6 @@ begin
         AssociatedItems    := [LOGS_MAGIC];
       end;
 
-    TREE_IVY:
-      with result do
-      begin
-        Name               := 'TREE_IVY';
-        Uptexts            := ['Ivy'];
-        Options            := ['hop Iv'];
-        Level              := 68;
-        Colors             := [5082476];
-        Tol                := 5;
-        Hue                := 0.07;
-        Sat                := 0.27;
-        FindAllColors      := False;
-        W                  := 30;
-        H                  := 47;
-        Accuracy           := 5;
-        SearchArea         := MSBox;
-        ExcludeSelf        := False;
-        RightClickOnly     := False;
-        WaitToMove         := True;
-        MultiClick         := True;
-        MaxTime            := 90000;
-        AssociatedItems    := [];
-      end;
-
     { BANKS ====================================== ]
     [============================================= }
     MSI_BANK_VE:
