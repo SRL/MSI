@@ -447,16 +447,7 @@ const
   BUCKET_EMPTY  = 187;
   BUCKET_WATER  = 188;
 
-  BAR_BRONZE  = 200;
-  BAR_IRON    = 201;
-  BAR_SILVER  = 202;
-  BAR_STEEL   = 203;
-  BAR_GOLD    = 204;
-  BAR_MITHRIL = 205;
-  BAR_ADAMANT = 206;
-  BAR_RUNE    = 207;
-
-  ITEM_ARRAY_LENGTH = 207; // Change to the highest item constant
+  ITEM_ARRAY_LENGTH = 188; // Change to the highest item constant
 
 (*
 Object Constants
@@ -697,17 +688,7 @@ const
   MATERIAL_BOWL        = 23;
   MATERIAL_BUCKET      = 24;
 
-  // Smelting
-  MATERIAL_BAR_BRONZE  = 30;
-  MATERIAL_BAR_IRON    = 31;
-  MATERIAL_BAR_SILVER  = 32;
-  MATERIAL_BAR_STEEL   = 33;
-  MATERIAL_BAR_GOLD    = 34;
-  MATERIAL_BAR_MITHRIL = 35;
-  MATERIAL_BAR_ADAMANT = 36;
-  MATERIAL_BAR_RUNE    = 37;
-
-  MATERIAL_LENGTH      = 37;
+  MATERIAL_LENGTH      = 25; // used in the form
 
 (*
 Proggy Constants
