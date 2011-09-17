@@ -428,14 +428,14 @@ begin
          with subLocs[1] do
          begin
            name := 'Draynor Village Yews Central';
-           tileBox := intToBox(3164, 3219, 3168, 3224);
+           tileBox := intToBox(3164, 3219, 3170, 3224);
            compass := 90;
          end;
 
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
-           tileBox := intToBox(3180, 3222, 3188, 3228);
+           tileBox := intToBox(3183, 3222, 3188, 3228);
            compass := 180;
          end;
 
@@ -505,21 +505,21 @@ begin
          with subLocs[1] do
          begin
            name := 'Rimmington Mine East';
-           tileBox := intToBox(2983, 3233, 2988, 3241);
+           tileBox := intToBox(2983, 3233, 2988, 3242);
            objects := [ROCK_CLAY, ROCK_TIN];
          end;
 
          with subLocs[2] do
          begin
            name := 'Rimmington Mine South';
-           tileBox := intToBox(2976, 3231, 2981, 3236);
+           tileBox := intToBox(2973, 3231, 2985, 3238);
            objects := [ROCK_IRON, ROCK_GOLD]
          end;
 
          with subLocs[3] do
          begin
            name := 'Rimmington Mine West';
-           tileBox := intToBox(2968, 3235, 2973, 3243);
+           tileBox := intToBox(2967, 3236, 2971, 3243);
            objects := [ROCK_IRON];
          end;
        end;

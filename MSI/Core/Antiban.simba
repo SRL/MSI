@@ -42,7 +42,7 @@ var
 begin
   repeat
     inc(clicks);
-    mouse(x, y, 3, 3, true);
+    mouse(x, y, 1, 1, true);
 
     if (red) then
       result := didClick(true, 50 + random(50))

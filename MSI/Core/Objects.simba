@@ -1554,8 +1554,8 @@ begin
           break;
         end;
 
-        mmouse(obj.x, obj.y, 5, 5);
-        wait(randomRange(100, 200));
+        mmouse(obj.x, obj.y, 1, 1);
+        wait(10);
         MSI_SubDebug('Uptext: '+rs_GetUptext());
 
         // check the uptext of where we moved the mouse to
