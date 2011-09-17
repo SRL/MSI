@@ -226,6 +226,16 @@ begin
         Level       := 45;
       end;
 
+    MATERIAL_SWORDFISH:
+      with Result do
+      begin
+        Name        := 'Monkfish';
+        Supplies    := [TIntegerArray([FISH_RAW_MONKFISH, -1])];
+        Produces    := [FISH_COOKED_MONKFISH];
+        MemberOnly  := True;
+        Level       := 62;
+      end;
+
     MATERIAL_SHARK:
       with Result do
       begin

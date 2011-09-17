@@ -250,6 +250,15 @@ begin
                   Point(10, 19)
                 ];
 
+    FISH_RAW_MONKFISH, FISH_COOKED_MONKFISH:
+      Result := [
+                  Point(19, 16),
+                  Point(30, 10),
+                  Point(8, 14),
+                  Point(16, 25),
+                  Point(38, 22)
+                ];
+
     FISH_RAW_SHARK, FISH_COOKED_SHARK:
      Result := [
                  Point(1108, 277),
@@ -458,6 +467,7 @@ begin
     FISH_RAW_TUNA      : Result := 9408662;
     FISH_RAW_LOBSTER   : Result := 2244720;
     FISH_RAW_SWORDFISH : Result := 12615862;
+    FISH_RAW_MONKFISH  : Result := 4017773;
     FISH_RAW_SHARK     : Result := 5132114;
 
     FISH_COOKED_SHRIMP    : Result := 1195905;
@@ -471,6 +481,7 @@ begin
     FISH_COOKED_TUNA      : Result := 5263965;
     FISH_COOKED_LOBSTER   : Result := 1728190;
     FISH_COOKED_SWORDFISH : Result := 9330310;
+    FISH_COOKED_MONKFISH  : Result := 4279125;
     FISH_COOKED_SHARK     : Result := 5202296;
 
     GEM_UNCUT_SAPPHIRE : Result := 7279119;
@@ -1111,6 +1122,16 @@ begin
         EquipLevel := -1;
       end;
 
+    FISH_RAW_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw Monkfish';
+        StatsName := 'Monkfish Caught';
+        UpText := ['aw monkfish', 'aw monk', 'aw mon'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
     FISH_RAW_SHARK:
       with MSI_Items[whichItem] do
       begin
@@ -1227,6 +1248,16 @@ begin
         Name := 'Cooked swordfish';
         StatsName := 'Swordfish Cooked';
         UpText := ['wordfish'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked Monkfish';
+        StatsName := 'Monkfish Cooked';
+        UpText := ['Monkfish', 'Monk', 'Mon'];
         Stackable := False;
         EquipLevel := -1;
       end;

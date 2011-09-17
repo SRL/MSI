@@ -836,7 +836,8 @@ begin
               Options            := ['Net'];
               Level              := 1;
               RightClickOnly     := False;
-              AssociatedItems    := [FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE];
+              AssociatedItems    := [FISH_RAW_SHRIMP, FISH_RAW_ANCHOVIE,
+                                     FISH_RAW_MONKFISH];
             end;
 
           FISHSPOT_BAIT:

@@ -1206,7 +1206,8 @@ begin
           Materials := [ MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
                          MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
                          MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
-                         MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_SHARK ];
+                         MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_MONKFISH,
+                         MATERIAL_SHARK ];
         end;
 
         with PathInfo do
