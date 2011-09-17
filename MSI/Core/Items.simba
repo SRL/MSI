@@ -250,6 +250,15 @@ begin
                   Point(10, 19)
                 ];
 
+    FISH_RAW_MONKFISH, FISH_COOKED_MONKFISH:
+      Result := [
+                  Point(19, 16),
+                  Point(30, 10),
+                  Point(8, 14),
+                  Point(16, 25),
+                  Point(38, 22)
+                ];
+
     FISH_RAW_SHARK, FISH_COOKED_SHARK:
      Result := [
                  Point(1108, 277),
@@ -364,16 +373,6 @@ begin
                   Point(876, 320)
                 ];
 
-    BAR_BRONZE, BAR_IRON, BAR_SILVER, BAR_STEEL,
-    BAR_GOLD, BAR_MITHRIL, BAR_ADAMANT, BAR_RUNE:
-      Result := [
-                  Point(15, 10),
-                  Point(1, 17),
-                  Point(17, 22),
-                  Point(29, 6),
-                  Point(12, 2)
-                ];
-
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
   end;
@@ -458,6 +457,7 @@ begin
     FISH_RAW_TUNA      : Result := 9408662;
     FISH_RAW_LOBSTER   : Result := 2244720;
     FISH_RAW_SWORDFISH : Result := 12615862;
+    FISH_RAW_MONKFISH  : Result := 4017773;
     FISH_RAW_SHARK     : Result := 5132114;
 
     FISH_COOKED_SHRIMP    : Result := 1195905;
@@ -471,6 +471,7 @@ begin
     FISH_COOKED_TUNA      : Result := 5263965;
     FISH_COOKED_LOBSTER   : Result := 1728190;
     FISH_COOKED_SWORDFISH : Result := 9330310;
+    FISH_COOKED_MONKFISH  : Result := 4279125;
     FISH_COOKED_SHARK     : Result := 5202296;
 
     GEM_UNCUT_SAPPHIRE : Result := 7279119;
@@ -510,15 +511,6 @@ begin
     BOWL_WATER  : Result := 11712313;
     BUCKET_EMPTY: Result := 1521995;
     BUCKET_WATER: Result := 9008758;
-
-    BAR_BRONZE  : Result := 2374992;
-    BAR_IRON    : Result := 5329237;
-    BAR_SILVER  : Result := 11183011;
-    BAR_STEEL   : Result := 8158338;
-    BAR_GOLD    : Result := 2074835;
-    BAR_MITHRIL : Result := 6439490;
-    BAR_ADAMANT : Result := 4871497;
-    BAR_RUNE    : Result := 6840656;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1111,6 +1103,16 @@ begin
         EquipLevel := -1;
       end;
 
+    FISH_RAW_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw Monkfish';
+        StatsName := 'Monkfish Caught';
+        UpText := ['aw monkfish', 'aw monk', 'aw mon'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
     FISH_RAW_SHARK:
       with MSI_Items[whichItem] do
       begin
@@ -1227,6 +1229,16 @@ begin
         Name := 'Cooked swordfish';
         StatsName := 'Swordfish Cooked';
         UpText := ['wordfish'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked Monkfish';
+        StatsName := 'Monkfish Cooked';
+        UpText := ['Monkfish', 'Monk', 'Mon'];
         Stackable := False;
         EquipLevel := -1;
       end;
@@ -1446,88 +1458,6 @@ begin
         UpText := ['oft clay'];         // Uptext
         Stackable := False;             // Is it stackable?
         EquipLevel := -1;               // Set to -1 if it can't be equipped
-      end;
-
-    { BARS ======================================= ]
-    [============================================= }
-    BAR_BRONZE:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Bronze Bar';
-        StatsName := 'Bronze Bars Melted';
-        UpText := ['ronze bar'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-    BAR_IRON:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Iron Bar';
-        StatsName := 'Iron Bars Melted';
-        UpText := ['ron bar'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-    BAR_SILVER:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Silver Bar';
-        StatsName := 'Silver Bars Melted';
-        UpText := ['ilver bar'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-    BAR_STEEL:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Steel Bar';
-        StatsName := 'Steel Bars Melted';
-        UpText := ['teel bar'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-    BAR_GOLD:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Gold Bar';
-        StatsName := 'Gold Bars Melted';
-        UpText := ['old bar'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-    BAR_MITHRIL:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Mithril Bar';
-        StatsName := 'Mithril Bars Melted';
-        UpText := ['ithril bar'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-    BAR_ADAMANT:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Adamant Bar';
-        StatsName := 'Adamant Bars Melted';
-        UpText := ['damant bar'];
-        Stackable := False;
-        EquipLevel := -1;
-      end;
-
-    BAR_RUNE:
-      with MSI_Items[whichItem] do
-      begin
-        Name := 'Rune Bar';
-        StatsName := 'Rune Bars Melted';
-        UpText := ['une bar'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     VIAL_EMPTY:

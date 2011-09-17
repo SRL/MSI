@@ -36,86 +36,6 @@ Example:
 function MSI_GetMaterial(which : Integer): TMaterial;
 begin
   case which of
-    MATERIAL_BAR_BRONZE:
-      with Result do
-      begin
-        Name        := 'Bronze Bar';
-        Supplies    := [TIntegerArray([ORE_COPPER, 14]),TIntegerArray([ORE_TIN, -1])];
-        Produces    := [BAR_BRONZE];
-        MemberOnly  := False;
-        Level       := 1;
-      end;
-
-    MATERIAL_BAR_IRON:
-      with Result do
-      begin
-        Name        := 'Iron Bar';
-        Supplies    := [TIntegerArray([ORE_IRON, -1])];
-        Produces    := [BAR_IRON];
-        MemberOnly  := False;
-        Level       := 15;
-      end;
-
-    MATERIAL_BAR_SILVER:
-      with Result do
-      begin
-        Name        := 'Silver BAR';
-        Supplies    := [TIntegerArray([ORE_SILVER, -1])];
-        Produces    := [BAR_SILVER];
-        MemberOnly  := False;
-        Level       := 20;
-      end;
-
-    MATERIAL_BAR_STEEL:
-      with Result do
-      begin
-        Name        := 'Steel Bar';
-        Supplies    := [TIntegerArray([ORE_IRON, 9]), TIntegerArray([ORE_COAL, -1])];
-        Produces    := [BAR_STEEL];
-        MemberOnly  := False;
-        Level       := 30;
-      end;
-
-    MATERIAL_BAR_GOLD:
-      with Result do
-      begin
-        Name        := 'Gold Bar';
-        Supplies    := [TIntegerArray([ORE_GOLD, -1])];
-        Produces    := [BAR_GOLD];
-        MemberOnly  := False;
-        Level       := 40;
-      end;
-
-    MATERIAL_BAR_MITHRIL:
-      with Result do
-      begin
-        Name        := 'Mithril Bar';
-        Supplies    := [TIntegerArray([ORE_MITHRIL, 5]), TIntegerArray([ORE_COAL, -1])];
-        Produces    := [BAR_MITHRIL];
-        MemberOnly  := False;
-        Level       := 50;
-      end;
-
-    MATERIAL_BAR_ADAMANT:
-      with Result do
-      begin
-        Name        := 'Adamant Bar';
-        Supplies    := [TIntegerArray([ORE_ADAMANTITE, 4]), TIntegerArray([ORE_COAL, -1])];
-        Produces    := [BAR_ADAMANT];
-        MemberOnly  := False;
-        Level       := 70;
-      end;
-
-    MATERIAL_BAR_RUNE:
-      with Result do
-      begin
-        Name        := 'Rune Bar';
-        Supplies    := [TIntegerArray([ORE_RUNITE, 3]), TIntegerArray([ORE_COAL, -1])];
-        Produces    := [BAR_RUNE];
-        MemberOnly  := False;
-        Level       := 85;
-      end;
-
     MATERIAL_CRAYFISH:
       with Result do
       begin
@@ -224,6 +144,16 @@ begin
         Produces    := [FISH_COOKED_SWORDFISH];
         MemberOnly  := False;
         Level       := 45;
+      end;
+
+    MATERIAL_SWORDFISH:
+      with Result do
+      begin
+        Name        := 'Monkfish';
+        Supplies    := [TIntegerArray([FISH_RAW_MONKFISH, -1])];
+        Produces    := [FISH_COOKED_MONKFISH];
+        MemberOnly  := True;
+        Level       := 62;
       end;
 
     MATERIAL_SHARK:
