@@ -177,7 +177,6 @@ Example:
 procedure MSI_CountItems;
 var
   itemCount, expCount, j, k: Integer;
-  objs: TIntegerArray;
   exps: TExtendedArray;
   script: TScript;
   item: TItem;
@@ -190,9 +189,8 @@ begin
   with MSI_Players[CurrentPlayer] do
   begin
     script := MSI_Scripts[Scripts[CurrentScript].Name];
-    objs := MSI_GetPlayerObjects();
 
-    for j := 0 to High(objs) do
+    for j := 0 to High(ReportInfo.Items[CurrentScript]) do
     begin
       exps := MSI_GetItemExp(script.skillConst, reportInfo.items[currentScript][j]);
 
