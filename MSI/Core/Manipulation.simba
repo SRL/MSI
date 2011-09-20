@@ -260,7 +260,9 @@ begin
   end;
 
   result := intToBox(corners[0].x, corners[0].y, corners[1].x, corners[1].y);
+  {$IFDEF SMART}
   SMART_DrawBoxEx(true, result, clGreen);
+  {$ENDIF}
 
   MSI_SubDebug('MSI_BoxToMM(): ' + toStr(result));
 end;
