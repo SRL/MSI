@@ -186,7 +186,7 @@ begin
   anim := MSI_GetAnimation(ANIM_CHOPPING);
   wait(randomRange(1000, 1500));
 
-  while (LoggedIn) do
+  while (loggedIn and (not invFull)) do
   begin
     if (not waitFunc(@MSI_IsChopping, 10, 1000)) then
       break;
