@@ -145,13 +145,13 @@ begin
         Options            := ['own Oak'];
         Level              := 15;
         Colors             := [1583672];
-        Tol                := 5;
+        Tol                := 8;
         Hue                := 0.13;
         Sat                := 0.28;
         FindAllColors      := False;
         W                  := 60;
         H                  := 90;
-        Accuracy           := 100;
+        Accuracy           := 120;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
