@@ -1043,6 +1043,26 @@ begin
          MultiClick         := False;
       end;
 
+    FOUNTAIN_GE:
+      with result do
+      begin
+         Name               := 'FOUNTAIN_GRAND_EXCHANGE';
+         Uptexts            := ['ount'];
+         Options            := ['se'];
+         Colors             := [10915707];
+         Tol                := 2;
+         Hue                := 0.56;
+         Sat                := 1.73;
+         FindAllColors      := False;
+         W                  := 50;
+         H                  := 50;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         WaitToMove         := True;
+         MultiClick         := False;
+      end;
+
     WELL_EV:
       with result do
       begin
