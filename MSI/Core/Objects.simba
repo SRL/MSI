@@ -144,10 +144,10 @@ begin
         Uptexts            := ['Oak'];
         Options            := ['own Oak'];
         Level              := 15;
-        Colors             := [1583672];
-        Tol                := 8;
-        Hue                := 0.13;
-        Sat                := 0.28;
+        Colors             := [3166314];
+        Tol                := 6;
+        Hue                := 0.07;
+        Sat                := 0.20;
         FindAllColors      := False;
         W                  := 60;
         H                  := 90;
