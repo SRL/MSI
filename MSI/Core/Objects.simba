@@ -144,14 +144,14 @@ begin
         Uptexts            := ['Oak'];
         Options            := ['own Oak'];
         Level              := 15;
-        Colors             := [1583672];
-        Tol                := 5;
-        Hue                := 0.13;
-        Sat                := 0.28;
+        Colors             := [3166314];
+        Tol                := 6;
+        Hue                := 0.07;
+        Sat                := 0.20;
         FindAllColors      := False;
         W                  := 60;
         H                  := 90;
-        Accuracy           := 100;
+        Accuracy           := 120;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -1033,6 +1033,26 @@ begin
          Tol                := 12;
          Hue                := 0.02;
          Sat                := 2.47;
+         FindAllColors      := False;
+         W                  := 50;
+         H                  := 50;
+         Accuracy           := 20;
+         SearchArea         := MSBox;
+         ExcludeSelf        := True;
+         WaitToMove         := True;
+         MultiClick         := False;
+      end;
+
+    FOUNTAIN_GE:
+      with result do
+      begin
+         Name               := 'FOUNTAIN_GRAND_EXCHANGE';
+         Uptexts            := ['ount'];
+         Options            := ['se'];
+         Colors             := [10915707];
+         Tol                := 2;
+         Hue                := 0.56;
+         Sat                := 1.73;
          FindAllColors      := False;
          W                  := 50;
          H                  := 50;

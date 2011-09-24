@@ -135,12 +135,14 @@ const
 
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
-  SCRIPT_EV_SOFTENER = 101;
-  SCRIPT_FW_SOFTENER = 102;
-  SCRIPT_VE_FILLER   = 103;
-  SCRIPT_FW_FILLER   = 104;
+  SCRIPT_GE_SOFTENER = 101;
+  SCRIPT_EV_SOFTENER = 102;
+  SCRIPT_FW_SOFTENER = 103;
+  SCRIPT_VE_FILLER   = 104;
+  SCRIPT_FW_FILLER   = 105;
+  SCRIPT_GE_FILLER   = 106;
 
-  SCRIPT_ARRAY_LENGTH = 104; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 106; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -232,6 +234,7 @@ const
     LOC_GE_BANK  = 20;
     LOC_GE_YEWS  = 21;
     LOC_GE_OAKS  = 22;
+    LOC_GE_FOUNTAIN = 23;
 
   // Draynor
   LOC_DB_BANK    = 30;
@@ -470,18 +473,18 @@ Example:
 *)
 const
   // Trees
-  TREE_DEAD       = 9;
-  TREE_NORMAL     = 10;
-  TREE_NORMAL_NEW = 11;
-  TREE_OAK        = 12;
-  TREE_OAK_NEW    = 13;
-  TREE_WILLOW     = 14;
-  TREE_WILLOW_NEW = 15;
-  TREE_MAPLE      = 16;
-  TREE_MAPLE_NEW  = 17;
-  TREE_YEW        = 18;
-  TREE_YEW_NEW    = 19;
-  TREE_MAGIC      = 20;
+  TREE_DEAD       = 8;
+  TREE_NORMAL     = 9;
+  TREE_NORMAL_NEW = 10;
+  TREE_OAK        = 11;
+  TREE_OAK_NEW    = 12;
+  TREE_WILLOW     = 13;
+  TREE_WILLOW_NEW = 14;
+  TREE_MAPLE      = 15;
+  TREE_MAPLE_NEW  = 16;
+  TREE_YEW        = 17;
+  TREE_YEW_NEW    = 18;
+  TREE_MAGIC      = 19;
 
   // Rocks
   ROCK_CLAY       = 20;
@@ -534,8 +537,9 @@ const
 
   // Water Sources
   FOUNTAIN_VE = 110;
-  WELL_EV     = 111;
-  PUMP_FW     = 112;
+  FOUNTAIN_GE = 111;
+  WELL_EV     = 112;
+  PUMP_FW     = 113;
 
   // Furnaces
   FURNACE_AK = 120;
@@ -689,7 +693,7 @@ const
   MATERIAL_BOWL        = 23;
   MATERIAL_BUCKET      = 24;
 
-  MATERIAL_LENGTH      = 25; // used in the form
+  MATERIAL_LENGTH      = 24; // used in the form
 
 (*
 Proggy Constants

@@ -390,7 +390,7 @@ begin
       MMouse(x, y, 5, 5);
 
       if (WaitUptext('osit', 500)) then
-        if (GetAmount(x, y) > 1) then
+        if (GetAmountBox(b) > 1) then
         begin
           Mouse(x, y, 0, 0, False);
           WaitOption('osit-All', 500);

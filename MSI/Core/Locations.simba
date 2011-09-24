@@ -151,6 +151,21 @@ begin
          end;
        end;
 
+     LOC_GE_FOUNTAIN:
+       with MSI_Locations[loc] do
+       begin
+         name := 'Grand Exchange Fountain';
+         atBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Grand Exchange Fountain';
+           tileBox := intToBox(3161, 3488, 3168, 3495);
+           objects := [FOUNTAIN_GE];
+         end;
+       end;
+
      LOC_VW_BANK:
        with MSI_Locations[loc] do
        begin
@@ -660,7 +675,6 @@ begin
          begin
            name := 'Port Sarim Willows South';
            tileBox := intToBox(3055, 3243, 3063, 3255);
-           compass := 270;
          end;
 
          with subLocs[1] do
