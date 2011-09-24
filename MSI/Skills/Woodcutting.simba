@@ -149,7 +149,12 @@ Example:
 *)
 function MSI_IsChopping(): boolean;
 begin
-  result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
+  if (not inIntArray([SCRIPT_SV_MAGICS, SCRIPT_SV_MAPLES,
+                 SCRIPT_SV_YEWS, SCRIPT_SV_OAKS, SCRIPT_SV_TREES],
+                 MSI_Scripts[CurrentScript].Constant)) then
+    result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
+  else
+    result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
 end;
 
 (*
@@ -183,7 +188,7 @@ begin
     exit;
 
   flag;
-  anim := MSI_GetAnimation(ANIM_CHOPPING);
+  //anim := MSI_GetAnimation(ANIM_CHOPPING);
   wait(randomRange(1000, 1500));
 
   while (LoggedIn) do

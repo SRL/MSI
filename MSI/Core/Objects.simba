@@ -288,14 +288,14 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [2896441];
-        Tol                := 5;
-        Hue                := 0.46;
-        Sat                := 0.28;
+        Colors             := [4015951];//2896441
+        Tol                := 8;//5
+        Hue                := 0.14;//0.46
+        Sat                := 0.06;//0.28
         FindAllColors      := False;
         W                  := 60;
         H                  := 90;
-        Accuracy           := 70;
+        Accuracy           := 100;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -1532,7 +1532,7 @@ begin
         end;
 
         mmouse(obj.x, obj.y, 1, 1);
-        wait(10);
+        wait(100);
         MSI_SubDebug('Uptext: '+rs_GetUptext());
 
         // check the uptext of where we moved the mouse to

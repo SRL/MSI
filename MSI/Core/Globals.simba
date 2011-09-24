@@ -648,6 +648,7 @@ const
   ANIM_ALCH_LOW  = 10;
   ANIM_ALCH_HIGH = 11;
   ANIM_CHOPPING  = 12;
+  ANIM_CHOPPING_NEW = 13;
 
 (*
 Material Constants
