@@ -189,7 +189,6 @@ the saved player's information, the debug/report files, and the settings file.
 *)
 const
   PATH_PLAYER       = IncludePath + 'MSI\Player.txt';        // Path for all the player information
-  PATH_REMOTE       = IncludePath + 'MSI\Remote.txt';        // Path for the player remote information
   PATH_REPORT       = IncludePath + 'MSI\Progress Reports\'; // Path for progress report
   PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';       // Path for debug
   PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';      // Path for script settings
