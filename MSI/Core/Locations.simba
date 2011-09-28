@@ -436,7 +436,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Yews West';
-           tileBox := intToBox(3149, 3226, 3154, 3233);
+           tileBox := intToBox(3149, 3228, 3154, 3233);
            compass := 90;
          end;
 
