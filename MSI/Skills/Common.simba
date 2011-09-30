@@ -64,6 +64,9 @@ begin
             Result := PICKAXE_IRON;
         end;
 
+      SKILL_RUNECRAFTING:
+        result := defaults.tiara;
+
       else
         MSI_SubDebug('MSI_BestTool: Invalid skill!');
     end;
@@ -107,6 +110,9 @@ begin
 
       SKILL_MINING:
         Result := PICKAXE_BRONZE;
+
+      SKILL_RUNECRAFTING:
+        result := defaults.tiara;
 
       else
         MSI_SubDebug('MSI_WorstTool: Invalid skill!');
