@@ -377,7 +377,7 @@ begin
                   Point(876, 320)
                 ];
 
-    TIARA_AIR:
+    TIARA_AIR, TIARA_EARTH, TIARA_WATER, TIARA_BODY, TIARA_MIND, TIARA_FIRE:
       Result := [
                   Point(1112, 413),
                   Point(1099, 407),
@@ -528,6 +528,11 @@ begin
     BUCKET_WATER: Result := 9008758;
 
     TIARA_AIR   : Result := 14014175;
+    TIARA_EARTH : Result := 2048358;
+    TIARA_WATER : Result := 16222243;
+    TIARA_BODY  : Result := 855309;
+    TIARA_MIND  : Result := 2175211;
+    TIARA_FIRE  : Result := 1450400;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1576,7 +1581,52 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Air tiara';
-        UpText := ['ir', 'r tia', 'ir t'];
+        UpText := ['Air', 'ir tia', 'ir t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth tiara';
+        UpText := ['Earth', 'rth tia', 'th ti'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water tiara';
+        UpText := ['Water', 'ater tia', 'ter te'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_MIND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind tiara';
+        UpText := ['Mind', 'ind tia', 'nd t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_BODY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body tiara';
+        UpText := ['Body', 'dy tia', 'dy t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire tiara';
+        UpText := ['Fire', 're tia'];
         Stackable := False;
         EquipLevel := 1;
       end;
