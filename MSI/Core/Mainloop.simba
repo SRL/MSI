@@ -198,7 +198,11 @@ begin
       begin
         item := MSI_Items[ReportInfo.Items[CurrentScript][j][k]];
 
-        itemCount := CountItems('dtm', item.DTM, []);
+        if (item.stackable) then
+          itemCount := ItemAmount('inv', 'dtm', item.DTM, [])
+        else
+          itemCount := CountItems('dtm', item.DTM, []);
+
         expCount  := round(exps[k] * itemCount);
 
         MSI_AddToProggy(PROG_ADD_EXP, -1, -1, expCount);  // Adds experience

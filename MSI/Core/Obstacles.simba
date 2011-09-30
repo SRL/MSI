@@ -49,6 +49,7 @@ begin
         ObjConst := LADDER_MG_DOWN;
         ObjMir   := LADDER_MG_UP;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
+        MirAction := moNothing;
         Camera   := ['n', true];
 
         // West, South, East, North
@@ -63,6 +64,7 @@ begin
         ObjConst := LADDER_MG_UP;
         ObjMir   := LADDER_MG_DOWN;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
+        MirAction := moNothing;
         Camera   := ['n', true];
 
         // West, South, East, North
@@ -77,6 +79,7 @@ begin
         ObjConst   := WALL_FW;
         ObjMir     := WALL_FW;
         ObjMirArea := intToBox(MSCX, MSY1, MSX2, MSY2); // Right half of MS;
+        MirAction  := moMove;
         Camera     := ['w', false];
         EndTiles   := [Point(2940, 3355)];
       end;
@@ -89,6 +92,7 @@ begin
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := intToBox(MSCX - 100, MSCY - 100, MSCX + 100, MSCY - 20);
+        MirAction  := moMove;
         Camera     := ['n', true];
         EndTiles   := [Point(2933, 3288)];
       end;
@@ -100,6 +104,7 @@ begin
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := intToBox(MSCX - 100, MSCY, MSCX + 100, MSCY + 100);
+        MirAction  := moMove;
         Camera     := ['n', true];
         EndTiles   := [Point(2933, 3289)];
       end;
@@ -107,10 +112,11 @@ begin
     OBS_OUTSIDE_ALTER:
       with result do
       begin
-        Name       := 'OUTSIDE_ALTER';
-        ObjConst   := ALTER_OUTSIDE;
+        Name       := 'OBS_OUTSIDE_ALTER';
+        ObjConst   := ALTER_AIR;
         ObjMir     := ALTER_PORTAL;
-        ObjMirArea := MSBOX;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
         Camera     := ['n', true];
         EndTiles   := [Point(2841, 4830)];
       end;
@@ -118,10 +124,11 @@ begin
     OBS_PORTAL_ALTER:
       with result do
       begin
-        Name       := 'OUTSIDE_PORTAL';
+        Name       := 'OBS_PORTAL_ALTER';
         ObjConst   := ALTER_PORTAL;
-        ObjMir     := ALTER_OUTSIDE;
-        ObjMirArea := MSBOX;
+        ObjMir     := ALTER_AIR;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
         Camera     := ['n', true];
         EndTiles   := [Point(3128, 3407)];
       end;
@@ -208,7 +215,7 @@ begin
     SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
   {$ENDIF}
 
-  if (MSI_FindObject(mirObj, moMove)) then
+  if (MSI_FindObject(mirObj, obs.mirAction)) then
   begin
     MSI_SubDebug('Found mirror object: ' + mirObj.name);
     result := true;

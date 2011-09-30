@@ -82,7 +82,6 @@ begin
                         ];
 
           SPSAreas := ['12_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -114,7 +113,7 @@ begin
                         ];
 
           SPSAreas := ['11_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -145,7 +144,6 @@ begin
                         ];
 
           SPSAreas   := ['11_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -176,7 +174,7 @@ begin
                         ];
 
           SPSAreas   := ['10_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -207,7 +205,7 @@ begin
                         ];
 
           SPSAreas   := ['10_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -238,7 +236,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -274,7 +272,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9', '8_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -308,7 +306,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -340,7 +338,7 @@ begin
                         ];
 
           SPSAreas   := ['9_8', '9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -373,7 +371,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9', '9_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -409,7 +407,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6', '6_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -439,7 +437,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -473,7 +471,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -504,7 +502,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -537,7 +535,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -569,7 +567,7 @@ begin
                         ];
 
           SPSAreas   := ['10_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -602,7 +600,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9', '11_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -655,7 +653,7 @@ begin
                         ];
 
           SPSAreas   := ['12_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -690,7 +688,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -725,7 +723,7 @@ begin
                         ];
 
           SPSAreas   := ['11_9', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -760,7 +758,7 @@ begin
                         ];
 
           SPSAreas   := ['11_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -792,7 +790,7 @@ begin
                         ];
 
           SPSAreas   := ['8_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
           Obstacles[OBS_LOC_TO] := [OBS_WALL_FW];
           Obstacles[OBS_LOC_FROM] := [OBS_WALL_FW];
         end;
@@ -828,7 +826,7 @@ begin
                         ];
 
           SPSAreas   := ['10_6', '10_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -861,7 +859,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -895,7 +893,7 @@ begin
                         ];
 
           SPSAreas   := ['10_8', '10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -930,7 +928,7 @@ begin
                         ];
 
           SPSAreas   := ['12_8', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1010,7 +1008,7 @@ begin
                         ];
 
           SPSAreas := ['8_8', '9_7', '9_8'];
-          Color := MSI_Convert2DTilePath(Reflection);
+
           Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
           Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
         end;
@@ -1062,7 +1060,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1097,7 +1095,7 @@ begin
 
 
           SPSAreas   := ['10_6', '10_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1130,7 +1128,7 @@ begin
                         ];
 
           SPSAreas   := ['7_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1165,7 +1163,7 @@ begin
                         ];
 
           SPSAreas := ['8_9'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1208,7 +1206,7 @@ begin
                         ];
 
           SPSAreas   := ['12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1266,7 +1264,7 @@ begin
                         ];
 
           SPSAreas := ['11_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1301,7 +1299,7 @@ begin
                         ];
 
           SPSAreas := ['11_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1336,7 +1334,7 @@ begin
                         ];
 
           SPSAreas := ['10_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1371,7 +1369,7 @@ begin
                         ];
 
           SPSAreas := ['8_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1408,7 +1406,7 @@ begin
                         ];
 
           SPSAreas := ['11_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1444,7 +1442,7 @@ begin
                         ];
 
           SPSAreas := ['11_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1480,29 +1478,29 @@ begin
                         ];
 
           SPSAreas := ['8_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
     SCRIPT_RUNECRAFTER_AIR:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Air rune crafter';
+        Name          := 'Air Runecrafter';
         Constant      := SCRIPT_RUNECRAFTER_AIR;
-        SkillName     := 'RuneCrafting';
+        SkillName     := 'Runecrafting';
         SkillConst    := SKILL_RUNECRAFTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_VW;
         GetMaterials  := True;
-        AutoObjects   := @MSI_FillItems;
+        AutoObjects   := @MSI_CraftRunes;
         BankObjects   := @MSI_BankWithdraw;
         PlayerSetup   := @MSI_SetupRunecrafting;
 
 
         with Defaults do
         begin
-          Objects   := [ALTER_CRAFTING_AIR];
-          Materials := [MSI_RUNE_ESSENCE, MSI_PURE_ESSENCE];
+          Objects   := [ALTER_RUNECRAFTING];
+          Materials := [MATERIAL_ESSENCE_RUNE];
           Tiara     := TIARA_AIR;
         end;
 
@@ -1513,17 +1511,17 @@ begin
           EndLoc   := LOC_ALTER_AIR;
 
           Reflection := [
-                          TPointArray([Point(3184, 3436), Point(3173, 3428),
-                                       Point(3164, 3417), Point(3158, 3403),
-                                       Point(3141, 3403), Point(3129, 3403)]),
+                          TPointArray([Point(3185, 3436), Point(3178, 3428),
+                                       Point(3168, 3422), Point(3160, 3419),
+                                       Point(3149, 3416), Point(3140, 3409),
+                                       Point(3128, 3404)]),
 
-                          TPointArray([Point(2841, 4829), Point(2843, 4832)])
+                          TPointArray([])
 
                         ];
-        {
-          SPSAreas := ['8_4'];
-          Color    := MSI_Convert2DTilePath(Reflection);
-        }
+
+          SPSAreas := ['10_7', '11_7'];
+
           Obstacles[OBS_LOC_TO] := [OBS_OUTSIDE_ALTER];
           Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_ALTER];
         end;
@@ -1562,31 +1560,4 @@ var
 begin
   for i := 0 to High(MSI_Scripts) do
     MSI_LoadScript(i);
-end;
-
-(*
-MSI_GetPlayerScript
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_GetPlayerScript(): TScript;
-
-Returns a TScript record of the current player's current script.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 10 Sept 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  scr := MSI_GetCurrentScript();
-*)
-function MSI_GetPlayerScript(): TScript;
-begin
-  with MSI_Players[CurrentPlayer] do
-    result := MSI_Scripts[Scripts[CurrentScript].Name];
 end;

@@ -561,9 +561,9 @@ const
   FURNACE_AK = 120;
 
   //Alters
-  ALTER_OUTSIDE      = 130;
+  ALTER_AIR          = 130;
   ALTER_PORTAL       = 131;
-  ALTER_CRAFTING_AIR = 132;
+  ALTER_RUNECRAFTING = 132;
 
   OBJECT_HIGH = 131; // Change to the highest object constant
 
@@ -890,7 +890,6 @@ type
     StartLoc   : Integer;
     EndLoc     : Integer;
     Reflection : T2DPointArray;
-    Color      : T2DPointArray;
     SPSAreas   : TStringArray;
     Obstacles  : array[0..2] of TIntegerArray;
   end;
@@ -1108,6 +1107,7 @@ type
     ObjConst   : Integer;       // Object constant
     ObjMir     : Integer;       // Object's mirror constant
     ObjMirArea : TBox;          // Obstacle's mirror search area
+    MirAction  : TMouseOption;  // What to do if the object is found on the MS
     Camera     : TVariantArray; // Changes the camera angle and height
     EndTiles   : TPointArray;   // Possible tiles the player will end up on
   end;

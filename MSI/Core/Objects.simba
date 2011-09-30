@@ -1127,20 +1127,20 @@ begin
 
     { Alters ===================================== ]
     [============================================= }
-    ALTER_OUTSIDE:
+    ALTER_AIR:
       with result do
       begin
         Name               := 'ALTER_OUTSIDE';
-        Uptexts            := ['uin','yster'];
-        Options            := ['nter'];
-        Colors             := [7174007];
-        Tol                := 1;
-        Hue                := 0.00;
-        Sat                := 0.46;
+        Uptexts            := ['uin', 'sterious', 'ious'];
+        Options            := ['Enter', 'ter'];
+        Colors             := [14986869];
+        Tol                := 10;
+        Hue                := 0.02;
+        Sat                := 2.93;
         FindAllColors      := False;
-        W                  := 130;
-        H                  := 120;
-        Accuracy           := 400;
+        W                  := 75;
+        H                  := 75;
+        Accuracy           := 50;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
@@ -1151,8 +1151,8 @@ begin
       with result do
       begin
         Name               := 'ALTER_PORTAL';
-        Uptexts            := ['uin','yster'];
-        Options            := ['nter','ort'];
+        Uptexts            := ['Enter', 'ter', 'Portal', 'ortal'];
+        Options            := ['Enter', 'ter', 'Portal', 'ortal'];
         Colors             := [7320757];
         Tol                := 12;
         Hue                := 0.05;
@@ -1164,27 +1164,27 @@ begin
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
-        MultiClick         := False;
+        MultiClick         := True;
       end;
 
-    ALTER_CRAFTING_AIR:
+    ALTER_RUNECRAFTING:
       with result do
       begin
         Name               := 'ALTER_CRAFTING_AIR';
         Uptexts            := ['rune','Alter'];
-        Options            := ['raf'];
-        Colors             := [6512481];
-        Tol                := 0;
+        Options            := ['raft', '-rune', 'une'];
+        Colors             := [5591380];
+        Tol                := 3;
         Hue                := 0.00;
-        Sat                := 0.0;
+        Sat                := 0.03;
         FindAllColors      := False;
-        W                  := 10;
+        W                  := 50;
         H                  := 50;
         Accuracy           := 50;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
-        MultiClick         := False;
+        MultiClick         := True;
       end;
 
   end;
@@ -1261,7 +1261,7 @@ begin
       SKILL_COOKING:
         result := cookingSpot;
 
-      SKILL_NONE:
+      SKILL_NONE, SKILL_RUNECRAFTING:
         result := objects;
     end;
 end;

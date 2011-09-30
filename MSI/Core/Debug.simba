@@ -255,3 +255,30 @@ begin
         MSI_Debug('MSI_AddToProggy: Invalid addition choice to progress report!');
     end;
 end;
+
+(*
+MSI_GetPlayerScript
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetPlayerScript(): TScript;
+
+Returns a TScript record of the current player's current script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 10 Sept 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  scr := MSI_GetCurrentScript();
+*)
+function MSI_GetPlayerScript(): TScript;
+begin
+  with MSI_Players[CurrentPlayer] do
+    result := MSI_Scripts[Scripts[CurrentScript].Name];
+end;

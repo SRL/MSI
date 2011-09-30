@@ -379,11 +379,11 @@ begin
 
     TIARA_AIR:
       Result := [
-                  Point(579, 237),
-                  Point(565, 224),
-                  Point(591, 224),
-                  Point(570, 237),
-                  Point(690, 234)
+                  Point(1112, 413),
+                  Point(1099, 407),
+                  Point(1124, 404),
+                  Point(1122, 414),
+                  Point(1103, 414)
                 ];
 
     else
@@ -527,7 +527,7 @@ begin
     BUCKET_EMPTY: Result := 1521995;
     BUCKET_WATER: Result := 9008758;
 
-    TIARA_AIR   : Result := 9474455;
+    TIARA_AIR   : Result := 14014175;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -2321,7 +2321,7 @@ begin
     end;
   end else begin
     s := 'Equipment';
-    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, 560, 285, 605, 320);
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
   end;
 
   MSI_Debug('Searching ' + s + ' tab');

@@ -208,8 +208,13 @@ begin
           SKILL_COOKING, SKILL_NONE, SKILL_RUNECRAFTING:
             begin
               scripts[j].materials := MSI_SetReportItems(i, j, scripts[j].materials, script.defaults.materials);
-              scripts[j].cookingSpot := script.defaults.cookingSpot;
               scripts[j].objects := script.defaults.objects;
+
+              if (script.skillConst = SKILL_COOKING) then
+                scripts[j].cookingSpot := script.defaults.cookingSpot;
+
+              if (script.skillConst = SKILL_RUNECRAFTING) then
+                scripts[j].tiara := script.defaults.tiara;
             end;
 
           SKILL_MAGIC:
@@ -593,7 +598,8 @@ begin
         end;
 
         case MSI_Scripts[Scripts[j].Name].SkillConst of
-          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING, SKILL_COOKING, SKILL_NONE:
+          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING, SKILL_COOKING,
+          SKILL_NONE, SKILL_RUNECRAFTING:
             MSI_StandardReport(f, i, j);
 
           SKILL_MAGIC:
