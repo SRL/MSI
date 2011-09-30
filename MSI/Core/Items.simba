@@ -1372,6 +1372,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Air rune';
+        StatsName := 'Air Runes (Crafted)';
         UpText := ['Air', 'ir', 'ir r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1381,6 +1382,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Water rune';
+        StatsName := 'Water Runes (Crafted)';
         UpText := ['er ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1390,6 +1392,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Earth rune';
+        StatsName := 'Earth Runes (Crafted)';
         UpText := ['th ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1399,6 +1402,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Fire rune';
+        StatsName := 'Fire Runes (Crafted)';
         UpText := ['ire ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1408,6 +1412,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Mind rune';
+        StatsName := 'Mind Runes (Crafted)';
         UpText := ['nd run'];
         Stackable := True;
         EquipLevel := -1;
@@ -1417,6 +1422,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Body rune';
+        StatsName := 'Body Runes (Crafted)';
         UpText := ['ody r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1426,6 +1432,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Chaos rune';
+        StatsName := 'Chaos Runes (Crafted)';
         UpText := ['haos'];
         Stackable := True;
         EquipLevel := -1;
@@ -1435,6 +1442,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Death rune';
+        StatsName := 'Death Runes (Crafted)';
         UpText := ['Death', 'eath rune', 'eat'];
         Stackable := True;
         EquipLevel := -1;
@@ -1444,6 +1452,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Nature rune';
+        StatsName := 'Nature Runes (Crafted)';
         UpText := ['ture r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1453,6 +1462,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cosmic rune';
+        StatsName := 'Cosmic Runes (Crafted)';
         UpText := ['osmic'];
         Stackable := True;
         EquipLevel := -1;
@@ -1462,6 +1472,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Law rune';
+        StatsName := 'Law Runes (Crafted)';
         UpText := ['aw ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1470,11 +1481,11 @@ begin
     CLAY_SOFT:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Soft Clay';            // Name of the item
-        StatsName := 'Clay (Softened)'; // Stats name so stats are calculated
-        UpText := ['oft clay'];         // Uptext
-        Stackable := False;             // Is it stackable?
-        EquipLevel := -1;               // Set to -1 if it can't be equipped
+        Name := 'Soft Clay';
+        StatsName := 'Clay (Softened)';
+        UpText := ['oft clay'];
+        Stackable := False;
+        EquipLevel := -1;
       end;
 
     { Money Making =============================== ]
@@ -1583,6 +1594,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Pure essence';
+        StatsName := 'Pure Essence (Mined)';
         UpText := ['ure essen'];
         Stackable := False;
         EquipLevel := -1;
