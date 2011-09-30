@@ -305,7 +305,7 @@ begin
                 ];
 
     MSI_RUNE_EARTH, MSI_RUNE_FIRE, MSI_RUNE_COSMIC, MSI_RUNE_NATURE,
-    MSI_RUNE_WATER, MSI_RUNE_CHAOS:
+    MSI_RUNE_WATER, MSI_RUNE_CHAOS, MSI_RUNE_ESSENCE, MSI_PURE_ESSENCE:
       Result := [
                   Point(595, 464),
                   Point(580, 462),
@@ -340,6 +340,7 @@ begin
                   Point(39, 26),
                   Point(28, 33)
                 ];
+
     VIAL_EMPTY, VIAL_WATER:
       Result := [
                   Point(22, 164),
@@ -348,6 +349,7 @@ begin
                   Point(14, 164),
                   Point(21, 174)
                 ];
+
     JUG_EMPTY, JUG_WATER:
       Result := [
                   Point(886, 273),
@@ -356,6 +358,7 @@ begin
                   Point(874, 286),
                   Point(883, 267)
                 ];
+
     BOWL_EMPTY, BOWL_WATER:
       Result := [
                   Point(970, 278),
@@ -364,6 +367,7 @@ begin
                   Point(969, 290),
                   Point(953, 280)
                 ];
+
     BUCKET_EMPTY, BUCKET_WATER:
       Result := [
                   Point(883, 314),
@@ -371,6 +375,15 @@ begin
                   Point(894, 316),
                   Point(885, 330),
                   Point(876, 320)
+                ];
+
+    TIARA_AIR:
+      Result := [
+                  Point(579, 237),
+                  Point(565, 224),
+                  Point(591, 224),
+                  Point(570, 237),
+                  Point(690, 234)
                 ];
 
     else
@@ -501,6 +514,8 @@ begin
     MSI_RUNE_BLOOD : Result := 0;
     MSI_RUNE_SOUL  : Result := 0;
     MSI_RUNE_ASTRAL: Result := 0;
+    MSI_RUNE_ESSENCE: Result := 4539720;
+    MSI_PURE_ESSENCE: Result := 6250600;
 
     CLAY_SOFT   : Result := 802904;
     VIAL_EMPTY  : Result := 5920342;
@@ -511,6 +526,8 @@ begin
     BOWL_WATER  : Result := 11712313;
     BUCKET_EMPTY: Result := 1521995;
     BUCKET_WATER: Result := 9008758;
+
+    TIARA_AIR   : Result := 9474455;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1460,6 +1477,8 @@ begin
         EquipLevel := -1;               // Set to -1 if it can't be equipped
       end;
 
+    { Money Making =============================== ]
+    [============================================= }
     VIAL_EMPTY:
       with MSI_Items[whichItem] do
       begin
@@ -1536,6 +1555,35 @@ begin
         Name := 'Bucket of water';
         StatsName := 'Buckets Filled';
         UpText := ['ucket of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { Tiara ====================================== ]
+    [============================================= }
+    TIARA_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air tiara';
+        UpText := ['ir', 'r tia', 'ir t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    MSI_RUNE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune essence';
+        UpText := ['une essen'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    MSI_PURE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Pure essence';
+        UpText := ['ure essen'];
         Stackable := False;
         EquipLevel := -1;
       end;
@@ -1694,10 +1742,27 @@ begin
           FISH_COOKED_LOBSTER   : e := 120.0;
           FISH_COOKED_SWORDFISH : e := 140.0;
           FISH_COOKED_SHARK     : e := 210.0;
-
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for cooking: ' + IntToStr(Items[i]));
         end;
+
+      SKILL_RUNECRAFTING:
+        case Items[i] of
+          MSI_RUNE_AIR    : e := 5;
+          MSI_RUNE_BODY   : e := 7.5;
+          MSI_RUNE_MIND   : e := 5.5;
+          MSI_RUNE_EARTH  : e := 6.5;
+          MSI_RUNE_FIRE   : e := 7;
+          MSI_RUNE_WATER  : e := 6;
+          MSI_RUNE_CHAOS  : e := 8.5;
+          MSI_RUNE_LAW    : e := 9.5;
+          MSI_RUNE_COSMIC : e := 8;
+          MSI_RUNE_DEATH  : e := 10;
+          MSI_RUNE_NATURE : e := 9;
+          else
+             MSI_SubDebug('MSI_GetItemExperiences: Invalid object for Runecrafting: ' + IntToStr(Items[i]));
+        end;
+
 
       else
         MSI_SubDebug('MSI_GetItemExperiences: Invalid script skill');

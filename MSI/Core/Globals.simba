@@ -142,7 +142,10 @@ const
   SCRIPT_FW_FILLER   = 105;
   SCRIPT_GE_FILLER   = 106;
 
-  SCRIPT_ARRAY_LENGTH = 106; // Change to the highest script constant
+  //Runecrafting
+  SCRIPT_RUNECRAFTER_AIR = 110;
+
+  SCRIPT_ARRAY_LENGTH = 110; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -299,7 +302,10 @@ const
   LOC_CB_BANK = 140;
   LOC_CB_FISH = 141;
 
-  LOC_ARRAY_LENGTH = 141; // Change to the highest location constant
+  // Alters
+  LOC_ALTER_AIR = 150;
+
+  LOC_ARRAY_LENGTH = 150; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -438,6 +444,8 @@ const
   MSI_RUNE_BLOOD  = 171;
   MSI_RUNE_SOUL   = 172;
   MSI_RUNE_ASTRAL = 173;
+  MSI_RUNE_ESSENCE = 174;
+  MSI_PURE_ESSENCE = 175;
 
   CLAY_SOFT     = 180;
   VIAL_EMPTY    = 181;
@@ -449,7 +457,14 @@ const
   BUCKET_EMPTY  = 187;
   BUCKET_WATER  = 188;
 
-  ITEM_ARRAY_LENGTH = 188; // Change to the highest item constant
+  TIARA_AIR   = 210;
+  TIARA_BODY  = 211;
+  TIARA_MIND  = 212;
+  TIARA_EARTH = 213;
+  TIARA_FIRE  = 214;
+  TIARA_WATER = 215;
+
+  ITEM_ARRAY_LENGTH = 215; // Change to the highest item constant
 
 (*
 Object Constants
@@ -522,10 +537,12 @@ const
   COOKSPOT_AK_RANGE = 60;
 
   // Obstacles
-  LADDER_MG_DOWN = 70;
-  LADDER_MG_UP   = 71;
-  WALL_FW        = 72;
-  DOOR_NORMAL    = 73;
+  LADDER_MG_DOWN    = 70;
+  LADDER_MG_UP      = 71;
+  WALL_FW           = 72;
+  DOOR_NORMAL       = 73;
+  OBS_OUTSIDE_ALTER = 74;
+  OBS_PORTAL_ALTER  = 75;
 
   // NPCs
   NPC_STILES        = 93;
@@ -543,7 +560,12 @@ const
   // Furnaces
   FURNACE_AK = 120;
 
-  OBJECT_HIGH = 120; // Change to the highest object constant
+  //Alters
+  ALTER_OUTSIDE      = 130;
+  ALTER_PORTAL       = 131;
+  ALTER_CRAFTING_AIR = 132;
+
+  OBJECT_HIGH = 131; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -691,7 +713,11 @@ const
   MATERIAL_BOWL        = 23;
   MATERIAL_BUCKET      = 24;
 
-  MATERIAL_LENGTH      = 24; // used in the form
+  //Runecrafting
+  MATERIAL_ESSENCE_RUNE = 40;
+  MATERIAL_ESSENCE_PURE = 41;
+
+  MATERIAL_LENGTH = 41;
 
 (*
 Proggy Constants
@@ -904,6 +930,9 @@ type
 
     // Miscellaneous
     Objects : TIntegerArray;
+
+    // Runecrafting
+    Tiara : Integer;
 
     // Not setup by the user
     Items    : array of TIntegerArray;

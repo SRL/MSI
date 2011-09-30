@@ -1124,6 +1124,69 @@ begin
         WaitToMove         := True;
         MultiClick         := False;
       end;
+
+    { Alters ===================================== ]
+    [============================================= }
+    ALTER_OUTSIDE:
+      with result do
+      begin
+        Name               := 'ALTER_OUTSIDE';
+        Uptexts            := ['uin','yster'];
+        Options            := ['nter'];
+        Colors             := [7174007];
+        Tol                := 1;
+        Hue                := 0.00;
+        Sat                := 0.46;
+        FindAllColors      := False;
+        W                  := 130;
+        H                  := 120;
+        Accuracy           := 400;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        MultiClick         := False;
+      end;
+
+    ALTER_PORTAL:
+      with result do
+      begin
+        Name               := 'ALTER_PORTAL';
+        Uptexts            := ['uin','yster'];
+        Options            := ['nter','ort'];
+        Colors             := [7320757];
+        Tol                := 12;
+        Hue                := 0.05;
+        Sat                := 0.60;
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 40;
+        Accuracy           := 10;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        MultiClick         := False;
+      end;
+
+    ALTER_CRAFTING_AIR:
+      with result do
+      begin
+        Name               := 'ALTER_CRAFTING_AIR';
+        Uptexts            := ['rune','Alter'];
+        Options            := ['raf'];
+        Colors             := [6512481];
+        Tol                := 0;
+        Hue                := 0.00;
+        Sat                := 0.0;
+        FindAllColors      := False;
+        W                  := 10;
+        H                  := 50;
+        Accuracy           := 50;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        MultiClick         := False;
+      end;
+
   end;
 
   result.constant := obj;

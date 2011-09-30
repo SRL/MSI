@@ -1266,6 +1266,20 @@ begin
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_CB_FISHER].Defaults.FishSpots;
        end;
+
+     LOC_ALTER_AIR:
+       with MSI_Locations[Which] do
+       begin
+         Name := 'Air Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Air Alter';
+           tileBox := intToBox(2835, 4825, 2846, 4835);
+         end;
+       end;
   end;
 
   with MSI_Locations[loc] do

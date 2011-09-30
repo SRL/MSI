@@ -104,6 +104,28 @@ begin
         EndTiles   := [Point(2933, 3289)];
       end;
 
+    OBS_OUTSIDE_ALTER:
+      with result do
+      begin
+        Name       := 'OUTSIDE_ALTER';
+        ObjConst   := ALTER_OUTSIDE;
+        ObjMir     := ALTER_PORTAL;
+        ObjMirArea := MSBOX;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2841, 4830)];
+      end;
+
+    OBS_PORTAL_ALTER:
+      with result do
+      begin
+        Name       := 'OUTSIDE_PORTAL';
+        ObjConst   := ALTER_PORTAL;
+        ObjMir     := ALTER_OUTSIDE;
+        ObjMirArea := MSBOX;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3128, 3407)];
+      end;
+
   end;
 
   result.constant := obs;
