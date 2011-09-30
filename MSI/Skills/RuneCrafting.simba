@@ -47,6 +47,10 @@ begin
     if (not result) then
       result := MSI_FindTool(Scripts[CurrentScript].Tiara, TAB_EQUIP, x, y);
 
+    if (not result) then
+      if (MSI_Locations[Location].AtBank) then // If player is at a bank
+        result := MSI_WithdrawBestTool();
+
     if (result) then
     begin
       result := false;
