@@ -1268,7 +1268,7 @@ begin
        end;
 
      LOC_ALTER_AIR:
-       with MSI_Locations[Which] do
+       with MSI_Locations[loc] do
        begin
          Name := 'Air Alter';
          AtBank := false;

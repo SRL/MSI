@@ -1488,7 +1488,7 @@ begin
       with MSI_Scripts[whichScript] do
       begin
         Name          := 'Air rune crafter';
-        Constant      := SCRIPT_AIR_RUNE_CRAFTER;
+        Constant      := SCRIPT_RUNECRAFTER_AIR;
         SkillName     := 'RuneCrafting';
         SkillConst    := SKILL_RUNECRAFTING;
         BankType      := Bank;
