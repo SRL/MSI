@@ -804,9 +804,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Bank';
-           tileBox := intToBox(3098, 3501, 3091, 3490);
-           camera := True;
-           compass := 0;
+           tileBox := intToBox(3091, 3488, 3096, 3494);
          end;
 
          with deathPath do
