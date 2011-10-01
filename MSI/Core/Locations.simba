@@ -1276,8 +1276,22 @@ begin
          begin
            name := 'Air Alter';
            tileBox := intToBox(2835, 4825, 2846, 4835);
-           spsBox  := intToBox(4150, 2870, 4190, 2900);
            objects := MSI_Scripts[SCRIPT_RUNECRAFTER_AIR].Defaults.Objects;
+         end;
+       end;
+
+     LOC_ALTER_EARTH:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Earth Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Earth Alter';
+           tileBox := intToBox(2652, 4834, 2662, 4844);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_EARTH].Defaults.Objects;
          end;
        end;
   end;

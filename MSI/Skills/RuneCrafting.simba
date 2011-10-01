@@ -128,5 +128,7 @@ begin
 
     end;
   until(result or (tries >= 10));
+
+  wait(randomRange(1000, 2000)); // for lag after crafting
 end;
 

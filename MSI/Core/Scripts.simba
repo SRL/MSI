@@ -1506,7 +1506,7 @@ begin
 
         with PathInfo do
         begin
-          Name := 'LOC_VE_BANK to LOC_ALTER_AIR';
+          Name := 'LOC_VW_BANK to LOC_ALTER_AIR';
           StartLoc := LOC_VW_BANK;
           EndLoc   := LOC_ALTER_AIR;
 
@@ -1520,10 +1520,56 @@ begin
 
                         ];
 
-          SPSAreas := ['10_7', '11_7'];
+          // SPSAreas := ['10_7', '11_7'];
 
-          Obstacles[OBS_LOC_TO] := [OBS_OUTSIDE_ALTER];
-          Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_ALTER];
+          Obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
+          Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
+        end;
+      end;
+
+    SCRIPT_RUNECRAFTER_EARTH:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Earth Runecrafter';
+        Constant      := SCRIPT_RUNECRAFTER_EARTH;
+        SkillName     := 'Runecrafting';
+        SkillConst    := SKILL_RUNECRAFTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_CraftRunes;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupRunecrafting;
+
+
+        with Defaults do
+        begin
+          Objects   := [ALTER_RUNECRAFTING];
+          Materials := [MATERIAL_ESSENCE_RUNE];
+          Tiara     := TIARA_EARTH;
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_VE_BANK to LOC_ALTER_EARTH';
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_ALTER_EARTH;
+
+          Reflection := [
+                          TPointArray([Point(3254, 3421), Point(3260, 3429),
+                                       Point(3271, 3429), Point(3284, 3431),
+                                       Point(3286, 3443), Point(3287, 3453),
+                                       Point(3292, 3460), Point(3301, 3465),
+                                       Point(3305, 3472), Point(3306, 3476)]),
+
+                          TPointArray([Point(2657, 4830), Point(2657, 4839)])
+
+                        ];
+
+          // SPSAreas := ['12_6', '12_7'];
+
+          Obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
+          Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
         end;
       end;
 

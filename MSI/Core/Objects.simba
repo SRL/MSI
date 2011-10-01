@@ -1125,58 +1125,88 @@ begin
         MultiClick         := False;
       end;
 
-    { Alters ===================================== ]
+    { Mysterious Ruins =========================== ]
     [============================================= }
-    ALTER_AIR:
+    RUINS_AIR, RUINS_EARTH:
       with result do
       begin
-        Name               := 'ALTER_OUTSIDE';
-        Uptexts            := ['uin', 'sterious', 'ious'];
-        Options            := ['Enter', 'ter'];
-        Colors             := [14986869];
-        Tol                := 10;
-        Hue                := 0.02;
-        Sat                := 2.93;
-        FindAllColors      := False;
-        W                  := 75;
-        H                  := 75;
-        Accuracy           := 50;
-        SearchArea         := MSBox;
-        ExcludeSelf        := True;
-        WaitToMove         := True;
-        MultiClick         := False;
+        Uptexts       := ['uin', 'sterious', 'ious'];
+        Options       := ['Enter', 'ter'];
+        FindAllColors := False;
+        W             := 75;
+        H             := 75;
+        Accuracy      := 50;
+        SearchArea    := MSBox;
+        ExcludeSelf   := True;
+        WaitToMove    := True;
+        MultiClick    := False;
+
+        case obj of
+          RUINS_AIR:
+            begin
+              Name   := 'RUINS_AIR';
+              Colors := [14986869];
+              Tol    := 10;
+              Hue    := 0.02;
+              Sat    := 2.93;
+            end;
+
+          RUINS_EARTH:
+            begin
+              Name   := 'RUINS_EARTH';
+              Colors := [7514297];
+              Tol    := 15;
+              Hue    := 0.08;
+              Sat    := 1.03;
+            end;
+        end;
       end;
 
-    ALTER_PORTAL:
+    PORTAL_AIR, PORTAL_EARTH:
       with result do
       begin
-        Name               := 'ALTER_PORTAL';
-        Uptexts            := ['Enter', 'ter', 'Portal', 'ortal'];
-        Options            := ['Enter', 'ter', 'Portal', 'ortal'];
-        Colors             := [7320757];
-        Tol                := 12;
-        Hue                := 0.05;
-        Sat                := 0.60;
-        FindAllColors      := False;
-        W                  := 50;
-        H                  := 40;
-        Accuracy           := 10;
-        SearchArea         := MSBox;
-        ExcludeSelf        := True;
-        WaitToMove         := True;
-        MultiClick         := True;
+        Uptexts       := ['Enter', 'ter', 'Portal', 'ortal'];
+        Options       := ['Enter', 'ter', 'Portal', 'ortal'];
+        FindAllColors := False;
+        W             := 50;
+        H             := 40;
+        Accuracy      := 10;
+        SearchArea    := MSBox;
+        ExcludeSelf   := True;
+        WaitToMove    := True;
+        MultiClick    := True;
+
+        case obj of
+          PORTAL_AIR:
+            begin
+              Name   := 'PORTAL_AIR';
+              Colors := [7320757];
+              Tol    := 12;
+              Hue    := 0.05;
+              Sat    := 0.60;
+            end;
+
+          PORTAL_EARTH:
+            begin
+              Name   := 'PORTAL_EARTH';
+              Colors := [2908289];
+              Tol    := 6;
+              Hue    := 0.06;
+              Sat    := 0.95;
+            end;
+        end;
       end;
 
     ALTER_RUNECRAFTING:
       with result do
       begin
-        Name               := 'ALTER_CRAFTING_AIR';
+        Name               := 'ALTER_RUNECRAFTING';
         Uptexts            := ['rune','Alter'];
         Options            := ['raft', '-rune', 'une'];
-        Colors             := [5591380];
-        Tol                := 3;
-        Hue                := 0.00;
-        Sat                := 0.03;
+        Colors             := [5985881];
+        Tol                := 5;
+        Hue                := 0.84;
+        Sat                := 0.24;
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;

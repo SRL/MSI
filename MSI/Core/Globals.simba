@@ -142,10 +142,15 @@ const
   SCRIPT_FW_FILLER   = 105;
   SCRIPT_GE_FILLER   = 106;
 
-  //Runecrafting
-  SCRIPT_RUNECRAFTER_AIR = 110;
+  // Runecrafting
+  SCRIPT_RUNECRAFTER_AIR   = 120;
+  SCRIPT_RUNECRAFTER_WATER = 121;
+  SCRIPT_RUNECRAFTER_EARTH = 122;
+  SCRIPT_RUNECRAFTER_FIRE  = 123;
+  SCRIPT_RUNECRAFTER_BODY  = 124;
+  SCRIPT_RUNECRAFTER_MIND  = 125;
 
-  SCRIPT_ARRAY_LENGTH = 110; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 125; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -303,9 +308,14 @@ const
   LOC_CB_FISH = 141;
 
   // Alters
-  LOC_ALTER_AIR = 150;
+  LOC_ALTER_AIR   = 150;
+  LOC_ALTER_EARTH = 151;
+  LOC_ALTER_WATER = 152;
+  LOC_ALTER_FIRE  = 153;
+  LOC_ALTER_MIND  = 154;
+  LOC_ALTER_BODY  = 155;
 
-  LOC_ARRAY_LENGTH = 150; // Change to the highest location constant
+  LOC_ARRAY_LENGTH = 155; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -541,8 +551,6 @@ const
   LADDER_MG_UP      = 71;
   WALL_FW           = 72;
   DOOR_NORMAL       = 73;
-  OBS_OUTSIDE_ALTER = 74;
-  OBS_PORTAL_ALTER  = 75;
 
   // NPCs
   NPC_STILES        = 93;
@@ -560,12 +568,25 @@ const
   // Furnaces
   FURNACE_AK = 120;
 
-  //Alters
-  ALTER_AIR          = 130;
-  ALTER_PORTAL       = 131;
-  ALTER_RUNECRAFTING = 132;
+  // Mysterious Ruins
+  RUINS_AIR    = 130;
+  RUINS_EARTH  = 131;
+  RUINS_WATER  = 132;
+  RUINS_MIND   = 133;
+  RUINS_FIRE   = 134;
+  RUINS_BODY   = 135;
 
-  OBJECT_HIGH = 131; // Change to the highest object constant
+  ALTER_RUNECRAFTING = 137;
+
+  // Portals
+  PORTAL_AIR   = 150;
+  PORTAL_EARTH = 151;
+  PORTAL_WATER = 152;
+  PORTAL_MIND  = 153;
+  PORTAL_FIRE  = 154;
+  PORTAL_BODY  = 155;
+
+  OBJECT_HIGH = 155; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -594,6 +615,21 @@ const
   OBS_WALL_FW        = 20;
   OBS_DOOR_CG_IN     = 30;
   OBS_DOOR_CG_OUT    = 31;
+
+  // Runcrafting
+  OBS_RUINS_AIR   = 50;
+  OBS_RUINS_EARTH = 51;
+  OBS_RUINS_WATER = 52;
+  OBS_RUINS_MIND  = 53;
+  OBS_RUINS_FIRE  = 54;
+  OBS_RUINS_BODY  = 55;
+
+  OBS_PORTAL_AIR   = 71;
+  OBS_PORTAL_EARTH = 72;
+  OBS_PORTAL_WATER = 73;
+  OBS_PORTAL_MIND  = 74;
+  OBS_PORTAL_FIRE  = 75;
+  OBS_PORTAL_BODY  = 76;
 
 (*
 Spells Constants

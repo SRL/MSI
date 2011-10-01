@@ -109,28 +109,52 @@ begin
         EndTiles   := [Point(2933, 3289)];
       end;
 
-    OBS_OUTSIDE_ALTER:
+    OBS_RUINS_AIR:
       with result do
       begin
-        Name       := 'OBS_OUTSIDE_ALTER';
-        ObjConst   := ALTER_AIR;
-        ObjMir     := ALTER_PORTAL;
+        Name       := 'OBS_RUINS_AIR';
+        ObjConst   := RUINS_AIR;
+        ObjMir     := PORTAL_AIR;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
         EndTiles   := [Point(2841, 4830)];
       end;
 
-    OBS_PORTAL_ALTER:
+    OBS_PORTAL_AIR:
       with result do
       begin
-        Name       := 'OBS_PORTAL_ALTER';
-        ObjConst   := ALTER_PORTAL;
-        ObjMir     := ALTER_AIR;
+        Name       := 'OBS_PORTAL_AIR';
+        ObjConst   := PORTAL_AIR;
+        ObjMir     := RUINS_AIR;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
         EndTiles   := [Point(3128, 3407)];
+      end;
+
+    OBS_RUINS_EARTH:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_EARTH';
+        ObjConst   := RUINS_EARTH;
+        ObjMir     := PORTAL_EARTH;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['w', true];
+        EndTiles   := [Point(2657, 4830)];
+      end;
+
+    OBS_PORTAL_EARTH:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_EARTH';
+        ObjConst   := PORTAL_EARTH;
+        ObjMir     := RUINS_EARTH;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3302, 3477)];
       end;
 
   end;
