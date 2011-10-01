@@ -1294,6 +1294,21 @@ begin
            objects := MSI_Scripts[SCRIPT_RUNECRAFTER_EARTH].Defaults.Objects;
          end;
        end;
+
+     LOC_ALTER_FIRE:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Fire Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Fire Alter';
+           tileBox := intToBox(2578, 4835, 2588, 4845);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_Fire].Defaults.Objects;
+         end;
+       end;
   end;
 
   with MSI_Locations[loc] do
@@ -1389,7 +1404,7 @@ begin
       break;
     end else
       if (i = 1) then
-        if (not MSI_WalkPath(script.pathInfo, (invCount < 15))) then
+        if (not MSI_WalkPath(script.pathInfo, (invCount < 15) or ((invCount > 15) and (script.skillConst = SKILL_RUNECRAFTING)))) then
           result := MSI_DeathWalk()
         else
           result := true;

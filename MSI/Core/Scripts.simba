@@ -1482,98 +1482,120 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_AIR:
+    SCRIPT_RUNECRAFTER_AIR, SCRIPT_RUNECRAFTER_EARTH, SCRIPT_RUNECRAFTER_FIRE:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Air Runecrafter';
-        Constant      := SCRIPT_RUNECRAFTER_AIR;
-        SkillName     := 'Runecrafting';
-        SkillConst    := SKILL_RUNECRAFTING;
-        BankType      := Bank;
-        WhichBank     := MSI_BANK_VW;
-        GetMaterials  := True;
-        AutoObjects   := @MSI_CraftRunes;
-        BankObjects   := @MSI_BankWithdraw;
-        PlayerSetup   := @MSI_SetupRunecrafting;
+        constant      := whichScript;
+        skillName     := 'Runecrafting';
+        skillConst    := SKILL_RUNECRAFTING;
+        bankType      := Bank;
+        getMaterials  := True;
+        autoObjects   := @MSI_CraftRunes;
+        bankObjects   := @MSI_BankWithdraw;
+        playerSetup   := @MSI_SetupRunecrafting;
+
+        case whichScript of
+          SCRIPT_RUNECRAFTER_AIR:
+            begin
+              name      := 'Air Runecrafter';
+              whichBank := MSI_BANK_VW;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_AIR;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_VW_BANK to LOC_ALTER_AIR';
+                startLoc := LOC_VW_BANK;
+                endLoc   := LOC_ALTER_AIR;
+
+                reflection := [
+                  TPointArray([point(3185, 3436), point(3178, 3428),
+                               point(3168, 3422), point(3160, 3419),
+                               point(3149, 3416), point(3140, 3409),
+                               point(3128, 3404)]),
+
+                  TPointArray([])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_EARTH:
+            begin
+              name      := 'Earth Runecrafter';
+              whichBank := MSI_BANK_VE;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_EARTH;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_VW_BANK to LOC_ALTER_EARTH';
+                startLoc := LOC_VE_BANK;
+                endLoc   := LOC_ALTER_EARTH;
+
+                reflection := [
+                  TPointArray([point(3254, 3421), point(3260, 3429),
+                               point(3271, 3429), point(3284, 3431),
+                               point(3286, 3443), point(3287, 3453),
+                               point(3292, 3460), point(3301, 3465),
+                               point(3305, 3472), point(3306, 3476)]),
+
+                  TPointArray([point(2657, 4830), point(2657, 4839)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_FIRE:
+            begin
+              name      := 'Fire Runecrafter';
+              whichBank := MSI_BANK_AK;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_FIRE;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_AK_BANK to LOC_ALTER_FIRE';
+                startLoc := LOC_AK_BANK;
+                endLoc   := LOC_ALTER_FIRE;
+
+                reflection := [
+                  TPointArray([point(3269, 3168), point(3276, 3175),
+                               point(3282, 3183), point(3283, 3192),
+                               point(3286, 3201), point(3289, 3210),
+                               point(3294, 3220), point(3299, 3230),
+                               point(3302, 3239), point(3307, 3248),
+                               point(3312, 3254), point(3312, 3253)]),
+
+                  TPointArray([point(2577, 4846), point(2583, 4840)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_FIRE];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_FIRE];
+              end;
+            end;
+        end; // nested case
 
 
-        with Defaults do
-        begin
-          Objects   := [ALTER_RUNECRAFTING];
-          Materials := [MATERIAL_ESSENCE_RUNE];
-          Tiara     := TIARA_AIR;
-        end;
-
-        with PathInfo do
-        begin
-          Name := 'LOC_VW_BANK to LOC_ALTER_AIR';
-          StartLoc := LOC_VW_BANK;
-          EndLoc   := LOC_ALTER_AIR;
-
-          Reflection := [
-                          TPointArray([Point(3185, 3436), Point(3178, 3428),
-                                       Point(3168, 3422), Point(3160, 3419),
-                                       Point(3149, 3416), Point(3140, 3409),
-                                       Point(3128, 3404)]),
-
-                          TPointArray([])
-
-                        ];
-
-          // SPSAreas := ['10_7', '11_7'];
-
-          Obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
-          Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
-        end;
       end;
 
-    SCRIPT_RUNECRAFTER_EARTH:
-      with MSI_Scripts[whichScript] do
-      begin
-        Name          := 'Earth Runecrafter';
-        Constant      := SCRIPT_RUNECRAFTER_EARTH;
-        SkillName     := 'Runecrafting';
-        SkillConst    := SKILL_RUNECRAFTING;
-        BankType      := Bank;
-        WhichBank     := MSI_BANK_VE;
-        GetMaterials  := True;
-        AutoObjects   := @MSI_CraftRunes;
-        BankObjects   := @MSI_BankWithdraw;
-        PlayerSetup   := @MSI_SetupRunecrafting;
-
-
-        with Defaults do
-        begin
-          Objects   := [ALTER_RUNECRAFTING];
-          Materials := [MATERIAL_ESSENCE_RUNE];
-          Tiara     := TIARA_EARTH;
-        end;
-
-        with PathInfo do
-        begin
-          Name := 'LOC_VE_BANK to LOC_ALTER_EARTH';
-          StartLoc := LOC_VE_BANK;
-          EndLoc   := LOC_ALTER_EARTH;
-
-          Reflection := [
-                          TPointArray([Point(3254, 3421), Point(3260, 3429),
-                                       Point(3271, 3429), Point(3284, 3431),
-                                       Point(3286, 3443), Point(3287, 3453),
-                                       Point(3292, 3460), Point(3301, 3465),
-                                       Point(3305, 3472), Point(3306, 3476)]),
-
-                          TPointArray([Point(2657, 4830), Point(2657, 4839)])
-
-                        ];
-
-          // SPSAreas := ['12_6', '12_7'];
-
-          Obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
-          Obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
-        end;
-      end;
-
-    end;
+    end; // big case
 
   Result := (MSI_Scripts[whichScript].Name <> '');
 end;

@@ -1127,7 +1127,7 @@ begin
 
     { Mysterious Ruins =========================== ]
     [============================================= }
-    RUINS_AIR, RUINS_EARTH:
+    RUINS_AIR, RUINS_EARTH, RUINS_FIRE:
       with result do
       begin
         Uptexts       := ['uin', 'sterious', 'ious'];
@@ -1159,10 +1159,19 @@ begin
               Hue    := 0.08;
               Sat    := 1.03;
             end;
+
+          RUINS_FIRE:
+            begin
+              Name   := 'RUINS_FIRE';
+              Colors := [3170264];
+              Tol    := 13;
+              Hue    := 0.14;
+              Sat    := 2.28;
+            end;
         end;
       end;
 
-    PORTAL_AIR, PORTAL_EARTH:
+    PORTAL_AIR, PORTAL_EARTH, PORTAL_FIRE:
       with result do
       begin
         Uptexts       := ['Enter', 'ter', 'Portal', 'ortal'];
@@ -1194,6 +1203,15 @@ begin
               Hue    := 0.06;
               Sat    := 0.95;
             end;
+
+          PORTAL_FIRE:
+            begin
+              Name   := 'PORTAL_FIRE';
+              Colors := [2046112];
+              Tol    := 8;
+              Hue    := 0.18;
+              Sat    := 0.80;
+            end;
         end;
       end;
 
@@ -1203,10 +1221,10 @@ begin
         Name               := 'ALTER_RUNECRAFTING';
         Uptexts            := ['rune','Alter'];
         Options            := ['raft', '-rune', 'une'];
-        Colors             := [5985881];
+        Colors             := [6248797];
         Tol                := 5;
-        Hue                := 0.84;
-        Sat                := 0.24;
+        Hue                := 0.56;
+        Sat                := 0.33;
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;

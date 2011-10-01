@@ -660,7 +660,7 @@ begin
         end;
 
         mPos := r_GetMyPos;
-        Result := (Distance(mPos.x, mPos.y, TPA[h].x, TPA[h].y) <= 10);
+        Result := (Distance(mPos.x, mPos.y, TPA[h].x, TPA[h].y) <= 5);
         Break;
       end;
 

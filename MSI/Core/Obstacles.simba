@@ -157,6 +157,30 @@ begin
         EndTiles   := [Point(3302, 3477)];
       end;
 
+    OBS_RUINS_FIRE:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_FIRE';
+        ObjConst   := RUINS_FIRE;
+        ObjMir     := PORTAL_FIRE;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2577, 4846)];
+      end;
+
+    OBS_PORTAL_FIRE:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_FIRE';
+        ObjConst   := PORTAL_FIRE;
+        ObjMir     := RUINS_FIRE;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3310, 3252)];
+      end;
+
   end;
 
   result.constant := obs;
@@ -403,7 +427,7 @@ begin
   if (not loggedIn) then
     exit;
 
-  MSI_AddHeader('MSI_SolveObstacle');
+  MSI_AddHeader('MSI_SolveObstacle: ' + obs.name);
   obsObj := MSI_GetObject(obs.objConst);
 
   if ((varType(obs.camera[0]) = varString) and (obs.camera[0] = 'n')) then
