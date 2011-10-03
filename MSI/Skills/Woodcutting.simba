@@ -149,9 +149,7 @@ Example:
 *)
 function MSI_IsChopping(): boolean;
 begin
-  if (not inIntArray([SCRIPT_SV_MAGICS, SCRIPT_SV_MAPLES,
-      SCRIPT_SV_YEWS, SCRIPT_SV_OAKS, SCRIPT_SV_TREES],
-      MSI_Scripts[CurrentScript].Constant)) then
+  if (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false) then
     result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
   else
     result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
