@@ -1177,6 +1177,15 @@ begin
               Hue    := 0.08;
               Sat    := 0.51;
             end;
+
+          RUINS_MIND:
+            begin
+              Name   := 'RUINS_MIND';
+              Colors := [9740776];
+              Tol    := 15;
+              Hue    := 0.13;
+              Sat    := 2.34;
+            end;
         end;
       end;
 
@@ -1224,11 +1233,20 @@ begin
 
           PORTAL_WATER:
             begin
-              Name   := 'PORTAL_FIRE';
+              Name   := 'PORTAL_WATER';
               Colors := [7975351];
               Tol    := 20;
               Hue    := 0.03;
               Sat    := 0.82;
+            end;
+
+          PORTAL_MIND:
+            begin
+              Name   := 'PORTAL_MIND';
+              Colors := [9154223];
+              Tol    := 12;
+              Hue    := 0.06;
+              Sat    := 1.04;
             end;
         end;
       end;

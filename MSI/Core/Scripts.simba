@@ -1626,6 +1626,44 @@ begin
                 obstacles[OBS_LOC_FROM] := [OBS_PORTAL_WATER];
               end;
             end;
+
+          SCRIPT_RUNECRAFTER_MIND:
+            begin
+              name      := 'Mind Runecrafter';
+              whichBank := MSI_BANK_FW;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_MIND;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_FW_BANK to LOC_ALTER_WATER';
+                startLoc := LOC_FW_BANK;
+                endLoc   := LOC_ALTER_MIND;
+
+                reflection := [
+                  TPointArray([point(2945, 3373), point(2950, 3380),
+                               point(2960, 3385), point(2965, 3392),
+                               point(2966, 3404), point(2967, 3412),
+                               point(2975, 3417), point(2982, 3423),
+                               point(2987, 3429), point(2987, 3438),
+                               point(2982, 3442), point(2975, 3450),
+                               point(2976, 3456), point(2973, 3463),
+                               point(2974, 3473), point(2976, 3483),
+                               point(2980, 3491), point(2984, 3500),
+                               point(2983, 3504), point(2982, 3512),
+                               point(2982, 3516)]),
+
+                  TPointArray([point(2793, 4829), point(2786, 4839)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_MIND];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_MIND];
+              end;
+            end;
         end; // nested case
 
 

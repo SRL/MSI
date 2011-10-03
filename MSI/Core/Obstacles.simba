@@ -205,6 +205,30 @@ begin
         EndTiles   := [Point(3182, 3162)];
       end;
 
+    OBS_RUINS_MIND:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_MIND';
+        ObjConst   := RUINS_MIND;
+        ObjMir     := PORTAL_MIND;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2793, 4829)];
+      end;
+
+    OBS_PORTAL_MIND:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_MIND';
+        ObjConst   := PORTAL_MIND;
+        ObjMir     := RUINS_MIND;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2980, 3511)];
+      end;
+
   end;
 
   result.constant := obs;

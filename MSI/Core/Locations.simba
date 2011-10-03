@@ -1324,6 +1324,21 @@ begin
            objects := MSI_Scripts[SCRIPT_RUNECRAFTER_WATER].Defaults.Objects;
          end;
        end;
+
+     LOC_ALTER_MIND:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Mind Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Mind Alter';
+           tileBox := intToBox(2783, 4835, 2790, 4843);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_MIND].Defaults.Objects;
+         end;
+       end;
   end;
 
   with MSI_Locations[loc] do
