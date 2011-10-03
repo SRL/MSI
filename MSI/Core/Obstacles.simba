@@ -181,6 +181,30 @@ begin
         EndTiles   := [Point(3310, 3252)];
       end;
 
+    OBS_RUINS_WATER:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_WATER';
+        ObjConst   := RUINS_WATER;
+        ObjMir     := PORTAL_WATER;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3493, 4832)];
+      end;
+
+    OBS_PORTAL_WATER:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_WATER';
+        ObjConst   := PORTAL_WATER;
+        ObjMir     := RUINS_WATER;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3182, 3162)];
+      end;
+
   end;
 
   result.constant := obs;

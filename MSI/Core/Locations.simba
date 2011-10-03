@@ -1306,7 +1306,22 @@ begin
          begin
            name := 'Fire Alter';
            tileBox := intToBox(2578, 4835, 2588, 4845);
-           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_Fire].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_FIRE].Defaults.Objects;
+         end;
+       end;
+
+     LOC_ALTER_WATER:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Water Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Water Alter';
+           tileBox := intToBox(3483, 4830, 3491, 4838);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_WATER].Defaults.Objects;
          end;
        end;
   end;

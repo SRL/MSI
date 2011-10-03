@@ -1482,7 +1482,8 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_AIR, SCRIPT_RUNECRAFTER_EARTH, SCRIPT_RUNECRAFTER_FIRE:
+    SCRIPT_RUNECRAFTER_AIR, SCRIPT_RUNECRAFTER_EARTH, SCRIPT_RUNECRAFTER_FIRE,
+    SCRIPT_RUNECRAFTER_WATER, SCRIPT_RUNECRAFTER_MIND, SCRIPT_RUNECRAFTER_BODY:
       with MSI_Scripts[whichScript] do
       begin
         constant      := whichScript;
@@ -1588,6 +1589,41 @@ begin
 
                 obstacles[OBS_LOC_TO] := [OBS_RUINS_FIRE];
                 obstacles[OBS_LOC_FROM] := [OBS_PORTAL_FIRE];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_WATER:
+            begin
+              name      := 'Water Runecrafter';
+              whichBank := MSI_BANK_DB;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_WATER;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_DB_BANK to LOC_ALTER_WATER';
+                startLoc := LOC_DB_BANK;
+                endLoc   := LOC_ALTER_WATER;
+
+                reflection := [
+                  TPointArray([point(3093, 3245), point(3103, 3240),
+                               point(3109, 3233), point(3111, 3225),
+                               point(3118, 3218), point(3125, 3214),
+                               point(3135, 3211), point(3141, 3205),
+                               point(3142, 3196), point(3146, 3190),
+                               point(3149, 3183), point(3155, 3175),
+                               point(3163, 3168), point(3167, 3164),
+                               point(3174, 3159), point(3183, 3164)]),
+
+                  TPointArray([point(3493, 4832), point(3486, 4835)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_WATER];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_WATER];
               end;
             end;
         end; // nested case
