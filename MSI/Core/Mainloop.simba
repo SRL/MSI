@@ -196,6 +196,9 @@ begin
 
       for k := 0 to High(ReportInfo.Items[CurrentScript][j]) do
       begin
+        expCount := 0;
+        itemCount := 0;
+
         item := MSI_Items[ReportInfo.Items[CurrentScript][j][k]];
 
         if (item.stackable) then
@@ -203,7 +206,11 @@ begin
         else
           itemCount := CountItems('dtm', item.DTM, []);
 
-        expCount  := round(exps[k] * itemCount);
+        if (script.skillConst <> SKILL_RUNECRAFTING) then
+          expCount := round(exps[k] * itemCount)
+        else
+          if (itemCount > 0) then
+            expCount := round(exps[k] * 28);
 
         MSI_AddToProggy(PROG_ADD_EXP, -1, -1, expCount);  // Adds experience
         MSI_AddToProggy(PROG_ADD_ITEMS, j, k, itemCount); // Adds items
