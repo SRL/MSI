@@ -187,7 +187,6 @@ begin
     exit;
 
   flag;
-  //anim := MSI_GetAnimation(ANIM_CHOPPING);
   wait(randomRange(1000, 1500));
 
   while (loggedIn and (not invFull)) do
