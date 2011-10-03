@@ -149,10 +149,11 @@ Example:
 *)
 function MSI_IsChopping(): boolean;
 begin
-  if (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false) then
-    result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
-  else
-    result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
+  with MSI_Players[CurrentPlayer] do
+    if (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false) then
+      result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
+    else
+      result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
 end;
 
 (*
