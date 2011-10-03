@@ -288,10 +288,10 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [4015951];//2896441
-        Tol                := 8;//5
-        Hue                := 0.14;//0.46
-        Sat                := 0.06;//0.28
+        Colors             := [4015951];
+        Tol                := 8;
+        Hue                := 0.14;
+        Sat                := 0.06;
         FindAllColors      := False;
         W                  := 60;
         H                  := 90;

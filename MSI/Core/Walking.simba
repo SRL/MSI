@@ -419,8 +419,8 @@ begin
 
           if (lTPA > 0) then
           begin
-            l := Round(lTPA*0.5); //middleTPA
-            for ii := l downto 0 do  //loop backwards from the middle point
+            l := Round(lTPA*0.5); // middleTPA
+            for ii := l downto 0 do  // loop backwards from the middle point
             begin
               result := MSI_PointOnMM(areaTPA[ii], p); // closest point to center of loc
               if result then
