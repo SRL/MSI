@@ -1339,6 +1339,21 @@ begin
            objects := MSI_Scripts[SCRIPT_RUNECRAFTER_MIND].Defaults.Objects;
          end;
        end;
+
+     LOC_ALTER_BODY:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Body Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Body Alter';
+           tileBox := intToBox(2518, 4836, 2527, 4844);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_BODY].Defaults.Objects;
+         end;
+       end;
   end;
 
   with MSI_Locations[loc] do

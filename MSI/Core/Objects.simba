@@ -1186,6 +1186,15 @@ begin
               Hue    := 0.13;
               Sat    := 2.34;
             end;
+
+          RUINS_BODY:
+            begin
+              Name   := 'RUINS_BODY';
+              Colors := [11591578];
+              Tol    := 15;
+              Hue    := 0.67;
+              Sat    := 2.92;
+            end;
         end;
       end;
 
@@ -1247,6 +1256,15 @@ begin
               Tol    := 12;
               Hue    := 0.06;
               Sat    := 1.04;
+            end;
+
+          PORTAL_BODY:
+            begin
+              Name   := 'PORTAL_BODY';
+              Colors := [8552376];
+              Tol    := 10;
+              Hue    := 0.05;
+              Sat    := 1.44;
             end;
         end;
       end;

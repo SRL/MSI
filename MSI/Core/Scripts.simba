@@ -1638,7 +1638,7 @@ begin
 
               with pathInfo do
               begin
-                name     := 'LOC_FW_BANK to LOC_ALTER_WATER';
+                name     := 'LOC_FW_BANK to LOC_ALTER_MIND';
                 startLoc := LOC_FW_BANK;
                 endLoc   := LOC_ALTER_MIND;
 
@@ -1662,6 +1662,37 @@ begin
 
                 obstacles[OBS_LOC_TO] := [OBS_RUINS_MIND];
                 obstacles[OBS_LOC_FROM] := [OBS_PORTAL_MIND];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_BODY:
+            begin
+              name      := 'Body Runecrafter';
+              whichBank := MSI_BANK_EV;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_BODY;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_EV_BANK to LOC_ALTER_BODY';
+                startLoc := LOC_EV_BANK;
+                endLoc   := LOC_ALTER_BODY;
+
+                reflection := [
+                  TPointArray([point(3094, 3493), point(3084, 3490),
+                               point(3080, 3482), point(3079, 3473),
+                               point(3074, 3467), point(3072, 3457),
+                               point(3068, 3448), point(3055, 3444)]),
+
+                  TPointArray([point(2521, 4834), point(2522, 4838)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_BODY];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_BODY];
               end;
             end;
         end; // nested case

@@ -229,6 +229,30 @@ begin
         EndTiles   := [Point(2980, 3511)];
       end;
 
+    OBS_RUINS_BODY:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_BODY';
+        ObjConst   := RUINS_BODY;
+        ObjMir     := -1; // will check for black on minimap
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [];
+      end;
+
+    OBS_PORTAL_BODY:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_BODY';
+        ObjConst   := PORTAL_BODY;
+        ObjMir     := RUINS_BODY;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3050, 3442)];
+      end;
+
   end;
 
   result.constant := obs;
@@ -414,15 +438,24 @@ begin
   t := (getSystemTime + 30000);
 
   repeat
-    mirFound := MSI_FindMirrorText(obs);
-    if (not mirFound) then
-      mirFound := MSI_FindMirrorObject(obs);
+    if (obs.objMir = -1) then
+    begin
+      MSI_SubDebug('Looking for black on the MM');
+      mirFound := (countColorTolerance(MM_BLACK, MMX1, MMY1, MMX2, MMY2, 10) > 20);
+    end else begin
+      mirFound := MSI_FindMirrorText(obs);
+      if (not mirFound) then
+        mirFound := MSI_FindMirrorObject(obs);
+    end;
 
     if (mirFound) then
     begin
+      MSI_SubDebug('Found mirror');
+
       {$IFDEF REFLECTION}
-      if (not MSI_OnMirrorTile(obs)) then
-        continue;
+      if (length(obs.endTiles) > 0) then
+        if (not MSI_OnMirrorTile(obs)) then
+          continue;
       {$ENDIF}
 
       result := true;
@@ -491,6 +524,7 @@ begin
 
     if (MSI_FindObject(obsObj, moLeft)) then
     begin
+      MSI_Debug('Clicked object');
       wait(randomRange(1500, 2000));
       result := MSI_WaitForMirror(obs);
     end else begin

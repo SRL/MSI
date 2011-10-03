@@ -68,6 +68,8 @@ const
   PLBX2 = MSCX + 15;
   PLBY2 = MSCY + 15;
 
+  MM_BLACK = 263168;
+
 (*
 Script Constants
 ~~~~~~~~~~~~~~~~
