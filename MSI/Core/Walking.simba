@@ -341,7 +341,7 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  hSubLoc, i, cP: integer;
+  hSubLoc, i, ii, cP, l, lTPA: integer;
   p, mPos: TPoint;
   areaTPA: TPointArray;
   local_subLocs: TSubLocArray;
@@ -415,14 +415,23 @@ begin
           // create a TPA from the subLoc's box
           areaTPA := TPAFromBox(box);
           sortTPAfrom(areaTPA, mPos);
+          lTPA := Length(areaTPA);
 
-          if (length(areaTPA) > 0) then
-            result := MSI_PointOnMM(areaTPA[0], p); // closest point to player
+          if (lTPA > 0) then
+          begin
+            l := Round(lTPA*0.5); //middleTPA
+            for ii := l downto 0 do  //loop backwards from the middle point
+            begin
+              result := MSI_PointOnMM(areaTPA[ii], p); // closest point to center of loc
+              if result then
+                Break;
+            end;
+          end;
         end;
 
         if (result) then
         begin
-          mouse(p.x, p.y, random(5), random(5), true);
+          mouse(p.x, p.y, random(3), random(3), true);
           MSI_Debug('Relocating to box: ' + subLocs[i].name);
 
           setAngle(MSI_Locations[loc].subLocs[i].camera);
@@ -513,8 +522,8 @@ begin
     end;
 
     if (not Result) then
-      MSI_Debug('Player not at ' + name)
-    else
+      MSI_Debug('Player not at ' + name);
+
       MSI_Players[CurrentPlayer].Location := constant;
   end;
 

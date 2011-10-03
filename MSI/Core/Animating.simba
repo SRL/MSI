@@ -87,6 +87,18 @@ begin
         MaxTime := 250;
         WaitTime := 1000;
       end;
+
+    ANIM_CHOPPING_NEW:
+      with Result do
+      begin
+        Name := 'Chopping (NEW)';
+        MinPixelShift := 250;
+        MaxPixelShift := 2300;
+        PixelBox := IntToBox(PLBX1-15, PLBY1-45, PLBX2+15, PLBY2);
+        Interval := 50;
+        MaxTime := 250;
+        WaitTime := 1000;
+      end;
   end;
 end;
 
