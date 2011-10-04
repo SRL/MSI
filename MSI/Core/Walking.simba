@@ -530,55 +530,6 @@ begin
   MSI_CloseHeader('MSI_AtLocation: ' + boolToStr(Result));
 end;
 
-
-(*
-MSI_GetCorrectPath
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_GetCorrectPath(path: TPath; toLoc: boolean): T2DPointArray;
-
-Will get the correct path from the 'path' record. If 'toLoc', will invert the
-path's Reflection or SPS paths.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 21 July 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_GetCorrectPath(MSI_Scripts[SCRIPT_VE_MINE].PathInfo, MSI_HookBroken[HOOK_WALKING], True);
-*)
-function MSI_GetCorrectPath(path: TPath; toLoc: boolean): T2DPointArray;
-var
-  s: string;
-begin
-  if (not loggedIn) then
-    exit;
-
-  if (toLoc) then                // Start loc -> End loc
-    if (MSI_HookBroken[HOOK_WALKING]) then
-      result := path.color
-    else
-      result := path.reflection
-  else                           // End loc -> Start loc
-    if (MSI_HookBroken[HOOK_WALKING]) then
-      result := MSI_MirrorATPA(path.color)
-    else
-      Result := MSI_MirrorATPA(path.reflection);
-
-  if (MSI_HookBroken[HOOK_WALKING]) then
-    s := 'Color'
-  else
-    s := 'Reflection';
-
-  MSI_SubDebug(s+' Path: '+toStr(result));
-end;
-
 (*
 MSI_SetPlayerLoc
 ~~~~~~~~~~~~~~~~
@@ -684,7 +635,7 @@ var
   stopMoving: Boolean;
 {$ENDIF}
 begin
-  result := false;
+  result := (length(TPA) <= 0);
 
   if (not LoggedIn) then
     Exit;
@@ -718,7 +669,7 @@ begin
         end;
 
         mPos := r_GetMyPos;
-        Result := (Distance(mPos.x, mPos.y, TPA[h].x, TPA[h].y) <= 10);
+        Result := (Distance(mPos.x, mPos.y, TPA[h].x, TPA[h].y) <= 5);
         Break;
       end;
 
@@ -758,7 +709,7 @@ Example:
 *)
 function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 var
-  regPath: T2DPointArray;
+  regPath, tmpPath: T2DPointArray;
   locPath: TPointArray;
   walked: function(TPA: TPointArray): Boolean;
   i, h, t, endLocation: integer;
@@ -769,14 +720,20 @@ begin
   if (not loggedIn) then
     exit;
 
-  MSI_AddHeader('MSI_WalkPath');
+  if (toLoc) then
+    MSI_AddHeader('MSI_WalkPath: To Location')
+  else
+    MSI_AddHeader('MSI_WalkPath: From Location');
 
   if (MSI_HookBroken[HOOK_WALKING]) then
-    walked := @MSI_WalkColorPath
-  else
+  begin
+    tmpPath := MSI_Convert2DTilePath(pathInfo.reflection);
+    walked := @MSI_WalkColorPath;
+  end else begin
+    tmpPath := pathInfo.reflection;
     walked := @MSI_WalkTilePath;
+  end;
 
-  regPath := MSI_GetCorrectPath(pathInfo, toLoc);
   locPath := MSI_MirrorTPA(MSI_PathFromLoc(MSI_Locations[pathInfo.endLoc]));
 
   // make sure we're passing the right obstacles
@@ -784,10 +741,14 @@ begin
   begin
     endLocation := pathInfo.endLoc;
     intObs := pathInfo.obstacles[OBS_LOC_TO];
+    regPath := tmpPath;
   end else begin
     endLocation := pathInfo.startLoc;
     intObs := pathInfo.obstacles[OBS_LOC_FROM];
+    regPath := MSI_MirrorATPA(tmpPath);
   end;
+
+  MSI_Debug('Path: '+toStr(regPath));
 
   t := (getSystemTime + (length(regPath) * 60 + 180) * 1000);
   h := high(regPath);

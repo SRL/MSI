@@ -82,7 +82,6 @@ begin
                         ];
 
           SPSAreas := ['12_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -114,7 +113,7 @@ begin
                         ];
 
           SPSAreas := ['11_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -145,7 +144,6 @@ begin
                         ];
 
           SPSAreas   := ['11_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
         end;
       end;
 
@@ -176,7 +174,7 @@ begin
                         ];
 
           SPSAreas   := ['10_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -207,7 +205,7 @@ begin
                         ];
 
           SPSAreas   := ['10_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -238,7 +236,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -274,7 +272,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9', '8_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -308,7 +306,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -340,7 +338,7 @@ begin
                         ];
 
           SPSAreas   := ['9_8', '9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -373,7 +371,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9', '9_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -409,7 +407,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6', '6_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -439,7 +437,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -473,7 +471,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -504,7 +502,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -537,7 +535,7 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -569,7 +567,7 @@ begin
                         ];
 
           SPSAreas   := ['10_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -602,7 +600,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9', '11_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -655,7 +653,7 @@ begin
                         ];
 
           SPSAreas   := ['12_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -691,7 +689,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -726,7 +724,7 @@ begin
                         ];
 
           SPSAreas   := ['11_9', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -761,7 +759,7 @@ begin
                         ];
 
           SPSAreas   := ['11_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -793,7 +791,7 @@ begin
                         ];
 
           SPSAreas   := ['8_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
           Obstacles[OBS_LOC_TO] := [OBS_WALL_FW];
           Obstacles[OBS_LOC_FROM] := [OBS_WALL_FW];
         end;
@@ -829,7 +827,7 @@ begin
                         ];
 
           SPSAreas   := ['10_6', '10_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -862,7 +860,7 @@ begin
                         ];
 
           SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -896,7 +894,7 @@ begin
                         ];
 
           SPSAreas   := ['10_8', '10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -931,7 +929,7 @@ begin
                         ];
 
           SPSAreas   := ['12_8', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1011,7 +1009,7 @@ begin
                         ];
 
           SPSAreas := ['8_8', '9_7', '9_8'];
-          Color := MSI_Convert2DTilePath(Reflection);
+
           Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
           Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
         end;
@@ -1063,7 +1061,7 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1098,7 +1096,7 @@ begin
 
 
           SPSAreas   := ['10_6', '10_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1131,7 +1129,7 @@ begin
                         ];
 
           SPSAreas   := ['7_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1166,7 +1164,7 @@ begin
                         ];
 
           SPSAreas := ['8_9'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1209,7 +1207,7 @@ begin
                         ];
 
           SPSAreas   := ['12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1267,7 +1265,7 @@ begin
                         ];
 
           SPSAreas := ['11_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1302,7 +1300,7 @@ begin
                         ];
 
           SPSAreas := ['11_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1337,7 +1335,7 @@ begin
                         ];
 
           SPSAreas := ['10_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1372,7 +1370,7 @@ begin
                         ];
 
           SPSAreas := ['8_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1409,7 +1407,7 @@ begin
                         ];
 
           SPSAreas := ['11_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1445,7 +1443,7 @@ begin
                         ];
 
           SPSAreas := ['11_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
 
@@ -1481,10 +1479,229 @@ begin
                         ];
 
           SPSAreas := ['8_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+
         end;
       end;
-    end;
+
+    SCRIPT_RUNECRAFTER_AIR, SCRIPT_RUNECRAFTER_EARTH, SCRIPT_RUNECRAFTER_FIRE,
+    SCRIPT_RUNECRAFTER_WATER, SCRIPT_RUNECRAFTER_MIND, SCRIPT_RUNECRAFTER_BODY:
+      with MSI_Scripts[whichScript] do
+      begin
+        constant      := whichScript;
+        skillName     := 'Runecrafting';
+        skillConst    := SKILL_RUNECRAFTING;
+        bankType      := Bank;
+        getMaterials  := True;
+        autoObjects   := @MSI_CraftRunes;
+        bankObjects   := @MSI_BankWithdraw;
+        playerSetup   := @MSI_SetupRunecrafting;
+
+        case whichScript of
+          SCRIPT_RUNECRAFTER_AIR:
+            begin
+              name      := 'Air Runecrafter';
+              whichBank := MSI_BANK_VW;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_AIR;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_VW_BANK to LOC_ALTER_AIR';
+                startLoc := LOC_VW_BANK;
+                endLoc   := LOC_ALTER_AIR;
+
+                reflection := [
+                  TPointArray([point(3185, 3436), point(3178, 3428),
+                               point(3168, 3422), point(3160, 3419),
+                               point(3149, 3416), point(3140, 3409),
+                               point(3128, 3404)]),
+
+                  TPointArray([])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_EARTH:
+            begin
+              name      := 'Earth Runecrafter';
+              whichBank := MSI_BANK_VE;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_EARTH;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_VW_BANK to LOC_ALTER_EARTH';
+                startLoc := LOC_VE_BANK;
+                endLoc   := LOC_ALTER_EARTH;
+
+                reflection := [
+                  TPointArray([point(3254, 3421), point(3260, 3429),
+                               point(3271, 3429), point(3284, 3431),
+                               point(3286, 3443), point(3287, 3453),
+                               point(3292, 3460), point(3301, 3465),
+                               point(3305, 3472), point(3306, 3476)]),
+
+                  TPointArray([point(2657, 4830), point(2657, 4839)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_FIRE:
+            begin
+              name      := 'Fire Runecrafter';
+              whichBank := MSI_BANK_AK;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_FIRE;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_AK_BANK to LOC_ALTER_FIRE';
+                startLoc := LOC_AK_BANK;
+                endLoc   := LOC_ALTER_FIRE;
+
+                reflection := [
+                  TPointArray([point(3269, 3168), point(3276, 3175),
+                               point(3282, 3183), point(3283, 3192),
+                               point(3286, 3201), point(3289, 3210),
+                               point(3294, 3220), point(3299, 3230),
+                               point(3302, 3239), point(3307, 3248),
+                               point(3312, 3254), point(3312, 3253)]),
+
+                  TPointArray([point(2577, 4846), point(2583, 4840)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_FIRE];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_FIRE];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_WATER:
+            begin
+              name      := 'Water Runecrafter';
+              whichBank := MSI_BANK_DB;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_WATER;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_DB_BANK to LOC_ALTER_WATER';
+                startLoc := LOC_DB_BANK;
+                endLoc   := LOC_ALTER_WATER;
+
+                reflection := [
+                  TPointArray([point(3093, 3245), point(3103, 3240),
+                               point(3109, 3233), point(3111, 3225),
+                               point(3118, 3218), point(3125, 3214),
+                               point(3135, 3211), point(3141, 3205),
+                               point(3142, 3196), point(3146, 3190),
+                               point(3149, 3183), point(3155, 3175),
+                               point(3163, 3168), point(3167, 3164),
+                               point(3174, 3159), point(3183, 3164)]),
+
+                  TPointArray([point(3493, 4832), point(3486, 4835)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_WATER];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_WATER];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_MIND:
+            begin
+              name      := 'Mind Runecrafter';
+              whichBank := MSI_BANK_FW;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_MIND;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_FW_BANK to LOC_ALTER_MIND';
+                startLoc := LOC_FW_BANK;
+                endLoc   := LOC_ALTER_MIND;
+
+                reflection := [
+                  TPointArray([point(2945, 3373), point(2950, 3380),
+                               point(2960, 3385), point(2965, 3392),
+                               point(2966, 3404), point(2967, 3412),
+                               point(2975, 3417), point(2982, 3423),
+                               point(2987, 3429), point(2987, 3438),
+                               point(2982, 3442), point(2975, 3450),
+                               point(2976, 3456), point(2973, 3463),
+                               point(2974, 3473), point(2976, 3483),
+                               point(2980, 3491), point(2984, 3500),
+                               point(2983, 3504), point(2982, 3512),
+                               point(2982, 3516)]),
+
+                  TPointArray([point(2793, 4829), point(2786, 4839)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_MIND];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_MIND];
+              end;
+            end;
+
+          SCRIPT_RUNECRAFTER_BODY:
+            begin
+              name      := 'Body Runecrafter';
+              whichBank := MSI_BANK_EV;
+
+              defaults.objects   := [ALTER_RUNECRAFTING];
+              defaults.materials := [MATERIAL_ESSENCE_RUNE];
+              defaults.tiara     := TIARA_BODY;
+
+              with pathInfo do
+              begin
+                name     := 'LOC_EV_BANK to LOC_ALTER_BODY';
+                startLoc := LOC_EV_BANK;
+                endLoc   := LOC_ALTER_BODY;
+
+                reflection := [
+                  TPointArray([point(3094, 3493), point(3084, 3490),
+                               point(3080, 3482), point(3079, 3473),
+                               point(3074, 3467), point(3072, 3457),
+                               point(3068, 3448), point(3055, 3444)]),
+
+                  TPointArray([point(2521, 4834), point(2522, 4838)])
+                ];
+
+                // SPSAreas := ['10_7', '11_7'];
+
+                obstacles[OBS_LOC_TO] := [OBS_RUINS_BODY];
+                obstacles[OBS_LOC_FROM] := [OBS_PORTAL_BODY];
+              end;
+            end;
+        end; // nested case
+
+
+      end;
+
+    end; // big case
 
   Result := (MSI_Scripts[whichScript].Name <> '');
 end;
@@ -1517,31 +1734,4 @@ var
 begin
   for i := 0 to High(MSI_Scripts) do
     MSI_LoadScript(i);
-end;
-
-(*
-MSI_GetPlayerScript
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_GetPlayerScript(): TScript;
-
-Returns a TScript record of the current player's current script.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 10 Sept 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  scr := MSI_GetCurrentScript();
-*)
-function MSI_GetPlayerScript(): TScript;
-begin
-  with MSI_Players[CurrentPlayer] do
-    result := MSI_Scripts[Scripts[CurrentScript].Name];
 end;

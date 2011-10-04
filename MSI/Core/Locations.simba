@@ -116,7 +116,7 @@ begin
              point(3285, 3422), point(3277, 3429), point(3263, 3429),
              point(3255, 3420)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '11_4', '11_3'];
          end;
        end;
@@ -196,7 +196,7 @@ begin
              point(3252, 3429), point(3238, 3430), point(3224, 3429),
              point(3208, 3429), point(3194, 3430), point(3185, 3438)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '11_4', '11_3', '10_3'];
          end;
        end;
@@ -274,7 +274,7 @@ begin
              point(3187, 3447), point(3179, 3450), point(3168, 3459),
              point(3165, 3471), point(3167, 3480), point(3167, 3489)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '11_4', '11_3', '10_3', '10_2'];
          end;
        end;
@@ -333,7 +333,7 @@ begin
              point(3132, 3225), point(3120, 3226), point(3109, 3229),
              point(3100, 3235), point(3094, 3242)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '10_5', '9_5'];
          end;
        end;
@@ -585,7 +585,7 @@ begin
              point(3006, 3331), point(3007, 3343), point(3006, 3357),
              point(3012, 3361), point(3014, 3356)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '10_4', '9_4'];
          end;
        end;
@@ -622,7 +622,7 @@ begin
              point(2999, 3364), point(2988, 3372), point(2977, 3378),
              point(2962, 3379), point(2952, 3380), point(2946, 3368)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '10_4', '9_4', '8_4'];
          end;
        end;
@@ -745,7 +745,7 @@ begin
              point(3064, 3266), point(3063, 3259), point(3055, 3250),
              point(3044, 3245), point(3046, 3234)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '10_5', '9_5'];
          end;
        end;
@@ -829,7 +829,7 @@ begin
              point(3096, 3453), point(3099, 3465), point(3097, 3478),
              point(3088, 3485), point(3089, 3492), point(3093, 3491)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5', '10_4', '10_3', '9_3', '9_2'];
          end;
        end;
@@ -989,7 +989,7 @@ begin
 
            reflection := [TPointArray([])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := [];
          end;
        end;
@@ -1127,7 +1127,7 @@ begin
              point(3243, 3191), point(3242, 3180), point(3246, 3171),
              point(3257, 3172), point(3270, 3174), point(3270, 3165)])];
 
-           color := MSI_Convert2DTilePath(reflection);
+
            spsAreas := ['11_5'];
          end;
        end;
@@ -1226,8 +1226,6 @@ begin
            endLoc := LOC_CB_BANK;
 
            reflection := [TPointArray([])];
-
-           color := MSI_Convert2DTilePath(reflection);
            spsAreas := [];
          end;
        end;
@@ -1266,6 +1264,96 @@ begin
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_CB_FISHER].Defaults.FishSpots;
        end;
+
+     LOC_ALTER_AIR:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Air Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Air Alter';
+           tileBox := intToBox(2835, 4825, 2846, 4835);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_AIR].Defaults.Objects;
+         end;
+       end;
+
+     LOC_ALTER_EARTH:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Earth Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Earth Alter';
+           tileBox := intToBox(2652, 4834, 2662, 4844);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_EARTH].Defaults.Objects;
+         end;
+       end;
+
+     LOC_ALTER_FIRE:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Fire Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Fire Alter';
+           tileBox := intToBox(2578, 4835, 2588, 4845);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_FIRE].Defaults.Objects;
+         end;
+       end;
+
+     LOC_ALTER_WATER:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Water Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Water Alter';
+           tileBox := intToBox(3483, 4830, 3491, 4838);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_WATER].Defaults.Objects;
+         end;
+       end;
+
+     LOC_ALTER_MIND:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Mind Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Mind Alter';
+           tileBox := intToBox(2783, 4835, 2790, 4843);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_MIND].Defaults.Objects;
+         end;
+       end;
+
+     LOC_ALTER_BODY:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Body Alter';
+         AtBank := false;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Body Alter';
+           tileBox := intToBox(2518, 4836, 2527, 4844);
+           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_BODY].Defaults.Objects;
+         end;
+       end;
   end;
 
   with MSI_Locations[loc] do
@@ -1274,7 +1362,9 @@ begin
 
     for i := 0 to high(subLocs) do
     begin
-      subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
+      // only set if it hasn't been set already
+      if (subLocs[i].spsBox.x1 = 0) then
+        subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
 
       // if compass isn't set, set to default
       if (varType(subLocs[i].compass) = 0) then
@@ -1359,7 +1449,7 @@ begin
       break;
     end else
       if (i = 1) then
-        if (not MSI_WalkPath(script.pathInfo, (invCount < 15))) then
+        if (not MSI_WalkPath(script.pathInfo, (invCount < 15) or ((invCount > 15) and (script.skillConst = SKILL_RUNECRAFTING)))) then
           result := MSI_DeathWalk()
         else
           result := true;

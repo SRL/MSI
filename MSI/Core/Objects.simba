@@ -1124,6 +1124,171 @@ begin
         WaitToMove         := True;
         MultiClick         := False;
       end;
+
+    { Mysterious Ruins =========================== ]
+    [============================================= }
+    RUINS_AIR, RUINS_EARTH, RUINS_FIRE, RUINS_WATER, RUINS_MIND, RUINS_BODY:
+      with result do
+      begin
+        Uptexts       := ['uin', 'sterious', 'ious'];
+        Options       := ['Enter', 'ter'];
+        FindAllColors := False;
+        W             := 75;
+        H             := 75;
+        Accuracy      := 50;
+        SearchArea    := MSBox;
+        ExcludeSelf   := True;
+        WaitToMove    := True;
+        MultiClick    := False;
+
+        case obj of
+          RUINS_AIR:
+            begin
+              Name   := 'RUINS_AIR';
+              Colors := [14986869];
+              Tol    := 10;
+              Hue    := 0.02;
+              Sat    := 2.93;
+            end;
+
+          RUINS_EARTH:
+            begin
+              Name   := 'RUINS_EARTH';
+              Colors := [7514297];
+              Tol    := 15;
+              Hue    := 0.08;
+              Sat    := 1.03;
+            end;
+
+          RUINS_FIRE:
+            begin
+              Name   := 'RUINS_FIRE';
+              Colors := [3170264];
+              Tol    := 13;
+              Hue    := 0.14;
+              Sat    := 2.28;
+            end;
+
+          RUINS_WATER:
+            begin
+              Name   := 'RUINS_WATER';
+              Colors := [11308558];
+              Tol    := 20;
+              Hue    := 0.08;
+              Sat    := 0.51;
+            end;
+
+          RUINS_MIND:
+            begin
+              Name   := 'RUINS_MIND';
+              Colors := [9740776];
+              Tol    := 15;
+              Hue    := 0.13;
+              Sat    := 2.34;
+            end;
+
+          RUINS_BODY:
+            begin
+              Name   := 'RUINS_BODY';
+              Colors := [11591578];
+              Tol    := 15;
+              Hue    := 0.67;
+              Sat    := 2.92;
+            end;
+        end;
+      end;
+
+    PORTAL_AIR, PORTAL_EARTH, PORTAL_FIRE, PORTAL_WATER, PORTAL_MIND, PORTAL_BODY:
+      with result do
+      begin
+        Uptexts       := ['Enter', 'ter', 'Portal', 'ortal'];
+        Options       := ['Enter', 'ter', 'Portal', 'ortal'];
+        FindAllColors := False;
+        W             := 50;
+        H             := 40;
+        Accuracy      := 10;
+        SearchArea    := MSBox;
+        ExcludeSelf   := True;
+        WaitToMove    := True;
+        MultiClick    := True;
+
+        case obj of
+          PORTAL_AIR:
+            begin
+              Name   := 'PORTAL_AIR';
+              Colors := [7320757];
+              Tol    := 12;
+              Hue    := 0.05;
+              Sat    := 0.60;
+            end;
+
+          PORTAL_EARTH:
+            begin
+              Name   := 'PORTAL_EARTH';
+              Colors := [2908289];
+              Tol    := 6;
+              Hue    := 0.06;
+              Sat    := 0.95;
+            end;
+
+          PORTAL_FIRE:
+            begin
+              Name   := 'PORTAL_FIRE';
+              Colors := [2046112];
+              Tol    := 8;
+              Hue    := 0.18;
+              Sat    := 0.80;
+            end;
+
+          PORTAL_WATER:
+            begin
+              Name   := 'PORTAL_WATER';
+              Colors := [7975351];
+              Tol    := 20;
+              Hue    := 0.03;
+              Sat    := 0.82;
+            end;
+
+          PORTAL_MIND:
+            begin
+              Name   := 'PORTAL_MIND';
+              Colors := [9154223];
+              Tol    := 12;
+              Hue    := 0.06;
+              Sat    := 1.04;
+            end;
+
+          PORTAL_BODY:
+            begin
+              Name   := 'PORTAL_BODY';
+              Colors := [8552376];
+              Tol    := 10;
+              Hue    := 0.05;
+              Sat    := 1.44;
+            end;
+        end;
+      end;
+
+    ALTER_RUNECRAFTING:
+      with result do
+      begin
+        Name               := 'ALTER_RUNECRAFTING';
+        Uptexts            := ['rune','Alter'];
+        Options            := ['raft', '-rune', 'une'];
+        Colors             := [6183517];
+        Tol                := 5;
+        Hue                := 1.26;
+        Sat                := 0.33;
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 50;
+        Accuracy           := 50;
+        SearchArea         := MSBox;
+        ExcludeSelf        := True;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
+
   end;
 
   result.constant := obj;
@@ -1198,7 +1363,7 @@ begin
       SKILL_COOKING:
         result := cookingSpot;
 
-      SKILL_NONE:
+      SKILL_NONE, SKILL_RUNECRAFTING:
         result := objects;
     end;
 end;

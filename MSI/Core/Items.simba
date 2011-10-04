@@ -305,7 +305,7 @@ begin
                 ];
 
     MSI_RUNE_EARTH, MSI_RUNE_FIRE, MSI_RUNE_COSMIC, MSI_RUNE_NATURE,
-    MSI_RUNE_WATER, MSI_RUNE_CHAOS:
+    MSI_RUNE_WATER, MSI_RUNE_CHAOS, MSI_RUNE_ESSENCE, MSI_PURE_ESSENCE:
       Result := [
                   Point(595, 464),
                   Point(580, 462),
@@ -340,6 +340,7 @@ begin
                   Point(39, 26),
                   Point(28, 33)
                 ];
+
     VIAL_EMPTY, VIAL_WATER:
       Result := [
                   Point(22, 164),
@@ -348,6 +349,7 @@ begin
                   Point(14, 164),
                   Point(21, 174)
                 ];
+
     JUG_EMPTY, JUG_WATER:
       Result := [
                   Point(886, 273),
@@ -356,6 +358,7 @@ begin
                   Point(874, 286),
                   Point(883, 267)
                 ];
+
     BOWL_EMPTY, BOWL_WATER:
       Result := [
                   Point(970, 278),
@@ -364,6 +367,7 @@ begin
                   Point(969, 290),
                   Point(953, 280)
                 ];
+
     BUCKET_EMPTY, BUCKET_WATER:
       Result := [
                   Point(883, 314),
@@ -371,6 +375,15 @@ begin
                   Point(894, 316),
                   Point(885, 330),
                   Point(876, 320)
+                ];
+
+    TIARA_AIR, TIARA_EARTH, TIARA_WATER, TIARA_BODY, TIARA_MIND, TIARA_FIRE:
+      Result := [
+                  Point(1112, 413),
+                  Point(1099, 407),
+                  Point(1124, 404),
+                  Point(1122, 414),
+                  Point(1103, 414)
                 ];
 
     else
@@ -501,6 +514,8 @@ begin
     MSI_RUNE_BLOOD : Result := 0;
     MSI_RUNE_SOUL  : Result := 0;
     MSI_RUNE_ASTRAL: Result := 0;
+    MSI_RUNE_ESSENCE: Result := 4539720;
+    MSI_PURE_ESSENCE: Result := 6250600;
 
     CLAY_SOFT   : Result := 802904;
     VIAL_EMPTY  : Result := 5920342;
@@ -511,6 +526,13 @@ begin
     BOWL_WATER  : Result := 11712313;
     BUCKET_EMPTY: Result := 1521995;
     BUCKET_WATER: Result := 9008758;
+
+    TIARA_AIR   : Result := 14014175;
+    TIARA_EARTH : Result := 2048358;
+    TIARA_WATER : Result := 16222243;
+    TIARA_BODY  : Result := 855309;
+    TIARA_MIND  : Result := 2175211;
+    TIARA_FIRE  : Result := 1450400;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1355,6 +1377,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Air rune';
+        StatsName := 'Air Runes (Crafted)';
         UpText := ['Air', 'ir', 'ir r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1364,6 +1387,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Water rune';
+        StatsName := 'Water Runes (Crafted)';
         UpText := ['er ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1373,6 +1397,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Earth rune';
+        StatsName := 'Earth Runes (Crafted)';
         UpText := ['th ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1382,6 +1407,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Fire rune';
+        StatsName := 'Fire Runes (Crafted)';
         UpText := ['ire ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1391,6 +1417,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Mind rune';
+        StatsName := 'Mind Runes (Crafted)';
         UpText := ['nd run'];
         Stackable := True;
         EquipLevel := -1;
@@ -1400,6 +1427,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Body rune';
+        StatsName := 'Body Runes (Crafted)';
         UpText := ['ody r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1409,6 +1437,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Chaos rune';
+        StatsName := 'Chaos Runes (Crafted)';
         UpText := ['haos'];
         Stackable := True;
         EquipLevel := -1;
@@ -1418,6 +1447,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Death rune';
+        StatsName := 'Death Runes (Crafted)';
         UpText := ['Death', 'eath rune', 'eat'];
         Stackable := True;
         EquipLevel := -1;
@@ -1427,6 +1457,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Nature rune';
+        StatsName := 'Nature Runes (Crafted)';
         UpText := ['ture r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1436,6 +1467,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cosmic rune';
+        StatsName := 'Cosmic Runes (Crafted)';
         UpText := ['osmic'];
         Stackable := True;
         EquipLevel := -1;
@@ -1445,6 +1477,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Law rune';
+        StatsName := 'Law Runes (Crafted)';
         UpText := ['aw ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1453,13 +1486,15 @@ begin
     CLAY_SOFT:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Soft Clay';            // Name of the item
-        StatsName := 'Clay (Softened)'; // Stats name so stats are calculated
-        UpText := ['oft clay'];         // Uptext
-        Stackable := False;             // Is it stackable?
-        EquipLevel := -1;               // Set to -1 if it can't be equipped
+        Name := 'Soft Clay';
+        StatsName := 'Clay (Softened)';
+        UpText := ['oft clay'];
+        Stackable := False;
+        EquipLevel := -1;
       end;
 
+    { Money Making =============================== ]
+    [============================================= }
     VIAL_EMPTY:
       with MSI_Items[whichItem] do
       begin
@@ -1536,6 +1571,81 @@ begin
         Name := 'Bucket of water';
         StatsName := 'Buckets Filled';
         UpText := ['ucket of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { Tiara ====================================== ]
+    [============================================= }
+    TIARA_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air tiara';
+        UpText := ['Air', 'ir tia', 'ir t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth tiara';
+        UpText := ['Earth', 'rth tia', 'th ti'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water tiara';
+        UpText := ['Water', 'ater tia', 'ter te'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_MIND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind tiara';
+        UpText := ['Mind', 'ind tia', 'nd t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_BODY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body tiara';
+        UpText := ['Body', 'dy tia', 'dy t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire tiara';
+        UpText := ['Fire', 're tia'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    MSI_RUNE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune essence';
+        UpText := ['une essen'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    MSI_PURE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Pure essence';
+        StatsName := 'Pure Essence (Mined)';
+        UpText := ['ure essen'];
         Stackable := False;
         EquipLevel := -1;
       end;
@@ -1694,10 +1804,27 @@ begin
           FISH_COOKED_LOBSTER   : e := 120.0;
           FISH_COOKED_SWORDFISH : e := 140.0;
           FISH_COOKED_SHARK     : e := 210.0;
-
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for cooking: ' + IntToStr(Items[i]));
         end;
+
+      SKILL_RUNECRAFTING:
+        case Items[i] of
+          MSI_RUNE_AIR    : e := 5;
+          MSI_RUNE_BODY   : e := 7.5;
+          MSI_RUNE_MIND   : e := 5.5;
+          MSI_RUNE_EARTH  : e := 6.5;
+          MSI_RUNE_FIRE   : e := 7;
+          MSI_RUNE_WATER  : e := 6;
+          MSI_RUNE_CHAOS  : e := 8.5;
+          MSI_RUNE_LAW    : e := 9.5;
+          MSI_RUNE_COSMIC : e := 8;
+          MSI_RUNE_DEATH  : e := 10;
+          MSI_RUNE_NATURE : e := 9;
+          else
+             MSI_SubDebug('MSI_GetItemExperiences: Invalid object for Runecrafting: ' + IntToStr(Items[i]));
+        end;
+
 
       else
         MSI_SubDebug('MSI_GetItemExperiences: Invalid script skill');
@@ -2256,7 +2383,7 @@ begin
     end;
   end else begin
     s := 'Equipment';
-    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, 560, 285, 605, 320);
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
   end;
 
   MSI_Debug('Searching ' + s + ' tab');

@@ -215,6 +215,30 @@ begin
         MemberOnly  := False;
         Level       := -1;
       end;
+
+    MATERIAL_ESSENCE_RUNE:
+      with Result do
+      begin
+        Name        := 'Rune essence';
+        Supplies    := [TIntegerArray([MSI_RUNE_ESSENCE, -1])];
+        Produces    := [MSI_RUNE_AIR, MSI_RUNE_BODY, MSI_RUNE_MIND,
+                        MSI_RUNE_EARTH, MSI_RUNE_FIRE,MSI_RUNE_WATER];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_ESSENCE_PURE:
+      with Result do
+      begin
+        Name        := 'Pure essence';
+        Supplies    := [TIntegerArray([MSI_PURE_ESSENCE, -1])];
+        Produces    := [MSI_RUNE_AIR, MSI_RUNE_BODY, MSI_RUNE_MIND,
+                        MSI_RUNE_EARTH, MSI_RUNE_FIRE, MSI_RUNE_WATER,
+                        MSI_RUNE_CHAOS, MSI_RUNE_LAW, MSI_RUNE_COSMIC,
+                        MSI_RUNE_DEATH, MSI_RUNE_NATURE];
+        MemberOnly  := True;
+        Level       := 1;
+      end;
   end;
 
   MSI_SubDebug('Loaded material: '+result.name);

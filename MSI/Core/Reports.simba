@@ -137,7 +137,7 @@ begin
               items[sIndex][i] := obj.associatedItems;
             end;
 
-          SKILL_COOKING, SKILL_NONE: // skills that use materials
+          SKILL_COOKING, SKILL_NONE, SKILL_RUNECRAFTING: // skills that use materials
             begin
               mat := MSI_GetMaterial(result[i]);
               setLength(items[sIndex][i], length(mat.produces));
@@ -205,11 +205,16 @@ begin
           SKILL_FISHING:
             scripts[j].fishSpots := MSI_SetReportItems(i, j, scripts[j].fishSpots, script.defaults.fishSpots);
 
-          SKILL_COOKING, SKILL_NONE:
+          SKILL_COOKING, SKILL_NONE, SKILL_RUNECRAFTING:
             begin
               scripts[j].materials := MSI_SetReportItems(i, j, scripts[j].materials, script.defaults.materials);
-              scripts[j].cookingSpot := script.defaults.cookingSpot;
               scripts[j].objects := script.defaults.objects;
+
+              if (script.skillConst = SKILL_COOKING) then
+                scripts[j].cookingSpot := script.defaults.cookingSpot;
+
+              if (script.skillConst = SKILL_RUNECRAFTING) then
+                scripts[j].tiara := script.defaults.tiara;
             end;
 
           SKILL_MAGIC:
@@ -372,11 +377,12 @@ const
   TOTAL_COOKS = 7;
   TOTAL_SOFTENS = 8;
   TOTAL_FILLS = 9;
+  TOTAL_CRAFTS = 10;
 
 procedure MSI_ShortReport(FileName: Integer);
 var
   i, j, k, l: Integer;
-  totals: array[0..9] of Integer;
+  totals: array[0..10] of Integer;
   labels: TStringArray;
 begin
   MSI_PrintSave(FileName, '{----------------------------------------------------------------}');                             //64 from '{' to '}'
@@ -416,6 +422,9 @@ begin
             SKILL_COOKING:
               IncEx(totals[TOTAL_COOKS], ReportInfo.ItemAmounts[j][k][l]);
 
+            SKILL_RUNECRAFTING:
+              IncEx(totals[TOTAL_CRAFTS], ReportInfo.ItemAmounts[j][k][l]);
+
             SKILL_NONE:
               case Scripts[j].Name of
                 SCRIPT_VE_SOFTENER, SCRIPT_EV_SOFTENER, SCRIPT_FW_SOFTENER:
@@ -435,7 +444,7 @@ begin
     MSI_PrintSave(FileName, '{         - '+PadR('Randoms Failed:    '+IntToStr(Length(RandomsResult(Result_Randoms_Failed))), 53)+'}');
   {$ENDIF}
 
-  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:', 'Clay Softened:', 'Containers Filled:'];
+  labels := ['', 'Loads:', 'Experience:', 'Logs Chopped:', 'Rocks Mined:', 'Fish Caught:', 'Spells Cast:', 'Food Cooked:', 'Clay Softened:', 'Containers Filled:', 'Runes Crafted'];
   for i := 0 to High(totals) do
   begin
     if ((totals[i] <= 0) or (labels[i] = '')) then
@@ -589,7 +598,8 @@ begin
         end;
 
         case MSI_Scripts[Scripts[j].Name].SkillConst of
-          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING, SKILL_COOKING, SKILL_NONE:
+          SKILL_MINING, SKILL_WOODCUTTING, SKILL_FISHING, SKILL_COOKING,
+          SKILL_NONE, SKILL_RUNECRAFTING:
             MSI_StandardReport(f, i, j);
 
           SKILL_MAGIC:

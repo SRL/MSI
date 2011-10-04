@@ -1,0 +1,134 @@
+(*
+Runecrafting
+============
+
+The Runecrafting file stores any functions or procedures that are specific to
+the Runecrafting skill.
+
+The source for Fishing.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Runecrafting.simba>`_.
+
+*)
+
+(*
+MSI_SetupRunecrafting
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetupRunecrafting: Boolean;
+
+Sets the player up for runecrafting.  Will start from any step in the script,
+whether the player is finished crafting at the alter or at the bank with an
+empty inventory.  This is the prcedure pointed to the TScript's PlayerSetup
+field.
+
+.. note::
+
+  | Author: Troll
+  | Last Updated: 29 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_RUNECRAFTER_AIR].PlayerSetup := @MSI_SetupCooking;
+*)
+function MSI_SetupRunecrafting: boolean;
+var
+  x, y: integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    result := MSI_FindTool(Scripts[CurrentScript].Tiara, TAB_INV, x, y);
+    if (not result) then
+      result := MSI_FindTool(Scripts[CurrentScript].Tiara, TAB_EQUIP, x, y);
+
+    if (not result) then
+      if (MSI_Locations[Location].AtBank) then // If player is at a bank
+        result := MSI_WithdrawBestTool();
+
+    if (result) then
+    begin
+      result := false;
+      result := MSI_SetupCooking(); // to avoid repeating code
+    end;
+  end;
+end;
+
+(*
+MSI_CraftRunes
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_CraftRunes(): boolean;
+
+Crafts runes out of essence.  Alter/rune type depends on the current player's
+current script.  This is the procedure pointed to the script's AutoObjects
+pointer.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 29 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_RUNECRAFTER_AIR].AutoObjects := @MSI_SetupCooking;
+*)
+function MSI_CraftRunes(): boolean;
+var
+  iCount, t, tries, x ,y: integer;
+  script: TScript;
+  objs: TMSObjectArray;
+  obj: TMSObject;
+begin
+  if (not loggedIn) then
+    exit;
+
+  script := MSI_GetPlayerScript();
+  iCount := invCount();
+
+  with MSI_Players[CurrentPlayer] do
+    objs := MSI_GetObjects(Scripts[CurrentScript].Objects);
+
+  repeat
+    inc(tries);
+
+    if (MSI_FindObjects(objs, moLeft, obj)) then
+    begin
+      t := (getSystemTime + 3000);
+
+      while (getSystemTime < t) do
+      begin
+        if (findText(x, y, 'not have', charsNPC, MCX1, MCY1, MCX2, MCY2)) then
+        begin
+          MSI_SubDebug('Out of rune essence');
+          result := true;
+          break;
+        end;
+
+        MSI_LevelUp();
+
+        if (invCount() <> iCount) then
+        begin
+          result := true;
+          break;
+        end;
+
+        wait(randomRange(50, 100));
+        MSI_AntiBan(500, 10);
+      end;
+
+    end;
+  until(result or (tries >= 10));
+
+  wait(randomRange(1000, 2000)); // for lag after crafting
+end;
+
