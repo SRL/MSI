@@ -389,7 +389,10 @@ begin
           continue;
 
         if (MSI_HookBroken[HOOK_WALKING]) then
-          box := subLocs[i].spsBox
+          if (subLocs[i].spsBox.x1 = 0) then
+            box := MSI_ConvertTileBox(subLocs[i].tileBox)
+          else
+            box := subLocs[i].spsBox
         else
           box := subLocs[i].tileBox;
 

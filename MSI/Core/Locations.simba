@@ -1362,10 +1362,6 @@ begin
 
     for i := 0 to high(subLocs) do
     begin
-      // only set if it hasn't been set already
-      if (subLocs[i].spsBox.x1 = 0) then
-        subLocs[i].spsBox := MSI_ConvertTileBox(subLocs[i].tileBox);
-
       // if compass isn't set, set to default
       if (varType(subLocs[i].compass) = 0) then
       begin
