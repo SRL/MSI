@@ -122,6 +122,7 @@ begin
     for i := 0 to High(intObjs) do
     begin
       tools := MSI_FishingTools(intObjs[i]); // Gets the required fishing tools for the fishing spot
+      setLength(toWithdraw[i], length(tools));
 
       for j := 0 to High(tools) do
       begin
@@ -129,12 +130,12 @@ begin
         if (not found) then
           if (MSI_Items[tools[j]].EquipLevel > 0) then
             found := MSI_FindTool(tools[j], TAB_EQUIP, x, y);
-      end;
 
-      if (not found) then
-      begin
-        toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
-        inc(t);
+        if (not found) then
+        begin
+          toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
+          inc(t);
+        end;
       end;
 
       setLength(toWithdraw[i], t);

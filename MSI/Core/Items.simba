@@ -288,11 +288,11 @@ begin
 
     MISC_FEATHER:
       Result := [
-                  Point(580, 370),
-                  Point(564, 388),
-                  Point(594, 359),
-                  Point(576, 365),
-                  Point(586, 374)
+                  Point(1198, 422),
+                  Point(1196, 427),
+                  Point(1200, 412),
+                  Point(1208, 420),
+                  Point(1220, 409)
                 ];
 
     STAFF_AIR..STAFF_FIRE:
@@ -1329,7 +1329,7 @@ begin
       begin
         Name := 'Feather';
         UpText := ['eather'];
-        Stackable := False;
+        Stackable := True;
         EquipLevel := -1;
       end;
 
@@ -2369,6 +2369,8 @@ begin
     exit;
 
   gameTab(whichTab);
+  result := false;
+
   MSI_AddHeader('MSI_FindTool');
 
   if (whichTab = TAB_INV) then
