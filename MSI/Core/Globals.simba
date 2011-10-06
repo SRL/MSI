@@ -928,6 +928,7 @@ type
     Name       : String;
     StartLoc   : Integer;
     EndLoc     : Integer;
+    MaxDist    : Integer; // the maximum distance from any point in the path to blind walk to the path
     Reflection : T2DPointArray;
     SPSAreas   : TStringArray;
     Obstacles  : array[0..2] of TIntegerArray;

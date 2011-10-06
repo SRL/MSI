@@ -261,9 +261,9 @@ begin
     Script := MSI_Scripts[Scripts[CurrentScript].Name];
 
     if (ToLoc) then
-      Result := MSI_AtLocation(Script.PathInfo.EndLoc, False)
+      Result := MSI_AtLocation(Script.PathInfo.EndLoc, True)
     else
-      Result := MSI_AtLocation(Script.PathInfo.StartLoc, False);
+      Result := MSI_AtLocation(Script.PathInfo.StartLoc, True);
 
     if (not Result) then
       Result := MSI_PerformWalk(Script.PathInfo, ToLoc);

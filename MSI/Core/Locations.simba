@@ -326,13 +326,7 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_DB_BANK;
 
-           reflection := [TPointArray([
-             point(3222, 3216), point(3213, 3204), point(3204, 3210),
-             point(3196, 3214), point(3185, 3217), point(3175, 3218),
-             point(3163, 3222), point(3153, 3225), point(3144, 3224),
-             point(3132, 3225), point(3120, 3226), point(3109, 3229),
-             point(3100, 3235), point(3094, 3242)])];
-
+           reflection := [TPointArray([point(3222, 3216), point(3092, 3243)])];
 
            spsAreas := ['11_5', '10_5', '9_5'];
          end;
@@ -902,7 +896,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Barbarian Fishing North';
-           tileBox := intToBox(3106, 3429, 3110, 3437);
+           tileBox := intToBox(3108, 3429, 3112, 3437);
          end;
 
          with subLocs[1] do
@@ -912,7 +906,11 @@ begin
          end;
 
          for i := 0 to high(subLocs) do
+         begin
            subLocs[i].objects := MSI_Scripts[SCRIPT_BBV_FISHER].Defaults.FishSpots;
+           subLocs[i].camera  := true;
+           subLocs[i].compass := 270;
+         end;
        end;
 
      LOC_SV_MAGICS:
@@ -1432,29 +1430,326 @@ begin
 
   MSI_AddHeader('MSI_SetPlayerLoc');
 
-  Script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
-  SetLength(locArr, 2);
-  locArr[0] := Script.PathInfo.StartLoc;
-  locArr[1] := Script.PathInfo.EndLoc;
+  with MSI_Players[CurrentPlayer] do
+  begin
+    Script := MSI_Scripts[Scripts[CurrentScript].Name];
+    SetLength(locArr, 2);
+    locArr[0] := Script.PathInfo.StartLoc;
+    locArr[1] := Script.PathInfo.EndLoc;
 
-  for i := 0 to 1 do
-    if (MSI_AtLocation(locArr[i], false)) then
-    begin
-      MSI_Players[CurrentPlayer].location := locArr[i];
-      result := true;
-      break;
-    end else
-      if (i = 1) then
-        if (not MSI_WalkPath(script.pathInfo, (invCount < 15) or ((invCount > 15) and (script.skillConst = SKILL_RUNECRAFTING)))) then
-          result := MSI_DeathWalk()
-        else
-          result := true;
+    for i := 0 to 1 do
+      if (MSI_AtLocation(locArr[i], false)) then
+      begin
+        Location := locArr[i];
+        result := true;
+        break;
+      end else
+        if (i = 1) then
+          if (not MSI_WalkPath(script.pathInfo, (invCount < 15) or ((invCount > 15) and (script.skillConst = SKILL_RUNECRAFTING)))) then
+            result := MSI_DeathWalk()
+          else
+            result := true;
 
-  if (result) then
-    MSI_Debug('Player''s location: '+MSI_Locations[MSI_Players[CurrentPlayer].location].name)
-  else
-    MSI_Debug('Failed to get player''s location');
+    if (result) then
+      MSI_Debug('Player''s location: '+MSI_Locations[Location].Name)
+    else
+      MSI_Debug('Failed to get player''s location');
+  end;
 
   MSI_CloseHeader('MSI_SetPlayerLoc: '+boolToStr(result));
+end;
+
+(*
+MSI_ValidSubLoc
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ValidSubLoc(loc: TLocation; subIndex: integer): boolean;
+
+Returns true if the player is autoing an object that appears in the sub location
+of the location 'loc' and sub location element 'subIndex'.
+
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 September 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ValidSubLoc(MSI_Locations[LOC_VE_BANK], i)) then
+    MSI_Relocate(LOC_VE_BANK);
+*)
+function MSI_ValidSubLoc(loc: TLocation; subIndex: integer): boolean;
+var
+  i: integer;
+  objs: TIntegerArray;
+  exceptions: TIntegerArray;
+begin
+  result := loc.atBank; // always valid if the location is a bank
+
+  // spawning point is valid; if more locations are added, an array should be used
+  exceptions := [LOC_LB_SPAWN, LOC_KJ_STILES];
+  if (not result) then
+    result := (inIntArray(exceptions, loc.constant));
+
+  if (not result) then
+  begin
+    objs := MSI_GetPlayerObjects();
+
+    for i := 0 to high(loc.subLocs[subIndex].objects) do
+      if (inIntArray(objs, loc.subLocs[subIndex].objects[i])) then
+      begin
+        result := true;
+        break;
+      end;
+  end;
+
+  if (not result) then
+    MSI_SubDebug('MSI_ValidSubLoc ('+loc.subLocs[subIndex].name+'): '+toStr(result));
+end;
+
+(*
+MSI_GetLocBox
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetLocBox(loc: TLocation): TBox;
+
+Gets the corrent box (either SPS or tile) from the location 'loc'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 04 October 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  mmBox := MSI_GetLocBox(MSI_Locations[LOC_VE_BANK]);
+*)
+function MSI_GetLocBox(loc: TLocation; subLoc: integer): TBox;
+begin
+  if (MSI_HookBroken[HOOK_WALKING]) then
+    if (loc.subLocs[subLoc].spsBox.x1 = 0) then
+      result := MSI_ConvertTileBox(loc.subLocs[subLoc].tileBox)
+    else
+      result := loc.subLocs[subLoc].spsBox
+  else
+    result := loc.subLocs[subLoc].tileBox;
+end;
+
+(*
+MSI_Relocate
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Relocate(Loc: Integer): Boolean;
+
+Relocates the player to the location 'Loc'. Only relocates if the player is
+near the location. Returns true if relocation was successful.
+
+.. note::
+
+  | Author: Coh3n and NCDS
+  | Last Updated: 21 August 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_Relocate(LOC_VE_MINE)) then
+    MSI_Debug('Successfully relocated');
+*)
+function MSI_Relocate(Loc: Integer): Boolean;
+var
+  hSubLoc, i, ii, cP, l, lTPA: integer;
+  p, mPos: TPoint;
+  areaTPA: TPointArray;
+  local_subLocs: TSubLocArray;
+  box: TBox;
+begin
+  if (not loggedIn) then
+    exit;
+
+  MSI_AddHeader('MSI_Relocate (' + MSI_Locations[loc].Name + ')');
+
+  if (Length(MSI_Locations[loc].subLocs) < 1) then
+  begin
+    MSI_Debug('No relocation points for ' + MSI_Locations[loc].Name);
+    result := true;
+  end;
+
+  if (not result) then
+  begin
+    mPos := MSI_GetMyPos();
+
+    with MSI_Locations[Loc] do
+    begin
+      // check to see if player's in the last box, if so, invert the boxes
+      cP := MSI_Players[CurrentPlayer].CurrentPoint;
+      hSubLoc := high(subLocs);
+
+      if (cP = hSubLoc) then
+      begin
+        setLength(local_subLocs, (hSubLoc + 1));
+
+        for i := hSubLoc downto 0 do
+          local_subLocs[hSubLoc - i] := subLocs[i];
+
+        subLocs := local_subLocs;
+        cp := (hSubLoc - cP);
+      end;
+
+      MSI_Players[CurrentPlayer].CurrentPoint := cP;
+
+      // loop through each "subLoc"
+      for i := cP to hSubLoc do
+      begin
+        // no point in relocating to a location that doesn't have the object we want
+        if (not MSI_ValidSubLoc(MSI_Locations[loc], i)) then
+          continue;
+
+        box := MSI_GetLocBox(MSI_Locations[loc], i);
+        MSI_BoxToMM(box);
+
+        // if player is already in box, continue
+        if (pointInBox(mPos, box)) then
+        begin
+          if (i = hSubLoc) then
+          begin
+            MSI_Debug('Already at ' + name);
+            result := true;
+          end;
+
+          continue;
+        end;
+
+        MSI_FindRandoms(true);
+
+        result := MSI_WalkPoint(middleBox(box), 10);
+
+        if (not result) then
+        begin
+          // create a TPA from the subLoc's box
+          areaTPA := TPAFromBox(box);
+          sortTPAfrom(areaTPA, mPos);
+          lTPA := Length(areaTPA);
+
+          if (lTPA > 0) then
+          begin
+            l := Round(lTPA*0.5); // middleTPA
+            for ii := l downto 0 do  // loop backwards from the middle point
+              if (MSI_WalkPoint(areaTPA[ii], 10)) then // closest point to center of loc
+              begin
+                result := true;
+                break;
+              end;
+          end;
+        end;
+
+        if (result) then
+        begin
+          MSI_Debug('Relocating to sub-location: ' + subLocs[i].name);
+
+          setAngle(subLocs[i].camera);
+          makeCompass(subLocs[i].compass);
+
+          cP := i;
+          MSI_Flag(0);
+          break;
+        end else
+          cP := 0;
+      end;
+    end;
+  end;
+
+  MSI_Players[CurrentPlayer].CurrentPoint := cP;
+  MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
+end;
+
+(*
+MSI_AtLocation
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
+
+Returns true if the player is at the location 'Loc'. Works with both reflection
+and SPS. If the player isn't at the location and 'Relocate' is set to true,
+will call MSI_Relocate.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 27 August 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_AtLocation(LOC_VE_BANK, True)) then
+    MSI_Debug('We are at Varrock East Bank');
+*)
+function MSI_AtLocation(loc: integer; relocate: boolean): boolean;
+var
+  i: integer;
+  box: TBox;
+  mPos: TPoint;
+begin
+  if (not loggedIn) then
+    exit;
+
+  MSI_AddHeader('MSI_AtLocation');
+
+  if (loc = LOC_POWER_SKILL) then
+  begin
+    MSI_Debug('Powerskilling, no defined location');
+    result := true;
+  end;
+
+  if (not(result)) then
+  begin
+    mPos := MSI_GetMyPos();
+
+    with MSI_Locations[loc] do
+    begin
+      for i := 0 to high(subLocs) do
+      begin
+        if (not MSI_ValidSubLoc(MSI_Locations[loc], i)) then
+          continue;
+
+        MSI_Debug('Checking sub-location: ' + subLocs[i].name);
+
+        box := MSI_GetLocBox(MSI_Locations[loc], i);
+        MSI_BoxToMM(box);
+
+        if (pointInBox(mPos, box)) then
+        begin
+          result := true;
+
+          MSI_Debug('Player is at ' + subLocs[i].name);
+          break;
+        end else
+          if (i = high(subLocs)) then
+            if (relocate) then
+              result := MSI_Relocate(loc);
+      end;
+
+      if (not Result) then
+        MSI_Debug('Player not at ' + name);
+
+      MSI_Players[CurrentPlayer].Location := constant;
+    end;
+  end;
+
+  MSI_CloseHeader('MSI_AtLocation: ' + boolToStr(result));
 end;
 

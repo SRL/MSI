@@ -995,18 +995,13 @@ begin
           EndLoc := LOC_CG_MINE;
 
           Reflection := [
-                          // Bank -> Front Door
-                          TPointArray([Point(3012, 3353), Point(3007, 3347),
-                                       Point(3007, 3335), Point(3006, 3324),
-                                       Point(3001, 3313), Point(2994, 3303),
-                                       Point(2987, 3295), Point(2976, 3292),
-                                       Point(2968, 3293), Point(2957, 3294),
-                                       Point(2945, 3296), Point(2933, 3294),
-                                       Point(2933, 3288)]),
+            // bank to outside guild
+            TPointArray([Point(3012, 3353), Point(3007, 3347),
+                         Point(3007, 3335), Point(3006, 3324)]),
 
-                          // Inside Door -> Mine
-                          TPointArray([Point(2934, 3286), Point(2939, 3283)])
-                        ];
+            // guild door to mine
+            TPointArray([Point(2933, 3286), Point(2940, 3281)])
+          ];
 
           SPSAreas := ['8_8', '9_7', '9_8'];
 
@@ -1086,13 +1081,9 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_BBV_FISH;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3492),
-                                       Point(3099, 3484), Point(3099, 3475),
-                                       Point(3098, 3466), Point(3096, 3455),
-                                       Point(3092, 3445), Point(3098, 3438),
-                                       Point(3108, 3434)])
-                        ];
+          Reflection := [TPointArray([
+            Point(3094, 3492), Point(3101, 3479), Point(3109, 3432)]
+          )];
 
 
           SPSAreas   := ['10_6', '10_7'];

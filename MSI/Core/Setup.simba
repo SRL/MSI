@@ -50,8 +50,8 @@ The source for can be found
 {$i MSI/MSI/Core/Obstacles.simba}
 {$i MSI/MSI/Skills/Magic.simba} //Used in Walking.simba
 {$i MSI/MSI/Core/Walking.simba}
-{$i MSI/MSI/Core/Materials.simba}
 {$i MSI/MSI/Core/Locations.simba}
+{$i MSI/MSI/Core/Materials.simba}
 
 {$i MSI/MSI/Skills/Common.simba}
 {$i MSI/MSI/Core/Banking.simba}
