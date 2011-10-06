@@ -222,12 +222,12 @@ begin
 
     FISH_RAW_TUNA, FISH_COOKED_TUNA:
       Result := [
-                  Point(15, 18),
-                  Point(15, 6),
-                  Point(20, 8),
-                  Point(25, 6),
-                  Point(2, 26),
-                  Point(17, 26)
+                  Point(1217, 378),
+                  Point(1218, 373),
+                  Point(1235, 376),
+                  Point(1229, 382),
+                  Point(1221, 386),
+                  Point(1260, 379)
                 ];
 
     FISH_RAW_LOBSTER, FISH_COOKED_LOBSTER:
@@ -467,7 +467,7 @@ begin
     FISH_RAW_TROUT     : Result := 11382453;
     FISH_RAW_PIKE      : Result := 6319968;
     FISH_RAW_SALMON    : Result := 5924258;
-    FISH_RAW_TUNA      : Result := 9408662;
+    FISH_RAW_TUNA      : Result := 11777211;
     FISH_RAW_LOBSTER   : Result := 2244720;
     FISH_RAW_SWORDFISH : Result := 12615862;
     FISH_RAW_MONKFISH  : Result := 4017773;
@@ -481,7 +481,7 @@ begin
     FISH_COOKED_TROUT     : Result := 6777207;
     FISH_COOKED_PIKE      : Result := 5405277;
     FISH_COOKED_SALMON    : Result := 1851076;
-    FISH_COOKED_TUNA      : Result := 5263965;
+    FISH_COOKED_TUNA      : Result := 8093326;
     FISH_COOKED_LOBSTER   : Result := 1728190;
     FISH_COOKED_SWORDFISH : Result := 9330310;
     FISH_COOKED_MONKFISH  : Result := 4279125;
