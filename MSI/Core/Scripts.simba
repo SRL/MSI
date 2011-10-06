@@ -996,8 +996,8 @@ begin
 
           Reflection := [
             // bank to outside guild
-            TPointArray([Point(3012, 3353), Point(3007, 3347),
-                         Point(3007, 3335), Point(3006, 3324)]),
+            TPointArray([Point(3013, 3355), Point(3006, 3318),
+                         Point(2975, 3284), Point(2933, 3288)]),
 
             // guild door to mine
             TPointArray([Point(2933, 3286), Point(2940, 3281)])
@@ -1082,7 +1082,8 @@ begin
           EndLoc   := LOC_BBV_FISH;
 
           Reflection := [TPointArray([
-            Point(3094, 3492), Point(3101, 3479), Point(3109, 3432)]
+            Point(3094, 3492), Point(3101, 3479), Point(3098, 3452),
+            Point(3109, 3432)]
           )];
 
 

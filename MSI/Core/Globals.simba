@@ -57,18 +57,16 @@ anything from randomness percentage to bank symbol accuracy.
 *)
 const
   ANTI_BAN_CHANCE      = 10;    // The chance (in %) of performing antiban
-  MIN_FLAG_DISTANCE    = 15;    // The amount of pixels from the flag to player
   RANDOM_TIME_PERCENT  = 0.30;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
   DTM_TOLERANCE        = 10;    // Tolerance on the DTMs
-  TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
 
-  // PLB = Player Box (a tight box around the player)
+  // PLB = Player Box (a tight box around the player); used in animations
   PLBX1 = MSCX - 10;
   PLBY1 = MSCY - 25;
   PLBX2 = MSCX + 15;
   PLBY2 = MSCY + 15;
 
-  MM_BLACK = 263168;
+  MM_BLACK = 263168; // Black color on the minimap; used for some obstacle's mirror
 
 (*
 Script Constants

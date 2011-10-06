@@ -1617,11 +1617,12 @@ begin
           continue;
 
         box := MSI_GetLocBox(MSI_Locations[loc], i);
-        MSI_BoxToMM(box);
 
         // if player is already in box, continue
         if (pointInBox(mPos, box)) then
         begin
+          MSI_BoxToMM(box);
+
           if (i = hSubLoc) then
           begin
             MSI_Debug('Already at ' + name);
@@ -1729,10 +1730,10 @@ begin
         MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
         box := MSI_GetLocBox(MSI_Locations[loc], i);
-        MSI_BoxToMM(box);
 
         if (pointInBox(mPos, box)) then
         begin
+          MSI_BoxToMM(box);
           result := true;
 
           MSI_Debug('Player is at ' + subLocs[i].name);

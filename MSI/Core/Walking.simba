@@ -542,6 +542,7 @@ begin
       MSI_Debug('Attempts: '+toStr(Attempts));
     end;
 
+    ClickNorth(true);
     MSI_Flag(0);
 
     dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
