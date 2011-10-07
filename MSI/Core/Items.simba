@@ -441,7 +441,7 @@ begin
 
     ORE_CLAY      : Result := 5076363;
     ORE_COPPER    : Result := 3696563;
-    ORE_TIN       : Result := 6118754;
+    ORE_TIN       : Result := 6776684;
     ORE_IRON      : Result := 1712955;
     ORE_SILVER    : Result := 9538186;
     ORE_COAL      : Result := 1844261;
@@ -2064,7 +2064,7 @@ begin
             DeleteValueInIntArray(Result, t);
       end;
 
-  MSI_Debug('MSI_FindItemSlots: Found '+IntToStr(Length(result))+' '+MSI_Items[Item].Name+' in inventory slot(s) ' + ToStr(Result));
+  MSI_Debug('MSI_FindItemSlots: Found '+IntToStr(Length(result))+' '+MSI_Items[Item].Name+' in '+searchArea+' slot(s) ' + ToStr(Result));
 end;
 
 (*
