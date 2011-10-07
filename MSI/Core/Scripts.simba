@@ -113,7 +113,6 @@ begin
                         ];
 
           SPSAreas := ['11_6'];
-
         end;
       end;
 
@@ -174,7 +173,6 @@ begin
                         ];
 
           SPSAreas   := ['10_8'];
-
         end;
       end;
 
@@ -205,7 +203,6 @@ begin
                         ];
 
           SPSAreas   := ['10_8'];
-
         end;
       end;
 
@@ -236,7 +233,6 @@ begin
                         ];
 
           SPSAreas   := ['10_9'];
-
         end;
       end;
 
@@ -263,16 +259,11 @@ begin
           EndLoc   := LOC_RM_YEWS;
 
           Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3036, 3233),
-                                       Point(3027, 3227), Point(3022, 3217),
-                                       Point(3008, 3216), Point(2994, 3218),
-                                       Point(2983, 3219), Point(2971, 3222),
-                                       Point(2958, 3223), Point(2947, 3226),
-                                       Point(2937, 3228)])
+                          TPointArray([Point(3047, 3234), Point(2965, 3222),
+                                       Point(2934, 3230)])
                         ];
 
           SPSAreas   := ['9_9', '8_9'];
-
         end;
       end;
 
@@ -298,15 +289,11 @@ begin
           EndLoc   := LOC_RM_WILLOWS;
 
           Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3034, 3234),
-                                       Point(3028, 3222), Point(3017, 3215),
-                                       Point(3006, 3207), Point(3005, 3195),
-                                       Point(3004, 3183), Point(3003, 3172),
-                                       Point(2999, 3165)])
+                          TPointArray([Point(3047, 3234), Point(3028, 3234),
+                                       Point(3000, 3165)])
                         ];
 
           SPSAreas   := ['9_9'];
-
         end;
       end;
 
@@ -333,12 +320,10 @@ begin
           EndLoc   := LOC_PS_WILLOWS;
 
           Reflection := [
-                          TPointArray([Point(3047, 3236), Point(3052, 3248),
-                                       Point(3060, 3253)])
-                        ];
+            TPointArray([Point(3047, 3236), Point(3060, 3253)])
+          ];
 
           SPSAreas   := ['9_8', '9_9'];
-
         end;
       end;
 
@@ -365,13 +350,10 @@ begin
           EndLoc   := LOC_PS_YEWS;
 
           Reflection := [
-                          TPointArray([Point(3046, 3235), Point(3042, 3245),
-                                       Point(3041, 3254), Point(3041, 3263),
-                                       Point(3044, 3269), Point(3053, 3270)])
+                          TPointArray([Point(3046, 3235), Point(3053, 3270)])
                         ];
 
           SPSAreas   := ['9_9', '9_8'];
-
         end;
       end;
 
@@ -398,16 +380,11 @@ begin
           EndLoc   := LOC_SV_MAGICS;
 
           Reflection := [
-                          TPointArray([Point(2724, 3492), Point(2724, 3479),
-                                       Point(2721, 3471), Point(2719, 3459),
-                                       Point(2719, 3447), Point(2716, 3439),
-                                       Point(2716, 3427), Point(2715, 3418),
-                                       Point(2715, 3406), Point(2713, 3397),
-                                       Point(2704, 3392), Point(2701, 3399)])
+                          TPointArray([Point(2724, 3492), Point(2710, 3392),
+                                       Point(2701, 3397)])
                         ];
 
           SPSAreas   := ['6_6', '6_7'];
-
         end;
       end;
 
@@ -437,7 +414,6 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-
         end;
       end;
 
@@ -464,14 +440,10 @@ begin
           EndLoc   := LOC_SV_YEWS;
 
           Reflection := [
-                          TPointArray([Point(2725, 3493), Point(2725, 3485),
-                                       Point(2725, 3477), Point(2725, 3468),
-                                       Point(2720, 3443), Point(2720, 3431),
-                                       Point(2719, 3463), Point(2714, 3464)])
+                          TPointArray([Point(2725, 3493), Point(2714, 3464)])
                         ];
 
           SPSAreas   := ['6_6'];
-
         end;
       end;
 
@@ -502,7 +474,6 @@ begin
                         ];
 
           SPSAreas   := ['6_6'];
-
         end;
       end;
 
@@ -529,13 +500,10 @@ begin
           EndLoc   := LOC_SV_TREES;
 
           Reflection := [
-                          TPointArray([Point(2724, 3492), Point(2724, 3479),
-                          Point(2725, 3464), Point(2722, 3453),
-                          Point(2724, 3461), Point(2721, 3447)])
+                          TPointArray([Point(2724, 3492), Point(2721, 3447)])
                         ];
 
           SPSAreas   := ['6_6'];
-
         end;
       end;
 
@@ -562,8 +530,7 @@ begin
           EndLoc   := LOC_EV_YEWS;
 
           Reflection := [
-                          TPointArray([Point(3093, 3492), Point(3093, 3478),
-                                       Point(3087, 3472)])
+                          TPointArray([Point(3093, 3492), Point(3087, 3472)])
                         ];
 
           SPSAreas   := ['10_6'];
@@ -594,9 +561,7 @@ begin
           EndLoc   := LOC_DB_YEWS;
 
           Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3106, 3242),
-                                       Point(3116, 3236), Point(3127, 3231),
-                                       Point(3136, 3227), Point(3151, 3229)])
+                          TPointArray([Point(3093, 3244), Point(3151, 3229)])
                         ];
 
           SPSAreas   := ['10_9', '11_9'];
@@ -646,14 +611,11 @@ begin
           EndLoc   := LOC_VE_MINE;
 
           Reflection := [
-                          TPointArray([Point(3254, 3421), Point(3265, 3428),
-                                       Point(3279, 3429), Point(3288, 3419),
-                                       Point(3292, 3406), Point(3292, 3392),
+                          TPointArray([Point(3254, 3421), Point(3292, 3429),
                                        Point(3293, 3377), Point(3287, 3368)])
                         ];
 
           SPSAreas   := ['12_7'];
-
         end;
       end;
 
@@ -680,16 +642,11 @@ begin
           EndLoc   := LOC_LSW_MINE;
 
           Reflection := [
-                          TPointArray([Point(3091, 3242), Point(3101, 3234),
-                                       Point(3108, 3225), Point(3115, 3217),
-                                       Point(3124, 3211), Point(3132, 3205),
-                                       Point(3138, 3197), Point(3140, 3186),
-                                       Point(3141, 3175), Point(3144, 3165),
-                                       Point(3148, 3155), Point(3148, 3147)])
+                          TPointArray([Point(3093, 3242), Point(3138, 3205),
+                                       Point(3147, 3144)])
                         ];
 
           SPSAreas   := ['10_9'];
-
         end;
       end;
 
@@ -715,12 +672,8 @@ begin
           EndLoc   := LOC_LSE_MINE;
 
           Reflection := [
-                          TPointArray([Point(3091, 3242), Point(3101, 3234),
-                                       Point(3108, 3225), Point(3115, 3217),
-                                       Point(3124, 3211), Point(3132, 3205),
-                                       Point(3138, 3197), Point(3140, 3186),
-                                       Point(3141, 3175), Point(3144, 3165),
-                                       Point(3148, 3155), Point(3148, 3147)])
+                          TPointArray([Point(3269, 3165), Point(3241, 3176),
+                                       Point(3229, 3147)])
                         ];
 
           SPSAreas   := ['11_9', '12_9'];
@@ -750,12 +703,8 @@ begin
           EndLoc   := LOC_VW_MINE;
 
           Reflection := [
-                          TPointArray([Point(3187, 3437), Point(3183, 3429),
-                                       Point(3174, 3427), Point(3171, 3418),
-                                       Point(3173, 3408), Point(3170, 3397),
-                                       Point(3173, 3387), Point(3174, 3377),
-                                       Point(3171, 3367), Point(3176, 3361),
-                                       Point(3178, 3367)])
+                          TPointArray([Point(3187, 3437), Point(3172, 3429),
+                                       Point(3172, 3394), Point(3179, 3369)])
                         ];
 
           SPSAreas   := ['11_7'];
@@ -786,7 +735,7 @@ begin
 
           Reflection := [
                           TPointArray([Point(2945, 3368), Point(2938, 3355)]),
-                          //^^ inside Falador
+
                           TPointArray([Point(2920, 3355), Point(2909, 3357)])
                         ];
 
@@ -819,11 +768,8 @@ begin
           EndLoc   := LOC_BBV_MINE;
 
           Reflection := [
-                          TPointArray([Point(3093, 3493), Point(3085, 3486),
-                                       Point(3081, 3478), Point(3082, 3467),
-                                       Point(3088, 3458), Point(3087, 3448),
-                                       Point(3085, 3437), Point(3086, 3427),
-                                       Point(3079, 3423)])
+                          TPointArray([Point(3093, 3493), Point(3101, 3478),
+                                       Point(3081, 3420)])
                         ];
 
           SPSAreas   := ['10_6', '10_7'];
@@ -853,10 +799,7 @@ begin
           EndLoc   := LOC_RM_MINE;
 
           Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3033, 3234),
-                                       Point(3022, 3233), Point(3011, 3230),
-                                       Point(3000, 3232), Point(2993, 3230),
-                                       Point(2986, 3236), Point(2980, 3236)])
+                          TPointArray([Point(3047, 3234), Point(2980, 3236)])
                         ];
 
           SPSAreas   := ['9_9'];
@@ -886,11 +829,8 @@ begin
           EndLoc   := LOC_DB_CLAY;
 
           Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3100, 3249),
-                                       Point(3104, 3262), Point(3105, 3275),
-                                       Point(3109, 3288), Point(3119, 3296),
-                                       Point(3127, 3305), Point(3135, 3312),
-                                       Point(3141, 3316)])
+                          TPointArray([Point(3093, 3244), Point(3104, 3249),
+                                       Point(3110, 3292), Point(3142, 3317)])
                         ];
 
           SPSAreas   := ['10_8', '10_9'];
@@ -920,12 +860,7 @@ begin
           EndLoc   := LOC_AK_MINE;
 
           Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3278, 3175),
-                                       Point(3283, 3187), Point(3287, 3199),
-                                       Point(3291, 3212), Point(3298, 3223),
-                                       Point(3298, 3237), Point(3298, 3251),
-                                       Point(3298, 3264), Point(3299, 3278),
-                                       Point(3300, 3293), Point(3300, 3301)])
+                          TPointArray([Point(3270, 3165), Point(3300, 3301)])
                         ];
 
           SPSAreas   := ['12_8', '12_9'];
@@ -1051,8 +986,7 @@ begin
           EndLoc   := LOC_DB_FISH;
 
           Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3087, 3234),
-                                       Point(3087, 3228)])
+                          TPointArray([Point(3093, 3244), Point(3087, 3228)])
                         ];
 
           SPSAreas   := ['10_9'];
@@ -1116,8 +1050,7 @@ begin
           EndLoc   := LOC_CB_FISH;
 
           Reflection := [
-                          TPointArray([Point(2808, 3442), Point(2814, 3438),
-                           Point(2827, 3439), Point(2835, 3434)])
+                          TPointArray([Point(2808, 3442), Point(2835, 3434)])
                         ];
 
           SPSAreas   := ['7_7'];
@@ -1149,10 +1082,7 @@ begin
           EndLoc   := LOC_KJ_FISH;
 
           Reflection := [
-                          TPointArray([Point(2851, 3141), Point(2862, 3145),
-                                       Point(2874, 3149), Point(2884, 3156),
-                                       Point(2896, 3162), Point(2906, 3169),
-                                       Point(2919, 3171), Point(2924, 3175)])
+                          TPointArray([Point(2851, 3141), Point(2924, 3175)])
                         ];
 
           SPSAreas := ['8_9'];
@@ -1194,12 +1124,10 @@ begin
           EndLoc   := LOC_AK_RANGE;
 
           Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3271, 3170),
-                                       Point(3273, 3179)])
+                          TPointArray([Point(3270, 3165), Point(3273, 3179)])
                         ];
 
           SPSAreas   := ['12_9'];
-
         end;
       end;
 
@@ -1252,8 +1180,7 @@ begin
           EndLoc   := LOC_VE_FOUNTAIN;
 
           Reflection := [
-                          TPointArray([Point(3254, 3421), Point(3254, 3429),
-                                       Point(3247, 3429), Point(3241, 3434)])
+                          TPointArray([Point(3254, 3421), Point(3241, 3434)])
                         ];
 
           SPSAreas := ['11_7'];
@@ -1394,8 +1321,7 @@ begin
           EndLoc   := LOC_VE_FOUNTAIN;
 
           Reflection := [
-                          TPointArray([Point(3254, 3421), Point(3254, 3429),
-                                       Point(3247, 3429), Point(3241, 3434)])
+                          TPointArray([Point(3254, 3421), Point(3241, 3434)])
                         ];
 
           SPSAreas := ['11_7'];
@@ -1505,10 +1431,7 @@ begin
                 endLoc   := LOC_ALTER_AIR;
 
                 reflection := [
-                  TPointArray([point(3185, 3436), point(3178, 3428),
-                               point(3168, 3422), point(3160, 3419),
-                               point(3149, 3416), point(3140, 3409),
-                               point(3128, 3404)]),
+                  TPointArray([point(3185, 3436), point(3128, 3404)]),
 
                   TPointArray([])
                 ];
@@ -1536,11 +1459,8 @@ begin
                 endLoc   := LOC_ALTER_EARTH;
 
                 reflection := [
-                  TPointArray([point(3254, 3421), point(3260, 3429),
-                               point(3271, 3429), point(3284, 3431),
-                               point(3286, 3443), point(3287, 3453),
-                               point(3292, 3460), point(3301, 3465),
-                               point(3305, 3472), point(3306, 3476)]),
+                  TPointArray([point(3254, 3421), point(3283, 3428),
+                               point(3306, 3476)]),
 
                   TPointArray([point(2657, 4830), point(2657, 4839)])
                 ];
@@ -1568,12 +1488,7 @@ begin
                 endLoc   := LOC_ALTER_FIRE;
 
                 reflection := [
-                  TPointArray([point(3269, 3168), point(3276, 3175),
-                               point(3282, 3183), point(3283, 3192),
-                               point(3286, 3201), point(3289, 3210),
-                               point(3294, 3220), point(3299, 3230),
-                               point(3302, 3239), point(3307, 3248),
-                               point(3312, 3254), point(3312, 3253)]),
+                  TPointArray([point(3269, 3168), point(3312, 3253)]),
 
                   TPointArray([point(2577, 4846), point(2583, 4840)])
                 ];
@@ -1601,14 +1516,7 @@ begin
                 endLoc   := LOC_ALTER_WATER;
 
                 reflection := [
-                  TPointArray([point(3093, 3245), point(3103, 3240),
-                               point(3109, 3233), point(3111, 3225),
-                               point(3118, 3218), point(3125, 3214),
-                               point(3135, 3211), point(3141, 3205),
-                               point(3142, 3196), point(3146, 3190),
-                               point(3149, 3183), point(3155, 3175),
-                               point(3163, 3168), point(3167, 3164),
-                               point(3174, 3159), point(3183, 3164)]),
+                  TPointArray([point(3093, 3245), point(3183, 3164)]),
 
                   TPointArray([point(3493, 4832), point(3486, 4835)])
                 ];
@@ -1636,17 +1544,9 @@ begin
                 endLoc   := LOC_ALTER_MIND;
 
                 reflection := [
-                  TPointArray([point(2945, 3373), point(2950, 3380),
-                               point(2960, 3385), point(2965, 3392),
-                               point(2966, 3404), point(2967, 3412),
-                               point(2975, 3417), point(2982, 3423),
-                               point(2987, 3429), point(2987, 3438),
-                               point(2982, 3442), point(2975, 3450),
-                               point(2976, 3456), point(2973, 3463),
-                               point(2974, 3473), point(2976, 3483),
-                               point(2980, 3491), point(2984, 3500),
-                               point(2983, 3504), point(2982, 3512),
-                               point(2982, 3516)]),
+                  TPointArray([point(2945, 3373), point(2965, 3393),
+                               point(2990, 3429), point(2973, 3456),
+                               point(2982, 3316)]),
 
                   TPointArray([point(2793, 4829), point(2786, 4839)])
                 ];
@@ -1674,10 +1574,8 @@ begin
                 endLoc   := LOC_ALTER_BODY;
 
                 reflection := [
-                  TPointArray([point(3094, 3493), point(3084, 3490),
-                               point(3080, 3482), point(3079, 3473),
-                               point(3074, 3467), point(3072, 3457),
-                               point(3068, 3448), point(3055, 3444)]),
+                  TPointArray([point(3094, 3493), point(3073, 3490),
+                               point(3055, 3444)]),
 
                   TPointArray([point(2521, 4834), point(2522, 4838)])
                 ];

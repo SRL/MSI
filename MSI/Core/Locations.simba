@@ -106,16 +106,12 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_VE_BANK;
 
-           reflection := [TPointArray([
-             point(3230, 3217), point(3242, 3224), point(3257, 3226),
-             point(3260, 3238), point(3254, 3250), point(3251, 3263),
-             point(3242, 3275), point(3239, 3290), point(3241, 3306),
-             point(3251, 3317), point(3264, 3324), point(3278, 3332),
-             point(3287, 3345), point(3296, 3356), point(3296, 3369),
-             point(3294, 3382), point(3292, 3396), point(3290, 3409),
-             point(3285, 3422), point(3277, 3429), point(3263, 3429),
-             point(3255, 3420)])];
-
+           reflection := [
+             TPointArray([point(3222, 3217), point(3260, 3227),
+                          point(3238, 3279), point(3240, 3308),
+                          point(3298, 3358), point(3284, 3428),
+                          point(3254, 3420)]
+           )];
 
            spsAreas := ['11_5', '11_4', '11_3'];
          end;
@@ -185,17 +181,12 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_VW_BANK;
 
-           reflection := [TPointArray([
-             point(3230, 3217), point(3242, 3224), point(3257, 3226),
-             point(3260, 3238), point(3254, 3250), point(3251, 3263),
-             point(3242, 3275), point(3239, 3290), point(3241, 3306),
-             point(3251, 3317), point(3264, 3324), point(3278, 3332),
-             point(3287, 3345), point(3296, 3356), point(3296, 3369),
-             point(3294, 3382), point(3292, 3396), point(3290, 3409),
-             point(3285, 3422), point(3279, 3429), point(3264, 3428),
-             point(3252, 3429), point(3238, 3430), point(3224, 3429),
-             point(3208, 3429), point(3194, 3430), point(3185, 3438)])];
-
+           reflection := [
+             TPointArray([point(3222, 3217), point(3260, 3227),
+                          point(3239, 3280), point(3241, 3329),
+                          point(3212, 3378), point(3212, 3426),
+                          point(3186, 3436)]
+           )];
 
            spsAreas := ['11_5', '11_4', '11_3', '10_3'];
          end;
@@ -261,18 +252,12 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_GE_BANK;
 
-           reflection := [TPointArray([
-             point(3230, 3217), point(3242, 3224), point(3257, 3226),
-             point(3260, 3238), point(3254, 3250), point(3251, 3263),
-             point(3242, 3275), point(3239, 3290), point(3241, 3306),
-             point(3251, 3317), point(3264, 3324), point(3278, 3332),
-             point(3287, 3345), point(3296, 3356), point(3296, 3369),
-             point(3294, 3382), point(3292, 3396), point(3290, 3409),
-             point(3285, 3422), point(3279, 3429), point(3264, 3428),
-             point(3252, 3429), point(3238, 3430), point(3224, 3429),
-             point(3208, 3429), point(3194, 3430), point(3185, 3438),
-             point(3187, 3447), point(3179, 3450), point(3168, 3459),
-             point(3165, 3471), point(3167, 3480), point(3167, 3489)])];
+           reflection := [
+             TPointArray([point(3222, 3217), point(3260, 3227),
+                          point(3239, 3280), point(3241, 3329),
+                          point(3212, 3378), point(3212, 3426),
+                          point(3178, 3478)]
+           )];
 
 
            spsAreas := ['11_5', '11_4', '11_3', '10_3', '10_2'];
@@ -567,18 +552,11 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_FE_BANK;
 
-           reflection := [TPointArray([
-             point(3229, 3217), point(3234, 3223), point(3226, 3236),
-             point(3219, 3249), point(3216, 3263), point(3211, 3276),
-             point(3197, 3280), point(3184, 3285), point(3171, 3285),
-             point(3160, 3290), point(3147, 3294), point(3131, 3294),
-             point(3117, 3294), point(3103, 3293), point(3089, 3289),
-             point(3077, 3280), point(3064, 3277), point(3050, 3275),
-             point(3035, 3275), point(3022, 3276), point(3009, 3279),
-             point(3007, 3294), point(3005, 3304), point(3007, 3317),
-             point(3006, 3331), point(3007, 3343), point(3006, 3357),
-             point(3012, 3361), point(3014, 3356)])];
-
+           reflection := [
+             TPointArray([point(3222, 3217), point(3209, 3203),
+                          point(3073, 3275), point(3006, 3278),
+                          point(3006, 3359), point(3013, 3355)]
+           )];
 
            spsAreas := ['11_5', '10_4', '9_4'];
          end;
@@ -603,19 +581,12 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_FW_BANK;
 
-           reflection := [TPointArray([
-             point(3229, 3217), point(3234, 3223), point(3226, 3236),
-             point(3219, 3249), point(3216, 3263), point(3211, 3276),
-             point(3197, 3280), point(3184, 3285), point(3171, 3285),
-             point(3160, 3290), point(3147, 3294), point(3131, 3294),
-             point(3117, 3294), point(3103, 3293), point(3089, 3289),
-             point(3077, 3280), point(3064, 3277), point(3050, 3275),
-             point(3035, 3275), point(3022, 3276), point(3009, 3279),
-             point(3007, 3294), point(3005, 3304), point(3007, 3317),
-             point(3006, 3331), point(3007, 3343), point(3006, 3357),
-             point(2999, 3364), point(2988, 3372), point(2977, 3378),
-             point(2962, 3379), point(2952, 3380), point(2946, 3368)])];
-
+           reflection := [
+             TPointArray([point(3222, 3217), point(3209, 3203),
+                          point(3073, 3275), point(3006, 3278),
+                          point(3006, 3359), point(2965, 3380),
+                          point(2946, 3368)]
+           )];
 
            spsAreas := ['11_5', '10_4', '9_4', '8_4'];
          end;
@@ -728,17 +699,11 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_PS_DBOX;
 
-           reflection := [TPointArray([
-             point(3222, 3216), point(3219, 3207), point(3208, 3203),
-             point(3203, 3214), point(3194, 3215), point(3183, 3216),
-             point(3173, 3218), point(3162, 3221), point(3152, 3221),
-             point(3143, 3225), point(3131, 3223), point(3119, 3221),
-             point(3111, 3225), point(3106, 3232), point(3094, 3232),
-             point(3088, 3236), point(3082, 3240), point(3075, 3246),
-             point(3073, 3256), point(3072, 3265), point(3070, 3275),
-             point(3064, 3266), point(3063, 3259), point(3055, 3250),
-             point(3044, 3245), point(3046, 3234)])];
-
+           reflection := [
+             TPointArray([point(3223, 3217), point(3210, 3203),
+                          point(3110, 3223), point(3072, 3274),
+                          point(3064, 3273), point(3048, 3234)]
+           )];
 
            spsAreas := ['11_5', '10_5', '9_5'];
          end;
@@ -807,22 +772,11 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_EV_BANK;
 
-           reflection := [TPointArray([
-             point(3230, 3217), point(3242, 3224), point(3257, 3226),
-             point(3260, 3238), point(3254, 3250), point(3251, 3263),
-             point(3242, 3275), point(3239, 3290), point(3241, 3306),
-             point(3251, 3317), point(3264, 3324), point(3278, 3332),
-             point(3287, 3345), point(3296, 3356), point(3296, 3369),
-             point(3294, 3382), point(3292, 3396), point(3290, 3409),
-             point(3285, 3422), point(3279, 3429), point(3264, 3428),
-             point(3252, 3429), point(3238, 3430), point(3224, 3429),
-             point(3208, 3429), point(3194, 3430), point(3189, 3429),
-             point(3176, 3428), point(3164, 3423), point(3150, 3417),
-             point(3137, 3417), point(3123, 3417), point(3112, 3422),
-             point(3099, 3420), point(3092, 3430), point(3092, 3441),
-             point(3096, 3453), point(3099, 3465), point(3097, 3478),
-             point(3088, 3485), point(3089, 3492), point(3093, 3491)])];
-
+           reflection := [
+             TPointArray([point(3222, 3217), point(3236, 3217),
+                          point(3215, 3276), point(3121, 3297),
+                          point(3077, 3329), point(3094, 3491)]
+           )];
 
            spsAreas := ['11_5', '10_4', '10_3', '9_3', '9_2'];
          end;
@@ -987,7 +941,6 @@ begin
 
            reflection := [TPointArray([])];
 
-
            spsAreas := [];
          end;
        end;
@@ -1120,11 +1073,10 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_AK_BANK;
 
-           reflection := [TPointArray([
-             point(3223, 3217), point(3235, 3212), point(3237, 3201),
-             point(3243, 3191), point(3242, 3180), point(3246, 3171),
-             point(3257, 3172), point(3270, 3174), point(3270, 3165)])];
-
+           reflection := [
+             TPointArray([point(3222, 3217), point(3236, 3218),
+                          point(3245, 3166), point(3270, 3165)]
+           )];
 
            spsAreas := ['11_5'];
          end;
@@ -1622,12 +1574,8 @@ begin
         if (pointInBox(mPos, box)) then
         begin
           MSI_BoxToMM(box);
-
-          if (i = hSubLoc) then
-          begin
-            MSI_Debug('Already at ' + name);
-            result := true;
-          end;
+          MSI_Debug('At sub-location ' + subLocs[i].name);
+          result := true;
 
           continue;
         end;
