@@ -76,6 +76,46 @@ begin
 end;
 
 (*
+MSI_SetupSPS
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetupSPS(surface: integer; areas: TStringArray);
+
+An MSI wrapper function for SPS_Setup (sps.simba).  Used to avoid needless
+repeated code.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 October 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  var
+    script: TScript;
+  begin
+    script := MSI_GetPlayerScript();
+    MSI_SetupSPS(script.pathInfo.spsSurface, script.pathInfo.spsAreas);
+    .
+    .
+  end;
+*)
+procedure MSI_SetupSPS(surface: integer; areas: TStringArray);
+begin
+  if (MSI_HookBroken[HOOK_WALKING]) then
+  begin
+    {$IFDEF SPS}
+    SPS_Debug := true;
+    SPS_Setup(surface, areas);
+    {$ENDIF}
+  end;
+end;
+
+(*
 MSI_GetMyPos
 ~~~~~~~~~~~~
 
@@ -283,6 +323,7 @@ Example:
 function MSI_FurthestPoint(tPath: TPointArray; P: TPoint; sPoint, ePoint: Integer): Integer;
 var
   H: Integer;
+  V: Extended;
 begin
   // removes points that aren't in range
   SetLength(tPath, ePoint + 1);
@@ -293,11 +334,18 @@ begin
   // finds the furthest visible Point.
   H := High(tPath);
   for Result := H downto 0 do
-    if (Sqrt(Sqr((tPath[Result].X - P.X) * 4.0) + Sqr((tPath[Result].Y - P.Y) * 4.0)) < 69.0) then
+  begin
+    if (MSI_HookBroken[HOOK_WALKING]) then
+      V := Sqrt(Sqr(tPath[Result].X - P.X) + Sqr(tPath[Result].Y - P.Y))
+    else
+      V := Sqrt(Sqr((tPath[Result].X - P.X) * 4.0) + Sqr((tPath[Result].Y - P.Y) * 4.0));
+
+    if (V < 69.0) then
     begin
       IncEx(Result, sPoint);
       Exit;
     end;
+  end;
 
   Result := -1;
 end;
@@ -477,7 +525,7 @@ Example:
 function MSI_WalkTPA(Path: TPointArray; Destination, MaxDist: Integer): Boolean;
 var
   P, DPoint: TPoint;
-  H, D, PointInd, pInd, Attempts, time, dist: Integer;
+  H, D, PointInd, pInd, Attempts, time, dist, minDist: Integer;
 begin
   if (not(loggedIn)) then
     exit;
@@ -495,6 +543,11 @@ begin
     D := H
   else
     D := Destination;
+
+  if (MSI_HookBroken[HOOK_WALKING]) then
+    minDist := 12
+  else
+    minDist := 3;
 
   // expands path and finds new destination index
   DPoint := Path[D];
@@ -518,7 +571,7 @@ begin
     end;
 
     // loops through the points and walks :)
-    while (Distance(P.X, P.Y, Path[D].X, Path[D].Y) > 3) and (Attempts < 10) do
+    while (Distance(P.X, P.Y, Path[D].X, Path[D].Y) > minDist) and (Attempts < 10) do
     begin
       MSI_WaitWhileResting();
 
@@ -548,7 +601,7 @@ begin
     dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
     MSI_Debug('Final distance: '+toStr(dist));
 
-    Result := (dist <= 5);
+    Result := (dist <= minDist);
   end;
 
   MSI_CloseHeader('MSI_WalkTPA: '+toStr(result));
@@ -597,6 +650,8 @@ begin
 
   if (MSI_HookBroken[HOOK_WALKING]) then
   begin
+    MSI_SetupSPS(pathInfo.spsSurface, pathInfo.spsAreas);
+
     if (pathInfo.maxDist <= 0) then
       pathInfo.maxDist := 160; // pixels (for SPS)
 
@@ -703,12 +758,6 @@ begin
   if (not loggedIn) then
     exit;
 
-  if (MSI_HookBroken[HOOK_WALKING]) then
-  begin
-    MSI_Debug('MSI_DeathWalk not yet supported in color');
-    Exit;
-  end;
-
   MSI_AddHeader('MSI_DeathWalk');
 
   script := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
@@ -722,12 +771,10 @@ begin
       Exit;
     end;
 
-    // tries to walk the path; maybe we're already close to it or on it
-    if (not home) then
-      result := MSI_WalkPath(deathPath, true);
+    result := MSI_WalkPath(deathPath, true);
 
     // teleport home!
-    if ((not result) and (not home)) then
+    if (not result) then
       if (MSI_ClickSpell(SPELL_TELE_HOME)) then // teleport home
       begin
         MSI_Debug('Waiting to spawn in Lumbridge');

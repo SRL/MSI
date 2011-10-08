@@ -261,19 +261,7 @@ begin
     mrNo: terminateScript();
   end;
   {$ELSE}
-  case messageDlg('WARNING',
-        'MSI doesn''t have death walking support without reflection.  This means ' +
-        'you have to start your player at the script''s location rather than ' +
-        'anywhere in Runescape.  Click Yes to continue or No to use reflection.',
-        mtConfirmation, [mbYes, mbNo]) of
-    mrYes:
-      begin
-        MSI_Debug('Using SPS without death walking support');
-        MSI_HookBroken[HOOK_WALKING] := true;
-      end;
-
-    mrNo: MSI_RefNotDefined();
-  end;
+  MSI_HookBroken[HOOK_WALKING] := true;
   {$ENDIF}
 end;
 

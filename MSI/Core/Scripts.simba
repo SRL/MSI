@@ -1593,6 +1593,11 @@ begin
 
     end; // big case
 
+  with MSI_Scripts[whichScript] do
+    if (length(pathInfo.spsAreas) >= 0) then
+      if (pathInfo.spsSurface = 0) then
+        pathInfo.spsSurface := RUNESCAPE_SURFACE;
+
   Result := (MSI_Scripts[whichScript].Name <> '');
 end;
 

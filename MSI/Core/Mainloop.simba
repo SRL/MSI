@@ -261,9 +261,9 @@ begin
     Script := MSI_Scripts[Scripts[CurrentScript].Name];
 
     if (ToLoc) then
-      Result := MSI_AtLocation(Script.PathInfo.EndLoc, True)
+      Result := MSI_AtLocation(Script.PathInfo.EndLoc, False)
     else
-      Result := MSI_AtLocation(Script.PathInfo.StartLoc, True);
+      Result := MSI_AtLocation(Script.PathInfo.StartLoc, False);
 
     if (not Result) then
       Result := MSI_PerformWalk(Script.PathInfo, ToLoc);
@@ -777,52 +777,6 @@ begin
 end;
 
 (*
-MSI_GetSPSAreas
-~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_GetSPSAreas(): TStringArray;
-
-Used to get the current player's script's SPS areas so there aren't severl
-large bitmaps loaded into memory at once.  This ensures SPS will run as fast as
-possible.  This procedure is called after switching players.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 23 June 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  SPS_Areas := MSI_GetSPSAreas();
-*)
-function MSI_GetSPSAreas(): TStringArray;
-var
-  i, j, c: Integer;
-  script: TScript;
-begin
-  with MSI_Players[CurrentPlayer] do
-    for i := 0 to High(scripts) do
-    begin
-      script := MSI_Scripts[scripts[i].name];
-      setLength(result, length(script.pathInfo.SPSAreas));
-      c := 0;
-
-      for j := 0 to High(script.pathInfo.SPSAreas) do
-        if (not inStrArr(script.pathInfo.SPSAreas[j], result, true)) then
-        begin
-          result[c] := script.pathInfo.SPSAreas[j];
-          inc(c);
-        end;
-    end;
-
-  MSI_SubDebug('Player''s SPS_Areas: ' + toStr(result));
-end;
-
-(*
 MSI_MainLoop
 ~~~~~~~~~~~~
 
@@ -865,15 +819,6 @@ begin
     // Reset temporary variables used for breaking
     tmpLoads := 0;
     MarkTime(tmpTime);
-
-    // Reset for each player as they could be using different scripts
-    {$IFDEF SPS}
-    if (MSI_HookBroken[HOOK_WALKING]) then
-    begin
-      SPS_Areas := MSI_GetSPSAreas();
-      SPS_Loaded := False;
-    end;
-    {$ENDIF}
 
     // Setup player
     if (not MSI_SetupPlayer) then

@@ -558,7 +558,7 @@ begin
                           point(3006, 3359), point(3013, 3355)]
            )];
 
-           spsAreas := ['11_5', '10_4', '9_4'];
+           spsAreas := ['11_9', '10_9', '10_8', '9_8', '9_7'];
          end;
        end;
 
@@ -1310,6 +1310,9 @@ begin
   begin
     constant := loc;
 
+    if (deathPath.name <> '') then
+      deathPath.spsSurface := RUNESCAPE_SURFACE;
+
     for i := 0 to high(subLocs) do
     begin
       // if compass isn't set, set to default
@@ -1522,7 +1525,7 @@ Example:
 function MSI_Relocate(Loc: Integer): Boolean;
 var
   hSubLoc, i, ii, cP, l, lTPA: integer;
-  p, mPos: TPoint;
+  mPos: TPoint;
   areaTPA: TPointArray;
   local_subLocs: TSubLocArray;
   box: TBox;

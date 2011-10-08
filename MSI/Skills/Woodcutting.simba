@@ -180,8 +180,6 @@ Example:
     MSI_Debug('Player is chopping');
 *)
 procedure MSI_WaitWhileChopping();
-var
-  anim: TAnimation;
 begin
   if (not loggedIn) then
     exit;
