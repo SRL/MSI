@@ -1330,6 +1330,7 @@ begin
     constant := loc;
 
     // set all path leg's surfaces to RUNESCAPE_SURFACE if not already set
+    {$IFDEF SPS}
     if (deathPath.name <> '') then
     begin
       if (length(deathPath.spsAreas) <> length(deathPath.reflection)) then
@@ -1343,6 +1344,7 @@ begin
           deathPath.spsSurfaces[i] := RUNESCAPE_SURFACE;
       end;
     end;
+    {$ENDIF}
 
     for i := 0 to high(subLocs) do
     begin
@@ -1712,7 +1714,7 @@ begin
         MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
         box := MSI_GetLocBox(MSI_Locations[loc], i);
-        MSI_BoxToMM(box);
+
         if (pointInBox(mPos, box)) then
         begin
           MSI_BoxToMM(box);

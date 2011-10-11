@@ -1133,7 +1133,7 @@ begin
           ];
 
           SPSAreas   := [
-            TStringArray(['8_9'])
+            TStringArray(['8_9', '7_10'])
           ];
         end;
       end;
@@ -1700,7 +1700,8 @@ begin
 
   end; // big case
 
-  // set all path leg's surfaces to RUNESCAPE_SURFACE if not already set (
+  // set all path leg's surfaces to RUNESCAPE_SURFACE if not already set
+  {$IFDEF SPS}
   with MSI_Scripts[whichScript] do
   begin
     if (length(pathInfo.spsAreas) <> length(pathInfo.reflection)) then
@@ -1714,6 +1715,7 @@ begin
         pathInfo.spsSurfaces[i] := RUNESCAPE_SURFACE;
     end;
   end;
+  {$ENDIF}
 
   Result := (MSI_Scripts[whichScript].Name <> '');
 end;
