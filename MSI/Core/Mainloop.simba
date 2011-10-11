@@ -820,6 +820,15 @@ begin
     tmpLoads := 0;
     MarkTime(tmpTime);
 
+    {$IFDEF SPS}
+    try
+      MSI_SetupSPS(MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.SPSSurfaces[0],
+                   MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.SPSAreas[0]);
+    except
+      MSI_Debug('Invalid SPS Areas and/or Surfaces in MSI_Mainloop');
+    end;
+    {$ENDIF}
+
     // Setup player
     if (not MSI_SetupPlayer) then
     begin

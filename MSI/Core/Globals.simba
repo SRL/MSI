@@ -928,8 +928,8 @@ type
     EndLoc     : Integer;
     MaxDist    : Integer; // the maximum distance from any point in the path to blind walk to the path
     Reflection : T2DPointArray;
-    SPSSurface : Integer;
-    SPSAreas   : TStringArray;
+    SPSSurfaces: TIntegerArray; // has to be the length of TPath.Reflection
+    SPSAreas   : array of TStringArray; // 1st is length of TPath.SPSSurfaces, 2nd are the areas for each surface
     Obstacles  : array[0..2] of TIntegerArray;
   end;
 

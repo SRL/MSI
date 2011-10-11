@@ -450,7 +450,7 @@ begin
     ORE_ADAMANTITE: Result := 3884091;
     ORE_RUNITE    : Result := 5525056;
 
-    FISH_SMALLNET     : Result := 131072;
+    FISH_SMALLNET     : Result := 2438210;
     FISH_CAGE_CRAYFISH: Result := 5461079;
     FISH_ROD_BAIT     : Result := 5197651;
     FISH_BAIT         : Result := 1605551;

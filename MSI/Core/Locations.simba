@@ -24,7 +24,7 @@ the location constants MSI uses, which can be found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 12 August 2011 by Coh3n
+  | Last Updated: 10 October 2011 by Coh3n
 
 Example:
 
@@ -110,10 +110,12 @@ begin
              TPointArray([point(3222, 3217), point(3260, 3227),
                           point(3238, 3279), point(3240, 3308),
                           point(3298, 3358), point(3284, 3428),
-                          point(3254, 3420)]
-           )];
+                          point(3254, 3420)])
+           ];
 
-           spsAreas := ['11_5', '11_4', '11_3'];
+           spsAreas   := [
+             TStringArray(['11_9', '11_8', '11_7'])
+           ];
          end;
        end;
 
@@ -185,10 +187,12 @@ begin
              TPointArray([point(3222, 3217), point(3260, 3227),
                           point(3239, 3280), point(3241, 3329),
                           point(3212, 3378), point(3212, 3426),
-                          point(3186, 3436)]
-           )];
+                          point(3186, 3436)])
+           ];
 
-           spsAreas := ['11_5', '11_4', '11_3', '10_3'];
+           spsAreas   := [
+             TStringArray(['11_9', '11_8', '11_7'])
+           ];
          end;
        end;
 
@@ -256,11 +260,12 @@ begin
              TPointArray([point(3222, 3217), point(3260, 3227),
                           point(3239, 3280), point(3241, 3329),
                           point(3212, 3378), point(3212, 3426),
-                          point(3178, 3478)]
-           )];
+                          point(3178, 3478)])
+           ];
 
-
-           spsAreas := ['11_5', '11_4', '11_3', '10_3', '10_2'];
+           spsAreas   := [
+             TStringArray(['11_9', '11_8', '11_7', '11_6'])
+           ];
          end;
        end;
 
@@ -302,7 +307,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Bank';
-           tileBox := intToBox(3092, 3240, 3097, 3246);
+           tileBox := intToBox(3090, 3240, 3097, 3246);
          end;
 
          with deathPath do
@@ -311,9 +316,13 @@ begin
            startLoc := LOC_LB_SPAWN;
            endLoc := LOC_DB_BANK;
 
-           reflection := [TPointArray([point(3222, 3216), point(3092, 3243)])];
+           reflection := [
+             TPointArray([point(3222, 3216), point(3092, 3243)])
+           ];
 
-           spsAreas := ['11_5', '10_5', '9_5'];
+           spsAreas   := [
+             TStringArray(['11_9', '10_9'])
+           ];
          end;
        end;
 
@@ -555,10 +564,12 @@ begin
            reflection := [
              TPointArray([point(3222, 3217), point(3209, 3203),
                           point(3073, 3275), point(3006, 3278),
-                          point(3006, 3359), point(3013, 3355)]
-           )];
+                          point(3006, 3359), point(3013, 3355)])
+           ];
 
-           spsAreas := ['11_9', '10_9', '10_8', '9_8', '9_7'];
+           spsAreas   := [
+             TStringArray(['11_9', '10_9', '10_8', '9_8', '9_7'])
+           ];
          end;
        end;
 
@@ -585,10 +596,12 @@ begin
              TPointArray([point(3222, 3217), point(3209, 3203),
                           point(3073, 3275), point(3006, 3278),
                           point(3006, 3359), point(2965, 3380),
-                          point(2946, 3368)]
-           )];
+                          point(2946, 3368)])
+           ];
 
-           spsAreas := ['11_5', '10_4', '9_4', '8_4'];
+           spsAreas   := [
+             TStringArray(['11_9', '10_9', '10_8', '9_8', '9_7', '8_7'])
+           ];
          end;
        end;
 
@@ -702,10 +715,12 @@ begin
            reflection := [
              TPointArray([point(3223, 3217), point(3210, 3203),
                           point(3110, 3223), point(3072, 3274),
-                          point(3064, 3273), point(3048, 3234)]
-           )];
+                          point(3064, 3273), point(3048, 3234)])
+           ];
 
-           spsAreas := ['11_5', '10_5', '9_5'];
+           spsAreas   := [
+             TStringArray(['11_9', '10_9', '9_9'])
+           ];
          end;
        end;
 
@@ -775,10 +790,12 @@ begin
            reflection := [
              TPointArray([point(3222, 3217), point(3236, 3217),
                           point(3215, 3276), point(3121, 3297),
-                          point(3077, 3329), point(3094, 3491)]
-           )];
+                          point(3077, 3329), point(3094, 3491)])
+           ];
 
-           spsAreas := ['11_5', '10_4', '10_3', '9_3', '9_2'];
+           spsAreas   := [
+             TStringArray(['11_9', '11_8', '10_8', '10_7', '10_6'])
+           ];
          end;
        end;
 
@@ -1075,10 +1092,12 @@ begin
 
            reflection := [
              TPointArray([point(3222, 3217), point(3236, 3218),
-                          point(3245, 3166), point(3270, 3165)]
-           )];
+                          point(3245, 3166), point(3270, 3165)])
+           ];
 
-           spsAreas := ['11_5'];
+           spsAreas   := [
+             TStringArray(['11_9', '12_9'])
+           ];
          end;
        end;
 
@@ -1310,8 +1329,20 @@ begin
   begin
     constant := loc;
 
+    // set all path leg's surfaces to RUNESCAPE_SURFACE if not already set
     if (deathPath.name <> '') then
-      deathPath.spsSurface := RUNESCAPE_SURFACE;
+    begin
+      if (length(deathPath.spsAreas) <> length(deathPath.reflection)) then
+        MSI_Debug('WARNING: Invalid SPSAreas length for location: '+name);
+
+      if (length(deathPath.spsSurfaces) <= 0) then
+      begin
+        setLength(deathPath.spsSurfaces, length(deathPath.reflection));
+
+        for i := 0 to high(deathPath.spsSurfaces) do
+          deathPath.spsSurfaces[i] := RUNESCAPE_SURFACE;
+      end;
+    end;
 
     for i := 0 to high(subLocs) do
     begin
@@ -1681,7 +1712,7 @@ begin
         MSI_Debug('Checking sub-location: ' + subLocs[i].name);
 
         box := MSI_GetLocBox(MSI_Locations[loc], i);
-
+        MSI_BoxToMM(box);
         if (pointInBox(mPos, box)) then
         begin
           MSI_BoxToMM(box);

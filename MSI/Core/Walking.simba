@@ -111,6 +111,8 @@ begin
     {$IFDEF SPS}
     SPS_Debug := true;
     SPS_Setup(surface, areas);
+
+    MSI_Debug('SPS Info.: Surface: '+toStr(surface)+', Areas: '+toStr(areas));
     {$ENDIF}
   end;
 end;
@@ -650,8 +652,6 @@ begin
 
   if (MSI_HookBroken[HOOK_WALKING]) then
   begin
-    MSI_SetupSPS(pathInfo.spsSurface, pathInfo.spsAreas);
-
     if (pathInfo.maxDist <= 0) then
       pathInfo.maxDist := 160; // pixels (for SPS)
 
@@ -687,6 +687,9 @@ begin
 	  for i := 0 to h do
       with MSI_Players[CurrentPlayer] do
 		  begin
+        if (MSI_HookBroken[HOOK_WALKING]) then
+          MSI_SetupSPS(pathInfo.spsSurfaces[i], pathInfo.spsAreas[i]);
+
         // try walking the first leg of the path
 			  if (MSI_WalkTPA(regPath[i], -1, pathInfo.maxDist)) then
         begin
