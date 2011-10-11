@@ -543,7 +543,7 @@ begin
 
   MSI_SetSkillLevels();
 
-  //ClearDebug;
+  ClearDebug;
   SetScriptProp(SP_WriteTimeStamp, [False]);
 
   SRLRandomsReport;
