@@ -186,7 +186,7 @@ begin
         case npcObj.constant of
           NPC_STILES:
             MSI_Conversation(['exchan', 'exchan', 'exchan', 'obbies', 'kay'],
-                             [true, false, true, true, false]);
+                             [true, false, true, true, true]);
         end;
 
       if (not result) then
