@@ -779,6 +779,7 @@ begin
           ];
 
           SPSAreas   := [
+            TStringArray(['8_7']),
             TStringArray(['8_7'])
           ];
 
@@ -982,7 +983,8 @@ begin
           ];
 
           SPSAreas   := [
-            TStringArray(['8_8', '9_7', '9_8'])
+            TStringArray(['8_8', '9_7', '9_8']),
+            TStringArray(['8_8'])
           ];
 
           Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];

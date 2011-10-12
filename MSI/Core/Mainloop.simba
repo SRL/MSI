@@ -800,7 +800,7 @@ Example:
 *)
 procedure MSI_MainLoop;
 var
-  tmpLoads, tmpTime, time, iCount: Integer;
+  i, j, k, tmpLoads, tmpTime, time, iCount: Integer;
   takeBreak: Boolean;
   reason: string;
   nPlayer: Boolean;
@@ -812,6 +812,18 @@ begin
   {$IFDEF SRL_REMOTE}
   SetupSRLRemote('MSI Pheonix', ['Total Loads', 0, 'Break Loads', 1, 'Total Time', 2, 'Break Time', 3], ['Member', 0], [], [TStringArray([])]);
   {$ENDIF}
+
+  // Warns the user if using an invalid script with SPS
+  if (MSI_HookBroken[HOOK_WALKING]) then
+    for i := 0 to high(MSI_Players) do
+      for j := 0 to high(MSI_Scripts) do
+        for k := 0 to high(MSI_Players[i].Scripts) do
+          if (MSI_Scripts[j].Constant = MSI_Players[i].Scripts[k].Name) then
+            if (length(MSI_Scripts[j].PathInfo.Reflection) > 0) then
+              if (length(MSI_Scripts[j].PathInfo.SPSAreas) <= 0) then
+                ShowMessage('WARNING: Player ('+MSI_Players[i].Name+') cannot run '+
+                            'script ('+MSI_Scripts[j].Name+') as it is unsupported by SPS. '+
+                            'Setting script to false.');
 
   repeat
     MSI_ResetRemote;
