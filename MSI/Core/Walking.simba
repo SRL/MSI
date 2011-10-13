@@ -13,6 +13,57 @@ The source for Walking.simba can be found
 
 *)
 
+// Represent indexes of MSI_WalkVars
+const
+  PYTH_FACTOR         = 1;
+  DIST_BETWEEN_POINTS = 2;
+  DIST_FROM_PATH      = 3;
+  DIST_FROM_END       = 4;
+  DIST_RANDOMNESS     = 5;
+
+var
+  MSI_WalkVars: array[1..5] of integer;
+
+(*
+MSI_SetWalkVars
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetWalkVars();
+
+Called in MSI_WalkPath.  Sets the global variable MSI_WalkVars depending on
+whether Reflection or SPS is being used.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 12 October 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetWalkVars();
+*)
+procedure MSI_SetWalkVars();
+begin
+  if (MSI_HookBroken[HOOK_WALKING]) then
+  begin
+    MSI_WalkVars[PYTH_FACTOR]         := 1;
+    MSI_WalkVars[DIST_BETWEEN_POINTS] := 20;
+    MSI_WalkVars[DIST_FROM_PATH]      := 160;
+    MSI_WalkVars[DIST_FROM_END]       := 10;
+    MSI_WalkVars[DIST_RANDOMNESS]     := 15;
+  end else begin
+    MSI_WalkVars[PYTH_FACTOR]         := 4;
+    MSI_WalkVars[DIST_BETWEEN_POINTS] := 5;
+    MSI_WalkVars[DIST_FROM_PATH]      := 40;
+    MSI_WalkVars[DIST_FROM_END]       := 3;
+    MSI_WalkVars[DIST_RANDOMNESS]     := 5;
+  end;
+end;
+
 (*
 MSI_Flag
 ~~~~~~~~
@@ -109,7 +160,7 @@ begin
   if (MSI_HookBroken[HOOK_WALKING]) then
   begin
     {$IFDEF SPS}
-    SPS_Debug := true;
+    //SPS_Debug := true;
     SPS_Setup(surface, areas);
 
     MSI_Debug('SPS Info.: Surface: '+toStr(surface)+', Areas: '+toStr(areas));
@@ -194,12 +245,15 @@ begin
   begin
     {$IFDEF SPS}
     tP := SPS_PosToMM(p);
-    if (tP.x > 0) then
-    begin
-      mouse(tP.x, tP.y, 3, 3, true);
-      MSI_Flag(flagDist);
-      result := true;
-    end;
+
+    result := (distance(tP.x, tP.y, MMCX, MMCY) < MSI_WalkVars[DIST_FROM_END]);
+    if (not result) then
+      if (tP.x > 0) then
+      begin
+        mouse(tP.x, tP.y, 3, 3, true);
+        MSI_Flag(flagDist);
+        result := true;
+      end;
     {$ENDIF}
   end else begin
     {$IFDEF REFLECTION}
@@ -241,8 +295,12 @@ begin
 
   for i := 0 to high(loc.subLocs) do
     if (MSI_HookBroken[HOOK_WALKING]) then
-      result[i] := middleBox(loc.subLocs[i].spsBox)
-    else
+    begin
+      if (loc.subLocs[i].spsBox.x1 = 0) then
+        result[i] := middleBox(MSI_ConvertTileBox(loc.subLocs[i].tileBox))
+      else
+        result[i] := middleBox(loc.subLocs[i].spsBox)
+    end else
       result[i] := middleBox(loc.subLocs[i].tileBox);
 end;
 
@@ -337,10 +395,8 @@ begin
   H := High(tPath);
   for Result := H downto 0 do
   begin
-    if (MSI_HookBroken[HOOK_WALKING]) then
-      V := Sqrt(Sqr(tPath[Result].X - P.X) + Sqr(tPath[Result].Y - P.Y))
-    else
-      V := Sqrt(Sqr((tPath[Result].X - P.X) * 4.0) + Sqr((tPath[Result].Y - P.Y) * 4.0));
+    V := Sqrt(Sqr((tPath[Result].X - P.X) * MSI_WalkVars[PYTH_FACTOR]) +
+              Sqr((tPath[Result].Y - P.Y) * MSI_WalkVars[PYTH_FACTOR]));
 
     if (V < 69.0) then
     begin
@@ -479,8 +535,7 @@ begin
 
   if (MSI_PointOnPath(i, Path, mPos, maxDist)) then
   begin
-    // create path between current point and closest path point
-    tmpPath := MSI_PathBetween(mPos, Path[i], 3, 5);
+    tmpPath := MSI_PathBetween(mPos, Path[i], MSI_WalkVars[DIST_BETWEEN_POINTS], MSI_WalkVars[DIST_RANDOMNESS]);
 
     if (MSI_HookBroken[HOOK_WALKING]) then
     begin
@@ -527,7 +582,7 @@ Example:
 function MSI_WalkTPA(Path: TPointArray; Destination, MaxDist: Integer): Boolean;
 var
   P, DPoint: TPoint;
-  H, D, PointInd, pInd, Attempts, time, dist, minDist: Integer;
+  H, D, PointInd, pInd, Attempts, time, dist: Integer;
 begin
   if (not(loggedIn)) then
     exit;
@@ -546,34 +601,29 @@ begin
   else
     D := Destination;
 
-  if (MSI_HookBroken[HOOK_WALKING]) then
-    minDist := 12
-  else
-    minDist := 3;
-
   // expands path and finds new destination index
   DPoint := Path[D];
-  Path := MSI_ExpandPath(Path, 5, 1);
+  Path := MSI_ExpandPath(Path, MSI_WalkVars[DIST_BETWEEN_POINTS], 1);
   H := High(Path);
-  MSI_PointOnPath(D, Path, DPoint, 3);
+  MSI_PointOnPath(D, Path, DPoint, MSI_WalkVars[DIST_BETWEEN_POINTS]);
 
   // finds you on a path and attempts to walk to it if possible
   if (MSI_EnterPath(Path, MaxDist)) then
   begin
     P := MSI_GetMyPos();
 
-    MSI_PointOnPath(pInd, Path, P, 5);
+    MSI_PointOnPath(pInd, Path, P, MSI_WalkVars[DIST_BETWEEN_POINTS]);
 
     if (pInd > D) then
     begin
-      // sorts out MSI_WalkTPAing direction
+      // sorts out walking direction
       InvertTPA(Path);
       D := H - D;
       pInd := H - pInd;
     end;
 
     // loops through the points and walks :)
-    while (Distance(P.X, P.Y, Path[D].X, Path[D].Y) > minDist) and (Attempts < 10) do
+    while (Distance(P.X, P.Y, Path[D].X, Path[D].Y) > MSI_WalkVars[DIST_FROM_END]) and (Attempts < 10) do
     begin
       MSI_WaitWhileResting();
 
@@ -589,7 +639,7 @@ begin
           Attempts := 0;
           Wait(100 + Random(100));
           P := MSI_GetMyPos();
-          MSI_PointOnPath(pInd, Path, P, 5);
+          MSI_PointOnPath(pInd, Path, P, MSI_WalkVars[DIST_BETWEEN_POINTS]);
         end;
       end;
 
@@ -597,13 +647,15 @@ begin
       MSI_Debug('Attempts: '+toStr(Attempts));
     end;
 
-    ClickNorth(true);
+    if (rs_GetCompassAngleDegrees <> 0) then
+      ClickNorth(true);
+
     MSI_Flag(0);
 
     dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
     MSI_Debug('Final distance: '+toStr(dist));
 
-    Result := (dist <= minDist);
+    Result := (dist <= MSI_WalkVars[DIST_FROM_END]);
   end;
 
   MSI_CloseHeader('MSI_WalkTPA: '+toStr(result));
@@ -636,6 +688,7 @@ Example:
 function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 var
   regPath, tmpPath: T2DPointArray;
+  tmpAreas: array of TStringArray;
   locPath: TPointArray;
   i, h, endLocation, attempts: integer;
   done: boolean;
@@ -646,22 +699,21 @@ begin
     exit;
 
   if (toLoc) then
-    MSI_AddHeader('MSI_WalkPath: To Location')
+    MSI_AddHeader('MSI_WalkPath: To Location ('+pathInfo.name+')')
   else
-    MSI_AddHeader('MSI_WalkPath: From Location');
+    MSI_AddHeader('MSI_WalkPath: From Location ('+pathInfo.name+')');
+
+  // needed so settings are correct for reflection and SPS
+  MSI_SetWalkVars();
 
   if (MSI_HookBroken[HOOK_WALKING]) then
-  begin
-    if (pathInfo.maxDist <= 0) then
-      pathInfo.maxDist := 160; // pixels (for SPS)
-
     tmpPath := MSI_Convert2DTilePath(pathInfo.reflection)
-  end else begin
-    if (pathInfo.maxDist <= 0) then
-      pathInfo.maxDist := 40; // tiles (for Reflection)
-
+  else
     tmpPath := pathInfo.reflection;
-  end;
+
+  // set a default
+  if (pathInfo.maxDist <= 0) then
+    pathInfo.maxDist := MSI_WalkVars[DIST_FROM_PATH];
 
   locPath := MSI_MirrorTPA(MSI_PathFromLoc(MSI_Locations[pathInfo.endLoc]));
 
@@ -675,6 +727,12 @@ begin
     endLocation := pathInfo.startLoc;
     intObs := pathInfo.obstacles[OBS_LOC_FROM];
     regPath := MSI_MirrorATPA(tmpPath);
+
+    if (MSI_HookBroken[HOOK_WALKING]) then
+    begin
+      tmpAreas := MSI_MirrorATSA(pathInfo.spsAreas);
+      pathInfo.spsAreas := tmpAreas;
+    end;
   end;
 
   h := high(regPath);
@@ -699,23 +757,26 @@ begin
         end else
           if ((not MSI_WalkTPA(locPath, -1, pathInfo.maxDist)) and // through the sub-locations
               (not MSI_WalkTPA(regPath[i], -1, pathInfo.maxDist))) then // through the normal path
-          begin
-            done := true;
-            break;
-          end;
+            if (i = h) then
+            begin
+              done := true;
+              break;
+            end else
+              continue;
 
         // handle the obstacle
-        if (length(intObs) > 0) then
-        begin
-          obs := MSI_GetObstacle(intObs[i]);
-          if (not MSI_SolveObstacle(obs)) then
+        if (i <> h) then
+          if (length(intObs) > 0) then
           begin
-            reportInfo.falseReason := 'Failed to pass obstacle: ' + obs.name;
-            MSI_Debug('Failed to pass obstacle: ' + obs.name);
-            done := true;
-            break;
+            obs := MSI_GetObstacle(intObs[i]);
+            if (not MSI_SolveObstacle(obs)) then
+            begin
+              reportInfo.falseReason := 'Failed to pass obstacle: ' + obs.name;
+              MSI_Debug('Failed to pass obstacle: ' + obs.name);
+              done := true;
+              break;
+            end;
           end;
-        end;
 		  end;
   end;
 
