@@ -106,6 +106,81 @@ begin
 end;
 
 (*
+MSI_MirrorTSA
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MirrorTSA(TSA: TPointArray): TStringArray;
+
+Mirrors the string array (reverses the order).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 October 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  reverseArea := MSI_MirrorTSA(SPSAreas);
+*)
+function MSI_MirrorTSA(TSA: TStringArray): TStringArray;
+var
+  i, h: integer;
+begin
+  h := 0;
+  setLength(result, length(TSA));
+
+  for i := high(TSA) downto 0 do
+  begin
+    result[h] := TSA[i];
+    inc(h);
+  end;
+
+  setLength(result, h);
+end;
+
+(*
+MSI_MirrorATSA
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MirrorATSA(ATSA: array of TStringArray): array of TStringArray;
+
+Mirrors the ATSA (including the strings in the TSAs. Used for reversing MSI's
+path's SPS areas as they are 2 dimentional arrays.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 October 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  reverseAreas := MSI_MirrorATSA(SPSAreas);
+*)
+function MSI_MirrorATSA(ATSA: array of TStringArray): array of TStringArray;
+var
+  i, c: Integer;
+begin
+  setLength(result, length(ATSA));
+
+  for i := high(ATSA) downto 0 do
+  begin
+    result[c] := MSI_MirrorTSA(ATSA[i]);
+    inc(c);
+  end;
+
+  setLength(result, c);
+  MSI_SubDebug('MSI_MirrorATSA: New string array ' + toStr(result));
+end;
+
+(*
 MSI_MirrorTPA
 ~~~~~~~~~~~~~
 
@@ -134,7 +209,7 @@ begin
   h := 0;
   setLength(result, length(TPA));
 
-  for i:= high(TPA) downto 0 do
+  for i := high(TPA) downto 0 do
   begin
     result[h] := TPA[i];
     inc(h);
