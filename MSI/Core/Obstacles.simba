@@ -453,9 +453,10 @@ begin
       MSI_SubDebug('Found mirror');
 
       {$IFDEF REFLECTION}
-      if (length(obs.endTiles) > 0) then
-        if (not MSI_OnMirrorTile(obs)) then
-          continue;
+      if (not MSI_HookBroken[HOOK_WALKING]) then
+        if (length(obs.endTiles) > 0) then
+          if (not MSI_OnMirrorTile(obs)) then
+            continue;
       {$ENDIF}
 
       result := true;
