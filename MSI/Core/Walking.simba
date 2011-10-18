@@ -386,6 +386,9 @@ var
   TPA: TPointArray;
 begin
   // removes points that aren't in range
+  if (sPoint = -1) then
+    sPoint := low(tPath);
+
   c := 0;
   SetLength(TPA, (ePoint - sPoint + 1));
   for i := sPoint to ePoint do
