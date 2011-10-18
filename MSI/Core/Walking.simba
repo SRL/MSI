@@ -329,9 +329,8 @@ Example:
 *)
 function MSI_PointOnPath(var Index: integer; Path: TPointArray; P: TPoint; MaxDist: integer): boolean;
 var
-  I, H, DistC, DistS, T: integer;
+  I, H, DistC, DistS: integer;
 begin
-  T := GetTimeRunning;
   H := High(Path);
   Index := -1;
   if (H < 0) then
@@ -354,7 +353,7 @@ begin
   if (not(Result)) then
     Index := -1;
 
-  MSI_SubDebug('MSI_PointOnPath: Index = ' + IntToStr(Index) + ' Time: ' + IntToStr(GetTimeRunning - T) + ' ms');
+  MSI_SubDebug('MSI_PointOnPath: Index = ' + IntToStr(Index));
 end;
 
 (*
@@ -371,7 +370,7 @@ between given indices.
 .. note::
 
   | Author: Nava2
-  | Last Updated: 04 October 2011 by Nava2
+  | Last Updated: 18 October 2011 by Nava2
 
 Example:
 
@@ -382,25 +381,30 @@ Example:
 *)
 function MSI_FurthestPoint(tPath: TPointArray; P: TPoint; sPoint, ePoint: Integer): Integer;
 var
-  H: Integer;
-  V: Extended;
+  i, c, h: Integer;
+  v: Extended;
+  TPA: TPointArray;
 begin
   // removes points that aren't in range
-  SetLength(tPath, ePoint + 1);
-  InvertTPA(tPath);
-  SetLength(tPath, Length(tPath) - sPoint);
-  InvertTPA(tPath);
-
-  // finds the furthest visible Point.
-  H := High(tPath);
-  for Result := H downto 0 do
+  c := 0;
+  SetLength(TPA, (ePoint - sPoint + 1));
+  for i := sPoint to ePoint do
   begin
-    V := Sqrt(Sqr((tPath[Result].X - P.X) * MSI_WalkVars[PYTH_FACTOR]) +
-              Sqr((tPath[Result].Y - P.Y) * MSI_WalkVars[PYTH_FACTOR]));
+    TPA[c] := tPath[i];
+    Inc(c);
+  end;
+  tPath := TPA;
 
-    if (V < 69.0) then
+  // finds the furthest visible point
+  h := high(tPath)
+  for i := h downto 0 do
+  begin
+    v := Sqr((tPath[i].X - P.X) * MSI_WalkVars[PYTH_FACTOR]) +
+         Sqr((tPath[i].Y - P.Y) * MSI_WalkVars[PYTH_FACTOR]);
+
+    if (v < (69.0 * 69.0)) then
     begin
-      IncEx(Result, sPoint);
+      Result := (i + sPoint);
       Exit;
     end;
   end;
@@ -455,7 +459,7 @@ begin
   yR := (tT.Y - fT.Y) / hyp;
 
   // set points
-  for l := 1 to High(Result) - 1 do
+  for l := High(Result) - 1 downto 1 do
   begin
     Result[l].X := Round(fT.X + l * tDist * xR) + RandomRange(-Rand, Rand);
     Result[l].Y := Round(fT.Y + l * tDist * yR) + RandomRange(-Rand, Rand);
