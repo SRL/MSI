@@ -392,6 +392,9 @@ begin
         break;
       end;
   end;
+
+  if (not(result)) then
+    MSI_SubDebug('Player isn''t on an ending tile');
   {$ENDIF}
 end;
 
@@ -460,6 +463,7 @@ begin
       {$ENDIF}
 
       result := true;
+      break;
     end;
 
     if (not result) then
