@@ -16,8 +16,7 @@ The source for can be found
 Abbreviations
 ~~~~~~~~~~~~~
 
-These are all the abbreviations we use in MSI to distinguish between the
-different locations around Runescape.
+These are all the abbreviations we use in MSI constants and variables.
 
 .. note::
 
@@ -40,6 +39,8 @@ different locations around Runescape.
   | LSE: Lumbridge Swamp East
   | KJ: Karamja
   | CB: Catherby
+  | RC: Runecrafting
+
 *)
 
 {==============================================================================\
@@ -143,12 +144,12 @@ const
   SCRIPT_GE_FILLER   = 106;
 
   // Runecrafting
-  SCRIPT_RUNECRAFTER_AIR   = 120;
-  SCRIPT_RUNECRAFTER_WATER = 121;
-  SCRIPT_RUNECRAFTER_EARTH = 122;
-  SCRIPT_RUNECRAFTER_FIRE  = 123;
-  SCRIPT_RUNECRAFTER_BODY  = 124;
-  SCRIPT_RUNECRAFTER_MIND  = 125;
+  SCRIPT_RC_AIR   = 120;
+  SCRIPT_RC_WATER = 121;
+  SCRIPT_RC_EARTH = 122;
+  SCRIPT_RC_FIRE  = 123;
+  SCRIPT_RC_BODY  = 124;
+  SCRIPT_RC_MIND  = 125;
 
   SCRIPT_ARRAY_LENGTH = 125; // Change to the highest script constant
 

@@ -1245,7 +1245,7 @@ begin
          begin
            name := 'Air Alter';
            tileBox := intToBox(2835, 4825, 2846, 4835);
-           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_AIR].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_RC_AIR].Defaults.Objects;
          end;
        end;
 
@@ -1260,7 +1260,7 @@ begin
          begin
            name := 'Earth Alter';
            tileBox := intToBox(2652, 4834, 2662, 4844);
-           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_EARTH].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_RC_EARTH].Defaults.Objects;
          end;
        end;
 
@@ -1275,7 +1275,7 @@ begin
          begin
            name := 'Fire Alter';
            tileBox := intToBox(2578, 4835, 2588, 4845);
-           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_FIRE].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_RC_FIRE].Defaults.Objects;
          end;
        end;
 
@@ -1290,7 +1290,7 @@ begin
          begin
            name := 'Water Alter';
            tileBox := intToBox(3483, 4830, 3491, 4838);
-           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_WATER].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_RC_WATER].Defaults.Objects;
          end;
        end;
 
@@ -1305,7 +1305,7 @@ begin
          begin
            name := 'Mind Alter';
            tileBox := intToBox(2783, 4835, 2790, 4843);
-           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_MIND].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_RC_MIND].Defaults.Objects;
          end;
        end;
 
@@ -1320,7 +1320,7 @@ begin
          begin
            name := 'Body Alter';
            tileBox := intToBox(2518, 4836, 2527, 4844);
-           objects := MSI_Scripts[SCRIPT_RUNECRAFTER_BODY].Defaults.Objects;
+           objects := MSI_Scripts[SCRIPT_RC_BODY].Defaults.Objects;
          end;
        end;
   end;

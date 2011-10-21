@@ -1462,10 +1462,10 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_AIR:
+    SCRIPT_RC_AIR:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Air Runecrafter';
+        name         := 'Air RC';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1500,10 +1500,10 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_EARTH:
+    SCRIPT_RC_EARTH:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Earth Runecrafter';
+        name         := 'Earth RC';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1540,10 +1540,10 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_FIRE:
+    SCRIPT_RC_FIRE:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Fire Runecrafter';
+        name         := 'Fire RC';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1579,10 +1579,10 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_WATER:
+    SCRIPT_RC_WATER:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Water Runecrafter';
+        name         := 'Water RC';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1618,10 +1618,10 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_MIND:
+    SCRIPT_RC_MIND:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Mind Runecrafter';
+        name         := 'Mind RC';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1659,10 +1659,10 @@ begin
         end;
       end;
 
-    SCRIPT_RUNECRAFTER_BODY:
+    SCRIPT_RC_BODY:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Body Runecrafter';
+        name         := 'Body RC';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
