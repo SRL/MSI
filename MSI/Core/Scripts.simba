@@ -1465,7 +1465,7 @@ begin
     SCRIPT_RC_AIR:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Air RC';
+        name         := 'Air Runecrafter';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1503,7 +1503,7 @@ begin
     SCRIPT_RC_EARTH:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Earth RC';
+        name         := 'Earth Runecrafter';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1543,7 +1543,7 @@ begin
     SCRIPT_RC_FIRE:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Fire RC';
+        name         := 'Fire Runecrafter';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1582,7 +1582,7 @@ begin
     SCRIPT_RC_WATER:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Water RC';
+        name         := 'Water Runecrafter';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1621,7 +1621,7 @@ begin
     SCRIPT_RC_MIND:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Mind RC';
+        name         := 'Mind Runecrafter';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
@@ -1662,7 +1662,7 @@ begin
     SCRIPT_RC_BODY:
       with MSI_Scripts[whichScript] do
       begin
-        name         := 'Body RC';
+        name         := 'Body Runecrafter';
         constant     := whichScript;
         skillName    := 'Runecrafting';
         skillConst   := SKILL_RUNECRAFTING;
