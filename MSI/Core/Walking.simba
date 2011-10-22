@@ -53,7 +53,7 @@ begin
     MSI_WalkVars[PYTH_FACTOR]         := 1;
     MSI_WalkVars[DIST_BETWEEN_POINTS] := 20;
     MSI_WalkVars[DIST_FROM_PATH]      := 160;
-    MSI_WalkVars[DIST_FROM_END]       := 10;
+    MSI_WalkVars[DIST_FROM_END]       := 15;
     MSI_WalkVars[DIST_RANDOMNESS]     := 15;
   end else begin
     MSI_WalkVars[PYTH_FACTOR]         := 4;
