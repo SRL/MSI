@@ -20,9 +20,8 @@ program MSI_Script;
 {$DEFINE EXTRA_CHARACTER_STATS} // Saves each players stats to a file viewable in HTML format
 
 // Define other settings
-//{$DEFINE SPS}          // Uncomment + select color walking to use SPS (color walking)
+{$DEFINE SPS}          // Uncomment + select color walking to use SPS (color walking)
 {$DEFINE SMART}          // Comment to use MSI with a browser. Reflection will be disabled if commented.
-{$DEFINE MSI_REFLECTION} // Comment to completely exclude the use of Reflection
 
 { ============================================================================ }
 {$i MSI/MSI/Core/Setup.simba}
