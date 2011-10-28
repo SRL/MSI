@@ -744,7 +744,7 @@ begin
 
   h := high(regPath);
 
-  while ((not result) and (attempts < 10) and (not done)) do
+  while ((not result) and (attempts < 20) and (not done)) do
   begin
     inc(attempts);
     MSI_Debug('Walking attempts: '+toStr(attempts));
