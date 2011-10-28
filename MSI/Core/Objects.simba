@@ -878,7 +878,7 @@ begin
         W                  := 30;
         H                  := 30;
         Accuracy           := 5;
-        SearchArea         := IntToBox(MSx1, MSy1, MSCx + 80, MSCy + 30);
+        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 80, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;

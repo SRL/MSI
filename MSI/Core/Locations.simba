@@ -1111,7 +1111,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Cooking Range';
-           tileBox := intToBox(3270, 3178, 3276, 3184);
+           spsBox := intToBox(4905, 3908, 4923, 3928);
            objects := MSI_Scripts[SCRIPT_AK_COOKER].Defaults.CookingSpot;
          end;
        end;
