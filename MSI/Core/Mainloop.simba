@@ -829,8 +829,6 @@ begin
     MarkTime(tmpTime);
 
     {$IFDEF SPS}
-    SPS_Terminate := true;
-
     try
       MSI_SetupSPS(MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.SPSSurfaces[0],
                    MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo.SPSAreas[0]);
