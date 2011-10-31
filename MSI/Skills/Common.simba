@@ -195,13 +195,14 @@ begin
           // Adjust camera angle to make some objects visible
           if (not cameraChanged) then
             if (MSI_Scripts[Scripts[CurrentScript].Name].AdjustCamera) then
-            begin
-              makeCompass(MSI_Locations[Location].SubLocs[CurrentPoint].Compass +
-                randomRange(-20, 20));
+              if (Length(MSI_Locations[Location].SubLocs) > 0) then
+              begin
+                makeCompass(MSI_Locations[Location].SubLocs[CurrentPoint].Compass +
+                  randomRange(-20, 20));
 
-              cameraChanged := true;
-              continue;
-            end;
+                cameraChanged := true;
+                continue;
+              end;
 
           cameraChanged := false;
 
