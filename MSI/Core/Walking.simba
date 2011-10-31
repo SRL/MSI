@@ -24,6 +24,9 @@ const
 var
   MSI_WalkVars: array[1..5] of integer;
 
+// had to be done :'(
+function MSI_AtLocation(loc: integer; relocate: boolean): boolean; forward;
+
 (*
 MSI_SetWalkVars
 ~~~~~~~~~~~~~~~
@@ -657,7 +660,7 @@ begin
     if (rs_GetCompassAngleDegrees <> 0) then
       ClickNorth(true);
 
-    MSI_Flag(0);
+    MSI_Flag(5);
 
     dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
     MSI_Debug('Final distance: '+toStr(dist));
@@ -766,8 +769,11 @@ begin
               (not MSI_WalkTPA(regPath[i], -1, pathInfo.maxDist))) then // through the normal path
             if (i = h) then
             begin
-              done := true;
-              break;
+              if (not(MSI_AtLocation(endLocation, true))) then
+              begin
+                done := true;
+                break;
+              end;
             end else
               continue;
 
@@ -819,7 +825,6 @@ Example:
   if MSI_DeathWalk then
     MSI_Debug('Back on track!');
 *)
-function MSI_AtLocation(loc: integer; relocate: boolean): boolean; forward; // had to be done :'(
 function MSI_DeathWalk: Boolean;
 var
   script: TScript;
