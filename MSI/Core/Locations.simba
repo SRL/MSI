@@ -1557,7 +1557,7 @@ Example:
 *)
 function MSI_Relocate(Loc: Integer): Boolean;
 var
-  hSubLoc, i, ii, cP, l, lTPA: integer;
+  hSubLoc, i, cP: integer;
   mPos: TPoint;
   areaTPA: TPointArray;
   local_subLocs: TSubLocArray;
@@ -1625,18 +1625,14 @@ begin
           // create a TPA from the subLoc's box
           areaTPA := TPAFromBox(box);
           sortTPAfrom(areaTPA, mPos);
-          lTPA := Length(areaTPA);
 
-          if (lTPA > 0) then
-          begin
-            l := Round(lTPA*0.5); // middleTPA
-            for ii := l downto 0 do  // loop backwards from the middle point
-              if (MSI_WalkPoint(areaTPA[ii], 10)) then // closest point to center of loc
-              begin
-                result := true;
-                break;
-              end;
-          end;
+          // trying walking to the centre point, then closest
+          if (length(areaTPA) > 0) then
+            if (MSI_WalkPoint(middleTPA(areaTPA), 10)) or (MSI_WalkPoint(areaTPA[0], 10)) then
+            begin
+              result := true;
+              break;
+            end;
         end;
 
         if (result) then
