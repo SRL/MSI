@@ -260,11 +260,11 @@ begin
 
     FISH_RAW_SHARK, FISH_COOKED_SHARK:
      Result := [
-                 Point(1108, 277),
-                 Point(1099, 284),
-                 Point(1102, 271),
-                 Point(1125, 272),
-                 Point(1121, 284)
+                 Point(1214, 403),
+                 Point(1211, 413),
+                 Point(1211, 394),
+                 Point(1223, 395),
+                 Point(1224, 417)
                ];
 
     GEM_UNCUT_SAPPHIRE..GEM_UNCUT_DIAMOND:
@@ -470,7 +470,7 @@ begin
     FISH_RAW_LOBSTER   : Result := 2244720;
     FISH_RAW_SWORDFISH : Result := 11301795;
     FISH_RAW_MONKFISH  : Result := 4017773;
-    FISH_RAW_SHARK     : Result := 5132114;
+    FISH_RAW_SHARK     : Result := 8158594;
 
     FISH_COOKED_SHRIMP    : Result := 1195905;
     FISH_COOKED_CRAYFISH  : Result := 1265804;
@@ -484,7 +484,7 @@ begin
     FISH_COOKED_LOBSTER   : Result := 1728190;
     FISH_COOKED_SWORDFISH : Result := 7819120;
     FISH_COOKED_MONKFISH  : Result := 4279125;
-    FISH_COOKED_SHARK     : Result := 5202296;
+    FISH_COOKED_SHARK     : Result := 3228503;
 
     GEM_UNCUT_SAPPHIRE : Result := 7279119;
     GEM_UNCUT_EMERALD  : Result := 1007117;
@@ -1267,7 +1267,7 @@ begin
     FISH_COOKED_SHARK:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Cooked shark';
+        Name := 'Cooked Shark';
         StatsName := 'Shark Cooked';
         UpText := ['hark'];
         Stackable := False;
