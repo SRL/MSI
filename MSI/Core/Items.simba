@@ -92,11 +92,11 @@ begin
 
     ORE_COPPER..ORE_RUNITE:
       Result := [
-                  Point(1200, 424),
-                  Point(1195, 408),
-                  Point(1183, 430),
-                  Point(1209, 429),
-                  Point(1213, 418)
+                  Point(252, 318),
+                  Point(245, 313),
+                  Point(263, 316),
+                  Point(256, 325),
+                  Point(244, 328)
                 ];
 
     FISH_SMALLNET:

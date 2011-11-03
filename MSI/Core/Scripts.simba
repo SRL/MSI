@@ -84,7 +84,7 @@ begin
           ];
 
           SPSAreas   := [
-            TStringArray(['12_7'])
+            TStringArray(['11_7', '12_7'])
           ];
         end;
       end;
@@ -650,7 +650,7 @@ begin
           ];
 
           SPSAreas   := [
-            TStringArray(['12_7'])
+            TStringArray(['11_7', '12_7'])
           ];
         end;
       end;
