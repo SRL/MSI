@@ -282,10 +282,7 @@ begin
   if (MSI_Settings[SETUP_SAVE_DEBUG]) then
     DebugFile := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
 
-  if (MSI_Settings[SETUP_STATS_ID] = '') then
-    SetupSRLStats(21, 'Anonymous', 'anon1337')
-  else
-    SetupSRLStats(21, MSI_Settings[SETUP_STATS_ID], MSI_Settings[SETUP_STATS_PASS]);
+  SetupSRLStats(21, MSI_Settings[SETUP_STATS_ID], MSI_Settings[SETUP_STATS_PASS]);
 
   MSI_WalkingDefines();
 
