@@ -385,6 +385,15 @@ begin
                   Point(1103, 414)
                 ];
 
+    DWARVEN_ARMY_AXE:
+      Result := [
+                  Point(29, 24),
+                  Point(20, 15),
+                  Point(29, 18),
+                  Point(15, 26),
+                  Point(39, 33)
+                ];
+
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
   end;
@@ -532,6 +541,8 @@ begin
     TIARA_BODY  : Result := 855309;
     TIARA_MIND  : Result := 2175211;
     TIARA_FIRE  : Result := 1450400;
+
+    DWARVEN_ARMY_AXE : Result := 3758694;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1647,6 +1658,15 @@ begin
         UpText := ['ure essen'];
         Stackable := False;
         EquipLevel := -1;
+      end;
+
+    DWARVEN_ARMY_AXE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dwarven army axe';
+        UpText := ['arven army'];
+        Stackable := False;
+        EquipLevel := 10;
       end;
   end;
 

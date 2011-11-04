@@ -475,7 +475,9 @@ const
   TIARA_FIRE  = 214;
   TIARA_WATER = 215;
 
-  ITEM_ARRAY_LENGTH = 215; // Change to the highest item constant
+  DWARVEN_ARMY_AXE = 216;
+
+  ITEM_ARRAY_LENGTH = 216; // Change to the highest item constant
 
 (*
 Object Constants
