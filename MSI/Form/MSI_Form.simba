@@ -230,7 +230,7 @@ begin
   for i := 0 to High(MSI_Settings) do
   begin
     case i of
-      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
+      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS:
         begin
           SetLength(intro_Combos, Length(intro_Combos) + 1);
 
@@ -243,14 +243,6 @@ begin
             Items.Add('False');
             OnKeyPress := @PreventTyping;
 
-            if (i = SETUP_WALKING) then
-            begin
-              Clear();
-              Text := 'Color';
-              Items.Add('Color');
-              Items.Add('Reflection');
-            end;
-
             for j := 0 to High(intro_Combos) do
               SetBounds(95, 27 + (j * 35), 70, 20);
 
@@ -261,7 +253,6 @@ begin
               SETUP_HUMAN_BREAK: Hint := 'Will randomly logout, time-out, or exit to the lobby if set to True, '+#10+
                                          'otherwise will just exit to the lobby.';
               SETUP_SWITCH_WORLDS: Hint := 'Will switch worlds after breaking and when switching players';
-              SETUP_WALKING: Hint := 'Which walking method do you want to use?';
             end;
 
             ShowHint := True;
