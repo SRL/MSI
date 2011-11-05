@@ -118,154 +118,6 @@ begin
 end;
 
 (*
-MSI_CheckHooks
-~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_CheckHooks();
-
-This procedure sets the global variable MSI_HookBroken that determines which
-of the hooks MSI uses are broken.  This usually only makes a difference shortly
-after an RS update and before all the hooks can be updated.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 28 July 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_CheckHooks();
-*)
-procedure MSI_CheckHooks();
-{$IFDEF REFLECTION}
-var
-  i: integer;
-{$ENDIF}
-begin
-  {$IFDEF REFLECTION}
-  MSI_AddHeader('MSI_CheckHooks');
-
-  // try to get updated hooks
-  //r_UpdateKill := false;
-  R_ContinueIfOutdated := True;
-  setupReflection();
-
-  // to check some hooks, player needs to be logged in
-  if (not loggedIn) then
-  begin
-    MSI_Debug('Logging in...');
-    loginPlayer();
-  end;
-
-  // check to see if the hooks MSI uses are updated
-  MSI_HookBroken[HOOK_WALKING] := (smartGetFieldObject(0, hook_static_MyPlayer) <= 0);
-  MSI_HookBroken[HOOK_LEVEL_SKILL] := (smartGetFieldArrayInt(0, hook_static_SkillLevels, 0) <= 0);
-
-  for i := 0 to high(MSI_HookBroken) do
-    if (MSI_HookBroken[i]) then
-    begin
-      if (not MSI_HookBroken[HOOK_RANDOMS]) then
-      begin
-        MSI_HookBroken[HOOK_RANDOMS] := true;
-        MSI_Debug('Hook broken: randoms - using color solvers');
-      end;
-
-      case i of
-        HOOK_WALKING: MSI_Debug('Hook broken: walking');
-        HOOK_LEVEL_SKILL: MSI_Debug('Hook broken: skill level');
-      end;
-    end;
-
-  MSI_CloseHeader('MSI_CheckHooks: Done');
-  {$ENDIF}
-end;
-
-(*
-MSI_RefNotDefined
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_RefNotDefined();
-
-Called in MSI_WalkingDefines.  All it does is warn the user on what to do if
-Reflection isn't or is defined.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 28 July 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_RefNotDefined();
-*)
-procedure MSI_RefNotDefined();
-begin
-  {$IFNDEF MSI_REFLECTION}
-  showMessage('Please define reflection at the top of RunMe.simba');
-  terminateScript();
-  {$ELSE}
-  if (MSI_HookBroken[HOOK_WALKING]) then
-  begin
-    showMessage('Walking hook broken, please use SPS or wait for an update ' +
-      'from reflection');
-    terminateScript();
-  end else
-    MSI_Debug('Using reflection');
-  {$ENDIF}
-end;
-
-(*
-MSI_SPSNotDefined
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  procedure MSI_SPSNotDefined();
-
-Called in MSI_WalkingDefines.  All it does is warn the user on what to do if
-SPS isn't or is defined.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 28 July 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_SPSNotDefined();
-*)
-procedure MSI_SPSNotDefined();
-begin
-  {$IFNDEF SPS}
-  if (MSI_HookBroken[HOOK_WALKING]) then
-  begin
-    showMessage('Walking hook broken, please define SPS at the top of RunMe.simba');
-    terminateScript();
-  end;
-
-  case messageDlg('WARNING',
-        'Color walking is selected, and SPS isn''t defined. Please click No and ' +
-        'define SPS at the top of RunMe.simba or Yes to use reflection walking.',
-        mtConfirmation, [mbYes, mbNo]) of
-    mrYes: MSI_RefNotDefined();
-    mrNo: terminateScript();
-  end;
-  {$ELSE}
-  MSI_HookBroken[HOOK_WALKING] := true;
-  {$ENDIF}
-end;
-
-(*
 MSI_WalkingDefines
 ~~~~~~~~~~~~~~~~~~
 
@@ -280,7 +132,7 @@ walking method chosen.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 28 July 2011 by Coh3n
+  | Last Updated: 05 Novemeber 2011 by Coh3n
 
 Example:
 
@@ -300,7 +152,7 @@ begin
     with MSI_Players[i] do
     begin
       for j := 0 to high(scripts) do
-        if (length(MSI_Scripts[scripts[j].name].pathInfo.reflection) > 0) then
+        if (length(MSI_Scripts[scripts[j].name].pathInfo.spsPath) > 0) then
         begin
           areWalking := true;
           break;
@@ -310,33 +162,22 @@ begin
         break;
     end;
 
+  // exit if walking isn't required
   if (not areWalking) then
   begin
     MSI_SubDebug('MSI_WalkingDefines: Walking not required');
     exit;
   end;
 
-  if (lowercase(MSI_Settings[SETUP_WALKING]) = 'color') then
-    MSI_SPSNotDefined();
-
-  if (lowercase(MSI_Settings[SETUP_WALKING]) = 'reflection') then
-  begin
-    if (MSI_HookBroken[HOOK_WALKING]) then
-    begin
-      MSI_SPSNotDefined();
-      exit;
-    end;
-
-    {$IFNDEF MSI_REFLECTION}
-    case messageDlg('WARNING',
-          'Reflection walking is selected, but isn''t defined. Please click No and ' +
-          'define reflection at the top of RunMe.simba or click Yes to use color ' +
-          'walking.',
-          mtConfirmation, [mbYes, mbNo]) of
-      mrYes: MSI_SPSNotDefined();
-      mrNo: terminateScript();
-    end;
-    {$ENDIF}
+  // warns the user that without SPS, there's no walking available
+  {$IFNDEF SPS}
+  case messageDlg('WARNING',
+        'SPS isn''t defined. Please click No and define SPS at the top of ' +
+        'RunMe.simba or Yes to use MSI without SPS walking.',
+        mtConfirmation, [mbYes, mbNo]) of
+    mrYes: ;
+    mrNo: terminateScript();
   end;
+  {$ENDIF}
 end;
 
