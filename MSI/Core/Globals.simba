@@ -793,6 +793,7 @@ const
   SETUP_DEBUG_LEVEL   = 21;
   SETUP_ANTIBAN_WAIT  = 22;
   SETUP_RANDOMS_WAIT  = 23;
+  SETUP_MAX_PLAYERS   = 24;
 
   // Strings
   SETUP_STATS_ID      = 30;

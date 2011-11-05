@@ -342,6 +342,8 @@ begin
   end;
 end;
 
+procedure MSI_ChangeWorlds; forward;
+
 (*
 MSI_FindRandoms
 ~~~~~~~~~~~~~~~
@@ -375,6 +377,9 @@ var
 begin
   if (not LoggedIn) then
     Exit;
+
+  if (MSI_Settings[SETUP_MAX_PLAYERS] > 0) then
+    MSI_ChangeWorlds;
 
   MSI_LevelUp();
   if (LeaveDangerZone) then
@@ -563,3 +568,168 @@ begin
   Result := setRun(true);
 end;
 
+function MSI_GetPlayers(): Integer;
+begin
+  Result := CountDots('white');
+end;
+
+(*
+MSI_ScrollList
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ScrollList(x, y, xx, yy, clicks, clickType : Integer);
+
+Scrolls lists by clicking the directional arrows, the arrows are defined as a box
+that is passed in by its coords. Clicks is for how many clicks is needed.
+ClickType is for left(1) and right(2) clicking.
+
+.. note::
+
+  | Author: Camo Developer
+  | Last Updated: 05 November 2011 by Camo Developer
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ScrollList(684, 424, 694, 432, 10, 1);
+*)
+procedure MSI_ScrollList(x, y, xx, yy, clicks, clickType : Integer);
+var
+  i: integer;
+begin
+  for i := 0 to (clicks - 1) do
+  begin
+    Wait(RandomRange(500, 750));
+    MouseBox(x, y, xx, yy, ClickType);
+  end;
+end;
+
+(*
+MSI_ChooseWorldWithSettings
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ChooseWorldWithSettings(SettingsNames:TStringArray;
+                        SettingsDescending: array of boolean; Members: boolean);
+
+Changes the world the player is in based on the passed in variables. The below
+demonstrate what arguments the variables accept:
+
+- SettingsNames
+World     : ['world', 'w', 'worlds']
+Players   : ['players', 'pl', 'player']
+Activity  : ['activity', 'location', 'loc', 'act']
+Lootshare : ['ls', 'lootshare']
+Type      : ['type', 't']
+Ping      : ['ping', 'pi']
+
+- SettingsDescending
+[True, False, False, True ... ]
+
+- Members
+True/False
+
+.. note::
+
+  | Author: Camo Developer
+  | Last Updated: 05 November 2011 by Camo Developer
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ChooseWorldWithSettings(['players'], [True], True);
+*)
+procedure MSI_ChooseWorldWithSettings(SettingsNames:TStringArray; SettingsDescending: array of boolean; Members: boolean);
+var
+  i, a, x, y : integer;
+begin
+  if not WorldScreen then
+    if not OpenWorldScreen then
+      Exit;
+  if Length(SettingsNames) <> Length(SettingsDescending) then
+  begin
+    srl_Warn('MSI_ChooseWorldWithSettings', 'Arrays are not the same length', warn_AllVersions);
+    MouseBox(270, 450, 490, 470, 1); // Play button
+    Exit;
+  end;
+  for i := 0 to High(SettingsNames) do
+  begin
+    OrderWorlds(SettingsNames[i], SettingsDescending[i]);
+    Wait(1000 + Random(200));
+  end;
+  Wait(1500 + Random(500));
+  if Members then
+  begin
+    if FindColor(x, y, 6618364, MSX1, MSY1, MSX2, MSY2) then
+      Mouse(x, y, RandomRange(3, 5), RandomRange(3, 5), True)
+    else
+    begin
+      for a := 0 to 4 do
+      begin
+        MSI_ScrollList(684, 424, 694, 432, 10, 1);
+        if FindColor(x, y, 6618364, MSX1, MSY1, MSX2, MSY2) then
+        begin
+          Mouse(x, y, RandomRange(3, 5), RandomRange(3, 5), True);
+          Break;
+        end;
+      end;
+    end;
+  end else
+  begin
+    if FindColor(x, y, 14869218, MSX1, MSY1, MSX2, MSY2) then
+      Mouse(x, y, RandomRange(3, 5), RandomRange(3, 5), True)
+    else
+    begin
+      for a := 0 to 4 do
+      begin
+        MSI_ScrollList(684, 424, 694, 432, 10, 1);
+        if FindColor(x, y, 14869218, MSX1, MSY1, MSX2, MSY2) then
+        begin
+          Mouse(x, y, RandomRange(3, 5), RandomRange(3, 5), True);
+          Break;
+        end;
+      end;
+    end;
+  end;
+  Wait(RandomRange(750, 1250));
+  MouseBox(270, 450, 490, 470, 1); // Play button
+end;
+
+(*
+MSI_ChangeWorlds
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_ChangeWorlds;
+
+Counts the player dots in the MiniMap and if there are more in there than what
+the script user set, it changes to a less filled world. The SETUP_MAX_PLAYERS
+constant can be found in Globals.simba.
+
+.. note::
+
+  | Author: Camo Developer
+  | Last Updated: 05 November 2011 by Camo Developer
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ChangeWorlds;
+*)
+procedure MSI_ChangeWorlds();
+begin
+  if (MSI_GetPlayers > MSI_Settings[SETUP_MAX_PLAYERS]) then
+  begin
+    if not LobbyScreen then
+      ExitToLobby;
+    Wait(RandomRange(1500, 2000));
+    MSI_ChooseWorldWithSettings(['players'], [True], MSI_Players[CurrentPlayer].Member);
+  end;
+end;

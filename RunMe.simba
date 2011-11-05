@@ -56,6 +56,7 @@ begin
   MSI_Settings[SETUP_STATS_ID]      := '';      // Stats ID
   MSI_Settings[SETUP_STATS_PASS]    := '';      // Stats password
   MSI_Settings[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
+  MSI_Settings[SETUP_MAX_PLAYERS]   := 30       // Max amount of players in the Mini Map before switching worlds. Set to 0 to disable.
 end;
 
 (*
