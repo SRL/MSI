@@ -16,12 +16,14 @@ having trouble setting up.
 *)
 
 program MSI_Script;
+{$loadlib sps} // Load the sps library (don't touch this line)
+
 // Define the extras you want to use
-{$DEFINE EXTRA_CHARACTER_STATS} // Saves each players stats to a file viewable in HTML format
+{$DEFINE EXTRA_CHARACTER_STATS} // Saves player stats in HTML format
 
 // Define other settings
-{$DEFINE SPS}          // Uncomment + select color walking to use SPS (color walking)
-{$DEFINE SMART}          // Comment to use MSI with a browser. Reflection will be disabled if commented.
+{$DEFINE SPS}   // Comment to disable SPS (no walking scripts)
+{$DEFINE SMART} // Comment to use MSI with a browser
 
 { ============================================================================ }
 {$i MSI/MSI/Core/Setup.simba}
@@ -55,7 +57,6 @@ begin
   MSI_Settings[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
   MSI_Settings[SETUP_STATS_ID]      := '';      // Stats ID
   MSI_Settings[SETUP_STATS_PASS]    := '';      // Stats password
-  MSI_Settings[SETUP_WALKING]       := 'Color'; // 'Reflection' or 'Color'
 end;
 
 (*
