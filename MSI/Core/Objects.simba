@@ -783,7 +783,7 @@ begin
 
     { FISHING SPOTS ============================== ]
     [============================================= }
-    FISHSPOT_NET..FISHSPOT_HARPOON:
+    FISHSPOT_NET..FISHSPOT_HARPOON_SHARK:
       begin
         //same color info for all spots
         with result do
@@ -857,7 +857,18 @@ begin
               Options            := ['Harpoon'];
               Level              := 35;
               RightClickOnly     := True;
-              AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK];
+              AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH];
+            end;
+
+          FISHSPOT_HARPOON_SHARK:
+            with result do
+            begin
+              Name               := 'FISHSPOT_SHARK';
+              Uptexts            := ['Net', 'et'];
+              Options            := ['Harpoon', 'arpoon', 'oon'];
+              Level              := 76;
+              RightClickOnly     := True;
+              AssociatedItems    := [FISH_RAW_SHARK];
             end;
         end;
       end;

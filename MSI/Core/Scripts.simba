@@ -1088,7 +1088,8 @@ begin
         PlayerSetup   := @MSI_SetupFishing;
 
         Defaults.FishSpots := [
-          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
          ];
 
         with PathInfo do
