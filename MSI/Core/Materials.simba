@@ -146,7 +146,7 @@ begin
         Level       := 45;
       end;
 
-    MATERIAL_SWORDFISH:
+    MATERIAL_MONKFISH:
       with Result do
       begin
         Name        := 'Monkfish';
