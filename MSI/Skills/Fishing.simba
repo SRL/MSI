@@ -49,7 +49,7 @@ begin
     FISHSPOT_CAGE:
       Result := [FISH_POT_LOBSTER];
 
-    FISHSPOT_HARPOON:
+    FISHSPOT_HARPOON, FISHSPOT_HARPOON_SHARK:
       with MSI_Players[CurrentPlayer] do
       begin
         if (member) then
