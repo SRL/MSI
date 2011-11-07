@@ -1333,7 +1333,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Fishing Guild Bank';
-           tileBox := intToBox(2155, 2945, 2165, 2955);
+           spsBox := intToBox(2155, 2945, 2165, 2955);
          end;
        end;
      LOC_FG_FISH:
@@ -1346,12 +1346,12 @@ begin
          with subLocs[0] do
          begin
            name := 'North Dock';
-           tileBox := intToBox(2205, 2935, 2230, 2955);
+           spsBox := intToBox(2205, 2935, 2230, 2955);
          end;
          with subLocs[1] do
          begin
            name := 'South Dock';
-           tileBox := intToBox(2230, 2975, 2260, 2995);
+           spsBox := intToBox(2230, 2975, 2260, 2995);
          end;
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_FG_FISHER].Defaults.FishSpots;
@@ -1638,7 +1638,6 @@ begin
           continue;
 
         box := MSI_GetLocBox(MSI_Locations[loc], i);
-
         // if player is already in box, continue
         if (pointInBox(mPos, box)) then
         begin
