@@ -1333,7 +1333,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Fishing Guild Bank';
-           tileBox := intToBox(2155, 2955, 2165, 2945);
+           tileBox := intToBox(2155, 2945, 2165, 2955);
          end;
        end;
      LOC_FG_FISH:
@@ -1346,12 +1346,12 @@ begin
          with subLocs[0] do
          begin
            name := 'North Dock';
-           tileBox := intToBox(2205, 2955, 2230, 2935)
+           tileBox := intToBox(2205, 2935, 2230, 2955);
          end;
          with subLocs[1] do
          begin
            name := 'South Dock';
-           tileBox := intToBox(2230, 2995, 2260, 2975);
+           tileBox := intToBox(2230, 2975, 2260, 2995);
          end;
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_FG_FISHER].Defaults.FishSpots;
