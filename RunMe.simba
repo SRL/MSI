@@ -57,6 +57,7 @@ begin
   MSI_Settings[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
   MSI_Settings[SETUP_STATS_ID]      := '';      // Stats ID
   MSI_Settings[SETUP_STATS_PASS]    := '';      // Stats password
+  MSI_Settings[SETUP_WALKING]       := 'Color';
 end;
 
 (*
