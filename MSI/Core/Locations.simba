@@ -1323,6 +1323,42 @@ begin
            objects := MSI_Scripts[SCRIPT_RC_BODY].Defaults.Objects;
          end;
        end;
+     LOC_FG_BANK:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Fishing Guild Bank';
+         AtBank := true;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Fishing Guild Bank';
+           //tileBox := intToBox(2583, 3421, 2585, 3423); [R]
+           tileBox := intToBox(2155, 2955, 2165, 2945);
+         end;
+       end;
+     LOC_FG_FISH:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Fishing Guild Spots';
+         AtBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'North Dock';
+           //tileBox := intToBox(2596, 3419, 2603, 3426); [R]
+           tileBox := intToBox(2205, 2955, 2230, 2935)
+         end;
+         with subLocs[1] do
+         begin
+           name := 'South Dock';
+           //tileBox := intToBox(2601, 3411, 2610, 3414); [R}
+           tileBox := intToBox(2230, 2995, 2260, 2975);
+         end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_FG_FISHER].Defaults.FishSpots;
+       end;
   end;
 
   with MSI_Locations[loc] do

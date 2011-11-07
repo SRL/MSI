@@ -559,6 +559,26 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
       end;
+    MSI_BANK_FG:
+      with result do
+      begin
+        Name               := 'BANK_FISHING_GUILD';
+        Uptexts            := ['ooth'];
+        Options            := ['uick'];
+        Colors             := [6910071];
+        Tol                := 3;
+        Hue                := 0.40;
+        Sat                := 0.49;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 20;
+        Accuracy           := 7;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
 
     { ROCKS ====================================== ]
     [============================================= }
