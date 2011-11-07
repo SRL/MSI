@@ -1716,6 +1716,12 @@ begin
           MSI_BoxToMM(box);
           result := true;
 
+          if (subLocs[i].camera = false) then
+          begin
+            setAngle(false);
+            makeCompass(subLocs[i].compass);
+          end;
+
           MSI_Debug('Player is at ' + subLocs[i].name);
           break;
         end else
