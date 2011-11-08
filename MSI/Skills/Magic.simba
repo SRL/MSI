@@ -858,22 +858,20 @@ begin
 
   castsLeft := MSI_CalculateCasts();
 
-  if (length(castsLeft) > 0) then
-    for i := 0 to high(castsLeft) do
-      with MSI_Players[currentPlayer] do
-      begin
-        if (castsLeft[i] <= 0) then
-          continue;
+  for i := 0 to high(castsLeft) do
+    with MSI_Players[currentPlayer] do
+    begin
+      spell := MSI_Spells[Scripts[CurrentScript].Spells[CurrentSpell]];
 
-        spell := MSI_Spells[scripts[currentScript].spells[currentSpell]];
+      // gets the difference from max number of casts and runes in inventory
+      castsDiff := ((scripts[currentScript].maxCasts[i] - castsLeft[i] + 1) -
+        reportInfo.casts[currentScript][currentSpell]);
 
-        // gets the difference from max number of casts and runes in inventory
-        castsDiff := ((scripts[currentScript].maxCasts[i] - castsLeft[i] + 1) -
-          reportInfo.casts[currentScript][currentSpell]);
+      writeln(toStr(castsDiff));
 
-        if (castsDiff > 0) then
-          MSI_IncSpell(Spell, castsDiff);
-      end;
+      if (castsDiff > 0) then
+        MSI_IncSpell(Spell, castsDiff);
+    end;
 end;
 
 (*
@@ -1160,6 +1158,7 @@ begin
       end else
         if (not MSI_NoMouseFindRandoms(True)) then
         begin
+          MSI_CastsDone();
           MSI_Debug('Ran out of runes!');
           MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of runes';
           Exit;
@@ -1175,7 +1174,10 @@ begin
 
       case MSI_CheckCasts(spell) of
         -1: ; // do nothing; continue
-         0: exit; // cast the max
+         0: begin
+              MSI_CastsDone();
+              exit; // cast the max
+            end;
       end;
 
       if ((c mod CASTS_BEFORE_REPORT) = 0) then
