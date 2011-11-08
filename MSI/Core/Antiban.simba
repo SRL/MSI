@@ -231,6 +231,44 @@ begin
 end;
 
 (*
+MSI_ChangeWorlds
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ChangeWorlds(): boolean;
+
+Counts the player dots in the MiniMap and if there are more in there than what
+the script user set, it changes to a less filled world. The SETUP_MAX_PLAYERS
+constant can be found in Globals.simba.
+
+.. note::
+
+  | Author: Camo Developer
+  | Last Updated: 07 November 2011 by Camo Developer
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ChangeWorlds;
+*)
+function MSI_ChangeWorlds(): boolean;
+begin
+  if (MSI_GetPlayers() > MSI_Settings[SETUP_MAX_PLAYERS]) then
+  begin
+    if not LobbyScreen then
+      ExitToLobby;
+    Wait(RandomRange(1500, 2000));
+    ChooseWorldBy(['players'], [True], MSI_Players[CurrentPlayer].Member, False);
+    Wait(RandomRange(750, 1250));
+    MouseBox(270, 450, 490, 470, 1); // Play button
+    Wait(RandomRange(750, 1250));
+    Result := LoggedIn;
+  end;
+end;
+
+(*
 MSI_Antiban
 ~~~~~~~~~~~
 
@@ -402,6 +440,9 @@ var
 begin
   if (not LoggedIn) then
     Exit;
+
+  if (MSI_Settings[SETUP_MAX_PLAYERS] > 0) then
+    MSI_ChangeWorlds;
 
   MSI_LevelUp();
   if (LeaveDangerZone) then
