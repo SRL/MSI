@@ -1663,7 +1663,7 @@ begin
     DWARVEN_ARMY_AXE:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Dwarven army axe';
+        Name := 'Dwarven Army Axe';
         UpText := ['arven army'];
         Stackable := False;
         EquipLevel := 10;
@@ -2044,7 +2044,7 @@ begin
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
-    Bank, NoBank: searchArea := 'inv';
+    Bank, NoBank, Drop: searchArea := 'inv';
     DBox: searchArea := 'deposit box';
   end;
 
@@ -2055,7 +2055,7 @@ begin
     for j := 1 to 28 do
     begin
       case bankType of
-        Bank, NoBank: b := InvBox(j);
+        Bank, NoBank, Drop: b := InvBox(j);
         DBox: b := DepositItemBox(j);
       end;
 
@@ -2121,7 +2121,7 @@ begin
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
-    Bank, NoBank: b := InvBox(Slot);
+    Bank, NoBank, Drop: b := InvBox(Slot);
     DBox: b := DepositItemBox(Slot);
   end;
 

@@ -57,18 +57,24 @@ begin
 
   for i := 0 to 1 do
   begin
-    for j := MSI_BestTool downto MSI_WorstTool do // First search for the best tool
-      if (MSI_FindTool(j, tabs[i], x, y)) then
-      begin
-        if (tabs[i] = TAB_INV) then
-          MSI_Items[j].InvSlot := CoordsToItem(x, y); // Set tool's inventory slot
+    if (MSI_Players[CurrentPlayer].Member) then
+      Result := MSI_FindTool(DWARVEN_ARMY_AXE, tabs[i], x, y);
 
-        Result := True;
-        Break;
-      end;
+    if (not Result) then
+      for j := MSI_BestTool downto MSI_WorstTool do // First search for the best tool
+        if (MSI_FindTool(j, tabs[i], x, y)) then
+        begin
+          Result := True;
+          Break;
+        end;
 
     if (Result) then
+    begin
+      if (tabs[i] = TAB_INV) then
+        MSI_Items[j].InvSlot := CoordsToItem(x, y); // Set tool's inventory slot
+
       Break;
+    end;
   end;
 
   with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do // CurrentScript
