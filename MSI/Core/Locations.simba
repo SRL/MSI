@@ -1323,6 +1323,39 @@ begin
            objects := MSI_Scripts[SCRIPT_RC_BODY].Defaults.Objects;
          end;
        end;
+     LOC_FG_BANK:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Fishing Guild Bank';
+         AtBank := true;
+
+         setLength(subLocs, 1);
+         with subLocs[0] do
+         begin
+           name := 'Fishing Guild Bank';
+           spsBox := intToBox(2155, 2945, 2165, 2955);
+         end;
+       end;
+     LOC_FG_FISH:
+       with MSI_Locations[loc] do
+       begin
+         Name := 'Fishing Guild Spots';
+         AtBank := false;
+
+         setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'North Dock';
+           spsBox := intToBox(2205, 2935, 2230, 2955);
+         end;
+         with subLocs[1] do
+         begin
+           name := 'South Dock';
+           spsBox := intToBox(2230, 2975, 2260, 2995);
+         end;
+         for i := 0 to high(subLocs) do
+           subLocs[i].objects := MSI_Scripts[SCRIPT_FG_FISHER].Defaults.FishSpots;
+       end;
   end;
 
   with MSI_Locations[loc] do
@@ -1605,7 +1638,6 @@ begin
           continue;
 
         box := MSI_GetLocBox(MSI_Locations[loc], i);
-
         // if player is already in box, continue
         if (pointInBox(mPos, box)) then
         begin
