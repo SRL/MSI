@@ -1088,7 +1088,8 @@ begin
         PlayerSetup   := @MSI_SetupFishing;
 
         Defaults.FishSpots := [
-          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
          ];
 
         with PathInfo do
@@ -1201,6 +1202,25 @@ begin
         with Defaults do
         begin
           Spells := [SPELL_ALCH_HIGH, SPELL_ALCH_LOW];
+          StaffType := LeastCasts;
+        end;
+      end;
+
+    SCRIPT_TELEPORTER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Teleporter';
+        Constant      := SCRIPT_TELEPORTER;
+        SkillName     := 'Magic';
+        SkillConst    := SKILL_MAGIC;
+        BankType      := NoBank;
+        AutoObjects   := @MSI_DoMagic;
+        PlayerSetup   := @MSI_SetupMagic;
+
+        with Defaults do
+        begin
+          Spells := [SPELL_TELE_HOME, SPELL_TELE_VARROCK, SPELL_TELE_LUMBRIDGE,
+                    SPELL_TELE_FALADOR, SPELL_TELE_HOUSE, SPELL_TELE_CAMELOT];
           StaffType := LeastCasts;
         end;
       end;

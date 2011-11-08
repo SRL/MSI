@@ -76,6 +76,18 @@ begin
         WaitTime := 200;
       end;
 
+    ANIM_TELE:
+      with Result do
+      begin
+        Name := 'Teleporting';
+        MinPixelShift := 100;
+        MaxPixelShift := 802;
+        PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
+        Interval := 25;
+        MaxTime := 100;
+        WaitTime := 200;
+      end;
+
     ANIM_CHOPPING:
       with Result do
       begin

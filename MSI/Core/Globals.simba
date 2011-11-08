@@ -132,7 +132,8 @@ const
   SCRIPT_AK_COOKER = 70;
 
   // Magic
-  SCRIPT_ALCHER = 80;
+  SCRIPT_ALCHER     = 80;
+  SCRIPT_TELEPORTER = 81;
 
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
@@ -683,14 +684,16 @@ const
   SPELL_TELE_VARROCK   = 21;
   SPELL_TELE_LUMBRIDGE = 22;
   SPELL_TELE_FALADOR   = 23;
+  SPELL_TELE_HOUSE     = 24;
+  SPELL_TELE_CAMELOT   = 25;
 
-  SPELL_ALCH_LOW       = 24;
-  SPELL_ALCH_HIGH      = 25;
+  SPELL_ALCH_LOW       = 26;
+  SPELL_ALCH_HIGH      = 27;
 
-  SPELL_TELEGRAB       = 26;
-  SPELL_SUPERHEAT      = 27;
+  SPELL_TELEGRAB       = 28;
+  SPELL_SUPERHEAT      = 29;
 
-  SPELL_ARRAY_LENGTH   = 27;
+  SPELL_ARRAY_LENGTH   = 29;
 
 (*
 Animations Constants
@@ -709,11 +712,12 @@ Example:
   end;
 *)
 const
-  ANIM_IDLE      = 0;
-  ANIM_ALCH_LOW  = 10;
-  ANIM_ALCH_HIGH = 11;
-  ANIM_CHOPPING  = 12;
+  ANIM_IDLE         = 0;
+  ANIM_ALCH_LOW     = 10;
+  ANIM_ALCH_HIGH    = 11;
+  ANIM_CHOPPING     = 12;
   ANIM_CHOPPING_NEW = 13;
+  ANIM_TELE         = 14;
 
 (*
 Material Constants

@@ -78,6 +78,7 @@ begin
         Name := 'Home Teleport';
         StatsName := 'Home Teleports';
         Constant := SPELL_TELE_HOME;
+        AnimConst := ANIM_TELE;
         Level := 1;
         Experience := 0;
         Staffs := [];
@@ -86,6 +87,91 @@ begin
         AutoCast := False;
         Runes := [];
         RuneAmounts := [];
+      end;
+
+    SPELL_TELE_VARROCK:
+      with MSI_Spells[Spell] do
+      begin
+        Name := 'Varrock Teleport';
+        StatsName := 'Varrock Teleports';
+        Constant := SPELL_TELE_VARROCK;
+        AnimConst := ANIM_TELE;
+        Level := 25;
+        Experience := 35;
+        Staffs := [STAFF_AIR, STAFF_FIRE];
+        FreeBox := IntToBox(664, 274, 680, 284);
+        MemberBox := IntToBox(688, 271, 702, 286);
+        AutoCast := False;
+        Runes := [RUNE_LAW, RUNE_FIRE, RUNE_AIR];
+        RuneAmounts := [1, 1, 3];
+      end;
+
+    SPELL_TELE_LUMBRIDGE:
+      with MSI_Spells[Spell] do
+      begin
+        Name := 'Lumbridge Teleport';
+        StatsName := 'Lumbridge Teleports';
+        Constant := SPELL_TELE_LUMBRIDGE;
+        AnimConst := ANIM_TELE;
+        Level := 31;
+        Experience := 41;
+        Staffs := [STAFF_AIR, STAFF_EARTH];
+        FreeBox := IntToBox(591, 297, 608, 309);
+        MemberBox := IntToBox(615, 296, 632, 309);
+        AutoCast := False;
+        Runes := [RUNE_LAW, RUNE_EARTH, RUNE_AIR];
+        RuneAmounts := [1, 1, 3];
+      end;
+
+    SPELL_TELE_FALADOR:
+      with MSI_Spells[Spell] do
+      begin
+        Name := 'Falador Teleport';
+        StatsName := 'Falador Teleports';
+        Constant := SPELL_TELE_FALADOR;
+        AnimConst := ANIM_TELE;
+        Level := 37;
+        Experience := 48;
+        Staffs := [STAFF_AIR, STAFF_WATER];
+        FreeBox := IntToBox(664, 297, 697, 309);
+        MemberBox := IntToBox(688, 297, 704, 310);
+        AutoCast := False;
+        Runes := [RUNE_LAW, RUNE_WATER, RUNE_AIR];
+        RuneAmounts := [1, 1, 3];
+      end;
+
+    SPELL_TELE_HOUSE:
+      with MSI_Spells[Spell] do
+      begin
+        Name := 'House Teleport';
+        StatsName := 'House Teleports';
+        Constant := SPELL_TELE_HOUSE;
+        AnimConst := ANIM_TELE;
+        Level := 40;
+        Experience := 30;
+        Staffs := [STAFF_AIR, STAFF_EARTH];
+        FreeBox := IntToBox(567, 319, 581, 332);
+        MemberBox := IntToBox(592, 320, 606, 333);
+        AutoCast := False;
+        Runes := [RUNE_LAW, RUNE_EARTH, RUNE_AIR];
+        RuneAmounts := [1, 1, 1];
+      end;
+
+    SPELL_TELE_CAMELOT:
+      with MSI_Spells[Spell] do
+      begin
+        Name := 'Camelot Teleport';
+        StatsName := 'Camelot Teleports';
+        Constant := SPELL_TELE_CAMELOT;
+        AnimConst := ANIM_TELE;
+        Level := 45;
+        Experience := 56;
+        Staffs := [STAFF_AIR];
+        FreeBox := IntToBox(638, 320, 655, 333);
+        MemberBox := IntToBox(659, 316, 682, 336);
+        AutoCast := False;
+        Runes := [RUNE_LAW, RUNE_AIR];
+        RuneAmounts := [1, 5];
       end;
   end;
 end;
@@ -949,6 +1035,96 @@ begin
 end;
 
 (*
+MSI_Teleport
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_Teleport(Spell: Integer): Boolean;
+
+Will cast a certain teleport until the maximum number of casts has been reached,
+or it fails. Will return true after a set number of alchs. This is a re-write
+of MSI_Alch. (CASTS_BEFORE_REPORT, found at the top of Magic.simba).
+
+.. note::
+
+  | Author: Camo Developer
+  | Last Updated: 07 November 2011 by Camo Developer
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_SetupMagic()) then
+    MSI_Teleport(SPELL_TELE_CAMELOT);
+*)
+function MSI_Teleport(Spell: Integer): Boolean;
+var
+  i, t, wT: Integer;
+  anim: TAnimation;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  t := GetSystemTime + (60000 * 3); // Will stop if doesn't cast in 5 minutes
+
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+  begin
+    anim := MSI_GetAnimation(ANIM_IDLE);
+
+    for i := 0 to MaxCasts[CurrentSpell] do
+    begin
+      repeat
+        MSI_NoMouseFindRandoms(False);
+
+        if (MSI_ClickSpell(Spell)) then
+        begin
+          MSI_NoMouseFindRandoms(False);
+          MSI_AntiBan(3500 + RandomRange(-2000, 1500), ANTI_BAN_CHANCE);
+          t := GetSystemTime + (60000 * 5);
+          MSI_CastsDone();
+        end else
+          if (not MSI_NoMouseFindRandoms(True)) then
+            if (i = MaxCasts[CurrentSpell]) then
+            begin
+              MSI_Debug('Ran out of runes!');
+              MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of runes';
+              Exit;
+            end else
+              Break;
+
+        wT := GetSystemTime + 3000;
+        while MSI_IsAnimating(anim) do
+          if (GetCurrentTab = tab_Magic) or (wT > GetSystemTime) then
+            Break;
+
+        with MSI_Players[CurrentPlayer].ReportInfo do
+        begin
+          MSI_Debug('Casts: ' + ToStr(Casts[CurrentSpell][CurrentScript]));
+          MSI_Debug('Max: ' + ToStr(MaxCasts[CurrentSpell]));
+
+          // Result is false if we've cast the maximum
+          if (Casts[CurrentScript][CurrentSpell] >= MaxCasts[CurrentSpell]) then
+          begin
+            MSI_Debug('Cast maximum (' + MSI_Spells[Spell].Name + ')');
+            FalseReason := 'Cast maximum (' + MSI_Spells[Spell].Name + ')';
+            Exit;
+          end;
+
+          if (Casts[CurrentScript][CurrentSpell] > 0) then
+            if ((Casts[CurrentScript][CurrentSpell] mod CASTS_BEFORE_REPORT) = 0) then
+            begin
+              Result := True;
+              Exit;
+            end;
+        end;
+
+      until(GetSystemTime > t);
+    end;
+  end;
+end;
+
+(*
 MSI_DoMagic
 ~~~~~~~~~~~
 
@@ -976,6 +1152,8 @@ begin
     case Spells[currentSpell] of
       SPELL_ALCH_HIGH, SPELL_ALCH_LOW:
         Result := MSI_Alch(Spells[currentSpell]);
+      SPELL_TELE_HOME..SPELL_TELE_CAMELOT:
+        Result := MSI_Teleport(Spells[CurrentSpell]);
 
       else
         MSI_SubDebug('Invalid spell in DoMagic');
