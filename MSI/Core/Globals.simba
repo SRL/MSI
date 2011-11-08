@@ -127,7 +127,7 @@ const
   SCRIPT_BBV_FISHER   = 52;
   SCRIPT_KJ_NOTER     = 53;
   SCRIPT_CB_FISHER    = 54;
-  SCRIPT_FG_FISHER    = 126;
+  SCRIPT_FG_FISHER    = 55;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
@@ -153,7 +153,7 @@ const
   SCRIPT_RC_BODY  = 124;
   SCRIPT_RC_MIND  = 125;
 
-  SCRIPT_ARRAY_LENGTH = 126; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 125; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -296,8 +296,8 @@ const
   // Guilds
   LOC_GUILD_MINE = 110;
   LOC_CG_MINE    = 111;
-  LOC_FG_BANK    = 156;
-  LOC_FG_FISH    = 157;
+  LOC_FG_BANK    = 112;
+  LOC_FG_FISH    = 113;
   // Al-Kharid
   LOC_AK_BANK   = 120;
   LOC_AK_RANGE  = 121;
@@ -319,7 +319,7 @@ const
   LOC_ALTER_MIND  = 154;
   LOC_ALTER_BODY  = 155;
 
-  LOC_ARRAY_LENGTH = 157; // Change to the highest location constant
+  LOC_ARRAY_LENGTH = 155; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -539,7 +539,7 @@ const
   MSI_BANK_AK = 37;
   MSI_BANK_CB = 38;
   MSI_BANK_FW = 39;
-  MSI_BANK_FG = 156;
+  MSI_BANK_FG = 40;
 
   DBOX_PS = 45;
 
@@ -594,7 +594,7 @@ const
   PORTAL_FIRE  = 154;
   PORTAL_BODY  = 155;
 
-  OBJECT_HIGH = 156; // Change to the highest object constant
+  OBJECT_HIGH = 155; // Change to the highest object constant
 
 (*
 Obstacle Constants

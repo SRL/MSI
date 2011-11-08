@@ -1140,6 +1140,7 @@ begin
           ];
         end;
       end;
+
     SCRIPT_FG_FISHER:
       with MSI_Scripts[whichScript] do
       begin
