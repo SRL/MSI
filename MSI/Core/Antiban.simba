@@ -377,6 +377,44 @@ Begin
 End;
 
 (*
+MSI_QCLevelUp
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_QCLevelUp();
+
+Has a specified percentage chance (ChancePerc) of performing antiban
+procedures for a specified length of time in milliseconds (HowLong)
+
+.. note::
+
+  | Author: Camo Developer
+  | Last Updated: 07 November 2011 by Camo Developer
+
+Example:
+
+.. code-block:: pascal
+  if (LevelUp) then
+    MSI_QCLevelUp();
+*)
+procedure MSI_QCLevelUp();
+var
+  chance : integer;
+  skillName : string;
+begin
+  chance := Random(100);
+  skillName := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].SkillName;
+
+  case GetSkillLevel(skillName) of
+    20..40 : if chance > 80 then QCSayLevel(skillName);
+    41..65 : if chance < 50 then QCSayLevel(skillName);
+    66..89 : if chance > 25 then QCSayLevel(skillName);
+    90..99 : QCSayLevel(skillName);
+  end;
+end;
+
+(*
 MSI_LevelUp
 ~~~~~~~~~~~
 
@@ -390,7 +428,7 @@ Will increase the stats variable if the player is found to have gained a level.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 04 June 2011 by Coh3n
+  | Last Updated: 07 November 2011 by Camo Developer
 
 Example:
 
@@ -404,6 +442,7 @@ begin
   begin
     MSI_SubDebug('MSI_LevelUp: Player has leveled up!');
     stats_IncVariable('Total Levels Gained', 1);
+    MSI_QCLevelUp();
   end;
 end;
 
