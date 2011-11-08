@@ -37,6 +37,8 @@ The source for can be found
   {$i srl/srl/misc/remote.simba}
 {$ENDIF}
 
+{$i srl/srl/misc/quickchat.scar}
+
 //MSI Script
 {$i MSI/MSI/Core/Globals.simba}
 {$i MSI/MSI/Core/Debug.simba}
