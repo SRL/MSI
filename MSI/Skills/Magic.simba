@@ -1149,7 +1149,10 @@ begin
 
       if (MSI_ClickSpell(Spell)) then
       begin
+        MSI_SubDebug('Waiting while teleporting');
         MSI_NoMouseFindRandoms(False);
+        MSI_AntiBan(3500 + RandomRange(-2000, 1500), ANTI_BAN_CHANCE);
+
         t := GetSystemTime + (60000 * 5);
         inc(c)
 
