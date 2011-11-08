@@ -784,6 +784,45 @@ begin
       break;
     end;
   end;
+
+  if (result) then
+  begin
+    result := false;
+    result := (not FindBlackChatMessage('unes'));
+  end;
+end;
+
+(*
+MSI_IncSpell
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_IncSpell(Spell: TMagicSpell; Amount: Integer);
+
+Adds the Amount to the Spell for progress reports and stats.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 08 November 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_IncSpell(Spell, 1);
+*)
+procedure MSI_IncSpell(Spell: TMagicSpell; Amount: Integer);
+begin
+  with MSI_Players[CurrentPlayer].ReportInfo do
+  begin
+    incEx(Casts[CurrentScript][CurrentSpell], Amount); // casts per spell
+    stats_IncVariable(Spell.StatsName, Amount);
+
+    MSI_AddToProggy(PROG_ADD_CASTS, -1, -1, Amount); // total casts for current script
+    MSI_AddToProggy(PROG_ADD_EXP, -1, -1, (round(Spell.Experience * Amount)));
+  end;
 end;
 
 (*
@@ -833,13 +872,7 @@ begin
           reportInfo.casts[currentScript][currentSpell]);
 
         if (castsDiff > 0) then
-        begin
-          incEx(reportInfo.casts[currentScript][currentSpell], castsDiff); // casts per spell
-          stats_IncVariable(spell.statsName, castsDiff);
-
-          MSI_AddToProggy(PROG_ADD_CASTS, -1, -1, castsDiff); // total casts for current script
-          MSI_AddToProggy(PROG_ADD_EXP, -1, -1, (round(spell.experience * castsDiff)));
-        end;
+          MSI_IncSpell(Spell, castsDiff);
       end;
 end;
 
@@ -1101,7 +1134,7 @@ Example:
 *)
 function MSI_Teleport(Spell: Integer): Boolean;
 var
-  t, wT: Integer;
+  c, t, wT: Integer;
   anim: TAnimation;
 begin
   if (not LoggedIn) then
@@ -1119,9 +1152,11 @@ begin
       if (MSI_ClickSpell(Spell)) then
       begin
         MSI_NoMouseFindRandoms(False);
-        MSI_AntiBan(3500 + RandomRange(-2000, 1500), ANTI_BAN_CHANCE);
         t := GetSystemTime + (60000 * 5);
-        MSI_CastsDone();
+        inc(c)
+
+        if ((c mod CASTS_BEFORE_REPORT) = 0) then
+          MSI_CastsDone();
       end else
         if (not MSI_NoMouseFindRandoms(True)) then
         begin
@@ -1129,22 +1164,24 @@ begin
           MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of runes';
           Exit;
         end else
-          Break;
+          Continue;
 
       wT := GetSystemTime + 3000;
       Wait(RandomRange(500, 1000));
 
       while MSI_IsAnimating(anim) do
-        if (GetCurrentTab = tab_Magic) or (wT > GetSystemTime) then
+        if (wT > GetSystemTime) then
           Break;
 
       case MSI_CheckCasts(spell) of
         -1: ; // do nothing; continue
          0: exit; // cast the max
-         1: begin // exit to print report
-              result := true;
-              exit;
-            end;
+      end;
+
+      if ((c mod CASTS_BEFORE_REPORT) = 0) then
+      begin // exit to print report
+        result := true;
+        exit;
       end;
     until(GetSystemTime > t);
   end;
