@@ -81,8 +81,8 @@ begin
       begin
         Name := 'Teleporting';
         MinPixelShift := 100;
-        MaxPixelShift := 802;
-        PixelBox := IntToBox(MSCX - 30, MSCY - 40, MSCX + 30, MSCY + 15);
+        MaxPixelShift := 529;
+        PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 25;
         MaxTime := 100;
         WaitTime := 200;

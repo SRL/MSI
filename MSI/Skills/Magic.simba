@@ -1070,7 +1070,7 @@ begin
 
   with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
   begin
-    anim := MSI_GetAnimation(ANIM_IDLE);
+    anim := MSI_GetAnimation(MSI_Spells[Spell].AnimConst);
 
     for i := 0 to MaxCasts[CurrentSpell] do
     begin
@@ -1094,6 +1094,8 @@ begin
               Break;
 
         wT := GetSystemTime + 3000;
+        Wait(RandomRange(500, 1000));
+
         while MSI_IsAnimating(anim) do
           if (GetCurrentTab = tab_Magic) or (wT > GetSystemTime) then
             Break;
