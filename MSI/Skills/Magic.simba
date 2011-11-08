@@ -144,7 +144,7 @@ begin
       with MSI_Spells[Spell] do
       begin
         Name := 'House Teleport';
-        StatsName := 'House Teleports (Casted)';
+        StatsName := 'Home Teleports (Casted)';
         Constant := SPELL_TELE_HOUSE;
         AnimConst := ANIM_TELE;
         Level := 40;
@@ -909,6 +909,60 @@ begin
 end;
 
 (*
+MSI_CheckCasts
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_CheckCasts(spell: integer): integer;
+
+Checks the players number of casts to see if they've casted the maximum they can
+or if it's time to print the progress report.  Used to avoid needless repeated
+code.  Results can be found in the example code.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 07 November 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  case MSI_CheckCasts(spell) of
+    -1: ; // do nothing; continue
+     0: ; // cast the max
+     1: ; // exit to print report
+  end;
+*)
+function MSI_CheckCasts(Spell: integer): integer;
+begin
+  result := -1;
+
+  with MSI_Players[CurrentPlayer] do
+  begin
+    MSI_SubDebug('Casts: '+toStr(ReportInfo.Casts[CurrentSpell][CurrentScript]));
+    MSI_SubDebug('Max: '+toStr(Scripts[CurrentScript].MaxCasts[CurrentSpell]));
+
+    // Result is false if we've cast the maximum
+    if (ReportInfo.Casts[CurrentScript][CurrentSpell] >= Scripts[CurrentScript].MaxCasts[CurrentSpell]) then
+    begin
+      MSI_SubDebug('Cast maximum ('+MSI_Spells[Spell].Name+')');
+      ReportInfo.FalseReason := 'Cast maximum ('+MSI_Spells[Spell].Name+')';
+      result := 0;
+      exit;
+    end;
+
+    if (ReportInfo.Casts[CurrentScript][CurrentSpell] > 0) then
+      if ((ReportInfo.Casts[CurrentScript][CurrentSpell] mod CASTS_BEFORE_REPORT) = 0) then
+      begin
+        result := 1;
+        exit;
+      end;
+  end;
+end;
+
+(*
 MSI_Alch
 ~~~~~~~~
 
@@ -923,7 +977,7 @@ set number of alchs (CASTS_BEFORE_REPORT, found at the top of Magic.simba).
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 11 July 2011 by Coh3n
+  | Last Updated: 08 November 2011 by Coh3n
 
 Example:
 
@@ -1008,27 +1062,14 @@ begin
           if (GetCurrentTab = tab_Magic) or (wT > GetSystemTime) then
             Break;
 
-        with MSI_Players[CurrentPlayer].ReportInfo do
-        begin
-          MSI_Debug('Casts: '+toStr(casts[currentSpell][currentScript]));
-          MSI_Debug('Max: '+toStr(maxCasts[currentSpell]));
-
-          // Result is false if we've cast the maximum
-          if (Casts[currentScript][CurrentSpell] >= MaxCasts[currentSpell]) then
-          begin
-            MSI_Debug('Cast maximum ('+MSI_Spells[spell].name+')');
-            falseReason := 'Cast maximum ('+MSI_Spells[spell].name+')';
-            Exit;
-          end;
-
-          if (Casts[CurrentScript][currentSpell] > 0) then
-            if ((Casts[CurrentScript][currentSpell] mod CASTS_BEFORE_REPORT) = 0) then
-            begin
-              Result := True;
-              Exit;
-            end;
+        case MSI_CheckCasts(spell) of
+          -1: ; // do nothing; continue
+           0: exit; // cast the max
+           1: begin // exit to print report
+                result := true;
+                exit;
+              end;
         end;
-
       until(GetSystemTime > t);
     end;
   end;
@@ -1083,13 +1124,12 @@ begin
         MSI_CastsDone();
       end else
         if (not MSI_NoMouseFindRandoms(True)) then
-          if (MSI_Players[CurrentPlayer].ReportInfo.Casts[CurrentScript][CurrentSpell] = MaxCasts[CurrentSpell]) then
-          begin
-            MSI_Debug('Ran out of runes!');
-            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of runes';
-            Exit;
-          end else
-            Break;
+        begin
+          MSI_Debug('Ran out of runes!');
+          MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of runes';
+          Exit;
+        end else
+          Break;
 
       wT := GetSystemTime + 3000;
       Wait(RandomRange(500, 1000));
@@ -1098,27 +1138,14 @@ begin
         if (GetCurrentTab = tab_Magic) or (wT > GetSystemTime) then
           Break;
 
-      with MSI_Players[CurrentPlayer].ReportInfo do
-      begin
-        MSI_Debug('Casts: ' + ToStr(Casts[CurrentSpell][CurrentScript]));
-        MSI_Debug('Max: ' + ToStr(MaxCasts[CurrentSpell]));
-
-        // Result is false if we've cast the maximum
-        if (Casts[CurrentScript][CurrentSpell] >= MaxCasts[CurrentSpell]) then
-        begin
-          MSI_Debug('Cast maximum (' + MSI_Spells[Spell].Name + ')');
-          FalseReason := 'Cast maximum (' + MSI_Spells[Spell].Name + ')';
-          Exit;
-        end;
-
-        if (Casts[CurrentScript][CurrentSpell] > 0) then
-          if ((Casts[CurrentScript][CurrentSpell] mod CASTS_BEFORE_REPORT) = 0) then
-          begin
-            Result := True;
-            Exit;
-          end;
+      case MSI_CheckCasts(spell) of
+        -1: ; // do nothing; continue
+         0: exit; // cast the max
+         1: begin // exit to print report
+              result := true;
+              exit;
+            end;
       end;
-
     until(GetSystemTime > t);
   end;
 end;
@@ -1150,7 +1177,7 @@ begin
   with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
     case Spells[currentSpell] of
       SPELL_ALCH_HIGH, SPELL_ALCH_LOW:
-        Result := MSI_Alch(Spells[currentSpell]);
+        Result := MSI_Alch(Spells[CurrentSpell]);
 
       SPELL_TELE_HOME..SPELL_TELE_CAMELOT:
         Result := MSI_Teleport(Spells[CurrentSpell]);

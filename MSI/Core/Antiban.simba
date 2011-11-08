@@ -228,6 +228,7 @@ Example:
 function MSI_GetPlayers(): Integer;
 begin
   Result := CountDots('white');
+  MSI_SubDebug('Players Found: '+toStr(Result));
 end;
 
 (*
@@ -263,8 +264,7 @@ begin
     ChooseWorldBy(['players'], [True], MSI_Players[CurrentPlayer].Member, False);
     Wait(RandomRange(750, 1250));
     MouseBox(270, 450, 490, 470, 1); // Play button
-    Wait(RandomRange(750, 1250));
-    Result := LoggedIn;
+    Result := WaitFunc(@LoggedIn, 200, 10000);
   end;
 end;
 

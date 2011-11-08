@@ -603,7 +603,11 @@ begin
                 script_Lists[LIST_STAFFS].Items.Append(Capitalize(MSI_Items[j].Name));
 
             lists := [LIST_SPELLS, LIST_STAFFS];
-            edits := [EDIT_TIME, EDIT_LEVEL, EDIT_ALCH_SLOTS];
+
+            if (MSI_Scripts[i].Constant = SCRIPT_ALCHER) then
+              edits := [EDIT_TIME, EDIT_LEVEL, EDIT_ALCH_SLOTS]
+            else
+              Edits := [EDIT_TIME, EDIT_LEVEL];
           end;
       end;
 
