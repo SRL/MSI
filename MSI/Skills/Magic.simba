@@ -867,8 +867,6 @@ begin
       castsDiff := ((scripts[currentScript].maxCasts[i] - castsLeft[i] + 1) -
         reportInfo.casts[currentScript][currentSpell]);
 
-      writeln(toStr(castsDiff));
-
       if (castsDiff > 0) then
         MSI_IncSpell(Spell, castsDiff);
     end;
