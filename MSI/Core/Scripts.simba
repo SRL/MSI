@@ -1088,7 +1088,8 @@ begin
         PlayerSetup   := @MSI_SetupFishing;
 
         Defaults.FishSpots := [
-          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
          ];
 
         with PathInfo do
@@ -1136,6 +1137,40 @@ begin
 
           SPSAreas   := [
             TStringArray(['8_9', '7_10'])
+          ];
+        end;
+      end;
+
+    SCRIPT_FG_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Fishing Guild Fisher';
+        Constant      := SCRIPT_FG_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FG;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
+         ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FG_BANK to LOC_FG_FISH';
+          StartLoc := LOC_FG_BANK;
+          EndLoc   := LOC_CB_FISH;
+
+          Reflection := [
+            TPointArray([Point(2583, 3422), Point(2893, 3421), Point(2597, 3421)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['5_7'])
           ];
         end;
       end;
@@ -1201,6 +1236,25 @@ begin
         with Defaults do
         begin
           Spells := [SPELL_ALCH_HIGH, SPELL_ALCH_LOW];
+          StaffType := LeastCasts;
+        end;
+      end;
+
+    SCRIPT_TELEPORTER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Teleporter';
+        Constant      := SCRIPT_TELEPORTER;
+        SkillName     := 'Magic';
+        SkillConst    := SKILL_MAGIC;
+        BankType      := NoBank;
+        AutoObjects   := @MSI_DoMagic;
+        PlayerSetup   := @MSI_SetupMagic;
+
+        with Defaults do
+        begin
+          Spells := [SPELL_TELE_HOME, SPELL_TELE_VARROCK, SPELL_TELE_LUMBRIDGE,
+                    SPELL_TELE_FALADOR, SPELL_TELE_HOUSE, SPELL_TELE_CAMELOT];
           StaffType := LeastCasts;
         end;
       end;

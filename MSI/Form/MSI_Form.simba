@@ -230,7 +230,8 @@ begin
   for i := 0 to High(MSI_Settings) do
   begin
     case i of
-      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS:
+      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK,
+      SETUP_SWITCH_WORLDS, SETUP_QC_LEVELUP:
         begin
           SetLength(intro_Combos, Length(intro_Combos) + 1);
 
@@ -253,6 +254,7 @@ begin
               SETUP_HUMAN_BREAK: Hint := 'Will randomly logout, time-out, or exit to the lobby if set to True, '+#10+
                                          'otherwise will just exit to the lobby.';
               SETUP_SWITCH_WORLDS: Hint := 'Will switch worlds after breaking and when switching players';
+              SETUP_QC_LEVELUP: Hint := 'Do you want to quick-chat your level when your player gains a level?';
             end;
 
             ShowHint := True;
@@ -260,7 +262,7 @@ begin
         end;
 
       SETUP_BREAK_TIME, SETUP_DEBUG_LEVEL, SETUP_ANTIBAN_WAIT, SETUP_RANDOMS_WAIT,
-      SETUP_STATS_ID, SETUP_STATS_PASS:
+      SETUP_STATS_ID, SETUP_STATS_PASS, SETUP_MAX_PLAYERS:
         begin
           SetLength(intro_Edits, Length(intro_Edits) + 1);
 
@@ -297,6 +299,12 @@ begin
                   Text := '15000';
                 end;
 
+              SETUP_MAX_PLAYERS:
+                begin
+                  Hint := 'How many players can be around you before switching worlds.  Set to 0 to not switch worlds.';
+                  Text := '30';
+                end;
+
               SETUP_STATS_ID: Hint := 'Stats Username';
               SETUP_STATS_PASS: Hint := 'Stats Password';
             end;
@@ -309,7 +317,7 @@ begin
 
   SetLength(intro_EditLabels, Length(intro_Edits));
   s := ['Break Time', 'Level to Debug', 'Antiban Wait', 'Randoms Wait',
-        'Stats User', 'Stats Pass'];
+        'Max Players', 'Stats User', 'Stats Pass'];
   for i := 0 to High(intro_EditLabels) do
   begin
     intro_EditLabels[i] := TLabel.Create(panels[IMG_TAB_NORM_0]);
@@ -324,7 +332,8 @@ begin
   end;
 
   SetLength(intro_ComboLabels, Length(intro_Combos));
-  s := ['Debug SMART', 'Save Debug', 'Save Report', 'Human Breaking', 'Switch Worlds', 'Walking Method'];
+  s := ['Debug SMART', 'Save Debug', 'Save Report', 'Human Breaking',
+        'Switch Worlds','QC Level Up', 'Walking Method' ];
   for i := 0 to High(intro_ComboLabels) do
   begin
     intro_ComboLabels[i] := TLabel.Create(panels[IMG_TAB_NORM_0]);
@@ -347,7 +356,8 @@ var
 begin
   for i := 0 to High(MSI_Settings) do
     case i of
-      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING:
+      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING,
+      SETUP_QC_LEVELUP:
         begin
           case i of
             SETUP_DEBUG_SMART: s := 'Debug SMART';
@@ -356,6 +366,7 @@ begin
             SETUP_HUMAN_BREAK: s := 'Human Breaking';
             SETUP_SWITCH_WORLDS: s := 'Switch Worlds';
             SETUP_WALKING: s := 'Walking Method';
+            SETUP_QC_LEVELUP: s := 'QC Level Up';
           end;
 
           for j := 0 to High(intro_ComboLabels) do
@@ -386,7 +397,7 @@ begin
         end;
 
       SETUP_BREAK_TIME, SETUP_DEBUG_LEVEL, SETUP_ANTIBAN_WAIT, SETUP_RANDOMS_WAIT,
-      SETUP_STATS_ID, SETUP_STATS_PASS:
+      SETUP_STATS_ID, SETUP_STATS_PASS, SETUP_MAX_PLAYERS:
         begin
           case i of
             SETUP_BREAK_TIME: s := 'Break Time';
@@ -395,6 +406,7 @@ begin
             SETUP_RANDOMS_WAIT: s := 'Randoms Wait';
             SETUP_STATS_ID: s := 'Stats User';
             SETUP_STATS_PASS: s := 'Stats Pass';
+            SETUP_MAX_PLAYERS: s := 'Max Players';
           end;
 
           for j := 0 to High(intro_EditLabels) do
@@ -594,7 +606,11 @@ begin
                 script_Lists[LIST_STAFFS].Items.Append(Capitalize(MSI_Items[j].Name));
 
             lists := [LIST_SPELLS, LIST_STAFFS];
-            edits := [EDIT_TIME, EDIT_LEVEL, EDIT_ALCH_SLOTS];
+
+            if (MSI_Scripts[i].Constant = SCRIPT_ALCHER) then
+              edits := [EDIT_TIME, EDIT_LEVEL, EDIT_ALCH_SLOTS]
+            else
+              Edits := [EDIT_TIME, EDIT_LEVEL];
           end;
       end;
 

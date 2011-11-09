@@ -101,11 +101,11 @@ begin
 
     FISH_SMALLNET:
       Result := [
-                  Point(1142, 375),
-                  Point(1144, 384),
-                  Point(1133, 367),
-                  Point(1144, 365),
-                  Point(1149, 379)
+                  Point(1173, 396),
+                  Point(1165, 399),
+                  Point(1165, 389),
+                  Point(1184, 391),
+                  Point(1180, 405)
                 ];
 
     FISH_CAGE_CRAYFISH:
@@ -385,6 +385,15 @@ begin
                   Point(1103, 414)
                 ];
 
+    DWARVEN_ARMY_AXE:
+      Result := [
+                  Point(29, 24),
+                  Point(20, 15),
+                  Point(29, 18),
+                  Point(15, 26),
+                  Point(39, 33)
+                ];
+
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
   end;
@@ -449,7 +458,7 @@ begin
     ORE_ADAMANTITE: Result := 3884091;
     ORE_RUNITE    : Result := 5525056;
 
-    FISH_SMALLNET     : Result := 2438210;
+    FISH_SMALLNET     : Result := 2503746;
     FISH_CAGE_CRAYFISH: Result := 5461079;
     FISH_ROD_BAIT     : Result := 5197651;
     FISH_BAIT         : Result := 1605551;
@@ -532,6 +541,8 @@ begin
     TIARA_BODY  : Result := 855309;
     TIARA_MIND  : Result := 2175211;
     TIARA_FIRE  : Result := 1450400;
+
+    DWARVEN_ARMY_AXE : Result := 3758694;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1648,6 +1659,15 @@ begin
         Stackable := False;
         EquipLevel := -1;
       end;
+
+    DWARVEN_ARMY_AXE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dwarven Army Axe';
+        UpText := ['arven army'];
+        Stackable := False;
+        EquipLevel := 10;
+      end;
   end;
 
   Result := (MSI_Items[whichItem].Name <> '');
@@ -2024,7 +2044,7 @@ begin
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
-    Bank, NoBank: searchArea := 'inv';
+    Bank, NoBank, Drop: searchArea := 'inv';
     DBox: searchArea := 'deposit box';
   end;
 
@@ -2035,7 +2055,7 @@ begin
     for j := 1 to 28 do
     begin
       case bankType of
-        Bank, NoBank: b := InvBox(j);
+        Bank, NoBank, Drop: b := InvBox(j);
         DBox: b := DepositItemBox(j);
       end;
 
@@ -2101,7 +2121,7 @@ begin
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
-    Bank, NoBank: b := InvBox(Slot);
+    Bank, NoBank, Drop: b := InvBox(Slot);
     DBox: b := DepositItemBox(Slot);
   end;
 

@@ -127,12 +127,14 @@ const
   SCRIPT_BBV_FISHER   = 52;
   SCRIPT_KJ_NOTER     = 53;
   SCRIPT_CB_FISHER    = 54;
+  SCRIPT_FG_FISHER    = 55;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
 
   // Magic
-  SCRIPT_ALCHER = 80;
+  SCRIPT_ALCHER     = 80;
+  SCRIPT_TELEPORTER = 81;
 
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
@@ -294,7 +296,8 @@ const
   // Guilds
   LOC_GUILD_MINE = 110;
   LOC_CG_MINE    = 111;
-
+  LOC_FG_BANK    = 112;
+  LOC_FG_FISH    = 113;
   // Al-Kharid
   LOC_AK_BANK   = 120;
   LOC_AK_RANGE  = 121;
@@ -475,7 +478,9 @@ const
   TIARA_FIRE  = 214;
   TIARA_WATER = 215;
 
-  ITEM_ARRAY_LENGTH = 215; // Change to the highest item constant
+  DWARVEN_ARMY_AXE = 216;
+
+  ITEM_ARRAY_LENGTH = 216; // Change to the highest item constant
 
 (*
 Object Constants
@@ -534,6 +539,7 @@ const
   MSI_BANK_AK = 37;
   MSI_BANK_CB = 38;
   MSI_BANK_FW = 39;
+  MSI_BANK_FG = 40;
 
   DBOX_PS = 45;
 
@@ -543,6 +549,7 @@ const
   FISHSPOT_LURE    = 52;
   FISHSPOT_CAGE    = 53;
   FISHSPOT_HARPOON = 54;
+  FISHSPOT_HARPOON_SHARK = 55;
 
   // Cooking spots
   COOKSPOT_AK_RANGE = 60;
@@ -680,14 +687,16 @@ const
   SPELL_TELE_VARROCK   = 21;
   SPELL_TELE_LUMBRIDGE = 22;
   SPELL_TELE_FALADOR   = 23;
+  SPELL_TELE_HOUSE     = 24;
+  SPELL_TELE_CAMELOT   = 25;
 
-  SPELL_ALCH_LOW       = 24;
-  SPELL_ALCH_HIGH      = 25;
+  SPELL_ALCH_LOW       = 26;
+  SPELL_ALCH_HIGH      = 27;
 
-  SPELL_TELEGRAB       = 26;
-  SPELL_SUPERHEAT      = 27;
+  SPELL_TELEGRAB       = 28;
+  SPELL_SUPERHEAT      = 29;
 
-  SPELL_ARRAY_LENGTH   = 27;
+  SPELL_ARRAY_LENGTH   = 29;
 
 (*
 Animations Constants
@@ -706,11 +715,12 @@ Example:
   end;
 *)
 const
-  ANIM_IDLE      = 0;
-  ANIM_ALCH_LOW  = 10;
-  ANIM_ALCH_HIGH = 11;
-  ANIM_CHOPPING  = 12;
+  ANIM_IDLE         = 0;
+  ANIM_ALCH_LOW     = 10;
+  ANIM_ALCH_HIGH    = 11;
+  ANIM_CHOPPING     = 12;
   ANIM_CHOPPING_NEW = 13;
+  ANIM_TELE         = 14;
 
 (*
 Material Constants
@@ -785,12 +795,14 @@ const
   SETUP_HUMAN_BREAK   = 13;
   SETUP_SWITCH_WORLDS = 14;
   SETUP_PRINT_REPORT  = 15;
+  SETUP_QC_LEVELUP    = 16;
 
   // Integers
   SETUP_BREAK_TIME    = 20;
   SETUP_DEBUG_LEVEL   = 21;
   SETUP_ANTIBAN_WAIT  = 22;
   SETUP_RANDOMS_WAIT  = 23;
+  SETUP_MAX_PLAYERS   = 24;
 
   // Strings
   SETUP_STATS_ID      = 30;

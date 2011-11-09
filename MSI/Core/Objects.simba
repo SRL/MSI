@@ -379,14 +379,14 @@ begin
         Name               := 'BANK_GRAND_EXCHANGE';
         Uptexts            := ['anker'];
         Options            := ['ank Banker'];
-        Colors             := [9145233, 6381925, 2039584, 2434342, 5132114, 4737099];
-        Tol                := 10;
-        Hue                := 0.19;
-        Sat                := 0.05;
+        Colors             := [10404547];
+        Tol                := 15;
+        Hue                := 0.03;
+        Sat                := 0.94;
         FindAllColors      := True;
         W                  := 20;
-        H                  := 60;
-        Accuracy           := 20;
+        H                  := 20;
+        Accuracy           := 10;
         SearchArea         := IntToBox(MSX1, MSY1, MSX2, MSCY);
         ExcludeSelf        := True;
         WaitToMove         := True;
@@ -549,6 +549,27 @@ begin
         Tol                := 11;
         Hue                := 0.34;
         Sat                := 0.92;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 20;
+        Accuracy           := 7;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := True;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
+
+    MSI_BANK_FG:
+      with result do
+      begin
+        Name               := 'BANK_FISHING_GUILD';
+        Uptexts            := ['ooth'];
+        Options            := ['uick'];
+        Colors             := [6910071];
+        Tol                := 3;
+        Hue                := 0.40;
+        Sat                := 0.49;
         FindAllColors      := False;
         W                  := 30;
         H                  := 20;
@@ -783,18 +804,18 @@ begin
 
     { FISHING SPOTS ============================== ]
     [============================================= }
-    FISHSPOT_NET..FISHSPOT_HARPOON:
+    FISHSPOT_NET..FISHSPOT_HARPOON_SHARK:
       begin
         //same color info for all spots
         with result do
         begin
-          Colors             := [12168614, 10721169];
-          Tol                := 7;
-          Hue                := 0.28;
-          Sat                := 0.71;
+          Colors             := [11905699];
+          Tol                := 9;
+          Hue                := 0.21;
+          Sat                := 0.69;
           FindAllColors      := False;
-          W                  := 40;
-          H                  := 40;
+          W                  := 30;
+          H                  := 30;
           Accuracy           := 10;
           SearchArea         := MSBox;
           ExcludeSelf        := True;
@@ -857,7 +878,18 @@ begin
               Options            := ['Harpoon'];
               Level              := 35;
               RightClickOnly     := True;
-              AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH, FISH_RAW_SHARK];
+              AssociatedItems    := [FISH_RAW_TUNA, FISH_RAW_SWORDFISH];
+            end;
+
+          FISHSPOT_HARPOON_SHARK:
+            with result do
+            begin
+              Name               := 'FISHSPOT_SHARK';
+              Uptexts            := ['Net', 'et'];
+              Options            := ['Harpoon', 'arpoon', 'oon'];
+              Level              := 76;
+              RightClickOnly     := True;
+              AssociatedItems    := [FISH_RAW_SHARK];
             end;
         end;
       end;
