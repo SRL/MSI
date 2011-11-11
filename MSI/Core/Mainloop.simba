@@ -103,20 +103,6 @@ begin
     end;
   end;
 
-  // Add a powerskilling location for non-banking scripts
-  if (MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankObjects = nil) then
-    with MSI_Locations[MSI_Players[CurrentPlayer].Location] do
-    begin
-      setLength(subLocs, length(subLocs) + 1);
-
-      with subLocs[high(subLocs)] do
-      begin
-        name := 'Powerskilling Location';
-        objects := MSI_GetPlayerObjects();
-        compass := randomRange(0, 360);
-      end;
-    end;
-
   // Add logins to stats
   stats_IncVariable('Total Logins', 1);
 
