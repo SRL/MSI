@@ -952,7 +952,7 @@ code.  Results can be found in the example code.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 07 November 2011 by Coh3n
+  | Last Updated: 10 November 2011 by Coh3n
 
 Example:
 
@@ -960,7 +960,6 @@ Example:
 
   case MSI_CheckCasts(spell) of
     -1: ; // do nothing; continue
-     0: ; // cast the max
      1: ; // exit to print report
   end;
 *)
@@ -968,22 +967,12 @@ function MSI_CheckCasts(Spell: integer): integer;
 begin
   result := -1;
 
-  with MSI_Players[CurrentPlayer] do
+  with MSI_Players[CurrentPlayer].ReportInfo do
   begin
-    MSI_SubDebug('Casts: '+toStr(ReportInfo.Casts[CurrentSpell][CurrentScript]));
-    MSI_SubDebug('Max: '+toStr(Scripts[CurrentScript].MaxCasts[CurrentSpell]));
+    MSI_SubDebug('Casts: '+toStr(Casts[CurrentSpell][CurrentScript]));
 
-    // Result is false if we've cast the maximum
-    if (ReportInfo.Casts[CurrentScript][CurrentSpell] >= Scripts[CurrentScript].MaxCasts[CurrentSpell]) then
-    begin
-      MSI_SubDebug('Cast maximum ('+MSI_Spells[Spell].Name+')');
-      ReportInfo.FalseReason := 'Cast maximum ('+MSI_Spells[Spell].Name+')';
-      result := 0;
-      exit;
-    end;
-
-    if (ReportInfo.Casts[CurrentScript][CurrentSpell] > 0) then
-      if ((ReportInfo.Casts[CurrentScript][CurrentSpell] mod CASTS_BEFORE_REPORT) = 0) then
+    if (Casts[CurrentScript][CurrentSpell] > 0) then
+      if ((Casts[CurrentScript][CurrentSpell] mod CASTS_BEFORE_REPORT) = 0) then
       begin
         result := 1;
         exit;
@@ -1006,7 +995,7 @@ set number of alchs (CASTS_BEFORE_REPORT, found at the top of Magic.simba).
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 08 November 2011 by Coh3n
+  | Last Updated: 10 November 2011 by Coh3n
 
 Example:
 
@@ -1055,8 +1044,15 @@ begin
         if (not ExistsItem(idealSlot)) then
         begin
           MSI_Debug('Item doesn''t exist in AlchSlot['+IntToStr(i)+'] or idealSlot');
-          if i = High(AlchSlots) then
-            MSI_FindRandoms(False);
+
+          if (i = High(AlchSlots)) then
+          begin
+            if (MSI_FindRandoms(true)) then
+              continue;
+
+            MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of items';
+          end;
+
           Continue;
         end;
 
@@ -1074,7 +1070,7 @@ begin
               if (i = High(AlchSlots)) then
               begin
                 MSI_Debug('Ran out of items to alch!');
-                MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of items to alch';
+                MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of items';
                 Exit;
               end else
                 Break;
@@ -1092,12 +1088,10 @@ begin
             Break;
 
         case MSI_CheckCasts(spell) of
-          -1: ; // do nothing; continue
-           0: exit; // cast the max
-           1: begin // exit to print report
-                result := true;
-                exit;
-              end;
+          1: begin // exit to print report
+               result := true;
+               exit;
+             end;
         end;
       until(GetSystemTime > t);
     end;
@@ -1119,7 +1113,7 @@ of MSI_Alch. (CASTS_BEFORE_REPORT, found at the top of Magic.simba).
 .. note::
 
   | Author: Camo Developer
-  | Last Updated: 07 November 2011 by Camo Developer
+  | Last Updated: 10 November 2011 by Coh3n
 
 Example:
 
@@ -1152,7 +1146,7 @@ begin
         MSI_AntiBan(3500 + RandomRange(-2000, 1500), ANTI_BAN_CHANCE);
 
         t := GetSystemTime + (60000 * 5);
-        inc(c)
+        inc(c);
 
         if ((c mod CASTS_BEFORE_REPORT) = 0) then
           MSI_CastsDone();
@@ -1172,14 +1166,6 @@ begin
       while MSI_IsAnimating(anim) do
         if (wT > GetSystemTime) then
           Break;
-
-      case MSI_CheckCasts(spell) of
-        -1: ; // do nothing; continue
-         0: begin
-              MSI_CastsDone();
-              exit; // cast the max
-            end;
-      end;
 
       if ((c mod CASTS_BEFORE_REPORT) = 0) then
       begin // exit to print report
