@@ -22,7 +22,7 @@ program MSI_Script;
 // Define other settings
 //{$DEFINE SPS}          // Uncomment + select color walking to use SPS (color walking)
 {$DEFINE SMART}          // Comment to use MSI with a browser. Reflection will be disabled if commented.
-{$DEFINE MSI_REFLECTION} // Comment to completely exclude the use of Reflection
+//{$DEFINE MSI_REFLECTION} // Comment to completely exclude the use of Reflection
 
 { ============================================================================ }
 {$i MSI/MSI/Core/Setup.simba}
