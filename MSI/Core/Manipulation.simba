@@ -257,37 +257,6 @@ begin
 end;
 
 (*
-MSI_ConvertTileBox
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_ConvertTileBox(tileBox: TBox): TBox;
-
-Converts a tile TBox to an SPS Tbox
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 12 August 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  spsBox := MSI_ConvertTileBox(tileBox);
-*)
-function MSI_ConvertTileBox(tileBox: TBox): TBox;
-begin
-  result := intToBox(0, 0, 0, 0);
-
-  {$IFDEF SPS}   // yes, the Y values are supposed to be reversed
-  result := pointToBox(SPS_TileToPos(point(tileBox.x1, tileBox.y2)),
-                       SPS_TileToPos(point(tileBox.x2, tileBox.y1)));
-  {$ENDIF}
-end;
-
-(*
 MSI_BoxToMM
 ~~~~~~~~~~~~
 
@@ -333,44 +302,6 @@ begin
     SMART_DrawBoxEx(true, result, clGreen);
 
   MSI_SubDebug('MSI_BoxToMM(): ' + toStr(result));
-  {$ENDIF}
-end;
-
-(*
-MSI_Convert2DTilePath
-~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_Convert2DTilePath(Tiles: T2DPointArray): T2DPointArray;
-
-Converts the tile path 'Tiles' to a path that can be used for SPS. Exact same
-as MSI_ConvertTilePath, except converts a 2D path.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 23 June 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  SPSPath := MSI_Convert2DTilePath(path);
-*)
-function MSI_Convert2DTilePath(Tiles: T2DPointArray): T2DPointArray;
-{$IFDEF SPS}
-var
-  i: Integer;
-{$ENDIF}
-begin
-  Result := [TPointArray([])];
-
-  {$IFDEF SPS}
-  SetLength(Result, Length(Tiles));
-
-  for i := 0 to High(Result) do
-    Result[i] := SPS_TilePathToPos(Tiles[i]);
   {$ENDIF}
 end;
 

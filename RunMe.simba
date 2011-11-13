@@ -16,8 +16,6 @@ having trouble setting up.
 *)
 
 program MSI_Script;
-{$loadlib sps} // Load the sps library (don't touch this line)
-
 // Define the extras you want to use
 {$DEFINE EXTRA_CHARACTER_STATS} // Saves player stats in HTML format
 
@@ -57,7 +55,6 @@ begin
   MSI_Settings[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
   MSI_Settings[SETUP_STATS_ID]      := '';      // Stats ID
   MSI_Settings[SETUP_STATS_PASS]    := '';      // Stats password
-  MSI_Settings[SETUP_WALKING]       := 'Color'; // Don't touch this
   MSI_Settings[SETUP_QC_LEVELUP]    := True;    // Quick chat when you level up, only available when your level is above 20
   MSI_Settings[SETUP_MAX_PLAYERS]   := 30;      // How many players around you before switching worlds
 end;

@@ -23,7 +23,7 @@ only be called in MSI_LoadAllScripts.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 10 October 2011 by Coh3n
+  | Last Updated: 12 November 2011 by Coh3n
 
 Example:
 
@@ -78,7 +78,7 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_OAKS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3253, 3420), Point(3266, 3429),
                          Point(3279, 3424)])
           ];
@@ -111,7 +111,7 @@ begin
           StartLoc := LOC_GE_BANK;
           EndLoc   := LOC_GE_OAKS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3183, 3480), Point(3193, 3489),
                          Point(3194, 3475), Point(3193, 3461)])
           ];
@@ -143,7 +143,7 @@ begin
           StartLoc := LOC_GE_BANK;
           EndLoc   := LOC_GE_YEWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3180, 3475), Point(3186, 3488),
                          Point(3197, 3500), Point(3211, 3500)])
           ];
@@ -175,7 +175,7 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_TREES;
 
-          Reflection  := [
+          SPSPath  := [
             TPointArray([Point(3091, 3244), Point(3084, 3248),
                          Point(3080, 3263), Point(3081, 3268)])
           ];
@@ -208,7 +208,7 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_OAKS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3244), Point(3101, 3244)])
           ];
 
@@ -240,7 +240,7 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_WILLOWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3244), Point(3087, 3234)])
           ];
 
@@ -272,7 +272,7 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_YEWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3047, 3234), Point(2965, 3222),
                          Point(2934, 3230)])
           ];
@@ -304,7 +304,7 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_WILLOWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3047, 3234), Point(3028, 3234),
                          Point(3000, 3165)])
           ];
@@ -337,7 +337,7 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_PS_WILLOWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3047, 3236), Point(3060, 3253)])
           ];
 
@@ -369,7 +369,7 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_PS_YEWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3046, 3235), Point(3053, 3270)])
           ];
 
@@ -401,7 +401,7 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_MAGICS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2724, 3492), Point(2710, 3392),
                          Point(2701, 3397)])
           ];
@@ -433,7 +433,7 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_MAPLES;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2726, 3492), Point(2724, 3502)])
           ];
 
@@ -465,7 +465,7 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_YEWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2725, 3493), Point(2714, 3464)])
           ];
 
@@ -497,7 +497,7 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_OAKS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2724, 3493), Point(2719, 3480)])
           ];
 
@@ -529,7 +529,7 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_TREES;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2724, 3492), Point(2721, 3447)])
           ];
 
@@ -561,7 +561,7 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_EV_YEWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3492), Point(3087, 3472)])
           ];
 
@@ -593,7 +593,7 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_YEWS;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3244), Point(3151, 3229)])
           ];
 
@@ -644,7 +644,7 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3254, 3421), Point(3292, 3429),
                          Point(3293, 3377), Point(3287, 3368)])
           ];
@@ -677,7 +677,7 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_LSW_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3242), Point(3138, 3205),
                          Point(3147, 3144)])
           ];
@@ -709,7 +709,7 @@ begin
           StartLoc := LOC_AK_BANK;
           EndLoc   := LOC_LSE_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3269, 3165), Point(3241, 3176),
                          Point(3229, 3147)])
           ];
@@ -741,7 +741,7 @@ begin
           StartLoc := LOC_VW_BANK;
           EndLoc   := LOC_VW_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3187, 3437), Point(3172, 3429),
                          Point(3172, 3394), Point(3179, 3369)])
           ];
@@ -773,7 +773,7 @@ begin
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2945, 3368), Point(2938, 3355)]),
             TPointArray([Point(2920, 3355), Point(2909, 3357)])
           ];
@@ -809,7 +809,7 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_BBV_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3493), Point(3101, 3478),
                          Point(3081, 3420)])
           ];
@@ -841,7 +841,7 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3047, 3234), Point(2980, 3236)])
           ];
 
@@ -872,7 +872,7 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_CLAY;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3244), Point(3104, 3249),
                          Point(3110, 3292), Point(3142, 3317)])
           ];
@@ -906,7 +906,7 @@ begin
           StartLoc := LOC_AK_BANK;
           EndLoc   := LOC_AK_MINE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3270, 3165), Point(3300, 3301)])
           ];
 
@@ -937,15 +937,17 @@ begin
           StartLoc := LOC_FE_BANK;
           EndLoc := LOC_GUILD_MINE;
 
-          Reflection := [
+          SPSPath := [
             // Bank -> Ladder Down
-            TPointArray([Point(3012, 3355), Point(3023, 3352),
-                         Point(3030, 3340), Point(3021, 3339)]),
+            TPointArray([Point(3890, 3233), Point(3937, 3256),
+                         Point(3921, 3304)]),
 
             // Ladder Up -> In Mine
-            TPointArray([Point(3021, 9739), Point(3033, 9738),
-                         Point(3042, 9737)])
+            TPointArray([Point(280, 506), Point(370, 493)])
           ];
+
+          SPSSurfaces := [RUNESCAPE_SURFACE, DWARVEN_MINE];
+          SPSAreas    := [TStringArray(['9_7, 9_8']), TStringArray(['0_1'])];
 
           Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
           Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
@@ -973,7 +975,7 @@ begin
           StartLoc := LOC_FE_BANK;
           EndLoc   := LOC_CG_MINE;
 
-          Reflection := [
+          SPSPath := [
             // bank to outside guild
             TPointArray([Point(3013, 3355), Point(3006, 3318),
                          Point(2975, 3284), Point(2933, 3288)]),
@@ -1032,7 +1034,7 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_FISH;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3244), Point(3087, 3228)])
           ];
 
@@ -1063,7 +1065,7 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_BBV_FISH;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3094, 3492), Point(3101, 3479),
                          Point(3098, 3452), Point(3109, 3432)])
           ];
@@ -1098,7 +1100,7 @@ begin
           StartLoc := LOC_CB_BANK;
           EndLoc   := LOC_CB_FISH;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2808, 3442), Point(2835, 3434)])
           ];
 
@@ -1131,7 +1133,7 @@ begin
           StartLoc := LOC_KJ_STILES;
           EndLoc   := LOC_KJ_FISH;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2851, 3141), Point(2924, 3175)])
           ];
 
@@ -1165,7 +1167,7 @@ begin
           StartLoc := LOC_FG_BANK;
           EndLoc   := LOC_CB_FISH;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2583, 3422), Point(2893, 3421), Point(2597, 3421)])
           ];
 
@@ -1210,7 +1212,7 @@ begin
           StartLoc := LOC_AK_BANK;
           EndLoc   := LOC_AK_RANGE;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3270, 3165), Point(3273, 3179)])
           ];
 
@@ -1287,7 +1289,7 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_FOUNTAIN;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3254, 3421), Point(3241, 3434)])
           ];
 
@@ -1323,7 +1325,7 @@ begin
           StartLoc := LOC_GE_BANK;
           EndLoc   := LOC_GE_FOUNTAIN;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([point(3175, 3475), Point(3161, 3488)])
           ];
 
@@ -1359,7 +1361,7 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_EV_WELL;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3093, 3493), Point(3085, 3500)])
           ];
 
@@ -1395,7 +1397,7 @@ begin
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_PUMP;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2945, 3367), Point(2949, 3382)])
           ];
 
@@ -1432,7 +1434,7 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_FOUNTAIN;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(3254, 3421), Point(3241, 3434)])
           ];
 
@@ -1469,7 +1471,7 @@ begin
           StartLoc := LOC_GE_BANK;
           EndLoc   := LOC_GE_FOUNTAIN;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([point(3175, 3475), Point(3161, 3488)])
           ];
 
@@ -1506,7 +1508,7 @@ begin
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_PUMP;
 
-          Reflection := [
+          SPSPath := [
             TPointArray([Point(2945, 3367), Point(2949, 3382)])
           ];
 
@@ -1540,7 +1542,7 @@ begin
           startLoc := LOC_VW_BANK;
           endLoc   := LOC_ALTER_AIR;
 
-          reflection := [
+          SPSPath := [
             TPointArray([point(3185, 3436), point(3128, 3404)]),
             TPointArray([])
           ];
@@ -1578,7 +1580,7 @@ begin
           startLoc := LOC_VE_BANK;
           endLoc   := LOC_ALTER_EARTH;
 
-          reflection := [
+          SPSPath := [
             TPointArray([point(3254, 3421), point(3283, 3428),
                          point(3306, 3476)]),
 
@@ -1618,7 +1620,7 @@ begin
           startLoc := LOC_AK_BANK;
           endLoc   := LOC_ALTER_FIRE;
 
-          reflection := [
+          SPSPath := [
             TPointArray([point(3269, 3168), point(3312, 3253)]),
 
             TPointArray([point(2577, 4846), point(2583, 4840)])
@@ -1657,7 +1659,7 @@ begin
           startLoc := LOC_DB_BANK;
           endLoc   := LOC_ALTER_WATER;
 
-          reflection := [
+          SPSPath := [
             TPointArray([point(3093, 3245), point(3183, 3164)]),
 
             TPointArray([point(3493, 4832), point(3486, 4835)])
@@ -1696,7 +1698,7 @@ begin
           startLoc := LOC_FW_BANK;
           endLoc   := LOC_ALTER_MIND;
 
-          reflection := [
+          SPSPath := [
             TPointArray([point(2945, 3373), point(2965, 3393),
                          point(2990, 3429), point(2973, 3456),
                          point(2982, 3316)]),
@@ -1737,7 +1739,7 @@ begin
           startLoc := LOC_EV_BANK;
           endLoc   := LOC_ALTER_BODY;
 
-          reflection := [
+          SPSPath := [
             TPointArray([point(3094, 3493), point(3073, 3490),
                          point(3055, 3444)]),
 
@@ -1760,15 +1762,16 @@ begin
   {$IFDEF SPS}
   with MSI_Scripts[whichScript] do
   begin
-    if (length(pathInfo.spsAreas) <> length(pathInfo.reflection)) then
+    if (length(pathInfo.spsAreas) <> length(pathInfo.spsPath)) then
       MSI_Debug('WARNING: Invalid SPSAreas length for script: '+name);
 
     if (pathInfo.maxDist <= 0) then
       pathInfo.maxDist := 160;
 
+    // sets rs surface as default SPS surface
     if (length(pathInfo.spsSurfaces) <= 0) then
     begin
-      setLength(pathInfo.spsSurfaces, length(pathInfo.reflection));
+      setLength(pathInfo.spsSurfaces, length(pathInfo.spsPath));
 
       for i := 0 to high(pathInfo.spsSurfaces) do
         pathInfo.spsSurfaces[i] := RUNESCAPE_SURFACE;

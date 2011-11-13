@@ -356,7 +356,7 @@ var
 begin
   for i := 0 to High(MSI_Settings) do
     case i of
-      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS, SETUP_WALKING,
+      SETUP_DEBUG_SMART, SETUP_SAVE_DEBUG, SETUP_SAVE_REPORT, SETUP_HUMAN_BREAK, SETUP_SWITCH_WORLDS,
       SETUP_QC_LEVELUP:
         begin
           case i of
@@ -365,7 +365,6 @@ begin
             SETUP_SAVE_REPORT: s := 'Save Report';
             SETUP_HUMAN_BREAK: s := 'Human Breaking';
             SETUP_SWITCH_WORLDS: s := 'Switch Worlds';
-            SETUP_WALKING: s := 'Walking Method';
             SETUP_QC_LEVELUP: s := 'QC Level Up';
           end;
 

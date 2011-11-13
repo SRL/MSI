@@ -40,6 +40,7 @@ These are all the abbreviations we use in MSI constants and variables.
   | KJ: Karamja
   | CB: Catherby
   | RC: Runecrafting
+  | FG: Fishing Guild
 
 *)
 
@@ -1114,7 +1115,7 @@ and confirming player locations.
 type
   TSubLoc = record
     name: string;
-    tileBox, spsBox: TBox;
+    spsBox: TBox;
     compass: variant;
     camera: boolean;
     objects: TIntegerArray;

@@ -147,8 +147,6 @@ var
   i, j: integer;
   areWalking: boolean;
 begin
-  MSI_CheckHooks();
-
   // goes through player's scripts to see if walking is required
   for i := 0 to high(MSI_Players) do
     with MSI_Players[i] do
