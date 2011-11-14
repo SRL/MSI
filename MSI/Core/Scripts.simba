@@ -79,8 +79,8 @@ begin
           EndLoc   := LOC_VE_OAKS;
 
           SPSPath := [
-            TPointArray([Point(3253, 3420), Point(3266, 3429),
-                         Point(3279, 3424)])
+            TPointArray([Point(4851, 2969), Point(4873, 2937),
+                         Point(4951, 2935), Point(4961, 2978)])
           ];
 
           SPSAreas   := [
@@ -112,12 +112,12 @@ begin
           EndLoc   := LOC_GE_OAKS;
 
           SPSPath := [
-            TPointArray([Point(3183, 3480), Point(3193, 3489),
-                         Point(3194, 3475), Point(3193, 3461)])
+            TPointArray([Point(4550, 2723), Point(4597, 2682),
+                         Point(4623, 2738), Point(4606, 2804)])
           ];
 
           SPSAreas   := [
-            TStringArray(['11_6'])
+            TStringArray(['11_6', '11_7'])
           ];
         end;
       end;
@@ -144,8 +144,8 @@ begin
           EndLoc   := LOC_GE_YEWS;
 
           SPSPath := [
-            TPointArray([Point(3180, 3475), Point(3186, 3488),
-                         Point(3197, 3500), Point(3211, 3500)])
+            TPointArray([Point(4554, 2724), Point(4598, 2681),
+                         Point(4641, 2638), Point(4693, 2645)])
           ];
 
           SPSAreas   := [
@@ -176,12 +176,12 @@ begin
           EndLoc   := LOC_DB_TREES;
 
           SPSPath  := [
-            TPointArray([Point(3091, 3244), Point(3084, 3248),
-                         Point(3080, 3263), Point(3081, 3268)])
+            TPointArray([Point(4208, 3685), Point(4154, 3657),
+                         Point(4153, 3590)])
           ];
 
           SPSAreas    := [
-            TStringArray(['10_8'])
+            TStringArray(['10_8', '10_9'])
           ];
         end;
       end;
@@ -209,7 +209,7 @@ begin
           EndLoc   := LOC_DB_OAKS;
 
           SPSPath := [
-            TPointArray([Point(3093, 3244), Point(3101, 3244)])
+            TPointArray([Point(4207, 3686), Point(4241, 3682)])
           ];
 
           SPSAreas   := [
@@ -241,7 +241,7 @@ begin
           EndLoc   := LOC_DB_WILLOWS;
 
           SPSPath := [
-            TPointArray([Point(3093, 3244), Point(3087, 3234)])
+            TPointArray([Point(4206, 3686), Point(4181, 3729)])
           ];
 
           SPSAreas   := [
@@ -273,12 +273,12 @@ begin
           EndLoc   := LOC_RM_YEWS;
 
           SPSPath := [
-            TPointArray([Point(3047, 3234), Point(2965, 3222),
-                         Point(2934, 3230)])
+            TPointArray([Point(4025, 3714), Point(3862, 3697),
+                         Point(3587, 3728)])
           ];
 
           SPSAreas   := [
-            TStringArray(['9_9', '8_9'])
+            TStringArray(['9_9', '8_9', '10_9'])
           ];
         end;
       end;
@@ -305,12 +305,12 @@ begin
           EndLoc   := LOC_RM_WILLOWS;
 
           SPSPath := [
-            TPointArray([Point(3047, 3234), Point(3028, 3234),
-                         Point(3000, 3165)])
+            TPointArray([Point(4024, 3717), Point(3947, 3719),
+                         Point(3866, 3814), Point(3835, 3996)])
           ];
 
           SPSAreas   := [
-            TStringArray(['9_9'])
+            TStringArray(['9_9', '10_9'])
           ];
         end;
       end;
@@ -338,11 +338,11 @@ begin
           EndLoc   := LOC_PS_WILLOWS;
 
           SPSPath := [
-            TPointArray([Point(3047, 3236), Point(3060, 3253)])
+            TPointArray([Point(4030, 3714), Point(4081, 3644)])
           ];
 
           SPSAreas   := [
-            TStringArray(['9_8', '9_9'])
+            TStringArray(['10_8', '10_9'])
           ];
         end;
       end;
@@ -370,11 +370,12 @@ begin
           EndLoc   := LOC_PS_YEWS;
 
           SPSPath := [
-            TPointArray([Point(3046, 3235), Point(3053, 3270)])
+            TPointArray([Point(4028, 3714), Point(4077, 3647),
+                         Point(4046, 3578)])
           ];
 
           SPSAreas   := [
-            TStringArray(['9_8', '9_9'])
+            TStringArray(['9_8', '10_9', '10_8'])
           ];
         end;
       end;
@@ -402,8 +403,8 @@ begin
           EndLoc   := LOC_SV_MAGICS;
 
           SPSPath := [
-            TPointArray([Point(2724, 3492), Point(2710, 3392),
-                         Point(2701, 3397)])
+            TPointArray([Point(2739, 2679), Point(2689, 3066),
+                         Point(2644, 3064)])
           ];
 
           SPSAreas   := [
@@ -434,7 +435,7 @@ begin
           EndLoc   := LOC_SV_MAPLES;
 
           SPSPath := [
-            TPointArray([Point(2726, 3492), Point(2724, 3502)])
+            TPointArray([Point(2737, 2681), Point(2744, 2636)])
           ];
 
           SPSAreas   := [
@@ -466,11 +467,12 @@ begin
           EndLoc   := LOC_SV_YEWS;
 
           SPSPath := [
-            TPointArray([Point(2725, 3493), Point(2714, 3464)])
+            TPointArray([Point(2739, 2681), Point(2712, 2795),
+                         Point(2681, 2801)])
           ];
 
           SPSAreas   := [
-            TStringArray(['6_6'])
+            TStringArray(['6_6', '6_7'])
           ];
         end;
       end;
@@ -498,7 +500,7 @@ begin
           EndLoc   := LOC_SV_OAKS;
 
           SPSPath := [
-            TPointArray([Point(2724, 3493), Point(2719, 3480)])
+            TPointArray([Point(2738, 2681), Point(2725, 2726)])
           ];
 
           SPSAreas   := [
@@ -530,11 +532,11 @@ begin
           EndLoc   := LOC_SV_TREES;
 
           SPSPath := [
-            TPointArray([Point(2724, 3492), Point(2721, 3447)])
+            TPointArray([Point(2737, 2679), Point(2723, 2871)])
           ];
 
           SPSAreas   := [
-            TStringArray(['6_6'])
+            TStringArray(['6_6', '6_7'])
           ];
         end;
       end;
@@ -562,7 +564,7 @@ begin
           EndLoc   := LOC_EV_YEWS;
 
           SPSPath := [
-            TPointArray([Point(3093, 3492), Point(3087, 3472)])
+            TPointArray([Point(4212, 2682), Point(4183, 2758)])
           ];
 
           SPSAreas   := [
@@ -594,7 +596,7 @@ begin
           EndLoc   := LOC_DB_YEWS;
 
           SPSPath := [
-            TPointArray([Point(3093, 3244), Point(3151, 3229)])
+            TPointArray([Point(4208, 3687), Point(4454, 3740)])
           ];
 
           SPSAreas   := [
@@ -645,8 +647,9 @@ begin
           EndLoc   := LOC_VE_MINE;
 
           SPSPath := [
-            TPointArray([Point(3254, 3421), Point(3292, 3429),
-                         Point(3293, 3377), Point(3287, 3368)])
+            TPointArray([Point(4852, 2969), Point(4873, 2937),
+                         Point(4961, 2938), Point(5002, 3029),
+                         Point(5003, 3095), Point(4986, 3181)])
           ];
 
           SPSAreas   := [
@@ -678,12 +681,12 @@ begin
           EndLoc   := LOC_LSW_MINE;
 
           SPSPath := [
-            TPointArray([Point(3093, 3242), Point(3138, 3205),
-                         Point(3147, 3144)])
+            TPointArray([Point(4210, 3684), Point(4387, 3858),
+                         Point(4423, 4075)])
           ];
 
           SPSAreas   := [
-            TStringArray(['10_9'])
+            TStringArray(['10_9', '11_10'])
           ];
         end;
       end;
@@ -710,12 +713,12 @@ begin
           EndLoc   := LOC_LSE_MINE;
 
           SPSPath := [
-            TPointArray([Point(3269, 3165), Point(3241, 3176),
-                         Point(3229, 3147)])
+            TPointArray([Point(4914, 3996), Point(4845, 3969),
+                         Point(4750, 4068)])
           ];
 
           SPSAreas   := [
-            TStringArray(['11_9', '12_9'])
+            TStringArray(['11_9', '12_9', '11_10'])
           ];
         end;
       end;
@@ -742,8 +745,8 @@ begin
           EndLoc   := LOC_VW_MINE;
 
           SPSPath := [
-            TPointArray([Point(3187, 3437), Point(3172, 3429),
-                         Point(3172, 3394), Point(3179, 3369)])
+            TPointArray([Point(4580, 2903), Point(4516, 2952),
+                         Point(4555, 3175)])
           ];
 
           SPSAreas   := [
@@ -774,13 +777,13 @@ begin
           EndLoc   := LOC_FW_MINE;
 
           SPSPath := [
-            TPointArray([Point(2945, 3368), Point(2938, 3355)]),
-            TPointArray([Point(2920, 3355), Point(2909, 3357)])
+            TPointArray([Point(3619, 3177), Point(3591, 3233)]),
+            TPointArray([Point(3572, 3233), Point(3466, 3222)])
           ];
 
           SPSAreas   := [
-            TStringArray(['8_7']),
-            TStringArray(['8_7'])
+            TStringArray(['8_8', '9_7']),
+            TStringArray(['8_8', '9_7'])
           ];
 
           Obstacles[OBS_LOC_TO] := [OBS_WALL_FW];
@@ -810,8 +813,8 @@ begin
           EndLoc   := LOC_BBV_MINE;
 
           SPSPath := [
-            TPointArray([Point(3093, 3493), Point(3101, 3478),
-                         Point(3081, 3420)])
+            TPointArray([Point(4211, 2685), Point(4234, 2785),
+                         Point(4159, 2965)])
           ];
 
           SPSAreas   := [
@@ -842,11 +845,12 @@ begin
           EndLoc   := LOC_RM_MINE;
 
           SPSPath := [
-            TPointArray([Point(3047, 3234), Point(2980, 3236)])
+            TPointArray([Point(4027, 3716), Point(3900, 3688),
+                         Point(3762, 3711)])
           ];
 
           SPSAreas   := [
-            TStringArray(['9_9'])
+            TStringArray(['10_9', '9_9'])
           ];
         end;
       end;
@@ -873,12 +877,12 @@ begin
           EndLoc   := LOC_DB_CLAY;
 
           SPSPath := [
-            TPointArray([Point(3093, 3244), Point(3104, 3249),
-                         Point(3110, 3292), Point(3142, 3317)])
+            TPointArray([Point(4208, 3685), Point(4248, 3658),
+                         Point(4269, 3483), Point(4401, 3389)])
           ];
 
           SPSAreas   := [
-            TStringArray(['10_8', '10_9'])
+            TStringArray(['10_8', '10_9', '11_8'])
           ];
         end;
       end;
@@ -907,7 +911,7 @@ begin
           EndLoc   := LOC_AK_MINE;
 
           SPSPath := [
-            TPointArray([Point(3270, 3165), Point(3300, 3301)])
+            TPointArray([Point(4910, 3996), Point(5033, 3504)])
           ];
 
           SPSAreas   := [
@@ -977,11 +981,12 @@ begin
 
           SPSPath := [
             // bank to outside guild
-            TPointArray([Point(3013, 3355), Point(3006, 3318),
-                         Point(2975, 3284), Point(2933, 3288)]),
+            TPointArray([Point(3890, 3235), Point(3864, 3284),
+                         Point(3863, 3379), Point(3739, 3527),
+                         Point(3646, 3487), Point(3570, 3501)]),
 
             // guild door to mine
-            TPointArray([Point(2933, 3286), Point(2940, 3281)])
+            TPointArray([Point(3570, 3509), Point(3599, 3536)])
           ];
 
           SPSAreas   := [
@@ -1035,7 +1040,7 @@ begin
           EndLoc   := LOC_DB_FISH;
 
           SPSPath := [
-            TPointArray([Point(3093, 3244), Point(3087, 3228)])
+            TPointArray([Point(4206, 3686), Point(4181, 3740)])
           ];
 
           SPSAreas   := [
@@ -1066,8 +1071,8 @@ begin
           EndLoc   := LOC_BBV_FISH;
 
           SPSPath := [
-            TPointArray([Point(3094, 3492), Point(3101, 3479),
-                         Point(3098, 3452), Point(3109, 3432)])
+            TPointArray([Point(4209, 2685), Point(4233, 2784),
+                         Point(4204, 2887), Point(4268, 2920)])
           ];
 
           SPSAreas   := [
@@ -1101,7 +1106,7 @@ begin
           EndLoc   := LOC_CB_FISH;
 
           SPSPath := [
-            TPointArray([Point(2808, 3442), Point(2835, 3434)])
+            TPointArray([Point(3073, 2889), Point(3190, 2918)])
           ];
 
           SPSAreas   := [
@@ -1134,11 +1139,11 @@ begin
           EndLoc   := LOC_KJ_FISH;
 
           SPSPath := [
-            TPointArray([Point(2851, 3141), Point(2924, 3175)])
+            TPointArray([Point(3534, 3951), Point(3246, 4096)])
           ];
 
           SPSAreas   := [
-            TStringArray(['8_9', '7_10'])
+            TStringArray(['8_9', '8_10', '7_10'])
           ];
         end;
       end;
@@ -1168,7 +1173,7 @@ begin
           EndLoc   := LOC_CB_FISH;
 
           SPSPath := [
-            TPointArray([Point(2583, 3422), Point(2893, 3421), Point(2597, 3421)])
+            TPointArray([Point(2178, 2964), Point(2247, 2970)])
           ];
 
           SPSAreas   := [
@@ -1213,7 +1218,7 @@ begin
           EndLoc   := LOC_AK_RANGE;
 
           SPSPath := [
-            TPointArray([Point(3270, 3165), Point(3273, 3179)])
+            TPointArray([Point(4913, 3996), Point(4930, 3939)])
           ];
 
           SPSAreas   := [
@@ -1290,11 +1295,11 @@ begin
           EndLoc   := LOC_VE_FOUNTAIN;
 
           SPSPath := [
-            TPointArray([Point(3254, 3421), Point(3241, 3434)])
+            TPointArray([Point(4850, 2971), Point(4795, 2918)])
           ];
 
           SPSAreas   := [
-            TStringArray(['11_7'])
+            TStringArray(['11_7', '12_7'])
           ];
         end;
       end;
@@ -1326,7 +1331,7 @@ begin
           EndLoc   := LOC_GE_FOUNTAIN;
 
           SPSPath := [
-            TPointArray([point(3175, 3475), Point(3161, 3488)])
+            TPointArray([Point(4551, 2725), Point(4502, 2685)])
           ];
 
           SPSAreas   := [
@@ -1362,7 +1367,7 @@ begin
           EndLoc   := LOC_EV_WELL;
 
           SPSPath := [
-            TPointArray([Point(3093, 3493), Point(3085, 3500)])
+            TPointArray([Point(4210, 2682), Point(4179, 2650)])
           ];
 
           SPSAreas   := [
@@ -1398,11 +1403,11 @@ begin
           EndLoc   := LOC_FW_PUMP;
 
           SPSPath := [
-            TPointArray([Point(2945, 3367), Point(2949, 3382)])
+            TPointArray([Point(3622, 3179), Point(3639, 3133)])
           ];
 
           SPSAreas   := [
-            TStringArray(['8_7'])
+            TStringArray(['8_7', '9_7'])
           ];
         end;
       end;
@@ -1435,11 +1440,11 @@ begin
           EndLoc   := LOC_VE_FOUNTAIN;
 
           SPSPath := [
-            TPointArray([Point(3254, 3421), Point(3241, 3434)])
+            TPointArray([Point(4850, 2971), Point(4795, 2918)])
           ];
 
           SPSAreas   := [
-            TStringArray(['11_7'])
+            TStringArray(['11_7', '12_7'])
           ];
         end;
       end;
@@ -1472,7 +1477,7 @@ begin
           EndLoc   := LOC_GE_FOUNTAIN;
 
           SPSPath := [
-            TPointArray([point(3175, 3475), Point(3161, 3488)])
+            TPointArray([Point(4551, 2725), Point(4502, 2685)])
           ];
 
           SPSAreas   := [
@@ -1509,11 +1514,11 @@ begin
           EndLoc   := LOC_FW_PUMP;
 
           SPSPath := [
-            TPointArray([Point(2945, 3367), Point(2949, 3382)])
+            TPointArray([Point(3622, 3179), Point(3639, 3133)])
           ];
 
           SPSAreas   := [
-            TStringArray(['8_7'])
+            TStringArray(['8_7', '9_7'])
           ];
         end;
       end;
@@ -1542,15 +1547,17 @@ begin
           startLoc := LOC_VW_BANK;
           endLoc   := LOC_ALTER_AIR;
 
-          SPSPath := [
-            TPointArray([point(3185, 3436), point(3128, 3404)]),
+          spsPath := [
+            TPointArray([Point(4579, 2906), Point(4353, 3020)]),
             TPointArray([])
           ];
-        {
+
           spsAreas   := [
-            TStringArray([])
+            TStringArray(['11_7', '10_7']), TStringArray(['0_0'])
           ];
-        }
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTERS];
+
           obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
         end;
@@ -1581,16 +1588,18 @@ begin
           endLoc   := LOC_ALTER_EARTH;
 
           SPSPath := [
-            TPointArray([point(3254, 3421), point(3283, 3428),
-                         point(3306, 3476)]),
+            TPointArray([Point(4850, 2971), Point(4912, 2937),
+                         Point(4972, 2929), Point(5054, 2758)]),
 
-            TPointArray([point(2657, 4830), point(2657, 4839)])
+            TPointArray([Point(350, 435), Point(356, 398)])
           ];
-        {
+
           spsAreas   := [
-            TStringArray([])
+            TStringArray(['12_7', '12_6']), TStringArray(['0_0'])
           ];
-        }
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTERS];
+
           obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
         end;
@@ -1621,15 +1630,17 @@ begin
           endLoc   := LOC_ALTER_FIRE;
 
           SPSPath := [
-            TPointArray([point(3269, 3168), point(3312, 3253)]),
+            TPointArray([Point(4913, 3995), Point(5100, 3643)]),
 
-            TPointArray([point(2577, 4846), point(2583, 4840)])
+            TPointArray([Point(327, 197), Point(360, 229)])
           ];
-        {
+
           spsAreas   := [
-            TStringArray([])
+            TStringArray(['12_9']), TStringArray(['0_0'])
           ];
-        }
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTERS];
+
           obstacles[OBS_LOC_TO] := [OBS_RUINS_FIRE];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_FIRE];
         end;
@@ -1660,15 +1671,17 @@ begin
           endLoc   := LOC_ALTER_WATER;
 
           SPSPath := [
-            TPointArray([point(3093, 3245), point(3183, 3164)]),
+            TPointArray([Point(4208, 3685), Point(4571, 3997)]),
 
-            TPointArray([point(3493, 4832), point(3486, 4835)])
+            TPointArray([Point(395, 85), Point(351, 74)])
           ];
-        {
+
           spsAreas   := [
-            TStringArray([])
+            TStringArray(['10_9', '11_9']), TStringArray(['0_0'])
           ];
-        }
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTERS];
+
           obstacles[OBS_LOC_TO] := [OBS_RUINS_WATER];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_WATER];
         end;
@@ -1699,17 +1712,19 @@ begin
           endLoc   := LOC_ALTER_MIND;
 
           SPSPath := [
-            TPointArray([point(2945, 3373), point(2965, 3393),
-                         point(2990, 3429), point(2973, 3456),
-                         point(2982, 3316)]),
+            TPointArray([Point(3620, 3180), Point(3695, 3109),
+                         Point(3791, 2963), Point(3733, 2810),
+                         Point(3758, 2604)]),
 
-            TPointArray([point(2793, 4829), point(2786, 4839)])
+            TPointArray([Point(196, 129), Point(162, 69)])
           ];
-        {
+
           spsAreas   := [
-            TStringArray([])
+            TStringArray(['9_7', '9_6']), TStringArray(['0_0'])
           ];
-        }
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTERS];
+
           obstacles[OBS_LOC_TO] := [OBS_RUINS_MIND];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_MIND];
         end;
@@ -1740,16 +1755,18 @@ begin
           endLoc   := LOC_ALTER_BODY;
 
           SPSPath := [
-            TPointArray([point(3094, 3493), point(3073, 3490),
-                         point(3055, 3444)]),
+            TPointArray([Point(4209, 2683), Point(4121, 2689),
+                         Point(4055, 2865)]),
 
-            TPointArray([point(2521, 4834), point(2522, 4838)])
+            TPointArray([Point(137, 263), Point(144, 244)])
           ];
-        {
+
           spsAreas   := [
-            TStringArray([])
+            TStringArray(['10_6', '10_7']), TStringArray(['0_0'])
           ];
-        }
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTERS];
+
           obstacles[OBS_LOC_TO] := [OBS_RUINS_BODY];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_BODY];
         end;
