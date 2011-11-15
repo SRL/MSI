@@ -213,11 +213,11 @@ begin
     FISH_RAW_TROUT, FISH_COOKED_TROUT, FISH_RAW_PIKE, FISH_COOKED_PIKE,
     FISH_RAW_SALMON, FISH_COOKED_SALMON:
       Result := [
-                  Point(1191, 328),
-                  Point(1187, 334),
-                  Point(1187, 324),
-                  Point(1191, 321),
-                  Point(1200, 325)
+                  Point(1188, 408),
+                  Point(1195, 399),
+                  Point(1200, 402),
+                  Point(1192, 414),
+                  Point(1188, 415)
                 ];
 
     FISH_RAW_TUNA, FISH_COOKED_TUNA:
@@ -342,11 +342,11 @@ begin
 
     VIAL_EMPTY, VIAL_WATER:
       Result := [
-                  Point(22, 164),
-                  Point(21, 145),
-                  Point(26, 160),
-                  Point(14, 164),
-                  Point(21, 174)
+                  Point(580, 234),
+                  Point(580, 243),
+                  Point(585, 232),
+                  Point(569, 239),
+                  Point(586, 240)
                 ];
 
     JUG_EMPTY, JUG_WATER:
@@ -472,7 +472,7 @@ begin
     FISH_RAW_ANCHOVIE  : Result := 5986135;
     FISH_RAW_SARDINE   : Result := 9940887;
     FISH_RAW_HERRING   : Result := 10461094;
-    FISH_RAW_TROUT     : Result := 11382453;
+    FISH_RAW_TROUT     : Result := 9803164;
     FISH_RAW_PIKE      : Result := 6319968;
     FISH_RAW_SALMON    : Result := 5924258;
     FISH_RAW_TUNA      : Result := 11777211;
