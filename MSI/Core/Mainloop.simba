@@ -800,10 +800,11 @@ begin
     for j := 0 to high(MSI_Scripts) do
       for k := 0 to high(MSI_Players[i].Scripts) do
         if (MSI_Scripts[j].Constant = MSI_Players[i].Scripts[k].Name) then
-          if (length(MSI_Scripts[j].PathInfo.SPSAreas) <= 0) then
-            ShowMessage('WARNING: Player ('+MSI_Players[i].Name+') cannot run '+
-                        'script ('+MSI_Scripts[j].Name+') as it is unsupported by SPS. '+
-                        'Setting script to false.');
+          if (MSI_Scripts[MSI_Players[i].Scripts[k].Name].BankObjects <> nil) then
+            if (length(MSI_Scripts[j].PathInfo.SPSAreas) <= 0) then
+              ShowMessage('WARNING: Player ('+MSI_Players[i].Name+') cannot run '+
+                          'script ('+MSI_Scripts[j].Name+') as it is unsupported by SPS. '+
+                          'Setting script to false.');
 
   repeat
     MSI_ResetRemote;
