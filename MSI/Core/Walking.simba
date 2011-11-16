@@ -119,7 +119,7 @@ begin
   //SPS_Debug := true;
   SPS_Setup(surface, areas);
 
-  MSI_Debug('SPS Info.: Surface: '+toStr(surface)+', Areas: '+toStr(areas));
+  MSI_Debug('MSI_SetupSPS: Surface: '+toStr(SPS_Surface.Name)+', Areas: '+toStr(areas));
   {$ELSE}
   MSI_Debug('MSI_SetupSPS: SPS isn''t defined');
   {$ENDIF}
@@ -576,17 +576,17 @@ begin
 
       Inc(Attempts);
       MSI_Debug('Attempts: '+toStr(Attempts));
+
+      dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
+      MSI_Debug('Final distance: '+toStr(dist));
+
+      Result := (dist <= DIST_FROM_END);
     end;
 
     if (rs_GetCompassAngleDegrees <> 0) then
       ClickNorth(true);
 
     MSI_Flag(5);
-
-    dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
-    MSI_Debug('Final distance: '+toStr(dist));
-
-    Result := (dist <= DIST_FROM_END);
   end;
 
   MSI_CloseHeader('MSI_WalkTPA: '+toStr(result));
@@ -618,12 +618,12 @@ Example:
 *)
 function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 var
-  regPath: T2DPointArray;
+  tmpPath: T2DPointArray;
   tmpAreas: array of TStringArray;
   locPath: TPointArray;
   i, h, endLocation, attempts: integer;
   done: boolean;
-  intObs: TIntegerArray;
+  intObs, tmpSurfaces: TIntegerArray;
   obs: TObstacle;
 begin
   if (not loggedIn) then
@@ -641,18 +641,21 @@ begin
   begin
     endLocation := pathInfo.endLoc;
     intObs := pathInfo.obstacles[OBS_LOC_TO];
-    regPath := pathInfo.spsPath;
+
+    tmpPath := pathInfo.spsPath;
+    tmpAreas := pathInfo.spsAreas;
+    tmpSurfaces := pathInfo.spsSurfaces;
   end else begin
     endLocation := pathInfo.startLoc;
     intObs := pathInfo.obstacles[OBS_LOC_FROM];
 
     // invert the path
-    regPath := MSI_MirrorATPA(pathInfo.spsPath);
+    tmpPath := MSI_MirrorATPA(pathInfo.spsPath);
     tmpAreas := MSI_MirrorATSA(pathInfo.spsAreas);
-    pathInfo.spsAreas := tmpAreas;
+    tmpSurfaces := MSI_MirrorTIA(pathInfo.spsSurfaces);
   end;
 
-  h := high(regPath);
+  h := high(tmpPath);
 
   while ((not result) and (attempts < 20) and (not done)) do
   begin
@@ -662,17 +665,17 @@ begin
 	  for i := 0 to h do
       with MSI_Players[CurrentPlayer] do
 		  begin
-        MSI_SetupSPS(pathInfo.spsSurfaces[i], pathInfo.spsAreas[i]);
+        MSI_SetupSPS(tmpSurfaces[i], tmpAreas[i]);
 
         // try walking the first leg of the path
-			  if (MSI_WalkTPA(regPath[i], -1, pathInfo.maxDist)) then
+			  if (MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist)) then
         begin
           result := (i = h);
           if (result) then
             break;
         end else
           if ((not MSI_WalkTPA(locPath, -1, pathInfo.maxDist)) and // through the sub-locations
-              (not MSI_WalkTPA(regPath[i], -1, pathInfo.maxDist))) then // through the normal path
+              (not MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist))) then // through the normal path
             if (i = h) then
             begin
               if (not(MSI_AtLocation(endLocation, true))) then

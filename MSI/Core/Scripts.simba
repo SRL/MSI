@@ -947,11 +947,11 @@ begin
                          Point(3921, 3304)]),
 
             // Ladder Up -> In Mine
-            TPointArray([Point(280, 506), Point(370, 493)])
+            TPointArray([Point(280, 506), Point(320, 520)])
           ];
 
           SPSSurfaces := [RUNESCAPE_SURFACE, DWARVEN_MINE];
-          SPSAreas    := [TStringArray(['9_7, 9_8']), TStringArray(['0_1'])];
+          SPSAreas    := [TStringArray(['9_7', '9_8']), TStringArray(['0_1'])];
 
           Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
           Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
@@ -1779,9 +1779,6 @@ begin
   {$IFDEF SPS}
   with MSI_Scripts[whichScript] do
   begin
-    if (length(pathInfo.spsAreas) <> length(pathInfo.spsPath)) then
-      MSI_Debug('WARNING: Invalid SPSAreas length for script: '+name);
-
     if (pathInfo.maxDist <= 0) then
       pathInfo.maxDist := 160;
 

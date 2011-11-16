@@ -552,7 +552,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador East Bank';
-           spsBox := intToBox(3009, 3355, 3017, 3358);
+           spsBox := intToBox(3873, 3224, 3908, 3238);
          end;
 
          with deathPath do
@@ -562,9 +562,11 @@ begin
            endLoc := LOC_FE_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3217), point(3209, 3203),
-                          point(3073, 3275), point(3006, 3278),
-                          point(3006, 3359), point(3013, 3355)])
+             TPointArray([Point(4724, 3788), Point(4699, 3738),
+                          Point(4653, 3729), Point(4644, 3781),
+                          Point(4278, 3766), Point(4125, 3555),
+                          Point(3862, 3541), Point(3862, 3245),
+                          Point(3886, 3233)])
            ];
 
            spsAreas   := [
@@ -1019,21 +1021,21 @@ begin
          with subLocs[0] do
          begin
            name := 'Mining Guild West';
-           spsBox := intToBox(3016, 9736, 3025, 9743);
+           spsBox := intToBox(254, 496, 303, 525);
            objects := [ROCK_COAL];
          end;
 
          with subLocs[1] do
          begin
            name := 'Mining Guild Central';
-           spsBox := intToBox(3027, 9731, 3041, 9743);
+           spsBox := intToBox(303, 491, 364, 528);
            objects := [ROCK_COAL];
          end;
 
          with subLocs[2] do
          begin
            name := 'Mining Guild East';
-           spsBox := intToBox(3042, 9732, 3054, 9745);
+           spsBox := intToBox(364, 451, 407, 528);
            objects := [ROCK_COAL, ROCK_MITHRIL];
          end;
        end;
