@@ -400,13 +400,13 @@ begin
 
     Exit;
   end;
-  
+
   t := GetSystemTime + 10000;
   while (GetSystemTime < t) do
     if (LobbyScreen) or (not LoggedIn) then
     begin
       MSI_SubDebug('MSI_TimedOut: Suspicion of connection loss');
-      
+
       if (LobbyScreen) then
         MouseBox(80, 450, 560, 470, 1)
       else
@@ -456,7 +456,7 @@ begin
   MSI_Debug(reason);
   MSI_Players[CurrentPlayer].Active := False;
   Players[CurrentPlayer].Active := False;
-  
+
   if (setReason) then
     MSI_Players[CurrentPlayer].ReportInfo.FalseReason := reason
   else
@@ -465,7 +465,7 @@ begin
 
   if (Players[CurrentPlayer].Rand <> '') then
     MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'In random: '+Players[CurrentPlayer].Rand;
-    
+
   MSI_ProgressReport;
 
   if ((HowManyPlayers <= 1) or (PlayersActive <= 0)) then
@@ -474,7 +474,10 @@ begin
     MSI_SubDebug('All players inactive');
     TerminateScript();
   end else
-    NextPlayer(false);
+    if MSI_Settings[SETUP_RANDOM_NP] then
+      RandomNextPlayer(False)
+    else
+      NextPlayer(false);
 
   stats_IncVariable('Total Logins', 1);
   MSI_CloseHeader('MSI_UnsetPlayer: Finished');
@@ -573,7 +576,10 @@ begin
   end else
   begin
     MSI_Debug('Switching players');
-    NextPlayer(True);
+    if MSI_Settings[SETUP_RANDOM_NP] then
+      RandomNextPlayer(True)
+    else
+      NextPlayer(True);
   end;
 
   WaitFunc(@LoggedIn, 100, 15000);
