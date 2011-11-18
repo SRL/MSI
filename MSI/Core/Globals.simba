@@ -809,7 +809,9 @@ const
   SETUP_STATS_PASS    = 31;
   SETUP_WALKING       = 32;
 
-  SETUP_ARRAY_LENGTH  = 32;
+  SETUP_RANDOM_NP     = 33;
+
+  SETUP_ARRAY_LENGTH  = 33;
 
 (*
 Hook Constants
