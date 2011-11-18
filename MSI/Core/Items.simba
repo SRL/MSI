@@ -226,18 +226,16 @@ begin
                   Point(1218, 373),
                   Point(1235, 376),
                   Point(1229, 382),
-                  Point(1221, 386),
-                  Point(1260, 379)
+                  Point(1221, 386)
                 ];
 
     FISH_RAW_LOBSTER, FISH_COOKED_LOBSTER:
       Result := [
-                  Point(1141, 437),
-                  Point(1137, 428),
-                  Point(1128, 438),
-                  Point(1143, 449),
-                  Point(1149, 444),
-                  Point(1151, 437)
+                  Point(619, 231),
+                  Point(615, 222),
+                  Point(614, 233),
+                  Point(619, 240),
+                  Point(628, 230)
                 ];
 
     FISH_RAW_SWORDFISH, FISH_COOKED_SWORDFISH:
