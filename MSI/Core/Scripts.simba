@@ -1163,7 +1163,7 @@ begin
         begin
           Name := 'LOC_FG_BANK to LOC_FG_FISH';
           StartLoc := LOC_FG_BANK;
-          EndLoc   := LOC_CB_FISH;
+          EndLoc   := LOC_FG_FISH;
 
           Reflection := [
             TPointArray([Point(2583, 3422), Point(2893, 3421), Point(2597, 3421)])
