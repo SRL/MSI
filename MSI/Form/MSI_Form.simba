@@ -112,12 +112,11 @@ begin
       if (Result[j] = -MaxInt) then
         dec(j); // force j to be the old index
       inc(j);
-      //Writeln('StrArrToIntArry['+IntToStr(High(Result))+']: '+IntToStr(Result[High(Result)]));
     except
-      //Writeln('Invalid integer!');
+      Writeln('Invalid integer!');
     end;
 
-    setLength(Result, j+1);
+  setLength(Result, j);
 end;
 
 (**
