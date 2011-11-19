@@ -794,7 +794,10 @@ begin
   end;
 
   if (result) then
-    MSI_Players[CurrentPlayer].Location := endLocation;
+  begin
+    result := false;
+    result := MSI_AtLocation(endLocation, true);
+  end;
 
 	MSI_CloseHeader('MSI_WalkPath: ' + boolToStr(result));
 end;
