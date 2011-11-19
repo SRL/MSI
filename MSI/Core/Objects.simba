@@ -335,16 +335,16 @@ begin
       with result do
       begin
         Name               := 'BANK_VARROCK_EAST';
-        Uptexts            := ['ooth'];
-        Options            := ['uick'];
-        Colors             := [6715005];
-        Tol                := 5;
-        Hue                := 0.19;
-        Sat                := 0.31;
+        Uptexts            := ['Banker', 'ank', 'anker', 'ker'];
+        Options            := ['Bank', 'ank'];
+        Colors             := [4730680];
+        Tol                := 9;
+        Hue                := 0.09;
+        Sat                := 0.93;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 20;
-        Accuracy           := 10;
+        W                  := 25;
+        H                  := 40;
+        Accuracy           := 30;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;
