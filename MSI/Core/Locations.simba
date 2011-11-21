@@ -62,21 +62,21 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Oak North';
-           spsBox := intToBox(3279, 3422, 3284, 3428);
+           spsBox := intToBox(4958, 2955, 4970, 2963);
            compass := randomRange(75, 360);
          end;
 
          with subLocs[1] do
          begin
            name := 'Varrock East Oak Central';
-           spsBox := intToBox(3280, 3415, 3286, 3420);
+           spsBox := intToBox(4954, 2976, 4964, 2992);
            compass := randomRange(260, 315);
          end;
 
          with subLocs[2] do
          begin
            name := 'Varrock East Oak South';
-           spsBox := intToBox(3276, 3411, 3281, 3416);
+           spsBox := intToBox(4946, 2994, 4957, 3005);
            compass := randomRange(165, 195);
          end;
 
@@ -97,7 +97,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Bank';
-           spsBox := intToBox(3251, 3418, 3256, 3423);
+           spsBox := intToBox(4836, 2958, 4866, 2978);
          end;
 
          with deathPath do
@@ -107,14 +107,15 @@ begin
            endLoc := LOC_VE_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3217), point(3260, 3227),
-                          point(3238, 3279), point(3240, 3308),
-                          point(3298, 3358), point(3284, 3428),
-                          point(3254, 3420)])
+             TPointArray([Point(4726, 3786), Point(4786, 3759),
+                          Point(4853, 3756), Point(4792, 3545),
+                          Point(4791, 3433), Point(5024, 3224),
+                          Point(5010, 3118), Point(4972, 2938),
+                          Point(4852, 2937), Point(4851, 2970)])
            ];
 
            spsAreas   := [
-             TStringArray(['11_9', '11_8', '11_7'])
+             TStringArray(['11_9', '12_9', '11_8', '12_8', '12_7'])
            ];
          end;
        end;
@@ -129,7 +130,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Mine';
-           spsBox := intToBox(3279, 3360, 3292, 3372);
+           spsBox := intToBox(4962, 3175, 4999, 3212);
            objects := MSI_Scripts[SCRIPT_VE_MINER].Defaults.Rocks;
          end;
        end;
@@ -144,7 +145,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Fountain';
-           spsBox := intToBox(3235, 3431, 3242, 3438);
+           spsBox := intToBox(4782, 2902, 4804, 2923);
            objects := [FOUNTAIN_VE];
          end;
        end;
@@ -159,7 +160,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Grand Exchange Fountain';
-           spsBox := intToBox(3161, 3488, 3168, 3495);
+           spsBox := intToBox(4495, 2680, 4515, 2699);
            objects := [FOUNTAIN_GE];
          end;
        end;
@@ -174,7 +175,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Bank';
-           spsBox := intToBox(3182, 3433, 3190, 3445);
+           spsBox := intToBox(4564, 2873, 4593, 2911);
          end;
 
          with deathPath do
@@ -184,14 +185,15 @@ begin
            endLoc := LOC_VW_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3217), point(3260, 3227),
-                          point(3239, 3280), point(3241, 3329),
-                          point(3212, 3378), point(3212, 3426),
-                          point(3186, 3436)])
+             TPointArray([Point(4726, 3790), Point(4782, 3762),
+                          Point(4872, 3747), Point(4793, 3528),
+                          Point(4796, 3347), Point(4682, 3138),
+                          Point(4675, 2943), Point(4583, 2932),
+                          Point(4581, 2902)])
            ];
 
            spsAreas   := [
-             TStringArray(['11_9', '11_8', '11_7'])
+             TStringArray(['11_9', '12_9', '11_8', '11_7'])
            ];
          end;
        end;
@@ -206,14 +208,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Mine North';
-           spsBox := intToBox(3180, 3370, 3186, 3380);
+           spsBox := intToBox(4562, 3142, 4575, 3176);
            objects := [ROCK_TIN, ROCK_CLAY, ROCK_IRON];
          end;
 
          with subLocs[1] do
          begin
            name := 'Varrock West Mine South';
-           spsBox := intToBox(3172, 3362, 3180, 3372);
+           spsBox := intToBox(3528, 3176, 4554, 3195);
            objects := [ROCK_TIN, ROCK_SILVER]
          end;
        end;
@@ -228,7 +230,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Grand Exchange Oaks';
-           spsBox := intToBox(3191, 3458, 3195, 3465);
+           spsBox := intToBox(4596, 2793, 4615, 2821);
            compass := randomRange(260, 290);
            camera := false;
            objects := MSI_Scripts[SCRIPT_GE_OAKS].Defaults.Trees;
@@ -245,7 +247,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Grand Exchange Bank';
-           spsBox := intToBox(3173, 3475, 3181, 3482);
+           spsBox := intToBox(4540, 2719, 4554, 2731);
            compass := randomRange(75, 105);
            camera := false;
          end;
@@ -257,14 +259,15 @@ begin
            endLoc := LOC_GE_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3217), point(3260, 3227),
-                          point(3239, 3280), point(3241, 3329),
-                          point(3212, 3378), point(3212, 3426),
-                          point(3178, 3478)])
+             TPointArray([Point(4725, 3787), Point(4779, 3761),
+                          Point(4870, 3750), Point(4794, 3537),
+                          Point(4796, 3352), Point(4682, 3131),
+                          Point(4680, 2922), Point(4498, 2809),
+                          Point(4495, 2770), Point(4548, 2725)])
            ];
 
            spsAreas   := [
-             TStringArray(['11_9', '11_8', '11_7', '11_6'])
+             TStringArray(['11_9', '12_9', '11_8', '11_7', '11_6'])
            ];
          end;
        end;
@@ -279,14 +282,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Grand Exchange Yews West';
-           spsBox := intToBox(3218, 3501, 3225, 3508);
+           spsBox := intToBox(4708, 2626, 4721, 2648);
            compass := randomRange(305, 360);
          end;
 
          with subLocs[1] do
          begin
            name := 'Grand Exchange Yews East';
-           spsBox := intToBox(3204, 3501, 3211, 3506);
+           spsBox := intToBox(4653, 2632, 4686, 2664);
            compass := 320;
          end;
 
@@ -307,7 +310,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Bank';
-           spsBox := intToBox(3090, 3240, 3097, 3246);
+           spsBox := intToBox(4201, 3673, 4219, 3698);
          end;
 
          with deathPath do
@@ -317,7 +320,8 @@ begin
            endLoc := LOC_DB_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3216), point(3092, 3243)])
+             TPointArray([Point(4724, 3786), Point(4674, 3730),
+                          Point(4647, 3786), Point(4210, 3687)])
            ];
 
            spsAreas   := [
@@ -336,7 +340,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Willows';
-           spsBox := intToBox(3084, 3225, 3090, 3238);
+           spsBox := intToBox(4164, 3710, 4202, 3754);
            objects := MSI_Scripts[SCRIPT_DB_WILLOWS].Defaults.Trees;
          end;
        end;
@@ -351,7 +355,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Trees';
-           spsBox := intToBox(3075, 3265, 3085, 3275);
+           spsBox := intToBox(4141, 3567, 4177, 3600);
            objects := MSI_Scripts[SCRIPT_DB_TREES].Defaults.Trees;
          end;
        end;
@@ -366,14 +370,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Oaks West';
-           spsBox := intToBox(3099, 3239, 3103, 3245);
+           spsBox := intToBox(4239, 3683, 4252, 3696);
            compass := randomRange(300, 360);
          end;
 
          with subLocs[1] do
          begin
            name := 'Draynor Village Oaks East';
-           spsBox := intToBox(3105, 3243, 3109, 3247);
+           spsBox := intToBox(4257, 3668, 4271, 3681);
            compass := randomRange(260, 350);
          end;
 
@@ -394,7 +398,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Fishing Spots';
-           spsBox := intToBox(3084, 3223, 3089, 3233);
+           spsBox := intToBox(4177, 3729, 4195, 3768);
            objects := MSI_Scripts[SCRIPT_DB_FISHER].Defaults.FishSpots;
          end;
        end;
@@ -409,7 +413,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Clay Mine';
-           spsBox := intToBox(3138, 3314, 3145, 3321);
+           spsBox := intToBox(4391, 3376, 4413, 3395);
            objects := MSI_Scripts[SCRIPT_DB_CLAY].Defaults.Rocks;
          end;
        end;
@@ -424,21 +428,21 @@ begin
          with subLocs[0] do
          begin
            name := 'Draynor Village Yews West';
-           spsBox := intToBox(3149, 3228, 3154, 3233);
+           spsBox := intToBox(4443, 3734, 4460, 3746);
            compass := 90;
          end;
 
          with subLocs[1] do
          begin
            name := 'Draynor Village Yews Central';
-           spsBox := intToBox(3164, 3219, 3172, 3224);
+           spsBox := intToBox(4491, 3774, 4511, 3786);
            compass := 90;
          end;
 
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
-           spsBox := intToBox(3183, 3222, 3188, 3228);
+           spsBox := intToBox(4559, 3749, 4570, 3766);
            compass := 180;
          end;
 
@@ -459,28 +463,28 @@ begin
          with subLocs[0] do
          begin
            name := 'Rimmington Yews East';
-           spsBox := intToBox(2937, 3230, 2942, 3236);
+           spsBox := intToBox(3537, 3718, 3549, 3728);
            compass := randomRange(280, 360);
          end;
 
          with subLocs[1] do
          begin
            name := 'Rimmington Yews Central';
-           spsBox := intToBox(2931, 3231, 2937, 3237);
+           spsBox := intToBox(3559, 3720, 3576, 3731);
            compass := randomRange(60, 225);
          end;
 
          with subLocs[2] do
          begin
            name := 'Rimmington Yews West';
-           spsBox := intToBox(2926, 3226, 2931, 3231);
+           spsBox := intToBox(3587, 3722, 3596, 3736);
            compass := randomRange(20, 55);
          end;
 
          with subLocs[3] do
          begin
            name := 'Rimmington Yews South';
-           spsBox := intToBox(2933, 3225, 2938, 3230);
+           spsBox := intToBox(3568, 3743, 3583, 3755);
            compass := randomRange(280, 360);
          end;
 
@@ -501,28 +505,28 @@ begin
          with subLocs[0] do
          begin
            name := 'Rimmington Mine North';
-           spsBox := intToBox(2975, 3244, 2981, 3248);
+           spsBox := intToBox(3737, 3660, 3762, 3678);
            objects := [ROCK_COPPER];
          end;
 
          with subLocs[1] do
          begin
            name := 'Rimmington Mine East';
-           spsBox := intToBox(2983, 3233, 2988, 3242);
+           spsBox := intToBox(3769, 3694, 3790, 3720);
            objects := [ROCK_CLAY, ROCK_TIN];
          end;
 
          with subLocs[2] do
          begin
            name := 'Rimmington Mine South';
-           spsBox := intToBox(2973, 3229, 2985, 3238);
+           spsBox := intToBox(3733, 3713, 3773, 3732);
            objects := [ROCK_IRON, ROCK_GOLD]
          end;
 
          with subLocs[3] do
          begin
            name := 'Rimmington Mine West';
-           spsBox := intToBox(2967, 3236, 2971, 3243);
+           spsBox := intToBox(3707, 3686, 3727, 3716);
            objects := [ROCK_IRON];
          end;
        end;
@@ -537,7 +541,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Rimmington Willows';
-           spsBox := intToBox(2996, 3160, 3006, 3169);
+           spsBox := intToBox(3822, 3983, 3845, 4010);
            objects := [TREE_WILLOW_NEW];
          end;
        end;
@@ -585,7 +589,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador West Bank';
-           spsBox := intToBox(2943, 3366, 2950, 3371);
+           spsBox := intToBox(3615, 3165, 3628, 3186);
          end;
 
          with deathPath do
@@ -595,10 +599,11 @@ begin
            endLoc := LOC_FW_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3217), point(3209, 3203),
-                          point(3073, 3275), point(3006, 3278),
-                          point(3006, 3359), point(2965, 3380),
-                          point(2946, 3368)])
+             TPointArray([Point(4725, 3786), Point(4675, 3729),
+                          Point(4645, 3784), Point(4254, 3707),
+                          Point(4128, 3557), Point(3861, 3542),
+                          Point(3862, 3204), Point(3696, 3130),
+                          Point(3635, 3147), Point(3621, 3180)])
            ];
 
            spsAreas   := [
@@ -617,14 +622,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador West Mine North';
-           spsBox := intToBox(2907, 3360, 2911, 3367);
+           spsBox := intToBox(3473, 3185, 3482, 3216);
            objects := [ROCK_COAL, ROCK_COPPER];
          end;
 
          with subLocs[1] do
          begin
            name := 'Falador West Mine South';
-           spsBox := intToBox(2903, 3352, 2909, 3360);
+           spsBox := intToBox(3450, 3217, 3467, 3244);
            objects := [ROCK_TIN, ROCK_IRON];
          end;
        end;
@@ -639,7 +644,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador WaterPump';
-           spsBox := intToBox(2946, 3380, 2950, 3385);
+           spsBox := intToBox(3632, 3123, 3643, 3134);
            objects := MSI_Scripts[SCRIPT_FW_FILLER].Defaults.Objects;
          end;
        end;
@@ -654,13 +659,13 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Willows South';
-           spsBox := intToBox(3055, 3243, 3063, 3255);
+           spsBox := intToBox(4063, 3642, 4087, 3651);
          end;
 
          with subLocs[1] do
          begin
            name := 'Port Sarim Willows North';
-           spsBox := intToBox(3060, 3254, 3066, 3263);
+           spsBox := intToBox(4085, 3610, 4101, 3627);
          end;
 
          for i := 0 to high(subLocs) do
@@ -677,14 +682,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Yews East';
-           spsBox := intToBox(3050, 3268, 3054, 3274);
+           spsBox := intToBox(4055, 3565, 4067, 3582);
            compass := 280;
          end;
 
          with subLocs[1] do
          begin
            name := 'Port Sarim Yews West';
-           spsBox := intToBox(3041, 3269, 3046, 3274);
+           spsBox := intToBox(4004, 3568, 4017, 3584);
            compass := 80;
          end;
 
@@ -705,7 +710,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Port Sarim Deposit Box';
-           spsBox := intToBox(3043, 3234, 3052, 3238);
+           spsBox := intToBox(4012, 3710, 4039, 3723);
          end;
 
          with deathPath do
@@ -715,13 +720,13 @@ begin
            endLoc := LOC_PS_DBOX;
 
            spsPath := [
-             TPointArray([point(3223, 3217), point(3210, 3203),
-                          point(3110, 3223), point(3072, 3274),
-                          point(3064, 3273), point(3048, 3234)])
+             TPointArray([Point(4725, 3786), Point(4667, 3729),
+                          Point(4646, 3782), Point(4255, 3706),
+                          Point(4127, 3555), Point(4028, 3716)])
            ];
 
            spsAreas   := [
-             TStringArray(['11_9', '10_9', '9_9'])
+             TStringArray(['11_9', '10_9', '10_8'])
            ];
          end;
        end;
@@ -736,7 +741,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp West Mine';
-           spsBox := intToBox(3143, 3142, 3150, 3150);
+           spsBox := intToBox(4412, 4069, 4431, 4087);
            objects := MSI_Scripts[SCRIPT_LSW_MINER].Defaults.Rocks;
          end;
        end;
@@ -751,7 +756,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp East Mine';
-           spsBox := intToBox(3223, 3144, 3233, 3151);
+           spsBox := intToBox(4735, 4065, 4763, 4077);
            objects := MSI_Scripts[SCRIPT_LSE_MINER].Defaults.Rocks;
          end;
        end;
@@ -780,7 +785,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Bank';
-           spsBox := intToBox(3091, 3488, 3096, 3494);
+           spsBox := intToBox(4199, 2659, 4215, 2695);
          end;
 
          with deathPath do
@@ -790,9 +795,10 @@ begin
            endLoc := LOC_EV_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3217), point(3236, 3217),
-                          point(3215, 3276), point(3121, 3297),
-                          point(3077, 3329), point(3094, 3491)])
+             TPointArray([Point(4723, 3785), Point(4779, 3785),
+                          Point(4696, 3553), Point(4282, 3430),
+                          Point(4149, 3333), Point(4185, 2792),
+                          Point(4210, 2680)])
            ];
 
            spsAreas   := [
@@ -811,14 +817,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Yews South';
-           spsBox := intToBox(3085, 3469, 3089, 3474);
+           spsBox := intToBox(4178, 2762, 4192, 2776);
            compass := randomRange(170, 190);
          end;
 
          with subLocs[1] do
          begin
            name := 'Edgeville Yews North';
-           spsBox := intToBox(3085, 3476, 3089, 3480);
+           spsBox := intToBox(4177, 2724, 4189, 2738);
            compass := 275;
          end;
 
@@ -839,7 +845,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Well';
-           spsBox := intToBox(3081, 3498, 3087, 3503);
+           spsBox := intToBox(4161, 2636, 4182, 2657);
            objects := MSI_Scripts[SCRIPT_EV_SOFTENER].Defaults.Objects;
          end;
        end;
@@ -854,7 +860,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Barbarian Village Mine';
-           spsBox := intToBox(3077, 3417, 3086, 3425);
+           spsBox := intToBox(4150, 2955, 4180, 2979);
            objects := MSI_Scripts[SCRIPT_BBV_MINER].Defaults.Rocks;
          end;
        end;
@@ -869,13 +875,13 @@ begin
          with subLocs[0] do
          begin
            name := 'Barbarian Fishing North';
-           spsBox := intToBox(3108, 3429, 3112, 3437);
+           spsBox := intToBox(4259, 2906, 4278, 2927);
          end;
 
          with subLocs[1] do
          begin
            name := 'Barbarian Fishing South';
-           spsBox := intToBox(3101, 3423, 3104, 3428);
+           spsBox := intToBox(4238, 2944, 4256, 2960);
          end;
 
          for i := 0 to high(subLocs) do
@@ -896,13 +902,13 @@ begin
          with subLocs[0] do //East trees
          begin
            name := 'Seers Village East Magic Trees';
-           spsBox := intToBox(2695, 3395, 2701, 3403);
+           spsBox := intToBox(2648, 3053, 2660, 3070);
          end;
 
          with subLocs[1] do //West trees
          begin
            name := 'Seers Village West Magic Trees';
-           spsBox := intToBox(2701, 3394, 2705, 3402);
+           spsBox := intToBox(2628, 3053, 2636, 3069);
          end;
 
          for i := 0 to high(subLocs) do
@@ -919,7 +925,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Seers Village Oak Trees';
-           spsBox := intToBox(2715, 3478, 2722, 3486);
+           spsBox := intToBox(2719, 2709, 2743, 2728);
            objects := MSI_Scripts[SCRIPT_SV_OAKS].Defaults.Trees;
          end;
        end;
@@ -934,7 +940,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Seers Village Trees';
-           spsBox := intToBox(2707, 3435, 2729, 3455);
+           spsBox := intToBox(2687, 2845, 2743, 2899);
            objects := MSI_Scripts[SCRIPT_SV_TREES].Defaults.Trees;
          end;
        end;
@@ -949,7 +955,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Seers Village Bank';
-           spsBox := intToBox(2719, 3491, 2729, 3496);
+           spsBox := intToBox(2720, 2675, 2758, 2686);
          end;
 
          with deathPath do
@@ -973,15 +979,15 @@ begin
          setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'Seers Village West Maples';
-           spsBox := intToBox(2717, 3499, 2727, 3506);
+           name := 'Seers Village East Maples';
+           spsBox := intToBox(2747, 2636, 2769, 2652);
            objects := MSI_Scripts[SCRIPT_SV_MAPLES].Defaults.Trees;
          end;
 
          with subLocs[1] do
          begin
-           name := 'Seers Village East Maples';
-           spsBox := intToBox(2728, 3500, 2733, 3505);
+           name := 'Seers Village West Maples';
+           spsBox := intToBox(2720, 2634, 2739, 2648);
          end;
 
          for i := 0 to high(subLocs) do
@@ -998,13 +1004,13 @@ begin
          with subLocs[0] do
          begin
            name := 'Seers Village East Yew';
-           spsBox := intToBox(2710, 3458, 2716, 3464);
+           spsBox := intToBox(2680, 2789, 2698, 2809);
          end;
 
          with subLocs[1] do
          begin
            name := 'Seers Village West Yews';
-           spsBox := intToBox(2702, 3458, 2706, 3469);
+           spsBox := intToBox(2658, 2790, 2670, 2811);
          end;
 
          for i := 0 to high(subLocs) do
@@ -1050,7 +1056,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Crafting Guild Gold';
-           spsBox := intToBox(2938, 3276, 2943, 3282);
+           spsBox := intToBox(3586, 3535, 3608, 3553);
            compass := randomRange(60, 190);
            camera := true;
            objects := [ROCK_GOLD];
@@ -1059,14 +1065,14 @@ begin
          with subLocs[1] do
          begin
            name := 'Crafting Guild Clay';
-           spsBox := intToBox(2938, 3282, 2943, 3285);
+           spsBox := intToBox(3587, 3520, 3609, 3530);
            objects := [ROCK_CLAY];
          end;
 
          with subLocs[2] do
          begin
            name := 'Crafting Guild Silver';
-           spsBox := intToBox(2939, 3285, 2943, 3291);
+           spsBox := intToBox(3594, 3495, 3609, 3515);
            compass := randomRange(315, 360);
            camera := true;
            objects := [ROCK_SILVER];
@@ -1083,7 +1089,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Bank';
-           spsBox := intToBox(3268, 3161, 3272, 3173);
+           spsBox := intToBox(4906, 3971, 4925, 4013);
          end;
 
          with deathPath do
@@ -1093,8 +1099,8 @@ begin
            endLoc := LOC_AK_BANK;
 
            spsPath := [
-             TPointArray([point(3222, 3217), point(3236, 3218),
-                          point(3245, 3166), point(3270, 3165)])
+             TPointArray([Point(4726, 3788), Point(4774, 3788),
+                          Point(4797, 3985), Point(4912, 3997)])
            ];
 
            spsAreas   := [
@@ -1113,7 +1119,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Cooking Range';
-           spsBox := intToBox(4905, 3908, 4923, 3928);
+           spsBox := intToBox(4920, 3928, 4939, 3947);
            objects := MSI_Scripts[SCRIPT_AK_COOKER].Defaults.CookingSpot;
          end;
        end;
@@ -1128,21 +1134,21 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Mine South';
-           spsBox := intToBox(3295, 3284, 3302, 3290);
+           spsBox := intToBox(5020, 3499, 5043, 3521);
            objects := [ROCK_GOLD, ROCK_IRON];
          end;
 
          with subLocs[1] do
          begin
            name := 'Al Kharid Mine Central';
-           spsBox := intToBox(3293, 3296, 3303, 3307);
+           spsBox := intToBox(5018, 3433, 5045, 3468);
            objects := [ROCK_SILVER, ROCK_MITHRIL, ROCK_IRON, ROCK_COAL];
          end;
 
          with subLocs[2] do
          begin
            name := 'Al Kharid Mine North';
-           spsBox := intToBox(3297, 3308, 3305, 3318);
+           spsBox := intToBox(5021, 3389, 5052, 3422);
            objects := [ROCK_SILVER, ROCK_MITHRIL, ROCK_IRON, ROCK_TIN,
                        ROCK_ADAMANTITE, ROCK_COPPER];
          end;
@@ -1158,7 +1164,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Stiles On Karamja';
-           spsBox := intToBox(2849, 3140, 2853, 3145);
+           spsBox := intToBox(3234, 4085, 3254, 4101);
          end;
        end;
 
@@ -1172,7 +1178,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Karamja Fishing Spot';
-           spsBox := intToBox(2922, 3173, 2927, 3180);
+           spsBox := intToBox(3529, 3942, 3539, 3964);
            objects := MSI_Scripts[SCRIPT_KJ_NOTER].Defaults.FishSpots;
          end;
        end;
@@ -1187,7 +1193,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Catherby Bank';
-           spsBox := intToBox(2805, 3439, 2811, 3443);
+           spsBox := intToBox(3060, 2883, 3087, 2900);
          end;
 
          with deathPath do
@@ -1211,25 +1217,25 @@ begin
          with subLocs[0] do
          begin
            name := 'Catherby East Fishing Spot';
-           spsBox := intToBox(2832, 3429, 2839, 3434);
+           spsBox := intToBox(3262, 2938, 3285, 2954);
          end;
 
          with subLocs[1] do
          begin
            name := 'Catherby East/Central Fishing Spot';
-           spsBox := intToBox(2841, 3426, 2847, 3433);
+           spsBox := intToBox(3239, 2945, 3261, 2962);
          end;
 
          with subLocs[2] do
          begin
            name := 'Catherby West/Central Fishing Spot';
-           spsBox := intToBox(2849, 3421, 2855, 3427);
+           spsBox := intToBox(3203, 2915, 3229, 2939);
          end;
 
          with subLocs[3] do
          begin
            name := 'Catherby West Fishing Spot';
-           spsBox := intToBox(2856, 3424, 2861, 3430);
+           spsBox := intToBox(3171, 2916, 3193, 2932);
          end;
 
          for i := 0 to high(subLocs) do
@@ -1246,7 +1252,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Air Alter';
-           spsBox := intToBox(2835, 4825, 2846, 4835);
+           spsBox := intToBox(118, 399, 145, 431);
            objects := MSI_Scripts[SCRIPT_RC_AIR].Defaults.Objects;
          end;
        end;
@@ -1261,7 +1267,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Earth Alter';
-           spsBox := intToBox(2652, 4834, 2662, 4844);
+           spsBox := intToBox(346, 390, 373, 410);
            objects := MSI_Scripts[SCRIPT_RC_EARTH].Defaults.Objects;
          end;
        end;
@@ -1276,7 +1282,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Fire Alter';
-           spsBox := intToBox(2578, 4835, 2588, 4845);
+           spsBox := intToBox(344, 215, 368, 239);
            objects := MSI_Scripts[SCRIPT_RC_FIRE].Defaults.Objects;
          end;
        end;
@@ -1291,7 +1297,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Water Alter';
-           spsBox := intToBox(3483, 4830, 3491, 4838);
+           spsBox := intToBox(345, 58, 368, 81);
            objects := MSI_Scripts[SCRIPT_RC_WATER].Defaults.Objects;
          end;
        end;
@@ -1306,7 +1312,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Mind Alter';
-           spsBox := intToBox(2783, 4835, 2790, 4843);
+           spsBox := intToBox(155, 61, 175, 82);
            objects := MSI_Scripts[SCRIPT_RC_MIND].Defaults.Objects;
          end;
        end;
@@ -1321,7 +1327,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Body Alter';
-           spsBox := intToBox(2518, 4836, 2527, 4844);
+           spsBox := intToBox(135, 230, 158, 250);
            objects := MSI_Scripts[SCRIPT_RC_BODY].Defaults.Objects;
          end;
        end;
@@ -1336,7 +1342,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Fishing Guild Bank';
-           spsBox := intToBox(2155, 2945, 2165, 2955);
+           spsBox := intToBox(2173, 2953, 2186, 2972);
          end;
        end;
 
@@ -1349,14 +1355,14 @@ begin
          setLength(subLocs, 2);
          with subLocs[0] do
          begin
-           name := 'North Dock';
-           spsBox := intToBox(2205, 2935, 2230, 2955);
+           name := 'Fishing Guild North Dock';
+           spsBox := intToBox(2233, 2951, 2254, 2972);
          end;
 
          with subLocs[1] do
          begin
-           name := 'South Dock';
-           spsBox := intToBox(2230, 2975, 2260, 2995);
+           name := 'Fishing Guild South Dock';
+           spsBox := intToBox(2248, 2987, 2281, 3007);
          end;
 
          for i := 0 to high(subLocs) do
