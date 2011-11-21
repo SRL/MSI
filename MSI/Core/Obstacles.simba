@@ -450,14 +450,15 @@ begin
   MSI_AddHeader('MSI_SolveObstacle: ' + obs.name);
   obsObj := MSI_GetObject(obs.objConst);
 
-  if ((varType(obs.camera[0]) = varString) and (obs.camera[0] = 'n')) then
-    clickNorth(obs.camera[1])
-  else begin
-    makeCompass(obs.camera[0]);
+  if (inRange(round(rs_GetCompassAngleDegrees), 5, 355)) then
+    if ((varType(obs.camera[0]) = varString) and (obs.camera[0] = 'n')) then
+      clickNorth(obs.camera[1])
+    else begin
+      makeCompass(obs.camera[0]);
 
-    if (obs.camera[1] <> true) then // camera will already be true because of walking & avoids a 2 second wait
-      setAngle(obs.camera[1]);
-  end;
+      if (obs.camera[1] <> true) then // camera will already be true because of walking & avoids a 2 second wait
+        setAngle(obs.camera[1]);
+    end;
 
   while ((not result) and (t < 5)) do
   begin
