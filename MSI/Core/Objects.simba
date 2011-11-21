@@ -663,7 +663,7 @@ begin
         Options            := ['ine'];
         Level              := 15;
         Colors             := [3293028];
-        Tol                := 5;
+        Tol                := 6;
         Hue                := 0.06;
         Sat                := 1.22;
         FindAllColors      := False;
