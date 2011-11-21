@@ -476,6 +476,8 @@ begin
           Break;
         end;
 
+        MSI_Debug('Uptext: '+rs_GetUptext);
+
         if ii = High(p) then
           if (Amounts[i] = 1) then
           begin
@@ -806,7 +808,7 @@ begin
             begin
               MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
 
-              if (pIndex <> -1) and (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+              if (pIndex <> -1) and (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst = SKILL_COOKING) then
               begin
                 MSI_SubDebug('Removing from player''s array');
                 deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);
