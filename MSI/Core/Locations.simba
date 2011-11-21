@@ -175,7 +175,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock West Bank';
-           spsBox := intToBox(4564, 2873, 4593, 2911);
+           spsBox := intToBox(4560, 2873, 4605, 2911);
          end;
 
          with deathPath do
@@ -1478,7 +1478,7 @@ begin
         break;
       end else
         if (i = 1) then
-          if (not MSI_WalkPath(script.pathInfo, (invCount < 15) or ((invCount > 15) and (script.skillConst = SKILL_RUNECRAFTING)))) then
+          if (not MSI_WalkPath(script.pathInfo, ((invCount < 15) and (script.skillConst <> SKILL_RUNECRAFTING)) or ((invCount > 15) and (script.skillConst = SKILL_RUNECRAFTING)))) then
             result := MSI_DeathWalk()
           else
             result := true;
