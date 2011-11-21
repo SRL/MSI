@@ -518,6 +518,13 @@ begin
   if (not(loggedIn)) then
     exit;
 
+  if (length(Path) <= 0) then
+  begin
+    MSI_SubDebug('MSI_WalkTPA: Path has no points');
+    Result := true;
+    Exit;
+  end;
+
   time := GetTimeRunning;
 
   H := High(Path);
@@ -683,10 +690,11 @@ begin
             if (i = h) then
             begin
               if (not(MSI_AtLocation(endLocation, true))) then
-              begin
-                done := true;
-                break;
-              end;
+                done := true
+              else
+                result := true;
+
+              break;
             end else
               continue;
 
