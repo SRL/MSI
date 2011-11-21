@@ -686,7 +686,7 @@ begin
           ];
 
           SPSAreas   := [
-            TStringArray(['10_9', '11_10'])
+            TStringArray(['10_9'])
           ];
         end;
       end;
@@ -1595,7 +1595,7 @@ begin
           ];
 
           spsAreas   := [
-            TStringArray(['12_7', '12_6']), TStringArray(['0_0'])
+            TStringArray(['12_6', '12_7']), TStringArray(['0_0'])
           ];
 
           spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTERS];
