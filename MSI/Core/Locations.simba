@@ -766,7 +766,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Courtyard';
-           spsBox := intToBox(3216, 3210, 3227, 3225);
+           spsBox := intToBox(4706, 3763, 4739, 3809);
          end;
        end;
 

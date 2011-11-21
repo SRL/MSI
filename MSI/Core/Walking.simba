@@ -655,6 +655,10 @@ begin
     tmpSurfaces := MSI_MirrorTIA(pathInfo.spsSurfaces);
   end;
 
+  // set a defaul maxDist field
+  if (pathInfo.maxDist <= 0) then
+    pathInfo.maxDist := 160;
+
   h := high(tmpPath);
 
   while ((not result) and (attempts < 20) and (not done)) do

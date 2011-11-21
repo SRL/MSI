@@ -1779,9 +1779,6 @@ begin
   {$IFDEF SPS}
   with MSI_Scripts[whichScript] do
   begin
-    if (pathInfo.maxDist <= 0) then
-      pathInfo.maxDist := 160;
-
     // sets rs surface as default SPS surface
     if (length(pathInfo.spsSurfaces) <= 0) then
     begin
