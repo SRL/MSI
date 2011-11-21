@@ -57,7 +57,7 @@ begin
   MSI_Settings[SETUP_STATS_PASS]    := '';      // Stats password
   MSI_Settings[SETUP_QC_LEVELUP]    := True;    // Quick chat when you level up, only available when your level is above 20
   MSI_Settings[SETUP_MAX_PLAYERS]   := 30;      // How many players around you before switching worlds
-  MSI_Settings[SETUP_MAX_PLAYERS]   := True;    // Choose a random player when switching players?
+  MSI_Settings[SETUP_RANDOM_NP]     := True;    // Choose a random player when switching players?
 end;
 
 (*
