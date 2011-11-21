@@ -1645,7 +1645,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Rune essence';
-        UpText := ['une essen'];
+        UpText := ['une essen', 'ne e', 'Rune es', 'ne ess'];
         Stackable := False;
         EquipLevel := -1;
       end;
