@@ -797,6 +797,7 @@ const
   SETUP_SWITCH_WORLDS = 14;
   SETUP_PRINT_REPORT  = 15;
   SETUP_QC_LEVELUP    = 16;
+  SETUP_RANDOM_NP     = 17;
 
   // Integers
   SETUP_BREAK_TIME    = 20;

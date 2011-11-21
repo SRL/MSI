@@ -61,7 +61,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 20000;
+        MaxTime            := 5000;
         AssociatedItems    := [LOGS_NORMAL];
       end;
 
@@ -85,7 +85,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 20000;
+        MaxTime            := 5000;
         AssociatedItems    := [LOGS_NORMAL];
       end;
 
@@ -109,7 +109,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 20000;
+        MaxTime            := 5000;
         AssociatedItems    := [LOGS_NORMAL];
       end;
 
@@ -133,7 +133,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 45000;
+        MaxTime            := 15000;
         AssociatedItems    := [LOGS_OAK];
       end;
 
@@ -157,7 +157,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 45000;
+        MaxTime            := 15000;
         AssociatedItems    := [LOGS_OAK];
       end;
 
@@ -181,7 +181,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 60000;
+        MaxTime            := 20000;
         AssociatedItems    := [LOGS_WILLOW];
       end;
 
@@ -205,7 +205,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 60000;
+        MaxTime            := 20000;
         AssociatedItems    := [LOGS_WILLOW];
       end;
 
@@ -229,7 +229,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 60000;
+        MaxTime            := 25000;
         AssociatedItems    := [LOGS_MAPLE];
       end;
 
@@ -253,7 +253,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 60000;
+        MaxTime            := 25000;
         AssociatedItems    := [LOGS_MAPLE];
       end;
 
@@ -277,7 +277,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 75000;
+        MaxTime            := 30000;
         AssociatedItems    := [LOGS_YEW];
       end;
 
@@ -301,7 +301,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 75000;
+        MaxTime            := 30000;
         AssociatedItems    := [LOGS_YEW];
       end;
 
@@ -325,7 +325,7 @@ begin
         RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
-        MaxTime            := 90000;
+        MaxTime            := 30000;
         AssociatedItems    := [LOGS_MAGIC];
       end;
 
@@ -335,16 +335,16 @@ begin
       with result do
       begin
         Name               := 'BANK_VARROCK_EAST';
-        Uptexts            := ['ooth'];
-        Options            := ['uick'];
-        Colors             := [6715005];
-        Tol                := 5;
-        Hue                := 0.19;
-        Sat                := 0.31;
+        Uptexts            := ['Banker', 'ank', 'anker', 'ker'];
+        Options            := ['Bank', 'ank'];
+        Colors             := [4730680];
+        Tol                := 9;
+        Hue                := 0.09;
+        Sat                := 0.93;
         FindAllColors      := False;
-        W                  := 20;
-        H                  := 20;
-        Accuracy           := 10;
+        W                  := 25;
+        H                  := 40;
+        Accuracy           := 30;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;
