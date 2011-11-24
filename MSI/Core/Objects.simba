@@ -336,7 +336,7 @@ begin
       begin
         Name               := 'BANK_VARROCK_EAST';
         Uptexts            := ['Banker', 'ank', 'anker', 'ker'];
-        Options            := ['Bank', 'ank'];
+        Options            := ['Bank Bank', 'ank B', 'ank Banker'];
         Colors             := [4730680];
         Tol                := 9;
         Hue                := 0.09;
