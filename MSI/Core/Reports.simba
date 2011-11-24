@@ -148,7 +148,7 @@ begin
         setLength(itemAmounts[sIndex][i], length(items[sIndex][i]));
       end;
 
-    MSI_SubDebug('Player['+toStr(pIndex)+'].script['+toStr(sIndex)+'].reportInfo.items := '+toStr(reportInfo.items));
+    MSI_SubDebug('Player['+toStr(pIndex)+'].Script['+toStr(sIndex)+'].ReportInfo.Items := '+toStr(reportInfo.items));
   end;
 end;
 
