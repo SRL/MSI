@@ -1128,7 +1128,8 @@ type
     name: string;
     constant: integer;
     atBank: boolean;
-    subLocs: TSubLocArray;
+    subLocs: TSubLocArray; // is dynamic (elements are shifted during runtime)
+    _subLocs: TSubLocArray; // used to store a static TSubLocArray to use in walking
     deathPath: TPath;
   end;
   TLocationArray = array of TLocation;

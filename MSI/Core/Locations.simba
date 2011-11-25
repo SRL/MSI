@@ -442,7 +442,7 @@ begin
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
-           spsBox := intToBox(4565, 3749, 4575, 3766);
+           spsBox := intToBox(4565, 3740, 4575, 3763);
            compass := 90;
          end;
 
@@ -1400,6 +1400,8 @@ begin
         subLocs[i].camera := true;
       end;
     end;
+
+    _subLocs := subLocs;
   end;
 
   result := (MSI_Locations[loc].Name <> '');

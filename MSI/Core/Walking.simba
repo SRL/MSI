@@ -231,10 +231,10 @@ begin
   if (not loggedIn) then
     exit;
 
-  setLength(result, length(loc.subLocs));
+  setLength(result, length(loc._subLocs));
 
-  for i := 0 to high(loc.subLocs) do
-    result[i] := middleBox(loc.subLocs[i].spsBox);
+  for i := 0 to high(loc._subLocs) do
+    result[i] := middleBox(loc._subLocs[i].spsBox);
 
   MSI_SubDebug('MSI_PathFromLoc: '+toStr(result));
 end;
