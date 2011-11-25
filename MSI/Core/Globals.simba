@@ -313,12 +313,12 @@ const
   LOC_CB_FISH = 141;
 
   // Alters
-  LOC_ALTER_AIR   = 150;
-  LOC_ALTER_EARTH = 151;
-  LOC_ALTER_WATER = 152;
-  LOC_ALTER_FIRE  = 153;
-  LOC_ALTER_MIND  = 154;
-  LOC_ALTER_BODY  = 155;
+  LOC_ALTAR_AIR   = 150;
+  LOC_ALTAR_EARTH = 151;
+  LOC_ALTAR_WATER = 152;
+  LOC_ALTAR_FIRE  = 153;
+  LOC_ALTAR_MIND  = 154;
+  LOC_ALTAR_BODY  = 155;
 
   LOC_ARRAY_LENGTH = 155; // Change to the highest location constant
 
@@ -585,7 +585,7 @@ const
   RUINS_FIRE   = 134;
   RUINS_BODY   = 135;
 
-  ALTER_RUNECRAFTING = 137;
+  ALTAR_RUNECRAFTING = 137;
 
   // Portals
   PORTAL_AIR   = 150;

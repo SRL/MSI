@@ -1301,11 +1301,11 @@ begin
         end;
       end;
 
-    ALTER_RUNECRAFTING:
+    ALTAR_RUNECRAFTING:
       with result do
       begin
-        Name               := 'ALTER_RUNECRAFTING';
-        Uptexts            := ['rune','Alter'];
+        Name               := 'ALTAR_RUNECRAFTING';
+        Uptexts            := ['rune','ALTAR'];
         Options            := ['raft', '-rune', 'une'];
         Colors             := [6183517];
         Tol                := 5;

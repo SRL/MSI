@@ -1537,15 +1537,15 @@ begin
         bankObjects  := @MSI_BankWithdraw;
         playerSetup  := @MSI_SetupRunecrafting;
 
-        defaults.objects   := [ALTER_RUNECRAFTING];
+        defaults.objects   := [ALTAR_RUNECRAFTING];
         defaults.materials := [MATERIAL_ESSENCE_RUNE];
         defaults.tiara     := TIARA_AIR;
 
         with pathInfo do
         begin
-          name     := 'LOC_VW_BANK to LOC_ALTER_AIR';
+          name     := 'LOC_VW_BANK to LOC_ALTAR_AIR';
           startLoc := LOC_VW_BANK;
-          endLoc   := LOC_ALTER_AIR;
+          endLoc   := LOC_ALTAR_AIR;
 
           spsPath := [
             TPointArray([Point(4579, 2906), Point(4353, 3020)]),
@@ -1577,15 +1577,15 @@ begin
         bankObjects  := @MSI_BankWithdraw;
         playerSetup  := @MSI_SetupRunecrafting;
 
-        defaults.objects   := [ALTER_RUNECRAFTING];
+        defaults.objects   := [ALTAR_RUNECRAFTING];
         defaults.materials := [MATERIAL_ESSENCE_RUNE];
         defaults.tiara     := TIARA_EARTH;
 
         with pathInfo do
         begin
-          name     := 'LOC_VW_BANK to LOC_ALTER_EARTH';
+          name     := 'LOC_VW_BANK to LOC_ALTAR_EARTH';
           startLoc := LOC_VE_BANK;
-          endLoc   := LOC_ALTER_EARTH;
+          endLoc   := LOC_ALTAR_EARTH;
 
           SPSPath := [
             TPointArray([Point(4850, 2971), Point(4912, 2937),
@@ -1619,15 +1619,15 @@ begin
         bankObjects  := @MSI_BankWithdraw;
         playerSetup  := @MSI_SetupRunecrafting;
 
-        defaults.objects   := [ALTER_RUNECRAFTING];
+        defaults.objects   := [ALTAR_RUNECRAFTING];
         defaults.materials := [MATERIAL_ESSENCE_RUNE];
         defaults.tiara     := TIARA_FIRE;
 
         with pathInfo do
         begin
-          name     := 'LOC_AK_BANK to LOC_ALTER_FIRE';
+          name     := 'LOC_AK_BANK to LOC_ALTAR_FIRE';
           startLoc := LOC_AK_BANK;
-          endLoc   := LOC_ALTER_FIRE;
+          endLoc   := LOC_ALTAR_FIRE;
 
           SPSPath := [
             TPointArray([Point(4913, 3995), Point(5100, 3643)]),
@@ -1660,15 +1660,15 @@ begin
         bankObjects  := @MSI_BankWithdraw;
         playerSetup  := @MSI_SetupRunecrafting;
 
-        defaults.objects   := [ALTER_RUNECRAFTING];
+        defaults.objects   := [ALTAR_RUNECRAFTING];
         defaults.materials := [MATERIAL_ESSENCE_RUNE];
         defaults.tiara     := TIARA_WATER;
 
         with pathInfo do
         begin
-          name     := 'LOC_DB_BANK to LOC_ALTER_WATER';
+          name     := 'LOC_DB_BANK to LOC_ALTAR_WATER';
           startLoc := LOC_DB_BANK;
-          endLoc   := LOC_ALTER_WATER;
+          endLoc   := LOC_ALTAR_WATER;
 
           SPSPath := [
             TPointArray([Point(4208, 3685), Point(4571, 3997)]),
@@ -1701,15 +1701,15 @@ begin
         bankObjects  := @MSI_BankWithdraw;
         playerSetup  := @MSI_SetupRunecrafting;
 
-        defaults.objects   := [ALTER_RUNECRAFTING];
+        defaults.objects   := [ALTAR_RUNECRAFTING];
         defaults.materials := [MATERIAL_ESSENCE_RUNE];
         defaults.tiara     := TIARA_MIND;
 
         with pathInfo do
         begin
-          name     := 'LOC_FW_BANK to LOC_ALTER_MIND';
+          name     := 'LOC_FW_BANK to LOC_ALTAR_MIND';
           startLoc := LOC_FW_BANK;
-          endLoc   := LOC_ALTER_MIND;
+          endLoc   := LOC_ALTAR_MIND;
 
           SPSPath := [
             TPointArray([Point(3620, 3180), Point(3695, 3109),
@@ -1744,15 +1744,15 @@ begin
         bankObjects  := @MSI_BankWithdraw;
         playerSetup  := @MSI_SetupRunecrafting;
 
-        defaults.objects   := [ALTER_RUNECRAFTING];
+        defaults.objects   := [ALTAR_RUNECRAFTING];
         defaults.materials := [MATERIAL_ESSENCE_RUNE];
         defaults.tiara     := TIARA_BODY;
 
         with pathInfo do
         begin
-          name     := 'LOC_EV_BANK to LOC_ALTER_BODY';
+          name     := 'LOC_EV_BANK to LOC_ALTAR_BODY';
           startLoc := LOC_EV_BANK;
-          endLoc   := LOC_ALTER_BODY;
+          endLoc   := LOC_ALTAR_BODY;
 
           SPSPath := [
             TPointArray([Point(4210, 2683), Point(4127, 2653),
