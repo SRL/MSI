@@ -234,7 +234,9 @@ begin
   setLength(result, length(loc.subLocs));
 
   for i := 0 to high(loc.subLocs) do
-    result[i] := middleBox(loc.subLocs[i].spsBox)
+    result[i] := middleBox(loc.subLocs[i].spsBox);
+
+  MSI_SubDebug('MSI_PathFromLoc: '+toStr(result));
 end;
 
 (*
@@ -447,7 +449,7 @@ MSI_EnterPath
 
 .. code-block:: pascal
 
-  function MSI_EnterPath(Path: TPointArray): boolean;
+  function MSI_EnterPath(PPos: TPoint; Path: TPointArray; maxDist: integer): boolean;
 
 Simply calls the native SPS path walking method.  Will walk to the path if the
 player is within maxDist pixels (SPS), but not on the path.
@@ -461,19 +463,16 @@ Example:
 
 .. code-block:: pascal
 
-  MSI_EnterPath([point(1234, 4321), point(5678, 8765)]);
+  MSI_EnterPath(SPS_GetMyPos, [Point(1234, 4321)], 50);
 *)
-function MSI_EnterPath(Path: TPointArray; maxDist: integer): boolean;
+function MSI_EnterPath(PPos: TPoint; Path: TPointArray; maxDist: integer): boolean;
 var
   i: integer;
   tmpPath: TPointArray;
-  mPos: TPoint;
 begin
-  mPos := MSI_GetMyPos();
-
-  if (MSI_PointOnPath(i, Path, mPos, maxDist)) then
+  if (MSI_PointOnPath(i, Path, PPos, maxDist)) then
   begin
-    tmpPath := MSI_PathBetween(mPos, Path[i], DIST_BETWEEN_POINTS, DIST_RANDOMNESS);
+    tmpPath := MSI_PathBetween(PPos, Path[i], DIST_BETWEEN_POINTS, DIST_RANDOMNESS);
 
     {$IFDEF SPS}
     result := SPS_WalkPath(tmpPath);
@@ -508,12 +507,12 @@ Example:
 
 .. code-block:: pascal
 
-  MSI_WalkTPA(somePath, -1);
+  MSI_WalkTPA(somePath, -1, 100);
 *)
 function MSI_WalkTPA(Path: TPointArray; Destination, MaxDist: Integer): Boolean;
 var
   P, DPoint: TPoint;
-  H, D, PointInd, pInd, Attempts, time, dist: Integer;
+  H, D, PointInd, pInd, Attempts, dist: Integer;
 begin
   if (not(loggedIn)) then
     exit;
@@ -521,35 +520,29 @@ begin
   if (length(Path) <= 0) then
   begin
     MSI_SubDebug('MSI_WalkTPA: Path has no points');
-    Result := true;
-    Exit;
+    result := true;
+    exit;
   end;
-
-  time := GetTimeRunning;
-
-  H := High(Path);
-  if (H < 0) then
-    Exit;
 
   MSI_AddHeader('MSI_WalkTPA');
   MSI_Debug('Path: '+toStr(Path));
 
+  P := SPS_GetMyPos();
+
   if (Destination = -1) then
-    D := H
+    D := High(Path)
   else
     D := Destination;
 
   // expands path and finds new destination index
   DPoint := Path[D];
-  Path := MSI_ExpandPath(Path, DIST_BETWEEN_POINTS, 1);
+  Path := MSI_ExpandPath(Path, DIST_BETWEEN_POINTS, 3);
   H := High(Path);
   MSI_PointOnPath(D, Path, DPoint, DIST_BETWEEN_POINTS);
 
   // finds you on a path and attempts to walk to it if possible
-  if (MSI_EnterPath(Path, MaxDist)) then
+  if (MSI_EnterPath(SPS_GetMyPos(), Path, MaxDist)) then
   begin
-    P := MSI_GetMyPos();
-
     MSI_PointOnPath(pInd, Path, P, DIST_BETWEEN_POINTS);
 
     if (pInd > D) then
@@ -561,7 +554,7 @@ begin
     end;
 
     // loops through the points and walks :)
-    while (not(Result)) and (Attempts < 10) do
+    while (not Result) and (Attempts < 10) do
     begin
       MSI_WaitWhileResting();
 
@@ -585,15 +578,15 @@ begin
       MSI_Debug('Attempts: '+toStr(Attempts));
 
       dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
-      MSI_Debug('Final distance: '+toStr(dist));
+      MSI_Debug('Distance: '+toStr(dist));
 
       Result := (dist <= DIST_FROM_END);
     end;
 
-    if (rs_GetCompassAngleDegrees <> 0) then
+    if (inRange(round(rs_GetCompassAngleDegrees), 5, 355)) then
       ClickNorth(true);
 
-    MSI_Flag(5);
+    MSI_Flag(7);
   end;
 
   MSI_CloseHeader('MSI_WalkTPA: '+toStr(result));
@@ -627,7 +620,7 @@ function MSI_WalkPath(pathInfo: TPath; toLoc: boolean): boolean;
 var
   tmpPath: T2DPointArray;
   tmpAreas: array of TStringArray;
-  locPath: TPointArray;
+  locPath, tmpLoc: TPointArray;
   i, h, endLocation, attempts: integer;
   done: boolean;
   intObs, tmpSurfaces: TIntegerArray;
@@ -637,11 +630,11 @@ begin
     exit;
 
   if (toLoc) then
-    MSI_AddHeader('MSI_WalkPath: To Location ('+pathInfo.name+')')
+    MSI_AddHeader('MSI_WalkPath: '+pathInfo.name)
   else
-    MSI_AddHeader('MSI_WalkPath: From Location ('+pathInfo.name+')');
+    MSI_AddHeader('MSI_WalkPath: (Reverse) '+pathInfo.name);
 
-  locPath := MSI_MirrorTPA(MSI_PathFromLoc(MSI_Locations[pathInfo.endLoc]));
+  locPath := MSI_PathFromLoc(MSI_Locations[pathInfo.endLoc]);
 
   // make sure we're passing the right obstacles
   if (toLoc) then
@@ -649,6 +642,7 @@ begin
     endLocation := pathInfo.endLoc;
     intObs := pathInfo.obstacles[OBS_LOC_TO];
 
+    tmpLoc := locPath;
     tmpPath := pathInfo.spsPath;
     tmpAreas := pathInfo.spsAreas;
     tmpSurfaces := pathInfo.spsSurfaces;
@@ -656,7 +650,8 @@ begin
     endLocation := pathInfo.startLoc;
     intObs := pathInfo.obstacles[OBS_LOC_FROM];
 
-    // invert the path
+    // invert the paths
+    tmpLoc := MSI_MirrorTPA(locPath);
     tmpPath := MSI_MirrorATPA(pathInfo.spsPath);
     tmpAreas := MSI_MirrorATSA(pathInfo.spsAreas);
     tmpSurfaces := MSI_MirrorTIA(pathInfo.spsSurfaces);
@@ -664,11 +659,11 @@ begin
 
   // set a defaul maxDist field
   if (pathInfo.maxDist <= 0) then
-    pathInfo.maxDist := 160;
+    pathInfo.maxDist := 50;
 
   h := high(tmpPath);
 
-  while ((not result) and (attempts < 20) and (not done)) do
+  while ((not result) and (attempts < 10) and (not done)) do
   begin
     inc(attempts);
     MSI_Debug('Walking attempts: '+toStr(attempts));
@@ -685,11 +680,11 @@ begin
           if (result) then
             break;
         end else
-          if ((not MSI_WalkTPA(locPath, -1, pathInfo.maxDist)) and // through the sub-locations
+          if ((not MSI_WalkTPA(tmpLoc, -1, pathInfo.maxDist)) and // through the sub-locations
               (not MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist))) then // through the normal path
             if (i = h) then
             begin
-              if (not(MSI_AtLocation(endLocation, true))) then
+              if (not MSI_AtLocation(endLocation, true)) then
                 done := true
               else
                 result := true;
@@ -757,6 +752,12 @@ var
 begin
   if (not loggedIn) then
     exit;
+
+  if (not(MSI_Settings[SETUP_DEATH_WALK])) then
+  begin
+    MSI_SubDebug('MSI_DeathWalk: Function disabled');
+    Exit;
+  end;
 
   MSI_AddHeader('MSI_DeathWalk');
 

@@ -292,6 +292,8 @@ begin
   if (USE_FORM) then
     MSI_Settings[SETUP_PRINT_REPORT] := True;
 
+  MSI_Settings[SETUP_DEATH_WALK] := true;
+
   MSI_Mainloop;
 end.
 

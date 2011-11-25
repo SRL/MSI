@@ -97,7 +97,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Bank';
-           spsBox := intToBox(4836, 2958, 4866, 2978);
+           spsBox := intToBox(4836, 2965, 4866, 2978);
          end;
 
          with deathPath do
@@ -429,7 +429,7 @@ begin
          begin
            name := 'Draynor Village Yews West';
            spsBox := intToBox(4443, 3734, 4460, 3746);
-           compass := 90;
+           compass := 270;
          end;
 
          with subLocs[1] do
@@ -442,8 +442,8 @@ begin
          with subLocs[2] do
          begin
            name := 'Draynor Village Yews East';
-           spsBox := intToBox(4559, 3749, 4570, 3766);
-           compass := 180;
+           spsBox := intToBox(4565, 3749, 4575, 3766);
+           compass := 90;
          end;
 
          for i := 0 to high(subLocs) do
@@ -741,7 +741,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp West Mine';
-           spsBox := intToBox(4412, 4069, 4431, 4087);
+           spsBox := intToBox(4407, 4065, 4434, 4092);
            objects := MSI_Scripts[SCRIPT_LSW_MINER].Defaults.Rocks;
          end;
        end;
@@ -1628,38 +1628,27 @@ begin
 
         MSI_FindRandoms(true);
 
-        result := MSI_WalkPoint(middleBox(subLocs[i].spsBox), 10);
-
-        if (not result) then
+        if (MSI_WalkTPA([mPos, middleBox(subLocs[i].spsBox)], -1, 30)) then
         begin
-          // create a TPA from the subLoc's box
-          areaTPA := TPAFromBox(subLocs[i].spsBox);
-          sortTPAfrom(areaTPA, mPos);
-
-          // trying walking to the centre point, then closest
-          if (length(areaTPA) > 0) then
-            if (MSI_WalkPoint(middleTPA(areaTPA), 10)) or (MSI_WalkPoint(areaTPA[0], 10)) then
-            begin
-              result := true;
-              break;
-            end;
-        end;
-
-        if (result) then
-        begin
+          result := true;
           MSI_Debug('Relocating to sub-location: ' + subLocs[i].name);
 
           setAngle(subLocs[i].camera);
           makeCompass(subLocs[i].compass);
 
           cP := i;
-          MSI_Flag(0);
+          MSI_Flag(5);
           break;
         end else
           cP := 0;
       end;
     end;
   end;
+
+  // we shouldn't ever have to death walk if we've relocated properly
+  if (loc <> LOC_LB_SPAWN) then
+    if (result) then
+      MSI_Settings[SETUP_DEATH_WALK] := false;
 
   MSI_Players[CurrentPlayer].CurrentPoint := cP;
   MSI_CloseHeader('MSI_Relocate: ' + boolToStr(result));
@@ -1729,17 +1718,24 @@ begin
           end;
 
           MSI_Debug('Player is at ' + subLocs[i].name);
+          MSI_Players[CurrentPlayer].CurrentPoint := i;
           break;
-        end else
-          if (i = high(subLocs)) then
-            if (relocate) then
-              result := MSI_Relocate(loc);
+        end;
       end;
 
-      if (not Result) then
-        MSI_Debug('Player not at ' + name);
+      if (not result) then
+        if (relocate) then
+          result := MSI_Relocate(loc);
 
-      MSI_Players[CurrentPlayer].Location := constant;
+      if (result) then
+      begin
+        // shouldn't have to death walk if we're at the right location
+        if (loc <> LOC_LB_SPAWN) then
+          MSI_Settings[SETUP_DEATH_WALK] := false;
+
+        MSI_Players[CurrentPlayer].Location := constant;
+      end else
+        MSI_Debug('Player not at ' + name);
     end;
   end;
 

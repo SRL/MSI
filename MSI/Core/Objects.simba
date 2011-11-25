@@ -635,8 +635,8 @@ begin
       with result do
       begin
         Name               := 'ROCK_TIN';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Rocks', 'ine Ro'];
+        Options            := ['ine Rocks', 'ne Roc', 'ine'];
         Level              := 1;
         Colors             := [7500665];
         Tol                := 15;
@@ -1753,7 +1753,7 @@ begin
         MSI_SubDebug('Uptext: '+rs_GetUptext());
 
         // check the uptext of where we moved the mouse to
-        if (waitUptextMulti(obj.uptexts, randomRange(300, 500))) then
+        if (waitUptextMulti(obj.uptexts, randomRange(500, 700))) then
         begin
           // if only set to move the mouse, we're done
           if (action = moMove) then

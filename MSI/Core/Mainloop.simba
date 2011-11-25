@@ -479,6 +479,9 @@ begin
     else
       NextPlayer(false);
 
+  // reset after switching players
+  MSI_Settings[SETUP_DEATH_WALK] := true;
+
   stats_IncVariable('Total Logins', 1);
   MSI_CloseHeader('MSI_UnsetPlayer: Finished');
 end;

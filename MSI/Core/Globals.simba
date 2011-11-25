@@ -798,6 +798,7 @@ const
   SETUP_PRINT_REPORT  = 15;
   SETUP_QC_LEVELUP    = 16;
   SETUP_RANDOM_NP     = 17;
+  SETUP_DEATH_WALK    = 18;
 
   // Integers
   SETUP_BREAK_TIME    = 20;
