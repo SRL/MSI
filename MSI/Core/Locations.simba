@@ -97,7 +97,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Varrock East Bank';
-           spsBox := intToBox(4836, 2965, 4866, 2978);
+           spsBox := intToBox(4836, 29670, 4866, 2978);
          end;
 
          with deathPath do
