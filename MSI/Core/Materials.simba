@@ -257,7 +257,7 @@ Detects if the chat box option menu is open.
 .. note::
 
   | Author: NCDS
-  | Last Updated: 22 March 2011 by NCDS
+  | Last Updated: 25 November 2011 by Coh3n
 
 Example:
 
@@ -267,8 +267,10 @@ Example:
     MSI_Debug('Materials screen is open in chat box');
 *)
 function MSI_MaterialScreen: Boolean;
+var
+  x, y: integer;
 begin
-  Result := (GetColor(497, 367) = 5025494);
+  result := findColorTolerance(x, y, 2070783, 360, 350, 420, 370, 5);
 end;
 
 (*
