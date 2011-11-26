@@ -22,6 +22,7 @@ program MSI_Script;
 // Define other settings
 {$DEFINE SPS}   // Comment to disable SPS (no walking scripts)
 {$DEFINE SMART} // Comment to use MSI with a browser
+{$DEFINE SRL_REMOTE} // Use SRL's player remote control
 
 { ============================================================================ }
 {$i MSI/MSI/Core/Setup.simba}
