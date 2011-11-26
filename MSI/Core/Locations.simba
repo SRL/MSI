@@ -556,7 +556,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Falador East Bank';
-           spsBox := intToBox(3873, 3224, 3908, 3238);
+           spsBox := intToBox(3873, 3230, 3908, 3240);
          end;
 
          with deathPath do
