@@ -535,11 +535,12 @@ begin
 
   f := -1;
   if (MSI_Settings[SETUP_SAVE_REPORT]) then
-  begin
-    f := RewriteFile(PATH_REPORT + ScriptStart + '.txt', False);
-    WriteFileString(f, 'This progress report was written ' +
-                    TheDate(Date_Formal)+ ' at ' + TheTime + #13 + #10);
-  end;
+    try
+      f := RewriteFile(PATH_REPORT + ScriptStart + '.txt', False);
+      WriteFileString(f, 'This progress report was written ' +
+                      TheDate(Date_Formal)+ ' at ' + TheTime + #13 + #10);
+    except
+    end;
 
   MSI_SetSkillLevels();
 

@@ -181,8 +181,11 @@ Begin
   if (MSI_Settings[SETUP_PRINT_REPORT]) then
     Writeln(s);
 
-  if (theFile <> -1) then
-    WriteFileString(theFile, s + #13 + #10);
+  try
+    if (theFile <> -1) then
+      WriteFileString(theFile, s + #13 + #10);
+  except
+  end;
 End;
 
 (*
