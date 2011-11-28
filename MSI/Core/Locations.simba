@@ -955,7 +955,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Seers Village Bank';
-           spsBox := intToBox(2720, 2675, 2758, 2686);
+           spsBox := intToBox(2730, 2675, 2758, 2686);
          end;
 
          with deathPath do
