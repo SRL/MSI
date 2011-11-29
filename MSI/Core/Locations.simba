@@ -1213,7 +1213,7 @@ begin
          name := 'Catherby Fishing Spots';
          atBank := false;
 
-         setLength(subLocs, 4);
+         setLength(subLocs, 3);
          with subLocs[0] do
          begin
            name := 'Catherby East Fishing Spot';
@@ -1230,12 +1230,6 @@ begin
          begin
            name := 'Catherby West/Central Fishing Spot';
            spsBox := intToBox(3203, 2915, 3229, 2939);
-         end;
-
-         with subLocs[3] do
-         begin
-           name := 'Catherby West Fishing Spot';
-           spsBox := intToBox(3171, 2916, 3193, 2932);
          end;
 
          for i := 0 to high(subLocs) do
