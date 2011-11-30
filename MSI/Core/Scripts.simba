@@ -1110,7 +1110,7 @@ begin
           ];
 
           SPSAreas   := [
-            TStringArray(['7_7'])
+            TStringArray(['7_7', '8_7'])
           ];
         end;
       end;
