@@ -73,7 +73,7 @@ Example:
 *)
 function MSI_OpenBank(which: Integer; tPin: String): Boolean;
 var
-  t, x, y: Integer;
+  t, x, y, timeOut: Integer;
   bankType: TBank;
   relocated: boolean;
   bankObj: TMSObject;
@@ -91,7 +91,8 @@ begin
 
   if (not Result) then
   begin
-    t := (GetSystemTime + 60000);
+    timeOut := 60000;
+    t := (GetSystemTime + timeOut);
 
     while (not Result) and (GetSystemTime < t) and LoggedIn do
     begin
@@ -111,17 +112,24 @@ begin
         end;
 
       if (not Result) then
-        if ((t - GetSystemTime) > 30000) then
+        if ((t - GetSystemTime) < (timeOut - 5000)) then
         begin
           MSI_NotBoxes := [];
-          Wait(RandomRange(2000, 3000));
+          Wait(RandomRange(200, 500));
 
           if (relocated) then
           begin
-            SymbolAccuracy := 40.0;
+            MSI_Debug('Trying to find bank symbol');
+            SymbolAccuracy := 0.4;
+
             if (FindSymbol(x, y, 'bank')) then
+            begin
+              MSI_Debug('Found symbol');
               MSI_MultiMouse(x, y, 50, 4, false);
-            SymbolAccuracy := 70.0;
+              MSI_Flag(0);
+            end;
+
+            SymbolAccuracy := 0.8;
             Continue;
           end;
 
