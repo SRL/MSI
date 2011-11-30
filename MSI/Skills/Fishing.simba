@@ -144,8 +144,8 @@ begin
         objReady[i] := True
       else begin // if 1+ tools aren't found
         canBank := MSI_Locations[Location].AtBank;
-        //if (not canBank) then
-          //canBank := MSI_WalkPath(curScript.pathInfo, false);
+        if (not canBank) then
+          canBank := MSI_WalkPath(curScript.pathInfo, false);
 
         if (canBank) then
           if (MSI_OpenBank(curScript.WhichBank, Pin)) then
