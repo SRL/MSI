@@ -465,7 +465,7 @@ should ALWAYS be called exactly like in this example.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 04 May 2011 by Coh3n
+  | Last Updated: 30 November 2011 by Coh3n
 
 Example:
 
@@ -477,8 +477,6 @@ Example:
         Exit;
 *)
 function MSI_FindRandoms(Force: Boolean): Boolean;
-var
-  randomDone: boolean;
 begin
   if (not LoggedIn) then
     Exit;
@@ -498,20 +496,15 @@ begin
 
   MSI_SubDebug('Scanning for randoms...');
 
-  {$IFDEF REFLECTION}
-  if (not MSI_HookBroken[HOOK_RANDOMS]) then
-    randomDone := R_FindRandoms
-  else
-    randomDone := FindNormalRandoms;
-  {$ELSE}
-  randomDone := FindNormalRandoms;
-  {$ENDIF}
-
-  if (randomDone) then
+  if (FindNormalRandoms) then
   begin
     Result := True;
     MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
+    {$IFDEF SRL5}
+    ClickNorth(SRL_ANGLE_HIGH);
+    {$ELSE}
     ClickNorth(True);
+    {$ENDIF}
   end;
 
   NextRandCheck := GetSystemTime + MSI_Settings[SETUP_RANDOMS_WAIT];

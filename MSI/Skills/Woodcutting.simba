@@ -154,16 +154,26 @@ Example:
     MSI_Debug('Player is chopping');
 *)
 function MSI_IsChopping(): boolean;
+var
+  b: boolean;
 begin
   with MSI_Players[CurrentPlayer] do
+  begin
+    {$IFDEF SRL5}
+    b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = SRL_ANGLE_LOW);
+    {$ELSE}
+    b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false);
+    {$ENDIF}
+
     if (length(MSI_Locations[Location].SubLocs) > 0) then
     begin
-      if (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false) then
+      if (b) then
         result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
       else
         result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
     end else
       result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
+  end;
 end;
 
 (*
