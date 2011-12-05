@@ -773,7 +773,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Swamp West Mine';
-           spsBox := intToBox(4407, 4065, 4434, 4092);
+           spsBox := intToBox(4407, 4070, 4434, 4092);
            objects := MSI_Scripts[SCRIPT_LSW_MINER].Defaults.Rocks;
          end;
        end;
@@ -1433,7 +1433,7 @@ begin
 
     for i := 0 to high(subLocs) do
     begin
-      // if compass isn't set, set to default
+      // if compass/camera isn't set, set to default
       if (varType(subLocs[i].compass) = 0) then
       begin
         subLocs[i].compass := 0;
@@ -1758,11 +1758,8 @@ begin
           result := true;
 
           {$IFDEF SRL5}
-          if (subLocs[i].camera = SRL_ANGLE_LOW) then
-          begin
-            setAngle(SRL_ANGLE_LOW);
-            makeCompass(subLocs[i].compass);
-          end;
+          setAngle(subLocs[i].camera);
+          makeCompass(subLocs[i].compass);
           {$ELSE}
           if (subLocs[i].camera = false) then
           begin
