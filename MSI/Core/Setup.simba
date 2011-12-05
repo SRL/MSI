@@ -11,13 +11,19 @@ The source for can be found
 *)
 
 //SRL Includes
-{$i srl/srl.simba}
+{$IFDEF SRL5}
+  {$i srl/srl.simba}
+{$ELSE}
+  {$i srl/srl.scar}
+  {$i srl/srl/misc/stats.simba}
+{$ENDIF}
 
 {$IFDEF SMART}
-  {$IFDEF MSI_REFLECTION}
-    {$i reflection/reflection.simba}
+  {$IFDEF SRL5}
+    {$i srl/srl/misc/paintsmart.simba}
+  {$ELSE}
+    {$i srl/srl/misc/paintsmart.scar}
   {$ENDIF}
-  {$i srl/srl/misc/paintsmart.simba}
 {$ELSE}
   {$IFNDEF SPS}
     {$DEFINE SPS}
@@ -28,14 +34,23 @@ The source for can be found
   {$i sps/sps.simba}
 {$ENDIF}
 
-{$i srl/srl/misc/Reports.simba}
-{$i srl/srl/skill/magic.simba}
+{$IFDEF SRL5}
+  {$i srl/srl/misc/Reports.simba}
+  {$i srl/srl/skill/magic.simba}
+{$ELSE}
+  {$i srl/srl/misc/Reports.scar}
+  {$i srl/srl/skill/magic.scar}
+{$ENDIF}
 
 {$IFDEF SRL_REMOTE}
   {$i srl/srl/misc/remote.simba}
 {$ENDIF}
 
-{$i srl/srl/misc/quickchat.simba}
+{$IFDEF SRL5}
+  {$i srl/srl/misc/quickchat.simba}
+{$ELSE}
+  {$i srl/srl/misc/quickchat.scar}
+{$ENDIF}
 
 //MSI Script
 {$i MSI/MSI/Core/Globals.simba}
