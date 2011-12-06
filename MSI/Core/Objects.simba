@@ -638,14 +638,14 @@ begin
         Uptexts            := ['Mine Rocks', 'ine Ro'];
         Options            := ['ine Rocks', 'ne Roc', 'ine'];
         Level              := 1;
-        Colors             := [7500665];
+        Colors             := [6842477];
         Tol                := 15;
-        Hue                := 0.18;
-        Sat                := 0.06;
+        Hue                := 0.24;
+        Sat                := 0.03;
         FindAllColors      := False;
-        W                  := 30;
-        H                  := 30;
-        Accuracy           := 10;
+        W                  := 25;
+        H                  := 25;
+        Accuracy           := 20;
         SearchArea         := MSBox;
         MaxTime            := 7000;
         ExcludeSelf        := False;
@@ -687,13 +687,13 @@ begin
         Options            := ['ine'];
         Level              := 20;
         Colors             := [14408944];
-        Tol                := 8;
+        Tol                := 10;
         Hue                := 0.11;
         Sat                := 4.02;
         FindAllColors      := False;
-        W                  := 30;
-        H                  := 30;
-        Accuracy           := 10;
+        W                  := 25;
+        H                  := 25;
+        Accuracy           := 15;
         SearchArea         := MSBox;
         MaxTime            := 20000;
         ExcludeSelf        := False;
@@ -1425,9 +1425,9 @@ Example:
 function MSI_FindObjectTPA(obj: TMSObject; var points: TPointArray): boolean;
 var
   TPA: TPointArray;
-  ATPA: T2DPointArray;
+  ATPA, tmpATPA: T2DPointArray;
   tpaBoxes: TBoxArray;
-  i, j, t, h, c, cts: integer;
+  i, j, t, h, c, l, cts: integer;
   badPoint: boolean;
 begin
   if (not loggedIn) then
@@ -1453,25 +1453,35 @@ begin
 
   // split points in to boxes the size of object & check if there's enough points
   TPA := MergeATPA(ATPA);
-  ATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
-  for i := 0 to high(ATPA) do
+  tmpATPA := TPAtoATPAEx(TPA, obj.w, obj.h);
+  setLength(ATPA, length(tmpATPA));
+  c := 0;
+
+  for i := 0 to high(tmpATPA) do
   begin
+    l := length(tmpATPA[i]);
+
     // check if all the colors were found
     if (obj.findAllColors) then
-      if (length(ATPA[i]) < 1) then
+      if (l < 1) then
       begin
         MSI_Debug('Not all colors were found');
-        deleteValueInATPA(ATPA, i);
+        continue;
       end;
 
-    if (length(ATPA[i]) < obj.accuracy) then
+    if (l < obj.accuracy) then
     begin
-      MSI_Debug('Not enough points: ' + intToStr(length(ATPA[i])));
-      deleteValueInATPA(ATPA, i);
-    end;
+      MSI_Debug('Found: '+toStr(l)+', NOT ENOUGH');
+      continue;
+    end else
+      MSI_Debug('Found: '+toStr(l)+', '+obj.name+' found');
+
+    ATPA[c] := tmpATPA[i];
+    inc(c);
   end;
 
   TPA := [];
+  setLength(ATPA, c);
   sortATPAFrom(ATPA, point(MSCX, MSCY));
   setLength(TPA, length(ATPA));
 
@@ -1549,7 +1559,7 @@ begin
         SMART_DrawBoxMS((i = 0), MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
     {$ENDIF}
 
-    MSI_Debug('Points found: ' + intToStr(length(points)));
+    MSI_Debug('Objects found: ' + intToStr(length(points)));
   end;
 
   MSI_Debug('Took ' + intToStr(timeFromMark(t)) + ' ms to complete');
