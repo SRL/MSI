@@ -216,6 +216,11 @@ begin
     MSI_AntiBan(randomRange(200, 500), ANTI_BAN_CHANCE);
 
     wait(1);
+
+    // to properly set camera/compass angles as a failsafe
+    with MSI_Players[CurrentPlayer] do
+      if (random(15) < 5) then
+        makeCompass(MSI_Locations[Location].SubLocs[CurrentPoint].Compass);
   end;
 end;
 
