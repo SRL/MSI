@@ -978,8 +978,8 @@ begin
         W                  := 18;
         H                  := 30;
         Accuracy           := 5;
-        SearchArea         := MSBox;
-        ExcludeSelf        := True;
+        SearchArea         := intToBox(MSCX - 50, MSY1, MSCX + 50, MSCY);
+        ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
         AssociatedItems    := [];

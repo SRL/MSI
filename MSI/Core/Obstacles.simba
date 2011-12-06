@@ -78,9 +78,9 @@ begin
         Name       := 'OBS_WALL_FW';
         ObjConst   := WALL_FW;
         ObjMir     := WALL_FW;
-        ObjMirArea := intToBox(MSCX, MSY1, MSX2, MSY2); // Right half of MS;
-        MirAction  := moMove;
-        Camera     := ['w', false];
+        ObjMirArea := intToBox(MSCX - 50, MSCY, MSCX + 50, MSY2); // Bottom half of MS;
+        MirAction  := moNothing;
+        Camera     := ['w', true];
         EndTiles   := [Point(2940, 3355)];
       end;
 
