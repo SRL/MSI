@@ -108,7 +108,11 @@ begin
 
   // Standard setup procedures
   MSI_FindRandoms(True);
+  {$IFDEF SRL5}
+  ClickNorth(SRL_ANGLE_HIGH);
+  {$ELSE}
   ClickNorth(True);
+  {$ENDIF}
   RunEnergy(20);
 
   // Setup the player
@@ -479,6 +483,9 @@ begin
     else
       NextPlayer(false);
 
+  // reset after switching players
+  MSI_Settings[SETUP_DEATH_WALK] := true;
+
   stats_IncVariable('Total Logins', 1);
   MSI_CloseHeader('MSI_UnsetPlayer: Finished');
 end;
@@ -802,16 +809,15 @@ begin
   {$ENDIF}
 
   // Warns the user if using an invalid script with SPS
-  if (MSI_HookBroken[HOOK_WALKING]) then
-    for i := 0 to high(MSI_Players) do
-      for j := 0 to high(MSI_Scripts) do
-        for k := 0 to high(MSI_Players[i].Scripts) do
-          if (MSI_Scripts[j].Constant = MSI_Players[i].Scripts[k].Name) then
-            if (length(MSI_Scripts[j].PathInfo.Reflection) > 0) then
-              if (length(MSI_Scripts[j].PathInfo.SPSAreas) <= 0) then
-                ShowMessage('WARNING: Player ('+MSI_Players[i].Name+') cannot run '+
-                            'script ('+MSI_Scripts[j].Name+') as it is unsupported by SPS. '+
-                            'Setting script to false.');
+  for i := 0 to high(MSI_Players) do
+    for j := 0 to high(MSI_Scripts) do
+      for k := 0 to high(MSI_Players[i].Scripts) do
+        if (MSI_Scripts[j].Constant = MSI_Players[i].Scripts[k].Name) then
+          if (MSI_Scripts[MSI_Players[i].Scripts[k].Name].BankObjects <> nil) then
+            if (length(MSI_Scripts[j].PathInfo.SPSAreas) <= 0) then
+              ShowMessage('WARNING: Player ('+MSI_Players[i].Name+') cannot run '+
+                          'script ('+MSI_Scripts[j].Name+') as it is unsupported by SPS. '+
+                          'Setting script to false.');
 
   repeat
     MSI_ResetRemote;
@@ -930,6 +936,7 @@ begin
         if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >=
             MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel) then
         begin
+          TakeScreen('MaxLevel');
           nPlayer := true;
           takeBreak := false;
           reason := 'Max level reached';
