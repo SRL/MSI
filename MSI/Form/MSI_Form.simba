@@ -620,6 +620,11 @@ begin
             else
               Edits := [EDIT_TIME, EDIT_LEVEL];
           end;
+
+        SKILL_RUNECRAFTING:
+          begin
+            edits := [EDIT_LOADS, EDIT_TIME, EDIT_LEVEL];
+          end;
       end;
 
       // Make lists visible
