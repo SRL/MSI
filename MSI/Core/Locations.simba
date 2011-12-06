@@ -1618,7 +1618,6 @@ function MSI_Relocate(Loc: Integer): Boolean;
 var
   hSubLoc, i, cP: integer;
   mPos: TPoint;
-  areaTPA: TPointArray;
   local_subLocs: TSubLocArray;
 begin
   if (not loggedIn) then
