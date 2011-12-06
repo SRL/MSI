@@ -288,13 +288,13 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [4015951];
+        Colors             := [4147538];
         Tol                := 8;
-        Hue                := 0.14;
-        Sat                := 0.06;
+        Hue                := 0.08;
+        Sat                := 0.09;
         FindAllColors      := False;
-        W                  := 60;
-        H                  := 90;
+        W                  := 80;
+        H                  := 100;
         Accuracy           := 100;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
@@ -1414,13 +1414,13 @@ are found in the object's ('Obj') SearchBox atribute.
 .. note::
 
   | Author: marpis
-  | Last Updated: 01 June 2011 by Coh3n
+  | Last Updated: 05 December 2011 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
-  ms_Points := function MSI_FindObjectTPA(TREE_NORMAL, tmpTPA);
+  ms_Points := MSI_FindObjectTPA(MSI_GetObject(TREE_YEW_NEW), tmpTPA);
 *)
 function MSI_FindObjectTPA(obj: TMSObject; var points: TPointArray): boolean;
 var
