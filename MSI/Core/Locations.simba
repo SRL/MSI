@@ -456,7 +456,7 @@ begin
          begin
            name := 'Draynor Village Yews Central';
            spsBox := intToBox(4491, 3774, 4511, 3786);
-           compass := 90;
+           compass := 270;
          end;
 
          with subLocs[2] do
