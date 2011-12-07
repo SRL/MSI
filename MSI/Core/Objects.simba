@@ -358,10 +358,10 @@ begin
         Name               := 'BANK_DRAYNOR';
         Uptexts            := ['Banker', 'anker', 'ank'];
         Options            := ['Bank Banker', 'ank B'];
-        Colors             := [1979715];
+        Colors             := [5659227];
         Tol                := 5;
-        Hue                := 0.13;
-        Sat                := 0.24;
+        Hue                := 3.34;
+        Sat                := 0.63;
         FindAllColors      := False;
         W                  := 10;
         H                  := 10;
