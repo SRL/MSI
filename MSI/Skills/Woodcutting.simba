@@ -80,11 +80,13 @@ begin
   with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do // CurrentScript
     if (not Result) then
       if (not (BankType = NoBank)) then // If CurrentScript is a banking one
-        if (not (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank)) then // If player is not at a bank
+        if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // If at bank
+          Result := MSI_WithdrawBestTool()
+        else
+        begin  //If not at bank
           if MSI_WalkPath(MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo, false) then
             Result := MSI_WithdrawBestTool()
-        else
-          Result := MSI_WithdrawBestTool();
+        end;
 
   MSI_CloseHeader('MSI_SetupWC/Mining: ' + BoolToStr(Result));
 end;
