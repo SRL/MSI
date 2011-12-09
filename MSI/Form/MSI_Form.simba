@@ -1398,7 +1398,7 @@ begin
   //Writeln('Others set!');
 end;
 
-procedure SavePlayers(Save: Boolean);
+procedure SavePlayers;
 var
   i, j: Integer;
   s: string;
@@ -1416,18 +1416,10 @@ begin
       SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
       script_SetInfo(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_5].Text), comboBox_Script_6.ITEMS.IndexOf(comboBox_Script_6.Text));
 
-      if save then
-      begin
-        WriteINI(IntToStr(i), 'Name', Name, PATH_PLAYER);
-        WriteINI(IntToStr(i), 'Pass', Pass, PATH_PLAYER);
-        WriteINI(IntToStr(i), 'Nick', Nick, PATH_PLAYER);
-        WriteINI(IntToStr(i), 'Pin', Pin, PATH_PLAYER);
-      end else begin
-        WriteINI(IntToStr(i), 'Name', '####', PATH_PLAYER);
-        WriteINI(IntToStr(i), 'Pass', '####', PATH_PLAYER);
-        WriteINI(IntToStr(i), 'Nick', '####', PATH_PLAYER);
-        WriteINI(IntToStr(i), 'Pin', '####', PATH_PLAYER);
-      end;
+      WriteINI(IntToStr(i), 'Name', Name, PATH_PLAYER);
+      WriteINI(IntToStr(i), 'Pass', Pass, PATH_PLAYER);
+      WriteINI(IntToStr(i), 'Nick', Nick, PATH_PLAYER);
+      WriteINI(IntToStr(i), 'Pin', Pin, PATH_PLAYER);
       WriteINI(IntToStr(i), 'Active', BoolToStr(Active), PATH_PLAYER);
       WriteINI(IntToStr(i), 'Member', BoolToStr(Member), PATH_PLAYER);
       WriteINI(IntToStr(i), 'Location', IntToStr(Location), PATH_PLAYER);
@@ -1832,7 +1824,7 @@ begin
         SetScriptConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_2].Text));
         SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
         SetOther(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_4].Text));
-        SavePlayers(True);
+        SavePlayers;
         ShowMessage('Saved Players');
       end;
 
@@ -1852,7 +1844,8 @@ begin
         SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
         SetOther(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_4].Text));
         btn := MessageDlg('Save Settings?', 'Would you like to save your user information for later use?', mtConfirmation, [mbYes, mbNo]);
-        SavePlayers(btn = mrYes);
+        if btn = mrYes then
+          SavePlayers;
         CurrentPlayer := StrToIntDef(edit_CurPlayer.Text, 0);
         if (CurrentPlayer = 0) then
           for i := 0 to High(MSI_Players) do
