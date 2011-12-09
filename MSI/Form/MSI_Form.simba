@@ -89,7 +89,7 @@ var // Panel 5: Script Setup
 
 (**
  * Converts a string to an integer array; for example,
- * StrToIntArr(1,2,3,4) will result [1, 2, 3, 4]
+ * StrToIntArr('1,2,3,4') will result [1, 2, 3, 4]
  *)
 
 var
@@ -121,7 +121,7 @@ end;
 
 (**
  * Converts an integer array to a string; for example,
- * IntArrToStr([1, 2, 3, 4]) will result '1,2,3,4'
+ * IntArrToStr(['1, 2, 3, 4']) will result '1,2,3,4'
  *)
 function IntArrToStr(Int: TIntegerArray): string;
 var
@@ -1398,7 +1398,7 @@ begin
   //Writeln('Others set!');
 end;
 
-procedure SavePlayers();
+procedure SavePlayers(Save: Boolean);
 var
   i, j: Integer;
   s: string;
@@ -1416,10 +1416,18 @@ begin
       SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
       script_SetInfo(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_5].Text), comboBox_Script_6.ITEMS.IndexOf(comboBox_Script_6.Text));
 
-      WriteINI(IntToStr(i), 'Name', Name, PATH_PLAYER);
-      WriteINI(IntToStr(i), 'Pass', Pass, PATH_PLAYER);
-      WriteINI(IntToStr(i), 'Nick', Nick, PATH_PLAYER);
-      WriteINI(IntToStr(i), 'Pin', Pin, PATH_PLAYER);
+      if save then
+      begin
+        WriteINI(IntToStr(i), 'Name', Name, PATH_PLAYER);
+        WriteINI(IntToStr(i), 'Pass', Pass, PATH_PLAYER);
+        WriteINI(IntToStr(i), 'Nick', Nick, PATH_PLAYER);
+        WriteINI(IntToStr(i), 'Pin', Pin, PATH_PLAYER);
+      end else begin
+        WriteINI(IntToStr(i), 'Name', '####', PATH_PLAYER);
+        WriteINI(IntToStr(i), 'Pass', '####', PATH_PLAYER);
+        WriteINI(IntToStr(i), 'Nick', '####', PATH_PLAYER);
+        WriteINI(IntToStr(i), 'Pin', '####', PATH_PLAYER);
+      end;
       WriteINI(IntToStr(i), 'Active', BoolToStr(Active), PATH_PLAYER);
       WriteINI(IntToStr(i), 'Member', BoolToStr(Member), PATH_PLAYER);
       WriteINI(IntToStr(i), 'Location', IntToStr(Location), PATH_PLAYER);
@@ -1513,10 +1521,7 @@ var
   nPlayers, s, p: string;
 begin
   if (not FileExists(PATH_PLAYER)) then
-  begin
-    ShowMessage('Players need to be saved before they can be loaded!');
     Exit;
-  end;
 
   nPlayers := ReadINI('Number of Players', 'NumberOfPlayers', PATH_PLAYER);
   SetLength(MSI_Players, StrToInt(nPlayers));
@@ -1525,6 +1530,8 @@ begin
     with MSI_Players[i] do
     begin
       Name := ReadINI(IntToStr(i), 'Name', PATH_PLAYER);
+      if Name = '####' then
+        Continue;
       Pass := ReadINI(IntToStr(i), 'Pass', PATH_PLAYER);
       Nick := ReadINI(IntToStr(i), 'Nick', PATH_PLAYER);
       Pin := ReadINI(IntToStr(i), 'Pin', PATH_PLAYER);
@@ -1592,6 +1599,7 @@ begin
   btn_DeletePlayer.Enabled := (Length(MSI_Players) >= 1);
   for i := Low(Next) to High(Next) do
     Next[i].Enabled := (Length(MSI_Players) >= 1);
+  //ShowMessage('Loaded Players');
 end;
 
 procedure OnMouseMove(Sender: TObject; Shift: TShiftState; x, y: Integer);
@@ -1768,7 +1776,7 @@ end;
 
 procedure OnClickEvents(Sender: TObject); // OnClick
 var
-  i, t: integer;
+  i, t, btn: integer;
   bmpArr: TIntegerArray;
 begin
   for i := IMG_TAB_NORM_1 to IMG_TAB_NORM_5 do
@@ -1824,7 +1832,7 @@ begin
         SetScriptConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_2].Text));
         SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
         SetOther(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_4].Text));
-        SavePlayers;
+        SavePlayers(True);
         ShowMessage('Saved Players');
       end;
 
@@ -1832,7 +1840,6 @@ begin
       begin
         DrawBitmap(frmBitmaps[LOAD_TAB_NORM],tImages[IMG_LOAD_TAB_NORM].Canvas, 0, 0);
         LoadPlayers;
-        ShowMessage('Loaded Players');
       end;
 
     tImages[IMG_RUN_NORM]:
@@ -1844,8 +1851,8 @@ begin
         SetScriptConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_2].Text));
         SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
         SetOther(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_4].Text));
-        SavePlayers();
-
+        btn := MessageDlg('Save Settings?', 'Would you like to save your user information for later use?', mtConfirmation, [mbYes, mbNo]);
+        SavePlayers(btn = mrYes);
         CurrentPlayer := StrToIntDef(edit_CurPlayer.Text, 0);
         if (CurrentPlayer = 0) then
           for i := 0 to High(MSI_Players) do
