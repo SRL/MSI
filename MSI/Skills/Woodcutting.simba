@@ -144,7 +144,7 @@ animating routines.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 04 May 2011 by Coh3n
+  | Last Updated: 10 December 2011 by Coh3n
 
 Example:
 
@@ -159,14 +159,14 @@ var
 begin
   with MSI_Players[CurrentPlayer] do
   begin
-    {$IFDEF SRL5}
-    b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = SRL_ANGLE_LOW);
-    {$ELSE}
-    b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false);
-    {$ENDIF}
-
     if (length(MSI_Locations[Location].SubLocs) > 0) then
     begin
+      {$IFDEF SRL5}
+      b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = SRL_ANGLE_LOW);
+      {$ELSE}
+      b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false);
+      {$ENDIF}
+
       if (b) then
         result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
       else
