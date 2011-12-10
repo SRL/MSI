@@ -936,6 +936,7 @@ begin
         if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >=
             MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel) then
         begin
+          TakeScreen('MaxLevel');
           nPlayer := true;
           takeBreak := false;
           reason := 'Max level reached';
