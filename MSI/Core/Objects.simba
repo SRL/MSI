@@ -331,20 +331,20 @@ begin
 
     { BANKS ====================================== ]
     [============================================= }
-    MSI_BANK_VE:
+    MSI_BANK_VE, MSI_BANK_EV:
       with result do
       begin
-        Name               := 'BANK_VARROCK_EAST';
+        Name               := 'BANK_VE/EV';
         Uptexts            := ['Banker', 'ank', 'anker', 'ker'];
         Options            := ['Bank Bank', 'ank B', 'ank Banker'];
         Colors             := [4730680];
-        Tol                := 9;
+        Tol                := 10;
         Hue                := 0.09;
         Sat                := 0.93;
         FindAllColors      := False;
         W                  := 25;
         H                  := 40;
-        Accuracy           := 30;
+        Accuracy           := 15;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;
@@ -449,27 +449,6 @@ begin
         W                  := 15;
         H                  := 30;
         Accuracy           := 20;
-        SearchArea         := MSBox
-        ExcludeSelf        := True;
-        RightClickOnly     := True;
-        WaitToMove         := True;
-        MultiClick         := True;
-      end;
-
-    MSI_BANK_EV:
-      with result do
-      begin
-        Name               := 'BANK_EDGEVILLE';
-        Uptexts            := ['Banker', 'anker', 'ank'];
-        Options            := ['Bank Banker', 'ank B'];
-        Colors             := [2376018];
-        Tol                := 4;
-        Hue                := 0.10;
-        Sat                := 0.25;
-        FindAllColors      := False;
-        W                  := 10;
-        H                  := 10;
-        Accuracy           := 5;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := True;
