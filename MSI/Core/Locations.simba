@@ -220,7 +220,7 @@ begin
          begin
            name := 'Varrock West Mine South';
            spsBox := intToBox(3528, 3176, 4554, 3195);
-           objects := [ROCK_TIN, ROCK_SILVER]
+           objects := [ROCK_TIN, ROCK_SILVER, ROCK_IRON];
          end;
        end;
 
