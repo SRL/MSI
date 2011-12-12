@@ -224,8 +224,9 @@ begin
 
     // to properly set camera/compass angles as a failsafe
     with MSI_Players[CurrentPlayer] do
-      if (random(15) < 5) then
-        makeCompass(MSI_Locations[Location].SubLocs[CurrentPoint].Compass);
+      if (length(MSI_Locations[Location].SubLocs) > 0) then
+        if (random(15) < 5) then
+          makeCompass(MSI_Locations[Location].SubLocs[CurrentPoint].Compass);
   end;
 end;
 
