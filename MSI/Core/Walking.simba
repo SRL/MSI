@@ -512,7 +512,7 @@ Example:
 function MSI_WalkTPA(Path: TPointArray; Destination, MaxDist: Integer): Boolean;
 var
   P, DPoint: TPoint;
-  H, D, PointInd, pInd, Attempts, dist: Integer;
+  H, D, PointInd, pInd, Attempts, dist,failsPPs: Integer;
 begin
   if (not(loggedIn)) then
     exit;
@@ -554,7 +554,7 @@ begin
     end;
 
     // loops through the points and walks :)
-    while (not Result) and (Attempts < 10) do
+    while (not Result) and (Attempts < 15) do
     begin
       MSI_WaitWhileResting();
 
@@ -567,7 +567,10 @@ begin
 
         if (MSI_WalkPoint(Path[PointInd], RandomRange(5, 10)*Integer(PointInd<>H))) then
         begin
-          Attempts := 0;
+          if failsPPs <> pInd then
+            Attempts := 0;
+          failsPPs := pInd;
+          //writeln('path '+tostr(pind));
           Wait(100 + Random(100));
           P := MSI_GetMyPos();
           MSI_PointOnPath(pInd, Path, P, DIST_BETWEEN_POINTS);
