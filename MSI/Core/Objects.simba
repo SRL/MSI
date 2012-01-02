@@ -954,10 +954,10 @@ begin
         Hue                := 0.04;
         Sat                := 1.35;
         FindAllColors      := False;
-        W                  := 18;
-        H                  := 30;
-        Accuracy           := 5;
-        SearchArea         := intToBox(MSCX - 50, MSY1, MSCX + 50, MSCY);
+        W                  := 30;
+        H                  := 15;
+        Accuracy           := 10;
+        SearchArea         := intToBox(MSCX - 75, MSY1, MSCX + 75, MSY2);
         ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
