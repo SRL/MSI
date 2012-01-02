@@ -214,6 +214,27 @@ var // Intro Panel
   intro_ComboLabels, intro_EditLabels: array of TLabel;
   s: TStringArray;
 
+var
+  MouseDown: Boolean;  // Is the mouse down?
+  cPoint: TPoint;  // Mouse cursor position at time of mouse down.
+
+procedure BGMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if(Button <> mbLeft) then
+    Exit;
+
+  MouseDown := True;
+  cPoint := Point(X, Y);
+end;
+
+procedure BGMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if(Button <> mbLeft) then
+    Exit;
+
+  MouseDown := False;
+end;
+
 procedure intro_CreateComponents();
 var
   i, j: Integer;
@@ -1599,6 +1620,14 @@ var
   hi, i, bmp, h: Integer;
   imgSwap, bmpArr, imgArr: Array of Integer;
 begin
+  if(MouseDown) then
+  begin
+    MainForm.Left := MainForm.Left - (cPoint.X - X);
+    MainForm.Top := MainForm.Top - (cPoint.Y - Y);
+
+    Exit;
+  end;
+
   bmpArr := [ X_NORM, Q_NORM, LOAD_TAB_NORM,
               SAVE_TAB_NORM, TAB_NORM_1, TAB_NORM_2,
               TAB_NORM_3, TAB_NORM_4, TAB_NORM_5, TAB_NORM_0, RUN_NORM ];
@@ -2273,6 +2302,7 @@ begin
 
   MainForm := TForm.Create(nil);
   MainForm.SetBounds({L} 100, {T} 100, {W} 600, {H} 400);
+  MainForm.Position := poMainFormCenter;  // Centre of the Simba window. :-)
   MainForm.BorderStyle := bsNone;
 
   script_Form := TForm.Create(MainForm);
@@ -2308,6 +2338,13 @@ begin
       SetBounds(xy[i].x, xy[i].y, wh.x, wh.y);
       OnMouseMove := @OnMouseMove;
       OnClick := @OnClickEvents;
+
+      if(I = IMG_BGND) then
+      begin
+        OnMouseDown := @BGMouseDown;
+        OnMouseUp := @BGMouseUp;
+      end;
+
       isActiveImage[i] := False;
     end;
     DrawBitmap(frmBitmaps[consts[i]], tImages[i].canvas, 0, 0);
