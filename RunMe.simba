@@ -20,7 +20,7 @@ program MSI_Script;
 {$DEFINE EXTRA_CHARACTER_STATS} // Saves player stats in HTML format
 
 // Define other settings
-//{$DEFINE SRL5}  // Uncomment if you're testing SRL5
+{$DEFINE SRL5}  // Uncomment if you're testing SRL5
 {$DEFINE SPS}   // Comment to disable SPS (no walking scripts)
 {$DEFINE SMART} // Comment to use MSI with a browser
 {$DEFINE SRL_REMOTE} // Use SRL's player remote control
