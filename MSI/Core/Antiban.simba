@@ -500,11 +500,7 @@ begin
   begin
     Result := True;
     MSI_SubDebug('MSI_FindRandoms: Finished Random Event!');
-    {$IFDEF SRL5}
     ClickNorth(SRL_ANGLE_HIGH);
-    {$ELSE}
-    ClickNorth(True);
-    {$ENDIF}
   end;
 
   NextRandCheck := GetSystemTime + MSI_Settings[SETUP_RANDOMS_WAIT];

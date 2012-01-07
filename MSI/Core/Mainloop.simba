@@ -108,11 +108,7 @@ begin
 
   // Standard setup procedures
   MSI_FindRandoms(True);
-  {$IFDEF SRL5}
   ClickNorth(SRL_ANGLE_HIGH);
-  {$ELSE}
-  ClickNorth(True);
-  {$ENDIF}
   RunEnergy(20);
 
   // Setup the player

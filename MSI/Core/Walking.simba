@@ -795,11 +795,7 @@ begin
     if (not result) then
       if (home) then
       begin
-        {$IFDEF SRL5}
         ClickNorth(SRL_ANGLE_HIGH);
-        {$ELSE}
-        ClickNorth(True);
-        {$ENDIF}
         result := MSI_WalkPath(deathPath, true);
       end else begin
         MSI_Debug('Didn''t spawn after 45 seconds');
