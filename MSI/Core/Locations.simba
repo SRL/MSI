@@ -82,11 +82,7 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            subLocs[i].objects := MSI_Scripts[SCRIPT_VE_OAKS].Defaults.Trees;
          end;
        end;
@@ -236,11 +232,7 @@ begin
            name := 'Grand Exchange Oaks';
            spsBox := intToBox(4596, 2793, 4615, 2821);
            compass := randomRange(260, 290);
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            objects := MSI_Scripts[SCRIPT_GE_OAKS].Defaults.Trees;
          end;
        end;
@@ -257,11 +249,7 @@ begin
            name := 'Grand Exchange Bank';
            spsBox := intToBox(4540, 2719, 4554, 2731);
            compass := randomRange(85, 95);
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
          end;
 
          with deathPath do
@@ -307,11 +295,7 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            subLocs[i].objects := MSI_Scripts[SCRIPT_GE_YEWS].Defaults.Trees;
          end;
        end;
@@ -399,11 +383,7 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            subLocs[i].objects := MSI_Scripts[SCRIPT_DB_OAKS].Defaults.Trees;
          end;
        end;
@@ -468,11 +448,7 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            subLocs[i].objects := MSI_Scripts[SCRIPT_DB_YEWS].Defaults.Trees;
          end;
        end;
@@ -514,11 +490,7 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            subLocs[i].objects := [TREE_YEW_NEW];
          end;
        end;
@@ -723,11 +695,7 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            subLocs[i].objects := MSI_Scripts[SCRIPT_PS_YEWS].Defaults.Trees;
          end;
        end;
@@ -862,11 +830,7 @@ begin
 
          for i := 0 to high(subLocs) do
          begin
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_LOW;
-           {$ELSE}
-           subLocs[i].camera := false;
-           {$ENDIF}
            subLocs[i].objects := MSI_Scripts[SCRIPT_EV_YEWS].Defaults.Trees;
          end;
        end;
@@ -1090,11 +1054,7 @@ begin
            name := 'Crafting Guild Gold';
            spsBox := intToBox(3586, 3535, 3608, 3553);
            compass := randomRange(60, 190);
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_HIGH;
-           {$ELSE}
-           subLocs[i].camera := true;
-           {$ENDIF}
            objects := [ROCK_GOLD];
          end;
 
@@ -1110,11 +1070,7 @@ begin
            name := 'Crafting Guild Silver';
            spsBox := intToBox(3594, 3495, 3609, 3515);
            compass := randomRange(315, 360);
-           {$IFDEF SRL5}
            subLocs[i].camera := SRL_ANGLE_HIGH;
-           {$ELSE}
-           subLocs[i].camera := true;
-           {$ENDIF}
            objects := [ROCK_SILVER];
          end;
        end;
@@ -1437,11 +1393,7 @@ begin
       if (varType(subLocs[i].compass) = 0) then
       begin
         subLocs[i].compass := 0;
-        {$IFDEF SRL5}
         subLocs[i].camera := SRL_ANGLE_HIGH;
-        {$ELSE}
-        subLocs[i].camera := true;
-        {$ENDIF}
       end;
     end;
 
@@ -1756,16 +1708,8 @@ begin
           MSI_BoxToMM(subLocs[i].spsBox);
           result := true;
 
-          {$IFDEF SRL5}
           setAngle(subLocs[i].camera);
           makeCompass(subLocs[i].compass);
-          {$ELSE}
-          if (subLocs[i].camera = false) then
-          begin
-            setAngle(false);
-            makeCompass(subLocs[i].compass);
-          end;
-          {$ENDIF}
 
           MSI_Debug('Player is at ' + subLocs[i].name);
           MSI_Players[CurrentPlayer].CurrentPoint := i;

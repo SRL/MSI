@@ -1119,11 +1119,7 @@ type
     name: string;
     spsBox: TBox;
     compass: variant;
-    {$IFDEF SRL5}
     camera: integer;
-    {$ELSE}
-    camera: boolean;
-    {$ENDIF}
     objects: TIntegerArray;
   end;
   TSubLocArray = array of TSubLoc;

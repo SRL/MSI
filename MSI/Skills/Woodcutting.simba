@@ -166,11 +166,7 @@ begin
   begin
     if (length(MSI_Locations[Location].SubLocs) > 0) then
     begin
-      {$IFDEF SRL5}
       b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = SRL_ANGLE_LOW);
-      {$ELSE}
-      b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = false);
-      {$ENDIF}
 
       if (b) then
         result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
