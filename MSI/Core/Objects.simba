@@ -1467,7 +1467,7 @@ begin
   // draw points on SMART if setting enabled
   {$IFDEF SMART}
   if (MSI_Settings[SETUP_DEBUG_SMART]) then
-    drawDotsMulti(true, ATPA);
+    SMART_DrawDotsMulti(true, ATPA);
   {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point

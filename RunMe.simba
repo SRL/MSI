@@ -278,8 +278,7 @@ begin
   AddOnTerminate('MSI_ScriptTerminate');
 
   {$IFDEF SMART}
-  SMART_SetupDebug();
-  clearRSCanvas(SMART_Canvas.canvas);
+  SMART_ClearCanvas();
   {$ENDIF}
 
   // create debug file
