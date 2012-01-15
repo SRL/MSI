@@ -192,10 +192,10 @@ begin
         Uptexts            := ['wn Wil'];
         Options            := ['Chop down Willow'];
         Level              := 30;
-        Colors             := [2766391];
-        Tol                := 2;
-        Hue                := 0.37;
-        Sat                := 0.27;
+        Colors             := [2832695];
+        Tol                := 5;
+        Hue                := 0.27;
+        Sat                := 0.28;
         FindAllColors      := False;
         W                  := 40;
         H                  := 60;
