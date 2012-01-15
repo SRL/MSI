@@ -92,7 +92,7 @@ begin
     TREE_NORMAL_NEW:
       with result do
       begin
-        Name               := 'TREE_NORMAL';
+        Name               := 'TREE_NORMAL_NEW';
         Uptexts            := ['ree'];
         Options            := ['own Tree'];
         Level              := 1;
@@ -192,10 +192,10 @@ begin
         Uptexts            := ['wn Wil'];
         Options            := ['Chop down Willow'];
         Level              := 30;
-        Colors             := [2766391];
-        Tol                := 2;
-        Hue                := 0.37;
-        Sat                := 0.27;
+        Colors             := [2832695];
+        Tol                := 5;
+        Hue                := 0.27;
+        Sat                := 0.28;
         FindAllColors      := False;
         W                  := 40;
         H                  := 60;
@@ -288,10 +288,10 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [4147538];
-        Tol                := 8;
-        Hue                := 0.08;
-        Sat                := 0.09;
+        Colors             := [2568764];
+        Tol                := 6;
+        Hue                := 0.11;
+        Sat                := 0.28;
         FindAllColors      := False;
         W                  := 80;
         H                  := 100;
@@ -408,7 +408,7 @@ begin
         H                  := 40;
         Accuracy           := 20;
         SearchArea         := MSBox
-        ExcludeSelf        := True;
+        ExcludeSelf        := False;
         RightClickOnly     := True;
         WaitToMove         := True;
         MultiClick         := True;
