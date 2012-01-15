@@ -92,7 +92,7 @@ begin
     TREE_NORMAL_NEW:
       with result do
       begin
-        Name               := 'TREE_NORMAL';
+        Name               := 'TREE_NORMAL_NEW';
         Uptexts            := ['ree'];
         Options            := ['own Tree'];
         Level              := 1;
@@ -408,7 +408,7 @@ begin
         H                  := 40;
         Accuracy           := 20;
         SearchArea         := MSBox
-        ExcludeSelf        := True;
+        ExcludeSelf        := False;
         RightClickOnly     := True;
         WaitToMove         := True;
         MultiClick         := True;
