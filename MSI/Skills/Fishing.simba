@@ -53,12 +53,12 @@ begin
       with MSI_Players[CurrentPlayer] do
       begin
         if (member) then
+        begin
           if (reportInfo.skillLevels[CurrentScript] >= 35) then
             for i := tab_Inv to tab_Equip do // gameTab called in FindTool
               if (MSI_FindTool(FISH_HARPOON_BARB, i, x, y)) then
                 result := [FISH_HARPOON_BARB];
-
-        if (length(result) <= 0) then
+        end else
           result := [FISH_HARPOON];
       end;
 
@@ -143,9 +143,13 @@ begin
       if (Length(toWithdraw[i]) <= 0) then // If all tools are found
         objReady[i] := True
       else begin // if 1+ tools aren't found
-        canBank := MSI_Locations[Location].AtBank;
-        if (not canBank) then
-          canBank := MSI_WalkPath(curScript.pathInfo, false);
+        // if either the starting or ending locations are bankable
+        if (MSI_Locations[curScript.pathInfo.startLoc].AtBank or MSI_Locations[curScript.pathInfo.endLoc].AtBank) then
+        begin
+          canBank := MSI_Locations[Location].AtBank;
+          if (not canBank) then
+            canBank := MSI_WalkPath(curScript.pathInfo, false);
+        end;
 
         if (canBank) then
           if (MSI_OpenBank(curScript.WhichBank, Pin)) then
