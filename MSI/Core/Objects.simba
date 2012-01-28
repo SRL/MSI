@@ -197,9 +197,9 @@ begin
         Hue                := 0.74;
         Sat                := 0.92;
         FindAllColors      := False;
-        W                  := 40;
-        H                  := 60;
-        Accuracy           := 30;
+        W                  := 50;
+        H                  := 50;
+        Accuracy           := 100;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
