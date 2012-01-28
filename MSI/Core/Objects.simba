@@ -356,17 +356,17 @@ begin
       with result do
       begin
         Name               := 'BANK_DRAYNOR';
-        Uptexts            := ['Banker', 'anker', 'ank'];
-        Options            := ['Bank Banker', 'ank B'];
-        Colors             := [5659227];
+        Uptexts            := ['Counter', 'ounter', 'nter'];
+        Options            := ['se-quick', 'uick'];
+        Colors             := [4610140];
         Tol                := 5;
-        Hue                := 3.34;
-        Sat                := 0.63;
+        Hue                := 0.12;
+        Sat                := 0.10;
         FindAllColors      := False;
-        W                  := 10;
-        H                  := 10;
-        Accuracy           := 5;
-        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 100, MSY2);
+        W                  := 50;
+        H                  := 100;
+        Accuracy           := 100;
+        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 50, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := True;
         WaitToMove         := True;
