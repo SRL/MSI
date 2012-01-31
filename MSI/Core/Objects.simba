@@ -356,8 +356,8 @@ begin
       with result do
       begin
         Name               := 'BANK_DRAYNOR';
-        Uptexts            := ['Counter', 'ounter', 'nter'];
-        Options            := ['se-quick', 'uick'];
+        Uptexts            := ['Bank Counter', 'ank Cou'];
+        Options            := ['Bank', 'ank'];
         Colors             := [4610140];
         Tol                := 5;
         Hue                := 0.12;
@@ -368,7 +368,7 @@ begin
         Accuracy           := 100;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX + 50, MSY2);
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -398,7 +398,7 @@ begin
       begin
         Name               := 'BANK_FALADOR_EAST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [7044234];
         Tol                := 5;
         Hue                := 0.24;
@@ -409,7 +409,7 @@ begin
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := False;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -419,7 +419,7 @@ begin
       begin
         Name               := 'BANK_VARROCK_WEST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [5794933];
         Tol                := 8;
         Hue                := 0.13;
@@ -430,7 +430,7 @@ begin
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -440,7 +440,7 @@ begin
       begin
         Name               := 'BANK_FALADOR_WEST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [3627376];
         Tol                := 6;
         Hue                := 0.17;
@@ -451,7 +451,7 @@ begin
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -482,7 +482,7 @@ begin
       begin
         Name               := 'BANK_SEERS_VILLAGE';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [10464171];
         Tol                := 2;
         Hue                := 0.76;
@@ -493,6 +493,7 @@ begin
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -502,7 +503,7 @@ begin
       begin
         Name               := 'BANK_AL-KHARID';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6125447];
         Tol                := 12;
         Hue                := 0.04;
@@ -513,7 +514,7 @@ begin
         Accuracy           := 15;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX, MSY2);
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -523,7 +524,7 @@ begin
       begin
         Name               := 'BANK_CATHERBY';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6714503];
         Tol                := 11;
         Hue                := 0.34;
@@ -534,7 +535,7 @@ begin
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -544,7 +545,7 @@ begin
       begin
         Name               := 'BANK_FISHING_GUILD';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6910071];
         Tol                := 3;
         Hue                := 0.40;
@@ -555,7 +556,7 @@ begin
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
