@@ -1463,7 +1463,6 @@ begin
   TPA := [];
   setLength(ATPA, c);
   sortATPAFrom(ATPA, point(MSCX, MSCY));
-  TPA := mergeATPA(ATPA);
 
   // draw points on SMART if setting enabled
   {$IFDEF SMART}
@@ -1472,18 +1471,20 @@ begin
   {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point
-  setLength(tpaBoxes, length(TPA));
-  for i := 0 to high(TPA) do
-    tpaBoxes[i] := MSI_MakeBox(TPA[i], obj.w, obj.h);
+  setLength(tpaBoxes, length(ATPA));
+  for i := 0 to high(ATPA) do
+    tpaBoxes[i] := getTPABounds(ATPA[i]);
 
-  setLength(points, length(TPA));
-  h := high(TPA);
+  setLength(points, length(ATPA));
+  setLength(TPA, length(ATPA));
+  h := high(ATPA);
   c := 0;
 
   // loop through all the points to see which are valid/invalid
   for i := 0 to h do
   begin
     badPoint := false;
+    TPA[i] := middleTPA(ATPA[i]);
 
     // checks to see if the point is in the object's search area
     if (not badPoint) then
