@@ -274,7 +274,7 @@ begin
       break;
 
     // check for the "you're out of bait" text in the chat box
-    if (findText(x, y, 'left', NPCChars, MCX1, MCY1, MCX2, MCY2)) then
+    if (findNPCChatText('left', nothing)) then
     begin
       MSI_Debug('We have run out of fishing bait!');
       result := false;
@@ -282,7 +282,7 @@ begin
     end;
 
     // check for the "you need tool to fish" message
-    if (findText(x, y, 'need', NPCChars, MCX1, MCY1, MCX2, MCY2)) then
+    if (findNPCChatText('need', nothing)) then
     begin
       MSI_Debug('Accidentially clicked wrong fishing spot');
       break;
