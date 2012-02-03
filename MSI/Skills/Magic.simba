@@ -133,7 +133,7 @@ begin
         Level := 37;
         Experience := 48;
         Staffs := [STAFF_AIR, STAFF_WATER];
-        FreeBox := IntToBox(664, 297, 697, 309);
+        FreeBox := IntToBox(664, 295, 677, 308);
         MemberBox := IntToBox(688, 297, 704, 310);
         AutoCast := False;
         Runes := [RUNE_LAW, RUNE_WATER, RUNE_AIR];
