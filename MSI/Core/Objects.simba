@@ -484,7 +484,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [10464171];
-        Tol                := 2;
+        Tol                := 10;
         Hue                := 0.76;
         Sat                := 0.40;
         FindAllColors      := False;
