@@ -144,6 +144,7 @@ begin
 
     if (length(arr) < rock.accuracy) then
     begin
+      MSI_Debug('Length(arr) = ' + IntToStr(Length(arr)));
       MSI_Debug('Colours found < Accuracy');
       Break;
     end;

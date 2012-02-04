@@ -567,13 +567,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_CLAY';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Clay rocks', 'ine Cla', 'ay roc'];
+        Options            := ['ine Clay', 'Mine Clay', 'ay roc'];
         Level              := 1;
-        Colors             := [7584739];
-        Tol                := 15;
-        Hue                := 0.02;
-        Sat                := 2.73;
+        Colors             := [7386588];
+        Tol                := 11;
+        Hue                := 0.01;
+        Sat                := 2.42;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -591,8 +591,8 @@ begin
       with result do
       begin
         Name               := 'ROCK_COPPER';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Copper ore rocks', 'ine Cop', 'er ore r'];
+        Options            := ['ine Cop', 'per ore', 'er ore r'];
         Level              := 1;
         Colors             := [2650323];
         Tol                := 16;
@@ -604,7 +604,7 @@ begin
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 7000;
-        ExcludeSelf        := False;
+        ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := True;
@@ -615,8 +615,8 @@ begin
       with result do
       begin
         Name               := 'ROCK_TIN';
-        Uptexts            := ['Mine Rocks', 'ine Ro'];
-        Options            := ['ine Rocks', 'ne Roc', 'ine'];
+        Uptexts            := ['Mine Tin ore rocks', 'ine Ti', 'in ore'];
+        Options            := ['ine Tin', 'in ore', 'in ore r'];
         Level              := 1;
         Colors             := [6842477];
         Tol                := 15;
@@ -628,7 +628,7 @@ begin
         Accuracy           := 20;
         SearchArea         := MSBox;
         MaxTime            := 7000;
-        ExcludeSelf        := False;
+        ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := True;
@@ -639,13 +639,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_IRON';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Iron ore rocks', 'ine Iron or', 'ron ore ro'];
+        Options            := ['ine Iron', 'Iron ore', 'ron ore ro'];
         Level              := 15;
-        Colors             := [3293028];
-        Tol                := 6;
-        Hue                := 0.06;
-        Sat                := 1.22;
+        Colors             := [2306130];
+        Tol                := 10;
+        Hue                := 0.04;
+        Sat                := 0.14;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -663,13 +663,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_SILVER';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Silver ore rocks', 'ine Silver', 'lver ore ro'];
+        Options            := ['ine Silver', 'Silver ore', 'lver ore ro'];
         Level              := 20;
-        Colors             := [14408944];
-        Tol                := 10;
-        Hue                := 0.11;
-        Sat                := 4.02;
+        Colors             := [12764389];
+        Tol                := 14;
+        Hue                := 0.09;
+        Sat                := 2.52;
         FindAllColors      := False;
         W                  := 25;
         H                  := 25;
@@ -688,8 +688,8 @@ begin
       with result do
       begin
         Name               := 'ROCK_COAL';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Coal rocks', 'ine Coal', 'oal roc'];
+        Options            := ['ine Coal', 'oal ro'];
         Level              := 30;
         Colors             := [2171426, 2434598, 2763820];
         Tol                := 5;
@@ -713,13 +713,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_GOLD';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Gold ore rocks', 'ine Gold', 'old ore'];
+        Options            := ['ine Gold', 'Gold ore', 'old ore'];
         Level              := 40;
-        Colors             := [4702956, 5231101];
-        Tol                := 8;
+        Colors             := [4571627];
+        Tol                := 6;
         Hue                := 0.02;
-        Sat                := 3.30;
+        Sat                := 2.92;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -737,13 +737,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_MITHRIL';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Mithril ore rocks', 'ine Mith', 'ril ore r'];
+        Options            := ['ine Mith', 'ril ore ro', 'ine Mithril'];
         Level              := 55;
-        Colors             := [13787246];
-        Tol                := 23;
-        Hue                := 0.12;
-        Sat                := 1.73;
+        Colors             := [12992078];
+        Tol                := 32;
+        Hue                := 0.09;
+        Sat                := 1.29;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -762,13 +762,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_ADAMANTITE';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Adamantite ore rocks', 'ine Adam', 'tite ore ro'];
+        Options            := ['ine Adam', 'ntite ore ro', 'ine Adamantite'];
         Level              := 70;
-        Colors             := [8769656];
-        Tol                := 29;
-        Hue                := 0.09;
-        Sat                := 1.43;
+        Colors             := [12117679];
+        Tol                := 13;
+        Hue                := 0.21;
+        Sat                := 2.91;
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
