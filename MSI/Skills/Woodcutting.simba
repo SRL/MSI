@@ -149,7 +149,7 @@ animating routines.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 10 December 2011 by Coh3n
+  | Last Updated: 28 January 2012 by Coh3n
 
 Example:
 
@@ -159,22 +159,8 @@ Example:
     MSI_Debug('Player is chopping');
 *)
 function MSI_IsChopping(): boolean;
-var
-  b: boolean;
 begin
-  with MSI_Players[CurrentPlayer] do
-  begin
-    if (length(MSI_Locations[Location].SubLocs) > 0) then
-    begin
-      b := (MSI_Locations[Location].SubLocs[CurrentPoint].Camera = SRL_ANGLE_LOW);
-
-      if (b) then
-        result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW))
-      else
-        result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
-    end else
-      result := MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING));
-  end;
+  result := (not MSI_IsAnimating(MSI_GetAnimation(ANIM_IDLE)));
 end;
 
 (*
@@ -183,7 +169,7 @@ MSI_WaitWhileChopping
 
 .. code-block:: pascal
 
-  procedure MSI_WaitWhileChopping();
+  procedure MSI_WaitWhileChopping(tree: TMSObject);
 
 Waits while the player is chopping.  Will do random even checks plus MSI's
 antiban.
@@ -191,24 +177,27 @@ antiban.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 04 May 2011 by Coh3n
+  | Last Updated: 28 January 2012 by Coh3n
 
 Example:
 
 .. code-block:: pascal
 
   if (MSI_IsChopping()) then
-    MSI_Debug('Player is chopping');
+    MSI_WaitWhileChopping(tree);
 *)
-procedure MSI_WaitWhileChopping();
+procedure MSI_WaitWhileChopping(tree: TMSObject);
+var
+  t: integer;
 begin
   if (not loggedIn) then
     exit;
 
   flag;
   wait(randomRange(1000, 1500));
+  t := (getSystemTime + tree.maxTime);
 
-  while (loggedIn and (not invFull)) do
+  while (loggedIn and (not invFull) and (getSystemTime < t)) do
   begin
     if (not waitFunc(@MSI_IsChopping, 10, 1000)) then
       break;
@@ -263,7 +252,7 @@ begin
   if (MSI_FindObjects(treeObjs, moLeft, tree)) then
   begin
     result := true;
-    MSI_WaitWhileChopping();
+    MSI_WaitWhileChopping(tree);
   end else
     MSI_FindRandoms(true);
 end;

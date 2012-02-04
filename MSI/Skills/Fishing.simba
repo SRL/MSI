@@ -53,12 +53,12 @@ begin
       with MSI_Players[CurrentPlayer] do
       begin
         if (member) then
+        begin
           if (reportInfo.skillLevels[CurrentScript] >= 35) then
             for i := tab_Inv to tab_Equip do // gameTab called in FindTool
               if (MSI_FindTool(FISH_HARPOON_BARB, i, x, y)) then
                 result := [FISH_HARPOON_BARB];
-
-        if (length(result) <= 0) then
+        end else
           result := [FISH_HARPOON];
       end;
 
@@ -143,9 +143,13 @@ begin
       if (Length(toWithdraw[i]) <= 0) then // If all tools are found
         objReady[i] := True
       else begin // if 1+ tools aren't found
-        canBank := MSI_Locations[Location].AtBank;
-        if (not canBank) then
-          canBank := MSI_WalkPath(curScript.pathInfo, false);
+        // if either the starting or ending locations are bankable
+        if (MSI_Locations[curScript.pathInfo.startLoc].AtBank or MSI_Locations[curScript.pathInfo.endLoc].AtBank) then
+        begin
+          canBank := MSI_Locations[Location].AtBank;
+          if (not canBank) then
+            canBank := MSI_WalkPath(curScript.pathInfo, false);
+        end;
 
         if (canBank) then
           if (MSI_OpenBank(curScript.WhichBank, Pin)) then
@@ -238,7 +242,7 @@ begin
   end;
 
   MSI_AddHeader('MSI_WaitWhileFishing');
-  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y), fishSpot.w, fishSpot.h);
+  fishSpot.searchArea := MSI_MakeBox(point(fishSpot.x, fishSpot.y), round(fishSpot.w * 1.2), round(fishSpot.h * 1.2));
 
   idle := MSI_GetAnimation(ANIM_IDLE);
   waitTime := (getSystemTime + (60000 * 3));
@@ -270,7 +274,7 @@ begin
       break;
 
     // check for the "you're out of bait" text in the chat box
-    if (findText(x, y, 'left', NPCChars, MCX1, MCY1, MCX2, MCY2)) then
+    if (findNPCChatText('left', nothing)) then
     begin
       MSI_Debug('We have run out of fishing bait!');
       result := false;
@@ -278,7 +282,7 @@ begin
     end;
 
     // check for the "you need tool to fish" message
-    if (findText(x, y, 'need', NPCChars, MCX1, MCY1, MCX2, MCY2)) then
+    if (findNPCChatText('need', nothing)) then
     begin
       MSI_Debug('Accidentially clicked wrong fishing spot');
       break;
@@ -289,7 +293,7 @@ begin
       findColorsTolerance(ATPA[i], fishSpot.colors[i],
                           fishSpot.searchArea.x1, fishSpot.searchArea.y1,
                           fishSpot.searchArea.x2, fishSpot.searchArea.y2,
-                          fishSpot.tol);
+                          fishSpot.tol + 3);
 
     arr := mergeATPA(ATPA);
 
@@ -348,7 +352,13 @@ begin
     end;
 
     wait(randomRange(300, 700));
-  until((not loggedIn) or (animTries >= 10) or (colTries >= 3));
+  until((not loggedIn) or (animTries >= 10) or (colTries >= 5));
+
+  if (animTries >= 10) then
+    MSI_Debug('Not animating, exiting');
+
+  if (colTries >= 5) then
+    MSI_Debug('Can''t find color, exiting');
 
   MSI_CloseHeader('MSI_WaitWhileFishing: ' + boolToStr(result));
 

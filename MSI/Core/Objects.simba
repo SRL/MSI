@@ -144,14 +144,14 @@ begin
         Uptexts            := ['Oak'];
         Options            := ['own Oak'];
         Level              := 15;
-        Colors             := [3166314];
-        Tol                := 6;
-        Hue                := 0.07;
-        Sat                := 0.20;
+        Colors             := [1516577];
+        Tol                := 5;
+        Hue                := 0.74;
+        Sat                := 0.92;
         FindAllColors      := False;
-        W                  := 60;
-        H                  := 90;
-        Accuracy           := 120;
+        W                  := 125;
+        H                  := 75;
+        Accuracy           := 300;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -192,14 +192,14 @@ begin
         Uptexts            := ['wn Wil'];
         Options            := ['Chop down Willow'];
         Level              := 30;
-        Colors             := [2832695];
+        Colors             := [1516577];
         Tol                := 5;
-        Hue                := 0.27;
-        Sat                := 0.28;
+        Hue                := 0.74;
+        Sat                := 0.92;
         FindAllColors      := False;
-        W                  := 40;
-        H                  := 60;
-        Accuracy           := 50;
+        W                  := 50;
+        H                  := 50;
+        Accuracy           := 100;
         SearchArea         := MSBox;
         ExcludeSelf        := True;
         WaitToMove         := True;
@@ -288,10 +288,10 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [2568764];
-        Tol                := 6;
-        Hue                := 0.11;
-        Sat                := 0.28;
+        Colors             := [4147538];
+        Tol                := 8;
+        Hue                := 0.08;
+        Sat                := 0.09;
         FindAllColors      := False;
         W                  := 80;
         H                  := 100;
@@ -356,19 +356,19 @@ begin
       with result do
       begin
         Name               := 'BANK_DRAYNOR';
-        Uptexts            := ['Banker', 'anker', 'ank'];
-        Options            := ['Bank Banker', 'ank B'];
-        Colors             := [5659227];
+        Uptexts            := ['Bank Counter', 'ank Cou'];
+        Options            := ['Bank', 'ank'];
+        Colors             := [4610140];
         Tol                := 5;
-        Hue                := 3.34;
-        Sat                := 0.63;
+        Hue                := 0.12;
+        Sat                := 0.10;
         FindAllColors      := False;
-        W                  := 10;
-        H                  := 10;
-        Accuracy           := 5;
-        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 100, MSY2);
+        W                  := 50;
+        H                  := 100;
+        Accuracy           := 100;
+        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 50, MSY2);
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -398,7 +398,7 @@ begin
       begin
         Name               := 'BANK_FALADOR_EAST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [7044234];
         Tol                := 5;
         Hue                := 0.24;
@@ -409,7 +409,7 @@ begin
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := False;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -419,7 +419,7 @@ begin
       begin
         Name               := 'BANK_VARROCK_WEST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [5794933];
         Tol                := 8;
         Hue                := 0.13;
@@ -430,7 +430,7 @@ begin
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -440,7 +440,7 @@ begin
       begin
         Name               := 'BANK_FALADOR_WEST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [3627376];
         Tol                := 6;
         Hue                := 0.17;
@@ -451,7 +451,7 @@ begin
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -482,9 +482,9 @@ begin
       begin
         Name               := 'BANK_SEERS_VILLAGE';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [10464171];
-        Tol                := 2;
+        Tol                := 10;
         Hue                := 0.76;
         Sat                := 0.40;
         FindAllColors      := False;
@@ -493,6 +493,7 @@ begin
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -502,7 +503,7 @@ begin
       begin
         Name               := 'BANK_AL-KHARID';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6125447];
         Tol                := 12;
         Hue                := 0.04;
@@ -513,7 +514,7 @@ begin
         Accuracy           := 15;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX, MSY2);
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -523,7 +524,7 @@ begin
       begin
         Name               := 'BANK_CATHERBY';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6714503];
         Tol                := 11;
         Hue                := 0.34;
@@ -534,7 +535,7 @@ begin
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -544,7 +545,7 @@ begin
       begin
         Name               := 'BANK_FISHING_GUILD';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6910071];
         Tol                := 3;
         Hue                := 0.40;
@@ -555,7 +556,7 @@ begin
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -1462,7 +1463,6 @@ begin
   TPA := [];
   setLength(ATPA, c);
   sortATPAFrom(ATPA, point(MSCX, MSCY));
-  TPA := mergeATPA(ATPA);
 
   // draw points on SMART if setting enabled
   {$IFDEF SMART}
@@ -1471,18 +1471,20 @@ begin
   {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point
-  setLength(tpaBoxes, length(TPA));
-  for i := 0 to high(TPA) do
-    tpaBoxes[i] := MSI_MakeBox(TPA[i], obj.w, obj.h);
+  setLength(tpaBoxes, length(ATPA));
+  for i := 0 to high(ATPA) do
+    tpaBoxes[i] := getTPABounds(ATPA[i]);
 
-  setLength(points, length(TPA));
-  h := high(TPA);
+  setLength(points, length(ATPA));
+  setLength(TPA, length(ATPA));
+  h := high(ATPA);
   c := 0;
 
   // loop through all the points to see which are valid/invalid
   for i := 0 to h do
   begin
     badPoint := false;
+    TPA[i] := middleTPA(ATPA[i]);
 
     // checks to see if the point is in the object's search area
     if (not badPoint) then

@@ -99,7 +99,7 @@ begin
       MSI_FindRandoms(False);
 
       if ((not bankScreen) and (not depositScreen)) then
-        if (MSI_FindObject(bankObj, moRight)) then
+        if (MSI_FindObject(bankObj, moLeft)) then
         begin
           if bankType = Bank then
             Result := MSI_HandlePin(tPin);
