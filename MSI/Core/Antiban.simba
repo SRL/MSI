@@ -488,8 +488,6 @@ begin
   if (LeaveDangerZone) then
     MSI_SubDebug('Left danger zone');
 
-  gameTab(TAB_INV);
-
   if (not Force) then
     if (NextRandCheck > GetSystemTime) then
       Exit;
