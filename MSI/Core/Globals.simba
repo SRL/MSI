@@ -480,8 +480,10 @@ const
   TIARA_WATER = 215;
 
   DWARVEN_ARMY_AXE = 216;
+  
+  COAL_BAG = 217;
 
-  ITEM_ARRAY_LENGTH = 216; // Change to the highest item constant
+  ITEM_ARRAY_LENGTH = 217; // Change to the highest item constant
 
 (*
 Object Constants
@@ -1088,6 +1090,7 @@ type
     Pin          : string;
     Active       : Boolean;
     Member       : Boolean;
+    CoalBag      : Boolean;
     Location     : Integer;
     TotalLoads   : Integer;
     BreakLoads   : Integer;

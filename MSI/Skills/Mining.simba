@@ -228,6 +228,49 @@ begin
 end;
 
 (*
+MSI_FillCoalBag
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FillCoalBag: Boolean;
+
+Fills the coal bag with coal that's in the inventory.
+
+.. note::
+
+  | Author: Kyle Undefined
+
+Example:
+
+.. code-block:: pascal
+
+   if (MSI_FillCoalBag()) then
+    Exit;
+*)
+function MSI_FillCoalBag : Boolean;
+var
+  x, y : Integer;
+  coalSlots : TIntegerArray;
+begin
+  if (not loggedIn) then
+    exit;
+
+  MSI_AddHeader('MSI_FillCoalBag');
+
+  coalSlots := MSI_FindItemSlots(ORE_COAL);
+  if (MSI_FindTool(COAL_BAG, tab_Inv, x, y)) then
+  begin
+    MouseItem(Random(Length(coalSlots)), mouse_Left);
+    Wait(RandomRange(150, 250));
+    Mouse(x, y, 5, 5, mouse_Left);
+    Result := True;
+  end;
+
+  MSI_CloseHeader('MSI_FillCoalBag: Finished');
+end;
+
+(*
 MSI_MineInvFull
 ~~~~~~~~~~~~~~~
 
@@ -241,7 +284,7 @@ to a scripts 'AutoObjects' attribute.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 20 September 2010 by Coh3n
+  | Last Updated: 07 February 2012 by Kyle Undefined
 
 Example:
 
@@ -252,6 +295,13 @@ Example:
 function MSI_MineInvFull: Boolean;
 begin
   Result := MSI_AutoInvFull(@MSI_MineRock); // MSI_AutoInvFull in Skills.simba
+
+  if (MSI_Players[CurrentPlayer].CoalBag) then
+    if (MSI_FillCoalBag()) then
+    begin
+      Result := false;
+      Result := MSI_AutoInvFull(@MSI_MineRock);
+    end;
 end;
 
 
