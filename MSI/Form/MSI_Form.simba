@@ -947,7 +947,7 @@ begin
             MaxLevel := StrToInt(script_Edits[EDIT_LEVEL].Text);
         
           try
-            CoalBag := boolToStr(script_combos[COMBO_COALBAG].text);
+            CoalBag := StrToBool(script_combos[COMBO_COALBAG].text);
           except
             ShowMessage('Invalid "Use Coal Bag" choice');
           end;
