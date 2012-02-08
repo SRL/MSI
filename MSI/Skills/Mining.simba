@@ -296,7 +296,7 @@ function MSI_MineInvFull: Boolean;
 begin
   Result := MSI_AutoInvFull(@MSI_MineRock); // MSI_AutoInvFull in Skills.simba
 
-  if (MSI_Players[CurrentPlayer].CoalBag) then
+  if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].CoalBag) then
     if (MSI_FillCoalBag()) then
     begin
       Result := false;

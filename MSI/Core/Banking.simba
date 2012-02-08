@@ -739,7 +739,7 @@ begin
     result := (iCount <= (Length(Scripts[CurrentScript].Exceptions) + 5));
 
     if (result) then // If all the items are deposited
-      if (CoalBag) then // If the user is using the Coal bag
+      if (Scripts[CurrentScript].CoalBag) then // If the user is using the Coal bag
         MSI_DepositCoalBag(); // Deposits the coal that is in the bag
 
     if (not result) then
