@@ -945,12 +945,12 @@ begin
             ShowMessage('Invalid max level! Please enter a number.')
           else
             MaxLevel := StrToInt(script_Edits[EDIT_LEVEL].Text);
-        {
+        
           try
             CoalBag := boolToStr(script_combos[COMBO_COALBAG].text);
           except
             ShowMessage('Invalid "Use Coal Bag" choice');
-          end; }
+          end;
         end;
       end;
 
