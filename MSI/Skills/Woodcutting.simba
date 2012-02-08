@@ -77,6 +77,9 @@ begin
     end;
   end;
 
+  if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].CoalBag) then
+    MSI_FindTool(COAL_BAG, tab_Inv, x, y);
+
   with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do // CurrentScript
     if (not Result) then
       if (not (BankType = NoBank)) then // If CurrentScript is a banking one
