@@ -261,10 +261,11 @@ begin
   coalSlots := MSI_FindItemSlots(ORE_COAL);
   if (MSI_FindTool(COAL_BAG, tab_Inv, x, y)) then
   begin
-    MouseItem(Random(Length(coalSlots)), mouse_Left);
+    MouseItem(RandomRange(Low(coalSlots) + 1, High(coalSlots)), mouse_Left);
     Wait(RandomRange(150, 250));
     Mouse(x, y, 5, 5, mouse_Left);
     Result := True;
+    Wait(RandomRange(500, 750));
   end;
 
   MSI_CloseHeader('MSI_FillCoalBag: Finished');
@@ -303,5 +304,4 @@ begin
       Result := MSI_AutoInvFull(@MSI_MineRock);
     end;
 end;
-
 
