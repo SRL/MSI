@@ -445,10 +445,11 @@ begin
   begin
     MouseItem(CoordsToItem(x, y), mouse_Right);
     WaitOption('mpty', 500);
-    Wait(RandomRange(250, 500));
+    Wait(RandomRange(500, 750));
     coalSlots := MSI_FindItemSlots(ORE_COAL);
     MouseItem(Random(Length(coalSlots)), mouse_Right);
     WaitOption('-All', 500);
+    Wait(RandomRange(500, 750));
   end;
 
   MSI_CloseHeader('MSI_DepositCoalBag: Finished');
@@ -884,4 +885,3 @@ begin
       end;
     end;
 end;
-
