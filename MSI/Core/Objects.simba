@@ -1711,7 +1711,7 @@ begin
       begin
         if (reportInfo.skillLevels[currentScript] < objs[i].level) then
         begin
-          if (i = high(objs)) then
+          if (i = high(objs) and length(objs) = 1) then
             reportInfo.falseReason := script.skillName + ' requirement not met (' +
               toStr(reportInfo.skillLevels[currentScript]) +
               '/' + toStr(objs[i].level) + ')';
