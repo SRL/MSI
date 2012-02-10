@@ -359,7 +359,7 @@ begin
         Uptexts            := ['Bank Counter', 'ank Cou'];
         Options            := ['Bank', 'ank'];
         Colors             := [4610140];
-        Tol                := 5;
+        Tol                := 10;
         Hue                := 0.12;
         Sat                := 0.10;
         FindAllColors      := False;
