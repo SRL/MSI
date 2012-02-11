@@ -80,21 +80,9 @@ begin
     end;
   end;
 
-<<<<<<< HEAD
   if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].CoalBag) then
     MSI_FindTool(COAL_BAG, tab_Inv, x, y);
 
-  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do // CurrentScript
-    if (not Result) then
-      if (not (BankType = NoBank)) then // If CurrentScript is a banking one
-        if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // If at bank
-          Result := MSI_WithdrawBestTool()
-        else
-        begin  //If not at bank
-          if MSI_WalkPath(MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo, false) then
-            Result := MSI_WithdrawBestTool()
-        end;
-=======
   if (not Result) then
     if (script.bankType = Bank) then // if script is a banking one
       if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // if at bank
@@ -103,7 +91,6 @@ begin
         if (MSI_WalkPath(script.pathInfo, false)) then
           Result := MSI_WithdrawBestTool();
       end;
->>>>>>> upstream/master
 
   MSI_CloseHeader('MSI_SetupWC/Mining: ' + BoolToStr(Result));
 end;
