@@ -43,11 +43,13 @@ function MSI_SetupWoodcutting(): Boolean;
 var
   i, j, x, y: Integer;
   tabs: TIntegerArray;
+  script: TScript;
 begin
   if (not LoggedIn) then
     Exit;
 
   MSI_AddHeader('MSI_SetupWC/Mining');
+  script := MSI_Players[CurrentPlayer].GetScript();
 
   // If it's already on the inventory, it will search there first
   if (GetCurrentTab = TAB_INV) then
@@ -58,7 +60,7 @@ begin
   for i := 0 to 1 do
   begin
     if (MSI_Players[CurrentPlayer].Member) then
-      if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].SkillConst = SKILL_WOODCUTTING) then
+      if (script.skillConst = SKILL_WOODCUTTING) then
         Result := MSI_FindTool(DWARVEN_ARMY_AXE, tabs[i], x, y);
 
     if (not Result) then
@@ -78,16 +80,14 @@ begin
     end;
   end;
 
-  with MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name] do // CurrentScript
-    if (not Result) then
-      if (BankType = Bank) then // If CurrentScript is a banking one
-        if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // If at bank
-          Result := MSI_WithdrawBestTool()
-        else
-        begin  //If not at bank
-          if MSI_WalkPath(MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].PathInfo, false) then
-            Result := MSI_WithdrawBestTool()
-        end;
+  if (not Result) then
+    if (script.bankType = Bank) then // if script is a banking one
+      if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // if at bank
+        Result := MSI_WithdrawBestTool()
+      else begin  // if not at bank
+        if (MSI_WalkPath(script.pathInfo, false)) then
+          Result := MSI_WithdrawBestTool();
+      end;
 
   MSI_CloseHeader('MSI_SetupWC/Mining: ' + BoolToStr(Result));
 end;
