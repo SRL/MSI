@@ -331,7 +331,7 @@ begin
 
     { BANKS ====================================== ]
     [============================================= }
-    MSI_BANK_VE, MSI_BANK_EV:
+    MSI_BANK_VE:
       with result do
       begin
         Name               := 'BANK_VE/EV';
@@ -367,6 +367,27 @@ begin
         H                  := 100;
         Accuracy           := 100;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX + 50, MSY2);
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
+
+    MSI_BANK_EV:
+      with result do
+      begin
+        Name               := 'BANK_EDGEVILLE';
+        Uptexts            := ['Bank Counter', 'ank Cou'];
+        Options            := ['Bank', 'ank'];
+        Colors             := [4412247];
+        Tol                := 6;
+        Hue                := 0.10;
+        Sat                := 0.06;
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 100;
+        Accuracy           := 100;
+        SearchArea         := IntToBox(MSCX - 50, MSY1, MSX2, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
