@@ -1071,7 +1071,7 @@ begin
           EndLoc   := LOC_BBV_FISH;
 
           SPSPath := [
-            TPointArray([Point(4209, 2685), Point(4233, 2784),
+            TPointArray([Point(4215, 2675), Point(4233, 2784),
                          Point(4204, 2887), Point(4268, 2920)])
           ];
 
@@ -1173,7 +1173,7 @@ begin
           EndLoc   := LOC_FG_FISH;
 
           SPSPath := [
-            TPointArray([Point(2178, 2964), Point(2247, 2970)])
+            TPointArray([Point(2185, 2964), Point(2247, 2970)])
           ];
 
           SPSAreas   := [

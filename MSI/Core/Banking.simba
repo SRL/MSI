@@ -292,6 +292,15 @@ begin
         Continue;
       end;
 
+      // don't want to deposit items in the exceptions array
+      if (inIntArray(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions, slots[0])) then
+        if (length(slots) > 1) then
+          slots[0] := slots[1]
+        else begin
+          MSI_Debug('Can''t deposit slot '+toStr(slots[0])+', in exceptions');
+          continue;
+        end;
+
       if (Length(slots) = 1) then
         s := ['osit']
       else

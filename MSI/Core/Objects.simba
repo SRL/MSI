@@ -201,7 +201,7 @@ begin
         H                  := 50;
         Accuracy           := 100;
         SearchArea         := MSBox;
-        ExcludeSelf        := True;
+        ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
@@ -288,14 +288,14 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [4147538];
-        Tol                := 8;
-        Hue                := 0.08;
-        Sat                := 0.09;
+        Colors             := [1516063];
+        Tol                := 5;
+        Hue                := 0.45;
+        Sat                := 1.26;
         FindAllColors      := False;
-        W                  := 80;
-        H                  := 100;
-        Accuracy           := 100;
+        W                  := 125;
+        H                  := 75;
+        Accuracy           := 50;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -331,7 +331,7 @@ begin
 
     { BANKS ====================================== ]
     [============================================= }
-    MSI_BANK_VE, MSI_BANK_EV:
+    MSI_BANK_VE:
       with result do
       begin
         Name               := 'BANK_VE/EV';
@@ -367,6 +367,27 @@ begin
         H                  := 100;
         Accuracy           := 100;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX + 50, MSY2);
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
+
+    MSI_BANK_EV:
+      with result do
+      begin
+        Name               := 'BANK_EDGEVILLE';
+        Uptexts            := ['Bank Counter', 'ank Cou'];
+        Options            := ['Bank', 'ank'];
+        Colors             := [4412247];
+        Tol                := 6;
+        Hue                := 0.10;
+        Sat                := 0.06;
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 100;
+        Accuracy           := 100;
+        SearchArea         := IntToBox(MSCX - 50, MSY1, MSX2, MSY2);
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
@@ -1711,7 +1732,7 @@ begin
       begin
         if (reportInfo.skillLevels[currentScript] < objs[i].level) then
         begin
-          if (i = high(objs)) then
+          if (i = high(objs)) and (length(objs) = 1) then
             reportInfo.falseReason := script.skillName + ' requirement not met (' +
               toStr(reportInfo.skillLevels[currentScript]) +
               '/' + toStr(objs[i].level) + ')';
