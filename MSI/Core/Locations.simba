@@ -817,14 +817,14 @@ begin
          with subLocs[0] do
          begin
            name := 'Edgeville Yews South';
-           spsBox := intToBox(4178, 2762, 4192, 2776);
+           spsBox := intToBox(4175, 2755, 4192, 2776);
            compass := randomRange(170, 190);
          end;
 
          with subLocs[1] do
          begin
            name := 'Edgeville Yews North';
-           spsBox := intToBox(4177, 2724, 4189, 2738);
+           spsBox := intToBox(4173, 2720, 4189, 2740);
            compass := 275;
          end;
 
