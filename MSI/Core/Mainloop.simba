@@ -995,7 +995,9 @@ begin
   // Free DTMs and clear Remote file
   MSI_FreeAllItems;
   FreeSRL;
-  CloseFile(DebugFile);
+
+  if (MSI_Settings[SETUP_SAVE_DEBUG]) then
+    CloseFile(DebugFile);
 
   Writeln('Thank-you for using MSI Phoenix scripts!');
 end;
