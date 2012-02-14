@@ -994,6 +994,7 @@ type
     Constant    : Integer;
     SkillName   : string;
     SkillConst  : Integer;
+    MaxTime     : Integer; // the maximum time to do one load in minutes (default is 60)
     BankType    : TBank;
     GetMaterials: Boolean;
     WhichBank   : Integer;

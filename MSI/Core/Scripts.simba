@@ -129,6 +129,7 @@ begin
         Constant      := SCRIPT_GE_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_GE;
         AutoObjects   := @MSI_ChopInvFull;
@@ -257,6 +258,7 @@ begin
         Constant      := SCRIPT_RM_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
         AdjustCamera  := True;
@@ -354,6 +356,7 @@ begin
         Constant      := SCRIPT_PS_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
         AdjustCamera  := True;
@@ -451,6 +454,7 @@ begin
         Constant      := SCRIPT_SV_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_SV;
         AdjustCamera  := true;
@@ -548,6 +552,7 @@ begin
         Constant      := SCRIPT_EV_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_EV;
         AdjustCamera  := True;
@@ -580,6 +585,7 @@ begin
         Constant      := SCRIPT_DB_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_DB;
         AdjustCamera  := True;
@@ -1780,6 +1786,9 @@ begin
   {$IFDEF SPS}
   with MSI_Scripts[whichScript] do
   begin
+    if (maxTime <= 0) then
+      maxTime := 60; // default time for one load is an hour
+
     // sets rs surface as default SPS surface
     if (length(pathInfo.spsSurfaces) <= 0) then
     begin
