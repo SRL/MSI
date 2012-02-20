@@ -1005,6 +1005,40 @@ begin
         end;
       end;
 
+    SCRIPT_Y_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Yanille Miner';
+        Constant    := SCRIPT_Y_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_Y;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        Defaults.Rocks := [
+          ROCK_IRON,ROCK_MITHRIL,ROCK_COPPER,ROCK_TIN,
+          ROCK_CLAY
+        ];
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_Y_BANK;
+          EndLoc   := LOC_Y_MINE;
+
+          SPSPath := [
+            TPointArray([Point(2285, 4300),Point(2330, 4155),
+              Point(2340, 4120)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['5_10','6_10'])
+          ];
+        end;
+      end;
+
     { FISHERS ==================================== ]
     [============================================= }
     SCRIPT_POWER_FISHER:

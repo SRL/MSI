@@ -582,6 +582,27 @@ begin
         MultiClick         := True;
       end;
 
+    MSI_BANK_Y:
+      with result do
+      begin
+        Name               := 'BANK_YANILLE';
+        Uptexts            := ['ooth'];
+        Options            := ['ank'];
+        Colors             := [7311523];
+        Tol                := 6;
+        Hue                := 0.07;
+        Sat                := 0.98;
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 20;
+        Accuracy           := 3;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
+
     { ROCKS ====================================== ]
     [============================================= }
     ROCK_CLAY:
