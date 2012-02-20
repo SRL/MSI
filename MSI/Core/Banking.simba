@@ -420,6 +420,51 @@ begin
 end;
 
 (*
+MSI_DepositCoalBag
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DepositCoalBag();
+
+Used to deposit the coal that is stored in the Coal bag.
+
+.. note::
+
+  | Author: Kyle Undefined
+
+Example:
+
+.. code-block:: pascal
+
+  if (CoalBag) then
+    MSI_DepositCoalBag();
+*)
+procedure MSI_DepositCoalBag;
+var
+  x, y : Integer;
+  coalSlots : TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_DepositCoalBag');
+
+  if (MSI_FindTool(COAL_BAG, tab_Inv, x, y)) then
+  begin
+    MouseItem(CoordsToItem(x, y), mouse_Right);
+    WaitOption('mpty', 500);
+    Wait(RandomRange(500, 750));
+    coalSlots := MSI_FindItemSlots(ORE_COAL);
+    MouseItem(Random(Length(coalSlots)), mouse_Right);
+    WaitOption('-All', 500);
+    Wait(RandomRange(500, 750));
+  end;
+
+  MSI_CloseHeader('MSI_DepositCoalBag: Finished');
+end;
+
+(*
 MSI_Withdraw
 ~~~~~~~~~~~~
 
@@ -702,6 +747,10 @@ begin
 
     iCount := invCount;
     result := (iCount <= (Length(Scripts[CurrentScript].Exceptions) + 5));
+	
+	if (result) then // If all the items are deposited
+      if (Scripts[CurrentScript].CoalBag) then // If the user is using the Coal bag
+        MSI_DepositCoalBag(); // Deposits the coal that is in the bag
 
     if (not result) then
     begin
