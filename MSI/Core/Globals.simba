@@ -487,7 +487,9 @@ const
 
   DWARVEN_ARMY_AXE = 216;
 
-  ITEM_ARRAY_LENGTH = 216; // Change to the highest item constant
+  COAL_BAG = 217;
+
+  ITEM_ARRAY_LENGTH = 217; // Change to the highest item constant
 
 (*
 Object Constants
@@ -965,6 +967,7 @@ type
     Materials  : TIntegerArray;
     DontDrop   : TIntegerArray; // The items the user doesn't want dropped/banked
     Exceptions : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
+	CoalBag    : Boolean; // Property for using the Coal bag when mining
 
     // Magic
     Spells    : TIntegerArray;
