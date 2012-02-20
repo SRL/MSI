@@ -41,6 +41,7 @@ These are all the abbreviations we use in MSI constants and variables.
   | CB: Catherby
   | RC: Runecrafting
   | FG: Fishing Guild
+  | Y: Yanille
 
 *)
 
@@ -121,6 +122,7 @@ const
   SCRIPT_FW_MINER    = 39;
   SCRIPT_AK_MINER    = 40;
   SCRIPT_CG_MINER    = 41;
+  SCRIPT_Y_MINER     = 126;
 
   // Fishing
   SCRIPT_POWER_FISHER = 50;
@@ -154,7 +156,7 @@ const
   SCRIPT_RC_BODY  = 124;
   SCRIPT_RC_MIND  = 125;
 
-  SCRIPT_ARRAY_LENGTH = 125; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 126; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -320,7 +322,11 @@ const
   LOC_ALTAR_MIND  = 154;
   LOC_ALTAR_BODY  = 155;
 
-  LOC_ARRAY_LENGTH = 155; // Change to the highest location constant
+  // Yanille
+  Loc_Y_Mine = 156;
+  Loc_Y_Bank = 157;
+
+  LOC_ARRAY_LENGTH = 157; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -541,6 +547,7 @@ const
   MSI_BANK_CB = 38;
   MSI_BANK_FW = 39;
   MSI_BANK_FG = 40;
+  MSI_BANK_Y  = 156;
 
   DBOX_PS = 45;
 
@@ -595,7 +602,7 @@ const
   PORTAL_FIRE  = 154;
   PORTAL_BODY  = 155;
 
-  OBJECT_HIGH = 155; // Change to the highest object constant
+  OBJECT_HIGH = 156; // Change to the highest object constant
 
 (*
 Obstacle Constants
