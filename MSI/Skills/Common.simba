@@ -142,7 +142,7 @@ Example:
 *)
 function MSI_AutoInvFull(auto: function(objs: TIntegerArray): boolean): boolean;
 var
-  t, waitTime, tTime, maxTime, timesRelocated: integer;
+  t, tt, waitTime, tTime, timesRelocated: integer;
   tObjects, newObjects: TIntegerArray;
   cameraChanged: boolean;
 begin
@@ -150,6 +150,7 @@ begin
     exit;
 
   markTime(t);
+  markTime(tt);
 
   repeat
     while (not InvFull) and (LoggedIn) do
@@ -169,15 +170,11 @@ begin
 
         if (auto(newObjects)) then
         begin
-          t := maxTime;
           waitTime := 0;
           MSI_NotBoxes := [];
         end else begin
           if (MSI_FindRandoms(False)) then
-          begin
-            t := maxTime;
             continue;
-          end;
 
           MSI_Antiban(randomRange(1000, 4000), 50);
           wait(randomRange(250, 500));
@@ -220,8 +217,12 @@ begin
 
             MSI_NotBoxes := [];
             Break;
-          end else
-            Exit;
+          end else begin
+            if (reportInfo.falseReason = '') then
+              reportInfo.falseReason := 'Failed to relocate';
+
+            exit;
+          end;
 
           if (timeFromMark(t) > (10 * 60000)) then
           begin
@@ -231,6 +232,19 @@ begin
         end;
 
         Wait(RandomRange(300, 800));
+
+        // check if the function has timed out
+        if (MSI_Scripts[Scripts[CurrentScript].Name].MaxTime > 0) then
+          if (timeFromMark(tt) > (MSI_Scripts[Scripts[CurrentScript].Name].MaxTime * 60000)) then
+          begin
+            MSI_Debug('MSI_AutoInvFull timed out');
+
+            if (reportInfo.falseReason = '') then
+              reportInfo.falseReason := 'MSI_AutoInvFull timed out';
+
+            result := false;
+            exit;
+          end;
       end;
 
     result := (invFull) or (pos('h inventor', getBlackChatMessage) <> 0);

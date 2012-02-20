@@ -80,9 +80,6 @@ begin
     end;
   end;
 
-  if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].CoalBag) then
-    MSI_FindTool(COAL_BAG, tab_Inv, x, y);
-
   if (not Result) then
     if (script.bankType = Bank) then // if script is a banking one
       if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // if at bank

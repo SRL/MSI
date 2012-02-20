@@ -480,10 +480,8 @@ const
   TIARA_WATER = 215;
 
   DWARVEN_ARMY_AXE = 216;
-  
-  COAL_BAG = 217;
 
-  ITEM_ARRAY_LENGTH = 217; // Change to the highest item constant
+  ITEM_ARRAY_LENGTH = 216; // Change to the highest item constant
 
 (*
 Object Constants
@@ -960,7 +958,6 @@ type
     Materials  : TIntegerArray;
     DontDrop   : TIntegerArray; // The items the user doesn't want dropped/banked
     Exceptions : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
-    CoalBag    : Boolean; // Property for using the Coal bag when mining
 
     // Magic
     Spells    : TIntegerArray;
@@ -997,6 +994,7 @@ type
     Constant    : Integer;
     SkillName   : string;
     SkillConst  : Integer;
+    MaxTime     : Integer; // the maximum time to do one load in minutes (default is 60)
     BankType    : TBank;
     GetMaterials: Boolean;
     WhichBank   : Integer;
