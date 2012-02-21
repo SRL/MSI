@@ -1810,6 +1810,7 @@ begin
           FISH_RAW_LOBSTER   : e := 90.0;
           FISH_RAW_SWORDFISH : e := 100.0;
           FISH_RAW_SHARK     : e := 110.0;
+          FISH_RAW_MONKFISH  : e := 120.0;
 
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for fishing: ' + IntToStr(Items[i]));

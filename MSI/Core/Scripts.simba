@@ -1223,6 +1223,41 @@ begin
         end;
       end;
 
+    SCRIPT_FC_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Fishing Colony Fisher';
+        Constant      := SCRIPT_FC_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := NPC_ARNOLD;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET_MONKFISH
+         ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FC_BANK to LOC_FC_FISH';
+          StartLoc := LOC_FC_BANK;
+          EndLoc   := LOC_FC_FISH;
+
+          SPSPath := [
+            TPointArray([Point(1160,1880),Point(1215,1835)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['2_4','3_4'])
+          ];
+        end;
+      end;
+
+
+
     { COOKERS ==================================== ]
     [============================================= }
     SCRIPT_AK_COOKER:
