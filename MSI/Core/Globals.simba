@@ -42,6 +42,7 @@ These are all the abbreviations we use in MSI constants and variables.
   | RC: Runecrafting
   | FG: Fishing Guild
   | Y: Yanille
+  | FC: Fishing Colony(Piscatoris)
 
 *)
 
@@ -131,6 +132,7 @@ const
   SCRIPT_KJ_NOTER     = 53;
   SCRIPT_CB_FISHER    = 54;
   SCRIPT_FG_FISHER    = 55;
+  SCRIPT_FC_FISHER    = 127;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
@@ -156,7 +158,7 @@ const
   SCRIPT_RC_BODY  = 124;
   SCRIPT_RC_MIND  = 125;
 
-  SCRIPT_ARRAY_LENGTH = 126; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 127; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -326,7 +328,11 @@ const
   Loc_Y_Mine = 156;
   Loc_Y_Bank = 157;
 
-  LOC_ARRAY_LENGTH = 157; // Change to the highest location constant
+  // Fishing Colony(Piscatoris)
+  LOC_FC_BANK = 158;
+  LOC_FC_FISH = 159;
+
+  LOC_ARRAY_LENGTH = 159; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -560,6 +566,7 @@ const
   FISHSPOT_CAGE    = 53;
   FISHSPOT_HARPOON = 54;
   FISHSPOT_HARPOON_SHARK = 55;
+  FISHSPOT_NET_MONKFISH = 157;
 
   // Cooking spots
   COOKSPOT_AK_RANGE = 60;
@@ -572,6 +579,7 @@ const
 
   // NPCs
   NPC_STILES        = 93;
+  NPC_ARNOLD        = 158;
 
   // Misc Objects
   OBJ_BIRD_NEST       = 100;
@@ -604,7 +612,7 @@ const
   PORTAL_FIRE  = 154;
   PORTAL_BODY  = 155;
 
-  OBJECT_HIGH = 156; // Change to the highest object constant
+  OBJECT_HIGH = 158; // Change to the highest object constant
 
 (*
 Obstacle Constants
