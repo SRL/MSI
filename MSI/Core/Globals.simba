@@ -41,6 +41,8 @@ These are all the abbreviations we use in MSI constants and variables.
   | CB: Catherby
   | RC: Runecrafting
   | FG: Fishing Guild
+  | Y: Yanille
+  | FC: Fishing Colony(Piscatoris)
 
 *)
 
@@ -121,6 +123,7 @@ const
   SCRIPT_FW_MINER    = 39;
   SCRIPT_AK_MINER    = 40;
   SCRIPT_CG_MINER    = 41;
+  SCRIPT_Y_MINER     = 126;
 
   // Fishing
   SCRIPT_POWER_FISHER = 50;
@@ -129,9 +132,11 @@ const
   SCRIPT_KJ_NOTER     = 53;
   SCRIPT_CB_FISHER    = 54;
   SCRIPT_FG_FISHER    = 55;
+  SCRIPT_FC_FISHER    = 127;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
+  SCRIPT_CB_COOKER = 71;
 
   // Magic
   SCRIPT_ALCHER     = 80;
@@ -154,7 +159,7 @@ const
   SCRIPT_RC_BODY  = 124;
   SCRIPT_RC_MIND  = 125;
 
-  SCRIPT_ARRAY_LENGTH = 125; // Change to the highest script constant
+  SCRIPT_ARRAY_LENGTH = 127; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -309,8 +314,9 @@ const
   LOC_KJ_FISH   = 131;
 
   // Catherby
-  LOC_CB_BANK = 140;
-  LOC_CB_FISH = 141;
+  LOC_CB_BANK  = 140;
+  LOC_CB_FISH  = 141;
+  LOC_CB_RANGE = 142;
 
   // Alters
   LOC_ALTAR_AIR   = 150;
@@ -320,7 +326,15 @@ const
   LOC_ALTAR_MIND  = 154;
   LOC_ALTAR_BODY  = 155;
 
-  LOC_ARRAY_LENGTH = 155; // Change to the highest location constant
+  // Yanille
+  Loc_Y_Mine = 156;
+  Loc_Y_Bank = 157;
+
+  // Fishing Colony(Piscatoris)
+  LOC_FC_BANK = 158;
+  LOC_FC_FISH = 159;
+
+  LOC_ARRAY_LENGTH = 159; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -481,7 +495,9 @@ const
 
   DWARVEN_ARMY_AXE = 216;
 
-  ITEM_ARRAY_LENGTH = 216; // Change to the highest item constant
+  COAL_BAG = 217;
+
+  ITEM_ARRAY_LENGTH = 217; // Change to the highest item constant
 
 (*
 Object Constants
@@ -541,6 +557,7 @@ const
   MSI_BANK_CB = 38;
   MSI_BANK_FW = 39;
   MSI_BANK_FG = 40;
+  MSI_BANK_Y  = 156;
 
   DBOX_PS = 45;
 
@@ -551,9 +568,11 @@ const
   FISHSPOT_CAGE    = 53;
   FISHSPOT_HARPOON = 54;
   FISHSPOT_HARPOON_SHARK = 55;
+  FISHSPOT_NET_MONKFISH = 157;
 
   // Cooking spots
   COOKSPOT_AK_RANGE = 60;
+  COOKSPOT_CB_RANGE = 61;
 
   // Obstacles
   LADDER_MG_DOWN    = 70;
@@ -563,6 +582,7 @@ const
 
   // NPCs
   NPC_STILES        = 93;
+  NPC_ARNOLD        = 158;
 
   // Misc Objects
   OBJ_BIRD_NEST       = 100;
@@ -595,7 +615,7 @@ const
   PORTAL_FIRE  = 154;
   PORTAL_BODY  = 155;
 
-  OBJECT_HIGH = 155; // Change to the highest object constant
+  OBJECT_HIGH = 158; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -836,8 +856,8 @@ type
     Colors           : TIntegerArray;
     FindAllColors    : Boolean;       // Set to true if all the colors need to be found
     Tol              : Integer;
-    Hue              : Extended;
-    Sat              : Extended;
+    Hue              : array of Extended; //Should be one for every color.
+    Sat              : array of Extended;
     W, H             : Integer;       // Width and Height of the object
     Accuracy         : Integer;       // Min pixels to be found in each TPA
     SearchArea       : TBox;          // Box to search for object. Carries the Values of MSBox by default.
@@ -958,6 +978,7 @@ type
     Materials  : TIntegerArray;
     DontDrop   : TIntegerArray; // The items the user doesn't want dropped/banked
     Exceptions : TIntegerArray; // The inventory slots the user doesn't want dropped/banked
+	CoalBag    : Boolean; // Property for using the Coal bag when mining
 
     // Magic
     Spells    : TIntegerArray;

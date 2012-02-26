@@ -495,37 +495,45 @@ const
     EDIT_ALCH_SLOTS = 4;
     EDIT_PRIORITY   = 5;
 
+  COMBO_COUNT = 1;
+    COMBO_COALBAG = 0;
+
 var
   script_Form: TForm;
   script_BackgroundImage: TImage;
-  script_ListTexts, script_EditTexts: TStringArray;
+  script_ListTexts, script_EditTexts, script_ComboTexts: TStringArray;
   script_Buttons: array[0..1] of TButton;
   script_Lists: array[0..LIST_COUNT - 1] of TCheckListBox;
   script_ListLabels: array[0..LIST_COUNT - 1] of TLabel;
   script_Edits: array[0..EDIT_COUNT - 1] of TEdit;
   script_EditLabels: array[0..EDIT_COUNT - 1] of TLabel;
+  script_Combos: array[0..COMBO_COUNT - 1] of TComboBox;
+  script_ComboLabels: array[0..COMBO_COUNT - 1] of TLabel;
 
 procedure script_HideComponents();
 var
-  i: Integer;
+  i: integer;
 begin
-  for i := 0 to High(script_Lists) do
-    script_Lists[i].Visible := False;
-
   for i := 0 to High(script_Edits) do
     script_Edits[i].Visible := False;
+
+  for i := 0 to High(script_Combos) do
+    script_Combos[i].Visible := False;
 
   for i := 0 to High(script_ListLabels) do
     script_ListLabels[i].Visible := False;
 
   for i := 0 to High(script_EditLabels) do
     script_EditLabels[i].Visible := False;
+
+  for i := 0 to High(script_ComboLabels) do
+    script_ComboLabels[i].Visible := False;
 end;
 
 procedure script_ShowComponents();
 var
   i, j: Integer;
-  default, lists, edits, items, objs: TIntegerArray;
+  default, lists, edits, items, objs, combos: TIntegerArray;
   obj: TMSObject;
 begin
   script_HideComponents();
@@ -549,6 +557,7 @@ begin
                   lists :=[LIST_ROCKS, LIST_DROP];
                   default := MSI_Scripts[i].Defaults.Rocks;
                   items := [GEM_UNCUT_SAPPHIRE, GEM_UNCUT_EMERALD, GEM_UNCUT_RUBY, GEM_UNCUT_DIAMOND];
+                  combos := [COMBO_COALBAG];
                 end;
 
               SKILL_FISHING:
@@ -663,6 +672,12 @@ begin
 
         script_EditLabels[edits[j]].Top := script_Edits[edits[j]].Top + 5;
         script_EditLabels[edits[j]].Visible := True;
+      end;
+
+      for j := 0 to high(combos) do
+      begin
+        script_Combos[combos[j]].visible := True;
+        script_ComboLabels[combos[j]].visible := True;
       end;
     end;
 end;
@@ -930,6 +945,12 @@ begin
             ShowMessage('Invalid max level! Please enter a number.')
           else
             MaxLevel := StrToInt(script_Edits[EDIT_LEVEL].Text);
+        
+          try
+            CoalBag := StrToBool(script_combos[COMBO_COALBAG].text);
+          except
+            ShowMessage('Invalid "Use Coal Bag" choice');
+          end;
         end;
       end;
 
@@ -1244,6 +1265,51 @@ begin
       Caption := script_EditTexts[i];
       Font.Color := 2070783;
       Visible := script_Edits[i].Visible;
+    end;
+  end;
+
+  // TComboBoxes
+  for i := 0 to High(script_combos) do
+  begin
+    script_combos[i] := TComboBox.Create(script_Form);
+    with script_combos[i] do
+    begin
+      Parent := script_Form;
+      Height := 20;
+      Visible := False;
+      Width := 80;
+      Left := (script_Lists[0].Left + script_Lists[0].Width) + (Width + 20);
+      Top := (script_edits[high(script_edits)].Top + ((height + 15) * i));
+
+      case i of
+        COMBO_COALBAG:
+          begin
+            hint := 'Do you want to use a coal bag?';
+            text := 'False';
+            items.Add('True');
+            items.Add('False');
+          end;
+      end;
+
+      showHint := True;
+    end;
+  end;
+
+  // Combo TLabels
+  script_ComboTexts := ['Use Coal Bag'];
+  for i := 0 to High(script_ComboLabels) do
+  begin
+    script_ComboLabels[i] := TLabel.Create(script_Form);
+    with script_ComboLabels[i] do
+    begin
+      Parent := script_Form;
+      Height := 25;
+      Width := (script_combos[i].Width);
+      Left := script_combos[i].Left - Width;
+      Top := (script_combos[i].Top + 4);
+      Caption := script_ComboTexts[i];
+      Font.Color := 2070783;
+      Visible := script_combos[i].Visible;
     end;
   end;
 end;

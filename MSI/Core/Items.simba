@@ -391,6 +391,15 @@ begin
                   Point(15, 26),
                   Point(39, 33)
                 ];
+				
+	COAL_BAG:
+      Result := [
+                  Point(1035, 475),
+                  Point(1030, 462),
+                  Point(1046, 479),
+                  Point(1025, 480),
+                  Point(1037, 465)
+                ];
 
     else
       MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
@@ -541,6 +550,8 @@ begin
     TIARA_FIRE  : Result := 1450400;
 
     DWARVEN_ARMY_AXE : Result := 3758694;
+	
+	COAL_BAG : Result := 5665945;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1666,6 +1677,15 @@ begin
         Stackable := False;
         EquipLevel := 10;
       end;
+	  
+	COAL_BAG:
+	    with MSI_Items[whichItem] do
+	    begin
+	      Name := 'Coal bag';
+		    UpText := ['oal ba'];
+		    Stackable := False;
+		    EquipLevel := -1;
+  	  end;
   end;
 
   Result := (MSI_Items[whichItem].Name <> '');
@@ -1790,6 +1810,7 @@ begin
           FISH_RAW_LOBSTER   : e := 90.0;
           FISH_RAW_SWORDFISH : e := 100.0;
           FISH_RAW_SHARK     : e := 110.0;
+          FISH_RAW_MONKFISH  : e := 120.0;
 
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for fishing: ' + IntToStr(Items[i]));

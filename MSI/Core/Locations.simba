@@ -1364,6 +1364,81 @@ begin
          for i := 0 to high(subLocs) do
            subLocs[i].objects := MSI_Scripts[SCRIPT_FG_FISHER].Defaults.FishSpots;
        end;
+
+     LOC_Y_MINE:
+      with MSI_Locations[loc] do
+      begin
+        Name := 'Yanille Mine';
+        AtBank := false;
+
+        setLength(subLocs, 2);
+         with subLocs[0] do
+         begin
+           name := 'Yanille Mine South Rocks';
+           spsBox := intToBox(2330,4115,2370,4080);
+           Objects := [ROCK_IRON,ROCK_COPPER,
+            ROCK_CLAY,ROCK_TIN];
+         end;
+
+         with subLocs[1] do
+         begin
+          name:= 'Yanille Mine North Rocks';
+          spsBox := intToBox(2330,4080,2355,4050);
+          Objects := [ROCK_IRON,ROCK_TIN,ROCK_MITHRIL];
+         end;
+      end;
+
+     LOC_Y_BANK:
+      with MSI_Locations[loc]do
+      begin
+        Name := 'Yanille Bank';
+        AtBank := True;
+
+      setLength(subLocs,1);
+        with subLocs[0] do
+        begin
+          name := 'Yanille Bank';
+          spsBox := intToBox(2270,4305,2290,4285);
+        end;
+      end;
+
+     LOC_FC_BANK:
+      with MSI_Locations[loc]do
+      begin
+        Name :='Fishing Colony Bank';
+        AtBank := True;
+
+      setLength(subLocs,1);
+        with subLocs[0] do
+        begin
+          name := 'Fishing Colony Bank';
+          spsBox := intToBox(1150,1870,1165,1895);
+          Objects := [NPC_ARNOLD];
+        end;
+      end;
+
+     LOC_FC_FISH:
+      with MSI_Locations[loc]do
+      begin
+        Name :='Fishing Colony Fishing Spots';
+        AtBank :=False;
+
+      setLength(subLocs,2);
+        with subLocs[0] do
+        begin
+          name := 'Fishing Colony East Spots';
+          spsBox := intToBox(1215,1835,1260,1835);
+          Objects := [FISHSPOT_NET_MONKFISH];
+        end;
+
+        with subLocs[1] do
+        begin
+          name := 'Fishing Colony West Spots';
+          spsBox := intToBox(1165,1830,1215,1835);
+          Objects := [FISHSPOT_NET_MONKFISH];
+        end;
+      end;
+
   end;
 
   with MSI_Locations[loc] do
