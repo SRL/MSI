@@ -443,6 +443,11 @@ procedure MSI_LevelUp();
 begin
   if (LevelUp) then
   begin
+    if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel > 0) then
+      if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >=
+          MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel) then
+        TakeScreen('MaxLevel');
+
     MSI_SubDebug('MSI_LevelUp: Player has leveled up!');
     stats_IncVariable('Total Levels Gained', 1);
     MSI_QCLevelUp();
