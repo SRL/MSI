@@ -136,6 +136,7 @@ const
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
+  SCRIPT_CB_COOKER = 71;
 
   // Magic
   SCRIPT_ALCHER     = 80;
@@ -313,8 +314,9 @@ const
   LOC_KJ_FISH   = 131;
 
   // Catherby
-  LOC_CB_BANK = 140;
-  LOC_CB_FISH = 141;
+  LOC_CB_BANK  = 140;
+  LOC_CB_FISH  = 141;
+  LOC_CB_RANGE = 142;
 
   // Alters
   LOC_ALTAR_AIR   = 150;
@@ -570,6 +572,7 @@ const
 
   // Cooking spots
   COOKSPOT_AK_RANGE = 60;
+  COOKSPOT_CB_RANGE = 61;
 
   // Obstacles
   LADDER_MG_DOWN    = 70;
@@ -853,8 +856,8 @@ type
     Colors           : TIntegerArray;
     FindAllColors    : Boolean;       // Set to true if all the colors need to be found
     Tol              : Integer;
-    Hue              : Extended;
-    Sat              : Extended;
+    Hue              : array of Extended; //Should be one for every color.
+    Sat              : array of Extended;
     W, H             : Integer;       // Width and Height of the object
     Accuracy         : Integer;       // Min pixels to be found in each TPA
     SearchArea       : TBox;          // Box to search for object. Carries the Values of MSBox by default.
