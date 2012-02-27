@@ -1650,6 +1650,13 @@ begin
   if (not loggedIn) then
     exit;
 
+  // return true if a random is solved (don't want to relocate inside the random)
+  if (MSI_FindRandoms(true)) then
+  begin
+    result := true;
+    exit;
+  end;
+
   MSI_AddHeader('MSI_Relocate (' + MSI_Locations[loc].Name + ')');
 
   if (Length(MSI_Locations[loc].subLocs) < 1) then

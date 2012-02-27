@@ -173,7 +173,7 @@ begin
           waitTime := 0;
           MSI_NotBoxes := [];
         end else begin
-          if (MSI_FindRandoms(False)) then
+          if (MSI_FindRandoms(true)) then
             continue;
 
           MSI_Antiban(randomRange(1000, 4000), 50);
@@ -218,6 +218,9 @@ begin
             MSI_NotBoxes := [];
             Break;
           end else begin
+            if (MSI_FindRandoms(true)) then
+              continue;
+
             if (reportInfo.falseReason = '') then
               reportInfo.falseReason := 'Failed to relocate';
 

@@ -254,7 +254,7 @@ begin
   MSI_Debug('Current CTS: ' + intToStr(CTS));
 
   setColorToleranceSpeed(2);
-  setToleranceSpeed2Modifiers(fishSpot.hue, fishSpot.sat);
+  setToleranceSpeed2Modifiers(fishSpot.hue[0], fishSpot.sat[0]);
 
   setLength(ATPA, length(fishSpot.colors));
   h := high(ATPA);

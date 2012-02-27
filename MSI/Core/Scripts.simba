@@ -1303,6 +1303,49 @@ begin
         end;
       end;
 
+    SCRIPT_CB_COOKER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Catherby Cooker';
+        Constant      := SCRIPT_CB_COOKER;
+        SkillName     := 'Cooking';
+        SkillConst    := SKILL_COOKING;
+        BankType      := Bank;
+        GetMaterials  := True;
+        WhichBank     := MSI_BANK_CB;
+        AutoObjects   := @MSI_CookFullInv;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupCooking;
+
+        with Defaults do
+        begin
+          CookingSpot := [COOKSPOT_CB_RANGE];
+
+          Materials := [
+            MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
+            MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
+            MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
+            MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_MONKFISH,
+            MATERIAL_SHARK
+          ];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_CB_BANK to LOC_CB_RANGE';
+          StartLoc := LOC_CB_BANK;
+          EndLoc   := LOC_CB_RANGE;
+
+          SPSPath := [
+            TPointArray([Point(3076, 2892), Point(3099, 2882)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['7_7'])
+          ];
+        end;
+      end;
+
     { Magers ===================================== ]
     [============================================= }
     SCRIPT_ALCHER:

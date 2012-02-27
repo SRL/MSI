@@ -114,7 +114,7 @@ begin
   MSI_Debug('InvCount: ' + intToStr(oldInvCount));
 
   setColorToleranceSpeed(2);
-  setToleranceSpeed2Modifiers(rock.hue, rock.sat);
+  setToleranceSpeed2Modifiers(rock.hue[0], rock.sat[0]);
 
   setLength(ATPA, length(rock.colors));
   h := high(ATPA);
