@@ -557,6 +557,7 @@ begin
     while (not Result) and (Attempts < 15) do
     begin
       MSI_WaitWhileResting();
+      MSI_FindRandoms(true);
 
       PointInd := MSI_FurthestPoint(Path, P, pInd, D);
 

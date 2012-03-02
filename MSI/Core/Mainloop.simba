@@ -57,7 +57,11 @@ begin
     if (not Players[i].Active) then
       MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
 
-    Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
+    if (Length(MSI_Players[i].BoxRewards) <= 0) then
+      Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems']
+    else
+      Players[i].BoxRewards := MSI_Players[i].BoxRewards;
+
     MSI_Players[i].GetObjects := @MSI_GetPlayerObjects;
     MSI_Players[i].GetScript := @MSI_GetPlayerScript;
   end;

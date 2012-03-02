@@ -1110,6 +1110,7 @@ type
     Pin          : string;
     Active       : Boolean;
     Member       : Boolean;
+    BoxRewards   : TStringArray;
     Location     : Integer;
     TotalLoads   : Integer;
     BreakLoads   : Integer;
