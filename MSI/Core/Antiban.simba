@@ -545,7 +545,7 @@ begin
     if (nextRandCheck > getSystemTime) then
       exit;
 
-  findNonInventoryRandoms();
+  result := findNonInventoryRandoms();
 
   nextRandCheck := (getSystemTime() + MSI_Settings[SETUP_RANDOMS_WAIT]);
 end;
