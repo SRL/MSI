@@ -16,8 +16,8 @@ The source for Walking.simba can be found
 // Represent indexes of MSI_WalkVars
 const
   DIST_BETWEEN_POINTS = 20;  // pixels between points in a path
-  DIST_FROM_END       = 15;
-  DIST_RANDOMNESS     = 10;
+  DIST_FROM_END       = 10;
+  DIST_RANDOMNESS     = 5;
 
 // had to be done :'(
 function MSI_AtLocation(loc: integer; relocate: boolean): boolean; forward;
@@ -80,7 +80,7 @@ begin
     if (flagDistance <= flagDist) or (MSI_IsAnimating(anim)) then
       break;
 
-    MSI_SubDebug('Flag distance: '+intToStr(flagDistance));
+    //MSI_SubDebug('Flag distance: '+intToStr(flagDistance));
   end;
 end;
 
@@ -848,9 +848,7 @@ begin
 
   if (not result) then
     with MSI_Players[currentPlayer] do
-      if (toLoc) then
-        reportInfo.falseReason := 'Failed walk to: '+pathInfo.name
-      else
-        reportInfo.falseReason := 'Failed walk from '+pathInfo.name
+      if (reportInfo.falseReason = '') then // in case it's already set
+        reportInfo.falseReason := 'Failed walk: '+pathInfo.name
 end;
 

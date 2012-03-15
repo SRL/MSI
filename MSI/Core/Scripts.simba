@@ -987,9 +987,9 @@ begin
 
           SPSPath := [
             // bank to outside guild
-            TPointArray([Point(3890, 3235), Point(3864, 3284),
+            TPointArray([Point(3885, 3235), Point(3864, 3284),
                          Point(3863, 3379), Point(3739, 3527),
-                         Point(3646, 3487), Point(3570, 3501)]),
+                         Point(3646, 3487), Point(3570, 3500)]),
 
             // guild door to mine
             TPointArray([Point(3570, 3509), Point(3599, 3536)])

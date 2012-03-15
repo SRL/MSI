@@ -1254,10 +1254,10 @@ begin
           RUINS_AIR:
             begin
               Name   := 'RUINS_AIR';
-              Colors := [14986869];
+              Colors := [14986869, 14333068];
               Tol    := 10;
-              Hue    := [0.02];
-              Sat    := [2.93];
+              Hue    := [0.02, 0.04];
+              Sat    := [2.93, 2.28];
             end;
 
           RUINS_EARTH:
@@ -1524,6 +1524,7 @@ begin
     except
       setToleranceSpeed2Modifiers(obj.hue[0], obj.sat[0]);
     end;
+
     findColorsSpiralTolerance(
       MSCX, MSCY, ATPA[i], obj.colors[i], obj.searchArea.x1,
       obj.searchArea.y1, obj.searchArea.x2, obj.searchArea.y2, obj.tol
