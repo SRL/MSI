@@ -148,7 +148,7 @@ begin
   begin
     avg := averagePixelShift(pixelBox, interval, maxTime);
     result := inRange(avg, minPixelShift, maxPixelShift);
-    MSI_SubDebug('Average pixel shift: ' + intToStr(avg));
+    //MSI_SubDebug('Average pixel shift: ' + intToStr(avg));
 
     if (result) then
       MSI_SubDebug('Player animation: ' + anim.name);

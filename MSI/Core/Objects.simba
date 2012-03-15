@@ -441,14 +441,14 @@ begin
         Name               := 'BANK_VARROCK_WEST';
         Uptexts            := ['ooth'];
         Options            := ['ank'];
-        Colors             := [5794933];
-        Tol                := 8;
-        Hue                := [0.13];
-        Sat                := [0.69];
+        Colors             := [3224116];
+        Tol                := 4;
+        Hue                := [1.39];
+        Sat                := [0.32];
         FindAllColors      := False;
         W                  := 15;
         H                  := 30;
-        Accuracy           := 20;
+        Accuracy           := 40;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -1871,7 +1871,7 @@ begin
                 result := MSI_MultiMouse(obj.x, obj.y, 10, 3, true)
               else begin
                 mouse(obj.x, obj.y, 0, 0, true);
-                result := didClick(true, randomRange(500, 1000));
+                result := didClick(true, 1000);
               end;
             end;
         end else begin
