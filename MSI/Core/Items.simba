@@ -35,6 +35,8 @@ Example:
 *)
 function MSI_GetDTMPoints(which: Integer): TPointArray;
 begin
+  setLength(result, 5);
+
   case which of
     HATCHET_BRONZE..HATCHET_RUNE:
       Result := [
@@ -301,34 +303,6 @@ begin
                   Point(578, 225)
                 ];
 
-    MSI_RUNE_EARTH, MSI_RUNE_FIRE, MSI_RUNE_COSMIC, MSI_RUNE_NATURE,
-    MSI_RUNE_WATER, MSI_RUNE_CHAOS, MSI_RUNE_ESSENCE, MSI_PURE_ESSENCE:
-      Result := [
-                  Point(595, 464),
-                  Point(580, 462),
-                  Point(584, 472),
-                  Point(600, 474),
-                  Point(607, 465)
-                ];
-
-    MSI_RUNE_BODY, MSI_RUNE_MIND, MSI_RUNE_LAW:
-      Result := [
-                  Point(566, 443),
-                  Point(549, 448),
-                  Point(552, 456),
-                  Point(566, 460),
-                  Point(576, 450)
-                ];
-
-    MSI_RUNE_AIR, MSI_RUNE_DEATH, MSI_RUNE_BLOOD, MSI_RUNE_SOUL, MSI_RUNE_ASTRAL:
-      Result := [
-                  Point(560, 450),
-                  Point(549, 448),
-                  Point(553, 457),
-                  Point(566, 460),
-                  Point(576, 451)
-                ];
-
     CLAY_SOFT:
       Result := [
                   Point(28, 25),
@@ -392,7 +366,7 @@ begin
                   Point(39, 33)
                 ];
 				
-	COAL_BAG:
+ 	  COAL_BAG:
       Result := [
                   Point(1035, 475),
                   Point(1030, 462),
@@ -514,23 +488,6 @@ begin
     STAFF_WATER : Result := 13115933;
     STAFF_EARTH : Result := 4610428;
     STAFF_FIRE  : Result := 1911496;
-
-    MSI_RUNE_AIR   : Result := 13882333;
-    MSI_RUNE_BODY  : Result := 789517;
-    MSI_RUNE_MIND  : Result := 472373;
-    MSI_RUNE_EARTH : Result := 801369;
-    MSI_RUNE_FIRE  : Result := 1384347;
-    MSI_RUNE_WATER : Result := 10164501;
-    MSI_RUNE_CHAOS : Result := 2005717;
-    MSI_RUNE_LAW   : Result := 13967902;
-    MSI_RUNE_COSMIC: Result := 2020309;
-    MSI_RUNE_DEATH : Result := 13882333;
-    MSI_RUNE_NATURE: Result := 1342481;
-    MSI_RUNE_BLOOD : Result := 0;
-    MSI_RUNE_SOUL  : Result := 0;
-    MSI_RUNE_ASTRAL: Result := 0;
-    MSI_RUNE_ESSENCE: Result := 4539720;
-    MSI_PURE_ESSENCE: Result := 6250600;
 
     CLAY_SOFT   : Result := 802904;
     VIAL_EMPTY  : Result := 5920342;
@@ -663,6 +620,14 @@ Example:
 *)
 function MSI_LoadItem(whichItem: Integer): Boolean;
 begin
+  // set defaults first so they can be "reset" in the case if needed
+  with MSI_Items[whichItem] do
+  begin
+    DTM := MSI_LoadDTM(whichItem);
+    Stackable := false;
+    EquipLevel := -1;
+  end;
+
   case whichItem of
     { HATCHETS =================================== ]
     [============================================= }
@@ -671,7 +636,6 @@ begin
       begin
         Name := 'Bronze Hatchet';
         UpText := ['onze hat'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -680,7 +644,6 @@ begin
       begin
         Name := 'Iron Hatchet';
         UpText := ['on hatch'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -689,7 +652,6 @@ begin
       begin
         Name := 'Steel Hatchet';
         UpText := ['eel hatc'];
-        Stackable := False;
         EquipLevel := 5;
       end;
 
@@ -698,7 +660,6 @@ begin
       begin
         Name := 'Mithril Hatchet';
         UpText := ['thril ha'];
-        Stackable := False;
         EquipLevel := 20;
       end;
 
@@ -707,7 +668,6 @@ begin
       begin
         Name := 'Adamant Hatchet';
         UpText := ['amant ha'];
-        Stackable := False;
         EquipLevel := 30;
       end;
 
@@ -716,7 +676,6 @@ begin
       begin
         Name := 'Rune Hatchet';
         UpText := ['ne hatch'];
-        Stackable := False;
         EquipLevel := 40;
       end;
 
@@ -725,7 +684,6 @@ begin
       begin
         Name := 'Dragon Hatchet';
         UpText := ['gon hat'];
-        Stackable := False;
         EquipLevel := 60;
       end;
 
@@ -737,8 +695,6 @@ begin
         Name := 'Normal logs';
         StatsName := 'Normal Logs Chopped';
         UpText := ['Logs'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     LOGS_OAK:
@@ -747,8 +703,6 @@ begin
         Name := 'Oak logs';
         StatsName := 'Oak Logs Chopped';
         UpText := ['logs'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     LOGS_WILLOW:
@@ -757,8 +711,6 @@ begin
         Name := 'Willow logs';
         StatsName := 'Willow Logs Chopped';
         UpText := ['illow', 'illow logs', 'low'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     LOGS_MAPLE:
@@ -766,9 +718,6 @@ begin
       begin
         Name := 'Maple logs';
         StatsName := 'Maple Logs Chopped';
-        UpText := ['ple logs'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     LOGS_YEW:
@@ -776,9 +725,6 @@ begin
       begin
         Name := 'Yew logs';
         StatsName := 'Yew Logs Chopped';
-        UpText := ['ew l'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     LOGS_MAGIC:
@@ -786,9 +732,6 @@ begin
       begin
         Name := 'Magic logs';
         StatsName := 'Magic Logs Chopped';
-        UpText := ['gic lo'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     { PICKAXES =================================== ]
@@ -798,7 +741,6 @@ begin
       begin
         Name := 'Bronze pickaxe';
         UpText := ['onze pi'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -807,7 +749,6 @@ begin
       begin
         Name := 'Iron pickaxe';
         UpText := ['ron pi'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -816,7 +757,6 @@ begin
       begin
         Name := 'Steel pickaxe';
         UpText := ['eel pi'];
-        Stackable := False;
         EquipLevel := 5;
       end;
 
@@ -825,7 +765,6 @@ begin
       begin
         Name := 'Mithril pickaxe';
         UpText := ['ril pi'];
-        Stackable := False;
         EquipLevel := 20;
       end;
 
@@ -834,7 +773,6 @@ begin
       begin
         Name := 'Adamant pickaxe';
         UpText := ['ant pi'];
-        Stackable := False;
         EquipLevel := 30;
       end;
 
@@ -843,7 +781,6 @@ begin
       begin
         Name := 'Rune pickaxe';
         UpText := ['une pi'];
-        Stackable := False;
         EquipLevel := 40;
       end;
 
@@ -852,7 +789,6 @@ begin
       begin
         Name := 'Dragon pickaxe';
         UpText := ['agon pi'];
-        Stackable := False;
         EquipLevel := 60;
       end;
 
@@ -864,8 +800,6 @@ begin
         Name := 'Clay Ore';
         StatsName := 'Clay (Mined)';
         UpText := ['lay', 'Clay'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_COPPER:
@@ -874,8 +808,6 @@ begin
         Name := 'Copper ore';
         StatsName := 'Copper Ore (Mined)';
         UpText := ['opper'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_TIN:
@@ -884,8 +816,6 @@ begin
         Name := 'Tin ore';
         StatsName := 'Tin Ore (Mined)';
         UpText := ['in or'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_IRON:
@@ -894,8 +824,6 @@ begin
         Name := 'Iron ore';
         StatsName := 'Iron Ore (Mined)';
         UpText := ['ron o'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_SILVER:
@@ -904,8 +832,6 @@ begin
         Name := 'Silver ore';
         StatsName := 'Silver Ore (Mined)';
         UpText := ['ilver'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_COAL:
@@ -914,8 +840,6 @@ begin
         Name := 'Coal ore';
         StatsName := 'Coal Ore (Mined)';
         UpText := ['oal'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_GOLD:
@@ -924,8 +848,6 @@ begin
         Name := 'Gold ore';
         StatsName := 'Gold Ore (Mined)';
         UpText := ['Gold','old'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_MITHRIL:
@@ -934,8 +856,6 @@ begin
         Name := 'Mithril ore';
         StatsName := 'Mithril Ore (Mined)';
         UpText := ['ithril'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_ADAMANTITE:
@@ -944,8 +864,6 @@ begin
         Name := 'Adamantite ore';
         StatsName := 'Adamant Ore (Mined)';
         UpText := ['daman'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     ORE_RUNITE:
@@ -954,8 +872,6 @@ begin
         Name := 'Runite ore';
         StatsName := 'Runite Ore (Mined)';
         UpText := ['unite'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     { FISH TOOLS ================================= ]
@@ -965,8 +881,6 @@ begin
       begin
         Name := 'Small Fishing Net';
         UpText := ['ishing net'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_CAGE_CRAYFISH:
@@ -974,8 +888,6 @@ begin
       begin
         Name := 'Crayfish Cage';
         UpText := ['rayfish cage'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_ROD_BAIT:
@@ -983,8 +895,6 @@ begin
       begin
         Name := 'Fishing Rod';
         UpText := ['Fishing rod'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_BAIT:
@@ -992,8 +902,6 @@ begin
       begin
         Name := 'Fishing Bait';
         UpText := ['ishing bait'];
-        Stackable := True;
-        EquipLevel := -1;
       end;
 
     FISH_ROD_FLY:
@@ -1001,8 +909,6 @@ begin
       begin
         Name := 'Fly Fishing Rod';
         UpText := ['ly fishing'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_HARPOON:
@@ -1010,8 +916,6 @@ begin
       begin
         Name := 'Harpoon';
         UpText := ['arpoon'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_HARPOON_BARB:
@@ -1019,7 +923,6 @@ begin
       begin
         Name := 'Barb-tail harpoon';
         UpText := ['arb-tail harpoon'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -1028,8 +931,6 @@ begin
       begin
         Name := 'Lobster Pot';
         UpText := ['obster pot'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     { FISH ======================================== ]
@@ -1040,8 +941,6 @@ begin
         Name := 'Raw shrimps';
         StatsName := 'Shrimp Caught';
         UpText := ['aw shrim', 'w shr', 'rim'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_CRAYFISH:
@@ -1050,8 +949,6 @@ begin
         Name := 'Raw crayfish';
         StatsName := 'Crayfish Caught';
         UpText := ['aw crayfish'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_ANCHOVIE:
@@ -1060,8 +957,6 @@ begin
         Name := 'Raw anchovies';
         StatsName := 'Anchovies Caught';
         UpText := ['aw anchovies'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_SARDINE:
@@ -1070,8 +965,6 @@ begin
         Name := 'Raw sardines';
         StatsName := 'Sardines Caught';
         UpText := ['aw sardine', 'ine'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_HERRING:
@@ -1080,8 +973,6 @@ begin
         Name := 'Raw herring';
         StatsName := 'Herring Caught';
         UpText := ['aw herring'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_TROUT:
@@ -1090,8 +981,6 @@ begin
         Name := 'Raw trout';
         StatsName := 'Trout Caught';
         UpText := ['aw trout'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_PIKE:
@@ -1100,8 +989,6 @@ begin
         Name := 'Raw pike';
         StatsName := 'Pike Caught';
         UpText := ['aw pike'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_SALMON:
@@ -1110,8 +997,6 @@ begin
         Name := 'Raw salmon';
         StatsName := 'Salmon Caught';
         UpText := ['aw salmon'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_TUNA:
@@ -1120,8 +1005,6 @@ begin
         Name := 'Raw tuna';
         StatsName := 'Tuna Caught';
         UpText := ['aw tuna'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_LOBSTER:
@@ -1130,8 +1013,6 @@ begin
         Name := 'Raw lobster';
         StatsName := 'Lobster Caught';
         UpText := ['aw lobster', 'w lob', 'obst'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_SWORDFISH:
@@ -1140,8 +1021,6 @@ begin
         Name := 'Raw swordfish';
         StatsName := 'Swordfish Caught';
         UpText := ['aw swordfish', 'aw sword', 'aw swo'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_MONKFISH:
@@ -1150,8 +1029,6 @@ begin
         Name := 'Raw Monkfish';
         StatsName := 'Monkfish Caught';
         UpText := ['aw monkfish', 'aw monk', 'aw mon'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_RAW_SHARK:
@@ -1160,8 +1037,6 @@ begin
         Name := 'Raw Shark';
         StatsName := 'Shark Caught';
         UpText := ['aw shark'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_SHRIMP:
@@ -1170,8 +1045,6 @@ begin
         Name := 'Cooked shrimps';
         StatsName := 'Shrimp Cooked';
         UpText := ['hrimps'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_CRAYFISH:
@@ -1180,8 +1053,6 @@ begin
         Name := 'Cooked crayfish';
         StatsName := 'Crayfish Cooked';
         UpText := ['rayfish'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_ANCHOVIE:
@@ -1190,8 +1061,6 @@ begin
         Name := 'Cooked anchovies';
         StatsName := 'Anchovies Cooked';
         UpText := ['nchovies'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_SARDINE:
@@ -1200,8 +1069,6 @@ begin
         Name := 'Cooked sardines';
         StatsName := 'Sardines Cooked';
         UpText := ['ardine'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_HERRING:
@@ -1210,8 +1077,6 @@ begin
         Name := 'Cooked herring';
         StatsName := 'Herring Cooked';
         UpText := ['erring'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_TROUT:
@@ -1220,8 +1085,6 @@ begin
         Name := 'Cooked trout';
         StatsName := 'Trout Cooked';
         UpText := ['rout'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_PIKE:
@@ -1230,8 +1093,6 @@ begin
         Name := 'Cooked pike';
         StatsName := 'Pike Cooked';
         UpText := ['ike'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_SALMON:
@@ -1240,8 +1101,6 @@ begin
         Name := 'Cooked salmon';
         StatsName := 'Salmon Cooked';
         UpText := ['almon'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_TUNA:
@@ -1250,8 +1109,6 @@ begin
         Name := 'Cooked tuna';
         StatsName := 'Tuna Cooked';
         UpText := ['una'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_LOBSTER:
@@ -1260,8 +1117,6 @@ begin
         Name := 'Cooked lobster';
         StatsName := 'Lobster Cooked';
         UpText := ['obster'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_SWORDFISH:
@@ -1270,8 +1125,6 @@ begin
         Name := 'Cooked swordfish';
         StatsName := 'Swordfish Cooked';
         UpText := ['wordfish'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_MONKFISH:
@@ -1280,8 +1133,6 @@ begin
         Name := 'Cooked Monkfish';
         StatsName := 'Monkfish Cooked';
         UpText := ['Monkfish', 'Monk', 'Mon'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     FISH_COOKED_SHARK:
@@ -1290,8 +1141,6 @@ begin
         Name := 'Cooked Shark';
         StatsName := 'Shark Cooked';
         UpText := ['hark'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     { GEMS ======================================== ]
@@ -1301,8 +1150,6 @@ begin
       begin
         Name := 'Uncut sapphire';
         UpText := ['ut sapp'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     GEM_UNCUT_EMERALD:
@@ -1310,8 +1157,6 @@ begin
       begin
         Name := 'Uncut emerald';
         UpText := ['ut emer'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     GEM_UNCUT_RUBY:
@@ -1319,8 +1164,6 @@ begin
       begin
         Name := 'Uncut ruby';
         UpText := ['ut rub'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     GEM_UNCUT_DIAMOND:
@@ -1328,8 +1171,6 @@ begin
       begin
         Name := 'Uncut diamond';
         UpText := ['ut diamo'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     { MISC ITEMS ================================= ]
@@ -1339,8 +1180,6 @@ begin
       begin
         Name := 'Bird''s nest';
         UpText := ['s nest'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     MISC_FEATHER:
@@ -1349,7 +1188,6 @@ begin
         Name := 'Feather';
         UpText := ['eather'];
         Stackable := True;
-        EquipLevel := -1;
       end;
 
     { STAFFS ===================================== ]
@@ -1359,7 +1197,6 @@ begin
       begin
         Name := 'Staff of Air';
         UpText := ['of air'];
-        Stackable := False;
         EquipLevel := 0;
       end;
 
@@ -1368,7 +1205,6 @@ begin
       begin
         Name := 'Staff of Water';
         UpText := ['of water'];
-        Stackable := False;
         EquipLevel := 0;
       end;
 
@@ -1377,7 +1213,6 @@ begin
       begin
         Name := 'Staff of Earth';
         UpText := ['of earth'];
-        Stackable := False;
         EquipLevel := 0;
       end;
 
@@ -1386,7 +1221,6 @@ begin
       begin
         Name := 'Staff of Fire';
         UpText := ['of fire'];
-        Stackable := False;
         EquipLevel := 0;
       end;
 
@@ -1399,7 +1233,7 @@ begin
         StatsName := 'Air Runes (Crafted)';
         UpText := ['Air', 'ir', 'ir r'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYLBmYmCwAWJvIA4AYn8g9gLih0C5z0D8EYhfAPEDIH4LxPevXgWSTCi4qrSEgR/IwoYZcWAIAADlvQuM');
       end;
 
     MSI_RUNE_WATER:
@@ -1409,7 +1243,7 @@ begin
         StatsName := 'Water Runes (Crafted)';
         UpText := ['er ru'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYLBlYmCwAWJvIA4AYn8g9gLi50C5z0D8EYhfAPEDIH4LxOJS84AkEwquKi1h4AeysGFGHBgCAGOaCdo=');
       end;
 
     MSI_RUNE_EARTH:
@@ -1419,7 +1253,7 @@ begin
         StatsName := 'Earth Runes (Crafted)';
         UpText := ['th ru'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLi50C5z0D8EYhfAPEDIH4LxLG2vECSCQVXlZYw8ANZ2DAjDgwBAFrfCbc=');
       end;
 
     MSI_RUNE_FIRE:
@@ -1429,7 +1263,7 @@ begin
         StatsName := 'Fire Runes (Crafted)';
         UpText := ['ire ru'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLi50C5z0D8EYhfAPEDIH4LxHMUxYAkEwquKi1h4AeysGFGHBgCAGhRCeM=');
       end;
 
     MSI_RUNE_MIND:
@@ -1439,7 +1273,7 @@ begin
         StatsName := 'Mind Runes (Crafted)';
         UpText := ['nd run'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLiV0C5z0D8EYhfAPEDIH4LxFaWHECSCQVXlZYw8ANZ2DAjDgwBAE63CY4=');
       end;
 
     MSI_RUNE_BODY:
@@ -1449,7 +1283,7 @@ begin
         StatsName := 'Body Runes (Crafted)';
         UpText := ['ody r'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLiV0C5z0D8EYhfAPEDIH4LxHy8vECSCQVXlZYw8ANZ2DAjDgwBADWPCTs=');
       end;
 
     MSI_RUNE_CHAOS:
@@ -1459,7 +1293,7 @@ begin
         StatsName := 'Chaos Runes (Crafted)';
         UpText := ['haos'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLiV0C5z0D8EYhfAPEDIH4LxDfnyQNJJhRcVVrCwA9kYcOMODAEAACkXgqp');
       end;
 
     MSI_RUNE_DEATH:
@@ -1469,7 +1303,7 @@ begin
         StatsName := 'Death Runes (Crafted)';
         UpText := ['Death', 'eath rune', 'eat'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mlwAAAHicY2dgYLBhgmBvIA4AYn8g9gJiJyB+A5T/DMQfgfgFED8A4rdA/BSI71+9CiSZUHBVaQlDUW4uAz+Qhwsz4sFQAAByFA4e');
       end;
 
     MSI_RUNE_NATURE:
@@ -1479,7 +1313,7 @@ begin
         StatsName := 'Nature Runes (Crafted)';
         UpText := ['ture r'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBjYmCwAWJvIA4AYn8g9gLiF0C5z0D8kQHCfgDEb4FYqEYUSDKh4KrSEgZ+IAsbZsSBIQAAW7YJuA==');
       end;
 
     MSI_RUNE_COSMIC:
@@ -1489,7 +1323,7 @@ begin
         StatsName := 'Cosmic Runes (Crafted)';
         UpText := ['osmic'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBjYmCwAWJvIA4AYn8g9gLiF0C5z0D8kQHCfgDEb4H42hV5IMmEgqtKSxj4gSxsmBEHhgAAtN4K3g==');
       end;
 
     MSI_RUNE_LAW:
@@ -1499,29 +1333,55 @@ begin
         StatsName := 'Law Runes (Crafted)';
         UpText := ['aw ru'];
         Stackable := True;
-        EquipLevel := -1;
+        DTM := DTMFromString('mggAAAHicY2NgYHBjYmCwAWJvIA4AYn8g9gLiF0C5z0D8kQHCfgDEb4FYXuUmkGRCwVWlJQz8QBY2zIgDQwAAf2QKMQ==');
       end;
 
+    MSI_RUNE_BLOOD:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Blood rune';
+        StatsName := 'Blood Runes (Crafted)';
+        UpText := ['ood ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYOACYj4gFgZiESDmZ4AADiDmRWILQtXUSAkxVJWWAFlMKJgfqhcdM+LAEAAA6BsDCQ==');
+      end;
+
+    MSI_RUNE_ASTRAL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Astral rune';
+        StatsName := 'Astral Runes (Crafted)';
+        UpText := ['tral ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYOACYj4gFgZiESDmZ4AADiDmRWILQtUcX3OMoaq0BMhiQsH8UL3omBEHhgAAYF4Emg==');
+      end;
+
+    MSI_RUNE_SOUL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Soul rune';
+        StatsName := 'Soul Runes (Crafted)';
+        UpText := ['oul ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYOACYj4gFgZiESDmZ4AADiDmRWILQtVMnHyToaq0BMhiQsH8UL3omBEHhgAATgkEXg==');
+      end;
+
+    { Money Making =============================== ]
+    [============================================= }
     CLAY_SOFT:
       with MSI_Items[whichItem] do
       begin
         Name := 'Soft Clay';
         StatsName := 'Clay (Softened)';
         UpText := ['oft clay'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
-    { Money Making =============================== ]
-    [============================================= }
     VIAL_EMPTY:
       with MSI_Items[whichItem] do
       begin
         Name := 'Vial';
         StatsName := 'Vial (Empty)';
         UpText := ['ial'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     VIAL_WATER:
@@ -1530,8 +1390,6 @@ begin
         Name := 'Vial of water';
         StatsName := 'Vials Filled';
         UpText := ['ial of water', 'water'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     JUG_EMPTY:
@@ -1540,8 +1398,6 @@ begin
         Name := 'Jug';
         StatsName := 'Jug (Empty)';
         UpText := ['ug'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     JUG_WATER:
@@ -1550,8 +1406,6 @@ begin
         Name := 'Jug of water';
         StatsName := 'Jugs Filled';
         UpText := ['ug of water'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     BOWL_EMPTY:
@@ -1560,8 +1414,6 @@ begin
         Name := 'Bowl';
         StatsName := 'Bowl (Empty)';
         UpText := ['owl'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     BOWL_WATER:
@@ -1570,8 +1422,6 @@ begin
         Name := 'Bowl of water';
         StatsName := 'Bowls Filled';
         UpText := ['owl of water'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     BUCKET_EMPTY:
@@ -1580,8 +1430,6 @@ begin
         Name := 'Bucket';
         StatsName := 'Bucket (Empty)';
         UpText := ['ucket'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     BUCKET_WATER:
@@ -1590,8 +1438,6 @@ begin
         Name := 'Bucket of water';
         StatsName := 'Buckets Filled';
         UpText := ['ucket of water'];
-        Stackable := False;
-        EquipLevel := -1;
       end;
 
     { Tiara ====================================== ]
@@ -1601,7 +1447,6 @@ begin
       begin
         Name := 'Air tiara';
         UpText := ['Air', 'ir tia', 'ir t'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -1610,7 +1455,6 @@ begin
       begin
         Name := 'Earth tiara';
         UpText := ['Earth', 'rth tia', 'th ti'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -1619,7 +1463,6 @@ begin
       begin
         Name := 'Water tiara';
         UpText := ['Water', 'ater tia', 'ter te'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -1628,7 +1471,6 @@ begin
       begin
         Name := 'Mind tiara';
         UpText := ['Mind', 'ind tia', 'nd t'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -1637,7 +1479,6 @@ begin
       begin
         Name := 'Body tiara';
         UpText := ['Body', 'dy tia', 'dy t'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -1646,7 +1487,6 @@ begin
       begin
         Name := 'Fire tiara';
         UpText := ['Fire', 're tia'];
-        Stackable := False;
         EquipLevel := 1;
       end;
 
@@ -1655,8 +1495,7 @@ begin
       begin
         Name := 'Rune essence';
         UpText := ['une essen', 'ne e', 'Rune es', 'ne ess', 'ess'];
-        Stackable := False;
-        EquipLevel := -1;
+        DTM := DTMFromString('mwQAAAHic42RgYJjGxMAwG4qnAvEEIO4F4hlAvAiIlwBxACMDgy8QBwNxGBAHAnEMEMcBcQRUzs3ZmSHA1wdM21hZMTja2wFNZ0LB/ECSEGYkAsMBABwwDP4=');
       end;
 
     MSI_PURE_ESSENCE:
@@ -1665,8 +1504,7 @@ begin
         Name := 'Pure essence';
         StatsName := 'Pure Essence (Mined)';
         UpText := ['ure essen'];
-        Stackable := False;
-        EquipLevel := -1;
+        DTM := DTMFromString('mrAAAAHic42BgYNjPxMBwAIiPAvERIN4NxCeA+BwQHwZif0YGhhAgDgBiLyCOA+IYIA6EsvMyMxlSEuIZSvLzGZrraoEmMqFgfiCJDzMSwDAAABbvDp4=');
       end;
 
     DWARVEN_ARMY_AXE:
@@ -1674,20 +1512,18 @@ begin
       begin
         Name := 'Dwarven Army Axe';
         UpText := ['arven army'];
-        Stackable := False;
         EquipLevel := 10;
       end;
 	  
-	COAL_BAG:
+ 	  COAL_BAG:
 	    with MSI_Items[whichItem] do
 	    begin
 	      Name := 'Coal bag';
 		    UpText := ['oal ba'];
-		    Stackable := False;
-		    EquipLevel := -1;
   	  end;
   end;
 
+  SetDTMName(MSI_Items[whichItem].DTM, Capitalize(MSI_Items[whichItem].Name));
   Result := (MSI_Items[whichItem].Name <> '');
 end;
 
@@ -1720,16 +1556,6 @@ var
 begin
   for i := 0 to High(MSI_Items) do
     MSI_LoadItem(i);
-
-  for i := 0 to High(MSI_Items) do
-    if (MSI_Items[i].Name = '') then
-      Continue
-    else
-    	with MSI_Items[i] do
-    	begin
-    		DTM := MSI_LoadDTM(i);
-        SetDTMName(DTM, Capitalize(Name));
-    	end;
 end;
 
 (*
@@ -1859,6 +1685,9 @@ begin
           MSI_RUNE_COSMIC : e := 8;
           MSI_RUNE_DEATH  : e := 10;
           MSI_RUNE_NATURE : e := 9;
+          MSI_RUNE_SOUL   : e := -1;
+          MSI_RUNE_BLOOD  : e := 10.5;
+          MSI_RUNE_ASTRAL : e := 8.7;
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for Runecrafting: ' + IntToStr(Items[i]));
         end;
