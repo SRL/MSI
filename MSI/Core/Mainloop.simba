@@ -808,6 +808,9 @@ begin
   SetupSRLRemote('MSI Pheonix', ['Total Loads', 0, 'Break Loads', 1, 'Total Time', 2, 'Break Time', 3], ['Member', 0], [], [TStringArray([])]);
   {$ENDIF}
 
+  if (MSI_Settings[SETUP_REPORT_GUI]) then
+    MSI_SetupReportsGUI();
+
   // Warns the user if using an invalid script with SPS
   for i := 0 to high(MSI_Players) do
     for j := 0 to high(MSI_Scripts) do

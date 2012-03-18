@@ -613,4 +613,38 @@ begin
   SetScriptProp(SP_WriteTimeStamp, [True]);
 end;
 
+(*
+MSI_SetupReportsGUI
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_SetupReportsGUI();
+
+Sets up the script so it uses reportsGUI.simba in SRL/misc/.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: March 15th, 2012 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_SetupReportsGUI();
+*)
+procedure MSI_SetupReportsGUI();
+begin
+{
+  Progress_ScriptName := 'MSI Phoenix Scripts';
+  Progress_SetupEx(Rect(0, 0, 650, 350));
+
+  Progress_ChangeInterval(5000); // every 2 minutes
+  OnProgressUpdate := @MSI_ProgressReport;
+
+  Progress_Show;
+}
+end;
+
 

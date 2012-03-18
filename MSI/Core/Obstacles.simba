@@ -26,7 +26,7 @@ prefix "OBS_".
 .. note::
 
   | Author: The MSI Team
-  | Last Updated: 23 July 2011 by Coh3n
+  | Last Updated: 17 March 2012 by Coh3n
 
 Example:
 
@@ -45,31 +45,23 @@ begin
     OBS_LADDER_MG_DOWN:
       with result do
       begin
-        Name     := 'OBS_LADDER_MG_DOWN';
-        ObjConst := LADDER_MG_DOWN;
-        ObjMir   := LADDER_MG_UP;
+        Name       := 'OBS_LADDER_MG_DOWN';
+        ObjConst   := LADDER_MG_DOWN;
+        ObjMir     := LADDER_MG_UP;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
-        MirAction := moNothing;
-        Camera   := ['n', true];
-
-        // West, South, East, North
-        EndTiles   := [Point(3017, 9739), Point(3019, 9737),
-                       Point(3021, 9739), Point(3019, 9741)];
+        MirAction  := moNothing;
+        Camera     := ['n', true];
       end;
 
     OBS_LADDER_MG_UP:
       with result do
       begin
-        Name     := 'OBS_LADDER_MG_UP';
-        ObjConst := LADDER_MG_UP;
-        ObjMir   := LADDER_MG_DOWN;
+        Name       := 'OBS_LADDER_MG_UP';
+        ObjConst   := LADDER_MG_UP;
+        ObjMir     := LADDER_MG_DOWN;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
-        MirAction := moMove;
-        Camera   := ['n', true];
-
-        // West, South, East, North
-        EndTiles   := [Point(3017, 3339), Point(3019, 3337),
-                       Point(3021, 3339), Point(3019, 3341)];
+        MirAction  := moMove;
+        Camera     := ['n', true];
       end;
 
     OBS_WALL_FW:
@@ -81,7 +73,6 @@ begin
         ObjMirArea := intToBox(MSCX - 50, MSCY - 50, MSCX + 50, MSY2 + 50); // Box around player
         MirAction  := moNothing;
         Camera     := ['w', true];
-        EndTiles   := [Point(2940, 3355)];
       end;
 
     OBS_DOOR_CG_IN:
@@ -94,7 +85,6 @@ begin
         ObjMirArea := intToBox(MSCX - 100, MSCY - 100, MSCX + 100, MSCY - 20);
         MirAction  := moMove;
         Camera     := ['n', true];
-        EndTiles   := [Point(2933, 3288)];
       end;
 
     OBS_DOOR_CG_OUT:
@@ -106,19 +96,18 @@ begin
         ObjMirArea := intToBox(MSCX - 100, MSCY, MSCX + 100, MSCY + 100);
         MirAction  := moMove;
         Camera     := ['n', true];
-        EndTiles   := [Point(2933, 3289)];
       end;
 
     OBS_RUINS_AIR:
       with result do
       begin
         Name       := 'OBS_RUINS_AIR';
+        Symbol     := 'Runecrafting';
         ObjConst   := RUINS_AIR;
         ObjMir     := PORTAL_AIR;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(2841, 4830)];
       end;
 
     OBS_PORTAL_AIR:
@@ -130,19 +119,18 @@ begin
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(3128, 3407)];
       end;
 
     OBS_RUINS_EARTH:
       with result do
       begin
         Name       := 'OBS_RUINS_EARTH';
+        Symbol     := 'Runecrafting';
         ObjConst   := RUINS_EARTH;
         ObjMir     := PORTAL_EARTH;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['w', true];
-        EndTiles   := [Point(2657, 4830)];
       end;
 
     OBS_PORTAL_EARTH:
@@ -154,19 +142,18 @@ begin
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(3302, 3477)];
       end;
 
     OBS_RUINS_FIRE:
       with result do
       begin
         Name       := 'OBS_RUINS_FIRE';
+        Symbol     := 'Runecrafting';
         ObjConst   := RUINS_FIRE;
         ObjMir     := PORTAL_FIRE;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(2577, 4846)];
       end;
 
     OBS_PORTAL_FIRE:
@@ -178,19 +165,18 @@ begin
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(3310, 3252)];
       end;
 
     OBS_RUINS_WATER:
       with result do
       begin
         Name       := 'OBS_RUINS_WATER';
+        Symbol     := 'Runecrafting';
         ObjConst   := RUINS_WATER;
         ObjMir     := PORTAL_WATER;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(3493, 4832)];
       end;
 
     OBS_PORTAL_WATER:
@@ -202,19 +188,18 @@ begin
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(3182, 3162)];
       end;
 
     OBS_RUINS_MIND:
       with result do
       begin
         Name       := 'OBS_RUINS_MIND';
+        Symbol     := 'Runecrafting';
         ObjConst   := RUINS_MIND;
         ObjMir     := PORTAL_MIND;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(2793, 4829)];
       end;
 
     OBS_PORTAL_MIND:
@@ -226,19 +211,18 @@ begin
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(2980, 3511)];
       end;
 
     OBS_RUINS_BODY:
       with result do
       begin
         Name       := 'OBS_RUINS_BODY';
+        Symbol     := 'Runecrafting';
         ObjConst   := RUINS_BODY;
         ObjMir     := -1; // will check for black on minimap
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [];
       end;
 
     OBS_PORTAL_BODY:
@@ -250,7 +234,6 @@ begin
         ObjMirArea := MSBox;
         MirAction  := moNothing;
         Camera     := ['n', true];
-        EndTiles   := [Point(3050, 3442)];
       end;
 
   end;
@@ -465,12 +448,12 @@ begin
 
     if (MSI_FindObject(obsObj, moLeft)) then
     begin
-      MSI_Debug('Clicked object');
+      MSI_Debug('Clicked obstacle');
       wait(randomRange(1500, 2000));
       result := MSI_WaitForMirror(obs);
     end else begin
-      MSI_Debug('Setting obstacle to right click only');
       obsObj.rightClickOnly := true; // in case uptext is failing
+      obsObj.tol := (obsObj.tol + 1)
       MSI_NotBoxes := [];
     end;
   end;

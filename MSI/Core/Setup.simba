@@ -26,6 +26,7 @@ The source for can be found
 {$ENDIF}
 
 {$i srl/srl/misc/Reports.simba}
+//{$i srl/srl/misc/reportsGUI.simba}
 {$i srl/srl/skill/magic.simba}
 
 {$IFDEF SRL_REMOTE}
