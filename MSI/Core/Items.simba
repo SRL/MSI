@@ -508,7 +508,7 @@ begin
 
     DWARVEN_ARMY_AXE : Result := 3758694;
 	
-	COAL_BAG : Result := 5665945;
+	  COAL_BAG : Result := 5665945;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -623,9 +623,9 @@ begin
   // set defaults first so they can be "reset" in the case if needed
   with MSI_Items[whichItem] do
   begin
-    DTM := MSI_LoadDTM(whichItem);
     Stackable := false;
     EquipLevel := -1;
+    DTM := -1;
   end;
 
   case whichItem of
@@ -1523,8 +1523,16 @@ begin
   	  end;
   end;
 
-  SetDTMName(MSI_Items[whichItem].DTM, Capitalize(MSI_Items[whichItem].Name));
-  Result := (MSI_Items[whichItem].Name <> '');
+  if (MSI_Items[whichItem].Name <> '') then
+  begin
+    result := true;
+
+    // set the DTM to default if it hasn't already been set
+    if (MSI_Items[whichItem].DTM = -1) then
+      MSI_Items[whichItem].DTM := MSI_LoadDTM(whichItem);
+
+    SetDTMName(MSI_Items[whichItem].DTM, Capitalize(MSI_Items[whichItem].Name));
+  end;
 end;
 
 (*
