@@ -644,6 +644,7 @@ const
   OBS_WALL_FW        = 20;
   OBS_DOOR_CG_IN     = 30;
   OBS_DOOR_CG_OUT    = 31;
+  OBS_DOOR_CBRange   = 32;
 
   // Runcrafting
   OBS_RUINS_AIR   = 50;

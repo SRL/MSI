@@ -1337,12 +1337,16 @@ begin
           EndLoc   := LOC_CB_RANGE;
 
           SPSPath := [
-            TPointArray([Point(3076, 2892), Point(3099, 2882)])
+            TPointArray([Point(3076, 2892), Point(3100, 2896)]),
+            TPointArray([Point(3100, 2896), Point(3103, 2881)])
           ];
 
           SPSAreas   := [
-            TStringArray(['7_7'])
+            TStringArray(['7_7']), TStringArray(['7_7'])
           ];
+
+          Obstacles[OBS_LOC_TO] := [OBS_DOOR_CBRange];
+          Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CBRange];
         end;
       end;
 

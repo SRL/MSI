@@ -253,6 +253,18 @@ begin
         EndTiles   := [Point(3050, 3442)];
       end;
 
+    OBS_DOOR_CBRange:
+      with result do
+      begin
+        Name       := 'OBS_DOOR_CBRange';
+        ObjConst   := DOOR_NORMAL;
+        ObjMir     := DOOR_NORMAL;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [];
+      end;
+
   end;
 
   result.constant := obs;
@@ -462,6 +474,13 @@ begin
   while ((not result) and (t < 5)) do
   begin
     inc(t);
+
+    //For door handling purposes
+    if (obs.name = 'OBS_DOOR_CBRange') and (t > 1) then
+    begin
+      Result :=  True;
+      Exit;
+    end;
 
     if (MSI_FindObject(obsObj, moLeft)) then
     begin
