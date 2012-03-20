@@ -987,12 +987,12 @@ begin
 
           SPSPath := [
             // bank to outside guild
-            TPointArray([Point(3885, 3235), Point(3864, 3284),
+            TPointArray([Point(3885, 3240), Point(3864, 3284),
                          Point(3863, 3379), Point(3739, 3527),
                          Point(3646, 3487), Point(3570, 3500)]),
 
             // guild door to mine
-            TPointArray([Point(3570, 3509), Point(3599, 3536)])
+            TPointArray([Point(3570, 3500), Point(3599, 3536)])
           ];
 
           SPSAreas   := [
@@ -1671,7 +1671,7 @@ begin
           endLoc   := LOC_ALTAR_AIR;
 
           spsPath := [
-            TPointArray([Point(4579, 2906), Point(4353, 3020)]),
+            TPointArray([Point(4579, 2906), Point(4353, 3025)]),
             TPointArray([])
           ];
 

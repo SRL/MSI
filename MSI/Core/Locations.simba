@@ -1241,13 +1241,13 @@ begin
      LOC_ALTAR_AIR:
        with MSI_Locations[loc] do
        begin
-         Name := 'Air ALTAR';
+         Name := 'Air Altar';
          AtBank := false;
 
          setLength(subLocs, 1);
          with subLocs[0] do
          begin
-           name := 'Air ALTAR';
+           name := 'Air Altar';
            spsBox := intToBox(118, 399, 145, 431);
            objects := MSI_Scripts[SCRIPT_RC_AIR].Defaults.Objects;
          end;
@@ -1256,13 +1256,13 @@ begin
      LOC_ALTAR_EARTH:
        with MSI_Locations[loc] do
        begin
-         Name := 'Earth ALTAR';
+         Name := 'Earth Altar';
          AtBank := false;
 
          setLength(subLocs, 1);
          with subLocs[0] do
          begin
-           name := 'Earth ALTAR';
+           name := 'Earth Altar';
            spsBox := intToBox(346, 390, 373, 410);
            objects := MSI_Scripts[SCRIPT_RC_EARTH].Defaults.Objects;
          end;
@@ -1271,13 +1271,13 @@ begin
      LOC_ALTAR_FIRE:
        with MSI_Locations[loc] do
        begin
-         Name := 'Fire ALTAR';
+         Name := 'Fire Altar';
          AtBank := false;
 
          setLength(subLocs, 1);
          with subLocs[0] do
          begin
-           name := 'Fire ALTAR';
+           name := 'Fire Altar';
            spsBox := intToBox(344, 215, 368, 239);
            objects := MSI_Scripts[SCRIPT_RC_FIRE].Defaults.Objects;
          end;
@@ -1286,13 +1286,13 @@ begin
      LOC_ALTAR_WATER:
        with MSI_Locations[loc] do
        begin
-         Name := 'Water ALTAR';
+         Name := 'Water Altar';
          AtBank := false;
 
          setLength(subLocs, 1);
          with subLocs[0] do
          begin
-           name := 'Water ALTAR';
+           name := 'Water Altar';
            spsBox := intToBox(345, 58, 368, 81);
            objects := MSI_Scripts[SCRIPT_RC_WATER].Defaults.Objects;
          end;
@@ -1301,13 +1301,13 @@ begin
      LOC_ALTAR_MIND:
        with MSI_Locations[loc] do
        begin
-         Name := 'Mind ALTAR';
+         Name := 'Mind Altar';
          AtBank := false;
 
          setLength(subLocs, 1);
          with subLocs[0] do
          begin
-           name := 'Mind ALTAR';
+           name := 'Mind Altar';
            spsBox := intToBox(155, 61, 175, 82);
            objects := MSI_Scripts[SCRIPT_RC_MIND].Defaults.Objects;
          end;
@@ -1316,13 +1316,13 @@ begin
      LOC_ALTAR_BODY:
        with MSI_Locations[loc] do
        begin
-         Name := 'Body ALTAR';
+         Name := 'Body Altar';
          AtBank := false;
 
          setLength(subLocs, 1);
          with subLocs[0] do
          begin
-           name := 'Body ALTAR';
+           name := 'Body Altar';
            spsBox := intToBox(135, 230, 158, 250);
            objects := MSI_Scripts[SCRIPT_RC_BODY].Defaults.Objects;
          end;

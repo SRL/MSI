@@ -126,6 +126,52 @@ begin
 end;
 
 (*
+MSI_WalkToSymbol
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WalkToSymbol(symbol: string): boolean;
+
+Returns true if the player walks to the minimap 'symbol.'
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 17 March 2012 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  If (MSI_WalkToSymbol('bank')) then
+    MSI_Debug('Relocating to bank symbol');
+*)
+function MSI_WalkToSymbol(symbol: string): boolean;
+var
+  x, y: integer;
+begin
+  if (not loggedIn()) then
+    exit;
+
+  MSI_SubDebug('MSI_WalkToSymbol: Trying to walk to '+symbol+' symbol');
+
+  symbolAccuracy := 0.4;
+
+  if (findSymbol(x, y, symbol)) then
+  begin
+    MSI_SubDebug('Found '+symbol+' symbol');
+    MSI_MultiMouse(x, y, 50, 4, false);
+    MSI_Flag(0);
+
+    result := true;
+  end else
+    MSI_SubDebug('MSI_WalkToSymbol: Didn''t find '+symbol+' symbol');
+
+  symbolAccuracy := 0.8;
+end;
+
+(*
 MSI_GetMyPos
 ~~~~~~~~~~~~
 
@@ -165,7 +211,7 @@ MSI_WalkPoint
 
 .. code-block:: pascal
 
-  function MSI_WalkPoint(T: TPoint): Boolean;
+  function MSI_WalkPoint(P, PlayerPos: TPoint; flagDist: integer): Boolean;
 
 Simply walks to the point 'P' if it's on the minimap.
 
@@ -180,7 +226,7 @@ Example:
 
   MSI_EnterPoint(point(1234, 4321));
 *)
-function MSI_WalkPoint(P: TPoint; flagDist: integer): Boolean;
+function MSI_WalkPoint(P, PlayerPos: TPoint; flagDist: integer): Boolean;
 {$IFDEF SPS}
 var
   tP: TPoint;
@@ -189,7 +235,7 @@ begin
   result := false;
 
   {$IFDEF SPS}
-  tP := SPS_PosToMM(p);
+  tP := Point(MMCX + P.X - PlayerPos.X, MMCY + P.Y - PlayerPos.Y);
 
   result := (distance(tP.x, tP.y, MMCX, MMCY) < DIST_FROM_END);
   if (not result) then
@@ -271,7 +317,7 @@ begin
   if (H < 0) then
     Exit;
 
-  DistS := Distance(P.x, P.y, Path[0].x, Path[0].y); // distance from current Point
+  DistS := Distance(P.x, P.y, Path[0].x, Path[0].y); // distance from player's position to the start of the path
 
   // look for the closest point
   for I := 0 to H do
@@ -297,7 +343,7 @@ MSI_FurthestPoint
 
 .. code-block:: pascal
 
-  function MSI_FurthestPoint(tPath: TPointArray; P: TPoint; sPoint, ePoint: Integer): Integer;
+  function MSI_FurthestPoint(tPath: TPointArray; P: TPoint): Integer;
 
 Returns the index of the furthest point (that is on the minimap) in a path
 between given indices.
@@ -314,39 +360,24 @@ Example:
   See MSI_WalkTPA in
   `Walking.simba <https://github.com/SRL/MSI/raw/master/MSI/Core/Walking.simba>`_.
 *)
-function MSI_FurthestPoint(tPath: TPointArray; P: TPoint; sPoint, ePoint: Integer): Integer;
+function MSI_FurthestPoint(tPath: TPointArray; P: TPoint): Integer;
 var
-  i, c, h: Integer;
-  v: Extended;
-  TPA: TPointArray;
+  i, h: Integer;
 begin
-  // removes points that aren't in range
-  if (sPoint = -1) then
-    sPoint := low(tPath);
-
-  c := 0;
-  SetLength(TPA, (ePoint - sPoint + 1));
-  for i := sPoint to ePoint do
-  begin
-    TPA[c] := tPath[i];
-    Inc(c);
-  end;
-  tPath := TPA;
 
   // finds the furthest visible point
   h := high(tPath)
   for i := h downto 0 do
-  begin
-    v := Sqr(tPath[i].X - P.X) + Sqr(tPath[i].Y - P.Y);
-
-    if (v < (69.0 * 69.0)) then
+    if (Distance(tPath[i].X, tPath[i].Y, P.X, P.Y) <= 70) then
     begin
-      Result := (i + sPoint);
+      Result := i;
       Exit;
     end;
-  end;
 
   Result := -1;
+
+  if (Result = -1) then
+    MSI_SubDebug('MSI_FurthestPoint: Can''t find a point on the minimap');
 end;
 
 (*
@@ -501,7 +532,7 @@ the rest of the path.
 .. note::
 
   | Author: Nava2
-  | Last Updated: 04 October 2011 by Coh3n
+  | Last Updated: 15 March 2012 by Coh3n
 
 Example:
 
@@ -511,86 +542,68 @@ Example:
 *)
 function MSI_WalkTPA(Path: TPointArray; Destination, MaxDist: Integer): Boolean;
 var
-  P, DPoint: TPoint;
-  H, D, PointInd, pInd, Attempts, dist,failsPPs: Integer;
+  playerPos, dPoint: TPoint;
+  h, d, nextPoint, attempts, dist: integer;
 begin
   if (not(loggedIn)) then
     exit;
 
   if (length(Path) <= 0) then
   begin
-    MSI_SubDebug('MSI_WalkTPA: Path has no points');
+    MSI_SubDebug('MSI_WalkTPA (True): Path has no points');
     result := true;
     exit;
   end;
 
-  MSI_AddHeader('MSI_WalkTPA');
-  MSI_Debug('Path: '+toStr(Path));
+  MSI_AddHeader('MSI_WalkTPA: Path: '+toStr(Path));
 
-  P := SPS_GetMyPos();
+  playerPos := MSI_GetMyPos();
 
   if (Destination = -1) then
-    D := High(Path)
+    d := high(path)
   else
-    D := Destination;
+    d := Destination;
 
-  // expands path and finds new destination index
-  DPoint := Path[D];
-  Path := MSI_ExpandPath(Path, DIST_BETWEEN_POINTS, 3);
-  H := High(Path);
-  MSI_PointOnPath(D, Path, DPoint, DIST_BETWEEN_POINTS);
+  // expand the path and set the new destination point
+  dPoint := path[d];
+  path := MSI_ExpandPath(path, DIST_BETWEEN_POINTS, 3);
+  MSI_PointOnPath(d, path, dPoint, MaxDist);
+  h := high(path);
 
   // finds you on a path and attempts to walk to it if possible
-  if (MSI_EnterPath(SPS_GetMyPos(), Path, MaxDist)) then
+  if (MSI_EnterPath(playerPos, path, maxDist)) then
   begin
-    MSI_PointOnPath(pInd, Path, P, DIST_BETWEEN_POINTS);
-
-    if (pInd > D) then
-    begin
-      // sorts out walking direction
-      InvertTPA(Path);
-      D := H - D;
-      pInd := H - pInd;
-    end;
-
     // loops through the points and walks :)
-    while (not Result) and (Attempts < 15) do
+    while (not result) and (attempts < 15) do
     begin
       MSI_WaitWhileResting();
       MSI_FindRandoms(true);
 
-      PointInd := MSI_FurthestPoint(Path, P, pInd, D);
+      nextPoint := MSI_FurthestPoint(path, playerPos);
 
       // if the furthest point is found, walk to it!
-      if (PointInd > -1) then
+      if (nextPoint > -1) then
       begin
-        MSI_Debug(Format('Next Point: %d (%d, %d)', [PointInd, Path[PointInd].X, Path[PointInd].Y]));
+        MSI_Debug(format('Next Point: %d (%d, %d)', [nextPoint, path[nextPoint].x, path[nextPoint].y]));
 
-        if (MSI_WalkPoint(Path[PointInd], RandomRange(5, 10)*Integer(PointInd<>H))) then
+        if (MSI_WalkPoint(path[nextPoint], playerPos, randomRange(5, 10)*integer(nextPoint<>h))) then
         begin
-          if failsPPs <> pInd then
-            Attempts := 0;
-          failsPPs := pInd;
-          //writeln('path '+tostr(pind));
-          Wait(100 + Random(100));
-          P := MSI_GetMyPos();
-          MSI_PointOnPath(pInd, Path, P, DIST_BETWEEN_POINTS);
+          attempts := 0;
+          wait(100 + random(100));
+          playerPos := MSI_GetMyPos();
         end;
       end;
 
-      Inc(Attempts);
-      MSI_Debug('Attempts: '+toStr(Attempts));
+      inc(attempts);
 
-      dist := Distance(Path[D].X, Path[D].Y, P.X, P.Y);
-      MSI_Debug('Distance: '+toStr(dist));
+      dist := distance(path[h].x, path[h].y, playerPos.x, playerPos.y);
+      MSI_Debug('Distance to the end: '+toStr(dist)+' pixels');
 
-      Result := (dist <= DIST_FROM_END);
+      result := (dist <= DIST_FROM_END);
     end;
-
-    MSI_Flag(7);
   end;
 
-  MSI_CloseHeader('MSI_WalkTPA: '+toStr(result));
+  MSI_CloseHeader('MSI_WalkTPA: '+boolToStr(result));
 end;
 
 (*
@@ -609,7 +622,7 @@ location.
 .. note::
 
   | Author: marpis & Coh3n
-  | Last Updated: 05 November 2011 by Coh3n
+  | Last Updated: 15 March 2012 by Coh3n
 
 Example:
 
@@ -623,23 +636,21 @@ var
   tmpAreas: array of TStringArray;
   locPath, tmpLoc: TPointArray;
   i, h, endLocation, attempts: integer;
-  done: boolean;
   intObs, tmpSurfaces: TIntegerArray;
   obs: TObstacle;
+  legDone: TBooleanArray;
 begin
   if (not loggedIn) then
     exit;
 
-  if (toLoc) then
-    MSI_AddHeader('MSI_WalkPath: '+pathInfo.name)
-  else
-    MSI_AddHeader('MSI_WalkPath: (Reverse) '+pathInfo.name);
-
   locPath := MSI_PathFromLoc(MSI_Locations[pathInfo.endLoc]);
 
-  // make sure we're passing the right obstacles
-  if (toLoc) then
+  // set the temporary variables (may need to be inverted)
+  if (toLoc) then // if walking from the BANK to the LOCATION
   begin
+    MSI_AddHeader('MSI_WalkPath: '+MSI_Locations[pathInfo.startLoc].Name+' to '
+                                  +MSI_Locations[pathInfo.endLoc].Name);
+
     endLocation := pathInfo.endLoc;
     intObs := pathInfo.obstacles[OBS_LOC_TO];
 
@@ -648,6 +659,9 @@ begin
     tmpAreas := pathInfo.spsAreas;
     tmpSurfaces := pathInfo.spsSurfaces;
   end else begin
+    MSI_AddHeader('MSI_WalkPath: '+MSI_Locations[pathInfo.endLoc].Name+' to '
+                                  +MSI_Locations[pathInfo.startLoc].Name);
+
     endLocation := pathInfo.startLoc;
     intObs := pathInfo.obstacles[OBS_LOC_FROM];
 
@@ -660,61 +674,72 @@ begin
 
   // set a defaul maxDist field
   if (pathInfo.maxDist <= 0) then
-    pathInfo.maxDist := 50;
+    pathInfo.maxDist := 70;
 
   h := high(tmpPath);
+  setLength(legDone, (h + 1));
 
-  while ((not result) and (attempts < 10) and (not done)) do
+  while ((not result) and (attempts <= 10)) do
   begin
     inc(attempts);
     MSI_Debug('Walking attempts: '+toStr(attempts));
 
 	  for i := 0 to h do
-      with MSI_Players[CurrentPlayer] do
-		  begin
-        MSI_SetupSPS(tmpSurfaces[i], tmpAreas[i]);
+		begin
+      // if a leg was successfully completely, we don't want to start over
+      if (legDone[i]) then
+      begin
+        MSI_Debug('Leg '+toStr(i)+' already done, skipping...');
+        continue;
+      end;
 
-        // try walking the first leg of the path
-			  if (MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist)) then
+      MSI_SetupSPS(tmpSurfaces[i], tmpAreas[i]);
+
+      // attempt to walk the normal path
+      result := MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist);
+
+      // try walking through sub-locations, then normal path
+      if (not result) then
+        if (MSI_WalkTPA(tmpLoc, -1, pathInfo.maxDist)) then
+          result := MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist)
+        else
+          result := MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist);
+
+      // if walked the final index, result true
+      if (result) then
+      begin
+        legDone[i] := true;
+        result := (i = h);
+      end;
+
+      // handle the obstacle for this leg of the path
+      if ((i <> h) and (length(intObs) > 0)) then
+      begin
+        obs := MSI_GetObstacle(intObs[i]);
+        legDone[i] := false;
+
+        if (not MSI_SolveObstacle(obs)) then
         begin
-          result := (i = h);
-          if (result) then
-            break;
-        end else
-          if ((not MSI_WalkTPA(tmpLoc, -1, pathInfo.maxDist)) and // through the sub-locations
-              (not MSI_WalkTPA(tmpPath[i], -1, pathInfo.maxDist))) then // through the normal path
-            if (i = h) then
-            begin
-              if (not MSI_AtLocation(endLocation, true)) then
-                done := true
-              else
-                result := true;
-
-              break;
-            end else
+          // try to relocate and solve obstacle again
+          if ((obs.symbol <> '') and (MSI_WalkToSymbol(obs.symbol))) then
+            if (MSI_SolveObstacle(obs)) then
               continue;
 
-        // handle the obstacle
-        if (i <> h) then
-          if (length(intObs) > 0) then
-          begin
-            obs := MSI_GetObstacle(intObs[i]);
-            if (not MSI_SolveObstacle(obs)) then
-            begin
-              reportInfo.falseReason := 'Failed to pass obstacle: ' + obs.name;
-              MSI_Debug('Failed to pass obstacle: ' + obs.name);
-              done := true;
-              break;
-            end;
-          end;
-		  end;
+          MSI_Players[CurrentPlayer].ReportInfo.FalseReason :=
+            'Failed to pass obstacle: ' + obs.name;
+
+          MSI_Debug('Failed to pass obstacle: ' + obs.name);
+          attempts := 11; // to break out of the while..do loop
+          break;
+        end else
+          legDone[i] := true;
+      end;
+		end;
   end;
 
+  // need to set the player's location
   if (result) then
-  begin
-    result := false;
-    result := MSI_AtLocation(endLocation, true);
-  end;
+    MSI_Players[CurrentPlayer].Location := endLocation;
 
 	MSI_CloseHeader('MSI_WalkPath: ' + boolToStr(result));
 end;
@@ -847,8 +872,15 @@ begin
       result := MSI_WalkPath(pathInfo, toLoc);
 
   if (not result) then
-    with MSI_Players[currentPlayer] do
-      if (reportInfo.falseReason = '') then // in case it's already set
-        reportInfo.falseReason := 'Failed walk: '+pathInfo.name
+    // in case it's already set
+    if (MSI_Players[CurrentPlayer].ReportInfo.FalseReason = '') then
+      if (toLoc) then
+        MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed walk from '+
+          MSI_Locations[pathInfo.startLoc].Name+' to '+
+          MSI_Locations[pathInfo.endLoc].Name
+      else
+        MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed walk from '+
+          MSI_Locations[pathInfo.endLoc].Name+' to '+
+          MSI_Locations[pathInfo.startLoc].Name;
 end;
 

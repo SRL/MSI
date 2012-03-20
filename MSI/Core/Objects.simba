@@ -1254,10 +1254,10 @@ begin
           RUINS_AIR:
             begin
               Name   := 'RUINS_AIR';
-              Colors := [14986869, 14333068];
+              Colors := [14986869, 14333068, 14461818];
               Tol    := 10;
-              Hue    := [0.02, 0.04];
-              Sat    := [2.93, 2.28];
+              Hue    := [0.02, 0.04, 0.17];
+              Sat    := [2.93, 2.28, 3.24];
             end;
 
           RUINS_EARTH:

@@ -583,7 +583,7 @@ begin
     Exit;
 
   cEnergy := getMMLevels('run', t);
-  MSI_SubDebug('Current Energy: ' + intToStr(cEnergy));
+  //MSI_SubDebug('Current Energy: ' + intToStr(cEnergy));
 
   if (inRange(cEnergy, 0, 10)) then
   begin

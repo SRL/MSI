@@ -45,12 +45,15 @@ of setting requested by any user.
 *)
 procedure DeclareSettings();
 begin
+  MSI_Settings[SETUP_RANDOM_TOOL]   := True;    // Use SRL's Random Tool? It notifies you when a random is found.
+  MSI_Settings[SETUP_REPORT_GUI]    := False;   // Use a GUI to display the progress report (recommended)
   MSI_Settings[SETUP_DEBUG_SMART]   := True;    // Debugs things onto SMART (may cause lag)
   MSI_Settings[SETUP_SAVE_DEBUG]    := True;    // Save's the debug box text to a file
   MSI_Settings[SETUP_SAVE_REPORT]   := True;    // Save's the progress report to a file
   MSI_Settings[SETUP_HUMAN_BREAK]   := True;    // Take more human like breaks
   MSI_Settings[SETUP_SWITCH_WORLDS] := True;    // Switch worlds when switching players or after breaks
   MSI_Settings[SETUP_PRINT_REPORT]  := True;    // Will only print the short report in the debug box (will still save long report to file)
+  MSI_Settings[SETUP_DEATH_WALK]    := True;    // Use MSI's death walking feature if the player gets lost?
   MSI_Settings[SETUP_BREAK_TIME]    := 15;      // Single player only - how long to break for (in minutes)
   MSI_Settings[SETUP_DEBUG_LEVEL]   := 10;      // The lower the number, the less the script will debug
   MSI_Settings[SETUP_ANTIBAN_WAIT]  := 15000;   // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
@@ -289,11 +292,17 @@ begin
 
   MSI_WalkingDefines();
 
-  // this boolean isn't yet in the player form
+  // these settings aren't yet in the player form
   if (USE_FORM) then
-    MSI_Settings[SETUP_PRINT_REPORT] := True;
+  begin
+    MSI_Settings[SETUP_RANDOM_TOOL] := true;
+    MSI_Settings[SETUP_PRINT_REPORT] := true;
+    MSI_Settings[SETUP_REPORT_GUI]  := false;
+    MSI_Settings[SETUP_DEATH_WALK] := true;
+  end;
 
-  MSI_Settings[SETUP_DEATH_WALK] := true;
+  if (MSI_Settings[SETUP_RANDOM_TOOL]) then
+    SetupRandomTool(15000, 5, appPath+'Includes/MSI/MSI/RandomSound.wav');
 
   MSI_Mainloop;
 end.

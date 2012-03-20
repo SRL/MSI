@@ -73,7 +73,7 @@ Example:
 *)
 function MSI_OpenBank(which: Integer; tPin: String): Boolean;
 var
-  t, x, y, timeOut: Integer;
+  t, timeOut: Integer;
   bankType: TBank;
   relocated: boolean;
   bankObj: TMSObject;
@@ -119,17 +119,7 @@ begin
 
           if (relocated) then
           begin
-            MSI_Debug('Trying to find bank symbol');
-            SymbolAccuracy := 0.4;
-
-            if (FindSymbol(x, y, 'bank')) then
-            begin
-              MSI_Debug('Found symbol');
-              MSI_MultiMouse(x, y, 50, 4, false);
-              MSI_Flag(0);
-            end;
-
-            SymbolAccuracy := 0.8;
+            MSI_WalkToSymbol('bank');
             Continue;
           end;
 
