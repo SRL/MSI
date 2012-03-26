@@ -119,7 +119,7 @@ begin
   //SPS_Debug := true;
   SPS_Setup(surface, areas);
 
-  MSI_Debug('MSI_SetupSPS: Surface: '+toStr(SPS_Surface.Name)+', Areas: '+toStr(areas));
+  MSI_Debug('MSI_SetupSPS: Surface: '+toStr(SPS_Surface)+', Areas: '+toStr(areas));
   {$ELSE}
   MSI_Debug('MSI_SetupSPS: SPS isn''t defined');
   {$ENDIF}

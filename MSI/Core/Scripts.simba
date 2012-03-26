@@ -956,8 +956,8 @@ begin
             TPointArray([Point(279, 507), Point(356, 499)])
           ];
 
-          SPSSurfaces := [RUNESCAPE_SURFACE, DWARVEN_MINE];
-          SPSAreas    := [TStringArray(['9_7', '9_8']), TStringArray(['0_1'])];
+          SPSSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+          SPSAreas    := [TStringArray(['9_7', '9_8']), TStringArray(['dwarven_mine'])];
 
           Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
           Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
@@ -1676,10 +1676,10 @@ begin
           ];
 
           spsAreas   := [
-            TStringArray(['11_7', '10_7']), TStringArray(['0_0'])
+            TStringArray(['11_7', '10_7']), TStringArray(['runecrafting_altars'])
           ];
 
-          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
 
           obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
@@ -1718,10 +1718,10 @@ begin
           ];
 
           spsAreas   := [
-            TStringArray(['12_6', '12_7']), TStringArray(['0_0'])
+            TStringArray(['12_6', '12_7']), TStringArray(['runecrafting_altars'])
           ];
 
-          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
 
           obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
@@ -1759,10 +1759,10 @@ begin
           ];
 
           spsAreas   := [
-            TStringArray(['12_9']), TStringArray(['0_0'])
+            TStringArray(['12_9']), TStringArray(['runecrafting_altars'])
           ];
 
-          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
 
           obstacles[OBS_LOC_TO] := [OBS_RUINS_FIRE];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_FIRE];
@@ -1800,10 +1800,10 @@ begin
           ];
 
           spsAreas   := [
-            TStringArray(['10_9', '11_9']), TStringArray(['0_0'])
+            TStringArray(['10_9', '11_9']), TStringArray(['runecrafting_altars'])
           ];
 
-          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
 
           obstacles[OBS_LOC_TO] := [OBS_RUINS_WATER];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_WATER];
@@ -1843,10 +1843,10 @@ begin
           ];
 
           spsAreas   := [
-            TStringArray(['9_7', '9_6']), TStringArray(['0_0'])
+            TStringArray(['9_7', '9_6']), TStringArray(['runecrafting_altars'])
           ];
 
-          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
 
           obstacles[OBS_LOC_TO] := [OBS_RUINS_MIND];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_MIND];
@@ -1885,10 +1885,10 @@ begin
           ];
 
           spsAreas   := [
-            TStringArray(['10_6', '10_7', '9_6', '9_7']), TStringArray(['0_0'])
+            TStringArray(['10_6', '10_7', '9_6', '9_7']), TStringArray(['runecrafting_altars'])
           ];
 
-          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
 
           obstacles[OBS_LOC_TO] := [OBS_RUINS_BODY];
           obstacles[OBS_LOC_FROM] := [OBS_PORTAL_BODY];
