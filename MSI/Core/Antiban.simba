@@ -34,7 +34,7 @@ Example:
 .. code-block:: pascal
 
   if (waitUptext('ree', 200)) then
-    MSI_MultiMouse(x, y, 35, 5);
+    MSI_MultiMouse(x, y, 35, 5, true);
 *)
 function MSI_MultiMouse(x, y, chance, maxClicks: integer; red: boolean): boolean;
 var
