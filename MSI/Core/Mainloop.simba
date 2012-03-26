@@ -565,8 +565,7 @@ begin
         7..9: ExitToLobby;
       end
     else
-      if InRange(Random(10), 2, 9) then
-        ExitToLobby;
+      ExitToLobby;
 
     _avg := Round(SETUP_BREAK_TIME * RANDOM_TIME_PERCENT);
     t := (GetSystemTime + ((MSI_Settings[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
