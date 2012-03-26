@@ -236,10 +236,10 @@ begin
         Camera     := ['n', true];
       end;
 
-    OBS_DOOR_CBRange:
+    OBS_DOOR_CBRANGE:
       with result do
       begin
-        Name       := 'OBS_DOOR_CBRange';
+        Name       := 'OBS_DOOR_CBRANGE';
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := MSBox;
@@ -458,7 +458,7 @@ begin
     inc(t);
 
     //For door handling purposes
-    if (obs.name = 'OBS_DOOR_CBRange') and (t > 1) then
+    if (obs.name = 'OBS_DOOR_CBRANGE') and (t > 2) then
     begin
       Result :=  True;
       Exit;

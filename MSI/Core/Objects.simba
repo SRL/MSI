@@ -1055,7 +1055,7 @@ begin
         H                  := 30;
         Accuracy           := 10;
         Track              := False
-        SearchArea         := MSBox;
+        SearchArea         := intToBox(MSCx-100, MSCy-100, mscx+100, mscy+100);
         ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := False;
