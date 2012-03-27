@@ -364,7 +364,6 @@ function MSI_FurthestPoint(tPath: TPointArray; P: TPoint): Integer;
 var
   i, h: Integer;
 begin
-
   // finds the furthest visible point
   h := high(tPath)
   for i := h downto 0 do
@@ -592,7 +591,9 @@ begin
           wait(100 + random(100));
           playerPos := MSI_GetMyPos();
         end;
-      end;
+
+      end else
+        playerPos := MSI_GetMyPos();
 
       inc(attempts);
 
