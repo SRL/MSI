@@ -57,7 +57,11 @@ begin
     if (not Players[i].Active) then
       MSI_Players[i].ReportInfo.FalseReason := 'User set to false';
 
-    Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems'];
+    if (Length(MSI_Players[i].BoxRewards) <= 0) then
+      Players[i].BoxRewards := ['mote', 'ostume', 'oins', 'unes', 'ems']
+    else
+      Players[i].BoxRewards := MSI_Players[i].BoxRewards;
+
     MSI_Players[i].GetObjects := @MSI_GetPlayerObjects;
     MSI_Players[i].GetScript := @MSI_GetPlayerScript;
   end;
@@ -561,8 +565,7 @@ begin
         7..9: ExitToLobby;
       end
     else
-      if InRange(Random(10), 2, 9) then
-        ExitToLobby;
+      ExitToLobby;
 
     _avg := Round(SETUP_BREAK_TIME * RANDOM_TIME_PERCENT);
     t := (GetSystemTime + ((MSI_Settings[SETUP_BREAK_TIME] * 60000) + RandomRange(-_avg * 60000, _avg * 60000)));
@@ -803,6 +806,9 @@ begin
   {$IFDEF SRL_REMOTE}
   SetupSRLRemote('MSI Pheonix', ['Total Loads', 0, 'Break Loads', 1, 'Total Time', 2, 'Break Time', 3], ['Member', 0], [], [TStringArray([])]);
   {$ENDIF}
+
+  if (MSI_Settings[SETUP_REPORT_GUI]) then
+    MSI_SetupReportsGUI();
 
   // Warns the user if using an invalid script with SPS
   for i := 0 to high(MSI_Players) do

@@ -441,14 +441,14 @@ begin
         Name               := 'BANK_VARROCK_WEST';
         Uptexts            := ['ooth'];
         Options            := ['ank'];
-        Colors             := [5794933];
-        Tol                := 8;
-        Hue                := [0.13];
-        Sat                := [0.69];
+        Colors             := [3224116];
+        Tol                := 4;
+        Hue                := [1.39];
+        Sat                := [0.32];
         FindAllColors      := False;
         W                  := 15;
         H                  := 30;
-        Accuracy           := 20;
+        Accuracy           := 40;
         SearchArea         := MSBox
         ExcludeSelf        := True;
         RightClickOnly     := False;
@@ -1055,7 +1055,7 @@ begin
         H                  := 30;
         Accuracy           := 10;
         Track              := False
-        SearchArea         := MSBox;
+        SearchArea         := intToBox(MSCx-100, MSCy-100, mscx+100, mscy+100);
         ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := False;
@@ -1254,10 +1254,10 @@ begin
           RUINS_AIR:
             begin
               Name   := 'RUINS_AIR';
-              Colors := [14986869];
-              Tol    := 10;
-              Hue    := [0.02];
-              Sat    := [2.93];
+              Colors := [14986869, 14333068, 14461818];
+              Tol    := 15;
+              Hue    := [0.02, 0.04, 0.17];
+              Sat    := [2.93, 2.28, 3.24];
             end;
 
           RUINS_EARTH:
@@ -1524,6 +1524,7 @@ begin
     except
       setToleranceSpeed2Modifiers(obj.hue[0], obj.sat[0]);
     end;
+
     findColorsSpiralTolerance(
       MSCX, MSCY, ATPA[i], obj.colors[i], obj.searchArea.x1,
       obj.searchArea.y1, obj.searchArea.x2, obj.searchArea.y2, obj.tol
@@ -1871,7 +1872,7 @@ begin
                 result := MSI_MultiMouse(obj.x, obj.y, 10, 3, true)
               else begin
                 mouse(obj.x, obj.y, 0, 0, true);
-                result := didClick(true, randomRange(500, 1000));
+                result := didClick(true, 1000);
               end;
             end;
         end else begin

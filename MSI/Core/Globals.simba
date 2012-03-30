@@ -644,6 +644,7 @@ const
   OBS_WALL_FW        = 20;
   OBS_DOOR_CG_IN     = 30;
   OBS_DOOR_CG_OUT    = 31;
+  OBS_DOOR_CBRange   = 32;
 
   // Runcrafting
   OBS_RUINS_AIR   = 50;
@@ -819,19 +820,21 @@ const
   SETUP_QC_LEVELUP    = 16;
   SETUP_RANDOM_NP     = 17;
   SETUP_DEATH_WALK    = 18;
+  SETUP_REPORT_GUI    = 19;
+  SETUP_RANDOM_TOOL   = 20;
 
   // Integers
-  SETUP_BREAK_TIME    = 20;
-  SETUP_DEBUG_LEVEL   = 21;
-  SETUP_ANTIBAN_WAIT  = 22;
-  SETUP_RANDOMS_WAIT  = 23;
-  SETUP_MAX_PLAYERS   = 24;
+  SETUP_BREAK_TIME    = 30;
+  SETUP_DEBUG_LEVEL   = 31;
+  SETUP_ANTIBAN_WAIT  = 32;
+  SETUP_RANDOMS_WAIT  = 33;
+  SETUP_MAX_PLAYERS   = 34;
 
   // Strings
-  SETUP_STATS_ID      = 30;
-  SETUP_STATS_PASS    = 31;
+  SETUP_STATS_ID      = 40;
+  SETUP_STATS_PASS    = 41;
 
-  SETUP_ARRAY_LENGTH  = 31;
+  SETUP_ARRAY_LENGTH  = 41;
 
 {==============================================================================\
 |                                  Types                                       |
@@ -1110,6 +1113,7 @@ type
     Pin          : string;
     Active       : Boolean;
     Member       : Boolean;
+    BoxRewards   : TStringArray;
     Location     : Integer;
     TotalLoads   : Integer;
     BreakLoads   : Integer;
@@ -1167,13 +1171,13 @@ type
   TObstacle = record
     Name       : string;
     Constant   : Integer;       // Obstacle constant
+    Symbol     : String;        // A possible symbol for or near the obstacle
     MirText    : TStringArray;  // Text that may appear in the chat box
     ObjConst   : Integer;       // Object constant
     ObjMir     : Integer;       // Object's mirror constant
     ObjMirArea : TBox;          // Obstacle's mirror search area
     MirAction  : TMouseOption;  // What to do if the object is found on the MS
     Camera     : TVariantArray; // Changes the camera angle and height
-    EndTiles   : TPointArray;   // Possible tiles the player will end up on
   end;
 
   TObstacleArray = array of TObstacle;

@@ -227,7 +227,7 @@ Example:
 *)
 function MSI_WaitWhileFishing(fishSpot: TMSObject): boolean;
 var
-  i, h, x, y, CTS, animTries, colTries, oldInvCount, waitTime, invTimer: integer;
+  i, h, CTS, animTries, colTries, oldInvCount, waitTime, invTimer: integer;
   idle: TAnimation;
   arr: TPointArray;
   ATPA: T2DPointArray;
