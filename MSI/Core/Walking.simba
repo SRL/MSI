@@ -605,6 +605,9 @@ begin
   end;
 
   MSI_CloseHeader('MSI_WalkTPA: '+boolToStr(result));
+
+  if (not Result) then
+    MSI_FindRandoms(true);
 end;
 
 (*
