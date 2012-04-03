@@ -380,63 +380,6 @@ begin
 end;
 
 (*
-MSI_PathBetween
-~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_PathBetween(fT, tT: TPoint; tDist, Rand: Integer): TPointArray;
-
-Creates a TPA between points (fT and tT), tDist intervals, Rand randonmness.
-
-.. note::
-
-  | Author: Nava2
-  | Last Updated: 04 October 2011 by Nava2
-
-Example:
-
-.. code-block:: pascal
-
-  See MSI_EnterPath in
-  `Walking.simba <https://github.com/SRL/MSI/raw/master/MSI/Core/Walking.simba>`_.
-*)
-function MSI_PathBetween(fT, tT: TPoint; tDist, Rand: Integer): TPointArray;
-var
-  hyp, xR, yR: Extended;
-  l: Integer;
-begin
-  if not LoggedIn then
-    Exit;
-
-  // set Result Length and first point at initial Point
-  SetLength(Result, Ceil(Distance(fT.X, fT.y, tT.X, tT.Y) * 1.0 / tDist) + 1);
-  Result[0] := fT;
-
-  // if no need for intermediate Points then nvm. :)
-  if (Distance(fT.X, fT.Y, tT.X, tT.Y) <= tDist) then
-  begin
-    Result[High(Result)] := tT;
-    Exit;
-  end;
-
-  // ratios for 'Similar Triangles' maths
-  hyp := Hypot(fT.X - tT.x, fT.Y - tT.Y);
-  xR := (tT.X - fT.X) / hyp;
-  yR := (tT.Y - fT.Y) / hyp;
-
-  // set points
-  for l := High(Result) - 1 downto 1 do
-  begin
-    Result[l].X := Round(fT.X + l * tDist * xR) + RandomRange(-Rand, Rand);
-    Result[l].Y := Round(fT.Y + l * tDist * yR) + RandomRange(-Rand, Rand);
-  end;
-
-  // last point is tT
-  Result[High(Result)] := tT;
-end;
-
-(*
 MSI_ExpandPath
 ~~~~~~~~~~~~~~
 
@@ -468,7 +411,7 @@ begin
   SetLength(t, h);
 
   for i := 1 to h do
-    t[i - 1] := MSI_PathBetween(ctrlPoints[I - 1], ctrlPoints[I], tDist, Randomness);
+    t[i - 1] := TPABetweenPoints(ctrlPoints[I - 1], ctrlPoints[I], tDist, Randomness);
 
   Result := MergeATPA(t);
 end;
