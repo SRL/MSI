@@ -119,7 +119,7 @@ begin
   //SPS_Debug := true;
   SPS_Setup(surface, areas);
 
-  MSI_Debug('MSI_SetupSPS: Surface: '+toStr(SPS_Surface)+', Areas: '+toStr(areas));
+  MSI_Debug('MSI_SetupSPS: Areas: '+toStr(areas));
   {$ELSE}
   MSI_Debug('MSI_SetupSPS: SPS isn''t defined');
   {$ENDIF}
@@ -445,7 +445,7 @@ var
 begin
   if (MSI_PointOnPath(i, Path, PPos, maxDist)) then
   begin
-    tmpPath := MSI_PathBetween(PPos, Path[i], DIST_BETWEEN_POINTS, DIST_RANDOMNESS);
+    tmpPath := TPABetweenPoints(PPos, Path[i], DIST_BETWEEN_POINTS, DIST_RANDOMNESS);
 
     {$IFDEF SPS}
     result := SPS_WalkPath(tmpPath);

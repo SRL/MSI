@@ -1671,7 +1671,7 @@ begin
           endLoc   := LOC_ALTAR_AIR;
 
           spsPath := [
-            TPointArray([Point(4579, 2906), Point(4353, 3025)]),
+            TPointArray([Point(4560, 2906), Point(4347, 3019)]),
             TPointArray([])
           ];
 

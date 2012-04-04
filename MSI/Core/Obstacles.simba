@@ -453,7 +453,7 @@ begin
 
   makeCompass(obs.camera[0]);
 
-  while ((not result) and (t < 5)) do
+  while ((not result) and (t < 10)) do
   begin
     inc(t);
 
