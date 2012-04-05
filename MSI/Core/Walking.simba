@@ -55,6 +55,7 @@ begin
 
   t := (getSystemTime + 10000);
   anim := MSI_GetAnimation(ANIM_IDLE);
+  setAngle(SRL_ANGLE_HIGH);
 
   while (getSystemTime < t) do
   begin
@@ -75,6 +76,13 @@ begin
       MSI_Antiban(randomRange(500, 1000), ANTI_BAN_CHANCE);
       continue;
     end;
+
+    // wait for the player to stop moving
+    if (flagDist <= 0) then
+      repeat
+        if (not isMoving()) then
+          exit;
+      until(getSystemTime > t);
 
     // close enough to the flag or not moving
     if (flagDistance <= flagDist) or (MSI_IsAnimating(anim)) then
@@ -474,7 +482,7 @@ the rest of the path.
 .. note::
 
   | Author: Nava2
-  | Last Updated: 15 March 2012 by Coh3n
+  | Last Updated: 04 April 2012 by Coh3n
 
 Example:
 
@@ -485,7 +493,7 @@ Example:
 function MSI_WalkTPA(Path: TPointArray; Destination, MaxDist: Integer): Boolean;
 var
   playerPos, dPoint: TPoint;
-  h, d, nextPoint, attempts, dist: integer;
+  h, d, nextPoint, attempts, dist, flagDist: integer;
 begin
   if (not(loggedIn)) then
     exit;
@@ -528,7 +536,13 @@ begin
       begin
         MSI_Debug(format('Next Point: %d (%d, %d)', [nextPoint, path[nextPoint].x, path[nextPoint].y]));
 
-        if (MSI_WalkPoint(path[nextPoint], playerPos, randomRange(5, 10)*integer(nextPoint<>h))) then
+        // to make sure we only click the final point once (to be as close to the end point as possible)
+        if (distance(path[nextPoint].x, path[nextPoint].y, path[h].x, path[h].y) <= DIST_FROM_END) then
+          flagDist := 0
+        else
+          flagDist := randomRange(15, 20);
+
+        if (MSI_WalkPoint(path[nextPoint], playerPos, flagDist)) then
         begin
           attempts := 0;
           wait(100 + random(100));
@@ -618,6 +632,9 @@ begin
     tmpAreas := MSI_MirrorATSA(pathInfo.spsAreas);
     tmpSurfaces := MSI_MirrorTIA(pathInfo.spsSurfaces);
   end;
+
+  if (inRange(round(rs_GetCompassAngleDegrees()), 5, 350)) then
+    clickNorth(SRL_ANGLE_HIGH);
 
   // set a defaul maxDist field
   if (pathInfo.maxDist <= 0) then
