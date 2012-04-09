@@ -55,6 +55,7 @@ begin
 
   t := (getSystemTime + 10000);
   anim := MSI_GetAnimation(ANIM_IDLE);
+  setAngle(SRL_ANGLE_HIGH);
 
   while (getSystemTime < t) do
   begin
@@ -75,6 +76,13 @@ begin
       MSI_Antiban(randomRange(500, 1000), ANTI_BAN_CHANCE);
       continue;
     end;
+
+    // wait for the player to stop moving
+    if (flagDist <= 0) then
+      repeat
+        if (not isMoving()) then
+          exit;
+      until(getSystemTime > t);
 
     // close enough to the flag or not moving
     if (flagDistance <= flagDist) or (MSI_IsAnimating(anim)) then
@@ -119,7 +127,7 @@ begin
   //SPS_Debug := true;
   SPS_Setup(surface, areas);
 
-  MSI_Debug('MSI_SetupSPS: Surface: '+toStr(SPS_Surface.Name)+', Areas: '+toStr(areas));
+  MSI_Debug('MSI_SetupSPS: Areas: '+toStr(areas));
   {$ELSE}
   MSI_Debug('MSI_SetupSPS: SPS isn''t defined');
   {$ENDIF}
@@ -364,7 +372,6 @@ function MSI_FurthestPoint(tPath: TPointArray; P: TPoint): Integer;
 var
   i, h: Integer;
 begin
-
   // finds the furthest visible point
   h := high(tPath)
   for i := h downto 0 do
@@ -378,63 +385,6 @@ begin
 
   if (Result = -1) then
     MSI_SubDebug('MSI_FurthestPoint: Can''t find a point on the minimap');
-end;
-
-(*
-MSI_PathBetween
-~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_PathBetween(fT, tT: TPoint; tDist, Rand: Integer): TPointArray;
-
-Creates a TPA between points (fT and tT), tDist intervals, Rand randonmness.
-
-.. note::
-
-  | Author: Nava2
-  | Last Updated: 04 October 2011 by Nava2
-
-Example:
-
-.. code-block:: pascal
-
-  See MSI_EnterPath in
-  `Walking.simba <https://github.com/SRL/MSI/raw/master/MSI/Core/Walking.simba>`_.
-*)
-function MSI_PathBetween(fT, tT: TPoint; tDist, Rand: Integer): TPointArray;
-var
-  hyp, xR, yR: Extended;
-  l: Integer;
-begin
-  if not LoggedIn then
-    Exit;
-
-  // set Result Length and first point at initial Point
-  SetLength(Result, Ceil(Distance(fT.X, fT.y, tT.X, tT.Y) * 1.0 / tDist) + 1);
-  Result[0] := fT;
-
-  // if no need for intermediate Points then nvm. :)
-  if (Distance(fT.X, fT.Y, tT.X, tT.Y) <= tDist) then
-  begin
-    Result[High(Result)] := tT;
-    Exit;
-  end;
-
-  // ratios for 'Similar Triangles' maths
-  hyp := Hypot(fT.X - tT.x, fT.Y - tT.Y);
-  xR := (tT.X - fT.X) / hyp;
-  yR := (tT.Y - fT.Y) / hyp;
-
-  // set points
-  for l := High(Result) - 1 downto 1 do
-  begin
-    Result[l].X := Round(fT.X + l * tDist * xR) + RandomRange(-Rand, Rand);
-    Result[l].Y := Round(fT.Y + l * tDist * yR) + RandomRange(-Rand, Rand);
-  end;
-
-  // last point is tT
-  Result[High(Result)] := tT;
 end;
 
 (*
@@ -469,7 +419,7 @@ begin
   SetLength(t, h);
 
   for i := 1 to h do
-    t[i - 1] := MSI_PathBetween(ctrlPoints[I - 1], ctrlPoints[I], tDist, Randomness);
+    t[i - 1] := TPABetweenPoints(ctrlPoints[I - 1], ctrlPoints[I], tDist, Randomness);
 
   Result := MergeATPA(t);
 end;
@@ -503,7 +453,7 @@ var
 begin
   if (MSI_PointOnPath(i, Path, PPos, maxDist)) then
   begin
-    tmpPath := MSI_PathBetween(PPos, Path[i], DIST_BETWEEN_POINTS, DIST_RANDOMNESS);
+    tmpPath := TPABetweenPoints(PPos, Path[i], DIST_BETWEEN_POINTS, DIST_RANDOMNESS);
 
     {$IFDEF SPS}
     result := SPS_WalkPath(tmpPath);
@@ -532,7 +482,7 @@ the rest of the path.
 .. note::
 
   | Author: Nava2
-  | Last Updated: 15 March 2012 by Coh3n
+  | Last Updated: 04 April 2012 by Coh3n
 
 Example:
 
@@ -543,7 +493,7 @@ Example:
 function MSI_WalkTPA(Path: TPointArray; Destination, MaxDist: Integer): Boolean;
 var
   playerPos, dPoint: TPoint;
-  h, d, nextPoint, attempts, dist: integer;
+  h, d, nextPoint, attempts, dist, flagDist: integer;
 begin
   if (not(loggedIn)) then
     exit;
@@ -586,13 +536,21 @@ begin
       begin
         MSI_Debug(format('Next Point: %d (%d, %d)', [nextPoint, path[nextPoint].x, path[nextPoint].y]));
 
-        if (MSI_WalkPoint(path[nextPoint], playerPos, randomRange(5, 10)*integer(nextPoint<>h))) then
+        // to make sure we only click the final point once (to be as close to the end point as possible)
+        if (distance(path[nextPoint].x, path[nextPoint].y, path[h].x, path[h].y) <= DIST_FROM_END) then
+          flagDist := 0
+        else
+          flagDist := randomRange(15, 20);
+
+        if (MSI_WalkPoint(path[nextPoint], playerPos, flagDist)) then
         begin
           attempts := 0;
           wait(100 + random(100));
           playerPos := MSI_GetMyPos();
         end;
-      end;
+
+      end else
+        playerPos := MSI_GetMyPos();
 
       inc(attempts);
 
@@ -604,6 +562,9 @@ begin
   end;
 
   MSI_CloseHeader('MSI_WalkTPA: '+boolToStr(result));
+
+  if (not Result) then
+    MSI_FindRandoms(true);
 end;
 
 (*
@@ -671,6 +632,9 @@ begin
     tmpAreas := MSI_MirrorATSA(pathInfo.spsAreas);
     tmpSurfaces := MSI_MirrorTIA(pathInfo.spsSurfaces);
   end;
+
+  if (inRange(round(rs_GetCompassAngleDegrees()), 5, 350)) then
+    clickNorth(SRL_ANGLE_HIGH);
 
   // set a defaul maxDist field
   if (pathInfo.maxDist <= 0) then
