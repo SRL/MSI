@@ -1069,7 +1069,7 @@ begin
          begin
            name := 'Crafting Guild Silver';
            spsBox := intToBox(3594, 3495, 3609, 3515);
-           compass := randomRange(315, 360);
+           compass := randomRange(105, 130);
            subLocs[i].camera := SRL_ANGLE_HIGH;
            objects := [ROCK_SILVER];
          end;

@@ -1329,6 +1329,7 @@ begin
               Tol    := 12;
               Hue    := [0.05];
               Sat    := [0.60];
+              RightClickOnly := true;
             end;
 
           PORTAL_EARTH:
