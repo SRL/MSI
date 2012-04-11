@@ -646,6 +646,7 @@ begin
   while ((not result) and (attempts <= 10)) do
   begin
     inc(attempts);
+    MSI_FindRandoms(false);
     MSI_Debug('Walking attempts: '+toStr(attempts));
 
 	  for i := 0 to h do
