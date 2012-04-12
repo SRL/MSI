@@ -1180,7 +1180,7 @@ begin
           EndLoc   := LOC_KJ_FISH;
 
           SPSPath := [
-            TPointArray([Point(3534, 3951), Point(3246, 4096)])
+            TPointArray([Point(3246, 4096), Point(3534, 3951)])
           ];
 
           SPSAreas   := [
