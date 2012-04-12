@@ -1085,7 +1085,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Bank';
-           spsBox := intToBox(4906, 3971, 4925, 4013);
+           spsBox := intToBox(4906, 3971, 4928, 4013);
          end;
 
          with deathPath do
