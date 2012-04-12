@@ -1338,7 +1338,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Fishing Guild Bank';
-           spsBox := intToBox(2173, 2953, 2186, 2972);
+           spsBox := intToBox(2170, 2950, 2188, 2975);
          end;
        end;
 
