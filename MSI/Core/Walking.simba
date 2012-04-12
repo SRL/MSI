@@ -756,10 +756,11 @@ begin
 
   with MSI_Locations[script.pathInfo.startLoc] do
   begin
-    if (length(deathPath.spsPath) <= 0) then
+    if (length(deathPath.spsAreas) <= 0) then
     begin
       MSI_Debug('No death path for location: '+name);
       MSI_CloseHeader('MSI_DeathWalk: '+boolToStr(result));
+      MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Death walk unavailable';
       Exit;
     end;
 
