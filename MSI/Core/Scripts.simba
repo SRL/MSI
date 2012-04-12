@@ -953,7 +953,7 @@ begin
                          Point(3921, 3304)]),
 
             // Ladder Up -> In Mine
-            TPointArray([Point(279, 507), Point(356, 499)])
+            TPointArray([Point(295, 531), Point(375, 531)])
           ];
 
           SPSSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
