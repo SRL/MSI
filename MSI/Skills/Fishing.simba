@@ -274,12 +274,13 @@ begin
       break;
 
     // check for the "you're out of bait" text in the chat box
-    if (findNPCChatText('left', nothing)) then
-    begin
-      MSI_Debug('We have run out of fishing bait!');
-      result := false;
-      break;
-    end;
+    if ((fishSpot.constant = FISHSPOT_BAIT) or (fishSpot.constant = FISHSPOT_LURE)) then
+      if (findNPCChatText('left', nothing)) then
+      begin
+        MSI_Debug('We have run out of fishing bait!');
+        result := false;
+        break;
+      end;
 
     // check for the "you need tool to fish" message
     if (findNPCChatText('need', nothing)) then
