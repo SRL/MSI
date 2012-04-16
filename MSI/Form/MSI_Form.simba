@@ -1946,9 +1946,15 @@ begin
         SetScriptConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_2].Text));
         SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
         SetOther(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_4].Text));
+
+        {$IFDEF SMARTManager}
+        SavePlayers;
+        {$ELSE}
         btn := MessageDlg('Save Settings?', 'Would you like to save your user information for later use?', mtConfirmation, [mbYes, mbNo]);
         if btn = mrYes then
           SavePlayers;
+        {$ENDIF}
+
         CurrentPlayer := StrToIntDef(edit_CurPlayer.Text, 0);
         if (CurrentPlayer = 0) then
           for i := 0 to High(MSI_Players) do
