@@ -50,7 +50,7 @@ begin
         ObjMir     := LADDER_MG_UP;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_LADDER_MG_UP:
@@ -61,7 +61,7 @@ begin
         ObjMir     := LADDER_MG_DOWN;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
         MirAction  := moMove;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_WALL_FW:
@@ -72,7 +72,7 @@ begin
         ObjMir     := WALL_FW;
         ObjMirArea := intToBox(MSCX - 50, MSCY - 50, MSCX + 50, MSY2 + 50); // Box around player
         MirAction  := moNothing;
-        Camera     := ['w', true];
+        Camera     := ['w', SRL_ANGLE_HIGH];
       end;
 
     OBS_DOOR_CG_IN:
@@ -84,7 +84,7 @@ begin
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := intToBox(MSCX - 100, MSCY - 100, MSCX + 100, MSCY - 20);
         MirAction  := moMove;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_DOOR_CG_OUT:
@@ -95,7 +95,7 @@ begin
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := intToBox(MSCX - 100, MSCY, MSCX + 100, MSCY + 100);
         MirAction  := moMove;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_RUINS_AIR:
@@ -107,7 +107,7 @@ begin
         ObjMir     := PORTAL_AIR;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_PORTAL_AIR:
@@ -118,7 +118,7 @@ begin
         ObjMir     := RUINS_AIR;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_RUINS_EARTH:
@@ -130,7 +130,7 @@ begin
         ObjMir     := PORTAL_EARTH;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['w', true];
+        Camera     := ['w', SRL_ANGLE_HIGH];
       end;
 
     OBS_PORTAL_EARTH:
@@ -141,7 +141,7 @@ begin
         ObjMir     := RUINS_EARTH;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_RUINS_FIRE:
@@ -153,7 +153,7 @@ begin
         ObjMir     := PORTAL_FIRE;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_PORTAL_FIRE:
@@ -164,7 +164,7 @@ begin
         ObjMir     := RUINS_FIRE;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_RUINS_WATER:
@@ -176,7 +176,7 @@ begin
         ObjMir     := PORTAL_WATER;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_PORTAL_WATER:
@@ -187,7 +187,7 @@ begin
         ObjMir     := RUINS_WATER;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_RUINS_MIND:
@@ -199,7 +199,7 @@ begin
         ObjMir     := PORTAL_MIND;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_PORTAL_MIND:
@@ -210,7 +210,7 @@ begin
         ObjMir     := RUINS_MIND;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_RUINS_BODY:
@@ -222,7 +222,7 @@ begin
         ObjMir     := -1; // will check for black on minimap
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_PORTAL_BODY:
@@ -233,7 +233,7 @@ begin
         ObjMir     := RUINS_BODY;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
     OBS_DOOR_CBRANGE:
@@ -244,7 +244,7 @@ begin
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := MSBox;
         MirAction  := moNothing;
-        Camera     := ['n', true];
+        Camera     := ['n', SRL_ANGLE_HIGH];
       end;
 
   end;

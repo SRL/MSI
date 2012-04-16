@@ -87,6 +87,18 @@ var // Panel 5: Script Setup
   ComboBox_Script_6: TComboBox;
   nScript, pScript: TButton;
 
+// Frees all the bitmaps used in the form
+procedure FreeFormBitmaps(Sender: TObject; var Action: TCloseAction);
+var
+  i: integer;
+begin
+  for i := 0 to high(frmBitmaps) do
+    try
+      FreeBitmap(frmBitmaps[i]);
+    except
+    end;
+end;
+
 (**
  * Converts a string to an integer array; for example,
  * StrToIntArr('1,2,3,4') will result [1, 2, 3, 4]
@@ -1895,11 +1907,7 @@ begin
   case Sender of
     tImages[IMG_X_NORM]:
       begin
-        for i := 0 to BITMAP_COUNT - 1 do
-          FreeBitmap(frmBitmaps[i]);
-
         MSI_FreeAllItems;
-
         MainForm.ModalResult := mrOk;
       end;
 
@@ -1949,9 +1957,6 @@ begin
               CurrentPlayer := i;
               Break;
             end;
-
-        for i := 0 to BITMAP_COUNT - 1 do
-          FreeBitmap(frmBitmaps[i]);
 
         MainForm.ModalResult := mrOk;
       end;
@@ -2348,6 +2353,29 @@ begin
   end;
 end;
 
+procedure SMARTManagerGo();
+var
+  i: Integer;
+begin
+  ScriptReady := True;
+  intro_Settings(True);
+  script_SetInfo(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_5].Text), comboBox_Script_6.ITEMS.IndexOf(comboBox_Script_6.Text));
+  SetScriptConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_2].Text));
+  SetLocConsts(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_3].Text));
+  SetOther(GetPlayerIndex(ChoosePlay[IMG_TAB_NORM_4].Text));
+  CurrentPlayer := StrToIntDef(edit_CurPlayer.Text, 0);
+
+  if (CurrentPlayer = 0) then
+    for i := 0 to High(MSI_Players) do
+    if (MSI_Players[i].Active) then
+    begin
+      CurrentPlayer := i;
+      Break;
+    end;
+
+  MainForm.ModalResult := mrOk;
+end;
+
 // Used to display a background image on the panels
 var
   bgndPanel: TImage;
@@ -2361,15 +2389,22 @@ var
   xy: TPointArray;
   visibl: array of boolean;
   wh: TPoint;
+  {$IFDEF SMARTManagerRestart}
+  tmp: TCloseAction;
+  {$ENDIF}
 begin
   bmpArr := ['BGND','X_NORM','X_HOVER','Q_NORM','Q_HOVER','LOAD_TAB_NORM','LOAD_TAB_HOVER','SAVE_TAB_NORM','SAVE_TAB_HOVER','TAB_NORM_1','TAB_HOVER_1','TAB_NORM_2','TAB_HOVER_2','TAB_NORM_3','TAB_HOVER_3','TAB_NORM_4','TAB_HOVER_4','TAB_NORM_5','TAB_HOVER_5','TAB_NORM_0','TAB_HOVER_0', 'BGND_PANEL', 'RUN_NORM', 'RUN_HOVER', 'SCRIPT_SETUP_BGND'];
   for i := 0 to High(frmBitmaps) do
+  begin
     frmBitmaps[i] := LoadBitmap(PATH_FORM_BITMAPS + bmpArr[i] + '.png');
+    SetBitmapName(i, bmpArr[i]);
+  end;
 
   MainForm := TForm.Create(nil);
   MainForm.SetBounds({L} 100, {T} 100, {W} 600, {H} 400);
   MainForm.Position := poMainFormCenter;  // Centre of the Simba window. :-)
   MainForm.BorderStyle := bsNone;
+  MainForm.OnClose := @FreeFormBitmaps;
 
   script_Form := TForm.Create(MainForm);
   with script_Form do
@@ -2785,7 +2820,12 @@ begin
     LoadPlayers;
   end;
 
+  {$IFDEF SMARTManagerRestart}
+  SMARTManagerGo;
+  FreeFormBitmaps(MainForm, tmp);
+  {$ELSE}
   MainForm.ShowModal;
+  {$ENDIF}
 end;
 
 procedure ThreadSafeCallEx(Proc: string);

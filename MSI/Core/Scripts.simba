@@ -953,7 +953,7 @@ begin
                          Point(3921, 3304)]),
 
             // Ladder Up -> In Mine
-            TPointArray([Point(279, 507), Point(356, 499)])
+            TPointArray([Point(295, 531), Point(375, 531)])
           ];
 
           SPSSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
@@ -1180,7 +1180,7 @@ begin
           EndLoc   := LOC_KJ_FISH;
 
           SPSPath := [
-            TPointArray([Point(3534, 3951), Point(3246, 4096)])
+            TPointArray([Point(3246, 4096), Point(3534, 3951)])
           ];
 
           SPSAreas   := [
@@ -1214,7 +1214,7 @@ begin
           EndLoc   := LOC_FG_FISH;
 
           SPSPath := [
-            TPointArray([Point(2185, 2964), Point(2247, 2970)])
+            TPointArray([Point(2178, 2964), Point(2247, 2970)])
           ];
 
           SPSAreas   := [
@@ -1757,11 +1757,11 @@ begin
           SPSPath := [
             TPointArray([Point(4913, 3995), Point(5100, 3643)]),
 
-            TPointArray([Point(327, 197), Point(360, 229)])
+            TPointArray([Point(331, 203), Point(355, 227)])
           ];
 
           spsAreas   := [
-            TStringArray(['12_9']), TStringArray(['runecrafting_altars'])
+            TStringArray(['12_9', '12_8']), TStringArray(['runecrafting_altars'])
           ];
 
           spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];

@@ -1023,21 +1023,21 @@ begin
          with subLocs[0] do
          begin
            name := 'Mining Guild West';
-           spsBox := intToBox(254, 496, 303, 525);
+           spsBox := intToBox(318, 524, 362, 554);
            objects := [ROCK_COAL];
          end;
 
          with subLocs[1] do
          begin
            name := 'Mining Guild Central';
-           spsBox := intToBox(303, 491, 364, 528);
+           spsBox := intToBox(357, 501, 402, 555);
            objects := [ROCK_COAL];
          end;
 
          with subLocs[2] do
          begin
            name := 'Mining Guild East';
-           spsBox := intToBox(364, 451, 407, 528);
+           spsBox := intToBox(390, 493, 430, 553);
            objects := [ROCK_COAL, ROCK_MITHRIL];
          end;
        end;
@@ -1085,7 +1085,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Al Kharid Bank';
-           spsBox := intToBox(4906, 3971, 4925, 4013);
+           spsBox := intToBox(4906, 3971, 4928, 4013);
          end;
 
          with deathPath do
@@ -1338,7 +1338,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Fishing Guild Bank';
-           spsBox := intToBox(2173, 2953, 2186, 2972);
+           spsBox := intToBox(2170, 2950, 2188, 2975);
          end;
        end;
 
