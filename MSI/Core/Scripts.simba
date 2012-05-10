@@ -471,8 +471,8 @@ begin
           EndLoc   := LOC_SV_YEWS;
 
           SPSPath := [
-            TPointArray([Point(2739, 2681), Point(2712, 2795),
-                         Point(2681, 2801)])
+            TPointArray([Point(2739, 2681), Point(2732, 2737),
+                         Point(2720, 2781), Point(2677, 2799)])
           ];
 
           SPSAreas   := [
