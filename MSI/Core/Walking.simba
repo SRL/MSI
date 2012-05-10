@@ -769,19 +769,21 @@ begin
     // teleport home!
     if (not result) then
       if (MSI_ClickSpell(SPELL_TELE_HOME)) then // teleport home
-      begin
-        MSI_Debug('Waiting to spawn in Lumbridge');
-
-        for i := 1 to 45 do  // 45 seconds
-        begin
-          wait(1000);
-          if (MSI_AtLocation(LOC_LB_SPAWN, false)) then
+        if waitFunc(@lodestoneScreen, 100, 5000) then
+          if lodestoneTeleport('Lumbridge') then
           begin
-            home := true;
-            break;
+            MSI_Debug('Waiting to spawn in Lumbridge');
+
+            for i := 1 to 45 do  // 45 seconds
+            begin
+              wait(1000);
+              if (MSI_AtLocation(LOC_LB_SPAWN, false)) then
+              begin
+                home := true;
+                break;
+              end;
+            end;
           end;
-        end;
-      end;
 
     // Walk back to the script's starting location
     if (not result) then
