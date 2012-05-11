@@ -771,7 +771,7 @@ begin
          with subLocs[0] do
          begin
            name := 'Lumbridge Courtyard';
-           spsBox := intToBox(4706, 3763, 4739, 3809);
+           spsBox := intToBox(4740, 3764, 4774, 3794);
          end;
        end;
 
@@ -1001,12 +1001,14 @@ begin
          begin
            name := 'Seers Village East Yew';
            spsBox := intToBox(2680, 2789, 2698, 2809);
+           compass := 270;
          end;
 
          with subLocs[1] do
          begin
            name := 'Seers Village West Yews';
            spsBox := intToBox(2658, 2790, 2670, 2811);
+           compass := 90;
          end;
 
          for i := 0 to high(subLocs) do

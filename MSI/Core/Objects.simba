@@ -831,14 +831,14 @@ begin
         //same color info for all spots
         with result do
         begin
-          Colors             := [11905699];
+          Colors             := [9734530]; //11905699
           Tol                := 9;
-          Hue                := [0.21];
-          Sat                := [0.69];
+          Hue                := [0.16];
+          Sat                := [0.33];
           FindAllColors      := False;
           W                  := 30;
           H                  := 30;
-          Accuracy           := 10;
+          Accuracy           := 5;
           SearchArea         := MSBox;
           ExcludeSelf        := True;
           WaitToMove         := True;
@@ -1047,13 +1047,13 @@ begin
         Uptexts            := ['Open', 'pen'];
         Options            := ['Open', 'pen'];
         Colors             := [2514555];
-        Tol                := 8;
+        Tol                := 6;
         Hue                := [0.02];
         Sat                := [0.27];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
-        Accuracy           := 10;
+        Accuracy           := 325;
         Track              := False
         SearchArea         := intToBox(MSCx-100, MSCy-100, mscx+100, mscy+100);
         ExcludeSelf        := False;
