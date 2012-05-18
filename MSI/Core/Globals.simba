@@ -1119,7 +1119,7 @@ type
     BreakLoads   : Integer;
     TotalTime    : Integer;
     BreakTime    : Integer;
-    CurrentPoint : Integer;
+    CurrentPoint : Integer; //subLoc
     Scripts      : TScriptSetupArray;
 
     // Not setup by the user

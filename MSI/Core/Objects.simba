@@ -288,12 +288,12 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [1516063];
-        Tol                := 5;
-        Hue                := [0.45];
-        Sat                := [1.26];
+        Colors             := [3818828, 1516063];
+        Tol                := 9;
+        Hue                := [0.23];
+        Sat                := [0.07];
         FindAllColors      := False;
-        W                  := 125;
+        W                  := 50;
         H                  := 75;
         Accuracy           := 50;
         SearchArea         := MSBox;
@@ -301,7 +301,7 @@ begin
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
-        MaxTime            := 30000;
+        MaxTime            := 60000;
         AssociatedItems    := [LOGS_YEW];
       end;
 

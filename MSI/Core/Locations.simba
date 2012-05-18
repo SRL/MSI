@@ -429,14 +429,14 @@ begin
          begin
            name := 'Draynor Village Yews West';
            spsBox := intToBox(4443, 3734, 4460, 3746);
-           compass := 270;
+           compass := 0;
          end;
 
          with subLocs[1] do
          begin
            name := 'Draynor Village Yews Central';
            spsBox := intToBox(4491, 3774, 4511, 3786);
-           compass := 270;
+           compass := 0;
          end;
 
          with subLocs[2] do
@@ -1714,11 +1714,12 @@ begin
           result := true;
           MSI_Debug('Relocating to sub-location: ' + subLocs[i].name);
 
+          cP := i;
+          MSI_Flag(8);
+
           setAngle(subLocs[i].camera);
           makeCompass(subLocs[i].compass);
 
-          cP := i;
-          MSI_Flag(5);
           break;
         end else
           cP := 0;
