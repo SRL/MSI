@@ -96,10 +96,10 @@ begin
         Uptexts            := ['ree'];
         Options            := ['own Tree'];
         Level              := 1;
-        Colors             := [3361629];
-        Tol                := [6];
-        Hue                := [0.11];
-        Sat                := [0.27];
+        Colors             := [2834502];
+        Tol                := [4];
+        Hue                := [0.80];
+        Sat                := [0.85];
         FindAllColors      := False;
         W                  := 30;
         H                  := 60;
