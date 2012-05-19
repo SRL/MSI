@@ -49,7 +49,7 @@ begin
         PixelBox := IntToBox(PLBX1, PLBY1, PLBX2, PLBY2);
         Interval := 25;
         MaxTime := 125;
-        WaitTime := 425;
+        WaitTime := 1000;
       end;
 
     ANIM_ALCH_LOW:
@@ -128,7 +128,7 @@ constants found in Globals.simba.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 09 April 2011 by Coh3n
+  | Last Updated: 18 May 2012 by NCDS
 
 Example:
 
@@ -143,12 +143,23 @@ Example:
 function MSI_IsAnimating(Anim: TAnimation): Boolean;
 var
   avg: integer;
+  pB: TBox;
 begin
   with Anim do
   begin
-    avg := averagePixelShift(pixelBox, interval, maxTime);
+    pB := pixelBox;
+
+    //Hackish fix for now. Should eventually be localized in Animating.simba
+    try
+      if MSI_Locations[MSI_Players[currentPlayer].Location].subLocs[MSI_Players[currentPlayer].currentPoint].camera = SRL_ANGLE_LOW then
+        pB := intToBox(pB.x1-15, pB.y1-70, pB.x2+15, pB.y2);
+    except
+    end;
+    //Accomodating for high and low angle difference.
+
+    avg := averagePixelShift(pB, interval+(30*Integer(pB.x1<mscx-10)), maxTime+(150*Integer(pB.x1<mscx-10)));
     result := inRange(avg, minPixelShift, maxPixelShift);
-    //MSI_SubDebug('Average pixel shift: ' + intToStr(avg));
+    MSI_SubDebug('Average pixel shift: ' + intToStr(avg));
 
     if (result) then
       MSI_SubDebug('Player animation: ' + anim.name);

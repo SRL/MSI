@@ -165,6 +165,7 @@ Example:
 function MSI_IsChopping(): boolean;
 begin
   result := (not MSI_IsAnimating(MSI_GetAnimation(ANIM_IDLE)));
+  //result := (MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW)));
 end;
 
 (*

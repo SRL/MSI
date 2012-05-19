@@ -407,7 +407,7 @@ begin
 
           SPSPath := [
             TPointArray([Point(2739, 2679), Point(2689, 3066),
-                         Point(2644, 3064)])
+                         Point(2646, 3062)])
           ];
 
           SPSAreas   := [
