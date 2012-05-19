@@ -471,7 +471,7 @@ begin
       result := MSI_WaitForMirror(obs);
     end else begin
       obsObj.rightClickOnly := true; // in case uptext is failing
-      obsObj.tol := (obsObj.tol + 1)
+      obsObj.tol[0] := (obsObj.tol[0] + 1)
       MSI_NotBoxes := [];
     end;
   end;

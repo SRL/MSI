@@ -122,7 +122,7 @@ begin
   for i := 0 to h do
     findColorsTolerance(ATPA[i], rock.colors[i],
                         rock.searchArea.x1, rock.searchArea.y1,
-                        rock.searchArea.x2, rock.searchArea.y2, rock.tol);
+                        rock.searchArea.x2, rock.searchArea.y2, rock.tol[i]);
 
   arr := mergeATPA(ATPA);
   rockColorCount := length(arr);
@@ -133,7 +133,7 @@ begin
     for i := 0 to h do
       findColorsTolerance(ATPA[i], rock.colors[i],
                           rock.searchArea.x1, rock.searchArea.y1,
-                          rock.searchArea.x2, rock.searchArea.y2, rock.tol);
+                          rock.searchArea.x2, rock.searchArea.y2, rock.tol[i]);
 
     arr := mergeATPA(ATPA);
 

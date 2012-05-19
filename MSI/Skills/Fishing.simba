@@ -53,12 +53,11 @@ begin
       with MSI_Players[CurrentPlayer] do
       begin
         if (member) then
-        begin
           if (reportInfo.skillLevels[CurrentScript] >= 35) then
             for i := tab_Inv to tab_Equip do // gameTab called in FindTool
               if (MSI_FindTool(FISH_HARPOON_BARB, i, x, y)) then
                 result := [FISH_HARPOON_BARB];
-        end else
+        if (length(result) < 1) then
           result := [FISH_HARPOON];
       end;
 
@@ -263,7 +262,7 @@ begin
     findColorsTolerance(ATPA[i], fishSpot.colors[i],
                         fishSpot.searchArea.x1, fishSpot.searchArea.y1,
                         fishSpot.searchArea.x2, fishSpot.searchArea.y2,
-                        fishSpot.tol);
+                        fishSpot.tol[i]);
 
   arr := mergeATPA(ATPA);
 
@@ -294,7 +293,7 @@ begin
       findColorsTolerance(ATPA[i], fishSpot.colors[i],
                           fishSpot.searchArea.x1, fishSpot.searchArea.y1,
                           fishSpot.searchArea.x2, fishSpot.searchArea.y2,
-                          fishSpot.tol + 3);
+                          fishSpot.tol[i] + 3); // why +3?
 
     arr := mergeATPA(ATPA);
 

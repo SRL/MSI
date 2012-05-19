@@ -858,7 +858,7 @@ type
     Level            : Integer;       // The skill level required
     Colors           : TIntegerArray;
     FindAllColors    : Boolean;       // Set to true if all the colors need to be found
-    Tol              : Integer;
+    Tol              : TIntegerArray;
     Hue              : array of Extended; //Should be one for every color.
     Sat              : array of Extended;
     W, H             : Integer;       // Width and Height of the object
