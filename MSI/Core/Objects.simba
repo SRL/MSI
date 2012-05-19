@@ -49,7 +49,7 @@ begin
         Options            := ['own Dead'];
         Level              := 1;
         Colors             := [2304302];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [0.38];
         Sat                := [0.63];
         FindAllColors      := False;
@@ -73,7 +73,7 @@ begin
         Options            := ['own Tree'];
         Level              := 1;
         Colors             := [2117186];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.09];
         Sat                := [1.26];
         FindAllColors      := False;
@@ -97,7 +97,7 @@ begin
         Options            := ['own Tree'];
         Level              := 1;
         Colors             := [3361629];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.11];
         Sat                := [0.27];
         FindAllColors      := False;
@@ -121,7 +121,7 @@ begin
         Options            := ['own Oak'];
         Level              := 15;
         Colors             := [6330764, 6398099, 6133129, 6527886, 6464148];
-        Tol                := 10;
+        Tol                := [10];
         Hue                := [0.07];
         Sat                := [0.64];
         FindAllColors      := False;
@@ -145,7 +145,7 @@ begin
         Options            := ['own Oak'];
         Level              := 15;
         Colors             := [1516577];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [0.74];
         Sat                := [0.92];
         FindAllColors      := False;
@@ -169,7 +169,7 @@ begin
         Options            := ['Chop down Willow'];
         Level              := 30;
         Colors             := [4481105];
-        Tol                := 14;
+        Tol                := [14];
         Hue                := [0.18];
         Sat                := [0.28];
         FindAllColors      := False;
@@ -193,7 +193,7 @@ begin
         Options            := ['Chop down Willow'];
         Level              := 30;
         Colors             := [1516577];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [0.74];
         Sat                := [0.92];
         FindAllColors      := False;
@@ -217,7 +217,7 @@ begin
         Options            := ['Chop down Maple'];
         Level              := 45;
         Colors             := [1187644];
-        Tol                := 4;
+        Tol                := [4];
         Hue                := [0.10];
         Sat                := [0.54];
         FindAllColors      := False;
@@ -241,7 +241,7 @@ begin
         Options            := ['Chop down Maple'];
         Level              := 45;
         Colors             := [2502472];
-        Tol                := 7;
+        Tol                := [7];
         Hue                := [0.30];
         Sat                := [1.44];
         FindAllColors      := False;
@@ -265,7 +265,7 @@ begin
         Options            := ['Chop down Yew'];
         Level              := 60;
         Colors             := [2047534];
-        Tol                := 10;
+        Tol                := [10];
         Hue                := [0.31];
         Sat                := [0.63];
         FindAllColors      := False;
@@ -289,7 +289,7 @@ begin
         Options            := ['Chop down Yew'];
         Level              := 60;
         Colors             := [3818828, 1516063];
-        Tol                := 9;
+        Tol                := [9];
         Hue                := [0.23];
         Sat                := [0.07];
         FindAllColors      := False;
@@ -313,7 +313,7 @@ begin
         Options            := ['down Mag'];
         Level              := 75;
         Colors             := [8273990];
-        Tol                := 31;
+        Tol                := [31];
         Hue                := [0.33];
         Sat                := [0.33];
         FindAllColors      := False;
@@ -338,7 +338,7 @@ begin
         Uptexts            := ['Banker', 'ank', 'anker', 'ker'];
         Options            := ['Bank Bank', 'ank B', 'ank Banker'];
         Colors             := [4730680];
-        Tol                := 10;
+        Tol                := [10];
         Hue                := [0.09];
         Sat                := [0.93];
         FindAllColors      := False;
@@ -359,7 +359,7 @@ begin
         Uptexts            := ['Bank Counter', 'ank Cou'];
         Options            := ['Bank', 'ank'];
         Colors             := [4610140];
-        Tol                := 10;
+        Tol                := [10];
         Hue                := [0.12];
         Sat                := [0.10];
         FindAllColors      := False;
@@ -380,7 +380,7 @@ begin
         Uptexts            := ['Bank Counter', 'ank Cou'];
         Options            := ['Bank', 'ank'];
         Colors             := [4412247];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.10];
         Sat                := [0.06];
         FindAllColors      := False;
@@ -401,7 +401,7 @@ begin
         Uptexts            := ['anker'];
         Options            := ['ank Banker'];
         Colors             := [10404547];
-        Tol                := 15;
+        Tol                := [15];
         Hue                := [0.03];
         Sat                := [0.94];
         FindAllColors      := True;
@@ -421,7 +421,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [7044234];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [0.24];
         Sat                := [0.47];
         FindAllColors      := False;
@@ -442,7 +442,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [3224116];
-        Tol                := 4;
+        Tol                := [4];
         Hue                := [1.39];
         Sat                := [0.32];
         FindAllColors      := False;
@@ -463,7 +463,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [3627376];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.17];
         Sat                := [0.94];
         FindAllColors      := False;
@@ -484,7 +484,7 @@ begin
         Uptexts            := ['eposit'];
         Options            := ['it Bank'];
         Colors             := [4279124];
-        Tol                := 10;
+        Tol                := [10];
         Hue                := [0.08];
         Sat                := [0.11];
         FindAllColors      := False;
@@ -505,7 +505,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [10464171];
-        Tol                := 10;
+        Tol                := [10];
         Hue                := [0.76];
         Sat                := [0.40];
         FindAllColors      := False;
@@ -526,7 +526,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [6125447];
-        Tol                := 12;
+        Tol                := [12];
         Hue                := [0.04];
         Sat                := [0.52];
         FindAllColors      := False;
@@ -547,7 +547,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [6714503];
-        Tol                := 11;
+        Tol                := [11];
         Hue                := [0.34];
         Sat                := [0.92];
         FindAllColors      := False;
@@ -568,7 +568,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [6910071];
-        Tol                := 3;
+        Tol                := [3];
         Hue                := [0.40];
         Sat                := [0.49];
         FindAllColors      := False;
@@ -589,7 +589,7 @@ begin
         Uptexts            := ['ooth'];
         Options            := ['ank'];
         Colors             := [7311523];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.07];
         Sat                := [0.98];
         FindAllColors      := False;
@@ -613,7 +613,7 @@ begin
         Options            := ['ine Clay', 'Mine Clay', 'ay roc'];
         Level              := 1;
         Colors             := [7386588];
-        Tol                := 11;
+        Tol                := [11];
         Hue                := [0.01];
         Sat                := [2.42];
         FindAllColors      := False;
@@ -637,7 +637,7 @@ begin
         Options            := ['ine Cop', 'per ore', 'er ore r'];
         Level              := 1;
         Colors             := [2650323];
-        Tol                := 16;
+        Tol                := [16];
         Hue                := [0.06];
         Sat                := [1.86];
         FindAllColors      := False;
@@ -661,7 +661,7 @@ begin
         Options            := ['ine Tin', 'in ore', 'in ore r'];
         Level              := 1;
         Colors             := [6842477];
-        Tol                := 15;
+        Tol                := [15];
         Hue                := [0.24];
         Sat                := [0.03];
         FindAllColors      := False;
@@ -685,7 +685,7 @@ begin
         Options            := ['ine Iron', 'Iron ore', 'ron ore ro'];
         Level              := 15;
         Colors             := [2306130];
-        Tol                := 10;
+        Tol                := [10];
         Hue                := [0.04];
         Sat                := [0.14];
         FindAllColors      := False;
@@ -709,7 +709,7 @@ begin
         Options            := ['ine Silver', 'Silver ore', 'lver ore ro'];
         Level              := 20;
         Colors             := [12764389];
-        Tol                := 14;
+        Tol                := [14];
         Hue                := [0.09];
         Sat                := [2.52];
         FindAllColors      := False;
@@ -734,7 +734,7 @@ begin
         Options            := ['ine Coal', 'oal ro'];
         Level              := 30;
         Colors             := [2171426, 2434598, 2763820];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [0.00];
         Sat                := [0.63];
         FindAllColors      := False;
@@ -759,7 +759,7 @@ begin
         Options            := ['ine Gold', 'Gold ore', 'old ore'];
         Level              := 40;
         Colors             := [4571627];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.02];
         Sat                := [2.92];
         FindAllColors      := False;
@@ -783,7 +783,7 @@ begin
         Options            := ['ine Mith', 'ril ore ro', 'ine Mithril'];
         Level              := 55;
         Colors             := [12992078];
-        Tol                := 32;
+        Tol                := [32];
         Hue                := [0.09];
         Sat                := [1.29];
         FindAllColors      := False;
@@ -808,7 +808,7 @@ begin
         Options            := ['ine Adam', 'ntite ore ro', 'ine Adamantite'];
         Level              := 70;
         Colors             := [12117679];
-        Tol                := 13;
+        Tol                := [13];
         Hue                := [0.21];
         Sat                := [2.91];
         FindAllColors      := False;
@@ -832,7 +832,7 @@ begin
         with result do
         begin
           Colors             := [9734530]; //11905699
-          Tol                := 9;
+          Tol                := [9];
           Hue                := [0.16];
           Sat                := [0.33];
           FindAllColors      := False;
@@ -936,7 +936,7 @@ begin
         Uptexts            := ['Range'];
         Options            := ['Range'];
         Colors             := [1384346];
-        Tol                := 7;
+        Tol                := [7];
         Hue                := [0.07];
         Sat                := [0.83];
         FindAllColors      := False;
@@ -958,7 +958,7 @@ begin
         Uptexts            := ['Range'];
         Options            := ['Range'];
         Colors             := [2567551, 7171442, 3815997];//Red/Light gray from pot, dark gray from range
-        Tol                := 7;
+        Tol                := [7];
         Hue                := [0.03, 0.00, 0.00];
         Sat                := [0.13, 0.05, 0.32];
         FindAllColors      := False;
@@ -982,7 +982,7 @@ begin
         Uptexts            := ['own Ladder'];
         Options            := ['own Ladder'];
         Colors             := [2709359];
-        Tol                := 8;
+        Tol                := [8];
         Hue                := [0.05];
         Sat                := [0.96];
         FindAllColors      := False;
@@ -1004,7 +1004,7 @@ begin
         Uptexts            := ['up Ladder'];
         Options            := ['up Ladder'];
         Colors             := [4410190];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [0.26];
         Sat                := [0.14];
         FindAllColors      := False;
@@ -1026,7 +1026,7 @@ begin
         Uptexts            := ['rumbling wall'];
         Options            := ['rumbling wall'];
         Colors             := [9092811];
-        Tol                := 24;
+        Tol                := [24];
         Hue                := [0.04];
         Sat                := [1.35];
         FindAllColors      := False;
@@ -1047,7 +1047,7 @@ begin
         Uptexts            := ['Open', 'pen'];
         Options            := ['Open', 'pen'];
         Colors             := [2514555];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.02];
         Sat                := [0.27];
         FindAllColors      := False;
@@ -1070,7 +1070,7 @@ begin
         Uptexts            := ['s nest'];
         Options            := ['ake'];
         Colors             := [4016204];
-        Tol                := 3;
+        Tol                := [3];
         Hue                := [0.38];
         Sat                := [1.16];
         FindAllColors      := False;
@@ -1093,7 +1093,7 @@ begin
         Uptexts            := ['tiles'];
         Options            := ['chan'];
         Colors             := [3684667];
-        Tol                := 8;
+        Tol                := [8];
         Hue                := [0.93];
         Sat                := [0.09];
         FindAllColors      := False;
@@ -1115,7 +1115,7 @@ begin
         Uptexts            := ['Arnold','nold','yds'];
         Options            := ['Bank','ank'];
         Colors             := [3046550];
-        Tol                := 13;
+        Tol                := [13];
         Hue                := [0.12];
         Sat                := [0.12];
         FindAllColors      := False;
@@ -1139,7 +1139,7 @@ begin
          Uptexts            := ['ount'];
          Options            := ['se'];
          Colors             := [15509125];
-         Tol                := 10;
+         Tol                := [10];
          Hue                := [0.22];
          Sat                := [0.27];
          FindAllColors      := False;
@@ -1159,7 +1159,7 @@ begin
          Uptexts            := ['ount'];
          Options            := ['se'];
          Colors             := [10915707];
-         Tol                := 2;
+         Tol                := [2];
          Hue                := [0.56];
          Sat                := [1.73];
          FindAllColors      := False;
@@ -1179,7 +1179,7 @@ begin
         Uptexts            := ['ell'];
         Options            := ['se'];
         Colors             := [7372419];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [0.13];
         Sat                := [0.15];
         FindAllColors      := False;
@@ -1199,7 +1199,7 @@ begin
         Uptexts            := ['pump'];
         Options            := ['se'];
         Colors             := [4870997];
-        Tol                := 6;
+        Tol                := [6];
         Hue                := [0.14];
         Sat                := [0.13];
         FindAllColors      := False;
@@ -1221,7 +1221,7 @@ begin
         Uptexts            := ['urnace'];
         Options            := ['melt'];
         Colors             := [2240921];
-        Tol                := 16;
+        Tol                := [16];
         Hue                := [0.06];
         Sat                := [0.73];
         FindAllColors      := False;
@@ -1255,7 +1255,7 @@ begin
             begin
               Name   := 'RUINS_AIR';
               Colors := [14986869, 14333068, 14461818];
-              Tol    := 15;
+              Tol    := [15];
               Hue    := [0.02, 0.04, 0.17];
               Sat    := [2.93, 2.28, 3.24];
             end;
@@ -1264,7 +1264,7 @@ begin
             begin
               Name   := 'RUINS_EARTH';
               Colors := [7514297];
-              Tol    := 15;
+              Tol    := [15];
               Hue    := [0.08];
               Sat    := [1.03];
             end;
@@ -1273,7 +1273,7 @@ begin
             begin
               Name   := 'RUINS_FIRE';
               Colors := [3170264];
-              Tol    := 13;
+              Tol    := [13];
               Hue    := [0.14];
               Sat    := [2.28];
             end;
@@ -1282,7 +1282,7 @@ begin
             begin
               Name   := 'RUINS_WATER';
               Colors := [11308558];
-              Tol    := 20;
+              Tol    := [20];
               Hue    := [0.08];
               Sat    := [0.51];
             end;
@@ -1291,7 +1291,7 @@ begin
             begin
               Name   := 'RUINS_MIND';
               Colors := [9740776];
-              Tol    := 15;
+              Tol    := [15];
               Hue    := [0.13];
               Sat    := [2.34];
             end;
@@ -1300,7 +1300,7 @@ begin
             begin
               Name   := 'RUINS_BODY';
               Colors := [11591578];
-              Tol    := 15;
+              Tol    := [15];
               Hue    := [0.67];
               Sat    := [2.92];
             end;
@@ -1326,7 +1326,7 @@ begin
             begin
               Name   := 'PORTAL_AIR';
               Colors := [7320757];
-              Tol    := 12;
+              Tol    := [12];
               Hue    := [0.05];
               Sat    := [0.60];
               RightClickOnly := true;
@@ -1336,7 +1336,7 @@ begin
             begin
               Name   := 'PORTAL_EARTH';
               Colors := [2908289];
-              Tol    := 6;
+              Tol    := [6];
               Hue    := [0.06];
               Sat    := [0.95];
             end;
@@ -1345,7 +1345,7 @@ begin
             begin
               Name   := 'PORTAL_FIRE';
               Colors := [2046112];
-              Tol    := 8;
+              Tol    := [8];
               Hue    := [0.18];
               Sat    := [0.80];
             end;
@@ -1354,7 +1354,7 @@ begin
             begin
               Name   := 'PORTAL_WATER';
               Colors := [7975351];
-              Tol    := 20;
+              Tol    := [20];
               Hue    := [0.03];
               Sat    := [0.82];
             end;
@@ -1363,7 +1363,7 @@ begin
             begin
               Name   := 'PORTAL_MIND';
               Colors := [9154223];
-              Tol    := 12;
+              Tol    := [12];
               Hue    := [0.06];
               Sat    := [1.04];
             end;
@@ -1372,7 +1372,7 @@ begin
             begin
               Name   := 'PORTAL_BODY';
               Colors := [8552376];
-              Tol    := 10;
+              Tol    := [10];
               Hue    := [0.05];
               Sat    := [1.44];
             end;
@@ -1386,7 +1386,7 @@ begin
         Uptexts            := ['rune','ALTAR'];
         Options            := ['raft', '-rune', 'une'];
         Colors             := [6183517];
-        Tol                := 5;
+        Tol                := [5];
         Hue                := [1.26];
         Sat                := [0.33];
         FindAllColors      := False;
@@ -1505,7 +1505,7 @@ var
   TPA: TPointArray;
   ATPA, tmpATPA: T2DPointArray;
   tpaBoxes: TBoxArray;
-  i, j, t, h, c, l, cts: integer;
+  i, j, t, h, c, l, cts, tol: integer;
   badPoint: boolean;
 begin
   if (not loggedIn) then
@@ -1520,15 +1520,17 @@ begin
   setLength(ATPA, length(obj.colors));
   for i := 0 to high(ATPA) do
   begin
-    try //incase a hue/sat mod is not given for all colors
+    try //incase attributes are not given for all colors
       setToleranceSpeed2Modifiers(obj.hue[i], obj.sat[i]);
+      tol := obj.tol[i];
     except
       setToleranceSpeed2Modifiers(obj.hue[0], obj.sat[0]);
+      tol := obj.tol[0]
     end;
 
     findColorsSpiralTolerance(
       MSCX, MSCY, ATPA[i], obj.colors[i], obj.searchArea.x1,
-      obj.searchArea.y1, obj.searchArea.x2, obj.searchArea.y2, obj.tol
+      obj.searchArea.y1, obj.searchArea.x2, obj.searchArea.y2, tol
     );
   end;
 
@@ -1714,7 +1716,7 @@ begin
                             obj.searchArea.y1,
                             obj.searchArea.x2,
                             obj.searchArea.y2,
-                            obj.tol)) then
+                            obj.tol[0])) then
     begin
       {$IFDEF SMART}
       if (MSI_Settings[SETUP_DEBUG_SMART]) then
