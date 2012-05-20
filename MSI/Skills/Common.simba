@@ -120,6 +120,42 @@ begin
 end;
 
 (*
+MSI_FindColorsTolerance
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindColorsTolerance(obj: TMSObject; index: Integer): TPointArray;
+
+A simple wrapper of the function findColorsTolerance to help support MSI's arrays.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 19 May 2012 by NCDS
+
+Example:
+
+.. code-block:: pascal
+  for i := 0 to h do
+    ATPA[i] := MSI_findColorsTolerance(fishSpot, i);
+*)
+function MSI_FindColorsTolerance(obj: TMSObject; index: Integer): TPointArray;
+var
+  tol: Integer;
+begin
+  try
+    tol := obj.tol[index];
+  except
+    tol := obj.tol[0];
+  finally
+    findColorsTolerance(result, obj.colors[index],
+                        obj.searchArea.x1, obj.searchArea.y1,
+                        obj.searchArea.x2, obj.searchArea.y2, tol);
+  end;
+end;
+
+(*
 MSI_AutoInvFull
 ~~~~~~~~~~~~~~~
 

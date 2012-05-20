@@ -259,10 +259,7 @@ begin
   h := high(ATPA);
 
   for i := 0 to h do
-    findColorsTolerance(ATPA[i], fishSpot.colors[i],
-                        fishSpot.searchArea.x1, fishSpot.searchArea.y1,
-                        fishSpot.searchArea.x2, fishSpot.searchArea.y2,
-                        fishSpot.tol[i]);
+    ATPA[i] := MSI_findColorsTolerance(fishSpot, i);
 
   arr := mergeATPA(ATPA);
 
@@ -290,10 +287,7 @@ begin
 
     // looking for fishing spot
     for i := 0 to h do
-      findColorsTolerance(ATPA[i], fishSpot.colors[i],
-                          fishSpot.searchArea.x1, fishSpot.searchArea.y1,
-                          fishSpot.searchArea.x2, fishSpot.searchArea.y2,
-                          fishSpot.tol[i] + 3); // why +3?
+      ATPA[i] := MSI_findColorsTolerance(fishSpot, i);
 
     arr := mergeATPA(ATPA);
 

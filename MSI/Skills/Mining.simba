@@ -120,9 +120,7 @@ begin
   h := high(ATPA);
 
   for i := 0 to h do
-    findColorsTolerance(ATPA[i], rock.colors[i],
-                        rock.searchArea.x1, rock.searchArea.y1,
-                        rock.searchArea.x2, rock.searchArea.y2, rock.tol[i]);
+    ATPA[i] := MSI_findColorsTolerance(rock, i);
 
   arr := mergeATPA(ATPA);
   rockColorCount := length(arr);
@@ -131,9 +129,7 @@ begin
     MSI_FindRandoms(false);
 
     for i := 0 to h do
-      findColorsTolerance(ATPA[i], rock.colors[i],
-                          rock.searchArea.x1, rock.searchArea.y1,
-                          rock.searchArea.x2, rock.searchArea.y2, rock.tol[i]);
+      ATPA[i] := MSI_findColorsTolerance(rock, i);
 
     arr := mergeATPA(ATPA);
 
