@@ -133,7 +133,7 @@ begin
 
   {$IFDEF SMART}
     if (MSI_Settings[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxEx(True, IntToBox(0, 0, 0, 0), clWhite);
+      SMART_DrawBoxEx(True{$IFDEF SIMBAMAJOR990}, false{$ENDIF}, IntToBox(0, 0, 0, 0), clWhite);
   {$ENDIF}
 
   MSI_CloseHeader('MSI_OpenBank: ' + boolToStr(result) + ' (' + bankObj.name + ')');
@@ -514,7 +514,7 @@ begin
       {$IFDEF SMART}
       for ii := 0 to high(p) do
         if (MSI_Settings[SETUP_DEBUG_SMART]) then
-          SMART_DrawBoxEx(false,
+          SMART_DrawBoxEx(false{$IFDEF SIMBAMAJOR990}, false{$ENDIF},
                           MSI_MakeBox(point(p[ii].x, p[ii].y), 20, 20),
                           clBlue);
       {$ENDIF}

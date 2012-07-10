@@ -14,7 +14,11 @@ The source for can be found
 {$i srl/srl.simba}
 
 {$IFDEF SMART}
-  {$i srl/srl/misc/paintsmart.simba}
+  {$IFDEF SIMBAMAJOR980}
+    {$I srl/srl/misc/paintsmart.simba}
+  {$ELSE}
+    {$I srl/srl/misc/smartgraphics.simba}
+  {$ENDIF}
 {$ELSE}
   {$IFNDEF SPS}
     {$DEFINE SPS}

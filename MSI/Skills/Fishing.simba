@@ -294,7 +294,7 @@ begin
     {$IFDEF SMART}
     if (MSI_Settings[SETUP_DEBUG_SMART]) then
     begin
-      SMART_DrawBoxEx(true, fishSpot.searchArea, clBlue);
+      SMART_DrawBoxEx(true{$IFDEF SIMBAMAJOR990}, false{$ENDIF}, fishSpot.searchArea, clBlue);
       SMART_DrawDotsEx(false, arr, clRed);
     end;
     {$ENDIF}

@@ -104,8 +104,8 @@ end;
  * StrToIntArr('1,2,3,4') will result [1, 2, 3, 4]
  *)
 
-var
-  FixErrors: Boolean;
+{var
+  FixErrors: Boolean;}
 
 function StrToIntArr(Str: string): TIntegerArray;
 var

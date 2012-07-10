@@ -326,7 +326,7 @@ begin
 
   {$IFDEF SMART}
   if (MSI_Settings[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
+    SMART_DrawBoxEx(false{$IFDEF SIMBAMAJOR990}, false{$ENDIF}, mirObj.searchArea, clBlue);
   {$ENDIF}
 
   if (MSI_FindObject(mirObj, obs.mirAction)) then
