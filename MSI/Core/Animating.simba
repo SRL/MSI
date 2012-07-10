@@ -198,7 +198,7 @@ begin
   begin
     {$IFDEF SMART}
       if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxEx(true, pixelBox, clYellow);
+        SMART_DrawBoxEx(true{$IFDEF SIMBAMAJOR990}, false{$ENDIF}, pixelBox, clYellow);
     {$ENDIF}
 
     while (true) do

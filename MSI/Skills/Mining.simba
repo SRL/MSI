@@ -91,7 +91,7 @@ begin
 
   {$IFDEF SMART}
     if (MSI_Settings[SETUP_DEBUG_SMART]) then
-      SMART_DrawBoxEx(true, rock.searchArea, clBlue);
+      SMART_DrawBoxEx(true{$IFDEF SIMBAMAJOR990}, false{$ENDIF}, rock.searchArea, clBlue);
   {$ENDIF}
 
   TPA := TPAFromBox(rock.searchArea);

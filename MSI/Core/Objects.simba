@@ -1640,7 +1640,7 @@ begin
     {$IFDEF SMART}
     for i := 0 to high(points) do
       if (MSI_Settings[SETUP_DEBUG_SMART]) then
-        SMART_DrawBoxMS((i = 0), MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
+        SMART_DrawBoxMS((i = 0){$IFDEF SIMBAMAJOR990}, false{$ENDIF}, MSI_MakeBox(points[i], obj.w, obj.h), clGreen);
     {$ENDIF}
 
     MSI_Debug('Objects found: ' + intToStr(length(points)));
@@ -1722,7 +1722,7 @@ begin
       if (MSI_Settings[SETUP_DEBUG_SMART]) then
       begin
         SMART_DrawDotsEx(true, TPA, clRed);
-        SMART_DrawBoxMS(false, obj.searchArea, clYellow);
+        SMART_DrawBoxMS(false{$IFDEF SIMBAMAJOR990}, false{$ENDIF}, obj.searchArea, clYellow);
       end;
       {$ENDIF}
 

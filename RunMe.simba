@@ -266,10 +266,12 @@ begin
 
   // initialize SMART and clear it's canvas
   {$IFDEF SMART}
-  SMART_Server := 10;
-  SMART_Members := False;
-  SMART_Signed := True;
-  SMART_SuperDetail := False;
+    {$IFNDEF SIMBAMAJOR990}
+      SMART_Server := 10;
+      SMART_Members := False;
+      SMART_Signed := True;
+      SMART_SuperDetail := False;
+    {$ENDIF}
   {$ENDIF}
 
   SetupSRL;

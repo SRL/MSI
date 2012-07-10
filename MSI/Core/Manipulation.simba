@@ -336,7 +336,7 @@ begin
   result := intToBox(corners[0].x, corners[0].y, corners[1].x, corners[1].y);
 
   if (MSI_Settings[SETUP_DEBUG_SMART]) then
-    SMART_DrawBoxEx(true, result, clGreen);
+    SMART_DrawBoxEx(true{$IFDEF SIMBAMAJOR990}, false{$ENDIF}, result, clGreen);
 
   MSI_SubDebug('MSI_BoxToMM(): ' + toStr(result));
   {$ENDIF}
