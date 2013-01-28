@@ -231,6 +231,11 @@ end;
 var
   i: integer;
 begin
+  ShowMessage('MSI development has been temporarily closed, thus will not work. '+
+              'For more information, please visit the following thread: '+#10+#13+#10+#13+
+              'http://villavu.com/forum/showthread.php?t=90582');
+  TerminateScript();
+
   // set the script start date and time used to progress reports and logs
   ScriptStart := TheDate(DATE_DAY) + ' at ' + TheTime;
   ScriptStart := Replace(scriptStart, ':', ' ');
